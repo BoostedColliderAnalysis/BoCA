@@ -284,7 +284,7 @@ public:
     }
 
 // Rotation around the x-axis.
-Matrix3& RotateX(Angle const& phi) {
+    Matrix3& RotateX(Angle const& phi) {
         //rotate around x
         auto cos = boost::units::cos(phi);
         auto sin = boost::units::sin(phi);
@@ -295,7 +295,7 @@ Matrix3& RotateX(Angle const& phi) {
     }
 
 // Rotation around the y-axis.
-Matrix3& RotateY(Angle const& phi) {
+    Matrix3& RotateY(Angle const& phi) {
         //rotate around y
         auto cos = boost::units::cos(phi);
         auto sin = boost::units::sin(phi);
@@ -306,7 +306,7 @@ Matrix3& RotateY(Angle const& phi) {
     }
 
 // Rotation around the z-axis.
-Matrix3& RotateZ(Angle const& phi) {
+    Matrix3& RotateZ(Angle const& phi) {
         //rotate around z
         auto cos = boost::units::cos(phi);
         auto sin = boost::units::sin(phi);
@@ -402,7 +402,7 @@ Matrix3& RotateZ(Angle const& phi) {
 
 // Adds a rotation of the local axes defined by the Euler angle to the
 // current rotation.  See SetXEulerAngles for a note about conventions.
-Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
+    Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
         // Rotate using the x-convention.
         Matrix3 euler;
         euler.SetXEulerAngles(phi, theta, psi);
@@ -411,15 +411,15 @@ Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& p
 
     //return phi angle
     Angle XPhi() const {
-        ValueSquare s2 =  ValueSquare(1) - z_.Z() * z_.Z();
+        auto s2 =  ValueSquare(1) - z_.Z() * z_.Z();
         if (s2 < ValueSquare(0)) {
             std::cout << "Phi() |z_.Z()| > 1 " << std::endl;
             s2 = 0;
         }
-        Value_ sinTheta = std::sqrt(s2);
+        auto sinTheta = std::sqrt(s2);
         if (sinTheta != Value_(0)) {
-            double cscTheta = 1 / sinTheta;
-            double cosAbsPhi =  z_.Y() * cscTheta;
+            auto cscTheta = 1 / sinTheta;
+            auto cosAbsPhi =  z_.Y() * cscTheta;
             if (std::abs(cosAbsPhi) > 1) {         // NaN-proofing
                 std::cout << "Phi() finds | cos phi | > 1" << std::endl;
                 cosAbsPhi = 1;
@@ -430,7 +430,7 @@ Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& p
             if (z_.Y() > 0) return 0_rad;
             return Pi();
         } else {              // sinTheta == Value(0) so |Fzz| = 1
-            Angle absPhi = .5 * boost::units::acos(x_.X());
+            auto absPhi = .5 * boost::units::acos(x_.X());
             if (x_.Y() > 0) return -absPhi;
             if (x_.Y() < 0) return absPhi;
             if (x_.X() > 0) return 0_rad;
@@ -447,7 +447,7 @@ Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& p
 // note about conventions.
     Angle XPsi() const {
         // psi angle
-        double s2 =  1 - z_.Z() * z_.Z();
+        auto s2 =  1 - z_.Z() * z_.Z();
         if (s2 < 0) {
             std::cout << "Psi() |z_.Z()| > 1 " << std::endl;
             s2 = 0;
@@ -455,7 +455,7 @@ Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& p
         auto sinTheta = std::sqrt(s2);
         if (sinTheta != 0) {
             auto cscTheta = 1 / sinTheta;
-            double cosAbsPsi =  - y_.Z() * cscTheta;
+            auto cosAbsPsi =  - y_.Z() * cscTheta;
             if (std::abs(cosAbsPsi) > 1) {         // NaN-proofing
                 std::cout << "Psi() | cos psi | > 1 " << std::endl;
                 cosAbsPsi = 1;
@@ -465,13 +465,13 @@ Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& p
             if (x_.Z() < 0) return -absPsi;
             return (y_.Z() < 0) ? 0_rad : Pi();
         } else {              // sinTheta == Value(0) so |Fzz| = 1
-            Value_ absPsi = x_.X();
+            auto absPsi = x_.X();
             // NaN-proofing
             if (std::abs(x_.X()) > 1) {
                 std::cout << "Psi() | x_.X() | > 1 " << std::endl;
                 absPsi = 1;
             }
-            Angle absPsi2 = .5 * acos(absPsi);
+            auto absPsi2 = .5 * acos(absPsi);
             if (y_.X() > 0) return absPsi2;
             if (y_.X() < 0) return -absPsi2;
             return (x_.X() > 0) ? 0_rad : Pi() / 2.;
@@ -490,7 +490,7 @@ Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& p
     }
 
     ValueCubed Laplace(Dim3 dim_1, Dim3 dim_2) const {
-      return (*this)[dim_1][dim_2] * Cofactor(dim_1, dim_2);
+        return (*this)[dim_1][dim_2] * Cofactor(dim_1, dim_2);
     }
 
     ValueSquare Cofactor(Dim3 dim_1, Dim3 dim_2) const {
@@ -530,6 +530,249 @@ Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& p
     ValueProduct<Value_2_> ProductTrace(Matrix3<Value_2_> const& matrix) const {
         return x_ * matrix.ColumnX() + y_ * matrix.ColumnY() + z_ * matrix.ColumnZ();
     }
+
+// Set the euler angles of the rotation.  The angles are defined using the
+// y-convention which rotates around the Z axis, around the new Y axis, and
+// then around the new Z axis.  The x-convention is used Goldstein, Landau
+// and Lifshitz, and other common physics texts and is a rotation around the
+// Z axis, around the new X axis, and then around the new Z axis.
+
+// Adds a rotation of the local axes defined by the Euler angle to the
+// current rotation.  See SetYEulerAngles for a note about conventions.
+    // Rotate using the y-convention.
+    Matrix3& RotateYEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
+        Matrix3 euler;
+        euler.SetYEulerAngles(phi, theta, psi);
+        return Transform(euler);
+    }
+
+    //return YPhi
+    Angle YPhi() const {
+        return XPhi() + Pi() / 2.;
+    }
+
+    //return YTheta
+    Angle YTheta() const {
+        return ThetaZ();
+    }
+
+// Return the euler angles of the rotation.  See SetYEulerAngles for a
+// note about conventions.
+    //return YPsi
+    Angle YPsi() const {
+        return XPsi() - Pi() / 2.;
+    }
+
+
+
+// through the axis.
+
+// Take two input vectors(in xAxis, and zAxis) and turn them into an
+// orthogonal basis.  This is an internal helper function used to implement
+// the Set?Axis functions, but is exposed because the functionality is
+// often useful.
+    Matrix3 MakeBasis(Vector3<Value_> const& xAxis, Vector3<Value_> const& zAxis) const {
+        Matrix3 matrix;
+        // Make the Z axis into a unit variable.
+        auto zmag = zAxis.Mag();
+        if (zmag < 1E-6) std::cout << "MakeBasis(X,Y,Z) non-zero Z Axis is required" << std::endl;
+        matrix.Z() = zAxis / zmag;
+        auto xmag = xAxis.Mag();
+        if (xmag < 1E-6 * zmag) {
+            matrix.X() = matrix.Z().Orthogonal();
+            xmag = 1;
+        } else matrix.X() = xAxis;
+        // Find the Y axis
+        matrix.Y() = matrix.Z().Cross(matrix.X()) * (1 / xmag);
+        auto ymag = matrix.Y().Mag();
+        matrix.Y() = ymag < 1E-6 * zmag ? matrix.Z().Orthogonal() : matrix.Y() / ymag;
+        matrix.X() = matrix.Y().Cross(matrix.Z());
+        return matrix;
+    }
+
+    // Returns object of the helper class for C-style subscripting r[i][j]
+    Vector3<Value_> const& operator()(Dim3 dim) const {
+        switch (dim) {
+        case Dim3::x : return x_;
+        case Dim3::y : return y_;
+        case Dim3::z : return z_;
+        default : Default("Matrix3", to_int(dim));
+            return x_;
+        }
+    }
+
+    // Returns object of the helper class for C-style subscripting r[i][j]
+    Vector3<Value_>& operator()(Dim3 dim) {
+        switch (dim) {
+        case Dim3::x : return x_;
+        case Dim3::y : return y_;
+        case Dim3::z : return z_;
+        default : Default("Matrix3", to_int(dim));
+            return x_;
+        }
+    }
+
+    Value_ const& operator()(Dim3 i, Dim3 j) const {
+        return operator()(i)(j);
+    }
+
+    Value_& operator()(Dim3 i, Dim3 j) {
+        return operator()(i)(j);
+    }
+
+    Vector3<Value_> const& operator[](Dim3 i) const {
+        return operator()(i);
+    }
+
+    Vector3<Value_>& operator[](Dim3 i)  {
+        return operator()(i);
+    }
+
+    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() const {
+        return {this, Dim3::x};
+    }
+
+    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> end() const {
+        return {this, Dim3::last};
+    }
+
+    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() {
+        return {this, Dim3::x};
+    }
+
+    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> end() {
+        return {this, Dim3::last};
+    }
+
+    // Comparisons(Geant4).
+    bool operator==(Matrix3 const& matrix) const {
+        return x_ == matrix.x_ && y_ == matrix.y_ && z_ == matrix.z_;
+    }
+    bool operator!=(Matrix3 const& matrix) const {
+        return x_ != matrix.x_ || y_ != matrix.y_ || z_ != matrix.z_;
+    }
+
+    // Addition.
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Matrix3& operator+=(Matrix3<Value_2> const& matrix) {
+        x_ += matrix.x_;
+        y_ += matrix.y_;
+        z_ += matrix.z_;
+        return *this;
+    }
+    // Addition.
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Matrix3 operator+(Matrix3<Value_2> const& matrix) const {
+        Matrix3<Value_> sum;
+        sum.X() = x_ + matrix.x_;
+        sum.Y() = y_ + matrix.y_;
+        sum.Z() = z_ + matrix.z_;
+        return sum;
+    }
+
+    // Addition.
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Matrix3& operator-=(Matrix3<Value_2> const& matrix) {
+        x_ -= matrix.x_;
+        y_ -= matrix.y_;
+        z_ -= matrix.z_;
+        return *this;
+    }
+
+    // Addition.
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Matrix3 operator-(Matrix3<Value_2> const& matrix) const {
+        Matrix3<Value_> diff;
+        diff.X() = x_ - matrix.x_;
+        diff.Y() = y_ - matrix.y_;
+        diff.Z() = z_ - matrix.z_;
+        return diff;
+    }
+
+
+    Vector3<Value_> ColumnX() const {
+        return {x_.X(), y_.X(), z_.X()};
+    }
+
+    Vector3<Value_> ColumnY() const {
+        return {x_.Y(), y_.Y(), z_.Y()};
+    }
+
+    Vector3<Value_> ColumnZ() const {
+        return {x_.Z(), y_.Z(), z_.Z()};
+    }
+
+    template<typename Value_2_>
+    Matrix3<ValueProduct<Value_2_>> Scaled(Value_2_ scalar) const {
+        return {x_ * scalar, y_ * scalar, z_ * scalar};
+    }
+
+    template<typename Value_2_>
+    Matrix3<ValueQuotient<Value_2_>> operator/(Value_2_ scalar) const {
+        return Scaled(1. / scalar);
+    }
+
+    // Multiplication with a Vector3<Value_>.
+    template<typename Value_2_>
+    Vector3<ValueProduct<Value_2_>> Multiply(Vector3<Value_2_> const& vector) const {
+        return {x_ * vector, y_ * vector, z_ * vector};
+    }
+
+    // Multiplication with a Vector3<Value_>.
+    template<typename Value_2_>
+    Vector3<ValueProduct<Value_2_>> operator*(Vector3<Value_2_> const& vector) const {
+        return Multiply(vector);
+    }
+
+    //multiplication operator
+    template<typename Value_2_>
+    Matrix3<ValueProduct<Value_2_>> Multiply(Matrix3<Value_2_> const& matrix) const {
+        return {{x_ * matrix.ColumnX(), x_ * matrix.ColumnY(), x_ * matrix.ColumnZ()}, {y_ * matrix.ColumnX(), y_ * matrix.ColumnY(), y_ * matrix.ColumnZ()}, {z_ * matrix.ColumnX(), z_ * matrix.ColumnY(), z_ * matrix.ColumnZ()}};
+    }
+
+    //multiplication operator
+    template<typename Value_2_>
+    Matrix3<ValueProduct<Value_2_>> operator*(Matrix3<Value_2_> const& matrix) const {
+        return Multiply(matrix);
+    }
+
+    // Matrix multiplication.
+    template<typename Value_2_, typename = OnlyIfNotQuantity<Value_2_>>
+    Matrix3& operator*=(Matrix3<Value_2_> const& matrix) {
+        return *this = Multiply(matrix);
+    }
+
+    Vector3<Value_> Diagonal() {
+        return {x_.X(), y_.Y(), z_.Z()};
+    }
+
+    Vector3<Value_> UpperTriangle() {
+        return {x_.Y(), x_.Z(), y_.Z()};
+    }
+
+    Vector3<Value_> LowerTriangle() {
+        return {y_.X(), z_.X(), z_.Y()};
+    }
+
+    Matrix Symmetry() {
+        if (UpperTriangle() == LowerTriangle()) return Matrix::symmetric;
+        if (UpperTriangle() == -LowerTriangle() && Diagonal() == Vector3<Value_> {0, 0, 0}) return Matrix::antisymmetric;
+        return Matrix::none;
+    }
+
+    Array3<Value_> EigenValues() const {
+        return Eigen().Values();
+    }
+
+    Array3<Vector3<Value_>> EigenVectors() const {
+        return Eigen().Vectors();
+    }
+
+    Array3<GradedVector3<Value_>> EigenSystem() const {
+        return Eigen().System();
+    }
+
+private:
 
     class Characteristic_
     {
@@ -637,245 +880,13 @@ Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& p
         Matrix3<Value_> const* matrix_;
     };
 
-    Mutable<Eigen_> eigen_;
-
     Eigen_ const& Eigen() const {
         return eigen_.Get([&]() {
             return Eigen_(Depressed_(Characteristic_(*this)), *this);
         });
     }
 
-
-// Set the euler angles of the rotation.  The angles are defined using the
-// y-convention which rotates around the Z axis, around the new Y axis, and
-// then around the new Z axis.  The x-convention is used Goldstein, Landau
-// and Lifshitz, and other common physics texts and is a rotation around the
-// Z axis, around the new X axis, and then around the new Z axis.
-
-// Adds a rotation of the local axes defined by the Euler angle to the
-// current rotation.  See SetYEulerAngles for a note about conventions.
-    // Rotate using the y-convention.
-    Matrix3& RotateYEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
-        Matrix3 euler;
-        euler.SetYEulerAngles(phi, theta, psi);
-        return Transform(euler);
-    }
-
-    //return YPhi
-    Angle YPhi() const {
-        return XPhi() + Pi() / 2.;
-    }
-
-    //return YTheta
-    Angle YTheta() const {
-        return ThetaZ();
-    }
-
-// Return the euler angles of the rotation.  See SetYEulerAngles for a
-// note about conventions.
-    //return YPsi
-    Angle YPsi() const {
-        return XPsi() - Pi() / 2.;
-    }
-
-
-
-// through the axis.
-
-// Take two input vectors(in xAxis, and zAxis) and turn them into an
-// orthogonal basis.  This is an internal helper function used to implement
-// the Set?Axis functions, but is exposed because the functionality is
-// often useful.
-    Matrix3 MakeBasis(Vector3<Value_> const& xAxis, Vector3<Value_> const& zAxis) const {
-        Matrix3 matrix;
-        // Make the Z axis into a unit variable.
-        double zmag = zAxis.Mag();
-        if (zmag < 1E-6) std::cout << "MakeBasis(X,Y,Z) non-zero Z Axis is required" << std::endl;
-        matrix.Z() = zAxis / zmag;
-        double xmag = xAxis.Mag();
-        if (xmag < 1E-6 * zmag) {
-            matrix.X() = matrix.Z().Orthogonal();
-            xmag = 1;
-        } else matrix.X() = xAxis;
-        // Find the Y axis
-        matrix.Y() = matrix.Z().Cross(matrix.X()) * (1 / xmag);
-        double ymag = matrix.Y().Mag();
-        matrix.Y() = ymag < 1E-6 * zmag ? matrix.Z().Orthogonal() : matrix.Y() / ymag;
-        matrix.X() = matrix.Y().Cross(matrix.Z());
-        return matrix;
-    }
-
-    // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_> const& operator()(Dim3 dim) const {
-        switch (dim) {
-        case Dim3::x : return x_;
-        case Dim3::y : return y_;
-        case Dim3::z : return z_;
-        default : Default("Matrix3", to_int(dim));
-        return x_;
-        }
-    }
-
-    // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_>& operator()(Dim3 dim) {
-        switch (dim) {
-        case Dim3::x : return x_;
-        case Dim3::y : return y_;
-        case Dim3::z : return z_;
-        default : Default("Matrix3", to_int(dim));
-        return x_;
-        }
-    }
-
-    Value_ const& operator()(Dim3 i, Dim3 j) const {
-        return operator()(i)(j);
-    }
-
-    Value_& operator()(Dim3 i, Dim3 j) {
-        return operator()(i)(j);
-    }
-
-    Vector3<Value_> const& operator[](Dim3 i) const {
-        return operator()(i);
-    }
-
-    Vector3<Value_>& operator[](Dim3 i)  {
-        return operator()(i);
-    }
-
-    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() const {
-        return {this, Dim3::x};
-    }
-
-    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> end() const {
-        return {this, Dim3::last};
-    }
-
-    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() {
-        return {this, Dim3::x};
-    }
-
-    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> end() {
-        return {this, Dim3::last};
-    }
-
-    // Comparisons(Geant4).
-    bool operator==(Matrix3 const& matrix) const {
-        return x_ == matrix.x_ && y_ == matrix.y_ && z_ == matrix.z_;
-    }
-    bool operator!=(Matrix3 const& matrix) const {
-        return x_ != matrix.x_ || y_ != matrix.y_ || z_ != matrix.z_;
-    }
-
-    // Addition.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Matrix3& operator+=(Matrix3<Value_2> const& matrix) {
-        x_ += matrix.x_;
-        y_ += matrix.y_;
-        z_ += matrix.z_;
-        return *this;
-    }
-    // Addition.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Matrix3 operator+(Matrix3<Value_2> const& matrix) const {
-        Matrix3<Value_> m;
-        m.X() = x_ + matrix.x_;
-        m.Y() = y_ + matrix.y_;
-        m.Z() = z_ + matrix.z_;
-        return m;
-    }
-
-    // Addition.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Matrix3& operator-=(Matrix3<Value_2> const& matrix) {
-        x_ -= matrix.x_;
-        y_ -= matrix.y_;
-        z_ -= matrix.z_;
-        return *this;
-    }
-
-    // Addition.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Matrix3 operator-(Matrix3<Value_2> const& matrix) const {
-        Matrix3<Value_> m;
-        m.X() = x_ - matrix.x_;
-        m.Y() = y_ - matrix.y_;
-        m.Z() = z_ - matrix.z_;
-        return m;
-    }
-
-
-    Vector3<Value_> ColumnX() const {
-        return {x_.X(), y_.X(), z_.X()};
-    }
-
-    Vector3<Value_> ColumnY() const {
-        return {x_.Y(), y_.Y(), z_.Y()};
-    }
-
-    Vector3<Value_> ColumnZ() const {
-        return {x_.Z(), y_.Z(), z_.Z()};
-    }
-
-    template<typename Value_2_>
-    Matrix3<ValueProduct<Value_2_>> Scaled(Value_2_ scalar) const {
-        return {x_ * scalar, y_ * scalar, z_ * scalar};
-    }
-
-    template<typename Value_2_>
-    Matrix3<ValueQuotient<Value_2_>> operator/(Value_2_ scalar) const {
-        return Scaled(1. / scalar);
-    }
-
-    // Multiplication with a Vector3<Value_>.
-    template<typename Value_2_>
-    Vector3<ValueProduct<Value_2_>> Multiply(Vector3<Value_2_> const& vector) const {
-        return {x_ * vector, y_ * vector, z_ * vector};
-    }
-
-    // Multiplication with a Vector3<Value_>.
-    template<typename Value_2_>
-    Vector3<ValueProduct<Value_2_>> operator*(Vector3<Value_2_> const& vector) const {
-        return Multiply(vector);
-    }
-
-    //multiplication operator
-    template<typename Value_2_>
-    Matrix3<ValueProduct<Value_2_>> Multiply(Matrix3<Value_2_> const& matrix) const {
-        return {{x_ * matrix.ColumnX(), x_ * matrix.ColumnY(), x_ * matrix.ColumnZ()}, {y_ * matrix.ColumnX(), y_ * matrix.ColumnY(), y_ * matrix.ColumnZ()}, {z_ * matrix.ColumnX(), z_ * matrix.ColumnY(), z_ * matrix.ColumnZ()}};
-    }
-
-    //multiplication operator
-    template<typename Value_2_>
-    Matrix3<ValueProduct<Value_2_>> operator*(Matrix3<Value_2_> const& matrix) const {
-        return Multiply(matrix);
-    }
-
-    // Matrix multiplication.
-    template<typename Value_2_, typename = OnlyIfNotQuantity<Value_2_>>
-    Matrix3& operator*=(Matrix3<Value_2_> const& matrix) {
-        return *this = Multiply(matrix);
-    }
-
-    Vector3<Value_> Diagonal() {
-        return {x_.X(), y_.Y(), z_.Z()};
-    }
-
-    Vector3<Value_> UpperTriangle() {
-        return {x_.Y(), x_.Z(), y_.Z()};
-    }
-
-    Vector3<Value_> LowerTriangle() {
-        return {y_.X(), z_.X(), z_.Y()};
-    }
-
-    Matrix Symmetry() {
-        if (UpperTriangle() == LowerTriangle()) return Matrix::symmetric;
-        if (UpperTriangle() == -LowerTriangle() && Diagonal() == Vector3<Value_> {0, 0, 0}) return Matrix::antisymmetric;
-        return Matrix::none;
-    }
-
-private:
+    Mutable<Eigen_> eigen_;
 
 // The matrix rows
     Vector3<Value_> x_;

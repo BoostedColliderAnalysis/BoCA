@@ -92,9 +92,9 @@ bool TreeReader::ReadEntry(long number)
     INFO(number);
     auto valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
     CHECK(valid, "not a valid entry in tree reader", number);
-    for (auto & pair : generator_arrays_) valid = valid && pair.second->ProxyRead() == ROOT::TTreeReaderArrayBase::kReadSuccess;
+    for (auto & pair : generator_arrays_) valid = valid && pair.second->ProxyRead() == ROOT::Internal::TTreeReaderArrayBase::kReadSuccess;
     CHECK(valid, "not a valid entry in tree reader generator array", number);
-    for (auto & pair : tagger_arrays_) valid = valid && pair.second->ProxyRead() == ROOT::TTreeReaderArrayBase::kReadSuccess;
+    for (auto & pair : tagger_arrays_) valid = valid && pair.second->ProxyRead() == ROOT::Internal::TTreeReaderArrayBase::kReadSuccess;
     CHECK(valid, "not a valid entry in tree reader tagger array", number);
     return valid;
 }

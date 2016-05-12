@@ -17,10 +17,12 @@ public:
     std::string Name()const;
     latex::String LatexName()const;
     void SetName(std::string const& name);
-    void SetLatexName(latex::String const& latex_name);
     void Set(std::string const& name, latex::String const& latex_name);
-    void Set(std::string const& name);
+    std::string Plain()const;
+    latex::String Latex()const;
 private:
+    void SetLatexName(latex::String const& latex_name);
+    void Set(std::string const& name);
     std::string name_;
     latex::String latex_name_;
 };

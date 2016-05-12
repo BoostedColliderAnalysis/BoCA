@@ -142,7 +142,7 @@ void Results::CalculateSignificances()
 void Results::CalculateSignificance(Result& signal, Significance significance)
 {
     INFO0;
-    for (auto const & step : IntegerRange(Result::Steps())) CalculateSignificance(signal, significance, step);
+    for (auto step : IntegerRange(Result::Steps())) CalculateSignificance(signal, significance, step);
     BestBins(signal, significance);
 }
 

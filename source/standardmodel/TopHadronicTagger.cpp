@@ -3,11 +3,12 @@
  */
 #include <boost/range/algorithm/adjacent_find.hpp>
 
-#include "boca/plotting/Font.hh"
-#include "boca/standardmodel/TopHadronicTagger.hh"
-#include "boca/Event.hh"
 #include "boca/generic/Exception.hh"
+#include "boca/plotting/Font.hh"
 #include "boca/multiplets/Particles.hh"
+#include "boca/standardmodel/TopHadronicTagger.hh"
+
+#include "boca/Event.hh"
 #include "boca/MomentumRange.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
@@ -48,11 +49,7 @@ std::vector< Triplet > ordered_doublets(std::vector<Jet> const& jets, std::funct
     std::vector<Triplet> triplets;
     unsigned sub_jet_number = 2;
     if (jets.size() < sub_jet_number) return triplets;
-    for (std::size_t i = 0; i < jets.size(); ++i) {
-        auto piece_1 = jets.at(i);
-        auto piece_2 = jets.at((i + 1) % sub_jet_number);
-        if (auto optional = function(piece_1, piece_2)) triplets.emplace_back(*optional);
-    }
+    for (std::size_t i = 0; i < jets.size(); ++i) if (auto optional = function(jets.at(i), jets.at((i + 1) % sub_jet_number))) triplets.emplace_back(*optional);
     return triplets;
 }
 
@@ -62,12 +59,7 @@ std::vector< Triplet > ordered_triplets(std::vector<Jet> const& jets, std::funct
     std::vector<Triplet> triplets;
     unsigned sub_jet_number = 3;
     if (jets.size() < sub_jet_number) return triplets;
-    for (std::size_t i = 0; i < jets.size(); ++i) {
-        auto piece_1 = jets.at(i);
-        auto piece_2 = jets.at((i + 1) % sub_jet_number);
-        auto piece_3 = jets.at((i + 2) % sub_jet_number);
-        if (auto optional = function(piece_1, piece_2, piece_3)) triplets.emplace_back(*optional);
-    }
+    for (std::size_t i = 0; i < jets.size(); ++i) if (auto optional = function(jets.at(i), jets.at((i + 1) % sub_jet_number), jets.at((i + 2) % sub_jet_number))) triplets.emplace_back(*optional);
     return triplets;
 }
 
@@ -261,7 +253,7 @@ std::string TopHadronicTagger::Name() const
 
 latex::String TopHadronicTagger::LatexName() const
 {
-    return {"t_{h}", true};
+    return "t_{h}";
 }
 
 }

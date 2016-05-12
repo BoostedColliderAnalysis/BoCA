@@ -31,10 +31,8 @@ namespace boca
 namespace
 {
 
-auto Ratio(int min = 0)
-{
+auto Ratio(int min = 0) {
     return LatexName(Significance::experimental) + (min > 0 ? "\\geq \\unit[" + std::to_string(min / cU) + "]{\\%}" : "");
-
 }
 
 }
@@ -70,10 +68,10 @@ void PlottingBase::OptimalCuts() const
     latex_file.AddGraphic(PlotMIExclusion(results));
     latex_file.AddGraphic(PlotMIDiscovery(results));
     latex_file.AddGraphic(PlotExperimentalVsSignificance(results));
-    latex_file.AddTable(EfficienciesTableMI(results, Significance::sum | Significance::experimental));
-    latex_file.AddTable(EfficienciesTableMI(results, Significance::background));
+    latex_file.AddTable(EfficienciesTableMI(results, Significance::sum | Significance::experimental | Significance::exclusion));
+    latex_file.AddTable(EfficienciesTableMI(results, Significance::background | Significance::exclusion));
     latex_file.AddTable(EfficienciesTableMI(results, Significance::experimental));
-    for (const auto signal : results.Signals()) {
+    for (const auto & signal : results.Signals()) {
         latex_file.AddTable(EfficienciesTable(results, signal.BestMDBin(Significance::sum)));
         latex_file.AddTable(BestValueTable(signal, results.XValues()));
     }
@@ -377,8 +375,8 @@ latex::Row PlottingBase::BestValueRow(Result const& signal, std::vector<double> 
 latex::Table PlottingBase::EfficienciesTable(Results const& results, int bin) const
 {
     INFO0;
-    latex::Table table("rlllll");
-    table.AddRow("Sample", "before", "after", "Efficiency", "$\\sigma$  [fb]", latex::Formula("N_{", latex::Command("mathcal", "L"), " = ", latex::Unit("fb^{-1}", int(DetectorGeometry::Luminosity() * fb)), "}").str());
+    latex::Table table("rllllll");
+    table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]", latex::Formula("N_{", latex::Command("mathcal", "L"), " = ", latex::Unit("fb^{-1}", int(DetectorGeometry::Luminosity() * fb)), "}").str());
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(EfficienciesRow(result, Position(results.Signals(), result), Tag::signal, bin));
     for (auto const & result : results.Backgrounds()) table.AddRow(EfficienciesRow(result, Position(results.Backgrounds(), result), Tag::background, bin));
@@ -386,12 +384,22 @@ latex::Table PlottingBase::EfficienciesTable(Results const& results, int bin) co
     return table;
 }
 
+namespace
+{
+std::string Red(int value)
+{
+    return value == 1 ? latex::Command("textcolor", "red", value).str() : std::to_string(value);
+}
+
+}
+
 latex::Row PlottingBase::EfficienciesRow(Result const& result, int, Tag , int bin) const
 {
     INFO0;
-    latex::Row row(result.InfoBranch().LatexName().str(latex::Medium::latex));
+    latex::Row row(result.InfoBranch().Names().Latex().str(latex::Medium::latex));
     row.AddCell(result.InfoBranch().EventNumber());
-    row.AddCell(result.PartialSum().at(bin));
+    row.AddCell(result.PartialSum().front());
+    row.AddCell(Red(result.PartialSum().at(bin)));
     row.AddCell(RoundToDigits(result.PreCutEfficiencies().at(bin)));
     row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() / fb * Results::ScalingFactor()));
     row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor()));
@@ -402,10 +410,11 @@ latex::Table PlottingBase::EfficienciesTableMI(Results const& results, Significa
 {
     INFO0;
     latex::Table table("rlllll");
-    table.AddRow("Sample", "before", "after", "Efficiency", "$\\sigma$  [fb]\n");
+    table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]\n");
     table.AddLine();
     for (auto const & signal : results.Signals()) {
         auto bin = signal.BestMIBin(significance);
+        CHECK(bin > 0, bin, Name(significance));
         table.AddRow(EfficienciesRowMI(signal, bin));
         for (auto const & background : results.Backgrounds()) table.AddRow(EfficienciesRowMI(background, bin));
     }
@@ -413,12 +422,13 @@ latex::Table PlottingBase::EfficienciesTableMI(Results const& results, Significa
     return table;
 }
 
-latex::Row PlottingBase::EfficienciesRowMI(const boca::Result& result, int bin) const
+latex::Row PlottingBase::EfficienciesRowMI(Result const& result, int bin) const
 {
     INFO0;
     latex::Row row(result.InfoBranch().LatexName().str(latex::Medium::latex));
     row.AddCell(result.InfoBranch().EventNumber());
-    row.AddCell(result.PartialSum().at(bin));
+    row.AddCell(result.PartialSum().front());
+    row.AddCell(Red(result.PartialSum().at(bin)));
     row.AddCell(RoundToDigits(result.PreCutEfficiencies().at(bin)));
     row.AddCell(RoundToDigits(result.Crosssections().at(bin) / fb));
     return row;
@@ -428,7 +438,7 @@ latex::Table PlottingBase::CutEfficiencyTable(Results const& results) const
 {
     INFO0;
     latex::Table table("rllllllllll");
-    table.AddRow("", latex::Command("multicolumn", 9, 'c', "Pure Efficiencies [\\%]"));
+    table.AddRow("", latex::MultiColumn("Pure Efficiencies [\\%]", 9));
     latex::Row row("BDT value");
     for (auto const & eff : results.SelectedEfficiencies()) row.AddCell(RoundToDigits(eff));
     table.AddRow(row);
@@ -497,17 +507,17 @@ void PlottingBase::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 void PlottingBase::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 {
     INFO(signal.Data().size(), background.Data().size());
-    auto signal_x = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.X() < b.X();
+    auto signal_x = signal.CoreData([](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.X() < vector_2.X();
     });
-    auto signal_y = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.Y() < b.Y();
+    auto signal_y = signal.CoreData([](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.Y() < vector_2.Y();
     });
-    auto background_x = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.X() < b.X();
+    auto background_x = background.CoreData([](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.X() < vector_2.X();
     });
-    auto background_y = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.Y() < b.Y();
+    auto background_y = background.CoreData([](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.Y() < vector_2.Y();
     });
     Rectangle<double> range;
     range.SetXMin(std::min(signal_x.front().X(), background_x.front().X()));
@@ -611,11 +621,11 @@ Plot PlottingBase::ReadTree(TTree& tree, std::string const& leaf_1_name, std::st
     SetBranch(tree, bdt_values, branch_name + ".Bdt");
 
     Plot plot;
-    for (auto const & entry : IntegerRange(tree.GetEntries())) {
+    for (auto entry : IntegerRange(tree.GetEntries())) {
         DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);
         DETAIL(branch_size, leaf_values_1.size(), leaf_values_2.size());
-        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
+        for (auto element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
     }
     return plot;
 }
@@ -677,10 +687,10 @@ Plot PlottingBase::ReadTree2(TTree& tree, std::string const& leaf_name) const
 
 
     Plot plot;
-    for (auto const & entry : IntegerRange(tree.GetEntries())) {
+    for (auto entry : IntegerRange(tree.GetEntries())) {
         DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values.at(element), 0, 0));
+        for (auto element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values.at(element), 0, 0));
     }
     return plot;
 }

@@ -350,10 +350,10 @@ void JetInfo::SecondayVertex() const
     auto y = (*leading).Position().Y();
     auto radius = (*leading).Position().Perp() / 2.;
     std::vector<Constituent> constituents;
-    auto constituent = std::copy_if(constituents_.begin(), constituents_.end(), constituents.begin(), [&](Constituent const & constituent) {
+    auto position = std::copy_if(constituents_.begin(), constituents_.end(), constituents.begin(), [&](Constituent const & constituent) {
         return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);
     });
-    constituents.resize(std::distance(constituents.begin(), constituent));
+    constituents.resize(std::distance(constituents.begin(), position));
 }
 bool JetInfo::SubStructure() const
 {

@@ -11,8 +11,8 @@ namespace boca
 std::string Name(JetDetail jet_detail)
 {
     std::string name;
-    FlagSwitch(jet_detail, [&](JetDetail jet_detail) {
-        switch (jet_detail) {
+    FlagSwitch(jet_detail, [&](JetDetail detail) {
+        switch (detail) {
         case JetDetail::none : name += "None ";
             break;
         case JetDetail::plain : name += "Plain ";
@@ -21,7 +21,7 @@ std::string Name(JetDetail jet_detail)
             break;
         case JetDetail::structure : name += "Structure ";
             break;
-            DEFAULT(to_int(jet_detail));
+            DEFAULT(to_int(detail));
         }
     });
     return name;

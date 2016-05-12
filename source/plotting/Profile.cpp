@@ -87,8 +87,8 @@ void Profile::SetProfile(Plot const& signal, Plot const& background)
     if (canvas().GetLogy()) SetLogarithmic(*profile_.GetYaxis());
     for (auto const & point : signal.Data()) profile_.Fill(point.X(), point.Y(), point.Z());
     for (auto const & point : background.Data()) profile_.Fill(point.X(), point.Y(), point.Z());
-    auto minmax = std::minmax_element(signal.Data().begin(), signal.Data().end(), [](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.Z() < b.Z();
+    auto minmax = std::minmax_element(signal.Data().begin(), signal.Data().end(), [](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.Z() < vector_2.Z();
     });
     range_.Set(minmax.first->Z(), minmax.second->Z());
 }

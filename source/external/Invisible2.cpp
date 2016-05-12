@@ -109,7 +109,7 @@ void Invisible22::solve22(event22& evt, double mn, double mx, double my, int& ns
     SetVector(evt.pmiss, missing_);
     auto sols = Solve(my * GeV, mx * GeV, mn * GeV);
     nsols = sols.size();
-    for (auto const & sol : IntegerRange(sols.size())) {
+    for (auto sol : IntegerRange(sols.size())) {
         SetMomentum(p1[sol], sols[sol].first);
         SetMomentum(p2[sol], sols[sol].second);
     }

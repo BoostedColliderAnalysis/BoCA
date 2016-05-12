@@ -58,9 +58,9 @@ if (fastjet_CONFIG)
    execute_process(COMMAND fastjet-config --version
       OUTPUT_VARIABLE fastjet_VERSION
    )
-   if (NOT fastjet_VERSION VERSION_GREATER "2.9")
-      message (STATUS "SpartyJet now requires FastJet 3.0+")
-   endif (NOT fastjet_VERSION VERSION_GREATER "2.9")
+#    if (NOT fastjet_VERSION VERSION_GREATER "2.9")
+#       message (STATUS "SpartyJet now requires FastJet 3.0+")
+#    endif (NOT fastjet_VERSION VERSION_GREATER "2.9")
 else (fastjet_CONFIG)
    set (fastjet_PREFIX ${fastjet_LOCAL})
    set (fastjet_VERSION 3.0)

@@ -74,7 +74,7 @@ std::string Name(Medium medium)
     }
 }
 
-String::String(const char* string)
+String::String(char const* string)
 {
     INFO(string);
     latex_strings_.emplace_back(string);
@@ -97,6 +97,7 @@ std::string String::str(Medium medium) const
     INFO(Name(medium));
     std::string string;
     for (auto const & latex_string : latex_strings_) {
+      INFO(latex_string.Formula(), latex_string.str());
         if (latex_string.Formula()) switch (medium) {
             case Medium::latex : string += "$" + boost::replace_all_copy(latex_string.str(), "#", "\\") + "$";
                 break;
@@ -123,7 +124,7 @@ String& String::operator+=(const String& latex)
     return *this;
 }
 
-String operator+(const char* string, const String& latex)
+String operator+(char const* string, const String& latex)
 {
     INFO(string);
     auto copy = latex;

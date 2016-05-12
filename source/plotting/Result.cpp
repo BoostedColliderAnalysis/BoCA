@@ -76,8 +76,8 @@ std::string Name(Significance significance)
 {
     INFO0;
     std::string name;
-    FlagSwitch(significance, [&](Significance significance) {
-        switch (significance) {
+    FlagSwitch(significance, [&](Significance signific) {
+        switch (signific) {
         case Significance::none : name += "None ";
             break;
         case Significance::experimental : name += "Experimental ";
@@ -92,7 +92,7 @@ std::string Name(Significance significance)
             break;
         case Significance::poisson : name += "Poisson ";
             break;
-            DEFAULT(to_int(significance));
+            DEFAULT(to_int(signific));
         }
     });
     return name;
@@ -102,8 +102,8 @@ latex::String LatexName(Significance significance)
 {
     INFO0;
     latex::String name;
-    FlagSwitch(significance, [&](Significance significance) {
-        switch (significance) {
+    FlagSwitch(significance, [&](Significance signific) {
+        switch (signific) {
         case Significance::experimental :
             name += name.empty() ? "" : " and " ;
             name += "\\frac{S}{B}";
@@ -126,9 +126,9 @@ latex::String LatexName(Significance significance)
             break;
         case Significance::poisson :
             name += name.empty() ? "" : " and " ;
-            name += "\\sqrt{2\\frac{L_{1}}{L_{0}}}";
+            name += "\\sqrt{-2ln\\frac{L_{0}}{L_{1}}}";
             break;
-            DEFAULT(to_int(significance));
+            DEFAULT(to_int(signific));
         }
     });
     return name;
@@ -236,7 +236,7 @@ std::vector<int> const& Result::PartialSum() const
         switch (Mva()) {
         case TMVA::Types::EMVA::kBDT : boost::partial_sum(boost::adaptors::reverse(Bins()) , event_sums.rbegin());
             break;
-        case TMVA::Types::EMVA::kCuts : for (auto const & passed : passed_) for (auto const & step : IntegerRange(Steps())) if (passed.at(step)) ++event_sums.at(step);
+        case TMVA::Types::EMVA::kCuts : for (auto const & passed : passed_) for (auto step : IntegerRange(Steps())) if (passed.at(step)) ++event_sums.at(step);
             break;
             DEFAULT(Mva());
         };

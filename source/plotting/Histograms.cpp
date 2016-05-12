@@ -42,11 +42,11 @@ void Histograms::AddHistogram(std::vector<double> const& values, Names const& na
     histograms_.emplace_back(histogram);
 }
 
-void Histograms::AddHistogram(std::vector<double> const& values, Names const& name, Rectangle<double> const& range)
+void Histograms::AddHistogram(std::vector<double> const& values, Names const& names, Rectangle<double> const& range)
 {
     INFO0;
     range_.WidenY(range.Vertical());
-    AddHistogram(values, name, range.Horizontal());
+    AddHistogram(values, names, range.Horizontal());
 }
 
 void Histograms::SetLegend(boca::Orientation orientation, std::string const& title)
@@ -61,12 +61,15 @@ void Histograms::Draw()
 {
     INFO0;
     stack_.Draw("nostack");
-    legend_.Draw();
     for (auto & line : lines_) {
-        line.SetY1(RangeY().Min());
-        line.SetY2(RangeY().Max());
+//         line.SetY1(RangeY().Min());
+        line.SetY1(stack_.GetMinimum());
+        DEBUG(RangeY().Max(), stack_.GetMaximum());
+//         line.SetY2(RangeY().Max() * 0.5);
+        line.SetY2(stack_.GetMaximum() * 0.625);
         line.Draw();
     }
+    legend_.Draw();
 }
 
 void Histograms::SetXAxis(latex::String const& title, boca::Range<double> const& range)
@@ -112,7 +115,7 @@ void Histograms::AddHistograms()
     if (stack_.GetHists()) return;
     for (auto & histogram : histograms_) {
         stack_.Add(&histogram);
-        INFO(histogram.GetTitle());
+        INFO(histogram.GetTitle(), histograms_.size());
         if (histograms_.size() > 1) legend_.AddEntry(histogram, histogram.GetTitle());
     }
     Draw();
@@ -123,7 +126,8 @@ void Histograms::AddLine(double x_value, std::string const& title)
     INFO(title, x_value);
     if (!range_.Horizontal().Inside(x_value)) return;
     auto y = RangeY();
-    TLine line(x_value, y.Min(), x_value, y.Max() * 0.8);
+    INFO(y.Max());
+    TLine line(x_value, y.Min(), x_value, y.Max() * 0.5);
     SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();
     if (!title.empty()) legend_.AddEntry(line, title);

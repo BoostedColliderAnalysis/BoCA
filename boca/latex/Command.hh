@@ -15,24 +15,15 @@ public:
 
     Optional(std::string const& option);
 
+    std::string Get() const;
+
+private:
+
     std::string option_;
 
 };
 
-class Macro
-{
-public:
-    Macro(std::string const& string) : string_(string) {}
-    std::string str() {
-        return "\\" + string_;
-    }
-    operator std::string() {
-        return str();
-    }
-private:
-    std::string string_;
-
-};
+std::string Macro(std::string const& string);
 
 class Command
 {
@@ -52,6 +43,12 @@ public:
     }
 
     template <typename... Arguments_>
+    void Argument(char const* argument, Arguments_... arguments) {
+      options_.emplace_back(argument);
+      Argument(arguments...);
+    }
+
+    template <typename... Arguments_>
     void Argument(int argument, Arguments_... arguments) {
         options_.emplace_back(std::to_string(argument));
         Argument(arguments...);
@@ -59,7 +56,7 @@ public:
 
     template <typename... Arguments_>
     void Argument(Optional const& option, Arguments_... arguments) {
-        optional_.emplace_back(option.option_);
+        optional_.emplace_back(option.Get());
         Argument(arguments...);
     }
 
@@ -83,9 +80,9 @@ public:
 
     friend std::ostream& operator<<(std::ostream& stream, Command const& tex);
 
-private:
-
     void Argument() {}
+
+private:
 
     void Optional() {}
 
@@ -199,6 +196,16 @@ public :
     template <typename Value_>
     Unit(std::string const& unit, Value_ value) :
         Command("unit", unit, boca::latex::Optional(std::to_string(value))) {}
+};
+
+class MultiColumn : public Command
+{
+
+public:
+
+    MultiColumn(std::string const& name, int number, std::string const& alignment = "c") :
+        Command("multicolumn", number, alignment, name) {}
+
 };
 
 }

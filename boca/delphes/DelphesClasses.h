@@ -585,7 +585,7 @@ public:
   Bool_t Overlaps(const Candidate *object) const;
 
   virtual void Copy(TObject &object) const;
-  virtual TObject *Clone(const char *newname = "") const;
+  virtual TObject *Clone(char const *newname = "") const;
   virtual void Clear(Option_t* option = "");
 
 private:

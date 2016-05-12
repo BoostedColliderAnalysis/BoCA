@@ -91,7 +91,7 @@ boost::optional<Jet> Hadrons::StructuredJet(::delphes::Jet const& delphes_jet, s
 {
     INFO(delphes_jet.Constituents.GetEntriesFast());
     std::vector<Jet> constituents;
-    for (auto const & constituent_number : IntegerRange(delphes_jet.Constituents.GetEntriesFast())) {
+    for (auto constituent_number : IntegerRange(delphes_jet.Constituents.GetEntriesFast())) {
         if (!delphes_jet.Constituents.At(constituent_number)) continue;
         if (auto optional = ConstituentJet(*delphes_jet.Constituents.At(constituent_number), leptons, jet_detail, DetectorPart::none)) constituents.emplace_back(*optional);
         else DEBUG("Constituent is not isolated");
@@ -135,7 +135,7 @@ boost::optional<Jet> Hadrons::ConstituentTower(TObject& object, std::vector< TOb
 {
     INFO0;
     auto& tower = static_cast<::delphes::Tower&>(object);
-    if (is(jet_detail, JetDetail::isolation)) for (auto const & particle_number : IntegerRange(tower.Particles.GetEntriesFast())) if (!Isolated(*tower.Particles.At(particle_number), leptons)) return boost::none;
+    if (is(jet_detail, JetDetail::isolation)) for (auto particle_number : IntegerRange(tower.Particles.GetEntriesFast())) if (!Isolated(*tower.Particles.At(particle_number), leptons)) return boost::none;
     return Jet(tower.P4(), Constituent(tower.P4(), detector_part));
 }
 

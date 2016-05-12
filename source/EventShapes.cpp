@@ -305,7 +305,7 @@ Array3<GradedVector3<double>> EventShapes::DiagonalizeLinearTensors() const
     INFO0;
     return boost::accumulate(Vectors(), GradedMatrix3<Momentum>(), [](GradedMatrix3<Momentum>& sum, Vector3<Momentum> const & vector) {
         return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<Momentum>(MatrixProduct(vector, vector) / vector.Mag(), vector.Mag()) : sum;
-    }).Normalize().Eigen().System();
+    }).Normalize().EigenSystem();
 }
 
 Array3<GradedVector3<double>> EventShapes::DiagonalizeSphericalTensors() const
@@ -313,7 +313,7 @@ Array3<GradedVector3<double>> EventShapes::DiagonalizeSphericalTensors() const
     INFO0;
     return boost::accumulate(Vectors(), GradedMatrix3<MomentumSquare>(), [](GradedMatrix3<MomentumSquare>& sum, Vector3<Momentum> const & vector) {
         return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<MomentumSquare>(MatrixProduct(vector, vector), vector.Mag2()) : sum;
-    }).Normalize().Eigen().System();
+    }).Normalize().EigenSystem();
 }
 
 Array3< GradedVector3< double >> EventShapes::GetThrusts() const

@@ -112,8 +112,8 @@ Jet::Jet(const exroot::Tau& tau) :
     SetInfo();
 }
 
-Jet::Jet(double const Momentum[4]) :
-    PseudoJet(Momentum[1], Momentum[2], Momentum[3], Momentum[0])
+Jet::Jet(double const momentum[4]) :
+    PseudoJet(momentum[1], momentum[2], momentum[3], momentum[0])
 {
     SetInfo();
 }
@@ -136,16 +136,16 @@ JetInfo& Jet::Info()
     return static_cast<JetInfo&>(*user_info_shared_ptr().get());
 }
 
-void Jet::SetInfo(JetInfo const& user_info)
+void Jet::SetInfo(JetInfo const& info)
 {
     if (has_user_info()) ERROR("Jet has already a user info, which is beeing overwritten, this leads to data loss and leaking memory");
-    set_user_info(new JetInfo(user_info));
+    set_user_info(new JetInfo(info));
 }
 
-void Jet::ResetInfo(const JetInfo& user_info)
+void Jet::ResetInfo(const JetInfo& info)
 {
     if (!has_user_info()) ERROR("You can not reset a non existing user info");
-    static_cast<JetInfo&>(*user_info_shared_ptr().get()) = user_info;
+    static_cast<JetInfo&>(*user_info_shared_ptr().get()) = info;
 }
 
 
@@ -178,7 +178,7 @@ Jet Join(Jet const& jet_1, Jet const& jet_2)
 
 Jet Join(Jet const& jet_1, Jet const& jet_2, Jet const& jet_3)
 {
-  return fastjet::join(jet_1, jet_2, jet_3, InfoRecombiner());
+    return fastjet::join(jet_1, jet_2, jet_3, InfoRecombiner());
 }
 
 void Jet::SetDelphesTags(const delphes::Jet& delphes_jet)

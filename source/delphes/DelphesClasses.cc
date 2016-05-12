@@ -221,7 +221,7 @@ Bool_t Candidate::Overlaps(const Candidate *object) const
 
 //------------------------------------------------------------------------------
 
-TObject *Candidate::Clone(const char *newname) const
+TObject *Candidate::Clone(char const *newname) const
 {
   auto object = fFactory->NewCandidate();
   Copy(*object);

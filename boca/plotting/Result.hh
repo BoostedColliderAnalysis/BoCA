@@ -17,12 +17,12 @@ namespace boca
 enum class Significance
 {
     none = 0,
-    experimental = 1 << 0,
-    background = 1 << 1,
-    sum = 1 << 2,
-    poisson = 1 << 3,
-    discovery = 1 << 4,
-    exclusion = 1 << 5,
+    experimental = 1 << 0, //< experimental error $s/b$
+    sum = 1 << 1, //< simple significance estimator $s / sqrt b$
+    background = 1 << 2, //< slighly more complicated estimator for significance $s/sqrt{s+b}$
+    poisson = 1 << 3, //< poisson estimator for significance $sqrt{-2 ln L1 / L 0}$
+    discovery = 1 << 4, //< discovery hypothesis and requirement
+    exclusion = 1 << 5, //< exclusion hypothesis and requirement
 };
 
 std::string Name(Significance significance);

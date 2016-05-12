@@ -12,7 +12,7 @@ template<typename Value>
 class Line2
 {
 public:
-    typedef typename boost::units::multiply_typeof_helper<Value, Value>::type ValueSquare;
+    using ValueSquare = typename boost::units::multiply_typeof_helper<Value, Value>::type;
     Line2() {}
     Line2(Vector2<Value> const& point_1, Vector2<Value> const& point_2) {
         point_1_ = point_1;

@@ -33,7 +33,19 @@ std::string Names::Name() const
 
 latex::String Names::LatexName() const
 {
-    INFO0;
+    INFO(latex_name_.empty(), latex_name_.str(latex::Medium::latex), latex_name_.str(latex::Medium::plain));
+    return latex_name_.empty() ? name_ : latex_name_;
+}
+
+std::string Names::Plain() const
+{
+    INFO(name_);
+    return name_;
+}
+
+latex::String Names::Latex() const
+{
+    INFO(latex_name_.empty(), latex_name_.str(latex::Medium::latex), latex_name_.str(latex::Medium::plain));
     return latex_name_.empty() ? name_ : latex_name_;
 }
 

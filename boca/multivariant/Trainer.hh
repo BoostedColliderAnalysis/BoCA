@@ -6,6 +6,7 @@
 #include "TFile.h"
 
 #include "TMVA/Factory.h"
+// #include "TMVA/DataLoader.h"
 
 #include "boca/multiplets/Identification.hh"
 
@@ -62,6 +63,8 @@ private:
 
     std::string FactoryOptions();
 
+    std::string DataLoaderOptions();
+
     std::string MethodOptions() const;
 
     boca::Tagger const& Tagger() const;
@@ -77,6 +80,12 @@ private:
     TFile output_;
 
     TMVA::Factory factory_;
+
+//     TMVA::DataLoader data_loader_;
+
+    TMVA::Factory & DataLoader(){
+      return factory_;
+    }
 
     std::map<Tag, TFile> input_;
 

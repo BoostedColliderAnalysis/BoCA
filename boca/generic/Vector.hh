@@ -37,8 +37,8 @@ struct function_traits<Result_(Class_::*)(Arguments_...) const> {
 template <typename Input_, typename Function_>
 auto Transform(Input_ const& inputs, Function_ function)
 {
-    using Result = typename function_traits<decltype(function)>::result_type;
-    std::vector<Result> results;
+    using Result_ = typename function_traits<decltype(function)>::result_type;
+    std::vector<Result_> results;
     if (inputs.empty()) return results;
     results.reserve(inputs.size());
     boost::range::transform(inputs, std::back_inserter(results), function);

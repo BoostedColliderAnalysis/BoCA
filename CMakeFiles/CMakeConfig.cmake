@@ -79,11 +79,13 @@ macro(create_dictionary name source header link_def)
   ROOT_GENERATE_DICTIONARY(${dictionary} ${header2} LINKDEF ${link_def2})
   set(Sources ${source} ${dictionary}.cxx)
   create_library(${name} Sources "-w")
+  set(pcm "${CMAKE_CURRENT_BINARY_DIR}/${name}Dict_rdict.pcm")
   add_custom_command(
     TARGET ${name}
     PRE_LINK
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${name}Dict_rdict.pcm ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-    COMMENT "Copy: ${CMAKE_CURRENT_BINARY_DIR}/${name}Dict_rdict.pcm to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+# POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${pcm} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    COMMENT "Copy: ${pcm} to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
   )
 endmacro()
 

@@ -32,7 +32,7 @@ public:
 
 private:
 
-    void SetInfo(ParticleInfo const& user_info = ParticleInfo());
+    void SetInfo(ParticleInfo const& info = ParticleInfo());
 
 };
 

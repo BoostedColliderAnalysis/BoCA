@@ -359,8 +359,10 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
         nallsols[scheme]  = solve3quad(coeff, solutions);
         npsols[scheme] = 0;
 
-        double E1,  E2,  Ea;
-        for (auto i = 0; i < nallsols[scheme]; i ++) {
+        double E1=0;
+        double E2=0;
+        double Ea=0;
+        for (i = 0; i < nallsols[scheme]; i ++) {
             if (scheme == 0) {
                 E1 = solutions[i * 3 + 2];
                 E2 = solutions[i * 3 + 1];
@@ -425,7 +427,7 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
     }
 
     for (auto isol = 0; isol < npsols[scheme]; isol ++) {
-        for (auto i = 0; i < 4; i ++) {
+        for (i = 0; i < 4; i ++) {
             p1[isol][i] = p1a[scheme][isol * 4 + i];
             p2[isol][i] = p2a[scheme][isol * 4 + i];
             q1[isol][i] = paa[scheme][isol * 4 + i];
@@ -989,7 +991,7 @@ int solve3quad(double* coeff, double* solutions)
     f0 = f0 / f7; f1 = f1 / f7; f2 = f2 / f7; f3 = f3 / f7; f4 = f4 / f7; f5 = f5 / f7; f6 = f6 / f7;
     auto nsols = solve_1(a0, a1, a2, a3, a4, a5, a6, a7, a8, d0, d1, d2, d3, d4, d5, d6, d7, f0, f1, f2, f3, f4, f5, f6, solutions1);
     auto isol = 0;
-    for (auto i = 0; i < nsols; i++) {
+    for (i = 0; i < nsols; i++) {
         auto x = solutions1[i * 3 + 0];
         auto y = solutions1[i * 3 + 1];
         auto z = solutions1[i * 3 + 2];

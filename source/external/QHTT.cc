@@ -15,7 +15,7 @@ void QHTT::run(TopTagger2 const& htt)
     _m2_sum = 0.;
     _eps_q = 0.;
     _qtags = 0;
-    auto _htt_q = htt;
+    _htt_q = htt;
     _htt_q.set_qjets(_q_zcut, _q_dcut_fctr, _q_exp_min, _q_exp_max, _q_rigidity, _q_truncation_fctr);
     _htt_q.do_qjets(true);
     for (auto iq = 0; iq < _niter; iq++) {

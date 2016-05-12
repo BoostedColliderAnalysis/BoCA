@@ -13,12 +13,22 @@ Optional::Optional(const std::string& option)
     option_ = option;
 }
 
+std::string Optional::Get() const
+{
+    return option_;
+}
+
+std::string Macro(const std::string& string)
+{
+    return "\\" + string;
+}
+
 std::string Command::str() const
 {
-    std::string string = Macro(command_);
+    auto string = Macro(command_);
     if (!optional_.empty()) {
         string += "[";
-        for (auto const & optional : boost::adaptors::index(optional_)) string += (optional.index() ? ", " : "") +  optional.value();
+        for (auto optional : boost::adaptors::index(optional_)) string += (optional.index() ? ", " : "") +  optional.value();
         string += "]";
     }
     if (!options_.empty()) for (const auto & option : options_) string += "{" + option + "}";

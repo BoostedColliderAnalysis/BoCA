@@ -3,7 +3,6 @@
 #
 set(TreeSources
 Io.cpp
-# Arrays.cpp
 TreeBranch.cpp
 TreeReaderArray.cpp
 TreeReader.cpp

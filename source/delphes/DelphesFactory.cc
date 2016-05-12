@@ -39,7 +39,7 @@ using namespace std;
 
 
 
-DelphesFactory::DelphesFactory(const char *name) :
+DelphesFactory::DelphesFactory(char const *name) :
   TNamed(name, ""), fObjArrays(0)
 {
   fObjArrays = new ExRootTreeBranch("PermanentObjArrays", TObjArray::Class(), 0);

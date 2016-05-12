@@ -104,9 +104,9 @@ private:
 
     void NewElements();
 
-    std::map<Branch, std::shared_ptr<ROOT::TTreeReaderArrayBase>> generator_arrays_;
+    std::map<Branch, std::shared_ptr<ROOT::Internal::TTreeReaderArrayBase>> generator_arrays_;
 
-    std::map<std::string, std::shared_ptr<ROOT::TTreeReaderArrayBase>> tagger_arrays_;
+    std::map<std::string, std::shared_ptr<ROOT::Internal::TTreeReaderArrayBase>> tagger_arrays_;
 
     TChain chain_;
 

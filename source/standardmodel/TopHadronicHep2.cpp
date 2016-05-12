@@ -1,8 +1,6 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/standardmodel/TopHadronicHep2.hh"
-
 #include "boca/external/TopTagger2.hh"
 
 #include "boca/generic/Exception.hh"
@@ -10,6 +8,8 @@
 #include "boca/multiplets/Particles.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/fastjet/ClusterSequence.hh"
+#include "boca/standardmodel/TopHadronicHep2.hh"
+
 #include "boca/DetectorGeometry.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Event.hh"

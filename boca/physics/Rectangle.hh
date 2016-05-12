@@ -205,24 +205,24 @@ public:
 
 private:
 
-    template <typename Value2>
-    std::function<bool(Value2 a, Value2 b)> Smaller() {
-        return [](Value2 a, Value2 b) {
-            return a < b;
+    template <typename Value_2_>
+    std::function<bool(Value_2_ value_1, Value_2_ value_2)> Smaller() {
+        return [](Value_2_ value_1, Value_2_ value_2) {
+            return value_1 < value_2;
         };
     }
 
-    template <typename Value2>
-    std::function<bool(Value2 a, Value2 b)> SmallerButNonZero() {
-        return [](Value2 a, Value2 b) {
-            return a != 0 ? a < b : a > b;
+    template <typename Value_2_>
+    std::function<bool(Value_2_ value_1, Value_2_ value_2)> SmallerButNonZero() {
+        return [](Value_2_ value_1, Value_2_ value_2) {
+            return value_1 != 0 ? value_1 < value_2 : value_1 > value_2;
         };
     }
 
-    template <typename Value2>
-    std::function<bool(Value2 a, Value2 b)> Larger() {
-        return [](Value2 a, Value2 b) {
-            return a > b;
+    template <typename Value_2_>
+    std::function<bool(Value_2_ value_1, Value_2_ value_2)> Larger() {
+        return [](Value_2_ value_1, Value_2_ value_2) {
+            return value_1 > value_2;
         };
     }
 

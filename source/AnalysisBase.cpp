@@ -21,8 +21,8 @@ namespace boca
 std::string Name(Output output)
 {
     std::string name;
-    FlagSwitch(output, [&](Output output) {
-        switch (output) {
+    FlagSwitch(output, [&](Output out) {
+        switch (out) {
         case Output::none : name += "None";
             break;
         case Output::fast : name += "Fast";
@@ -37,7 +37,7 @@ std::string Name(Output output)
             break;
         case Output::cut : name += "Cut";
             break;
-            DEFAULT(to_int(output));
+            DEFAULT(to_int(out));
         }
     });
     return name;

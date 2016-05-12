@@ -19,23 +19,23 @@ bool TreeReaderArray::Iterator::IsValid() const
     return array_;
 }
 
-bool TreeReaderArray::Iterator::operator==(const TreeReaderArray::Iterator& iterator) const
+// Compare two iterators as equal; follow C++14 requiring two past-end iterators to be equal.
+bool TreeReaderArray::Iterator::operator==(const Iterator& iter) const
 {
-    // Compare two iterators as equal; follow C++14 requiring two past-end iterators to be equal.
-    if (!IsValid() && !iterator.IsValid()) return true;
-    return index_ == iterator.index_ && array_ == iterator.array_;
+    if (!IsValid() && !iter.IsValid()) return true;
+    return index_ == iter.index_ && array_ == iter.array_;
 }
 
-bool TreeReaderArray::Iterator::operator!=(const TreeReaderArray::Iterator& iterator) const
+bool TreeReaderArray::Iterator::operator!=(const Iterator& iter) const
 {
-    return !(*this == iterator);
+    return !(*this == iter);
 }
 TreeReaderArray::Iterator TreeReaderArray::Iterator::operator++(int)
 {
     // Post-increment (it++).
-    auto iterator = *this;
+    auto iter= *this;
     this->operator++();
-    return iterator;
+    return iter;
 }
 TreeReaderArray::Iterator& TreeReaderArray::Iterator::operator++()
 {
@@ -54,11 +54,10 @@ TObject& TreeReaderArray::Iterator::operator*() const
     return array_->At(index_);
 }
 
+// Create an array reader of branch "branchname" for TTreeReader "tr".
 TreeReaderArray::TreeReaderArray(TTreeReader& tree_reader, std::string const& branch_name, TClass& cl) :
     TTreeReaderArrayBase(&tree_reader, branch_name.c_str(), &cl)
-{
-    // Create an array reader of branch "branchname" for TTreeReader "tr".
-}
+{}
 
 TObject& TreeReaderArray::At(std::size_t index)
 {
@@ -70,9 +69,9 @@ TObject& TreeReaderArray::operator[](std::size_t index)
     return At(index);
 }
 
+// Return an iterator to the 0th TTree entry or an empty iterator if the array is empty.
 TreeReaderArray::Iterator TreeReaderArray::begin()
 {
-    // Return an iterator to the 0th TTree entry or an empty iterator if the array is empty.
     return IsEmpty() ? Iterator() : Iterator(0, this);
 }
 
@@ -81,7 +80,7 @@ TreeReaderArray::Iterator TreeReaderArray::end() const
     return Iterator();
 }
 
-const char* TreeReaderArray::GetDerivedTypeName() const
+char const* TreeReaderArray::GetDerivedTypeName() const
 {
     return GetBranchName();
 }

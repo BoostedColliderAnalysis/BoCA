@@ -6,8 +6,9 @@
 #include "boca/delphes/Hadrons.hh"
 #include "boca/multiplets/Particles.hh"
 #include "boca/multiplets/Sort.hh"
-#include "boca/standardmodel/TopHadronicHep.hh"
 #include "boca/fastjet/ClusterSequence.hh"
+#include "boca/standardmodel/TopHadronicHep.hh"
+
 #include "boca/DetectorGeometry.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Event.hh"

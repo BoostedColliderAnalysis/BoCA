@@ -138,7 +138,7 @@ protected:
         if (multiplets.size() > 1) multiplets = SortedByBdt(multiplets);
         if (multiplets.empty()) return 0;
         auto sum = std::min(int(multiplets.size()), max);
-        for (auto const & counter : IntegerRange(sum)) {
+        for (auto counter : IntegerRange(sum)) {
             FillBranch(multiplets.at(counter));
 //             std::lock_guard<std::mutex> guard(mutex_);
             TreeBranch().AddEntry(Branch());

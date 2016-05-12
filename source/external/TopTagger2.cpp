@@ -11,6 +11,7 @@ namespace hep
 
 namespace
 {
+
 //optimal_R fit
 double R_opt_calc_funct(double pt_filt)
 {
@@ -20,16 +21,13 @@ double R_opt_calc_funct(double pt_filt)
 }
 
 //uncluster a fat jet to subjets of given cone size
-void TopTagger2::UnclusterFatjets(std::vector<fastjet::PseudoJet> const& big_fatjets,
-                                  std::vector<fastjet::PseudoJet>& small_fatjets,
-                                  fastjet::ClusterSequence const& cseq,
-                                  const double small_radius)
+void TopTagger2::UnclusterFatjets(std::vector<fastjet::PseudoJet> const& big_fatjets, std::vector<fastjet::PseudoJet>& small_fatjets, fastjet::ClusterSequence const& cseq, const double small_radius)
 {
     for (unsigned i = 0; i < big_fatjets.size(); i++) {
         auto this_jet = big_fatjets[i];
         fastjet::PseudoJet parent1(0, 0, 0, 0), parent2(0, 0, 0, 0);
         auto test = cseq.has_parents(this_jet, parent1, parent2);
-        double dR = 100;
+        auto dR = 100.;
 
         if (test) dR = sqrt(parent1.squared_distance(parent2));
 
@@ -44,23 +42,55 @@ void TopTagger2::UnclusterFatjets(std::vector<fastjet::PseudoJet> const& big_fat
     }
 }
 
-TopTagger2::TopTagger2() : _do_optimalR(1), _do_qjets(0),
-    _mass_drop_threshold(0.8), _max_subjet_mass(30.),
-    _mode(Mode(0)), _mtmass(172.3), _mwmass(80.4), _mtmin(150.), _mtmax(200.), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),
-    _m23cut(0.35), _m13cutmin(0.2), _m13cutmax(1.3), _minpt_tag(200.),
-    _nfilt(5), _Rfilt(0.3), _jet_algorithm_filter(fastjet::cambridge_algorithm), _minpt_subjet(0.),
+TopTagger2::TopTagger2() :
+    _do_optimalR(1),
+    _do_qjets(0),
+    _mass_drop_threshold(0.8),
+    _max_subjet_mass(30.),
+    _mode(Mode(0)),
+    _mtmass(172.3),
+    _mwmass(80.4),
+    _mtmin(150.),
+    _mtmax(200.),
+    _rmin(0.85 * 80.4 / 172.3),
+    _rmax(1.15 * 80.4 / 172.3),
+    _m23cut(0.35),
+    _m13cutmin(0.2),
+    _m13cutmax(1.3),
+    _minpt_tag(200.),
+    _nfilt(5),
+    _Rfilt(0.3),
+    _jet_algorithm_filter(fastjet::cambridge_algorithm),
+    _minpt_subjet(0.),
     _jet_algorithm_recluster(fastjet::cambridge_algorithm),
-    _zcut(0.1), _rcut_factor(0.5),
-    _max_fatjet_R(1.8), _min_fatjet_R(0.5), _step_R(0.1), _optimalR_threshold(0.2),
-    _R_filt_optimalR_calc(0.2), _N_filt_optimalR_calc(10), _r_min_exp_function(&R_opt_calc_funct),
-    _optimalR_mmin(150.), _optimalR_mmax(200.), _optimalR_fw(0.175), _R_opt_diff(0.3),
-    _R_filt_optimalR_pass(0.2), _N_filt_optimalR_pass(5), _R_filt_optimalR_fail(0.3), _N_filt_optimalR_fail(3),
-    _q_zcut(0.1), _q_dcut_fctr(0.5), _q_exp_min(0.), _q_exp_max(0.), _q_rigidity(0.1), _q_truncation_fctr(0.0),
+    _zcut(0.1),
+    _rcut_factor(0.5),
+    _max_fatjet_R(1.8),
+    _min_fatjet_R(0.5),
+    _step_R(0.1),
+    _optimalR_threshold(0.2),
+    _R_filt_optimalR_calc(0.2),
+    _N_filt_optimalR_calc(10),
+    _r_min_exp_function(&R_opt_calc_funct),
+    _optimalR_mmin(150.),
+    _optimalR_mmax(200.),
+    _optimalR_fw(0.175),
+    _R_opt_diff(0.3),
+    _R_filt_optimalR_pass(0.2),
+    _N_filt_optimalR_pass(5),
+    _R_filt_optimalR_fail(0.3),
+    _N_filt_optimalR_fail(3),
+    _q_zcut(0.1),
+    _q_dcut_fctr(0.5),
+    _q_exp_min(0.),
+    _q_exp_max(0.),
+    _q_rigidity(0.1),
+    _q_truncation_fctr(0.0),
     _debug(false)
 {}
 
-TopTagger2::TopTagger2(fastjet::PseudoJet const& jet
-                      ) : _do_optimalR(1), _do_qjets(0),
+TopTagger2::TopTagger2(fastjet::PseudoJet const& jet) :
+    _do_optimalR(1), _do_qjets(0),
     _jet(jet), _initial_jet(jet),
     _mass_drop_threshold(0.8), _max_subjet_mass(30.),
     _mode(Mode(0)), _mtmass(172.3), _mwmass(80.4), _mtmin(150.), _mtmax(200.), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),
@@ -77,9 +107,8 @@ TopTagger2::TopTagger2(fastjet::PseudoJet const& jet
     _debug(false)
 {}
 
-TopTagger2::TopTagger2(fastjet::PseudoJet const& jet,
-                       double mtmass, double mwmass
-                      ) : _do_optimalR(1), _do_qjets(0),
+TopTagger2::TopTagger2(fastjet::PseudoJet const& jet, double mtmass, double mwmass) :
+    _do_optimalR(1), _do_qjets(0),
     _jet(jet), _initial_jet(jet),
     _mass_drop_threshold(0.8), _max_subjet_mass(30.),
     _mode(Mode(0)), _mtmass(mtmass), _mwmass(mwmass), _mtmin(150.), _mtmax(200.), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),

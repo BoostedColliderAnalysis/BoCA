@@ -23,6 +23,8 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
+    using TaggerTemplate::Multiplets;
+
     std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;

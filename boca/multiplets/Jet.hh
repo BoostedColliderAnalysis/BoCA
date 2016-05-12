@@ -48,7 +48,7 @@ public:
 
     Jet(exroot::Tau const& tau);
 
-    Jet(double const Momentum[4]);
+    Jet(double const momentum[4]);
 
     JetInfo const& Info() const;
 
@@ -64,9 +64,9 @@ public:
 
 protected:
 
-    void SetInfo(JetInfo const& user_info = JetInfo());
+    void SetInfo(JetInfo const& info = JetInfo());
 
-    void ResetInfo(JetInfo const& user_info);
+    void ResetInfo(JetInfo const& info);
 
 private:
 

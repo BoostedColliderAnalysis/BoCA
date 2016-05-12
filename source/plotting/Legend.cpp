@@ -149,11 +149,11 @@ double Legend::Width(std::vector<latex::String> const& entries) const
 double Legend::Height(std::vector<latex::String> const& entries, latex::String const& title) const
 {
     INFO(entries.size(), title.str(latex::Medium::root));
-    auto height = boost::accumulate(entries, 0., [](double height, latex::String const & entry) {
+    auto height = boost::accumulate(entries, 0., [](double & sum, latex::String const & entry) {
         TLatex latex(0, 0, entry.str(latex::Medium::root).c_str());
         SetText(latex);
         INFO(entry.str(latex::Medium::root), latex.GetYsize());
-        return height + latex.GetYsize();
+        return sum + latex.GetYsize();
     });
     INFO(height);
     height += (entries.size() - 1) * EntrySeparation();

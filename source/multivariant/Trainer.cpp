@@ -25,6 +25,7 @@ Trainer::Trainer(boca::Tagger& tagger) :
     tagger_(tagger),
     output_(Tagger().FactoryFileName().c_str(), "Recreate"),
     factory_(tagger.Name(), &output_, FactoryOptions())
+//     ,data_loader_(DataLoaderOptions())
 {
     INFO0;
     AddObservables();
@@ -45,13 +46,19 @@ std::string Trainer::FactoryOptions()
     return options;
 }
 
+std::string Trainer::DataLoaderOptions()
+{
+  INFO0;
+  return {};
+}
+
 void Trainer::AddObservables()
 {
     INFO0;
     TMVA::gConfig().GetIONames().fWeightFileDir = Tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = Tagger().WeightFileExtension();
-    for (auto const & variable : Tagger().Variables()) Factory().AddVariable(variable.Expression(), variable.Name(), variable.Unit(), variable.Type());
-    for (auto const & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.Expression(), spectator.Name(), spectator.Unit(), spectator.Type());
+    for (auto const & variable : Tagger().Variables()) DataLoader().AddVariable(variable.Expression(), variable.Name(), variable.Unit(), variable.Type());
+    for (auto const & spectator : Tagger().Spectators()) DataLoader().AddSpectator(spectator.Expression(), spectator.Name(), spectator.Unit(), spectator.Type());
 }
 
 long Trainer::AddAllTrees()
@@ -73,9 +80,9 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 {
     INFO(tree_name, Name(tag));
     switch (tag) {
-    case Tag::signal : Factory().AddSignalTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
+      case Tag::signal : DataLoader().AddSignalTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
         break;
-    case Tag::background : Factory().AddBackgroundTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
+      case Tag::background : DataLoader().AddBackgroundTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
         break;
     }
     return Entries(tree_name, tag);
@@ -109,7 +116,7 @@ void Trainer::PrepareTrainingAndTestTree(long event_number)
     options.Add("nTest_Background", event_number);
     options.Add("nTrain_Signal", event_number);
     options.Add("nTest_Signal", event_number);
-    Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options);
+    DataLoader().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options);
 }
 
 std::vector<double> Trainer::BookMethod()
