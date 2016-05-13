@@ -64,7 +64,7 @@ public:
     float Tag;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        Tag = int(multiplet.Tag());
+        Tag = static_cast<int>(multiplet.Tag());
     }
     virtual Observables Variables();
     virtual Observables Spectators();

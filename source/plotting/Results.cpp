@@ -190,7 +190,7 @@ void Results::CutEfficiencies()
         auto index = Position(sig_eff, elem);
         selected_efficiencies_.emplace_back(Result::XValue(index));
         if (index >= sig_eff.size()) index = 0;
-        for (auto & background : backgrounds_) background.AddSelectedEfficiency(int(index));
+        for (auto & background : backgrounds_) background.AddSelectedEfficiency(static_cast<int>(index));
     }
 }
 

@@ -494,7 +494,7 @@ public:
     }
 
     ValueSquare Cofactor(Dim3 dim_1, Dim3 dim_2) const {
-        return double(Sign(dim_1, dim_2)) * Minor(dim_1, dim_2);
+        return static_cast<double>(Sign(dim_1, dim_2)) * Minor(dim_1, dim_2);
     }
 
     ValueSquare Minor(Dim3 delete_1, Dim3 delete_2) const {
@@ -865,7 +865,7 @@ private:
         }
 
         Value_ Value(int index) const {
-            return Factor() * boost::units::cos((Angle() - TwoPi() * double(index)) / 3.) + matrix_->Trace() / 3;
+            return Factor() * boost::units::cos((Angle() - TwoPi() * static_cast<double>(index)) / 3.) + matrix_->Trace() / 3;
         }
 
         Vector3<Value_> Vector(int index) const {

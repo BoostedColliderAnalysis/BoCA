@@ -130,9 +130,9 @@ void TopTagger2::run()
     //cout << "--- new Tagger run ---" << endl;
 
     qjets::QJetsPlugin _qjet_plugin(_q_zcut, _q_dcut_fctr, _q_exp_min, _q_exp_max, _q_rigidity, _q_truncation_fctr);
-    auto maxR = int(_max_fatjet_R * 10);
-    auto minR = int(_min_fatjet_R * 10);
-    auto stepR = int(_step_R * 10);
+    auto maxR = static_cast<int>(_max_fatjet_R * 10);
+    auto minR = static_cast<int>(_min_fatjet_R * 10);
+    auto stepR = static_cast<int>(_step_R * 10);
     _qweight = -1;
 
     if (!_do_optimalR) {

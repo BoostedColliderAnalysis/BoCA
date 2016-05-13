@@ -32,7 +32,7 @@ HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
 
 ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
 {
-//     Flag = int(InitialValue());
+//     Flag = static_cast<int>(InitialValue());
 }
 
 // Observables ChargedHiggsSemiBranch::Spectators()
@@ -60,7 +60,7 @@ ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
     SmallerNeutrinoDeltaPhi = InitialValue();
     SmallerNeutrinoDeltaR = InitialValue();
     TopBdt = InitialValue();
-    HeavyHiggsTag = int(InitialValue());
+    HeavyHiggsTag = static_cast<int>(InitialValue());
 }
 
 Observables ChargedHiggsLeptonicBranch::Variables()
@@ -213,8 +213,8 @@ HeavyHiggsCutBranch::HeavyHiggsCutBranch()
 {
     Ht = InitialValue();
     EtMiss = InitialValue();
-    NumberJet = int(InitialValue());
-    NumberBottom = int(InitialValue());
+    NumberJet = static_cast<int>(InitialValue());
+    NumberBottom = static_cast<int>(InitialValue());
     InvariantMass = InitialValue();
     DeltaR = InitialValue();
     LeptonPt1 = InitialValue();
@@ -235,7 +235,7 @@ HeavyHiggsCutNeutralBranch::HeavyHiggsCutNeutralBranch()
     JetPt3 = InitialValue();
     JetPt4 = InitialValue();
     Ht = InitialValue();
-    BottomNumber = int(InitialValue());
+    BottomNumber = static_cast<int>(InitialValue());
     LeptonPt = InitialValue();
 }
 

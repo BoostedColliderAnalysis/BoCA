@@ -48,7 +48,7 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boc
 //     static int eve = 0;
 //     ++eve;
 //     if (!signatures.empty()) ++sig;
-//     double fraction = double(sig) / eve;
+//     double fraction = static_cast<double>(sig) / eve;
 //     ERROR(signatures.size(), hadronic.size(), leptonic.size(), higgs_pairs.size(), fraction);
     return signatures;
 }

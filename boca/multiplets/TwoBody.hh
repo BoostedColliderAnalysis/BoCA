@@ -132,7 +132,7 @@ public:
     }
 
     double Rho() const {
-        return Pt() > DetectorGeometry::MinCellPt() && DeltaR() > DetectorGeometry::MinCellResolution() ? double(Mass() / Pt() / DeltaR() * 2_rad) : 0;
+        return Pt() > DetectorGeometry::MinCellPt() && DeltaR() > DetectorGeometry::MinCellResolution() ? static_cast<double>(Mass() / Pt() / DeltaR() * 2_rad) : 0;
     }
 
     boca::Mass MassDifferenceTo(Id id) const {

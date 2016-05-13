@@ -28,7 +28,7 @@ double to_double(Angle const& angle)
 
 Angle to_angle(double angle)
 {
-    return double(angle) * rad;
+    return static_cast<double>(angle) * rad;
 }
 
 Angle Pi()
@@ -54,7 +54,7 @@ Angle RestrictPhi(Angle phi)
 
 Angle Wrap(Angle phi)
 {
-    phi -= double(sgn(phi)) * TwoPi();
+    phi -= static_cast<double>(sgn(phi)) * TwoPi();
     return phi;
 }
 

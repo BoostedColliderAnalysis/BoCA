@@ -325,7 +325,7 @@ public:
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
     boca::Angle Rapidity() const {
         //return rapidity
-        return 0.5 * units::log(double((T() + Z()) / (T() - Z())));
+        return 0.5 * units::log(static_cast<double>((T() + Z()) / (T() - Z())));
     }
 
     /// Rapidity with respect to another vector

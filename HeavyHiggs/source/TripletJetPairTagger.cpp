@@ -36,7 +36,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 //     }
 //     if (triplets.size() > 3) {
 //         std::sort(triplets.begin(), triplets.end());
-//         triplets.erase(triplets.begin() + std::min(max_combi(), int(triplets.size())), triplets.end());
+//         triplets.erase(triplets.begin() + std::min(max_combi(), static_cast<int>(triplets.size())), triplets.end());
 //     }
 //     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(jets, TopHadronicReader);
     auto TopParticles = event.Partons().GenParticles();

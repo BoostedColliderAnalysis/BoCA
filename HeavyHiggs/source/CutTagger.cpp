@@ -109,7 +109,7 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event)
     std::vector<Jet> bottoms;
     boost::range::copy(jets | boost::adaptors::filtered([](Jet const & jet) {
 //         return jet.Info().BTag();
-        return jet.Info().Bdt() > 0;
+      return jet.Info().Bdt() > 0.05;
     }), std::back_inserter(bottoms));
     DEBUG(bottoms.size());
     if (bottoms.size() < 4) return boost::none;

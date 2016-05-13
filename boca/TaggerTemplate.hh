@@ -39,7 +39,7 @@ public:
         auto steps = 50;
         // TODO why is this a 2?
         return Transform(IntegerRange(2, steps), [&](int effeciency) {
-            return Tagger::Cut(reader, double(effeciency) / steps);
+            return Tagger::Cut(reader, static_cast<double>(effeciency) / steps);
         });
     }
 
@@ -137,7 +137,7 @@ protected:
     int SaveEntries(std::vector<Multiplet_> multiplets, int max = std::numeric_limits<int>::max())  {
         if (multiplets.size() > 1) multiplets = SortedByBdt(multiplets);
         if (multiplets.empty()) return 0;
-        auto sum = std::min(int(multiplets.size()), max);
+        auto sum = std::min(static_cast<int>(multiplets.size()), max);
         for (auto counter : IntegerRange(sum)) {
             FillBranch(multiplets.at(counter));
 //             std::lock_guard<std::mutex> guard(mutex_);

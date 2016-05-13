@@ -42,7 +42,7 @@ using AngleMomentum = ValueProduct<Angle, Momentum>;
 double Singlet::Spread() const
 {
     INFO0;
-    return Radius() > 0_rad && Pt() > 0_eV ? double(boost::accumulate(Constituents(), 0_rad * eV, [this](AngleMomentum & sum, boca::Jet const & constituent) {
+    return Radius() > 0_rad && Pt() > 0_eV ? static_cast<double>(boost::accumulate(Constituents(), 0_rad * eV, [this](AngleMomentum & sum, boca::Jet const & constituent) {
         return sum + DeltaRTo(constituent) * constituent.Pt();
     }) / Pt() / Radius()) : 0;
 }
@@ -144,7 +144,7 @@ double Singlet::VertexSpread() const
 
 double Singlet::EnergyFraction() const
 {
-    return Energy() > 0_eV ? double(Info().VertexEnergy() / Energy()) : 0.;
+    return Energy() > 0_eV ? static_cast<double>(Info().VertexEnergy() / Energy()) : 0.;
 }
 
 Angle Singlet::EmRadius() const

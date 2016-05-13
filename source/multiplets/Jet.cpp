@@ -79,7 +79,7 @@ Jet::Jet(TLorentzVector const& lorentz_vector, int charge) :
 Jet::Jet(const exroot::Electron& electron) :
     PseudoJet(LorentzVector<Momentum>(electron))
 {
-    SetInfo(int(electron.Charge));
+    SetInfo(static_cast<int>(electron.Charge));
 }
 
 Jet::Jet(const exroot::GenJet& gen_jet) :
@@ -97,7 +97,7 @@ Jet::Jet(const exroot::Jet& jet) :
 Jet::Jet(const exroot::Muon& muon) :
     PseudoJet(LorentzVector<Momentum>(muon))
 {
-    SetInfo(int(muon.Charge));
+    SetInfo(static_cast<int>(muon.Charge));
 }
 
 Jet::Jet(const exroot::Photon& photon) :

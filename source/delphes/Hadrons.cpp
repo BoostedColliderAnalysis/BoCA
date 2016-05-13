@@ -34,7 +34,7 @@ boca::MissingEt Hadrons::MissingEt() const
 Momentum Hadrons::ScalarHt() const
 {
     INFO0;
-    return double(TreeReader().Array<::delphes::ScalarHT>(Branch::scalar_ht).At(0).HT) * GeV;
+    return static_cast<double>(TreeReader().Array<::delphes::ScalarHT>(Branch::scalar_ht).At(0).HT) * GeV;
 }
 
 std::vector<Jet> Hadrons::Jets() const

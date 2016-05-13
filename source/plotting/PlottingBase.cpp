@@ -376,7 +376,7 @@ latex::Table PlottingBase::EfficienciesTable(Results const& results, int bin) co
 {
     INFO0;
     latex::Table table("rllllll");
-    table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]", latex::Formula("N_{", latex::Command("mathcal", "L"), " = ", latex::Unit("fb^{-1}", int(DetectorGeometry::Luminosity() * fb)), "}").str());
+    table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]", latex::Formula("N_{", latex::Command("mathcal", "L"), " = ", latex::Unit("fb^{-1}", static_cast<int>(DetectorGeometry::Luminosity() * fb)), "}").str());
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(EfficienciesRow(result, Position(results.Signals(), result), Tag::signal, bin));
     for (auto const & result : results.Backgrounds()) table.AddRow(EfficienciesRow(result, Position(results.Backgrounds(), result), Tag::background, bin));
@@ -473,7 +473,7 @@ latex::Row PlottingBase::TruthLevelCutRow(Result const& result, Tag) const
 {
     INFO0;
     latex::Row row(result.InfoBranch().LatexName().str(latex::Medium::latex));
-    row.AddCell(RoundToDigits(double(result.TrainerSize()) / result.TrainerInfoBranch().EventNumber()));
+    row.AddCell(RoundToDigits(static_cast<double>(result.TrainerSize()) / result.TrainerInfoBranch().EventNumber()));
     return row;
 }
 

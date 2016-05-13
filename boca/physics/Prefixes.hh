@@ -77,7 +77,7 @@ BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
         return boost::units::quantity<quant, double>(x * std::pow(10, exponent) * unit); \
     } \
     inline boost::units::quantity<quant, double > operator "" _##prefix##suffix(unsigned long long x) { \
-        return boost::units::quantity<quant, double >(double(x) * std::pow(10, exponent) * unit); \
+        return boost::units::quantity<quant, double >(static_cast<double>(x) * std::pow(10, exponent) * unit); \
     } \
     static const boost::units::quantity<quant, double> prefix##suffix(1. * std::pow(10, exponent) * unit); \
     static const auto prefix##suffix##2 = boost::units::pow<2>(prefix##suffix); \

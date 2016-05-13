@@ -169,7 +169,7 @@ Length JetInfo::SumDisplacement() const
 Length JetInfo::MeanDisplacement() const
 {
     DEBUG0;
-    return displaced_constituents_.empty() ? 0_m  : SumDisplacement() / double(displaced_constituents_.size());
+    return displaced_constituents_.empty() ? 0_m  : SumDisplacement() / static_cast<double>(displaced_constituents_.size());
 }
 
 Length JetInfo::MaxDisplacement() const
@@ -271,7 +271,7 @@ double JetInfo::CoreEnergyFraction(Jet const& jet) const
             energy += constituent.Momentum().Et();
             if (jet.DeltaRTo(constituent.Momentum()) < 0.2_rad) core_energy += constituent.Momentum().Et();
         }
-    return energy == 0_eV ? 0. : double(core_energy / energy);
+    return energy == 0_eV ? 0. : static_cast<double>(core_energy / energy);
 }
 
 double JetInfo::ElectroMagneticFraction() const
@@ -283,7 +283,7 @@ double JetInfo::ElectroMagneticFraction() const
         energy += constituent.Momentum().Et();
         if (constituent.DetectorPart() == DetectorPart::photon) em_energy += constituent.Momentum().Et();
     }
-    return energy == 0_eV ? 0. : double(em_energy / energy);
+    return energy == 0_eV ? 0. : static_cast<double>(em_energy / energy);
 }
 
 Mass JetInfo::ClusterMass() const

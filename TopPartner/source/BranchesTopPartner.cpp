@@ -67,9 +67,9 @@ TruthBranch::TruthBranch()
     LeptonPt = InitialValue();
     SoftestBosonPt = InitialValue();
     HardestBosonPt = InitialValue();
-    BosonNumber = int(InitialValue());
-    HardBosonNumber = int(InitialValue());
-    DetectableBosonNumber = int(InitialValue());
+    BosonNumber = static_cast<int>(InitialValue());
+    HardBosonNumber = static_cast<int>(InitialValue());
+    DetectableBosonNumber = static_cast<int>(InitialValue());
     BosonDeltaRMin = InitialValue();
     MissingEt = InitialValue();
     ScalarHt = InitialValue();

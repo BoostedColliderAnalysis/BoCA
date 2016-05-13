@@ -11,7 +11,7 @@ namespace boca
 
 Member::Member()
 {
-    id_ = int(boca::Id::none);
+    id_ = static_cast<int>(boca::Id::none);
 }
 
 Member::Member(int id)

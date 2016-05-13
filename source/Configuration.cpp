@@ -20,7 +20,7 @@ Configuration::Configuration(std::string const& config_name)
 boca::Mass Configuration::Mass()
 {
     try {
-        return double(config().lookup("Mass")) * GeV;
+        return static_cast<double>(config().lookup("Mass")) * GeV;
     } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
         ERROR("No 'Mass' setting in configuration file");
         throw;
@@ -33,7 +33,7 @@ boca::Mass Configuration::Mass()
 Momentum Configuration::PreCut()
 {
     try {
-        return double(config().lookup("PreCut")) * GeV;
+        return static_cast<double>(config().lookup("PreCut")) * GeV;
     } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
         ERROR("No 'PreCut' setting in configuration file");
         throw;

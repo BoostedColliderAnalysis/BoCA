@@ -70,7 +70,7 @@ const PreCut< bool >& PreCuts::ConsiderBuildingBlock() const
 }
 Angle PreCuts::JetConeMax(boca::Id id) const
 {
-    return (PtLowerCut().IsSet(id)) ? 2_rad * double(MassOf(id) / PtLowerCut().Get(id)) : DetectorGeometry::JetConeSize();
+    return (PtLowerCut().IsSet(id)) ? 2_rad * static_cast<double>(MassOf(id) / PtLowerCut().Get(id)) : DetectorGeometry::JetConeSize();
 }
 
 }

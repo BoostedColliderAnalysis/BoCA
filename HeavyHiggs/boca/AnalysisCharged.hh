@@ -110,7 +110,7 @@ private:
     int BackgroundFileNumber() const override {
         switch (this->Collider()) {
         case heavyhiggs::Collider::LHC :
-            switch (int(this->PreCut() / GeV)) {
+            switch (static_cast<int>(this->PreCut() / GeV)) {
             case 0 :
                 //                 return 1;
                 return 79; // < should be switched on
@@ -120,7 +120,7 @@ private:
                 return 1;
             }
         case heavyhiggs::Collider::LE :
-            switch (int(this->PreCut() / GeV)) {
+            switch (static_cast<int>(this->PreCut() / GeV)) {
             case 2500 :
                 return 28;
             case 2000 :

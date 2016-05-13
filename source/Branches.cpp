@@ -42,12 +42,12 @@ InfoBranch::InfoBranch(File const& file)
 boca::Crosssection InfoBranch::Crosssection() const
 {
     INFO0;
-    return double(crosssection) * fb;
+    return static_cast<double>(crosssection) * fb;
 }
 boca::Crosssection InfoBranch::CrosssectionError() const
 {
     INFO0;
-    return double(crosssection_error) * fb;
+    return static_cast<double>(crosssection_error) * fb;
 }
 int InfoBranch::EventNumber() const
 {
@@ -57,7 +57,7 @@ int InfoBranch::EventNumber() const
 boca::Mass InfoBranch::Mass() const
 {
     INFO0;
-    return double(mass) * GeV;
+    return static_cast<double>(mass) * GeV;
 }
 std::string InfoBranch::Name() const
 {
@@ -102,7 +102,7 @@ void InfoBranch::SetNames(boca::Names const& names_)
 
 ResultBranch::ResultBranch()
 {
-    Tag = int(InitialValue());
+    Tag = static_cast<int>(InitialValue());
 }
 
 Observables ResultBranch::Variables()
@@ -136,7 +136,7 @@ ParticleBranch::ParticleBranch()
     Pt = InitialValue();
     Rap = InitialValue();
     Phi = InitialValue();
-    Charge = int(InitialValue());
+    Charge = static_cast<int>(InitialValue());
 }
 
 Observables ParticleBranch::Variables()
@@ -155,7 +155,7 @@ BottomBase::BottomBase()
     MaxDisplacement = InValue();
     MeanDisplacement = InValue();
     SumDisplacement = InValue();
-    Multiplicity = int(InValue());
+    Multiplicity = static_cast<int>(InValue());
     Radius = InValue();
     Spread = InValue();
     VertexRadius = InValue();
@@ -320,9 +320,9 @@ float GlobalBase::InValue()
 
 GlobalBase::GlobalBase()
 {
-    LeptonNumber = int(InValue());
-    JetNumber = int(InValue());
-    BottomNumber = int(InValue());
+    LeptonNumber = static_cast<int>(InValue());
+    JetNumber = static_cast<int>(InValue());
+    BottomNumber = static_cast<int>(InValue());
     MissingEt = InValue();
     ScalarHt = InValue();
     LeptonHt = InValue();
@@ -359,9 +359,9 @@ Observables GlobalObservableBranch::Spectators()
 
 EventBranch::EventBranch()
 {
-    LeptonNumber = int(InitialValue());
-    JetNumber = int(InitialValue());
-    BottomNumber = int(InitialValue());
+    LeptonNumber = static_cast<int>(InitialValue());
+    JetNumber = static_cast<int>(InitialValue());
+    BottomNumber = static_cast<int>(InitialValue());
     MissingEt = InitialValue();
     ScalarHt = InitialValue();
     LeptonHt = InitialValue();

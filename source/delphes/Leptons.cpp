@@ -19,7 +19,7 @@ std::vector<Lepton> Leptons::Electrons() const
 {
     INFO0;
     std::vector<Lepton> electrons;
-    for (auto const & electron : TreeReader().Array<::delphes::Electron>(Branch::electron)) electrons.emplace_back(Lepton(electron.P4(), int(electron.Charge)));
+    for (auto const & electron : TreeReader().Array<::delphes::Electron>(Branch::electron)) electrons.emplace_back(Lepton(electron.P4(), static_cast<int>(electron.Charge)));
     return electrons;
 }
 
@@ -27,7 +27,7 @@ std::vector<Lepton> Leptons::Muons() const
 {
     INFO0;
     std::vector<Lepton> muons;
-    for (auto const & muon : TreeReader().Array<::delphes::Muon>(Branch::muon)) muons.emplace_back(Lepton(muon.P4(), int(muon.Charge)));
+    for (auto const & muon : TreeReader().Array<::delphes::Muon>(Branch::muon)) muons.emplace_back(Lepton(muon.P4(), static_cast<int>(muon.Charge)));
     return muons;
 }
 

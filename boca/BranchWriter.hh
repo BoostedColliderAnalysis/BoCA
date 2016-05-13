@@ -37,7 +37,7 @@ public:
     }
 
     ~BranchWriter() {
-        std::cout << "PreCut ratio: " << RoundToDigits(double(object_sum_) / event_sum_) << std::endl;
+        std::cout << "PreCut ratio: " << RoundToDigits(static_cast<double>(object_sum_) / event_sum_) << std::endl;
         if (object_sum_) TreeWriter().Write();
     }
 

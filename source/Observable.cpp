@@ -56,7 +56,7 @@ void Observable::SetBranchName(std::string const& branch_name)
 
 bool Observable::IsInt() const
 {
-    return Value() == int(Value());
+    return Value() == static_cast<int>(Value());
 }
 
 }
