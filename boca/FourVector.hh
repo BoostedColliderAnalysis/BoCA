@@ -3,10 +3,11 @@
  */
 #pragma once
 
-#include "boca/io/TreeReader.hh"
 
 namespace boca
 {
+
+class TreeReader;
 
 /**
  * @brief converts Clones to LorentzVectors and Jets

@@ -1,3 +1,5 @@
+
+#include "boca/io/TreeReader.hh"
 #include "boca/exroot/Classes.hh"
 #include "boca/exroot/Hadrons.hh"
 #include "boca/generic/DEBUG.hh"

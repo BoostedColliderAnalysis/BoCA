@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+#include "boca/io/TreeReader.hh"
+
 #include "boca/delphes/Classes.hh"
 #include "boca/delphes/Partons.hh"
 
@@ -46,25 +48,12 @@ void PrintCell(Data data)
 
 void PrintCells(Particle const& particle)
 {
-    //     PrintCell(particle.Status);
     PrintCell(particle.Info().Family().Member(Relative::particle).Name());
     PrintCell(particle.Info().Family().Member(Relative::mother).Name());
     PrintCell(particle.Info().Family().Member(Relative::step_mother).Name());
     PrintCell(particle.Info().Family().Member(Relative::particle).Position());
     PrintCell(particle.Info().Family().Member(Relative::mother).Position());
     PrintCell(particle.Info().Family().Member(Relative::step_mother).Position());
-    //     PrintCell(particle.M1);
-    //     PrintCell(PrintParticle(particle.M1));
-    //     PrintCell(particle.M2);
-    //     PrintCell(PrintParticle(particle.M2));
-    //     PrintCell(particle.D1);
-    //     PrintCell(PrintParticle(particle.D1));
-    //     PrintCell(particle.D2);
-    //     PrintCell(PrintParticle(particle.D2));
-    //     PrintCell(particle.E);
-    //     PrintCell(particle.Px);
-    //     PrintCell(particle.Py);
-    //     PrintCell(particle.Pz);
     std::cout << "\n";
 }
 #endif

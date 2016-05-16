@@ -6,6 +6,7 @@
 #include "boca/Partons.hh"
 #include "boca/Hadrons.hh"
 #include "boca/Isolation.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {
@@ -36,15 +37,15 @@ public:
     }
 
     std::vector<Lepton> Electrons() const {
-      return Leptons_().Electrons();
+        return Leptons_().Electrons();
     }
 
     std::vector<Lepton> Muons() const {
-      return Leptons_().Muons();
+        return Leptons_().Muons();
     }
 
     std::vector<Lepton> Photons() const {
-      return Leptons_().Photons();
+        return Leptons_().Photons();
     }
 
     std::vector<Particle> GenParticles() const {

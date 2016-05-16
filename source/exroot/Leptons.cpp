@@ -1,3 +1,7 @@
+/**
+ * Copyright (C) 2015-2016 Jan Hajer
+ */
+#include "boca/io/TreeReader.hh"
 #include "boca/exroot/Leptons.hh"
 
 #include "boca/exroot/Classes.hh"
@@ -16,17 +20,17 @@ Leptons::Leptons(boca::TreeReader const& tree_reader) :
 std::vector<Lepton> Leptons::Electrons() const
 {
     INFO0;
-    std::vector<Lepton> leptons;
-    for (auto const& electron : TreeReader().Array<::exroot::Electron>(Branch::electron)) leptons.emplace_back(Lepton(electron));
-    return leptons;
+    std::vector<Lepton> electrons;
+    for (auto const& electron : TreeReader().Array<::exroot::Electron>(Branch::electron)) electrons.emplace_back(Lepton(electron));
+    return electrons;
 }
 
 std::vector<Lepton> Leptons::Muons() const
 {
     INFO0;
-    std::vector<Lepton> leptons;
-    for (auto const & muon : TreeReader().Array<::exroot::Muon>(Branch::muon)) leptons.emplace_back(Lepton(muon));
-    return leptons;
+    std::vector<Lepton> muons;
+    for (auto const & muon : TreeReader().Array<::exroot::Muon>(Branch::muon)) muons.emplace_back(Lepton(muon));
+    return muons;
 }
 
 std::vector<Lepton> Leptons::Photons() const

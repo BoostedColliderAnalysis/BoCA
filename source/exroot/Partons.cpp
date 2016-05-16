@@ -1,3 +1,5 @@
+
+#include "boca/io/TreeReader.hh"
 #include "boca/exroot/Partons.hh"
 
 #include "boca/exroot/Classes.hh"

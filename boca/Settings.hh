@@ -35,6 +35,16 @@ enum class Collider
 
 std::string Name(Collider collider);
 
+enum class Source
+{
+  delphes,
+  pgs,
+  parton,
+  tagger
+};
+
+std::string Name(Source source);
+
 /**
  * @brief Detector and Collider specific constants
  *
@@ -91,6 +101,8 @@ public:
     static double Experimental();
 
     static boca::Font Font();
+
+    static boca::Source Source();
 
 private:
 

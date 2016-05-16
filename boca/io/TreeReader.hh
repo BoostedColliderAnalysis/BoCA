@@ -8,6 +8,9 @@
 #include "TTreeReader.h"
 
 #include "boca/io/TreeReaderArray.hh"
+#include "boca/Settings.hh"
+#include "boca/Event.hh"
+#include "boca/Event.hh"
 
 namespace boca
 {
@@ -32,16 +35,6 @@ enum class Branch
 };
 
 std::string Name(Branch branch);
-
-enum class Source
-{
-    delphes,
-    pgs,
-    parton,
-    tagger
-};
-
-std::string Name(Source source);
 
 class TreeReader
 {
@@ -82,6 +75,25 @@ public:
 
     TChain & Chain();
 
+    std::unique_ptr<boca::Event> Event() {
+      switch (Settings::Source()) {
+        case Source::delphes : std::make_unique<boca::Event>(*this, Settings::Source());
+        case Source::parton : ;
+        case Source::pgs : std::make_unique<boca::Event>(*this, Settings::Source());
+        default : Error("Evetn function hit Source default value");
+      }
+    }
+
+//     boca::Event & Event() {
+//       switch (Settings::Source()) {
+//         case Source::delphes : event_ = std::make_unique<boca::Event>(*this, Settings::Source());
+//         case Source::parton : ;
+//         case Source::pgs : event_ = std::make_unique<exroot::Event>(*this, Settings::Source());
+//         default : Error("Evetn function hit Source default value");
+//       }
+//       return *event_.get();
+//     }
+
 private:
 
     void NewBase(std::string name, TClass & cl);
@@ -117,6 +129,8 @@ private:
     std::string tree_name_;
 
     std::vector<std::string> paths_;
+
+//     std::unique_ptr<boca::Event> event_;
 
 };
 

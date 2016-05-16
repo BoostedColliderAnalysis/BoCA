@@ -22,7 +22,7 @@ public:
         core_sum_ = core_sum;
     }
 
-    void ReadEvents(PreCuts const& pre_cuts, std::function<long(Stage)> const& event_number_max, std::function<int(Event const&, Tag)> const& pass_pre_cut) {
+    void ReadEvents(PreCuts const& pre_cuts, std::function<long(Stage)> const& event_number_max, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
         while (KeepGoing(event_number_max)) ReadEvent(pre_cuts, pass_pre_cut);
     }
 
@@ -34,9 +34,9 @@ private:
         return entry;
     }
 
-    void ReadEvent(PreCuts const& pre_cuts, std::function<int(Event const&, Tag)> const& pass_pre_cut) {
+    void ReadEvent(PreCuts const& pre_cuts, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
         if (!ReadEntry()) return;
-        Event event(TreeReader(), BranchWriter().Import().Source());
+        boca::Event event(TreeReader(), BranchWriter().Import().Source());
         if (pass_pre_cut(event, BranchWriter().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
         Increment(0);
     }
@@ -47,7 +47,7 @@ private:
         BranchWriter().SafeEntry();
     }
 
-    int Switch(Event const& event, PreCuts const& pre_cuts) {
+    int Switch(boca::Event const& event, PreCuts const& pre_cuts) {
         switch (BranchWriter().Phase().Stage()) {
         case Stage::trainer : return Tagger().Train(event, pre_cuts, BranchWriter().Phase().Tag());
         case Stage::reader : return Reader().Bdt(event, pre_cuts);
@@ -66,7 +66,7 @@ private:
     void Increment(int number) {
         EventNumber() += core_sum_;
 //         if (number > 0)
-            BranchWriter().Increment(number);
+        BranchWriter().Increment(number);
     }
 
     bool KeepGoing(std::function<long(Stage)> const& event_number_max) const {
@@ -116,6 +116,7 @@ private:
     long event_number_;
 
     int core_sum_;
+
 };
 
 }

@@ -1,6 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+#include "boca/generic/Types.hh"
 #include "boca/Settings.hh"
 #include "boca/generic/DEBUG.hh"
 
@@ -24,7 +25,7 @@ std::string Name(JetType jet_type)
     case JetType::jet : return "Jet";
     case JetType::gen_jet : return "GenJet";
     case JetType::e_flow_jet : return "EFlowJet";
-        DEFAULT("Jet Type", "");
+        DEFAULT(to_int(jet_type), "");
     }
 }
 
@@ -37,7 +38,18 @@ std::string Name(Collider collider)
     switch (collider) {
     case Collider::lhc : return "LHC";
     case Collider::future : return "100TeV";
-        DEFAULT(Name(collider), "");
+        DEFAULT(to_int(collider), "");
+    }
+}
+
+std::string Name(Source source)
+{
+    switch (source) {
+    case Source::delphes : return "Delphes";
+    case Source::pgs : return "PGS";
+    case Source::parton : return "Parton";
+    case Source::tagger : return "Tagger";
+        DEFAULT(to_int(source), "");
     }
 }
 
@@ -195,6 +207,13 @@ boca::Font Settings::Font()
 {
     return boca::Font::times;
     return boca::Font::helvetica;
+}
+
+boca::Source Settings::Source()
+{
+    return boca::Source::delphes;
+    return boca::Source::pgs;
+    return boca::Source::parton;
 }
 
 }

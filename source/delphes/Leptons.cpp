@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+#include "boca/io/TreeReader.hh"
+
 #include "boca/delphes/Leptons.hh"
 #include "boca/delphes/Classes.hh"
 #include "boca/generic/Types.hh"
