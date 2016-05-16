@@ -60,7 +60,7 @@ private:
 
     int PassPreCut(Event const& , Tag) const override {
           return 1;
-//        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = SortedByPt(event.Jets());
 //         if (jets.size() < 2) return 0;
 //         if ((jets.at(0).Pt() > this->LowerPtCut() && jets.at(0).Pt() < this->UpperPtCut()) &&
 //           (jets.at(1).Pt() > this->LowerPtCut() && jets.at(1).Pt() < this->UpperPtCut())) return 1;

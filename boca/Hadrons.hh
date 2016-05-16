@@ -44,6 +44,8 @@ public:
 
     virtual std::vector<Jet> Jets() const = 0;
 
+    virtual std::vector<Jet> EFlow(JetDetail jet_detail) const;
+
     virtual Momentum ScalarHt() const;
 
     virtual boca::MissingEt MissingEt() const;

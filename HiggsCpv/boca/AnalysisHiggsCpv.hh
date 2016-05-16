@@ -79,11 +79,11 @@ private:
     int PassPreCut(Event const& event, Tag) const override {
       //         if(this->template TaggerIs<WLeptonicTagger>()) return 0;
       //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->Tagger()).semi_leptonic = false;
-       std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+       std::vector<Lepton> leptons = SortedByPt(event.Leptons());
         if (leptons.size() < 2) return 0;
 //         if (leptons.at(1).Pt() < 40) return 0;
-//        std::vector<Jet> jets = event.Hadrons().Jets();
-//        std::vector<Jet>gen_particles = event.Partons().GenParticles();
+//        std::vector<Jet> jets = event.Jets();
+//        std::vector<Jet>gen_particles = event.GenParticles();
 //        std::vector<Jet> higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
 //         if (higgs.empty()) {
 //         ERROR(NoHiggs(), higgs.size());

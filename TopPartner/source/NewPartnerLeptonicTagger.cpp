@@ -37,7 +37,7 @@ std::vector<Quintet> NewPartnerLeptonicTagger::Multiplets(Event const& event, bo
 
 std::vector<Particle> NewPartnerLeptonicTagger::Particles(Event const& event) const
 {
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto leptons = CopyIfLepton(particles);
     auto candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
     if (!candidate.empty()) {

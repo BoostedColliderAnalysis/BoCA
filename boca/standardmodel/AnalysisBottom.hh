@@ -77,12 +77,12 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const override {
-        auto particles = SortedByPt(event.Partons().GenParticles());
+        auto particles = SortedByPt(event.GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
         if (particles.size() != 1) return 0;
         return 1;
-        auto jets = event.Hadrons().Jets();
+        auto jets = event.Jets();
         jets = RemoveIfOutsidePtWindow(jets, this->LowerPtCut(), this->UpperPtCut());
         return jets.size();
     }

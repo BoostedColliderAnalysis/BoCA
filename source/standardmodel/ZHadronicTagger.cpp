@@ -31,7 +31,7 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> function)
 {
     INFO0;
-    auto jets = event.Hadrons().Jets();
+    auto jets = event.Jets();
     MomentumRange jet_range(Id::Z, Id::Z);
     std::vector<Jet> soft;
     for (auto & jet : jet_range.SofterThanMax(jets)) soft.emplace_back(bottom_reader_.Multiplet(jet));
@@ -62,7 +62,7 @@ boost::optional<Doublet> ZHadronicTagger::SetTag(Doublet doublet, PreCuts const&
 std::vector<Particle> ZHadronicTagger::Particles(Event const& event) const
 {
     INFO0;
-    return CopyIfParticle(event.Partons().GenParticles(), Id::Z);
+    return CopyIfParticle(event.GenParticles(), Id::Z);
 }
 
 bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts, Tag tag) const

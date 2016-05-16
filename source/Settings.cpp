@@ -100,18 +100,17 @@ Angle Settings::TrackerEtaMax()
 
 fastjet::JetDefinition Settings::JetDefinition()
 {
-    return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize() / rad, &Recombiner());
+    return {fastjet::antikt_algorithm, JetConeSize() / rad, &Recombiner()};
 }
 
 fastjet::JetDefinition Settings::JetDefinition(Angle const& jet_cone)
 {
-    return fastjet::JetDefinition(fastjet::cambridge_aachen_algorithm, jet_cone / rad, &Recombiner());
+    return {fastjet::cambridge_aachen_algorithm, jet_cone / rad, &Recombiner()};
 }
-
 
 fastjet::JetDefinition Settings::SubJetDefinition()
 {
-    return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize() / rad, &Recombiner());
+    return {fastjet::kt_algorithm, JetConeSize() / rad, &Recombiner()};
 }
 
 Length Settings::TrackerDistanceMin()

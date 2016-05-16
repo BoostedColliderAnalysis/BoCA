@@ -26,8 +26,8 @@ std::vector<Lepton> Leptons(Event const& event)
 {
     INFO0;
     auto do_fake_leptons = true;
-    auto leptons = RemoveIfSoft(event.Leptons().leptons(), Settings::LeptonMinPt());
-    auto jets = SortedByPt(event.Hadrons().Jets());
+    auto leptons = RemoveIfSoft(event.Leptons(), Settings::LeptonMinPt());
+    auto jets = SortedByPt(event.Jets());
     if (do_fake_leptons && leptons.empty() && !jets.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     DEBUG(jets.size(), leptons.size());
     return leptons;
@@ -75,7 +75,7 @@ bool WLeptonicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
 std::vector<Particle> WLeptonicTagger::Particles(Event const& event) const
 {
     INFO0;
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     return CopyIfDaughter(CopyIfParticle(particles, Id::W), CopyIfMother(CopyIfLepton(particles), Id::W));
 }
 
@@ -92,9 +92,9 @@ std::vector<Doublet> WLeptonicTagger::Multiplets(Event const& event, PreCuts con
 std::vector<Doublet> WLeptonicTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
 {
     INFO0;
-//     std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+//     std::vector<Lepton> leptons = SortedByPt(event.Leptons());
     auto leptons = Leptons(event);
-    auto missing_et = event.Hadrons().MissingEt();
+    auto missing_et = event.MissingEt();
     std::vector<Doublet> doublets;
     for (auto const & lepton : leptons) {
         Doublet pre_doublet(lepton, missing_et);

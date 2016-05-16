@@ -13,7 +13,7 @@ int TopSemiPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag
     INFO0;
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
-   std::vector<Particle> top_particles = event.Partons().GenParticles();
+   std::vector<Particle> top_particles = event.GenParticles();
     top_particles = CopyIfParticle(top_particles, Id::top);
     if (top_particles.size() != 2 && tag == Tag::signal) ERROR(top_particles.size());
     std::vector<Triplet> final_triplets_hadronic;

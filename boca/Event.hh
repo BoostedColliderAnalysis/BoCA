@@ -31,15 +31,55 @@ public:
 
     virtual ~Event();
 
+    std::vector<Lepton> Leptons() const {
+        return Leptons_().leptons();
+    }
+
+    std::vector<Lepton> Electrons() const {
+      return Leptons_().Electrons();
+    }
+
+    std::vector<Lepton> Muons() const {
+      return Leptons_().Muons();
+    }
+
+    std::vector<Lepton> Photons() const {
+      return Leptons_().Photons();
+    }
+
+    std::vector<Particle> GenParticles() const {
+        return Partons().GenParticles();
+    }
+
+    std::vector<Particle> Particles() const {
+        return Partons().Particles();
+    }
+
+    Momentum ScalarHt() const {
+        return Hadrons().ScalarHt();
+    }
+
+    boca::MissingEt MissingEt() const {
+        return Hadrons().MissingEt();
+    }
+
+    std::vector<Jet> Jets() const {
+        return Hadrons().Jets();
+    }
+
+    std::vector<Jet> EFlow(JetDetail jet_detail) const {
+        return Hadrons().EFlow(jet_detail);
+    }
+
+private:
+
     boca::Hadrons const& Hadrons() const;
 
-    boca::Leptons const& Leptons() const;
+    boca::Leptons const& Leptons_() const;
 
     boca::Partons const& Partons() const;
 
     std::vector<Lepton> IsolatedLeptons();
-
-private:
 
     friend class Isolation;
 

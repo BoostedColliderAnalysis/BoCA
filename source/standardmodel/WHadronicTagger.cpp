@@ -35,7 +35,7 @@ int WHadronicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const& pre_cuts, Function const& function)
 {
     INFO0;
-    auto jets = event.Hadrons().Jets();
+    auto jets = event.Jets();
     MomentumRange two_jet_range(Id::W);
     std::vector<Jet> soft;
     for (auto & jet : two_jet_range.SofterThanMax(jets)) soft.emplace_back(bottom_reader_.Multiplet(jet));
@@ -67,7 +67,7 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
 
 std::vector<Particle> WHadronicTagger::Particles(Event const& event) const
 {
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto quarks = CopyIfMother(CopyIfQuark(particles), Id::W);
     if (quarks.empty()) return {};
     auto ids = Transform(quarks, [](Particle const & quark) {

@@ -29,7 +29,7 @@ HiggsTagger::HiggsTagger()
 int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
-    auto leptons = event.Leptons().leptons();
+    auto leptons = event.Leptons();
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
         return SetTag(doublet, leptons, pre_cuts, tag);
     }), Particles(event), tag, Id::higgs);
@@ -38,7 +38,7 @@ int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
 {
     INFO0;
-    auto jets = event.Hadrons().Jets();
+    auto jets = event.Jets();
     MomentumRange jet_range(Id::higgs, Id::higgs);
     auto doublets = UnorderedPairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
@@ -57,7 +57,7 @@ std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<boo
 std::vector<Particle> HiggsTagger::Particles(Event const& event) const
 {
     INFO0;
-    return CopyIfParticles(event.Partons().GenParticles(), {Id::higgs, Id::CP_violating_higgs});
+    return CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs});
 }
 
 boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Lepton>& leptons, PreCuts const& pre_cuts, Tag tag)
@@ -105,7 +105,7 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
 std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
-    auto leptons = event.Leptons().leptons();
+    auto leptons = event.Leptons();
     return Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, leptons, pre_cuts, reader);
     });

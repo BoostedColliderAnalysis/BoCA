@@ -30,6 +30,12 @@ std::string Name(JetDetail jet_detail)
 Hadrons::Hadrons(boca::TreeReader const& tree_reader) :
     FourVector(tree_reader) {}
 
+std::vector<Jet> Hadrons::EFlow(JetDetail jet_detail) const
+{
+    ERROR("No EFlow Jets");
+    return {};
+}
+
 Momentum Hadrons::ScalarHt() const
 {
     ERROR("No Scalar Ht");

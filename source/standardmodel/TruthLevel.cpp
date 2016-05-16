@@ -40,7 +40,7 @@ std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts c
 std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const& pre_cuts, std::function<Particle(Particle&)> const&)const
 {
     INFO0;
-    auto particle = event.Partons().GenParticles();
+    auto particle = event.GenParticles();
     auto tops = CopyIfParticle(particle, Id::top);
     CHECK(tops.size() == 2, tops.size());
     std::vector<TruthVariables> truths;

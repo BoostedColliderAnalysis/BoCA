@@ -122,13 +122,13 @@ public:
 private:
 
     int PassPreCut(Event const&, Tag) const override {
-//         std::vector<Particle> Particles = event.Partons().GenParticles();
+//         std::vector<Particle> Particles = event.GenParticles();
 //
 //         std::vector<Particle> Tops = CopyIfParticle(Particles, Id::top);
 //         std::vector<Particle> Bottoms = CopyIfParticle(Particles, Id::bottom);
 //
-//         if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
-//         std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+//         if (event.MissingEt().Pt() < this->MissingEt()) return 0;
+//         std::vector<Lepton> leptons = SortedByPt(event.Leptons());
 //         if (Leptons.size() < 2) return 0;
 //         int positive_lepton = 0;
 //         int negative_lepton = 0;
@@ -140,7 +140,7 @@ private:
 //         if (positive_lepton < 2 && negative_lepton < 2) return 0;
 //         if ((positive_lepton + negative_lepton) > 2) return 0;
 //
-//         std::vector<Jet> jets = event.Hadrons().Jets();
+//         std::vector<Jet> jets = event.Jets();
 //         if (jets.size() < 4) return 0;
         return 1;
     }

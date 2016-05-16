@@ -44,31 +44,37 @@ class Settings
 
 public:
 
-    static Momentum JetMinPt();
-
-    static Angle JetConeSize();
-
-    static Angle OverlapConeSize();
-
-    static Momentum MinCellPt();
-
-    static Angle MinCellResolution();
-
-    static Angle TrackerEtaMax();
-
     static fastjet::JetDefinition JetDefinition();
 
     static fastjet::JetDefinition JetDefinition(Angle const& jet_cone);
 
     static fastjet::JetDefinition SubJetDefinition();
 
-    static Length TrackerDistanceMin();
+    static Momentum JetMinPt();
 
-    static Length TrackerDistanceMax();
+    static Momentum MinCellPt();
+
+    static Momentum LeptonMinPt();
+
+    static Momentum HardLeptonMomentum();
+
+    static Momentum ForwardJetPt();
 
     static Mass VertexMassMin();
 
-    static Momentum LeptonMinPt();
+    static Angle JetConeSize();
+
+    static Angle OverlapConeSize();
+
+    static Angle MinCellResolution();
+
+    static Angle TrackerEtaMax();
+
+    static Angle IsolationConeSize();
+
+    static Length TrackerDistanceMin();
+
+    static Length TrackerDistanceMax();
 
     static boca::Luminosity Luminosity();
 
@@ -80,13 +86,7 @@ public:
 
     static InfoRecombiner& Recombiner();
 
-    static Angle IsolationConeSize();
-
-    static Momentum HardLeptonMomentum();
-
     static double IsolationFraction();
-
-    static Momentum ForwardJetPt();
 
     static double Experimental();
 

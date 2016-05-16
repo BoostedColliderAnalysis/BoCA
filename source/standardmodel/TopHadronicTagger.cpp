@@ -25,7 +25,7 @@ namespace
 // void TruthLevel(Event const& event, PreCuts const& pre_cuts, Id id)
 // {
 //     INFO0;
-//     auto particle = event.Partons().GenParticles();
+//     auto particle = event.GenParticles();
 //     auto tops = CopyIfParticle(particle, id);
 //     for (auto const & top : tops) {
 //         if (pre_cuts.ApplyCuts(id, top)) continue;
@@ -86,7 +86,7 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
 std::vector<Particle> TopHadronicTagger::Particles(Event const& event) const
 {
     INFO0;
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     DEBUG(particles.size());
     auto quarks = CopyIfGrandMother(CopyIfQuark(particles), id_);
     DEBUG(quarks.size());
@@ -99,7 +99,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function co
 {
     INFO0;
     auto jets = SortedByPt(bottom_reader_.Jets(event));
-    auto leptons = event.Leptons().leptons();
+    auto leptons = event.Leptons();
 
     MomentumRange three_jet_range(Id::W);
     auto triplets = ThreeJets(three_jet_range.SofterThanMax(jets), leptons, function, three_jet_range);

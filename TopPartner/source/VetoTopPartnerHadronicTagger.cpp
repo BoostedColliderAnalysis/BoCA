@@ -34,7 +34,7 @@ std::vector<Quintet> VetoTopPartnerHadronicTagger::Multiplets(Event const& event
 
 std::vector<Particle> VetoTopPartnerHadronicTagger::Particles(Event const& event) const
 {
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto quarks = CopyIfQuark(particles);
     auto candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
     int id;

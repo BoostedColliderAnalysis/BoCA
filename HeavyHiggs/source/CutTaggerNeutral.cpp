@@ -30,11 +30,11 @@ boost::optional<CutVariables> CutTaggerNeutral::CutMethod(Event const& event)
     CutVariables variables;
     auto jets = bottom_reader_.Jets(event);
     variables.SetJetPts(jets);
-    variables.SetHt(event.Hadrons().ScalarHt());
+    variables.SetHt(event.ScalarHt());
     auto bottoms = CopyIfTag(jets, 0.05);
     if(bottoms.size() < 3) return boost::none;
     variables.SetBottomNumber(bottoms.size());
-    variables.SetLeptonPts(event.Leptons().leptons());
+    variables.SetLeptonPts(event.Leptons());
     return variables;
 }
 

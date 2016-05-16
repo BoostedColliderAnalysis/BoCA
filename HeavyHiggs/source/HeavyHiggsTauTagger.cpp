@@ -14,12 +14,12 @@ int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag)
     INFO0;
     std::vector<Jet> jets;// = tau_reader_.Multiplets(event);
     INFO(jets.size());
-    auto MissingEt = event.Hadrons().MissingEt();
-    auto TauParticles = event.Partons().GenParticles();
+    auto MissingEt = event.MissingEt();
+    auto TauParticles = event.GenParticles();
     TauParticles = CopyIfParticle(TauParticles, Id::tau);
 //     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(Id::tau)), TauParticles.end());
     CHECK(TauParticles.size() == 1, TauParticles.size());
-    auto HiggsParticles = event.Partons().GenParticles();
+    auto HiggsParticles = event.GenParticles();
     HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
 //     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(Id::charged_higgs)), HiggsParticles.end());
     CHECK(HiggsParticles.size() == 1, HiggsParticles.size());
@@ -53,7 +53,7 @@ std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event const& event, PreCut
     INFO0;
     std::vector<Jet> jets;// = tau_reader_.Multiplets(event);
     INFO(jets.size());
-    auto missing_et = event.Hadrons().MissingEt();
+    auto missing_et = event.MissingEt();
     std::vector<Doublet> doublets;
     for (auto const & jet : jets)  {
         Doublet pre_doublet(jet, missing_et);

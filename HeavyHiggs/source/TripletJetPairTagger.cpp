@@ -39,7 +39,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 //         triplets.erase(triplets.begin() + std::min(max_combi(), static_cast<int>(triplets.size())), triplets.end());
 //     }
 //     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(jets, TopHadronicReader);
-    auto TopParticles = event.Partons().GenParticles();
+    auto TopParticles = event.GenParticles();
     TopParticles = CopyIfFamily(TopParticles, Id::top, Id::gluon);
     if (TopParticles.size() != 1 && tag == Tag::signal)
         ERROR("Where is the Top?", TopParticles.size());
@@ -56,7 +56,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 //     std::sort(triplets.begin(), triplets.end(), MinDeltaR(TopParticles.front()));
 //     if (Tag == Tag::signal && triplets.size() > 1) triplets.erase(triplets.begin() + 1, triplets.end());
 //     if (Tag == HBackground && !triplets.empty()) triplets.erase(triplets.begin());
-auto BottomParticles = event.Partons().GenParticles();
+auto BottomParticles = event.GenParticles();
     BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::gluon);
     if (BottomParticles.size() != 1 && tag == Tag::signal)
         ERROR("Where is the Bottom?", BottomParticles.size());

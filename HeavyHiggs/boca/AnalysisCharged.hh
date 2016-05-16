@@ -81,7 +81,7 @@ private:
 
     int PassPreCut(Event const& event, Tag) const override {
 //         INFO("pass pre cut");
-        auto particles = event.Partons().GenParticles();
+        auto particles = event.GenParticles();
         auto quarks = SortedByPt(CopyIf5Quark(particles));
         quarks = SortedByPt(RemoveIfMother(quarks, Id::top));
         if (quarks.empty()) {
@@ -95,11 +95,11 @@ private:
 //             ERROR("Not enough top quarks", TopQuarks.size());
             return 0;
         } else if (TopQuarks.front().Pt() < this->PreCut()) return 0;
-        if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
-        auto leptons = SortedByPt(event.Leptons().leptons());
+        if (event.MissingEt().Pt() < this->MissingEt()) return 0;
+        auto leptons = SortedByPt(event.Leptons());
         if (leptons.empty()) return 0;
         if (leptons.front().Pt() < this->LeptonPt()) return 0;
-        auto jets = event.Hadrons().Jets();
+        auto jets = event.Jets();
         if (jets.size() < 4) return 0;
         return 1;
     }

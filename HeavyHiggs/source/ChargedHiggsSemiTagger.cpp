@@ -15,7 +15,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
 //     Mass mass = event.mass();
     Jet HiggsBoson;
     if (tag == Tag::signal) {
-        auto HiggsParticles = event.Partons().GenParticles();
+        auto HiggsParticles = event.GenParticles();
         HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
         if (tag == Tag::signal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
@@ -43,7 +43,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
     std::vector<Jet> BottomJets;
     switch (tag) {
     case Tag::signal : {
-        auto BottomParticles = event.Partons().GenParticles();
+        auto BottomParticles = event.GenParticles();
         BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::charged_higgs);
         Jet BottomQuark;
         if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();

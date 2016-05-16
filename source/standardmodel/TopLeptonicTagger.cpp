@@ -27,7 +27,7 @@ std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
 {
     INFO0;
     auto do_fake_leptons = true;
-    auto leptons = RemoveIfSoft(event.Leptons().leptons(), Settings::LeptonMinPt());
+    auto leptons = RemoveIfSoft(event.Leptons(), Settings::LeptonMinPt());
     if (do_fake_leptons && leptons.empty() && !jets.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     DEBUG(jets.size(), leptons.size());
     return leptons;
@@ -58,7 +58,7 @@ int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
 std::vector<Particle> TopLeptonicTagger::Particles(Event const& event) const
 {
     INFO0;
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto leptons = CopyIfGrandMother(CopyIfLepton(particles), id_);
     return CopyIfGrandDaughter(particles, leptons);
 }

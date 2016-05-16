@@ -280,8 +280,7 @@ void AnalysisBase::Run(Output output)
 void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
 {
     INFO0;
-    auto particles = event.Partons().GenParticles();
-    for (auto const & particle : particles) {
+    for (auto const & particle : event.GenParticles()) {
         auto family = particle.Info().Family();
         if (signature && family.Member(Relative::step_mother).Id() == 0) continue;
         auto id = Name(family.Member(Relative::particle).Id());

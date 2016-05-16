@@ -75,7 +75,7 @@ Hadrons const& Event::Hadrons() const
     return *hadrons_;
 }
 
-Leptons const& Event::Leptons() const
+Leptons const& Event::Leptons_() const
 {
     INFO(Name(Settings::Collider()));
     switch (Settings::Collider()) {

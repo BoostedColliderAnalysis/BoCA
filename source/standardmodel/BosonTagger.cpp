@@ -64,7 +64,7 @@ std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<boo
 std::vector<Particle> BosonTagger::Particles(Event const& event) const
 {
     INFO0;
-    return CopyIfParticles(event.Partons().GenParticles(), Resolve(MultiId::bosons));
+    return CopyIfParticles(event.GenParticles(), Resolve(MultiId::bosons));
 }
 
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const

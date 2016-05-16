@@ -38,7 +38,7 @@ int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 std::vector<Particle> BottomTagger::Particles(Event const& event) const
 {
     INFO0;
-    auto particles = SortedByPhi(RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), Settings::JetMinPt()));
+    auto particles = SortedByPhi(RemoveIfSoft(CopyIfParticle(event.Particles(), Id::bottom), Settings::JetMinPt()));
 
 //     ERROR(particles.size());
 //     for(auto const& particle : particles) ERROR(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
@@ -58,7 +58,7 @@ std::vector<Particle> BottomTagger::Particles(Event const& event) const
 std::vector<Jet> BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function)
 {
     INFO0;
-    auto jets = event.Hadrons().Jets();
+    auto jets = event.Jets();
     INFO(jets.size());
     auto bottoms = Multiplets(jets, function);
     if (pre_cuts.DoSubJets(Id::bottom)) {
@@ -133,7 +133,7 @@ std::vector<Jet> BottomTagger::SubJets(std::vector<Jet> const& jets, int sub_jet
 std::vector<Jet> BottomTagger::Jets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
-    return Multiplets(event.Hadrons().Jets(), [&](Jet & jet) {
+    return Multiplets(event.Jets(), [&](Jet & jet) {
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
     });

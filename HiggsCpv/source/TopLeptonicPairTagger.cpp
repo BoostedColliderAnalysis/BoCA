@@ -19,7 +19,7 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     INFO0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     DEBUG(triplets.size());
-   std::vector<Particle> particles = event.Partons().GenParticles();
+   std::vector<Particle> particles = event.GenParticles();
    std::vector<Particle> top_particles = CopyIfParticle(particles, Id::top);
     CHECK(top_particles.size() == 2, top_particles.size());
 //    std::vector<Jet>neutrinos = CopyIfNeutrino(particles);
@@ -32,7 +32,7 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
       quartet.Doublet1().SetBdt(triplet_1.Bdt());
       quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
-        //             Insert(sextets, wimp_mass.Sextet(quartet, event.Hadrons().MissingEt(), neutrinos, tag));
+        //             Insert(sextets, wimp_mass.Sextet(quartet, event.MissingEt(), neutrinos, tag));
         return wimp_mass.Fake(quartet);
     });
 
@@ -47,7 +47,7 @@ std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(Event const& event, std::v
 {
     switch (tag) {
     case Tag::signal : {
-      std::vector<Particle> tops = CopyIfParticle(event.Partons().GenParticles(), Id::top);
+      std::vector<Particle> tops = CopyIfParticle(event.GenParticles(), Id::top);
         std::vector<Sextet> final_sextets;
         for (auto const& sextet : sextets) {
             bool truth_level = false;
@@ -74,7 +74,7 @@ std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::
         quartet.Doublet1().SetBdt(triplet_1.Bdt());
         quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
-//             for (auto sextet : wimp_mass.Sextets(quartet, event.Hadrons().MissingEt())) {
+//             for (auto sextet : wimp_mass.Sextets(quartet, event.MissingEt())) {
         Sextet sextet = wimp_mass.Fake(quartet);
         sextet.SetBdt(Bdt(sextet, reader));
         return sextet;

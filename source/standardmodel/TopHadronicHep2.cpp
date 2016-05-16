@@ -41,7 +41,7 @@ int TopHadronicHep2::Train(const Event& event, const PreCuts& pre_cuts, Tag tag)
 std::vector<Particle>TopHadronicHep2::Particles(Event const& event) const
 {
     INFO0;
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto quarks = CopyIfGrandMother(CopyIfQuark(particles), Id::top);
     return CopyIfGrandDaughter(particles, quarks);
 }
@@ -80,7 +80,7 @@ std::vector<Triplet> TopHadronicHep2::Multiplets(const Event& event, const boca:
 std::vector<Triplet> TopHadronicHep2::Triplets(Event const& event, PreCuts const& pre_cuts, std::function<Triplet(Triplet&)> const& function) const
 {
     INFO0;
-    auto jets = static_cast<delphes::Hadrons const&>(event.Hadrons()).EFlow(JetDetail::structure | JetDetail::isolation);
+    auto jets = event.EFlow(JetDetail::structure | JetDetail::isolation);
     if (jets.empty()) return {};
     INFO(jets.size(), pre_cuts.JetConeMax(Id::top));
 //     if(jets.size() == 209 || jets.size() == 115) return {}; /// FIXME remove this nasty hack which seems to be necessary for a specific gluon file

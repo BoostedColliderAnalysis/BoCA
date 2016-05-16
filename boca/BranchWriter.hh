@@ -21,12 +21,13 @@ class BranchWriter
 public:
 
     BranchWriter(boca::Phase& phase, boca::File& file, boca::FileWriter& file_writer, Tagger_& tagger) :
+        object_sum_(0),
+        event_sum_(0),
         phase_(phase),
         import_file_(file),
-        file_writer_(file_writer),
         tagger_(tagger),
         reader_(phase.Stage()) {
-        tree_writer_ = &FileWriter().NewTree(Import().Title());
+        tree_writer_ = &file_writer.NewTree(Import().Title());
         switch (Phase().Stage()) {
         case Stage::trainer : tagger_.NewBranch(TreeWriter(), Phase().Stage());
             break;
@@ -37,23 +38,22 @@ public:
     }
 
     ~BranchWriter() {
-        std::cout << "PreCut ratio: " << RoundToDigits(static_cast<double>(object_sum_) / event_sum_) << std::endl;
-        if (object_sum_) TreeWriter().Write();
+      std::cout << "PreCut ratio: " << RoundToDigits(static_cast<double>(object_sum_.load()) / event_sum_.load()) << std::endl;
+      if (object_sum_.load()) TreeWriter().Write();
     }
 
     void SafeEntry() {
         InfoBranch info_branch(Import());
-        info_branch.SetEventNumber(event_sum_);
+        info_branch.SetEventNumber(event_sum_.load());
         std::lock_guard<std::mutex> lock(write_mutex);
         TreeBranch().AddEntry(info_branch);
         TreeWriter().Fill();
     }
     void Increment(int number) {
-        std::lock_guard<std::mutex> lock(sum_mutex);
         object_sum_ += number;
 //         if (number > 0)
         ++event_sum_;
-        Debug("event: ", event_sum_, "object: ", object_sum_);
+        Debug("event: ", event_sum_.load(), "object: ", object_sum_.load());
     }
 
     boca::Reader<Tagger_> Reader() const {
@@ -65,7 +65,7 @@ public:
     }
 
     bool KeepGoing(std::function<long(Stage)> const& event_number_max) const {
-        return object_sum_ < event_number_max(Phase().Stage());
+      return object_sum_.load() < event_number_max(Phase().Stage());
     }
 
     boca::Phase Phase() const {
@@ -78,10 +78,6 @@ public:
 
 private:
 
-    boca::FileWriter& FileWriter() {
-        return file_writer_;
-    }
-
     boca::TreeBranch& TreeBranch() {
         return *tree_branch_;
     }
@@ -90,15 +86,13 @@ private:
         return *tree_writer_;
     }
 
-    long object_sum_ = 0;
+    std::atomic<long> object_sum_;
 
-    long event_sum_ = 0;
+    std::atomic<long> event_sum_;
 
     boca::Phase phase_;
 
     File& import_file_;
-
-    boca::FileWriter& file_writer_;
 
     Tagger_& tagger_;
 
@@ -107,8 +101,6 @@ private:
     boca::TreeWriter* tree_writer_;
 
     boca::TreeBranch* tree_branch_;
-
-    std::mutex sum_mutex;
 
     std::mutex write_mutex;
 

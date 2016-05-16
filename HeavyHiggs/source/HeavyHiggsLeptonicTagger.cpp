@@ -15,8 +15,8 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     auto triplets = top_leptonic_reader_.Multiplets(event);
-    auto missing_et = event.Hadrons().MissingEt();
-    auto particles = event.Partons().GenParticles();
+    auto missing_et = event.MissingEt();
+    auto particles = event.GenParticles();
     auto neutrinos = CopyIfNeutrino(particles);
     INFO(triplets.size());
     std::vector<Sextet> sextets;
@@ -41,7 +41,7 @@ std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, Pr
 {
     INFO0;
     auto triplets = top_leptonic_reader_.Multiplets(event);
-    auto missing_et = event.Hadrons().MissingEt();
+    auto missing_et = event.MissingEt();
     std::vector<Sextet> sextets;
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {

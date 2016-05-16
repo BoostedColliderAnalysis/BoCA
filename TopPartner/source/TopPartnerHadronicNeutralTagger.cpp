@@ -41,7 +41,7 @@ std::vector<Quintet> TopPartnerHadronicNeutralTagger::Quintets(Event const& even
 std::vector<Particle> TopPartnerHadronicNeutralTagger::Particles(Event const& event) const
 {
     INFO0;
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto quarks = CopyIfQuark(particles);
     auto candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
     int id;

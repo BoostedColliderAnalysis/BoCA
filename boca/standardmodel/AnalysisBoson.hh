@@ -62,10 +62,10 @@ private:
 
     int PassPreCut(Event const& , Tag) const override {
           return 1;
-//        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = SortedByPt(event.Jets());
 //         if (jets.empty()) return 0;
 //         if (jets.front().Pt() < this->LowerPtCut()) return 0;
-//        std::vector<Jet> particles = SortedByPt(event.Partons().GenParticles());
+//        std::vector<Jet> particles = SortedByPt(event.GenParticles());
 //         if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;
         return 0;
     }
