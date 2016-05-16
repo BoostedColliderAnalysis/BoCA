@@ -19,14 +19,14 @@ namespace
 Lepton FakeLepton(Jet const& jet)
 {
     INFO0;
-    return jet * (DetectorGeometry::LeptonMinPt() / jet.Pt());
+    return jet * (Settings::LeptonMinPt() / jet.Pt());
 }
 
 std::vector<Lepton> Leptons(Event const& event)
 {
     INFO0;
     auto do_fake_leptons = true;
-    auto leptons = RemoveIfSoft(event.Leptons().leptons(), DetectorGeometry::LeptonMinPt());
+    auto leptons = RemoveIfSoft(event.Leptons().leptons(), Settings::LeptonMinPt());
     auto jets = SortedByPt(event.Hadrons().Jets());
     if (do_fake_leptons && leptons.empty() && !jets.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     DEBUG(jets.size(), leptons.size());

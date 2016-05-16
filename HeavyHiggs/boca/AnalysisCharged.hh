@@ -34,10 +34,6 @@ public:
         }
     }
 
-//     std::string ProcessName() const {
-//         return "Charged";
-//     }
-
     std::string AnalysisName() const override {
         return  "Charged-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
@@ -46,7 +42,7 @@ private:
 
     Crosssection SignalCrosssection() const {
         switch (this->Collider()) {
-        case heavyhiggs::Collider::LHC:
+        case boca::Collider::lhc:
             switch (this->Mass()) {
             case 500 : return 3.0495761279999996 * fb;
             case 1000 : return 0.22623192864 * fb;
@@ -57,7 +53,7 @@ private:
 //                 ERROR("Signal Crosssection", "unhandled case");
                 return fb;
             } ;
-        case heavyhiggs::Collider::LE:
+        case boca::Collider::future:
             switch (this->Mass()) {
             case 500 : return 247.86995327999998 * fb;
             case 700 : return 109.26120959999999 * fb;
@@ -109,7 +105,7 @@ private:
     }
     int BackgroundFileNumber() const override {
         switch (this->Collider()) {
-        case heavyhiggs::Collider::LHC :
+        case boca::Collider::lhc :
             switch (static_cast<int>(this->PreCut() / GeV)) {
             case 0 :
                 //                 return 1;
@@ -119,7 +115,7 @@ private:
             default :
                 return 1;
             }
-        case heavyhiggs::Collider::LE :
+        case boca::Collider::future :
             switch (static_cast<int>(this->PreCut() / GeV)) {
             case 2500 :
                 return 28;
@@ -143,12 +139,12 @@ private:
 
     Crosssection BackgroundCrosssection(Process) const {
         switch (this->Collider()) {
-        case heavyhiggs::Collider::LHC :
+        case boca::Collider::lhc :
             switch (this->PreCut()) {
             case 0 : return 97.54 * 2 * fb;
             case 250 : return 4.206 * 2 * fb;
             }
-        case heavyhiggs::Collider::LE: {
+        case boca::Collider::future: {
             switch (this->PreCut()) {
             case 0 : return 3564. * 2 * fb;
             case 300 : return 187.3 * 2 * fb;

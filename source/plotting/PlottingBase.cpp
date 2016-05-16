@@ -315,7 +315,7 @@ latex::Graphic PlottingBase::PlotMIExperimentalGraph(Results const& results) con
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Crosssection [fb]");
     SetDefaultXAxis(graphs, results);
-    return {graphs.FileBaseName(), "Minimization of model independent cross section for " + Ratio(DetectorGeometry::Experimental())};
+    return {graphs.FileBaseName(), "Minimization of model independent cross section for " + Ratio(Settings::Experimental())};
 }
 
 latex::Graphic PlottingBase::PlotMIDiscovery(Results const& results) const
@@ -329,7 +329,7 @@ latex::Graphic PlottingBase::PlotMIDiscovery(Results const& results) const
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Discovery crosssection [fb]");
     SetDefaultXAxis(graphs, results);
-    return {graphs.FileBaseName(), "Minimization of model independent crosssection for significance and " + Ratio(DetectorGeometry::Experimental())};
+    return {graphs.FileBaseName(), "Minimization of model independent crosssection for significance and " + Ratio(Settings::Experimental())};
 }
 
 latex::Graphic PlottingBase::PlotMIExclusion(Results const& results) const
@@ -343,7 +343,7 @@ latex::Graphic PlottingBase::PlotMIExclusion(Results const& results) const
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Exclusion crosssection [fb]");
     SetDefaultXAxis(graphs, results);
-    return {graphs.FileBaseName(), "Minimization of model independent crosssection for significance and " + Ratio(DetectorGeometry::Experimental())};
+    return {graphs.FileBaseName(), "Minimization of model independent crosssection for significance and " + Ratio(Settings::Experimental())};
 }
 
 latex::Table PlottingBase::BestValueTable(Result const& signal, std::vector<double> const& x_values) const
@@ -376,7 +376,7 @@ latex::Table PlottingBase::EfficienciesTable(Results const& results, int bin) co
 {
     INFO0;
     latex::Table table("rllllll");
-    table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]", latex::Formula("N_{", latex::Command("mathcal", "L"), " = ", latex::Unit("fb^{-1}", static_cast<int>(DetectorGeometry::Luminosity() * fb)), "}").str());
+    table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]", latex::Formula("N_{", latex::Command("mathcal", "L"), " = ", latex::Unit("fb^{-1}", static_cast<int>(Settings::Luminosity() * fb)), "}").str());
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(EfficienciesRow(result, Position(results.Signals(), result), Tag::signal, bin));
     for (auto const & result : results.Backgrounds()) table.AddRow(EfficienciesRow(result, Position(results.Backgrounds(), result), Tag::background, bin));
@@ -402,7 +402,7 @@ latex::Row PlottingBase::EfficienciesRow(Result const& result, int, Tag , int bi
     row.AddCell(Red(result.PartialSum().at(bin)));
     row.AddCell(RoundToDigits(result.PreCutEfficiencies().at(bin)));
     row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() / fb * Results::ScalingFactor()));
-    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor()));
+    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() * Settings::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor()));
     return row;
 }
 

@@ -46,7 +46,7 @@ private:
 
     int BackgroundFileNumber() const override {
         switch (this->Collider()) {
-        case Collider::LHC :
+        case Collider::lhc :
             switch (static_cast<int>(this->PreCut() / GeV)) {
             case  0 :
                 return 79;
@@ -54,7 +54,7 @@ private:
             case  250 :
                 return 41;
             }
-        case Collider::LE :
+        case Collider::future :
             switch (static_cast<int>(this->PreCut() / GeV)) {
             case  0 :
                 //                   return 98;
@@ -85,7 +85,7 @@ private:
     Crosssection SignalCrosssection() const
     {
         switch (this->Collider()) {
-        case Collider::LHC:
+        case Collider::lhc:
             switch (this->Mass()) {
             case 400 : return 1463.1219866990498 * fb;
             case 500 : return 512.5992335098167 * fb;
@@ -97,7 +97,7 @@ private:
 //                 ERROR("unhandled case");
                 return pb;
             } ;
-        case Collider::LE:
+        case Collider::future:
             switch (this->Mass()) {
             // tan beta = 2
             case 400 : return 48385.16604388162 * fb;

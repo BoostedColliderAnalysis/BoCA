@@ -6,7 +6,7 @@
 #include "boca/generic/Types.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/plotting/Result.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
@@ -193,7 +193,7 @@ std::vector<double> const& Result::Events() const
     INFO0;
     return events_.Get([&]() {
         return Transform(Crosssections(), [](Crosssection const & crosssection) -> double {
-            return crosssection * DetectorGeometry::Luminosity();
+            return crosssection * Settings::Luminosity();
         });
     });
 }

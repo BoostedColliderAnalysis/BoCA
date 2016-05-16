@@ -5,7 +5,7 @@
 
 #include "boca/generic/Types.hh"
 #include "boca/plotting/Font.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
@@ -104,7 +104,7 @@ int ColorCode(int number)
 int FontCode(Style style)
 {
     INFO0;
-    return 10 * FontNumber(DetectorGeometry::Font(), style) + Precision();
+    return 10 * FontNumber(Settings::Font(), style) + Precision();
 }
 
 }

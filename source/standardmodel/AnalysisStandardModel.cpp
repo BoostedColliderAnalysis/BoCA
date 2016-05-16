@@ -26,16 +26,6 @@ std::string ProcessName(Process process)
     }
 }
 
-std::string Name(Collider collider)
-{
-    switch (collider) {
-    case Collider::LHC : return "14TeV";
-    case Collider::FHC : return "100TeV";
-    case Collider::LE : return "100TeV";
-        DEFAULT(to_int(collider), "");
-    }
-}
-
 latex::String LatexName(Process process)
 {
     switch (process) {

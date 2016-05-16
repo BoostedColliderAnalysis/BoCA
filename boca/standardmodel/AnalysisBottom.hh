@@ -39,7 +39,7 @@ public:
     AnalysisBottom() {
         this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
-        this->PreCuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().TrackerMaxEta().Set(Id::bottom, Settings::TrackerEtaMax());
         this->PreCuts().ConsiderBuildingBlock().Set(Id::bottom, false);
     }
 

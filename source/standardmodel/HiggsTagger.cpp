@@ -123,7 +123,7 @@ boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, std::vector<Le
 boost::optional<Doublet> HiggsTagger::MassDrop(Doublet const& doublet)
 {
     INFO0;
-    ClusterSequence cluster_sequence(doublet.Constituents(), DetectorGeometry::JetDefinition(doublet.DeltaR() + 2. * DetectorGeometry::JetConeSize()));
+    ClusterSequence cluster_sequence(doublet.Constituents(), Settings::JetDefinition(doublet.DeltaR() + 2. * Settings::JetConeSize()));
     auto exclusive_jets = cluster_sequence.ExclusiveJets(1);
     if (exclusive_jets.empty()) return boost::none;
     fastjet::MassDropTagger mass_drop_tagger(0.667, 0.09);
@@ -132,7 +132,7 @@ boost::optional<Doublet> HiggsTagger::MassDrop(Doublet const& doublet)
 
     auto radius = Jet(mass_drop_jet.pieces().at(0)).DeltaRTo(mass_drop_jet.pieces().at(1));
     radius = std::min(radius / 2., 300_mrad);
-    fastjet::Filter filter(DetectorGeometry::JetDefinition(radius), fastjet::SelectorNHardest(3));
+    fastjet::Filter filter(Settings::JetDefinition(radius), fastjet::SelectorNHardest(3));
     auto filtered_jet = filter.result(mass_drop_jet);
     if (!filtered_jet.has_pieces()) return boost::none;
     auto pieces = SortedByPt(JetVector(filtered_jet.pieces()));

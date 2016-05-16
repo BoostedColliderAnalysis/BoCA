@@ -18,7 +18,7 @@ enum class JetType
 {
     jet, //< usual Delphse Jet
     gen_jet, //<  Delphes GenJet
-    e_flow_jet //< Jet formed from the eflow Variables according to the parameter set in DetectorGeometry
+    e_flow_jet //< Jet formed from the eflow Variables according to the parameter set in Settings
 };
 
 std::string Name(JetType jet_type);
@@ -27,19 +27,19 @@ std::string Name(JetType jet_type);
  * @brief Detector type indicates which kind of detector geometry is going to be used
  *
  */
-enum class DetectorType
+enum class Collider
 {
-    CMS, //< default LHC detector
-    Spp //<  default detector for a 100TeV collider
+    lhc, //< default LHC detector
+    future //<  default detector for a 100TeV collider
 };
 
-std::string Name(DetectorType detector_type);
+std::string Name(Collider collider);
 
 /**
  * @brief Detector and Collider specific constants
  *
  */
-class DetectorGeometry
+class Settings
 {
 
 public:
@@ -74,9 +74,9 @@ public:
 
     static boca::JetType JetType();
 
-    static void SetDetectorType(boca::DetectorType detector_type);
+    static void SetCollider(boca::Collider collider);
 
-    static boca::DetectorType DetectorType();
+    static boca::Collider Collider();
 
     static InfoRecombiner& Recombiner();
 
@@ -94,7 +94,7 @@ public:
 
 private:
 
-    static boca::DetectorType detector_type_;
+    static boca::Collider collider_;
 
     static InfoRecombiner info_recombiner_;
 

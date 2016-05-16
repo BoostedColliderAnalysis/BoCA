@@ -73,8 +73,8 @@ ColliderType Configuration::ColliderType()
 {
     try {
         std::string Collider = config().lookup("ColliderType");
-        if (Collider == "LHC") return boca::ColliderType::LHC;
-        else if (Collider == "LE") return boca::ColliderType::LE;
+        if (Collider == "LHC") return boca::ColliderType::lhc;
+        else if (Collider == "LE") return boca::ColliderType::future;
         else if (Collider == "FHC") return boca::ColliderType::FHC;
     } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
         ERROR("No 'ColliderType' setting in configuration file");
@@ -83,7 +83,7 @@ ColliderType Configuration::ColliderType()
         ERROR("'ColliderType' setting has wrong type");
         throw;
     }
-    return boca::ColliderType::LHC;
+    return boca::ColliderType::lhc;
 }
 
 void Configuration::WriteConfig(std::string const& config_name)

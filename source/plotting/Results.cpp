@@ -13,7 +13,7 @@
 #include "boca/generic/Vector.hh"
 #include "boca/physics/Units.hh"
 #include "boca/plotting/Results.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
@@ -197,7 +197,7 @@ void Results::CutEfficiencies()
 double Results::BackgroundEvents(int step) const
 {
     INFO0;
-    return BackgroundCrosssections().at(step) * DetectorGeometry::Luminosity();
+    return BackgroundCrosssections().at(step) * Settings::Luminosity();
 }
 
 std::vector<Crosssection> Results::BackgroundCrosssections() const
@@ -219,14 +219,14 @@ Crosssection Results::MIExperimental(double signal_efficiency, int step) const
 {
     INFO(signal_efficiency, step);
     if (signal_efficiency == 0 || BackgroundCrosssections().at(step) == 0_b) return 0_b;
-    return BackgroundCrosssections().at(step) / signal_efficiency * DetectorGeometry::Experimental();
+    return BackgroundCrosssections().at(step) / signal_efficiency * Settings::Experimental();
 }
 
 Crosssection Results::MIBackground(Significance significance, double signal_efficiency, int step) const
 {
     INFO(Name(significance), signal_efficiency, step);
     if (signal_efficiency == 0 || BackgroundCrosssections().at(step) == 0_b) return 0_b;
-    return sqrt(BackgroundCrosssections().at(step) / DetectorGeometry::Luminosity()) / signal_efficiency * PValue(significance);
+    return sqrt(BackgroundCrosssections().at(step) / Settings::Luminosity()) / signal_efficiency * PValue(significance);
 }
 
 Crosssection Results::MISum(Significance significance, double signal_efficiency, int step) const
@@ -234,7 +234,7 @@ Crosssection Results::MISum(Significance significance, double signal_efficiency,
     INFO0;
     if (signal_efficiency == 0 || BackgroundEvents(step) == 0) return 0_b;
     auto numerator = PValue(significance) + std::sqrt(sqr(PValue(significance)) + 4. * BackgroundEvents(step));
-    return numerator * PValue(significance) / 2. / signal_efficiency / DetectorGeometry::Luminosity();
+    return numerator * PValue(significance) / 2. / signal_efficiency / Settings::Luminosity();
 }
 
 Crosssection Results::MIConstrained(Significance significance, double signal_efficiency, int step) const
@@ -250,7 +250,7 @@ Crosssection Results::MIPoisson(Significance significance, double signal_efficie
     INFO0;
     if (signal_efficiency == 0 || BackgroundEvents(step) == 0) return 0_b;
     ROOT::Math::Functor1D function([&](double crosssection) {
-        return SignificancePoisson(significance, crosssection * fb * DetectorGeometry::Luminosity() * signal_efficiency, BackgroundEvents(step)) - PValue(significance);
+        return SignificancePoisson(significance, crosssection * fb * Settings::Luminosity() * signal_efficiency, BackgroundEvents(step)) - PValue(significance);
     });
     boca::Range<double> range(MIBackground(significance, signal_efficiency, step) / fb);
     do {

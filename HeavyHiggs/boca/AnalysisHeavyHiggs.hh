@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/Analysis.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -35,15 +35,6 @@ enum class Process
 
 };
 
-enum class Collider
-{
-    LHC,
-    FHC,
-    LE
-};
-
-std::string Name(Collider collider);
-
 std::string Name(Process process);
 
 latex::String LatexName(Process process);
@@ -62,7 +53,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 public:
 
     AnalysisHeavyHiggs() {
-        if (Collider() == heavyhiggs::Collider::LHC) DetectorGeometry::SetDetectorType(DetectorType::CMS);
+      Settings::SetCollider(Collider());
     }
 
     boca::Mass Mass() const {
@@ -110,14 +101,14 @@ public:
         return 10;
     };
 
-    boca::heavyhiggs::Collider Collider() const {
-        return boca::heavyhiggs::Collider::LHC;
-        return boca::heavyhiggs::Collider::LE;
+    boca::Collider Collider() const {
+        return boca::Collider::lhc;
+        return boca::Collider::future;
     };
 
     Momentum PreCut() const {
         switch (Collider()) {
-        case boca::heavyhiggs::Collider::LHC :
+        case boca::Collider::lhc :
             switch (Int(Mass())) {
             case 400 : return at_rest;
             case 500 : return at_rest;
@@ -127,7 +118,7 @@ public:
             default : std::cout << "Switch default for Mass of " << Mass() << std::endl;
                 return at_rest;
             }
-        case boca::heavyhiggs::Collider::LE :
+        case boca::Collider::future :
             switch (Int(Mass())) {
             case 400 : return at_rest;
             case 500 : return at_rest;
@@ -148,8 +139,8 @@ public:
 
     Momentum MissingEt() const {
         switch (Collider()) {
-        case boca::heavyhiggs::Collider::LHC : return 30_GeV;
-        case boca::heavyhiggs::Collider::LE : return 60_GeV;
+        case boca::Collider::lhc : return 30_GeV;
+        case boca::Collider::future : return 60_GeV;
         default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
             return at_rest;
         }
@@ -157,8 +148,8 @@ public:
 
     Momentum LeptonPt() const {
         switch (Collider()) {
-        case boca::heavyhiggs::Collider::LHC : return 50_GeV;
-        case boca::heavyhiggs::Collider::LE : return 100_GeV;
+        case boca::Collider::lhc : return 50_GeV;
+        case boca::Collider::future : return 100_GeV;
         default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
             return at_rest;
         }
@@ -166,8 +157,8 @@ public:
 
     Momentum BottomPt() const {
         switch (Collider()) {
-        case boca::heavyhiggs::Collider::LHC : return 20_GeV;
-        case boca::heavyhiggs::Collider::LE : return 40_GeV;
+        case boca::Collider::lhc : return 20_GeV;
+        case boca::Collider::future : return 40_GeV;
         default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
             return at_rest;
         }
@@ -175,7 +166,7 @@ public:
 
     int FileNumber(Process process) const {
         switch (Collider()) {
-        case boca::heavyhiggs::Collider::LHC :
+        case boca::Collider::lhc :
             switch (process) {
             case Process::Hbb : return 1;
             case Process::ttwwbb : return 1;
@@ -188,7 +179,7 @@ public:
             default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
                 return 1;
             }
-        case boca::heavyhiggs::Collider::LE :
+        case boca::Collider::future :
             switch (process) {
             case Process::ttwwbb : return 2;
             case Process::ttwbb : return 1;
@@ -219,7 +210,7 @@ public:
         switch (process) {
         case Process::Hbb :
             switch (this->Collider()) {
-            case heavyhiggs::Collider::LHC:
+            case boca::Collider::lhc:
                 switch (Int(Mass())) {
 //                 case 500 : return 100_fb; // FIXME this is the wrong value
                 case 500 : return 25.52_fb;
@@ -227,8 +218,7 @@ public:
                 case 2000 : return 0.02190_fb;
                     DEFAULT(Int(Mass()), fb);
                 }
-            case heavyhiggs::Collider::FHC:
-            case heavyhiggs::Collider::LE:
+            case boca::Collider::future:
                 switch (Int(Mass())) {
                 case 500 : return 973.5_fb;
                 case 1000 : return 123.0_fb;
@@ -250,7 +240,7 @@ public:
             }
         case Process::tt :
             switch (this->Collider()) {
-            case heavyhiggs::Collider::LHC:
+            case boca::Collider::lhc:
                 switch (Int(PreCut())) {
                 case 0 : return 97.54 * 2 * 1000_fb;
                 case 250 : return 5.698 * 2 * 1000_fb;

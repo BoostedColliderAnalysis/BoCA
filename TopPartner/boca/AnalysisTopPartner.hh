@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/Analysis.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
@@ -55,7 +55,7 @@ public:
 
     AnalysisNaturalness() {
         INFO0;
-// DetectorGeometry::set_detector_type(DetectorType::CMS);
+// Settings::set_collider(Collider::lhc);
     }
 
 protected:
@@ -99,8 +99,8 @@ protected:
 
     auto Crosssection(Process process) const {
         INFO0;
-        switch (DetectorGeometry::DetectorType()) {
-        case DetectorType::CMS : {
+        switch (Settings::Collider()) {
+        case Collider::lhc : {
             switch (process) {
             case Process::TT :
                 switch (static_cast<int>(Mass() / GeV)) {
@@ -117,7 +117,7 @@ protected:
                 DEFAULT(Name(process), pb);
             }
         }
-        case DetectorType::Spp : {
+        case Collider::future : {
             switch (process) {
             case Process::TthLep :
                 switch (static_cast<int>(Mass() / GeV)) {
@@ -169,7 +169,7 @@ protected:
                 DEFAULT(Name(process), pb);
             }
         }
-        DEFAULT(Name(DetectorGeometry::DetectorType()), pb);
+        DEFAULT(Name(Settings::Collider()), pb);
         }
     }
 
@@ -177,7 +177,7 @@ protected:
         INFO0;
 //         std::string name = MassDependent(process) ? "pp" : "PP";
         std::string name = "PP";
-        name += "-" + Name(process) + "-" + boca::Name(DetectorGeometry::DetectorType());
+        name += "-" + Name(process) + "-" + boca::Name(Settings::Collider());
         if (MassDependent(process)) name += "-" + boca::Name(Mass());
         return name;
     }

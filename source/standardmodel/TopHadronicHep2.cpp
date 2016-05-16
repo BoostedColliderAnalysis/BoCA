@@ -10,7 +10,7 @@
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/standardmodel/TopHadronicHep2.hh"
 
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Event.hh"
 // #define DEBUGGING
@@ -84,7 +84,7 @@ std::vector<Triplet> TopHadronicHep2::Triplets(Event const& event, PreCuts const
     if (jets.empty()) return {};
     INFO(jets.size(), pre_cuts.JetConeMax(Id::top));
 //     if(jets.size() == 209 || jets.size() == 115) return {}; /// FIXME remove this nasty hack which seems to be necessary for a specific gluon file
-    boca::ClusterSequence cluster_sequence(jets, DetectorGeometry::JetDefinition(pre_cuts.JetConeMax(Id::top)));
+    boca::ClusterSequence cluster_sequence(jets, Settings::JetDefinition(pre_cuts.JetConeMax(Id::top)));
     jets = SortedByPt(cluster_sequence.InclusiveJets(pre_cuts.PtLowerCut().Get(Id::top)));
     INFO(jets.size());
     std::vector<Triplet> triplets;

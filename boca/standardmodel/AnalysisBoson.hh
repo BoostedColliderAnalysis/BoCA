@@ -27,8 +27,8 @@ public:
 //         this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
 //         this->PreCuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut() / 5.);
         //         this->PreCuts().MassUpperCut().Set(MultiId::neutral_boson, 250_GeV);
-        this->PreCuts().TrackerMaxEta().Set(MultiId::neutral_boson, DetectorGeometry::TrackerEtaMax());
-        this->PreCuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().TrackerMaxEta().Set(MultiId::neutral_boson, Settings::TrackerEtaMax());
+        this->PreCuts().TrackerMaxEta().Set(Id::bottom, Settings::TrackerEtaMax());
     }
 
 private:

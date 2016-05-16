@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/Analysis.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {
@@ -38,14 +38,6 @@ latex::String LatexName(Process process);
 
 std::string Name(Process process);
 
-
-enum class Collider
-{
-    LHC, FHC, LE
-};
-
-std::string Name(Collider collider);
-
 /**
  *
  * @brief Tagger ananlysis
@@ -59,9 +51,7 @@ class AnalysisStandardModel : public Analysis<Tagger>
 
 public:
 
-    AnalysisStandardModel() {
-        if (Collider() == boca::standardmodel::Collider::LHC) DetectorGeometry::SetDetectorType(DetectorType::CMS);
-    }
+    AnalysisStandardModel() { Settings::SetCollider(Collider());}
 
 protected:
 
@@ -82,10 +72,9 @@ protected:
         return 1.2_TeV;
     }
 
-    boca::standardmodel::Collider Collider() const {
-        return boca::standardmodel::Collider::LHC;
-        return boca::standardmodel::Collider::LE;
-        return boca::standardmodel::Collider::FHC;
+    boca::Collider Collider() const {
+        return boca::Collider::lhc;
+        return boca::Collider::future;
     }
 
     Momentum UpperPtCut() const {
@@ -157,8 +146,8 @@ private:
 
     std::string FileName(Process process) const {
         switch (Collider()) {
-        case boca::standardmodel::Collider::LE : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
-        case boca::standardmodel::Collider::LHC : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
+        case boca::Collider::future : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
+        case boca::Collider::lhc : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
         default : std::cout << "Switch default for process " << ProcessName(process) << std::endl;
             return "";
         }

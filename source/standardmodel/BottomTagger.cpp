@@ -38,14 +38,14 @@ int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 std::vector<Particle> BottomTagger::Particles(Event const& event) const
 {
     INFO0;
-    auto particles = SortedByPhi(RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), DetectorGeometry::JetMinPt()));
+    auto particles = SortedByPhi(RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), Settings::JetMinPt()));
 
 //     ERROR(particles.size());
 //     for(auto const& particle : particles) ERROR(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
 
 
     boost::erase(particles, boost::unique<boost::return_found_end>(particles, [](Particle const & particle_1, Particle const & particle_2) {
-        return particle_1.DeltaRTo(particle_2) < DetectorGeometry::IsolationConeSize();
+        return particle_1.DeltaRTo(particle_2) < Settings::IsolationConeSize();
     }));
 //     ERROR(particles.size());
 //     for(auto const& particle : particles) ERROR(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
@@ -105,7 +105,7 @@ bool BottomTagger::Problematic(Jet const& jet, PreCuts const& pre_cuts, Tag tag)
     DEBUG0;
     if (Problematic(jet, pre_cuts)) return true;
     if (jet.Mass() > bottom_max_mass_) return true;
-    if (boost::units::abs(jet.Rap()) > DetectorGeometry::TrackerEtaMax()) return true;
+    if (boost::units::abs(jet.Rap()) > Settings::TrackerEtaMax()) return true;
     switch (tag) {
     case Tag::signal :
         if (jet.Info().SumDisplacement() == 0_m) return true;

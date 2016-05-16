@@ -11,7 +11,7 @@
 #include "boca/exroot/Leptons.hh"
 #include "boca/exroot/Hadrons.hh"
 #include "boca/exroot/Partons.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -77,15 +77,15 @@ Hadrons const& Event::Hadrons() const
 
 Leptons const& Event::Leptons() const
 {
-    INFO(Name(DetectorGeometry::DetectorType()));
-    switch (DetectorGeometry::DetectorType()) {
-    case DetectorType::CMS :
+    INFO(Name(Settings::Collider()));
+    switch (Settings::Collider()) {
+    case Collider::lhc :
         return isolation_;
         return *leptons_;
-    case DetectorType::Spp :
+    case Collider::future :
         return isolation_;
         return *leptons_;
-        DEFAULT(Name(DetectorGeometry::DetectorType()), *leptons_)
+        DEFAULT(Name(Settings::Collider()), *leptons_)
     }
 }
 
@@ -99,13 +99,13 @@ std::vector<Lepton> Event::IsolatedLeptons()
     INFO0;
     std::vector<Lepton> leptons;
     for (auto const & lepton : leptons_->leptons()) {
-        if (lepton.Pt() > DetectorGeometry::HardLeptonMomentum()) {
+        if (lepton.Pt() > Settings::HardLeptonMomentum()) {
             leptons.emplace_back(lepton);
             continue;
         }
         auto isolated = true;
         for (auto const & jet : hadrons_->Jets())
-            if (Close<Lepton>(lepton, DetectorGeometry::IsolationConeSize())(jet) && jet.Pt() / lepton.Pt() > DetectorGeometry::IsolationFraction()) {
+            if (Close<Lepton>(lepton, Settings::IsolationConeSize())(jet) && jet.Pt() / lepton.Pt() > Settings::IsolationFraction()) {
                 isolated = false;
                 break;
             }

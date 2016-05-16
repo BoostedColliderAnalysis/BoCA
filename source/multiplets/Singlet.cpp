@@ -6,7 +6,7 @@
 #include <boost/math/constants/constants.hpp>
 
 #include "boca/multiplets/Singlet.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/math/Math.hh"
 #include "boca/physics/Range.hh"
@@ -17,7 +17,7 @@ namespace boca
 
 bool Singlet::Overlap(boca::Jet const& jet) const
 {
-    return PseudoJet::DeltaRTo(jet) < DetectorGeometry::OverlapConeSize();
+    return PseudoJet::DeltaRTo(jet) < Settings::OverlapConeSize();
 }
 
 Angle Singlet::Radius() const
@@ -50,7 +50,7 @@ double Singlet::Spread() const
 double Singlet::Log(Length const& length) const
 {
     INFO(length);
-    return std::log10(length < nm ? DetectorGeometry::TrackerDistanceMin() / cm : length / mm);
+    return std::log10(length < nm ? Settings::TrackerDistanceMin() / cm : length / mm);
 }
 
 int Singlet::Charge() const

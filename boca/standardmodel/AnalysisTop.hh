@@ -43,7 +43,7 @@ public:
     TopAnalysis() {
         this->PreCuts().PtLowerCut().Set(Id::top, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
-        this->PreCuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().TrackerMaxEta().Set(Id::top, Settings::TrackerEtaMax());
     }
 
     static Decay TopDecay() {

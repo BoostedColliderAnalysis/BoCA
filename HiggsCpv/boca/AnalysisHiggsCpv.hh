@@ -29,7 +29,7 @@ class Analysis : public boca::Analysis<Tagger>
 public:
 
     Analysis() {
-        DetectorGeometry::SetDetectorType(DetectorType::CMS);
+        Settings::SetCollider(Collider::lhc);
 //         this->PreCuts().PtLowerCut().Set(Id::higgs,200);
         //         this->PreCuts().MassLowerCut().Set(Id::higgs,105);
 //         this->PreCuts().MassUpperCut().Set(Id::higgs,145);

@@ -25,7 +25,7 @@ class AnalysisPair : public AnalysisNaturalness<Tagger>
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Naturalness-Pair-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-latex";
+        return "Naturalness-Pair-" + Name(Settings::Collider()) + "-" + boca::Name(this->Mass()) + "-latex";
     }
 
     void SetFiles(Tag tag, Stage)override {

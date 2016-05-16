@@ -51,7 +51,7 @@ public:
 
     void Enforce(boca::Jet const& jet, double bdt) {
         if (jet.Constituents().size() < 2) return EnforceJet(jet, bdt);
-        ClusterSequence cluster_sequence(jet.Constituents(), DetectorGeometry::SubJetDefinition());
+        ClusterSequence cluster_sequence(jet.Constituents(), Settings::SubJetDefinition());
         auto jets = cluster_sequence.ExclusiveJetsUpTo(2);
         if (jets.size() != 2) std::cout << "not the sub-jet number we expected: " << jets.size();
         multiplet_1_.Enforce(jets.at(0), bdt);
@@ -132,7 +132,7 @@ public:
     }
 
     double Rho() const {
-        return Pt() > DetectorGeometry::MinCellPt() && DeltaR() > DetectorGeometry::MinCellResolution() ? static_cast<double>(Mass() / Pt() / DeltaR() * 2_rad) : 0;
+        return Pt() > Settings::MinCellPt() && DeltaR() > Settings::MinCellResolution() ? static_cast<double>(Mass() / Pt() / DeltaR() * 2_rad) : 0;
     }
 
     boca::Mass MassDifferenceTo(Id id) const {
@@ -172,7 +172,7 @@ public:
     }
 
     std::vector<LorentzVector<Momentum>> LorentzVectors() const override {
-        return DeltaR() > DetectorGeometry::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>> {Jet().Vector()};
+        return DeltaR() > Settings::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>> {Jet().Vector()};
     }
 
     boca::EventShapes EventShapes() const {

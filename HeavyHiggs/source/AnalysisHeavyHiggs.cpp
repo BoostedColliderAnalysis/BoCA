@@ -7,16 +7,6 @@ namespace boca
 namespace heavyhiggs
 {
 
-std::string Name(Collider collider)
-{
-    switch (collider) {
-    case Collider::LHC : return "14TeV";
-    case Collider::FHC : return "100TeV";
-    case Collider::LE : return "LE";
-        DEFAULT(Name(collider), "");
-    }
-}
-
 std::string Name(Process process)
 {
     switch (process) {

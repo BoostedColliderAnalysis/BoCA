@@ -37,17 +37,7 @@ std::string Name(Production production)
         return "";
     }
 }
-std::string Name(Detector detector_type)
-{
-    switch (detector_type) {
-    case Detector::LHC : return "14TeV";
-    case Detector::FHC : return "100TeV";
-    case Detector::LE : return "LE";
-    default:
-        ERROR("Detector Name", "unhandeld case");
-        return "";
-    }
-}
+
 }
 
 }

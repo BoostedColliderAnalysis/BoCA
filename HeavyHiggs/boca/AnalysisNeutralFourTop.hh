@@ -19,7 +19,7 @@ class AnalysisNeutralFourTop : public AnalysisHeavyHiggs<Tagger>
 public:
 
     AnalysisNeutralFourTop() {
-        DetectorGeometry::SetDetectorType(DetectorType::CMS);
+        Settings::SetCollider(this->Collider());
     }
 
     std::string AnalysisName() const override {
@@ -44,7 +44,7 @@ public:
 
     boca::Crosssection Crosssection(Process process) const override {
         switch (this->Collider()) {
-        case Collider::LHC:
+        case boca::Collider::lhc:
             switch (process) {
             case Process::Htt:
                 switch (Int(this->Mass())) {
@@ -72,11 +72,10 @@ public:
 //             case Process::ttwbb : return 0.13588_fb;
             case Process::tttt : return 0.4849_fb;
             case Process::tttwb : return 0.06012_fb;
-            case Process::ttwbb :return  0.03284_fb;
+            case Process::ttwbb : return  0.03284_fb;
                 DEFAULT(Name(process), fb)
             };
-        case Collider::FHC:
-        case Collider::LE:
+        case boca::Collider::future:
             switch (process) {
             case Process::Htt:
                 switch (Int(this->Mass())) {

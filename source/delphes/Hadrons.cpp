@@ -39,11 +39,11 @@ Momentum Hadrons::ScalarHt() const
 
 std::vector<Jet> Hadrons::Jets() const
 {
-    switch (DetectorGeometry::JetType()) {
+    switch (Settings::JetType()) {
     case JetType::jet : return DelphesJets(JetDetail::structure | JetDetail::isolation);
     case JetType::gen_jet : return GenJets();
     case JetType::e_flow_jet : return EFlowJets(JetDetail::structure | JetDetail::isolation);
-        DEFAULT(Name(DetectorGeometry::JetType()), {});
+        DEFAULT(Name(Settings::JetType()), {});
     }
 }
 
@@ -157,8 +157,8 @@ bool Hadrons::Isolated(TObject const& object, std::vector<TObject*> const& lepto
 std::vector<Jet> Hadrons::EFlowJets(JetDetail jet_detail) const
 {
     INFO0;
-    ClusterSequence cluster_sequence(EFlow(jet_detail), DetectorGeometry::JetDefinition());
-    return cluster_sequence.InclusiveJets(DetectorGeometry::JetMinPt());
+    ClusterSequence cluster_sequence(EFlow(jet_detail), Settings::JetDefinition());
+    return cluster_sequence.InclusiveJets(Settings::JetMinPt());
 }
 
 std::vector<Jet> Hadrons::EFlow(JetDetail jet_detail) const

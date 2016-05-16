@@ -4,7 +4,7 @@
 #include "boca/generic/Types.hh"
 #include "boca/plotting/Font.hh"
 #include "boca/latex/String.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"

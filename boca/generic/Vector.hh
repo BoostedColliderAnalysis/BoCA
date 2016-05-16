@@ -10,7 +10,7 @@
 #include <boost/range/algorithm/transform.hpp>
 #include <boost/range/adaptors.hpp>
 
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {
@@ -111,7 +111,7 @@ class Close
 public:
     Close(Multiplet_1_ const& particle) :
         particle_(particle) ,
-        cone_size_(DetectorGeometry::JetConeSize())
+        cone_size_(Settings::JetConeSize())
     {}
     Close(Multiplet_1_ const& particle, Angle const& cone_size) :
         particle_(particle) ,

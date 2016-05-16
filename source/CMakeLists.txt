@@ -47,7 +47,7 @@ Observable.cpp
 Observables.cpp
 PreCuts.cpp
 Constituent.cpp
-DetectorGeometry.cpp
+Settings.cpp
 WimpMass.cpp
 )
 create_library(Analysis analysis_sources)

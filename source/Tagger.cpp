@@ -12,7 +12,7 @@
 #include "boca/Tagger.hh"
 #include "boca/AnalysisBase.hh"
 #include "boca/Filter.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 #include "boca/multivariant/Reader.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
@@ -67,7 +67,7 @@ bool Tagger::Cut(TMVA::Reader const& reader, double eff) const
 std::vector<Jet> Tagger::SubJets(Jet const& jet, int sub_jet_number) const
 {
     INFO0;
-    ClusterSequence cluster_sequence(jet.Constituents(), DetectorGeometry::SubJetDefinition());
+    ClusterSequence cluster_sequence(jet.Constituents(), Settings::SubJetDefinition());
     return cluster_sequence.ExclusiveJetsUpTo(sub_jet_number);
 }
 

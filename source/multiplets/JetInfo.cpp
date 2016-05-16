@@ -187,7 +187,7 @@ Mass JetInfo::VertexMass() const
         return momentum + constituent.Momentum();
     }).M();
     DEBUG(vertex_mass);
-    return vertex_mass < DetectorGeometry::VertexMassMin() ? massless : vertex_mass;
+    return vertex_mass < Settings::VertexMassMin() ? massless : vertex_mass;
 }
 
 Energy JetInfo::VertexEnergy() const
@@ -211,7 +211,7 @@ bool JetInfo::VertexResultion(Constituent constituent) const
     constituent.Smearing();
 //     DEBUG(x, constituent.Position().X());
     auto perp = constituent.Position().Perp();
-    return (perp > DetectorGeometry::TrackerDistanceMin() && perp < DetectorGeometry::TrackerDistanceMax() && abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
+    return (perp > Settings::TrackerDistanceMin() && perp < Settings::TrackerDistanceMax() && abs(constituent.Momentum().Rapidity()) < Settings::TrackerEtaMax());
 }
 
 Angle JetInfo::ElectroMagneticRadius(Jet const& jet) const

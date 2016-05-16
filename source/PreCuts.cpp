@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/PreCuts.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {
@@ -70,7 +70,7 @@ const PreCut< bool >& PreCuts::ConsiderBuildingBlock() const
 }
 Angle PreCuts::JetConeMax(boca::Id id) const
 {
-    return (PtLowerCut().IsSet(id)) ? 2_rad * static_cast<double>(MassOf(id) / PtLowerCut().Get(id)) : DetectorGeometry::JetConeSize();
+    return (PtLowerCut().IsSet(id)) ? 2_rad * static_cast<double>(MassOf(id) / PtLowerCut().Get(id)) : Settings::JetConeSize();
 }
 
 }
