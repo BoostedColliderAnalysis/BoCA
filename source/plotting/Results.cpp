@@ -259,7 +259,7 @@ Crosssection Results::MIPoisson(Significance significance, double signal_efficie
     ROOT::Math::RootFinder root_finder(ROOT::Math::RootFinder::kGSL_BRENT);
     auto success = root_finder.Solve(function, range.Min(), range.Max());
     auto crosssection = root_finder.Root() * fb;
-    CHECK(success && std::abs(function(crosssection / fb)) < std::numeric_limits<float>::epsilon(), success, step, crosssection, function(crosssection / fb));
+    CHECK(success && std::abs(function(crosssection / fb)) < std::numeric_limits<float>::epsilon(), success, step, crosssection/*, function(crosssection / fb)*/);
     return crosssection;
 }
 

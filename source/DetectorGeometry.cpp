@@ -189,6 +189,7 @@ double DetectorGeometry::Experimental()
 {
     // minimal alowed s over b value
     return 10_mU; // aka 1%
+    return 100_mU; // aka 10%
 }
 
 boca::Font DetectorGeometry::Font()

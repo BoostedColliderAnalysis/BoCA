@@ -13,17 +13,21 @@ namespace boca
 
 PseudoJet::PseudoJet() :
     fastjet::PseudoJet()
-{}
+{
+//     ALIVE()
+}
 
 PseudoJet::PseudoJet(TLorentzVector const& vector) :
     fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E())
 {
-    DEBUG(vector.Px(), px(), vector.Py(), py());
+    INFO(vector.Px(), px(), vector.Py(), py());
 }
 
 PseudoJet::PseudoJet(LorentzVector<Momentum> const& vector) :
     fastjet::PseudoJet(vector.Px() / GeV, vector.Py() / GeV, vector.Pz() / GeV, vector.E() / GeV)
-{}
+{
+    INFO0;
+}
 
 Momentum PseudoJet::Pt() const
 {
