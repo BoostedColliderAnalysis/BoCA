@@ -25,12 +25,12 @@ QHTT.cc
 create_library(HEP HEPSources)
 
 set(BoostedBSources
-# TopTagger.cpp
-# TopTaggerFixedR.cpp
-# TopTagger2.cpp
-# FWM.cc
-# LowPt.cc
-# QHTT.cc
+TopTagger.cpp
+TopTaggerFixedR.cpp
+TopTagger2.cpp
+FWM.cc
+LowPt.cc
+QHTT.cc
 MuXboostedBTagging.cpp
 )
 create_library(BoostedB BoostedBSources)

@@ -8,15 +8,6 @@
 namespace boca
 {
 
-std::string Name(Tag tag)
-{
-    switch (tag) {
-    case Tag::signal : return "Signal";
-    case Tag::background : return "Background";
-    DEFAULT("tag","");
-    }
-}
-
 Identification::Identification()
 {
     bdt_ = InitialValue();

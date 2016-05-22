@@ -24,36 +24,25 @@ add_subdirectory(plotting)
 
 create_dictionary(Branches Branches.cpp Branches.hh LinkDef.hh)
 
-set(shape_sources
-HemisphereMasses.cpp
-EventShapes.cpp
+set(boca_sources
+Tag.cpp
 Names.cpp
-)
-create_library(EventShapes shape_sources)
-
-set(event_sources
-Event.cpp
-)
-create_library(Event event_sources)
-
-set(analysis_sources
 MomentumRange.cpp
+PreCuts.cpp
+Settings.cpp
+Constituent.cpp
 Observable.cpp
 Observables.cpp
-PreCuts.cpp
-Constituent.cpp
-Settings.cpp
+HemisphereMasses.cpp
+EventShapes.cpp
+Event.cpp
 WimpMass.cpp
-)
-create_library(Analysis analysis_sources)
-
-set(tagger_sources
 GlobalObservables.cpp
 GlobalTagger.cpp
 File.cpp
 Tagger.cpp
 AnalysisBase.cpp
 )
-create_library(Tagger tagger_sources)
+create_library(Boca boca_sources)
 
 add_subdirectory(standardmodel)

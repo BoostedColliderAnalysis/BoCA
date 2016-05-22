@@ -5,7 +5,7 @@
 
 #include "boca/physics/Rectangle.hh"
 #include "boca/plotting/Result.hh"
-#include "boca/multiplets/Identification.hh"
+#include "boca/Tag.hh"
 
 namespace boca
 {

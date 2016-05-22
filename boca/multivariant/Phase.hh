@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/multiplets/Identification.hh"
+#include "boca/Tag.hh"
 
 namespace boca
 {
