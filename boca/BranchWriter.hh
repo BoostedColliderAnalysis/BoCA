@@ -38,8 +38,8 @@ public:
     }
 
     ~BranchWriter() {
-      std::cout << "PreCut ratio: " << RoundToDigits(static_cast<double>(object_sum_.load()) / event_sum_.load()) << std::endl;
-      if (object_sum_.load()) TreeWriter().Write();
+        std::cout << "PreCut ratio: " << RoundToDigits(static_cast<double>(object_sum_.load()) / event_sum_.load()) << std::endl;
+        if (object_sum_.load()) TreeWriter().Write();
     }
 
     void SafeEntry() {
@@ -53,7 +53,7 @@ public:
         object_sum_ += number;
 //         if (number > 0)
         ++event_sum_;
-        Debug("event: ", event_sum_.load(), "object: ", object_sum_.load());
+        if (debug_) Debug("event: ", event_sum_.load(), "object: ", object_sum_.load());
     }
 
     boca::Reader<Tagger_> Reader() const {
@@ -65,7 +65,7 @@ public:
     }
 
     bool KeepGoing(std::function<long(Stage)> const& event_number_max) const {
-      return object_sum_.load() < event_number_max(Phase().Stage());
+        return object_sum_.load() < event_number_max(Phase().Stage());
     }
 
     boca::Phase Phase() const {
@@ -103,6 +103,8 @@ private:
     boca::TreeBranch* tree_branch_;
 
     std::mutex write_mutex;
+
+    bool debug_ = false;
 
 };
 

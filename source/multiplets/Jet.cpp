@@ -193,11 +193,6 @@ std::vector< Jet > Jet::Constituents() const
     return {*this};
 }
 
-LorentzVector< Momentum > Jet::Vector() const
-{
-    return {Px(), Py(), Pz(), Energy()};
-}
-
 double Jet::Bdt() const
 {
     return Info().Bdt();

@@ -46,7 +46,7 @@ public:
 private:
 
     std::string AnalysisName() const override {
-        return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-ca-test";
+        return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-revised";
 //       return  Name(production_channel()) + "_" + Name(this->Collider()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
     }
 
@@ -77,6 +77,7 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const override {
+//         Debug("muons: ", event.Muons().size());
         auto particles = SortedByPt(event.GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());

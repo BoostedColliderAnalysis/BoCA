@@ -4,8 +4,9 @@
 create_dictionary(ExRoot ExRootClasses.cc ExRootClasses.h LinkDef.hh exroot)
 
 set(EventExRootSources
-Partons.cpp
-Leptons.cpp
-Hadrons.cpp
+# Partons.cpp
+# Leptons.cpp
+# Hadrons.cpp
+Event.cpp
 )
 create_library(EventExRoot EventExRootSources)

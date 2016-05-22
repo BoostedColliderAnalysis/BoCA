@@ -6,6 +6,7 @@
 #include "boca/multiplets/Singlet.hh"
 #include "boca/TaggerTemplate.hh"
 #include "boca/standardmodel/Branches.hh"
+#include "boca/external/MuXboostedBTagging.hh"
 
 
 namespace boca
@@ -78,6 +79,8 @@ private:
     std::vector<Jet> SubJets(std::vector<Jet> const& jets, int sub_jet_number) const;
 
     Mass bottom_max_mass_;
+
+    MuXboostedBTagging muon_b_tagging_;
 
 };
 

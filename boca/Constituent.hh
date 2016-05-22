@@ -4,6 +4,7 @@
 #pragma once
 
 #include "boca/math/LorentzVector.hh"
+#include "boca/physics/Family.hh"
 
 namespace boca {
 
@@ -16,6 +17,8 @@ enum class DetectorPart {
     muon
 };
 
+std::string Name(DetectorPart detector_part);
+
 class Constituent {
 
 public:
@@ -24,13 +27,13 @@ public:
 
     Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position);
 
-    Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, boca::DetectorPart detector_part, int charge = 0);
+    Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, boca::Family const& family, boca::DetectorPart detector_part, int charge = 0);
 
     Constituent(TLorentzVector const& momentum);
 
-    Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part, int charge);
+    Constituent(TLorentzVector const& momentum, boca::Family const& family, boca::DetectorPart detector_part, int charge);
 
-    Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part);
+    Constituent(TLorentzVector const& momentum, std::vector<boca::Family> const& families, boca::DetectorPart detector_part);
 
     void SetMomentum(TLorentzVector const& momentum);
 
@@ -54,6 +57,8 @@ public:
 
     Constituent operator+(Constituent const& constituent);
 
+    std::vector<boca::Family> Families() const;
+
 private:
 
     boca::DetectorPart detector_part_ = boca::DetectorPart::none;
@@ -63,6 +68,8 @@ private:
     LorentzVector<boca::Momentum> momentum_;
 
     int charge_ = 0;
+
+    std::vector<boca::Family> families_;
 };
 
 }

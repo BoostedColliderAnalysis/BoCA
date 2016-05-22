@@ -5,7 +5,7 @@
 
 #include "boca/multiplets/Identification.hh"
 #include "boca/multiplets/Particle.hh"
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 #include "boca/physics/Units.hh"
 
 namespace boca

@@ -20,13 +20,13 @@ bool TreeReaderArray::Iterator::IsValid() const
 }
 
 // Compare two iterators as equal; follow C++14 requiring two past-end iterators to be equal.
-bool TreeReaderArray::Iterator::operator==(const Iterator& iter) const
+bool TreeReaderArray::Iterator::operator==(Iterator const& iter) const
 {
     if (!IsValid() && !iter.IsValid()) return true;
     return index_ == iter.index_ && array_ == iter.array_;
 }
 
-bool TreeReaderArray::Iterator::operator!=(const Iterator& iter) const
+bool TreeReaderArray::Iterator::operator!=(Iterator const& iter) const
 {
     return !(*this == iter);
 }

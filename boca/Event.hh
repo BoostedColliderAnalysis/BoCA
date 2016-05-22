@@ -3,13 +3,27 @@
  */
 #pragma once
 
-#include "boca/Partons.hh"
-#include "boca/Hadrons.hh"
-#include "boca/Isolation.hh"
-#include "boca/Settings.hh"
+#include "boca/generic/Flag.hh"
+#include "boca/multiplets/Jet.hh"
+#include "boca/multiplets/Particle.hh"
 
 namespace boca
 {
+
+enum class JetDetail
+{
+    none = 0,
+    plain = 1 << 0,
+    structure = 1 << 1,
+    isolation = 1 << 2,
+};
+
+template<>
+struct Flag<JetDetail> {
+    static const bool enable = true;
+};
+
+std::string Name(JetDetail jet_detail);
 
 enum class Decay
 {
@@ -18,6 +32,16 @@ enum class Decay
 };
 
 std::string Name(Decay decay);
+
+enum class Status
+{
+  none = 0,
+  stable = 1,
+  unstable = 2,
+  generator = 3
+};
+
+class TreeReader;
 
 /**
  * @brief Base class for the event Topology
@@ -28,83 +52,37 @@ class Event
 
 public:
 
-    Event(TreeReader const& tree_reader, Source source);
+    Event(boca::TreeReader const& tree_reader);
 
-    virtual ~Event();
+    std::vector<Particle> GenParticles() const;
 
-    std::vector<Lepton> Leptons() const {
-        return Leptons_().leptons();
-    }
+    std::vector<Particle> Particles() const;
 
-    std::vector<Lepton> Electrons() const {
-        return Leptons_().Electrons();
-    }
+    virtual std::vector<Lepton> Leptons() const;
 
-    std::vector<Lepton> Muons() const {
-        return Leptons_().Muons();
-    }
+    virtual std::vector<Lepton> Electrons() const = 0;
 
-    std::vector<Lepton> Photons() const {
-        return Leptons_().Photons();
-    }
+    virtual std::vector<Lepton> Muons() const = 0;
 
-    std::vector<Particle> GenParticles() const {
-        return Partons().GenParticles();
-    }
+    virtual std::vector<Lepton> Photons() const = 0;
 
-    std::vector<Particle> Particles() const {
-        return Partons().Particles();
-    }
+    virtual std::vector<Jet> Jets() const = 0;
 
-    Momentum ScalarHt() const {
-        return Hadrons().ScalarHt();
-    }
+    virtual Momentum ScalarHt() const;
 
-    boca::MissingEt MissingEt() const {
-        return Hadrons().MissingEt();
-    }
+    virtual boca::MissingEt MissingEt() const;
 
-    std::vector<Jet> Jets() const {
-        return Hadrons().Jets();
-    }
+    virtual std::vector<Jet> EFlow(JetDetail jet_detail) const;
 
-    std::vector<Jet> EFlow(JetDetail jet_detail) const {
-        return Hadrons().EFlow(jet_detail);
-    }
+protected:
+
+    boca::TreeReader const& TreeReader() const;
 
 private:
 
-    boca::Hadrons const& Hadrons() const;
+    virtual std::vector<Particle> Particles(Status max_status) const = 0;
 
-    boca::Leptons const& Leptons_() const;
-
-    boca::Partons const& Partons() const;
-
-    std::vector<Lepton> IsolatedLeptons();
-
-    friend class Isolation;
-
-    /**
-     * @brief Leptons
-     *
-     */
-    boca::Leptons* leptons_ = nullptr;
-
-    /**
-     * @brief Particles
-     *
-     */
-    boca::Partons* partons_ = nullptr;
-
-    /**
-     * @brief Jets
-     *
-     */
-    boca::Hadrons* hadrons_ = nullptr;
-
-    Isolation isolation_;
-
-    Source source_;
+    boca::TreeReader const* tree_reader_;
 
 };
 

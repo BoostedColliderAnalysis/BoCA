@@ -3,7 +3,7 @@
  */
 #include "boca/generic/Types.hh"
 #include "boca/physics/Member.hh"
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca

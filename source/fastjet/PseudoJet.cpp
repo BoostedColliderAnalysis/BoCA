@@ -134,5 +134,27 @@ Vector2<Angle> PseudoJet::Angles(Vector2<Angle> const& angles) const
     auto distance_2 = (angles - angles_2).Mod2();
     return distance_2 < distance_1 ? angles_2 : angles_1;
 }
+MomentumSquare PseudoJet::ModP2() const
+{
+    return modp2() * GeV2;
+}
+Momentum PseudoJet::ModP() const
+{
+    return modp() * GeV;
+}
+
+LorentzVector< Momentum > PseudoJet::Vector() const
+{
+    return {Px(), Py(), Pz(), Energy()};
+}
+
+Vector3< Momentum > PseudoJet::Vector3() const
+{
+    return Vector().Vector();
+}
+void PseudoJet::ScaleMomentum(double factor)
+{
+    reset_momentum(px() * factor, py() * factor, pz() * factor, e());
+}
 
 }

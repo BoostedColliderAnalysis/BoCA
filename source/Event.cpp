@@ -1,17 +1,10 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/Event.hh"
-#include "boca/delphes/Partons.hh"
-
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Types.hh"
-#include "boca/delphes/Leptons.hh"
-#include "boca/delphes/Hadrons.hh"
-#include "boca/exroot/Leptons.hh"
-#include "boca/exroot/Hadrons.hh"
-#include "boca/exroot/Partons.hh"
 #include "boca/Settings.hh"
+#include "boca/Event.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -26,85 +19,42 @@ std::string Name(Decay decay)
     }
 }
 
-Event::Event(TreeReader const& tree_reader, Source source) : isolation_(*this, tree_reader)
+std::string Name(JetDetail jet_detail)
+{
+    std::string name;
+    FlagSwitch(jet_detail, [&](JetDetail detail) {
+        switch (detail) {
+        case JetDetail::none : name += "None ";
+            break;
+        case JetDetail::plain : name += "Plain ";
+            break;
+        case JetDetail::isolation : name += "Isolation ";
+            break;
+        case JetDetail::structure : name += "Structure ";
+            break;
+            DEFAULT(to_int(detail));
+        }
+    });
+    return name;
+}
+
+Event::Event(boca::TreeReader const& tree_reader) : tree_reader_(&tree_reader)
 {
     INFO0;
-    source_ = source;
-    switch (source_) {
-    case Source::delphes :
-        partons_ = new delphes::Partons(tree_reader);
-        hadrons_ = new delphes::Hadrons(tree_reader);
-        leptons_ = new delphes::Leptons(tree_reader);
-        break;
-    case Source::pgs :
-        leptons_ = new exroot::Leptons(tree_reader);
-        hadrons_ = new exroot::Hadrons(tree_reader);
-        break;
-    case Source::parton :
-        partons_ = new exroot::Partons(tree_reader);
-        break;
-        DEFAULT(Name(source_));
-    }
 }
 
-Event::~Event()
+std::vector< Lepton > Event::Leptons() const
 {
     INFO0;
-    switch (source_) {
-    case Source::delphes :
-        delete partons_;
-        delete leptons_;
-        delete hadrons_;
-        break;
-    case Source::pgs :
-        delete leptons_;
-        delete hadrons_;
-        break;
-    case Source::parton:
-        delete partons_;
-        break;
-        DEFAULT(Name(source_));
-    }
-    partons_ = nullptr;
-    leptons_ = nullptr;
-    hadrons_ = nullptr;
-}
-
-Hadrons const& Event::Hadrons() const
-{
-    return *hadrons_;
-}
-
-Leptons const& Event::Leptons_() const
-{
-    INFO(Name(Settings::Collider()));
-    switch (Settings::Collider()) {
-    case Collider::lhc :
-        return isolation_;
-        return *leptons_;
-    case Collider::future :
-        return isolation_;
-        return *leptons_;
-        DEFAULT(Name(Settings::Collider()), *leptons_)
-    }
-}
-
-Partons const& Event::Partons() const
-{
-    return *partons_;
-}
-
-std::vector<Lepton> Event::IsolatedLeptons()
-{
-    INFO0;
+    if (!Settings::Isolation()) return Combine(Electrons(), Muons());
     std::vector<Lepton> leptons;
-    for (auto const & lepton : leptons_->leptons()) {
+    for (auto const & lepton : Combine(Electrons(), Muons())) {
         if (lepton.Pt() > Settings::HardLeptonMomentum()) {
             leptons.emplace_back(lepton);
             continue;
         }
         auto isolated = true;
-        for (auto const & jet : hadrons_->Jets())
+        for (auto const & jet : Jets())
             if (Close<Lepton>(lepton, Settings::IsolationConeSize())(jet) && jet.Pt() / lepton.Pt() > Settings::IsolationFraction()) {
                 isolated = false;
                 break;
@@ -112,6 +62,39 @@ std::vector<Lepton> Event::IsolatedLeptons()
         if (isolated) leptons.emplace_back(lepton);
     }
     return leptons;
+}
+
+std::vector<Particle> Event::Particles() const
+{
+    return Particles(Status::stable);
+}
+
+std::vector<Particle> Event::GenParticles() const
+{
+    return Particles(Status::generator);
+}
+
+Momentum Event::ScalarHt() const
+{
+    Error("No scalar Ht");
+    return at_rest;
+}
+
+boca::MissingEt Event::MissingEt() const
+{
+    Error("No missing Et");
+    return {};
+}
+
+std::vector<Jet> Event::EFlow(JetDetail) const
+{
+    Error("No EFlow Jets");
+    return {};
+}
+
+boca::TreeReader const& Event::TreeReader() const
+{
+    return *tree_reader_;
 }
 
 }

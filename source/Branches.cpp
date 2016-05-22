@@ -15,11 +15,6 @@ float BaseBranch::InitialValue()
     return -11.1111111; // must be non integer
 }
 
-float BottomBase::InValue()
-{
-    return BaseBranch::InitialValue();
-}
-
 InfoBranch::InfoBranch()
 {
     INFO0;
@@ -147,30 +142,6 @@ Observables ParticleBranch::Variables()
 Observables ParticleBranch::Spectators()
 {
     return BdtBranch::Spectators() + OBSERVABLE(Charge, "e") + OBSERVABLE(Rap, "\\eta") + OBSERVABLE(Phi, "\\phi");
-}
-
-BottomBase::BottomBase()
-{
-    VertexMass = InValue();
-    MaxDisplacement = InValue();
-    MeanDisplacement = InValue();
-    SumDisplacement = InValue();
-    Multiplicity = static_cast<int>(InValue());
-    Radius = InValue();
-    Spread = InValue();
-    VertexRadius = InValue();
-    VertexSpread = InValue();
-    EnergyFraction = InValue();
-}
-
-Observables BottomBase::Variables()
-{
-    return OBSERVABLE(VertexMass, latex::String("m_{V}") + " [GeV]") + OBSERVABLE(MaxDisplacement, "log(" + latex::String("\\Delta d") + "_{max} / mm)") + OBSERVABLE(MeanDisplacement, "log(" + latex::String("\\Delta d") + "_{mean} / mm)") + OBSERVABLE(SumDisplacement, "log(" + latex::String("\\Delta d") + "_{sum} / mm)") + OBSERVABLE(Multiplicity, latex::String("n_{V}")) + OBSERVABLE(Radius, latex::String("r")) + OBSERVABLE(Spread, latex::String("s")) + OBSERVABLE(VertexRadius, latex::String("r_{V}")) + OBSERVABLE(VertexSpread, latex::String("s_{V}")) + OBSERVABLE(EnergyFraction, latex::String("f_{E}"));
-}
-
-Observables BottomBase::Spectators()
-{
-    return {};
 }
 
 PairBranch::PairBranch()

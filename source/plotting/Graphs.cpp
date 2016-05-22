@@ -1,6 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+#include <limits>
 #include <boost/range/algorithm_ext/erase.hpp>
 
 #include "TAxis.h"
@@ -35,6 +36,7 @@ void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& 
     range_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
     auto ys2 = ys;
     range_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
+    ERROR(range_.YMin());
     TGraph graph(xs.size(), xs.data(), ys.data());
     SetLine(graph, graphs_.size());
     graph.SetTitle(name.str(latex::Medium::root).c_str());
@@ -67,8 +69,11 @@ void Graphs::SetXAxis(latex::String const& title, boca::Range<double> const& ran
     INFO0;
     if (range) {
         range_.SetX(range);
+        ERROR(range_.YMin());
         range_.ResetY();
+        ERROR(range_.YMin());
         for (auto const & data : datas_) range_.WidenY(range, data.first, data.second);
+        ERROR(range_.YMin());
     }
     AddGraphs();
     if (!multi_graph_.GetXaxis()) return;
@@ -79,8 +84,10 @@ void Graphs::SetXAxis(latex::String const& title, boca::Range<double> const& ran
 
 void Graphs::SetYAxis(latex::String const& title, boca::Range<double> const& range)
 {
-    INFO0;
+    ERROR(title.str(latex::Medium::plain), range_.YMin(), range.Min());
+    if(range_.YMin() == std::numeric_limits<double>::max()) range_.Vertical().SetMin(1E-3);
     range_.WidenY(range);
+    ERROR(range_.YMin());
 //     if (range) {
 //         range_.SetY(range);
 //         range_.ResetX();
@@ -95,7 +102,9 @@ void Graphs::SetYAxis(latex::String const& title, boca::Range<double> const& ran
     INFO("set title", range_.Vertical().Floor(), range_.Vertical().Ceil());
     SetAxis(*multi_graph_.GetYaxis(), title);
     auto log = SetLog(range_.Vertical());
-    auto min = log && range_.Vertical().Floor() == 0 ? range_.Vertical().Min() : range_.Vertical().Floor();
+    ERROR(range_.Vertical().Floor(), range_.Vertical().Min());
+    auto min = log && (range_.Vertical().Floor() <= std::numeric_limits<double>::epsilon(), range_.Vertical().Floor() > 10E100) ? range_.Vertical().Min() : range_.Vertical().Floor();
+    ERROR(min);
     multi_graph_.GetYaxis()->SetLimits(min, range_.Vertical().Ceil());
     multi_graph_.SetMinimum(min);
     multi_graph_.SetMaximum(range_.Vertical().Ceil());

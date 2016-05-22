@@ -71,6 +71,14 @@ public:
 
     int Charge() const;
 
+    double EnergyRatio() const {
+      return Info().EnergyRatio();
+    }
+
+    double MomentumRatio() const{
+      return Info().MomentumRatio();
+    }
+
     Singlet const& ConstituentJet() const;
 
     Vector2<AngleSquare> Pull() const;

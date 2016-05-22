@@ -216,4 +216,11 @@ boca::Source Settings::Source()
     return boca::Source::parton;
 }
 
+bool Settings::Isolation()
+{
+    return true;
+    return false;
+}
+
+
 }

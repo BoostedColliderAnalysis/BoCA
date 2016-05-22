@@ -14,22 +14,23 @@ QJetsPlugin.cpp
 )
 create_library(QJet QJetSources)
 
-set(HEP1Sources
+set(HEPSources
 TopTagger.cpp
 TopTaggerFixedR.cpp
+TopTagger2.cpp
+FWM.cc
+LowPt.cc
+QHTT.cc
+)
+create_library(HEP HEPSources)
+
+set(BoostedBSources
+# TopTagger.cpp
+# TopTaggerFixedR.cpp
 # TopTagger2.cpp
 # FWM.cc
 # LowPt.cc
 # QHTT.cc
+MuXboostedBTagging.cpp
 )
-create_library(HEP1 HEP1Sources)
-
-set(HEPSources
-# TopTagger.cpp
-# TopTaggerFixedR.cpp
-TopTagger2.cpp
-# FWM.cc
-# LowPt.cc
-# QHTT.cc
-)
-create_library(HEP HEPSources)
+create_library(BoostedB BoostedBSources)

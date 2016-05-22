@@ -5,6 +5,7 @@
 
 #include "boca/physics/Rectangle.hh"
 #include "boca/plotting/Result.hh"
+#include "boca/multiplets/Identification.hh"
 
 namespace boca
 {
@@ -20,7 +21,7 @@ public:
     std::vector<double> const& XValues() const;
     void CutEfficiencies();
     std::vector<double> const& SelectedEfficiencies() const;
-    static double ScalingFactor();
+    static double ScalingFactor(Tag tag);
 private:
     void CalculateSignificance(Result& signal, Significance significance, int step);
     void CalculateSignificance(Result& signal, Significance significance);

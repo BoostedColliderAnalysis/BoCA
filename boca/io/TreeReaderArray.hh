@@ -27,9 +27,9 @@ public:
 
         bool IsValid() const;
 
-        bool operator==(const Iterator& iter) const;
+        bool operator==(Iterator const& iter) const;
 
-        bool operator!=(const Iterator& iter) const;
+        bool operator!=(Iterator const& iter) const;
 
         Iterator operator++(int);
 

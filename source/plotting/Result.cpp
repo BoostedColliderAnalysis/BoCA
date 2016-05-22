@@ -13,127 +13,6 @@
 namespace boca
 {
 
-std::vector< Significance > Constrained(std::vector<Significance> const& significances)
-{
-    INFO0;
-    return Transform(significances, [](Significance significance) {
-        return significance | Significance::experimental;
-    });
-}
-
-std::vector< Significance > Exclusion(std::vector<Significance> const& significances)
-{
-    INFO0;
-    return Transform(significances, [](Significance significance) {
-        return significance | Significance::exclusion;
-    });
-}
-
-std::vector< Significance > Discovery(std::vector<Significance> const& significances)
-{
-    INFO0;
-    return Transform(significances, [](Significance significance) {
-        return significance | Significance::discovery;
-    });
-}
-std::vector< Significance > SignificancesSimple()
-{
-    INFO0;
-    return {Significance::sum, Significance::background};
-}
-
-std::vector< Significance > SignificancesMD()
-{
-    INFO0;
-    return Combine(SignificancesSimple(), Exclusion( {Significance::poisson}), Discovery( {Significance::poisson}));
-}
-
-std::vector< Significance > SignificancesBase()
-{
-    INFO0;
-    return Combine(SignificancesSimple(), {Significance::poisson});
-}
-
-std::vector< Significance > SignificancesMI()
-{
-    INFO0;
-    return Combine(Exclusion(SignificancesBase()), Discovery(SignificancesBase()));
-}
-
-std::vector< Significance > SignificancesMDI()
-{
-    INFO0;
-    return Combine(SignificancesMI(), SignificancesSimple(), {Significance::experimental});
-}
-
-std::vector< Significance > Significances()
-{
-    INFO0;
-    return Combine(Constrained(Combine(SignificancesMI(), SignificancesSimple())), SignificancesMDI());
-}
-
-std::string Name(Significance significance)
-{
-    INFO0;
-    std::string name;
-    FlagSwitch(significance, [&](Significance signific) {
-        switch (signific) {
-        case Significance::none : name += "None ";
-            break;
-        case Significance::experimental : name += "Experimental ";
-            break;
-        case Significance::background : name += "Background ";
-            break;
-        case Significance::sum : name += "Sum ";
-            break;
-        case Significance::discovery : name += "Discovery ";
-            break;
-        case Significance::exclusion : name += "Exclusion ";
-            break;
-        case Significance::poisson : name += "Poisson ";
-            break;
-            DEFAULT(to_int(signific));
-        }
-    });
-    return name;
-}
-
-latex::String LatexName(Significance significance)
-{
-    INFO0;
-    latex::String name;
-    FlagSwitch(significance, [&](Significance signific) {
-        switch (signific) {
-        case Significance::experimental :
-            name += name.empty() ? "" : " and " ;
-            name += "\\frac{S}{B}";
-            break;
-        case Significance::background :
-            name += name.empty() ? "" : " and " ;
-            name += "\\frac{S}{\\sqrt{B}}";
-            break;
-        case Significance::sum :
-            name += name.empty() ? "" : " and " ;
-            name += "\\frac{S}{\\sqrt{S + B}}";
-            break;
-        case Significance::discovery :
-//           name += name.empty() ? "" : " and " ;
-            name += "|_{5}";
-            break;
-        case Significance::exclusion :
-//           name += name.empty() ? "" : " and " ;
-            name += "|_{2}";
-            break;
-        case Significance::poisson :
-            name += name.empty() ? "" : " and " ;
-            name += "\\sqrt{-2ln\\frac{L_{0}}{L_{1}}}";
-            break;
-            DEFAULT(to_int(signific));
-        }
-    });
-    return name;
-}
-
 TMVA::Types::EMVA Result::mva_ = TMVA::Types::EMVA::kVariable;
 
 std::vector<std::vector<bool>> Result::passed_;
@@ -223,7 +102,7 @@ std::vector<Crosssection> const& Result::Crosssections() const
     INFO0;
     return crosssections_.Get([&]() {
         return Transform(PreCutEfficiencies(), [&](double efficiency) {
-            return InfoBranch().Crosssection() * efficiency;
+            return InfoBranch().Crosssection() * efficiency * ScalingFactor();
         });
     });
 }
@@ -234,7 +113,7 @@ std::vector<int> const& Result::PartialSum() const
     return event_sums_.Get([&]() {
         std::vector<int> event_sums(Steps());
         switch (Mva()) {
-        case TMVA::Types::EMVA::kBDT : boost::partial_sum(boost::adaptors::reverse(Bins()) , event_sums.rbegin());
+        case TMVA::Types::EMVA::kBDT : boost::partial_sum(boost::adaptors::reverse(Bins()), event_sums.rbegin());
             break;
         case TMVA::Types::EMVA::kCuts : for (auto const & passed : passed_) for (auto step : IntegerRange(Steps())) if (passed.at(step)) ++event_sums.at(step);
             break;
@@ -391,6 +270,16 @@ int Result::TrainerSize() const
 {
     INFO0;
     return trainer_size_;
+}
+
+void Result::SetScalingFactor(double scaling_factor)
+{
+    scaling_factor_ = scaling_factor;
+}
+
+double Result::ScalingFactor() const
+{
+    return scaling_factor_;
 }
 
 }

@@ -58,13 +58,11 @@ public:
 
     std::vector<Jet> Constituents() const;
 
-    LorentzVector<Momentum> Vector() const;
-
     double Bdt() const;
 
-protected:
-
     void SetInfo(JetInfo const& info = JetInfo());
+
+protected:
 
     void ResetInfo(JetInfo const& info);
 

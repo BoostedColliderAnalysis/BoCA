@@ -12,7 +12,7 @@
 #include "boca/delphes/Classes.hh"
 
 #include "boca/math/LorentzVector.hh"
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 
 namespace boca
 {

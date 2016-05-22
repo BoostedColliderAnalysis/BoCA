@@ -27,7 +27,8 @@ public:
     template<typename Value>
     bool SetLog(Range<Value> const& range) {
         if(debug_) Debug("min: ", range.Min(), "max: ", range.Max());
-        if (range.Min() < Value(0) || range.Min() / range.Max() < 10_mU) return false;
+        if (range.Min() < Value(0) || range.Min() / range.Max() > 50_mU) return false;
+        if(debug_) Debug("set log", true);
         canvas_.SetLogy();
         return true;
     }
@@ -68,7 +69,7 @@ private:
 
     std::string path_;
 
-    bool debug_ = false;
+    bool debug_ = true;
 
 };
 

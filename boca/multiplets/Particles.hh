@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/multiplets/Particle.hh"
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 
 namespace boca
 {

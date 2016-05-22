@@ -201,8 +201,9 @@ latex::Graphic PlottingBase::PlotAcceptanceGraph(Results const& results) const
     std::vector<std::string> names;
     for (auto const & signal : results.Signals()) {
         Graphs graphs(Tagger().ExportFolderName(), "Acceptance" + std::to_string(Position(results.Signals(), signal)));
+        graphs.AddGraph(signal.PureEfficiencies(), signal.PureEfficiencies(), signal.InfoBranch().LatexName());
         for (auto const & background : results.Backgrounds()) graphs.AddGraph(signal.PureEfficiencies(), background.PureEfficiencies(), background.InfoBranch().LatexName());
-        graphs.SetLegend(Orientation::right | Orientation::bottom, signal.InfoBranch().LatexName());
+        graphs.SetLegend(Orientation::right | Orientation::bottom/*, signal.InfoBranch().LatexName()*/);
         graphs.SetXAxis("Signal acceptance", {0.2, 0.9});
         graphs.SetYAxis("Background acceptance", {1e-3, 1});
         names.emplace_back(graphs.FileBaseName());
@@ -393,7 +394,7 @@ std::string Red(int value)
 
 }
 
-latex::Row PlottingBase::EfficienciesRow(Result const& result, int, Tag , int bin) const
+latex::Row PlottingBase::EfficienciesRow(Result const& result, int, Tag tag, int bin) const
 {
     INFO0;
     latex::Row row(result.InfoBranch().Names().Latex().str(latex::Medium::latex));
@@ -401,8 +402,8 @@ latex::Row PlottingBase::EfficienciesRow(Result const& result, int, Tag , int bi
     row.AddCell(result.PartialSum().front());
     row.AddCell(Red(result.PartialSum().at(bin)));
     row.AddCell(RoundToDigits(result.PreCutEfficiencies().at(bin)));
-    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() / fb * Results::ScalingFactor()));
-    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() * Settings::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor()));
+    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() / fb * Results::ScalingFactor(tag)));
+    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() * Settings::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor(tag)));
     return row;
 }
 

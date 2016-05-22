@@ -38,6 +38,8 @@ public :
 
     void AddConstituents(fastjet::PseudoJet const& jet, std::vector<fastjet::PseudoJet>& subjet_vector) const;
 
+    void NoLongerNeeded();
+
 private :
 
     fastjet::ClusterSequence* cluster_sequence_;

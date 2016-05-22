@@ -5,7 +5,7 @@
 
 #include <boost/range/algorithm/sort.hpp>
 #include <boost/units/cmath.hpp>
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 
 namespace boca
 {

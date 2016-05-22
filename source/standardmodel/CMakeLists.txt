@@ -18,7 +18,6 @@ create_library(SmTagger sm_tagger_sources)
 
 set(TaggerLibraries
 AnalysisStandardModel.cpp
-AnalysisBottom.cpp
 )
 create_library(AnalysisTagger TaggerLibraries)
 

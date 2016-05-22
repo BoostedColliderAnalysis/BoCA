@@ -10,6 +10,39 @@ namespace boca
 namespace standardmodel
 {
 
+BottomBase::BottomBase()
+{
+    VertexMass = InValue();
+    MaxDisplacement = InValue();
+    MeanDisplacement = InValue();
+    SumDisplacement = InValue();
+    Multiplicity = static_cast<int>(InValue());
+    Radius = InValue();
+    Spread = InValue();
+    VertexRadius = InValue();
+    VertexSpread = InValue();
+    EnergyFraction = InValue();
+    EnergyRatio = InValue();
+    MomentumRatio = InValue();
+}
+
+Observables BottomBase::Variables()
+{
+    return OBSERVABLE(VertexMass, latex::String("m_{V}") + " [GeV]") + OBSERVABLE(MaxDisplacement, "log(" + latex::String("\\Delta d") + "_{max} / mm)") + OBSERVABLE(MeanDisplacement, "log(" + latex::String("\\Delta d") + "_{mean} / mm)") + OBSERVABLE(SumDisplacement, "log(" + latex::String("\\Delta d") + "_{sum} / mm)") + OBSERVABLE(Multiplicity, latex::String("n_{V}")) + OBSERVABLE(Radius, latex::String("r")) + OBSERVABLE(Spread, latex::String("s")) + OBSERVABLE(VertexRadius, latex::String("r_{V}")) + OBSERVABLE(VertexSpread, latex::String("s_{V}")) + OBSERVABLE(EnergyFraction, latex::String("f_{E}"))
+//     + OBSERVABLE(EnergyRatio, latex::String("r_{E}")) + OBSERVABLE(MomentumRatio, latex::String("r_{p}"))
+    ;
+}
+
+Observables BottomBase::Spectators()
+{
+    return {};
+}
+
+float BottomBase::InValue()
+{
+    return BaseBranch::InitialValue();
+}
+
 Observables BottomBranch::Variables()
 {
     return ParticleBranch::Variables() + BottomBase::Variables();

@@ -9,8 +9,9 @@ create_library(DelphesFactory DelphesFactorySources)
 create_dictionary(Delphes DelphesClasses.cc DelphesClasses.h LinkDef.hh delphes)
 
 set(EventDelphesSources
-Partons.cpp
-Leptons.cpp
-Hadrons.cpp
+# Partons.cpp
+# Leptons.cpp
+# Hadrons.cpp
+Event.cpp
 )
 create_library(EventDelphes EventDelphesSources)

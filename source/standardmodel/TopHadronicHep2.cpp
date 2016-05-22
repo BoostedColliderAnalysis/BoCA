@@ -4,7 +4,6 @@
 #include "boca/external/TopTagger2.hh"
 
 #include "boca/generic/Exception.hh"
-#include "boca/delphes/Hadrons.hh"
 #include "boca/multiplets/Particles.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/fastjet/ClusterSequence.hh"

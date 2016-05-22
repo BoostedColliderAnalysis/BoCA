@@ -9,8 +9,8 @@
 
 #include "boca/io/TreeReaderArray.hh"
 #include "boca/Settings.hh"
-#include "boca/Event.hh"
-#include "boca/Event.hh"
+#include "boca/delphes/Event.hh"
+#include "boca/exroot/Event.hh"
 
 namespace boca
 {
@@ -75,24 +75,13 @@ public:
 
     TChain & Chain();
 
-    std::unique_ptr<boca::Event> Event() {
-      switch (Settings::Source()) {
-        case Source::delphes : std::make_unique<boca::Event>(*this, Settings::Source());
-        case Source::parton : ;
-        case Source::pgs : std::make_unique<boca::Event>(*this, Settings::Source());
-        default : Error("Evetn function hit Source default value");
-      }
+    boca::delphes::Event DelphesEvent() const {
+      return {*this};
     }
 
-//     boca::Event & Event() {
-//       switch (Settings::Source()) {
-//         case Source::delphes : event_ = std::make_unique<boca::Event>(*this, Settings::Source());
-//         case Source::parton : ;
-//         case Source::pgs : event_ = std::make_unique<exroot::Event>(*this, Settings::Source());
-//         default : Error("Evetn function hit Source default value");
-//       }
-//       return *event_.get();
-//     }
+    boca::exroot::Event ExRootEvent() const{
+      return {*this};
+    }
 
 private:
 

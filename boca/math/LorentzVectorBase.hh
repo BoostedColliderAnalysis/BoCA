@@ -163,9 +163,6 @@ public:
     }
 
 // Get spatial component.
-//     Vector3<Value> Vector() const {
-//         return vector_3_;
-//     }
     Vector3<Value_> const& Vector() const {
         return vector_3_;
     }

@@ -75,7 +75,7 @@ public:
 
     void WidenMin(Value min) {
         if (min > min_) return;
-//         if (min == 0) return;
+        if (min == Value(0)) return;
         min_ = min;
     }
 

@@ -4,7 +4,7 @@
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
 
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 #include "boca/physics/Prefixes.hh"
 #include "boca/generic/Types.hh"
 #include "boca/generic/DEBUG.hh"
@@ -67,7 +67,7 @@ std::string Name(Id id)
     case Id::K : return "K";
     case Id::KS : return "K*";
     case Id::etaP : return "etaP";
-    case Id::D : return "D";
+    case Id::Dpm : return "D+-";
     case Id::DS : return "D*";
     case Id::DS2 : return "D*2";
     case Id::D0 : return "D0";
@@ -75,7 +75,7 @@ std::string Name(Id id)
     case Id::etac : return "etac";
     case Id::B0 : return "B0";
     case Id::B0S : return "B0*";
-    case Id::B : return "B";
+    case Id::Bpm : return "B+-";
     case Id::BS : return "B*";
     case Id::BS0 : return "B*0";
     case Id::BsS0 : return "Bs*0";
@@ -116,6 +116,10 @@ Mass MassOf(Id id)
     case Id::omega : return 0.78265_GeV;
     case Id::neutron : return 1.00866_GeV;
     case Id::proton : return 0.93827_GeV;
+    case Id::Dpm : return 1.8696_GeV;
+    case Id::D0 : return 1.44_GeV;
+    case Id::Bpm : return 5.279_GeV;
+    case Id::B0 : return 5.279_GeV;
     case Id::top_partner: return 1_TeV; //< FIXME remove again
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
         DEFAULT(Name(id), massless);

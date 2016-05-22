@@ -121,6 +121,8 @@ Results::Results(std::vector<Result> const& signals, std::vector<Result> const& 
     backgrounds_(backgrounds)
 {
     INFO0;
+    for(auto & signal : signals_) signal.SetScalingFactor(ScalingFactor(Tag::signal));
+    for(auto & background : backgrounds_) background.SetScalingFactor(ScalingFactor(Tag::background));
 }
 
 std::vector<double> const& Results::XValues() const
@@ -290,9 +292,15 @@ Crosssection Results::MI(Significance significance, double signal_efficiency, in
     return mi;
 }
 
-double Results::ScalingFactor()
+double Results::ScalingFactor(Tag tag)
 {
     INFO0;
+    ERROR("Singal and background are scaled differently");
+    switch(tag){
+      case Tag::signal : return 0.79608; //< remove lambda_T from coupling
+//       case Tag::signal : return 0.20392;
+      case Tag::background : return 1;
+    }
     return 1; // should usually be 1
     ERROR("Semi leptonic BR is beeing removed");
     return 1. / (0.22 * 0.65 * 2); // remove semileptonic branching ratio

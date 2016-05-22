@@ -88,11 +88,12 @@ void Histograms::SetYAxis(latex::String const& title, boca::Range<double> const&
     if (!stack_.GetYaxis()) return;
     SetAxis(*stack_.GetYaxis(), title);
     if (range) {
-        SetLog(range);
+//         SetLog(range);
         stack_.GetYaxis()->SetLimits(range.Min(), range.Max());
         stack_.SetMinimum(range.Min());
         stack_.SetMaximum(range.Max());
-    } else SetLog(RangeY());
+    }
+//     else SetLog(RangeY());
 }
 
 Range<double> Histograms::RangeY()

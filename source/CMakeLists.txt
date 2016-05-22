@@ -33,11 +33,6 @@ create_library(EventShapes shape_sources)
 
 set(event_sources
 Event.cpp
-FourVector.cpp
-Hadrons.cpp
-Partons.cpp
-Leptons.cpp
-Isolation.cpp
 )
 create_library(Event event_sources)
 

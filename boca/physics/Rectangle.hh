@@ -6,6 +6,7 @@
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm_ext/is_sorted.hpp>
+#include <boost/range/algorithm_ext/erase.hpp>
 
 #include "boca/math/Vector2.hh"
 #include "boca/physics/Range.hh"
@@ -167,9 +168,13 @@ public:
     }
 
     template <typename Value2>
-    void WidenY(Range<Value> const& bound_x, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
+    void WidenY(Range<Value> const& bound_x, std::vector<Value2> const& xs1, std::vector<Value2> const& ys1) {
 //         y_.Widen({0.001,1});
-//         std::cout << "bound min " << bound_x.Min() << " bound max " << bound_x.Max() << std::endl;
+      //         std::cout << "bound min " << bound_x.Min() << " bound max " << bound_x.Max() << std::endl;
+      auto xs = xs1;
+      boost::remove_erase(xs, 0);
+      auto ys = ys1;
+      boost::remove_erase(ys, 0);
         Range<int> bound;
         if (boost::range::is_sorted(xs, Smaller<Value2>())) {
 //             std::cout << "smaller" << std::endl;

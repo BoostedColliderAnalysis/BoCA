@@ -138,51 +138,6 @@ private:
     ClassDef(ParticleBranch, 1)
 };
 
-
-/**
- *
- * @brief Bottom tagger root tree structure base class
- * @details this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond
- *
- */
-class BottomBase
-{
-public:
-    BottomBase();
-    float VertexMass;
-    float MaxDisplacement;
-    float MeanDisplacement;
-    float SumDisplacement;
-    float Multiplicity;
-    float Radius;
-    float Spread;
-    float VertexRadius;
-    float VertexSpread;
-    float EnergyFraction;
-    template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
-        Fill2(multiplet.ConstituentJet());
-    }
-    template<typename Singlet>
-    void Fill2(Singlet const& singlet) {
-        VertexMass = singlet.Info().VertexMass() / GeV;
-        MaxDisplacement = singlet.MaxDisplacement();
-        MeanDisplacement = singlet.MeanDisplacement();
-        SumDisplacement = singlet.SumDisplacement();
-        Multiplicity = singlet.Info().VertexNumber();
-        Radius = singlet.Radius() / rad;
-        Spread = singlet.Spread();
-        VertexRadius = singlet.VertexRadius() / rad;
-        VertexSpread = singlet.VertexSpread();
-        EnergyFraction = singlet.EnergyFraction();
-    }
-    virtual Observables Variables();
-    virtual Observables Spectators();
-private:
-    float InValue();
-    ClassDef(BottomBase, 1)
-};
-
 class PairBranch : public ParticleBranch
 {
 public:

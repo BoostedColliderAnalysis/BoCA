@@ -22,14 +22,17 @@ namespace standardmodel
 BottomTagger::BottomTagger()
 {
     INFO0;
-    bottom_max_mass_ = 75_GeV;
+//     bottom_max_mass_ = 75_GeV;
+    bottom_max_mass_ = 10_TeV; // large number
 }
 
 int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
     auto jets = Jets(event, pre_cuts, [&](Jet & jet) {
+        jet = muon_b_tagging_.Process(jet, event.Muons());
         if (Problematic(jet, pre_cuts, tag)) throw boca::Problematic();
+        jet.Info().SetTag(tag);
         return jet;
     });
     return SaveEntries(jets, Particles(event), tag);
@@ -39,19 +42,9 @@ std::vector<Particle> BottomTagger::Particles(Event const& event) const
 {
     INFO0;
     auto particles = SortedByPhi(RemoveIfSoft(CopyIfParticle(event.Particles(), Id::bottom), Settings::JetMinPt()));
-
-//     ERROR(particles.size());
-//     for(auto const& particle : particles) ERROR(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
-
-
     boost::erase(particles, boost::unique<boost::return_found_end>(particles, [](Particle const & particle_1, Particle const & particle_2) {
         return particle_1.DeltaRTo(particle_2) < Settings::IsolationConeSize();
     }));
-//     ERROR(particles.size());
-//     for(auto const& particle : particles) ERROR(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
-
-
-
     return particles;
 }
 
@@ -87,6 +80,7 @@ std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre
 {
     INFO0;
     return Jets(event, pre_cuts, [&](Jet & jet) {
+        jet = muon_b_tagging_.Process(jet, event.Muons());
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
     });
@@ -134,6 +128,7 @@ std::vector<Jet> BottomTagger::Jets(Event const& event, boca::PreCuts const& pre
 {
     INFO0;
     return Multiplets(event.Jets(), [&](Jet & jet) {
+        jet = muon_b_tagging_.Process(jet, event.Muons());
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
     });
@@ -143,14 +138,8 @@ std::vector<Jet> BottomTagger::SubMultiplet(Jet const& jet, TMVA::Reader const& 
 {
     INFO0;
     std::vector<Jet> jets;
-    for (auto & sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
-//         if (sub_jet.Mass() <= massless) continue;
-        jets.emplace_back(Multiplet(sub_jet, reader));
-    }
+    for (auto & sub_jet : Tagger::SubJets(jet, sub_jet_number)) jets.emplace_back(Multiplet(sub_jet, reader));
     return jets;
-//     boost::push_back(jets, Tagger::SubJets(jet, sub_jet_number) | boost::adaptors::transformed([&](Jet & sub_jet) -> Jet {
-//         return Multiplet(sub_jet, reader);
-//     }));
 }
 
 std::string BottomTagger::Name() const

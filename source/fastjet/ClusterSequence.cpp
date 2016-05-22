@@ -52,4 +52,9 @@ void ClusterSequence::AddConstituents(fastjet::PseudoJet const& jet, std::vector
     cluster_sequence_->add_constituents(jet, subjet_vector);
 }
 
+void ClusterSequence::NoLongerNeeded()
+{
+    success_ = false;
+}
+
 }

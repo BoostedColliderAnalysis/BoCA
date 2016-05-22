@@ -36,7 +36,22 @@ private:
 
     void ReadEvent(PreCuts const& pre_cuts, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
         if (!ReadEntry()) return;
-        boca::Event event(TreeReader(), BranchWriter().Import().Source());
+        switch (Settings::Source()) {
+        case Source::delphes : return ReadDelphesEvent(pre_cuts, pass_pre_cut);
+        case Source::pgs : ;
+        case Source::parton : return ReadExRootEvent(pre_cuts, pass_pre_cut);
+        case Source::tagger : return;
+        }
+    }
+
+    void ReadDelphesEvent(PreCuts const& pre_cuts, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
+        auto event = TreeReader().DelphesEvent();
+        if (pass_pre_cut(event, BranchWriter().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
+        Increment(0);
+    }
+
+    void ReadExRootEvent(PreCuts const& pre_cuts, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
+        auto event = TreeReader().ExRootEvent();
         if (pass_pre_cut(event, BranchWriter().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
         Increment(0);
     }

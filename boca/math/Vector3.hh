@@ -306,7 +306,27 @@ public:
         auto arg = Dot(vector) / sqrt(ptot2);
         if (arg > 1) arg = 1;
         if (arg < -1) arg = -1;
-        return boca::Angle(acos(arg));
+
+        auto res = acos(arg);
+
+        // TVector3 finds the angle by acos(one.two / sqrt(one.one*two.two))
+        // This has a relative error of 0.5*epsilon / angle**2 (where epsilon is machine epsilon)
+        // due to catastrophic cancellation
+        // This form is better (from my personal experiments)
+        auto test = atan2(Cross(vector).Mag(), Dot(vector));
+
+        if(res != test) Debug("first", res, "second", test);
+        return boca::Angle(res);
+    }
+
+    // Find the tan(theta)**2 between two PseudoJets by calculating (p3>_1 x p3>_2)**2 / (p3>_1 . p3>_2)**2
+    double Tan2(Vector3 const& vector){
+      // This is more accurate than an alternate form (one.one*two.two-(one.two)**2)/(one.two)**2
+      // because the cancellation in the numerator (cross-product) is handled component-by-component, rather than all at once.
+      auto numerator = sqr(X() * vector.Y() - Y() * vector.X());
+      numerator += sqr(X() * vector.Z() - Z() * vector.X());
+      numerator += sqr(Y() * vector.Z() - Z() * vector.Y());
+      return numerator / sqr(Dot(vector));
     }
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))

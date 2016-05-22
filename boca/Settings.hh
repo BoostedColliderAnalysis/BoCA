@@ -104,6 +104,8 @@ public:
 
     static boca::Source Source();
 
+    static bool Isolation();
+
 private:
 
     static boca::Collider collider_;
