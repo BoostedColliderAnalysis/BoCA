@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/standardmodel/Branches.hh"
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 #include "boca/multiplets/Singlet.hh"
 
 namespace boca
@@ -17,14 +17,14 @@ namespace standardmodel
  * @brief BDT tagger for tau leptons
  *
  */
-class TauTagger : public TaggerTemplate<Singlet, TauBranch>
+class TauTagger : public Tagger<Singlet, TauBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
 
     std::vector<Singlet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

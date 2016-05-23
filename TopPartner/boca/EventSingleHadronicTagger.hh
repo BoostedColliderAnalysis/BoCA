@@ -5,7 +5,7 @@
 
 #include "boca/SignatureSingleHadronicTagger.hh"
 #include "boca/GlobalTagger.hh"
-#include "boca/EventMultiplet.hh"
+#include "boca/multiplets/EventMultiplet.hh"
 
 namespace boca
 {
@@ -18,7 +18,7 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventSingleHadronicTagger : public TaggerTemplate<EventMultiplet<Decuplet532>, NewEventBranch2>
+class EventSingleHadronicTagger : public Tagger<EventMultiplet<Decuplet532>, NewEventBranch2>
 {
 
 public:

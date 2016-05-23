@@ -3,199 +3,213 @@
  */
 #pragma once
 
-#include "TCut.h"
-
-#include "TMVA/Types.h"
-
-#include "boca/generic/Vector.hh"
-#include "boca/physics/Range.hh"
-#include "boca/Observable.hh"
-#include "boca/multivariant/Phase.hh"
+#include "boca/generic/Types.hh"
+#include "boca/multiplets/Sort.hh"
+#include "boca/io/TreeBranch.hh"
+#include "boca/TaggerBase.hh"
+#include "boca/PreCuts.hh"
 #include "boca/Filter.hh"
-
-namespace TMVA
-{
-class Reader;
-}
+#include "boca/generic/Debug.hh"
 
 namespace boca
 {
 
-class ResultBranch;
-class PreCuts;
-class Event;
-class Jet;
-class TreeWriter;
-class TreeBranch;
 /**
- * @brief Prepares multivariant analysis
+ * @brief Tagger base class using Branch template
  *
  */
-class Tagger
+template<typename Multiplet_, typename Branch_>
+class Tagger : public TaggerBase
 {
 
 public:
 
-    virtual auto Name() const -> std::string = 0;
+    double Bdt(Multiplet_ const& multiplet, TMVA::Reader const& reader) {
+        FillBranch(multiplet);
+        return TaggerBase::Bdt(reader);
+    }
 
-    virtual int SaveBdt(Event const&, PreCuts const&, TMVA::Reader const&) = 0;
+    bool Cut(Multiplet_ const& multiplet, TMVA::Reader const& reader, double effeciency) {
+        FillBranch(multiplet);
+        return TaggerBase::Cut(reader, effeciency);
+    }
 
-    virtual auto Train(Event const&, PreCuts const&, const Tag) -> int = 0;
+    std::vector<bool> Cuts(Multiplet_ const& multiplet, TMVA::Reader const& reader) {
+        FillBranch(multiplet);
+        auto steps = 50;
+        // TODO why is this a 2?
+        return Transform(IntegerRange(2, steps), [&](int effeciency) {
+            return TaggerBase::Cut(reader, static_cast<double>(effeciency) / steps);
+        });
+    }
 
-    virtual const ResultBranch& Branch() const = 0;
+    Branch_& Branch()override {
+        return branch_;
+    }
 
-    virtual ResultBranch& Branch() = 0;
+    int SaveBdt(const Event& event, const PreCuts& pre_cuts, TMVA::Reader const& reader) override {
+        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+    }
 
-    virtual latex::String LatexName() const;
-
-    virtual TMVA::Types::EMVA Mva() const;
-
-    std::string MvaName() const;
-
-    void Initialize(std::string const& analysis_name = "");
-
-    std::vector<Observable> const& Variables() const;
-
-    std::vector<Observable> const& Spectators() const;
-
-    std::vector<std::string> TreeNames(Tag tag) const;
-
-    std::vector<std::string> TreeNames(Phase const& phase) const;
-
-    TCut Cut() const;
-
-    std::string AnalysisName() const;
-
-    std::string BranchName(Stage stage) const;
-
-    std::string FactoryFileName() const;
-
-    std::string ExportFileName() const;
-
-    std::string ExportFileName(Stage stage, Tag tag) const;
-
-    std::string ExportFileName(Phase const& phase) const;
-
-    std::string ExportFolderName() const;
-
-    std::string FolderName() const;
-
-    std::string FileName(Stage stage, Tag tag) const;
-
-    std::string FileName(Phase const& phase) const;
-
-    std::string BranchName(Phase const& phase) const;
-
-    std::string MethodName() const;
-
-    std::string WeightFileName() const;
-
-    std::string WeightFileExtension() const;
-
-    std::string WeightBranchName() const;
-
-    void AddTreeName(std::string const& signal_tree_name, Tag tag);
-
-    void NewBranch(TreeWriter& tree_writer, boca::Stage stage);
-
-    void ClearTreeNames();
-
-    std::string ReaderName() const;
-
-    std::string ReaderName(std::string const& name) const;
-
-    virtual TClass& Class() const = 0;
+    template<typename Input_>
+    std::vector<Multiplet_> ReducedMultiplets(Input_ const& input, const PreCuts& pre_cuts, TMVA::Reader const& reader, std::size_t max = 4) {
+        return ReduceResult(Multiplets(input, pre_cuts, reader), max);
+    }
 
 protected:
 
-    virtual void DefineVariables() = 0;
+    virtual std::vector<Multiplet_> Multiplets(std::vector<Jet> const&, PreCuts const&, TMVA::Reader const&) {
+        Error("Never end up here! Must be overlaoded");
+        return {};
+    }
 
-    std::vector<Jet>SubJets(Jet const& jet, int sub_jet_number) const;
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> ReduceResult(std::vector<Multiplet_2_> multiplets, std::size_t max = 4) const {
+        // DEBUG_CHECK(multiplets.size() >= max, multiplets.size());
+        if (multiplets.empty()) return multiplets;
+        multiplets = SortedByBdt(multiplets);
+        multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
+        return multiplets;
+    }
 
-    void AddVariable(Observable& observable);
+    std::vector<Multiplet_> BestRapidity(std::vector<Multiplet_> multiplets, std::size_t number = 1) const {
+        if (multiplets.size() <= number) return multiplets;
+        multiplets = SortedByMaxDeltaRap(multiplets);
+        multiplets.erase(multiplets.begin() + number, multiplets.end());
+        return multiplets;
+    }
 
-    void AddSpectator(Observable& observable);
+    template<typename Multiplet_2_, typename Particle_>
+    std::vector<Multiplet_2_> BestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<Particle_> const& particles, Id id = Id::none) const {
+        if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
+        if (multiplets.empty()) return multiplets;
+        std::vector<Multiplet_2_> best;
+        for (auto const & particle : particles) Insert(best, BestMatch(multiplets, particle, id));
+        if (Debug()) boca::Debug("best", best.size());
+        return best;
+    }
 
-    void ClearObservables();
+    template<typename Multiplet_2_, typename Particle_>
+    std::vector<Multiplet_2_> BestMatch(std::vector<Multiplet_2_> const& multiplets, Particle_ const& particle, Id id = Id::none) const {
+        if (Debug()) boca::Debug("multiplets", multiplets.size());
+        if (multiplets.empty()) return multiplets;
+        auto close = CopyIfClose(multiplets, particle);
+        close = id == Id::none ? SortedByBdt(close) : SortedByMassTo(close, id);
+        if (Debug()) boca::Debug("close", close.size());
+        if (close.empty()) return close;
+        return {close.front()};
+    }
 
-    boca::TreeBranch& TreeBranch() const;
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> RemoveBestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<Particle> const& particles) const {
+        return RemoveIfClose(multiplets, particles);
+    }
 
-    double Bdt(TMVA::Reader const& reader) const;
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> RemoveBestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<std::pair<Particle, Particle>> const& particles) const {
+        return RemoveIfClose(multiplets, particles);
+    }
 
-    bool Cut(TMVA::Reader const& reader, double eff) const;
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> BestMatches(std::vector<Multiplet_2_> multiplets, std::vector<Particle> const& particles, Tag tag, Id id = Id::none) const {
+        if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
+        if (multiplets.empty()) return multiplets;
+        multiplets = SortedByBdt(multiplets);
+        switch (tag) {
+        case Tag::signal : return BestMatch(multiplets, particles, id);
+        case Tag::background : return RemoveBestMatch(multiplets, particles);
+        default : return multiplets;
+        }
+    }
 
-    virtual boca::Filter Filter() const;
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> BestMatches(std::vector<Multiplet_2_> multiplets, std::vector<std::pair<Particle, Particle>> const& particles, Tag tag, Id id = Id::none) const {
+        if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
+        if (multiplets.empty()) return multiplets;
+        multiplets = SortedByBdt(multiplets);
+        switch (tag) {
+        case Tag::signal : return BestMatch(multiplets, particles, id);
+        case Tag::background : return RemoveBestMatch(multiplets, particles);
+        default : return multiplets;
+        }
+    }
 
-    Range<double> MvaRange() const;
+    int SaveEntries(std::vector<Multiplet_> multiplets, int max = std::numeric_limits<int>::max())  {
+        if (multiplets.size() > 1) multiplets = SortedByBdt(multiplets);
+        if (multiplets.empty()) return 0;
+        auto sum = std::min(static_cast<int>(multiplets.size()), max);
+        for (auto counter : IntegerRange(sum)) {
+            FillBranch(multiplets.at(counter));
+//             std::lock_guard<std::mutex> guard(mutex_);
+            TreeBranch().AddEntry(Branch());
+        }
+        return sum;
+    }
+
+    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<Particle> const& particles, Tag tag, Id id = Id::none) {
+        if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
+        return SaveEntries(BestMatches(multiplets, particles, tag, id));
+    }
+
+    int SaveEntries(std::vector<Multiplet_> multiplets, Tag tag) {
+        switch (tag) {
+        case Tag::signal : return SaveEntries(multiplets, 1);
+        case Tag::background : return SaveEntries(multiplets);
+        default : return {};
+        }
+    }
+
+    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<std::pair<Particle, Particle>> const& particles, Tag tag, Id id = Id::none) {
+        return SaveEntries(BestMatches(multiplets, particles, tag, id));
+    }
+
+    TClass& Class() const override {
+        return *Branch_::Class();
+    }
+
+    void DefineVariables() override {
+        ClearObservables();
+        AddVariables();
+        AddSpectators();
+    }
+
+    virtual auto Multiplets(Event const&, PreCuts const&, TMVA::Reader const&) -> std::vector<Multiplet_> = 0;
+
+    std::vector<Multiplet_> Multiplets(Event const& event, TMVA::Reader const& reader) {
+        PreCuts pre_cuts;
+        return Multiplets(event, pre_cuts, reader);
+    };
 
 private:
 
-    std::string SignalFileName(Stage stage) const;
+    Branch_ const& Branch() const override {
+        return branch_;
+    }
 
-    std::string BackgroundFileName(Stage stage) const;
+    void AddVariables() {
+        Branch().Variables().AddFilter(Filter());
+        for (auto & variable : Branch().Variables().Vector()) AddVariable(variable);
+    }
 
-    std::string Root() const;
+    void AddSpectators() {
+        for (auto & spectator : Branch().Spectators().Vector()) AddSpectator(spectator);
+    }
 
-    std::string PathName(std::string const& file_name, std::string const& suffix = ".root") const;
+    void FillBranch(Multiplet_ const& multiplet) {
+        Branch().Fill(multiplet);
+    }
 
-    std::string WeightName() const;
-
-    std::string BackgroundName() const;
-
-    std::string BackgroundName(std::string const& name) const;
-
-    std::string SignalName() const;
-
-    std::string SignalName(std::string const& name) const;
-
-    std::string TrainerName() const;
-
-    std::string ExportName() const;
-
-    std::string Name(Stage stage, Tag tag) const;
-
-    std::string Name(Phase const& phase) const;
-
-    std::string Name(Stage stage) const;
-
-//     std::string BranchName(Stage stage, Tag tag) const;
+    constexpr bool Debug() const {
+        return false;
+    }
 
     /**
-     * @brief Tree Branch pointer saving the results
-     *
-     */
-    boca::TreeBranch* tree_branch_;
-
-    /**
-     * @brief Name of the Analysis
-     *
-     */
-//     static std::string analysis_name_;
-
-    /**
-     * @brief Names of the backgrund trees
-     *
-     */
-    std::vector<std::string> background_tree_names_;
-
-    /**
-     * @brief Names of the signal trees
-     *
-     */
-    std::vector<std::string> signal_tree_names_;
-
-    /**
-     * @brief variables for the analysis
-     *
-     */
-    std::vector<Observable> variables_;
-
-    /**
-     * @brief spectators for the analysis
-     *
-     */
-    std::vector<Observable> spectators_;
+    * @brief Branch storing the analysis results
+    *
+    */
+    Branch_ branch_;
 
 };
 
 }
+

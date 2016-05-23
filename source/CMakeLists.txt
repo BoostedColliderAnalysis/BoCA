@@ -18,6 +18,7 @@ add_subdirectory(io)
 add_subdirectory(delphes)
 add_subdirectory(multiplets)
 add_subdirectory(multivariant)
+add_subdirectory(analysis)
 
 create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh)
 add_subdirectory(plotting)
@@ -40,8 +41,7 @@ WimpMass.cpp
 GlobalObservables.cpp
 GlobalTagger.cpp
 File.cpp
-Tagger.cpp
-AnalysisBase.cpp
+TaggerBase.cpp
 )
 create_library(Boca boca_sources)
 

@@ -42,17 +42,6 @@ std::string Name(Collider collider)
     }
 }
 
-std::string Name(Source source)
-{
-    switch (source) {
-    case Source::delphes : return "Delphes";
-    case Source::pgs : return "PGS";
-    case Source::parton : return "Parton";
-    case Source::tagger : return "Tagger";
-        DEFAULT(to_int(source), "");
-    }
-}
-
 InfoRecombiner& Settings::Recombiner()
 {
     return info_recombiner_;

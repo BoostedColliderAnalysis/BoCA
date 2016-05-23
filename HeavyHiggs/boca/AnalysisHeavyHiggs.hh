@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/Analysis.hh"
+#include "boca/analysis/Analysis.hh"
 #include "boca/Settings.hh"
 #include "boca/generic/DEBUG.hh"
 

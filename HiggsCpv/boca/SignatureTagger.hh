@@ -16,7 +16,7 @@ namespace higgscpv
  * @brief event BDT for
  *
  */
-class SignatureTagger : public TaggerTemplate<boca::MultipletSignature< boca::Octet62 >, SignatureLeptonicBranch>
+class SignatureTagger : public Tagger<boca::MultipletSignature< boca::Octet62 >, SignatureLeptonicBranch>
 {
 
 public:

@@ -19,7 +19,7 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class VetoTopPartnerLeptonicTagger : public TaggerTemplate<Quintet, VetoTopPartnerBranch>
+class VetoTopPartnerLeptonicTagger : public Tagger<Quintet, VetoTopPartnerBranch>
 {
 
 public:

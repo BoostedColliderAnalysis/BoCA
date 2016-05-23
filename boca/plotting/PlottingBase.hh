@@ -20,7 +20,7 @@ class Graphs;
 class InfoBranch;
 template<typename >
 class Rectangle;
-class Tagger;
+class TaggerBase;
 
 namespace latex
 {
@@ -128,9 +128,9 @@ private:
 
     void PlotVariables(Plots const& plots) const;
 
-    virtual boca::Tagger const& Tagger() const = 0;
+    virtual TaggerBase const& Tagger() const = 0;
 
-    virtual boca::Tagger& Tagger() = 0;
+    virtual TaggerBase& Tagger() = 0;
 
     template<typename Branch_>
     Branch_ ConstCast(Branch_ const& branch) const {

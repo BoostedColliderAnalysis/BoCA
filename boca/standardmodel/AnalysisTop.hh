@@ -18,14 +18,7 @@ enum class TopTagger
     hep2
 };
 
-std::string Name(TopTagger top_tagger)
-{
-    switch (top_tagger) {
-    case TopTagger::boca : return "BoCA";
-    case TopTagger::hep : return "HEP";
-    case TopTagger::hep2 : return "HEP_2";
-    }
-}
+std::string Name(TopTagger top_tagger);
 
 /**
  *

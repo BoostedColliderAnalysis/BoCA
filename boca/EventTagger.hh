@@ -2,7 +2,7 @@
 
 #include "boca/standardmodel/BottomTagger.hh"
 #include "boca/multivariant/Reader.hh"
-#include "boca/EventMultiplet.hh"
+#include "boca/multiplets/EventMultiplet.hh"
 #include "boca/GlobalObservables.hh"
 
 namespace boca
@@ -14,7 +14,7 @@ namespace boca
  *
  */
 template<typename Tagger_>
-class EventTagger : public TaggerTemplate<EventMultiplet, EventBranch>
+class EventTagger : public Tagger<EventMultiplet, EventBranch>
 {
 
 public:

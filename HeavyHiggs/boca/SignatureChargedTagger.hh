@@ -13,7 +13,7 @@ namespace heavyhiggs {
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureChargedTagger : public TaggerTemplate<Octet44,OctetChargedBranch> {
+class SignatureChargedTagger : public Tagger<Octet44,OctetChargedBranch> {
 
 public:
 

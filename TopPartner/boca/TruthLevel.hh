@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/BranchesTopPartner.hh"
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 #include "boca/../boca/TruthVariables.hh"
 
 namespace boca
@@ -13,7 +13,7 @@ namespace boca
 namespace naturalness
 {
 
-class TruthLevel : public TaggerTemplate<TruthVariables, TruthBranch>
+class TruthLevel : public Tagger<TruthVariables, TruthBranch>
 {
 
 public:

@@ -18,7 +18,7 @@ namespace standardmodel
  * @brief BDT tagger for leptonically decaying top quarks
  *
  */
-class TopLeptonicTagger : public TaggerTemplate<Triplet, TopLeptonicBranch>
+class TopLeptonicTagger : public Tagger<Triplet, TopLeptonicBranch>
 {
 
 public:
@@ -27,7 +27,7 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
 
     std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

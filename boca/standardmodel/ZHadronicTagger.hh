@@ -6,7 +6,7 @@
 #include "boost/optional.hpp"
 
 #include "boca/standardmodel/BottomTagger.hh"
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
 
@@ -20,7 +20,7 @@ namespace standardmodel
  * @brief BDT tagger for hadroniccaly decaying Z bosons
  *
  */
-class ZHadronicTagger : public TaggerTemplate<Doublet, ZHadronicBranch>
+class ZHadronicTagger : public Tagger<Doublet, ZHadronicBranch>
 {
 
 public:
@@ -29,7 +29,7 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

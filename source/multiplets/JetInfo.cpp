@@ -199,7 +199,7 @@ Energy JetInfo::VertexEnergy() const
 std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> constituents) const
 {
     DEBUG(constituents.size());
-    return CopyIf(constituents, [&](Constituent & constituent) {
+    return CopyIf(constituents, [&](Constituent const& constituent) {
         return VertexResultion(constituent);
     });
 }

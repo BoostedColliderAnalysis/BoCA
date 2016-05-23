@@ -12,7 +12,7 @@ namespace higgscpv {
  * @brief Prepares multivariant analysis
  *
  */
-class EventTTagger : public TaggerTemplate<MultipletEvent<Octet332>,EventBranch> {
+class EventTTagger : public Tagger<MultipletEvent<Octet332>,EventBranch> {
 
 public:
 

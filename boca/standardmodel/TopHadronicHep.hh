@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 #include "boca/multiplets/Triplet.hh"
 #include "boca/standardmodel/Branches.hh"
 
@@ -14,7 +14,7 @@ namespace standardmodel
  * @brief BDT tagger for hadronically decaying top quarks based on the HEP top tagger
  *
  */
-class TopHadronicHep : public TaggerTemplate<Triplet, TopHadronicHepBranch>
+class TopHadronicHep : public Tagger<Triplet, TopHadronicHepBranch>
 {
 
 public:
@@ -23,7 +23,7 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
 
     std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

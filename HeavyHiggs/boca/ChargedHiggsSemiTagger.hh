@@ -14,7 +14,7 @@ namespace heavyhiggs
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class ChargedHiggsSemiTagger : public TaggerTemplate<Quartet31, ChargedHiggsSemiBranch>
+class ChargedHiggsSemiTagger : public Tagger<Quartet31, ChargedHiggsSemiBranch>
 {
 
 public:

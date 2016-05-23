@@ -3,15 +3,16 @@
  */
 #pragma once
 
-#include "boca/generic/Flag.hh"
+#include "boca/multivariant/Stage.hh"
 #include "boca/PreCuts.hh"
-#include "boca/Tagger.hh"
+#include "boca/Names.hh"
 
 namespace boca
 {
 
+class Phase;
 class File;
-// class Tagger;
+class TaggerBase;
 class Event;
 
 enum class Output
@@ -76,7 +77,7 @@ protected:
 
     virtual void SetFiles(Tag tag, Stage) = 0;
 
-    virtual boca::Tagger const& Tagger() const = 0;
+    virtual TaggerBase const& Tagger() const = 0;
 
     virtual std::string AnalysisName() const = 0;
 
@@ -132,7 +133,7 @@ protected:
 
 private:
 
-    virtual boca::Tagger& Tagger() = 0;
+    virtual TaggerBase& Tagger() = 0;
 
     virtual void TagLoop(Phase phase) = 0;
 

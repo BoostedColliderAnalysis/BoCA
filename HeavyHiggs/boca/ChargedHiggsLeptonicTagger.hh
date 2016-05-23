@@ -14,7 +14,7 @@ namespace heavyhiggs
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class ChargedHiggsLeptonicTagger : public TaggerTemplate<Triplet, ChargedHiggsLeptonicBranch>
+class ChargedHiggsLeptonicTagger : public Tagger<Triplet, ChargedHiggsLeptonicBranch>
 {
 
 public:

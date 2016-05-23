@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 #include "boca/standardmodel/Branches.hh"
 #include "boca/standardmodel/TruthVariables.hh"
 
@@ -13,14 +13,14 @@ namespace boca
 namespace standardmodel
 {
 
-class TruthLevel : public TaggerTemplate<TruthVariables, TruthBranch>
+class TruthLevel : public Tagger<TruthVariables, TruthBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
 
     std::vector<TruthVariables> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

@@ -15,14 +15,14 @@ namespace heavyhiggs
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class HeavyHiggsSemiTagger : public TaggerTemplate<Sextet, HeavyHiggsSemiBranch>
+class HeavyHiggsSemiTagger : public Tagger<Sextet, HeavyHiggsSemiBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
     
     std::vector<Sextet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

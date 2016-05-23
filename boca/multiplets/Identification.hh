@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include <string>
 #include "boca/Tag.hh"
 
 namespace boca {

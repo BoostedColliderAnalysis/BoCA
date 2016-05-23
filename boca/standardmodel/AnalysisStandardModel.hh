@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/Analysis.hh"
+#include "boca/analysis/Analysis.hh"
 #include "boca/Settings.hh"
 
 namespace boca
@@ -51,7 +51,9 @@ class AnalysisStandardModel : public Analysis<Tagger>
 
 public:
 
-    AnalysisStandardModel() { Settings::SetCollider(Collider());}
+    AnalysisStandardModel() {
+        Settings::SetCollider(Collider());
+    }
 
 protected:
 

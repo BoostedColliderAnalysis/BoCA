@@ -12,7 +12,7 @@
 
 namespace boca {
 
-class Tagger;
+class TaggerBase;
 
 /**
  * @brief Prepares multivariant analysis
@@ -26,7 +26,7 @@ public:
      * @brief Constructor
      *
      */
-    Trainer(boca::Tagger& tagger);
+    Trainer(TaggerBase& tagger);
 
 private:
 
@@ -67,15 +67,15 @@ private:
 
     std::string MethodOptions() const;
 
-    boca::Tagger const& Tagger() const;
+    TaggerBase const& Tagger() const;
 
-    boca::Tagger & Tagger();
+    TaggerBase & Tagger();
 
     TMVA::Factory const& Factory() const;
 
     TMVA::Factory& Factory();
 
-    boca::Tagger& tagger_;
+    TaggerBase& tagger_;
 
     TFile output_;
 

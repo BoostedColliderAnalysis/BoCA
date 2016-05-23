@@ -16,7 +16,7 @@ namespace higgscpv
  * @brief event BDT for
  *
  */
-class SignatureLeptonTagger : public TaggerTemplate<MultipletSignature< Quartet211 >,SignatureLeptonTaggerBranch>
+class SignatureLeptonTagger : public Tagger<MultipletSignature< Quartet211 >,SignatureLeptonTaggerBranch>
 {
 
 public:

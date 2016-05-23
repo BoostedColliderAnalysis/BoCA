@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/multiplets/Singlet.hh"
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 #include "boca/standardmodel/Branches.hh"
 #include "boca/external/MuXboostedBTagging.hh"
 
@@ -23,7 +23,7 @@ namespace standardmodel
  * @license GPL 3
  *
  */
-class BottomTagger : public TaggerTemplate<Jet, BottomBranch>
+class BottomTagger : public Tagger<Jet, BottomBranch>
 {
 
 public:
@@ -69,7 +69,7 @@ private:
 
     std::vector<Jet> Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function);
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
     std::vector<Jet> Multiplets(std::vector<Jet> jets, std::function<Jet(Jet&)> const& function, unsigned sub_jet_number = 1) const;
 
     bool Problematic(Jet const& jet, boca::PreCuts const& pre_cuts, Tag tag) const;
@@ -87,7 +87,7 @@ private:
 }
 
 template<>
-inline void TaggerTemplate<Jet, standardmodel::BottomBranch>::FillBranch(Jet const& multiplet)
+inline void Tagger<Jet, standardmodel::BottomBranch>::FillBranch(Jet const& multiplet)
 {
     Branch().Fill(Singlet(multiplet));
 }

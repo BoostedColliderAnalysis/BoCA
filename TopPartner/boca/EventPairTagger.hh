@@ -2,8 +2,8 @@
 
 #include "boca/TopPartnerPairTagger.hh"
 #include "boca/GlobalTagger.hh"
-#include "boca/EventMultiplet.hh"
-#include "boca/AnalysisBase.hh"
+#include "boca/multiplets/EventMultiplet.hh"
+#include "boca/analysis/AnalysisBase.hh"
 
 namespace boca
 {
@@ -16,7 +16,7 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventPairTagger : public TaggerTemplate<EventMultiplet<Decuplet55>,NewEventBranch4>
+class EventPairTagger : public Tagger<EventMultiplet<Decuplet55>,NewEventBranch4>
 {
 
 public:

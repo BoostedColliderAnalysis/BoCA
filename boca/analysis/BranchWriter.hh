@@ -21,12 +21,12 @@ class BranchWriter
 public:
 
     BranchWriter(boca::Phase& phase, boca::File& file, boca::FileWriter& file_writer, Tagger_& tagger) :
-        object_sum_(0),
-        event_sum_(0),
-        phase_(phase),
-        import_file_(file),
         tagger_(tagger),
-        reader_(phase.Stage()) {
+        reader_(phase.Stage()),
+        import_file_(file),
+        phase_(phase),
+        object_sum_(0),
+        event_sum_(0) {
         tree_writer_ = &file_writer.NewTree(Import().Title());
         switch (Phase().Stage()) {
         case Stage::trainer : tagger_.NewBranch(TreeWriter(), Phase().Stage());
@@ -86,23 +86,23 @@ private:
         return *tree_writer_;
     }
 
-    std::atomic<long> object_sum_;
-
-    std::atomic<long> event_sum_;
-
-    boca::Phase phase_;
-
-    File& import_file_;
-
     Tagger_& tagger_;
 
     boca::Reader<Tagger_> reader_;
 
-    boca::TreeWriter* tree_writer_;
-
     boca::TreeBranch* tree_branch_;
 
+    boca::TreeWriter* tree_writer_;
+
+    File& import_file_;
+
+    boca::Phase phase_;
+
     std::mutex write_mutex;
+
+    std::atomic<long> object_sum_;
+
+    std::atomic<long> event_sum_;
 
     bool debug_ = false;
 

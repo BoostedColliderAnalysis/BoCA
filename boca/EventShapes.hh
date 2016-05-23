@@ -223,14 +223,6 @@ private:
     */
     //@{
     /**
-    * Calculate the hemisphere masses and jet broadenings
-    */
-    boca::HemisphereMasses GetHemisphereMasses() const;
-    /**
-    * Calculate the thrust and related axes
-    */
-    Array3<GradedVector3<double>> GetThrusts() const;
-    /**
      * Calculate the thrust and related axes for less than two jets
      */
     Array3<GradedVector3<double>> GetThrusts1() const;
@@ -246,14 +238,6 @@ private:
      * Calculate the thrust and related axes for more than three jets
      */
     Array3<GradedVector3<double>> GetThrusts4() const;
-    /**
-     * Diagonalize the linear tensors
-     */
-    Array3<GradedVector3<double>> DiagonalizeLinearTensors() const;
-    /**
-     * Diagonalize the quadratic tensor
-     */
-    Array3<GradedVector3<double>> DiagonalizeSphericalTensors() const;
     /**
     * Calculate the thrust
     * @param vectors The three vectors

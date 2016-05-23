@@ -14,7 +14,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventChargedTagger : public TaggerTemplate<MultipletEvent<Octet44>, EventChargedBranch>
+class EventChargedTagger : public Tagger<MultipletEvent<Octet44>, EventChargedBranch>
 {
 
 public:

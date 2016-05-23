@@ -8,9 +8,9 @@
 #include "boca/generic/Types.hh"
 #include "boca/io/Io.hh"
 #include "boca/plotting/Plotting.hh"
-#include "boca/Third.hh"
+#include "boca/analysis/Third.hh"
+#include "boca/analysis/AnalysisBase.hh"
 #include "boca/Event.hh"
-#include "boca/AnalysisBase.hh"
 
 namespace boca
 {

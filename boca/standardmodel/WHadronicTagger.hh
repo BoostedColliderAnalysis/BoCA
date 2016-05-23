@@ -5,7 +5,7 @@
 
 #include <functional>
 #include "boca/standardmodel/BottomTagger.hh"
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
 
@@ -19,7 +19,7 @@ namespace standardmodel
  * @brief BDT tagger for hadronically decaying W bosons
  *
  */
-class WHadronicTagger : public TaggerTemplate<Doublet, WHadronicBranch>
+class WHadronicTagger : public Tagger<Doublet, WHadronicBranch>
 {
 
   using Function = std::function<boost::optional<Doublet>(Doublet&)>;
@@ -30,7 +30,7 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag Tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
 
     std::vector<Doublet> Multiplets(std::vector<Jet> const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

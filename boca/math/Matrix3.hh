@@ -14,10 +14,8 @@
 
 #include "TQuaternion.h"
 
-#include "boca/generic/Mutable.hh"
 #include "boca/math/Vector3.hh"
 #include "boca/math/Matrix2.hh"
-#include "boca/physics/Units.hh"
 
 namespace boca
 {

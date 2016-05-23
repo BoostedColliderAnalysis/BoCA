@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/BranchWriter.hh"
+#include "boca/analysis/BranchWriter.hh"
 
 namespace boca
 {

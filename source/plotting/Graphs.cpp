@@ -103,7 +103,7 @@ void Graphs::SetYAxis(latex::String const& title, boca::Range<double> const& ran
     SetAxis(*multi_graph_.GetYaxis(), title);
     auto log = SetLog(range_.Vertical());
     ERROR(range_.Vertical().Floor(), range_.Vertical().Min());
-    auto min = log && (range_.Vertical().Floor() <= std::numeric_limits<double>::epsilon(), range_.Vertical().Floor() > 10E100) ? range_.Vertical().Min() : range_.Vertical().Floor();
+    auto min = log && (range_.Vertical().Floor() < std::numeric_limits<double>::epsilon() || range_.Vertical().Floor() > 10E100) ? range_.Vertical().Min() : range_.Vertical().Floor();
     ERROR(min);
     multi_graph_.GetYaxis()->SetLimits(min, range_.Vertical().Ceil());
     multi_graph_.SetMinimum(min);

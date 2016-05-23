@@ -15,7 +15,7 @@ namespace heavyhiggs
  * @brief Semi leptonic top BDT tagger
  *
  */
-class HeavyHiggsTauTagger : public TaggerTemplate<Doublet, HeavyHiggsTauBranch>
+class HeavyHiggsTauTagger : public Tagger<Doublet, HeavyHiggsTauBranch>
 {
 
 public:

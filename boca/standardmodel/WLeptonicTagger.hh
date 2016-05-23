@@ -5,7 +5,7 @@
 
 #include "boca/multiplets/Doublet.hh"
 #include "boca/standardmodel/Branches.hh"
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 
 namespace boca
 {
@@ -18,7 +18,7 @@ namespace standardmodel
  * neutrino momentum reconstruction from missing transverser energy
  *
  */
-class WLeptonicTagger : public TaggerTemplate<Doublet, WLeptonicBranch>
+class WLeptonicTagger : public Tagger<Doublet, WLeptonicBranch>
 {
 
 public:
@@ -27,7 +27,7 @@ public:
 
     int Train(Event const& event, PreCuts const& , Tag tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

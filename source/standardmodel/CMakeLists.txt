@@ -17,6 +17,7 @@ TruthLevel.cpp
 create_library(SmTagger sm_tagger_sources)
 
 set(TaggerLibraries
+AnalysisTop.cpp
 AnalysisStandardModel.cpp
 )
 create_library(AnalysisTagger TaggerLibraries)

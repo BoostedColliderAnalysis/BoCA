@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/standardmodel/BottomTagger.hh"
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
 
@@ -25,7 +25,7 @@ namespace standardmodel
  * @license GPL 3
  *
  */
-class BosonTagger : public TaggerTemplate<Doublet, ZHadronicBranch>
+class BosonTagger : public Tagger<Doublet, ZHadronicBranch>
 {
 
 public:
@@ -34,7 +34,7 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

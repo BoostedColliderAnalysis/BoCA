@@ -8,7 +8,7 @@
 #include "TTreeReader.h"
 
 #include "boca/io/TreeReaderArray.hh"
-#include "boca/Settings.hh"
+#include "boca/io/Souce.hh"
 #include "boca/delphes/Event.hh"
 #include "boca/exroot/Event.hh"
 

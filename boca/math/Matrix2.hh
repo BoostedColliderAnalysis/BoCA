@@ -3,7 +3,6 @@
 #include "boost/range/algorithm/sort.hpp"
 #include "boca/generic/Types.hh"
 #include "boca/generic/Mutable.hh"
-#include "boca/generic/Debug.hh"
 #include "boca/math/Vector2.hh"
 
 namespace boca

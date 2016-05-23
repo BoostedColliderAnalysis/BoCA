@@ -5,6 +5,7 @@
 
 #include "boca/fastjet/InfoRecombiner.hh"
 #include "boca/physics/Units.hh"
+#include "boca/io/Souce.hh"
 #include "boca/plotting/Font.hh"
 
 namespace boca
@@ -34,16 +35,6 @@ enum class Collider
 };
 
 std::string Name(Collider collider);
-
-enum class Source
-{
-  delphes,
-  pgs,
-  parton,
-  tagger
-};
-
-std::string Name(Source source);
 
 /**
  * @brief Detector and Collider specific constants

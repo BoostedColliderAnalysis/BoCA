@@ -17,7 +17,7 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureSingleLeptonicTagger : public TaggerTemplate<Decuplet532, SignatureSingleBranch>
+class SignatureSingleLeptonicTagger : public Tagger<Decuplet532, SignatureSingleBranch>
 {
 
 public:

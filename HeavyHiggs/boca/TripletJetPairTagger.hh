@@ -13,7 +13,7 @@ namespace boca
  * @brief JetPair BDT tagger
  *
  */
-class TripletJetPairTagger : public TaggerTemplate<Quartet31, TripletJetPairBranch>
+class TripletJetPairTagger : public Tagger<Quartet31, TripletJetPairBranch>
 {
 
 public:

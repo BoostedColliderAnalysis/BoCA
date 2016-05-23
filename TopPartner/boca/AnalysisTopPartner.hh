@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/Analysis.hh"
+#include "boca/analysis/Analysis.hh"
 #include "boca/Settings.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"

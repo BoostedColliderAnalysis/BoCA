@@ -16,7 +16,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureNeutralTagger : public TaggerTemplate<Octet62, OctetNeutralBranch>
+class SignatureNeutralTagger : public Tagger<Octet62, OctetNeutralBranch>
 {
 
 public:

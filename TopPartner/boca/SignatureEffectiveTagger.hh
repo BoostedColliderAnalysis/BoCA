@@ -15,7 +15,7 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureEffectiveTagger : public TaggerTemplate<Quattuordecuplet554, boca::SignatureBranch>
+class SignatureEffectiveTagger : public Tagger<Quattuordecuplet554, boca::SignatureBranch>
 {
 
 public:

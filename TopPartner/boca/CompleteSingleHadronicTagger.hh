@@ -6,7 +6,7 @@
 #include <functional>
 #include "boca/Decuplet.hh"
 #include "boca/VetoTopPartnerLeptonicTagger.hh"
-#include "boca/EventMultiplet.hh"
+#include "boca/multiplets/EventMultiplet.hh"
 
 namespace boca
 {
@@ -18,7 +18,7 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class CompleteSingleHadronicTagger : public TaggerTemplate<EventMultiplet<Decuplet532>, CompleteBranch>
+class CompleteSingleHadronicTagger : public Tagger<EventMultiplet<Decuplet532>, CompleteBranch>
 {
 
 public:

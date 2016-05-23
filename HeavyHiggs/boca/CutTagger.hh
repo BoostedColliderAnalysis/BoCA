@@ -1,9 +1,9 @@
 #pragma once
 
-#include "boca/TaggerTemplate.hh"
 #include "boca/BranchesHeavyHiggs.hh"
 #include "boca/standardmodel/BottomTagger.hh"
 #include "boca/multivariant/Reader.hh"
+#include "boca/Tagger.hh"
 #include "boca/CutVariables.hh"
 
 namespace boca
@@ -17,7 +17,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class CutTagger : public TaggerTemplate<CutVariables, HeavyHiggsCutBranch>
+class CutTagger : public Tagger<CutVariables, HeavyHiggsCutBranch>
 {
 
 public:

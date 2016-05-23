@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include "boca/math/LorentzVector.hh"
 #include "boca/physics/Family.hh"
 
 namespace boca {

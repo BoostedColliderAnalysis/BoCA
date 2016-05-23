@@ -12,14 +12,14 @@ namespace boca
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class GlobalTagger : public TaggerTemplate<GlobalObservables, GlobalObservableBranch>
+class GlobalTagger : public Tagger<GlobalObservables, GlobalObservableBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    using TaggerTemplate::Multiplets;
+    using Tagger::Multiplets;
 
     std::vector<GlobalObservables> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 

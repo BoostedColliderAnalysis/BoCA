@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/EventShapes.hh"
-#include "boca/Analysis.hh"
+#include "boca/analysis/Analysis.hh"
 #include "boca/standardmodel/TopLeptonicTagger.hh"
 #include "boca/generic/DEBUG.hh"
 

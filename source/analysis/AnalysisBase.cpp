@@ -9,9 +9,10 @@
 #include "boca/generic/Types.hh"
 #include "boca/io/Io.hh"
 #include "boca/File.hh"
-#include "boca/AnalysisBase.hh"
+#include "boca/analysis/AnalysisBase.hh"
 #include "boca/Event.hh"
 #include "boca/multivariant/Trainer.hh"
+#include "boca/TaggerBase.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
