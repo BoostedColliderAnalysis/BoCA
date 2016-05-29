@@ -6,7 +6,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag)

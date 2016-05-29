@@ -4,7 +4,7 @@
 namespace boca
 {
 
-  namespace naturalness
+  namespace toppartner
   {
 
     class Septet : public TwoBody<boca::Quintet, boca::Doublet>

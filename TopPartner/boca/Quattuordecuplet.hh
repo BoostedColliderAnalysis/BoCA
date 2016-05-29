@@ -5,7 +5,7 @@
 
 namespace boca {
 
-namespace naturalness {
+namespace toppartner {
 
 class Quattuordecuplet104 : public TwoBody<naturalness::Decuplet55, Quartet22> {
 

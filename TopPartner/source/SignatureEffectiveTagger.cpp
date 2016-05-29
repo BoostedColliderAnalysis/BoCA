@@ -1,13 +1,12 @@
 #include "boca/SignatureEffectiveTagger.hh"
 #include "boca/generic/Exception.hh"
-#include "boca/plotting/Font.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag)

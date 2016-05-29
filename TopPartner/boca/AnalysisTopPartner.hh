@@ -15,7 +15,7 @@ namespace boca
  * @brief Naturalness measurment
  *
  */
-namespace naturalness
+namespace toppartner
 {
 
 enum class Process

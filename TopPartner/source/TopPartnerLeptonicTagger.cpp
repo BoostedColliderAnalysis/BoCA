@@ -4,7 +4,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int TopPartnerLeptonicTagger::Train(Event const&, PreCuts const&, Tag )

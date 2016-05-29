@@ -8,7 +8,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 Momentum TruthVariables::LeptonPt(unsigned number) const

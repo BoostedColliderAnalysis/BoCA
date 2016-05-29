@@ -14,7 +14,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int TruthLevel::Train(Event const& event, PreCuts const& pre_cuts, Tag)

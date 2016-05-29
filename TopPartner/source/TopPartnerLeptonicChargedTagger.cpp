@@ -3,7 +3,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 TopPartnerLeptonicChargedTagger::TopPartnerLeptonicChargedTagger() :

@@ -7,7 +7,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 Observables VetoTopPartnerBranch::Variables()

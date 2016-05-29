@@ -5,7 +5,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int EventNewPairTagger::Train(Event const& event, PreCuts const&, Tag tag)

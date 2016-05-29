@@ -7,7 +7,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int TopPartnerHadronicNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag)

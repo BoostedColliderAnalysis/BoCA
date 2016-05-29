@@ -3,7 +3,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 std::string Name(Process process)

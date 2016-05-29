@@ -10,7 +10,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 class TruthLevel : public Tagger<TruthVariables, TruthBranch>

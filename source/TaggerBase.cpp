@@ -24,7 +24,7 @@ namespace boca
 // std::string TaggerBase::analysis_name_;
 
 // small memory leak, but better than static variable Initialization hell
-std::string& analysis_name_()
+std::string& AnalysisName_()
 {
     static auto* analysis_name = new std::string;
     return *analysis_name;
@@ -33,7 +33,7 @@ std::string& analysis_name_()
 void TaggerBase::Initialize(std::string const& analysis_name)
 {
     INFO(analysis_name);
-    if (!analysis_name.empty()) analysis_name_() = analysis_name;
+    if (!analysis_name.empty()) AnalysisName_() = analysis_name;
     ClearTreeNames();
     DefineVariables();
     INFO("done");
@@ -226,7 +226,7 @@ std::string TaggerBase::AnalysisName() const
 {
 //     analysis_name_ = boost::filesystem::current_path().filename().string();
 //     ERROR(analysis_name_, _analysis_name_);
-    return !analysis_name_().empty() ? analysis_name_() : _analysis_name_;
+    return !AnalysisName_().empty() ? AnalysisName_() : _analysis_name_;
 }
 std::vector<Observable> const& TaggerBase::Variables() const
 {

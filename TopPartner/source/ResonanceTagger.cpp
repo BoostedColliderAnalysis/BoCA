@@ -10,7 +10,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int ResonanceTagger::Train(Event const& event, PreCuts const&, Tag tag)

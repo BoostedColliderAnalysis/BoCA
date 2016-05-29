@@ -4,7 +4,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 class Nonet : public TwoBody<boca::Quintet, Quartet22>

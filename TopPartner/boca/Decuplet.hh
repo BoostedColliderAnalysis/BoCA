@@ -6,7 +6,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 class Decuplet55 : public TwoBody<Quintet, Quintet>
