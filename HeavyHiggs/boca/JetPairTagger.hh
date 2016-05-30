@@ -3,10 +3,11 @@
  */
 #pragma once
 
-#include "boca/standardmodel/BottomTagger.hh"
-#include "boca/Tagger.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
+#include "boca/standardmodel/BottomTagger.hh"
+#include "HeavyHiggs/boca/BranchesHeavyHiggs.hh"
+#include "boca/Tagger.hh"
 
 namespace boca
 {

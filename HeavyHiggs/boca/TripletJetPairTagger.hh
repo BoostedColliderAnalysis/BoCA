@@ -3,10 +3,14 @@
  */
 #pragma once
 
-#include "boca/standardmodel/TopHadronicTagger.hh"
 #include "boca/multiplets/Quartet.hh"
+#include "boca/standardmodel/TopHadronicTagger.hh"
+#include "HeavyHiggs/boca/BranchesHeavyHiggs.hh"
 
 namespace boca
+{
+
+namespace heavyhiggs
 {
 
 /**
@@ -31,5 +35,7 @@ private:
     Reader<standardmodel::TopHadronicTagger> top_hadronic_reader_;
 
 };
+
+}
 
 }

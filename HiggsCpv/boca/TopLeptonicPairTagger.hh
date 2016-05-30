@@ -14,7 +14,7 @@ namespace higgscpv
  * @brief JetPair BDT tagger
  *
  */
-class TopLeptonicPairTagger : public Tagger<Sextet, TopLeptonicPairBranch>
+class TopLeptonicPairTagger : public Tagger<Sextet, TopLeptonicTwoBodyBranch>
 {
 
 public:

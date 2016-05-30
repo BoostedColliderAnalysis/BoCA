@@ -14,7 +14,7 @@ namespace heavyhiggs
  * @brief Higgs tagger root tree structure
  *
  */
-class HeavyHiggsLeptonicBranch : public PairBranch
+class HeavyHiggsLeptonicBranch : public TwoBodyBranch
 {
 
 public:
@@ -40,7 +40,7 @@ public:
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         LargerWDeltaR = multiplet.GetLargertripletDeltaR() / rad;
         LargerWDeltaRap = multiplet.GetLargertripletDeltaRap() / rad;
         LargerWDeltaPhi = multiplet.GetLargerTripleDeltaPhi() / rad;
@@ -178,7 +178,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HeavyHiggsTauBranch : public PairBranch
+class HeavyHiggsTauBranch : public TwoBodyBranch
 {
 
 public:
@@ -190,7 +190,7 @@ public:
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         LeptonPt = multiplet.Singlet1().Pt() / GeV;
         NeutrinoPt = multiplet.Singlet2().Pt() / GeV;
     }
@@ -219,24 +219,8 @@ public:
     float PairRap;
     float HiggsBdt;
     float SignatureBdt;
-//     float BottomBdt;
-//     float PairBottomBdt;
-
     float HardTopPt;
     float SoftTopPt;
-
-//     float BottomBdt1;
-//     float BottomBdt2;
-//     float BottomBdt3;
-//     float BottomBdt4;
-//     float BottomBdt5;
-//     float BottomBdt6;
-//     float BottomBdt7;
-//     float BottomBdt8;
-//     float BottomBdt12;
-//     float BottomBdt34;
-//     float BottomBdt56;
-//     float BottomBdt78;
 
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
@@ -245,22 +229,8 @@ public:
         HiggsBdt = event.Signature().Sextet().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Doublet().DeltaRap() / rad;
-//         BottomBdt = event.Signature().BottomBdt();
-//         PairBottomBdt = event.Signature().Doublet().BottomBdt();
         HardTopPt = event.Signature().Sextet().HardTopPt() / GeV;
         SoftTopPt = event.Signature().Sextet().SoftTopPt() / GeV;
-//         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
-//         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
-//         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
-//         BottomBdt4 = event.GlobalObservables().BottomBdt(4);
-//         BottomBdt5 = event.GlobalObservables().BottomBdt(5);
-//         BottomBdt6 = event.GlobalObservables().BottomBdt(6);
-//         BottomBdt7 = event.GlobalObservables().BottomBdt(7);
-//         BottomBdt8 = event.GlobalObservables().BottomBdt(8);
-//         BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
-//         BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
-//         BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
-//         BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
     }
 
     Observables Variables();
@@ -281,24 +251,9 @@ public:
     float PairRap;
     float HiggsBdt;
     float SignatureBdt;
-//     float BottomBdt;
-//     float PairBottomBdt;
 
     float HardTopPt;
     float SoftTopPt;
-
-//     float BottomBdt1;
-//     float BottomBdt2;
-//     float BottomBdt3;
-//     float BottomBdt4;
-//     float BottomBdt5;
-//     float BottomBdt6;
-//     float BottomBdt7;
-//     float BottomBdt8;
-//     float BottomBdt12;
-//     float BottomBdt34;
-//     float BottomBdt56;
-//     float BottomBdt78;
 
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
@@ -307,22 +262,8 @@ public:
         HiggsBdt = event.Signature().Sextet().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Doublet().DeltaRap() / rad;
-//         BottomBdt = event.Signature().BottomBdt();
-//         PairBottomBdt = event.Signature().Doublet().BottomBdt();
         HardTopPt = event.Signature().Sextet().HardTopPt() / GeV;
         SoftTopPt = event.Signature().Sextet().SoftTopPt() / GeV;
-//         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
-//         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
-//         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
-//         BottomBdt4 = event.GlobalObservables().BottomBdt(4);
-//         BottomBdt5 = event.GlobalObservables().BottomBdt(5);
-//         BottomBdt6 = event.GlobalObservables().BottomBdt(6);
-//         BottomBdt7 = event.GlobalObservables().BottomBdt(7);
-//         BottomBdt8 = event.GlobalObservables().BottomBdt(8);
-//         BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
-//         BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
-//         BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
-//         BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
     }
 
     Observables Variables();
@@ -378,8 +319,6 @@ public:
 
     float HiggsMass;
     float PairRap;
-//     float BottomBdt;
-//     float PairBottomBdt;
     float HiggsBdt;
     float PairBdt;
     float HardTopPt;
@@ -388,8 +327,6 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
-//         BottomBdt = multiplet.BottomBdt();
-//         PairBottomBdt = multiplet.Doublet().BottomBdt();
         PairBdt = multiplet.Doublet().Bdt();
         HiggsBdt = multiplet.Sextet().Bdt();
         HardTopPt = multiplet.Sextet().HardTopPt() / GeV;
@@ -420,8 +357,6 @@ public:
 
     float HiggsMass;
     float PairRap;
-//     float BottomBdt;
-//     float PairBottomBdt;
     float HiggsBdt;
     float PairBdt;
 
@@ -429,8 +364,6 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
-//         BottomBdt = multiplet.BottomBdt();
-//         PairBottomBdt = multiplet.Quartet2().BottomBdt();
         HiggsBdt = multiplet.Quartet1().Bdt();
         PairBdt = multiplet.Quartet2().Bdt();
         HiggsMass = multiplet.Quartet1().Mass() / GeV;
@@ -461,23 +394,6 @@ public:
     float PairRap;
     float HiggsBdt;
     float SignatureBdt;
-//     float BottomBdt;
-//     float PairBottomBdt;
-
-//     float RestBdt;
-
-//     float BottomBdt1;
-//     float BottomBdt2;
-//     float BottomBdt3;
-//     float BottomBdt4;
-//     float BottomBdt5;
-//     float BottomBdt6;
-//     float BottomBdt7;
-//     float BottomBdt8;
-//     float BottomBdt12;
-//     float BottomBdt34;
-//     float BottomBdt56;
-//     float BottomBdt78;
 
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
@@ -486,21 +402,6 @@ public:
         HiggsBdt = event.Signature().Quartet1().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Quartet2().DeltaRap() / rad;
-//         BottomBdt = event.Signature().BottomBdt();
-//         PairBottomBdt = event.Signature().Quartet2().BottomBdt();
-//         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
-//         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
-//         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
-//         BottomBdt4 = event.GlobalObservables().BottomBdt(4);
-//         BottomBdt5 = event.GlobalObservables().BottomBdt(5);
-//         BottomBdt6 = event.GlobalObservables().BottomBdt(6);
-//         BottomBdt7 = event.GlobalObservables().BottomBdt(7);
-//         BottomBdt8 = event.GlobalObservables().BottomBdt(8);
-//         BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
-//         BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
-//         BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
-//         BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
-//         RestBdt = event.GlobalObservables().BottomBdt();
         LeptonHt = event.GlobalObservables().LeptonHt() / GeV;
     }
 
@@ -552,7 +453,7 @@ private:
 };
 
 class HeavyHiggsCutNeutralBranch : public
-CutBranch
+    CutBranch
 // BdtBranch
 {
 
@@ -585,6 +486,94 @@ private:
 
     ClassDef(HeavyHiggsCutNeutralBranch, 1)
 
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class JetPairBranch : public TwoBodyBranch
+{
+public:
+  JetPairBranch();
+  float Jet1Mass;
+  float Jet1Pt;
+  float Jet1Rap;
+  float Jet1Phi;
+  float Jet2Mass;
+  float Jet2Pt;
+  float Jet2Rap;
+  float Jet2Phi;
+  //     float BdtRatio11;
+  //     float BdtRatio12;
+  //     float BdtRatio13;
+  //     float BdtRatio14;
+  //     float BdtRatio21;
+  //     float BdtRatio22;
+  //     float BdtRatio23;
+  //     float BdtRatio24;
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    TwoBodyBranch::Fill(multiplet);
+    Jet1Pt = multiplet.Singlet1().Pt() / GeV;
+    Jet1Rap = multiplet.Singlet1().Rap() / rad;
+    Jet1Phi = multiplet.Singlet1().Phi() / rad;
+    Jet1Mass = multiplet.Singlet1().Mass() / GeV;
+    Jet2Pt = multiplet.Singlet2().Pt() / GeV;
+    Jet2Rap = multiplet.Singlet2().Rap() / rad;
+    Jet2Phi = multiplet.Singlet2().Phi() / rad;
+    Jet2Mass = multiplet.Singlet2().Mass() / GeV;
+  }
+  Observables Variables();
+
+private:
+  ClassDef(JetPairBranch, 1)
+};
+
+
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class TripletJetPairBranch : public TwoBodyBranch
+{
+public:
+  TripletJetPairBranch();
+  float BottomMass;
+  float BottomPt;
+  float BottomRap;
+  float BottomPhi;
+  float BottomBdt;
+  float BottomBTag;
+  float TopMass;
+  float TopPt;
+  float TopRap;
+  float TopPhi;
+  float TopBdt;
+  float TopBTag;
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    TwoBodyBranch::Fill(multiplet);
+    BottomPt = multiplet.Singlet().Pt() / GeV;
+    //         BottomRap = std::abs(multiplet.Singlet().rap());
+    BottomRap = multiplet.Singlet().Rap() / rad;
+    BottomPhi = multiplet.Singlet().Phi() / rad;
+    BottomMass = multiplet.Singlet().Mass() / GeV;
+    //         BottomBdt = multiplet.Singlet().Info().Bdt();
+    TopPt = multiplet.Triplet().Pt() / GeV;
+    //         TopRap = std::abs(multiplet.Triplet().rap());
+    TopRap = multiplet.Triplet().Rap() / rad;
+    TopPhi = multiplet.Triplet().Phi() / rad;
+    TopMass = multiplet.Triplet().Mass() / GeV;
+    TopBdt = multiplet.Triplet().Bdt();
+  }
+  Observables Variables();
+
+private:
+  ClassDef(TripletJetPairBranch, 1)
 };
 
 }

@@ -15,7 +15,7 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureEffectiveTagger : public Tagger<Quattuordecuplet554, boca::SignatureBranch>
+class SignatureEffectiveTagger : public Tagger<Quattuordecuplet554, boca::ThreeBodyBranch>
 {
 
 public:

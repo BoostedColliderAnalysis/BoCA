@@ -78,22 +78,22 @@ Observables TauBranch::Spectators()
 
 Observables WHadronicBranch::Variables()
 {
-    return PairBranch::Variables() + BottomBase::Variables();
+    return TwoBodyBranch::Variables() + BottomBase::Variables();
 }
 
 Observables WHadronicBranch::Spectators()
 {
-    return PairBranch::Spectators() + BottomBase::Spectators();
+    return TwoBodyBranch::Spectators() + BottomBase::Spectators();
 }
 
 Observables ZHadronicBranch::Variables()
 {
-    return PairBranch::Variables() + BottomBase::Variables();
+    return TwoBodyBranch::Variables() + BottomBase::Variables();
 }
 
 Observables ZHadronicBranch::Spectators()
 {
-    return PairBranch::Spectators() + BottomBase::Spectators();
+    return TwoBodyBranch::Spectators() + BottomBase::Spectators();
 }
 
 WLeptonicBranch::WLeptonicBranch()
@@ -148,7 +148,7 @@ Observables TopLeptonicBranch::Variables()
 
 Observables TopLeptonicBranch::Spectators()
 {
-    return PairBranch::Spectators() + BottomBase::Spectators();
+    return TwoBodyBranch::Spectators() + BottomBase::Spectators();
 }
 
 HiggsBranch::HiggsBranch()
@@ -160,12 +160,12 @@ HiggsBranch::HiggsBranch()
 Observables HiggsBranch::Variables()
 {
 //   return {OBSERVABLE(Mass) + OBSERVABLE(Bdt1) + OBSERVABLE(Bdt2)};
-    return PairBranch::Variables() + BottomBase::Variables() + OBSERVABLE(LeptonPt) + OBSERVABLE(LeptonDeltaR);
+    return TwoBodyBranch::Variables() + BottomBase::Variables() + OBSERVABLE(LeptonPt) + OBSERVABLE(LeptonDeltaR);
 }
 
 Observables HiggsBranch::Spectators()
 {
-    return PairBranch::Spectators() + BottomBase::Spectators();
+    return TwoBodyBranch::Spectators() + BottomBase::Spectators();
 }
 
 

@@ -122,12 +122,12 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class WHadronicBranch : public PairBranch, public BottomBase
+class WHadronicBranch : public TwoBodyBranch, public BottomBase
 {
 public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
     }
     Observables Variables();
@@ -140,12 +140,12 @@ public:
  * @brief Z tagger root tree structure
  *
  */
-class ZHadronicBranch : public PairBranch, public BottomBase
+class ZHadronicBranch : public TwoBodyBranch, public BottomBase
 {
 public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
     }
     Observables Variables();
@@ -158,7 +158,7 @@ public:
  * @brief Top tagger root tree structure
  *
  */
-class WLeptonicBranch : public PairBranch
+class WLeptonicBranch : public TwoBodyBranch
 {
 public:
     WLeptonicBranch();
@@ -166,7 +166,7 @@ public:
     float NeutrinoPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         LeptonPt = multiplet.Singlet1().Pt() / GeV;
         NeutrinoPt = multiplet.Singlet2().Pt() / GeV;
     }
@@ -211,7 +211,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class TopLeptonicBranch : public PairBranch, public BottomBase
+class TopLeptonicBranch : public TwoBodyBranch, public BottomBase
 {
 public:
     TopLeptonicBranch();
@@ -219,7 +219,7 @@ public:
     float LeptonPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
         BottomPt = multiplet.Singlet().Pt() / GeV;
         LeptonPt = multiplet.Doublet().Pt() / GeV; // FIXME what is with the case of W
@@ -236,7 +236,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HiggsBranch : public PairBranch, public BottomBase
+class HiggsBranch : public TwoBodyBranch, public BottomBase
 {
 public:
     HiggsBranch();
@@ -244,7 +244,7 @@ public:
     float LeptonDeltaR;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
         LeptonPt = multiplet.Lepton().Pt() / GeV;
         LeptonDeltaR = multiplet.Lepton().DeltaR() / rad;

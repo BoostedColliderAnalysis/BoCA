@@ -13,7 +13,7 @@ namespace higgscpv
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureTTaggerBranch : public boca::SignatureBranch
+class SignatureTTaggerBranch : public boca::ThreeBodyBranch
 {
 public:
   SignatureTTaggerBranch();
@@ -21,7 +21,7 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        boca::SignatureBranch::Fill(signature.Multiplet());
+        boca::ThreeBodyBranch::Fill(signature.Multiplet());
         Aplanarity = signature.EventShapes().Aplanarity();
         Sphericity = signature.EventShapes().Sphericity();
     }
@@ -227,16 +227,16 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class TopLeptonicPairBranch : public boca::MultiBranch
+class TopLeptonicTwoBodyBranch : public boca::MultiBranch
 {
 public:
-    TopLeptonicPairBranch();
+    TopLeptonicTwoBodyBranch();
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
     }
 private:
-    ClassDef(TopLeptonicPairBranch, 1)
+    ClassDef(TopLeptonicTwoBodyBranch, 1)
 };
 
 /**
@@ -244,10 +244,10 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class TripletPairBranch : public boca::PairBranch
+class TripletTwoBodyBranch : public boca::TwoBodyBranch
 {
 public:
-    TripletPairBranch();
+    TripletTwoBodyBranch();
     float BottomMass;
     float BottomPt;
     float BottomRap;
@@ -262,7 +262,7 @@ public:
     float TopBTag;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         BottomPt = multiplet.Triplet1().Pt() / GeV;
         //         BottomRap = std::abs(multiplet.Rap() / rad);
         BottomRap = multiplet.Triplet1().Rap() / rad;
@@ -279,7 +279,7 @@ public:
     Observables Variables();
 
 private:
-    ClassDef(TripletPairBranch, 1)
+    ClassDef(TripletTwoBodyBranch, 1)
 };
 
 /**
@@ -287,10 +287,10 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class QuartetPairBranch : public boca::PairBranch
+class QuartetTwoBodyBranch : public boca::TwoBodyBranch
 {
 
-    QuartetPairBranch();
+    QuartetTwoBodyBranch();
 
     float BottomMass;
     float BottomPt;
@@ -308,7 +308,7 @@ class QuartetPairBranch : public boca::PairBranch
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         BottomPt = multiplet.Doublet1().Pt() / GeV;
         //         BottomRap = std::abs(multiplet.Rap() / rad);
         BottomRap = multiplet.Doublet1().Rap() / rad;
@@ -325,7 +325,7 @@ class QuartetPairBranch : public boca::PairBranch
 
 private:
 
-    ClassDef(QuartetPairBranch, 1)
+    ClassDef(QuartetTwoBodyBranch, 1)
 
 };
 

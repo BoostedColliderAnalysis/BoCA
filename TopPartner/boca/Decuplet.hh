@@ -26,14 +26,14 @@ public:
 
 };
 
-class Decuplet73 : public TwoBody<boca::naturalness::Septet, boca::Triplet>
+class Decuplet73 : public TwoBody<boca::toppartner::Septet, boca::Triplet>
 {
 
 public:
 
-    using TwoBody<boca::naturalness::Septet, boca::Triplet>::TwoBody;
+    using TwoBody<boca::toppartner::Septet, boca::Triplet>::TwoBody;
 
-    boca::naturalness::Septet const& Septet() const {
+    boca::toppartner::Septet const& Septet() const {
         return Multiplet1();
     }
 

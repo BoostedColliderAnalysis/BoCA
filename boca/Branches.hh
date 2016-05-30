@@ -138,10 +138,10 @@ private:
     ClassDef(ParticleBranch, 1)
 };
 
-class PairBranch : public ParticleBranch
+class TwoBodyBranch : public ParticleBranch
 {
 public:
-    PairBranch();
+    TwoBodyBranch();
     float Ht;
     float DeltaPt;
     float DeltaM;
@@ -174,18 +174,18 @@ public:
     Observables Spectators();
 
 private:
-    ClassDef(PairBranch, 1)
+    ClassDef(TwoBodyBranch, 1)
 };
 
 
-class MultiBranch : public PairBranch
+class MultiBranch : public TwoBodyBranch
 {
 public:
     MultiBranch();
     float DeltaHt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
+        TwoBodyBranch::Fill(multiplet);
         DeltaHt = multiplet.DeltaHt() / GeV;
     }
     Observables Variables();
@@ -199,10 +199,10 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureBranch : public ParticleBranch
+class ThreeBodyBranch : public ParticleBranch
 {
 public:
-    SignatureBranch();
+    ThreeBodyBranch();
     float Ht;
     float Bdt1;
     float Bdt2;
@@ -298,94 +298,9 @@ public:
     Observables Variables();
 
 private:
-    ClassDef(SignatureBranch, 1)
+    ClassDef(ThreeBodyBranch, 1)
 };
 
-/**
- *
- * @brief Higgs tagger root tree structure
- *
- */
-class JetPairBranch : public PairBranch
-{
-public:
-    JetPairBranch();
-    float Jet1Mass;
-    float Jet1Pt;
-    float Jet1Rap;
-    float Jet1Phi;
-    float Jet2Mass;
-    float Jet2Pt;
-    float Jet2Rap;
-    float Jet2Phi;
-//     float BdtRatio11;
-//     float BdtRatio12;
-//     float BdtRatio13;
-//     float BdtRatio14;
-//     float BdtRatio21;
-//     float BdtRatio22;
-//     float BdtRatio23;
-//     float BdtRatio24;
-    template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
-        Jet1Pt = multiplet.Singlet1().Pt() / GeV;
-        Jet1Rap = multiplet.Singlet1().Rap() / rad;
-        Jet1Phi = multiplet.Singlet1().Phi() / rad;
-        Jet1Mass = multiplet.Singlet1().Mass() / GeV;
-        Jet2Pt = multiplet.Singlet2().Pt() / GeV;
-        Jet2Rap = multiplet.Singlet2().Rap() / rad;
-        Jet2Phi = multiplet.Singlet2().Phi() / rad;
-        Jet2Mass = multiplet.Singlet2().Mass() / GeV;
-    }
-    Observables Variables();
-
-private:
-    ClassDef(JetPairBranch, 1)
-};
-
-/**
- *
- * @brief Higgs tagger root tree structure
- *
- */
-class TripletJetPairBranch : public PairBranch
-{
-public:
-    TripletJetPairBranch();
-    float BottomMass;
-    float BottomPt;
-    float BottomRap;
-    float BottomPhi;
-    float BottomBdt;
-    float BottomBTag;
-    float TopMass;
-    float TopPt;
-    float TopRap;
-    float TopPhi;
-    float TopBdt;
-    float TopBTag;
-    template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
-        PairBranch::Fill(multiplet);
-        BottomPt = multiplet.Singlet().Pt() / GeV;
-//         BottomRap = std::abs(multiplet.Singlet().rap());
-        BottomRap = multiplet.Singlet().Rap() / rad;
-        BottomPhi = multiplet.Singlet().Phi() / rad;
-        BottomMass = multiplet.Singlet().Mass() / GeV;
-//         BottomBdt = multiplet.Singlet().Info().Bdt();
-        TopPt = multiplet.Triplet().Pt() / GeV;
-//         TopRap = std::abs(multiplet.Triplet().rap());
-        TopRap = multiplet.Triplet().Rap() / rad;
-        TopPhi = multiplet.Triplet().Phi() / rad;
-        TopMass = multiplet.Triplet().Mass() / GeV;
-        TopBdt = multiplet.Triplet().Bdt();
-    }
-    Observables Variables();
-
-private:
-    ClassDef(TripletJetPairBranch, 1)
-};
 
 /**
  * @brief Class for saving event informations to root
@@ -394,42 +309,42 @@ private:
 class GlobalBase
 {
 public:
-  GlobalBase();
+    GlobalBase();
 
-  float LeptonNumber;
-  float JetNumber;
-  float BottomNumber;
-  float MissingEt;
-  float ScalarHt;
-  float LeptonHt;
-  float JetPt1;
-  float JetPt2;
-  float JetPt3;
-  float JetPt4;
-  float LeptonPt1;
-  float LeptonPt2;
+    float LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
+    float MissingEt;
+    float ScalarHt;
+    float LeptonHt;
+    float JetPt1;
+    float JetPt2;
+    float JetPt3;
+    float JetPt4;
+    float LeptonPt1;
+    float LeptonPt2;
 
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    LeptonNumber = multiplet.LeptonNumber();
-    JetNumber = multiplet.JetNumber();
-    BottomNumber = multiplet.BottomNumber();
-    MissingEt = multiplet.MissingEt() / GeV;
-    ScalarHt = multiplet.ScalarHt() / GeV;
-    LeptonHt = multiplet.LeptonHt() / GeV;
-    LeptonPt1 = multiplet.LeptonPt(0) / GeV;
-    LeptonPt2 = multiplet.LeptonPt(1) / GeV;
-    JetPt1 = multiplet.JetPt(0) / GeV;
-    JetPt2 = multiplet.JetPt(1) / GeV;
-    JetPt3 = multiplet.JetPt(2) / GeV;
-    JetPt4 = multiplet.JetPt(3) / GeV;
-  }
-  virtual Observables Variables();
-  virtual Observables Spectators();
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        LeptonNumber = multiplet.LeptonNumber();
+        JetNumber = multiplet.JetNumber();
+        BottomNumber = multiplet.BottomNumber();
+        MissingEt = multiplet.MissingEt() / GeV;
+        ScalarHt = multiplet.ScalarHt() / GeV;
+        LeptonHt = multiplet.LeptonHt() / GeV;
+        LeptonPt1 = multiplet.LeptonPt(0) / GeV;
+        LeptonPt2 = multiplet.LeptonPt(1) / GeV;
+        JetPt1 = multiplet.JetPt(0) / GeV;
+        JetPt2 = multiplet.JetPt(1) / GeV;
+        JetPt3 = multiplet.JetPt(2) / GeV;
+        JetPt4 = multiplet.JetPt(3) / GeV;
+    }
+    virtual Observables Variables();
+    virtual Observables Spectators();
 
 private:
-  float InValue();
-  ClassDef(GlobalBase, 1)
+    float InValue();
+    ClassDef(GlobalBase, 1)
 };
 
 /**
@@ -439,18 +354,18 @@ private:
 class GlobalObservableBranch : public BdtBranch, public GlobalBase
 {
 public:
-  GlobalObservableBranch();
+    GlobalObservableBranch();
 
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    BdtBranch::Fill(multiplet);
-    GlobalBase::Fill(multiplet);
-  }
-  Observables Variables();
-  Observables Spectators();
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        BdtBranch::Fill(multiplet);
+        GlobalBase::Fill(multiplet);
+    }
+    Observables Variables();
+    Observables Spectators();
 
 private:
-  ClassDef(GlobalObservableBranch, 1)
+    ClassDef(GlobalObservableBranch, 1)
 };
 
 /**
@@ -503,44 +418,59 @@ private:
 class EventShapesBase
 {
 public:
-  EventShapesBase();
+    EventShapesBase();
 
-  float Thrust;
-  float ThrustMajor;
-  float ThrustMinor;
-  float Oblateness;
-  float CParameter;
-  float DParameter;
-  float Sphericity;
-  float Aplanarity;
-  float Planarity;
-  float MHigh2;
-  float MLow2;
-  float BMax;
-  float BMin;
+    float Thrust;
+    float ThrustMajor;
+    float ThrustMinor;
+    float Oblateness;
+    float CParameter;
+    float DParameter;
+    float Sphericity;
+    float Aplanarity;
+    float Planarity;
+    float MHigh2;
+    float MLow2;
+    float BMax;
+    float BMin;
 
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    Thrust = multiplet.EventShapes().Thrust();
-    ThrustMajor = multiplet.EventShapes().ThrustMajor();
-    ThrustMinor = multiplet.EventShapes().ThrustMinor();
-    Oblateness = multiplet.EventShapes().Oblateness();
-    CParameter = multiplet.EventShapes().CParameter();
-    DParameter = multiplet.EventShapes().DParameter();
-    Sphericity = multiplet.EventShapes().Sphericity();
-    Aplanarity = multiplet.EventShapes().Aplanarity();
-    Planarity = multiplet.EventShapes().Planarity();
-    MHigh2 = multiplet.EventShapes().HemisphereMasses().MHigh2();
-    MLow2 = multiplet.EventShapes().HemisphereMasses().MLow2();
-    BMax = multiplet.EventShapes().HemisphereMasses().BMax();
-    BMin = multiplet.EventShapes().HemisphereMasses().BMin();
-  }
-  virtual Observables Variables();
-  virtual Observables Spectators();
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        Thrust = multiplet.EventShapes().Thrust();
+        ThrustMajor = multiplet.EventShapes().ThrustMajor();
+        ThrustMinor = multiplet.EventShapes().ThrustMinor();
+        Oblateness = multiplet.EventShapes().Oblateness();
+        CParameter = multiplet.EventShapes().CParameter();
+        DParameter = multiplet.EventShapes().DParameter();
+        Sphericity = multiplet.EventShapes().Sphericity();
+        Aplanarity = multiplet.EventShapes().Aplanarity();
+        Planarity = multiplet.EventShapes().Planarity();
+        MHigh2 = multiplet.EventShapes().HemisphereMasses().MHigh2();
+        MLow2 = multiplet.EventShapes().HemisphereMasses().MLow2();
+        BMax = multiplet.EventShapes().HemisphereMasses().BMax();
+        BMin = multiplet.EventShapes().HemisphereMasses().BMin();
+    }
+    virtual Observables Variables();
+    virtual Observables Spectators();
 
 private:
-  ClassDef(EventShapesBase, 1)
-  float InValue();
+    ClassDef(EventShapesBase, 1)
+    float InValue();
+};
+
+class SignatureBranch : public ThreeBodyBranch, public EventShapesBase
+{
+public:
+    SignatureBranch();
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        ThreeBodyBranch::Fill(multiplet);
+        EventShapesBase::Fill(multiplet);
+    }
+    Observables Variables();
+    Observables Spectators();
+private:
+    ClassDef(SignatureBranch, 1)
 };
 
 }

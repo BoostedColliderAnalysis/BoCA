@@ -27,7 +27,7 @@ SignatureSingleBranch::SignatureSingleBranch()
 
 Observables SignatureSingleBranch::Variables()
 {
-    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}");
+    return ThreeBodyBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}");
 }
 
 SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
@@ -39,12 +39,12 @@ SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
 
 Observables SignatureSingleHadronicBranch::Variables()
 {
-    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(HiggsPt, "p_{T}(h)") + EventShapesBase::Variables();
+    return ThreeBodyBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(HiggsPt, "p_{T}(h)") + EventShapesBase::Variables();
 }
 
 Observables SignatureSingleHadronicBranch::Spectators()
 {
-    return SignatureBranch::Spectators() + EventShapesBase::Spectators();
+    return ThreeBodyBranch::Spectators() + EventShapesBase::Spectators();
 }
 
 SignatureEffectiveBranch::SignatureEffectiveBranch()
@@ -53,12 +53,12 @@ SignatureEffectiveBranch::SignatureEffectiveBranch()
 
 Observables SignatureEffectiveBranch::Variables()
 {
-    return SignatureBranch::Variables() + EventShapesBase::Variables();
+    return ThreeBodyBranch::Variables() + EventShapesBase::Variables();
 }
 
 Observables SignatureEffectiveBranch::Spectators()
 {
-    return SignatureBranch::Spectators() + EventShapesBase::Spectators();
+    return ThreeBodyBranch::Spectators() + EventShapesBase::Spectators();
 }
 
 TruthBranch::TruthBranch()

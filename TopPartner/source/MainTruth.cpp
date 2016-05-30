@@ -4,12 +4,12 @@
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::fast | boca::Output::plot_hist)
 {
-    boca::naturalness::AnalysisEffective<Tagger> analysis;
+    boca::toppartner::AnalysisEffective<Tagger> analysis;
     analysis.Run(output);
 }
 
 int main()
 {
-    Run<boca::naturalness::TruthLevel>();
+    Run<boca::toppartner::TruthLevel>();
 }
 

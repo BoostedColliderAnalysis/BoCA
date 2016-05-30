@@ -7,12 +7,16 @@
 #include "boca/multiplets/Particles.hh"
 #include "boca/generic/DEBUG.hh"
 
-namespace boca {
+namespace boca
+{
+
+namespace heavyhiggs
+{
 
 int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO("W Tags");
-   auto jets = bottom_reader_.Jets(event);
+    auto jets = bottom_reader_.Jets(event);
     auto triplets = top_hadronic_reader_.Multiplets(event);
 //    std::vector<Jet> jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
@@ -46,7 +50,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal :
-        for (auto const& triplet : triplets) if (Close<Particle>(TopParticles.front())(triplet))
+        for (auto const & triplet : triplets) if (Close<Particle>(TopParticles.front())(triplet))
                 Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
@@ -56,14 +60,14 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 //     std::sort(triplets.begin(), triplets.end(), MinDeltaR(TopParticles.front()));
 //     if (Tag == Tag::signal && triplets.size() > 1) triplets.erase(triplets.begin() + 1, triplets.end());
 //     if (Tag == HBackground && !triplets.empty()) triplets.erase(triplets.begin());
-auto BottomParticles = event.GenParticles();
+    auto BottomParticles = event.GenParticles();
     BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::gluon);
     if (BottomParticles.size() != 1 && tag == Tag::signal)
         ERROR("Where is the Bottom?", BottomParticles.size());
-   std::vector<Jet>FinalJets;
+    std::vector<Jet>FinalJets;
     switch (tag) {
     case  Tag::signal :
-        for (auto const& Jet : jets) if (Close<Particle>(BottomParticles.front())(Jet))
+        for (auto const & Jet : jets) if (Close<Particle>(BottomParticles.front())(Jet))
                 FinalJets.emplace_back(Jet);
         break;
     case Tag::background :
@@ -74,8 +78,8 @@ auto BottomParticles = event.GenParticles();
 //     if (Tag == Tag::signal && triplets.size() > 1) jets.erase(jets.begin() + 1, jets.end());
 //     if (Tag == HBackground && !jets.empty()) jets.erase(jets.begin());
     std::vector<Quartet31> quartets;
-    for (auto const& triplet : triplets)
-        for (auto const& Jet : jets) {
+    for (auto const & triplet : triplets)
+        for (auto const & Jet : jets) {
             Quartet31 quartet(triplet, Jet);
             if (quartet.Overlap())
                 continue;
@@ -99,11 +103,11 @@ auto BottomParticles = event.GenParticles();
 
 std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
-   auto jets = bottom_reader_.Jets(event);
+    auto jets = bottom_reader_.Jets(event);
     auto triplets = top_hadronic_reader_.Multiplets(event);
     std::vector<Quartet31>  quartets;
-    for (auto const& triplet : triplets)
-        for (auto const& Jet : jets)  {
+    for (auto const & triplet : triplets)
+        for (auto const & Jet : jets)  {
             Quartet31 quartet(triplet, Jet);
             if (quartet.Overlap())
                 continue;
@@ -115,6 +119,8 @@ std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boc
 std::string TripletJetPairTagger::Name() const
 {
     return "TripletJetJetPair";
+}
+
 }
 
 }

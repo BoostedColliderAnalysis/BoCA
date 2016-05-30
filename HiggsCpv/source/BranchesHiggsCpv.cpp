@@ -90,9 +90,9 @@ OctetBranch::OctetBranch()
 
 EventBranch::EventBranch() {}
 
-TopLeptonicPairBranch::TopLeptonicPairBranch() {}
+TopLeptonicTwoBodyBranch::TopLeptonicTwoBodyBranch() {}
 
-TripletPairBranch::TripletPairBranch()
+TripletTwoBodyBranch::TripletTwoBodyBranch()
 {
     BottomMass = InitialValue();
     BottomPt = InitialValue();
@@ -108,7 +108,7 @@ TripletPairBranch::TripletPairBranch()
     TopBTag = InitialValue();
 }
 
-QuartetPairBranch::QuartetPairBranch()
+QuartetTwoBodyBranch::QuartetTwoBodyBranch()
 {
     BottomMass = InitialValue();
     BottomPt = InitialValue();
@@ -128,9 +128,9 @@ Observables SignatureLeptonicBranch::Variables()
     return MultiBranch::Variables() + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt) + OBSERVABLE(HardTopPt) + OBSERVABLE(SoftTopPt) + OBSERVABLE(HiggsMass) + OBSERVABLE(PairRap) + OBSERVABLE(Aplanarity) + OBSERVABLE(Sphericity);
 }
 
-Observables TripletPairBranch::Variables()
+Observables TripletTwoBodyBranch::Variables()
 {
-    return PairBranch::Variables() + OBSERVABLE(BottomPt) + OBSERVABLE(BottomRap) + OBSERVABLE(BottomPhi) + OBSERVABLE(BottomMass) + OBSERVABLE(TopPt) + OBSERVABLE(TopRap) + OBSERVABLE(TopPhi) + OBSERVABLE(TopMass) + OBSERVABLE(TopBdt);
+    return TwoBodyBranch::Variables() + OBSERVABLE(BottomPt) + OBSERVABLE(BottomRap) + OBSERVABLE(BottomPhi) + OBSERVABLE(BottomMass) + OBSERVABLE(TopPt) + OBSERVABLE(TopRap) + OBSERVABLE(TopPhi) + OBSERVABLE(TopMass) + OBSERVABLE(TopBdt);
 }
 
 Observables EventBranch::Variables()

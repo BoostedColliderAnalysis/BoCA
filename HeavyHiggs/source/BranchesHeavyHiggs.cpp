@@ -244,6 +244,60 @@ Observables HeavyHiggsCutNeutralBranch::Variables()
     return OBSERVABLE(JetPt1) + OBSERVABLE(JetPt2) +  OBSERVABLE(JetPt3) + OBSERVABLE(JetPt4) +  OBSERVABLE(Ht) + OBSERVABLE(BottomNumber) + OBSERVABLE(LeptonPt);
 }
 
+JetPairBranch::JetPairBranch()
+{
+  //     DeltaM = InitialValue();
+  Jet1Mass = InitialValue();
+  Jet1Pt = InitialValue();
+  Jet1Rap = InitialValue();
+  Jet1Phi = InitialValue();
+  //     Jet1Bdt = InitialValue();
+  //     Jet1BTag = InitialValue();
+  Jet2Mass = InitialValue();
+  Jet2Pt = InitialValue();
+  Jet2Rap = InitialValue();
+  Jet2Phi = InitialValue();
+  //     Jet2Bdt = InitialValue();
+  //     Jet2BTag = InitialValue();
+  //     BdtRatio11 = InitialValue();
+  //     BdtRatio12 = InitialValue();
+  //     BdtRatio13 = InitialValue();
+  //     BdtRatio14 = InitialValue();
+  //     BdtRatio21 = InitialValue();
+  //     BdtRatio22 = InitialValue();
+  //     BdtRatio23 = InitialValue();
+  //     BdtRatio24 = InitialValue();
+}
+
+
+Observables JetPairBranch::Variables()
+{
+  return TwoBodyBranch::Variables() + OBSERVABLE(Jet1Mass) + OBSERVABLE(Jet1Pt) + OBSERVABLE(Jet1Rap) + OBSERVABLE(Jet1Phi) + OBSERVABLE(Jet2Mass) + OBSERVABLE(Jet2Pt) + OBSERVABLE(Jet2Rap) + OBSERVABLE(Jet2Phi);
+}
+
+
+
+TripletJetPairBranch::TripletJetPairBranch()
+{
+  BottomMass = InitialValue();
+  BottomPt = InitialValue();
+  BottomRap = InitialValue();
+  BottomPhi = InitialValue();
+  BottomBdt = InitialValue();
+  BottomBTag = InitialValue();
+  TopMass = InitialValue();
+  TopPt = InitialValue();
+  TopRap = InitialValue();
+  TopPhi = InitialValue();
+  TopBdt = InitialValue();
+  TopBTag = InitialValue();
+}
+
+Observables TripletJetPairBranch::Variables()
+{
+  return TwoBodyBranch::Variables() + OBSERVABLE(BottomPt) + OBSERVABLE(BottomRap) + OBSERVABLE(BottomPhi) + OBSERVABLE(BottomMass) + OBSERVABLE(TopPt) + OBSERVABLE(TopRap) + OBSERVABLE(TopPhi) + OBSERVABLE(TopMass) + OBSERVABLE(TopBdt);
+}
+
 }
 
 }
