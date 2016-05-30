@@ -2,7 +2,7 @@
 
 #include "boca/EventShapes.hh"
 #include "boca/analysis/Analysis.hh"
-#include "boca/standardmodel/TopLeptonicTagger.hh"
+#include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -77,7 +77,7 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const override {
-      //         if(this->template TaggerIs<WLeptonicTagger>()) return 0;
+      //         if(this->template TaggerIs<tagger::WLeptonic>()) return 0;
       //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->Tagger()).semi_leptonic = false;
        std::vector<Lepton> leptons = SortedByPt(event.Leptons());
         if (leptons.size() < 2) return 0;

@@ -112,11 +112,11 @@ protected:
 private:
 
     long TrainNumberMax() const override {
+        return 500;
         return 10000;
         return 100;
         return 1000;
         return 5000;
-        return 500;
     }
 
     int BackgroundFileNumber() const override {

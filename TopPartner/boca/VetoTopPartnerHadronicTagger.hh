@@ -6,8 +6,8 @@
 #include <functional>
 #include "boca/multiplets/Quintet.hh"
 #include "boca/TopPartnerLeptonicNeutralTagger.hh"
-#include "boca/standardmodel/TopHadronicTagger.hh"
-#include "boca/standardmodel/HiggsTagger.hh"
+#include "boca/standardmodel/tagger/TopHadronic.hh"
+#include "boca/standardmodel/tagger/Higgs.hh"
 
 namespace boca
 {
@@ -40,9 +40,9 @@ private:
 
     Reader<TopPartnerLeptonicNeutralTagger> partner_reader_;
 
-    Reader<standardmodel::TopHadronicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopHadronic> top_reader_;
 
-    Reader<standardmodel::HiggsTagger> higgs_reader_;
+    Reader<standardmodel::tagger::Higgs> higgs_reader_;
 
 };
 

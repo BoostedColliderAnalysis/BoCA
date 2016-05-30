@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/standardmodel/BottomTagger.hh"
+#include "boca/standardmodel/tagger/Bottom.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/multiplets/EventMultiplet.hh"
 #include "boca/GlobalObservables.hh"
@@ -14,7 +14,7 @@ namespace boca
  *
  */
 template<typename Tagger_>
-class EventTagger : public Tagger<EventMultiplet, EventBranch>
+class EventTagger : public Tagger<EventMultiplet, Event>
 {
 
 public:

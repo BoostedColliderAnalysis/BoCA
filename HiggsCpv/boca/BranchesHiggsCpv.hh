@@ -13,7 +13,7 @@ namespace higgscpv
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureTTaggerBranch : public boca::ThreeBodyBranch
+class SignatureTTaggerBranch : public boca::ThreeBody
 {
 public:
   SignatureTTaggerBranch();
@@ -21,7 +21,7 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        boca::ThreeBodyBranch::Fill(signature.Multiplet());
+        boca::ThreeBody::Fill(signature.Multiplet());
         Aplanarity = signature.EventShapes().Aplanarity();
         Sphericity = signature.EventShapes().Sphericity();
     }
@@ -48,7 +48,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureLeptonTaggerBranch : public boca::MultiBranch
+class SignatureLeptonTaggerBranch : public boca::Multi
 {
 public:
     SignatureLeptonTaggerBranch();
@@ -85,7 +85,7 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        boca::MultiBranch::Fill(signature.Multiplet());
+        boca::Multi::Fill(signature.Multiplet());
         Mass12 = signature.Multiplet().Jet12().Mass() / GeV;
         Mass23 = signature.Multiplet().Jet23().Mass() / GeV;
         Mass13 = signature.Multiplet().Jet13().Mass() / GeV;
@@ -129,7 +129,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureLeptonicBranch : public boca::MultiBranch
+class SignatureLeptonicBranch : public boca::Multi
 {
 public:
     SignatureLeptonicBranch();
@@ -143,7 +143,7 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        boca::MultiBranch::Fill(signature.Multiplet());
+        boca::Multi::Fill(signature.Multiplet());
         BottomBdt = signature.Multiplet().BottomBdt();
         PairBottomBdt = signature.Multiplet().Doublet().BottomBdt();
         HardTopPt = signature.Multiplet().Sextet().HardTopPt() / GeV;
@@ -170,7 +170,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class OctetBranch : public boca::MultiBranch
+class OctetBranch : public boca::Multi
 {
 public:
     OctetBranch();
@@ -184,7 +184,7 @@ public:
     float SoftTopPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        boca::MultiBranch::Fill(multiplet);
+        boca::Multi::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.PairBottomBdt();
         PairBdt = multiplet.Doublet().Bdt();
@@ -203,22 +203,22 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventBranch : public boca::EventBranch
+class Event : public boca::Event
 {
 
 public:
 
-    EventBranch();
+    Event();
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        boca::EventBranch::Fill(multiplet);
+        boca::Event::Fill(multiplet);
     }
     Observables Variables();
     Observables Spectators();
 
 private:
 
-    ClassDef(EventBranch, 1)
+    ClassDef(Event, 1)
 
 };
 
@@ -227,16 +227,16 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class TopLeptonicTwoBodyBranch : public boca::MultiBranch
+class TopLeptonicTwoBody : public boca::Multi
 {
 public:
-    TopLeptonicTwoBodyBranch();
+    TopLeptonicTwoBody();
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        MultiBranch::Fill(multiplet);
+        Multi::Fill(multiplet);
     }
 private:
-    ClassDef(TopLeptonicTwoBodyBranch, 1)
+    ClassDef(TopLeptonicTwoBody, 1)
 };
 
 /**
@@ -244,10 +244,10 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class TripletTwoBodyBranch : public boca::TwoBodyBranch
+class TripletTwoBody : public boca::TwoBody
 {
 public:
-    TripletTwoBodyBranch();
+    TripletTwoBody();
     float BottomMass;
     float BottomPt;
     float BottomRap;
@@ -262,7 +262,7 @@ public:
     float TopBTag;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        TwoBodyBranch::Fill(multiplet);
+        TwoBody::Fill(multiplet);
         BottomPt = multiplet.Triplet1().Pt() / GeV;
         //         BottomRap = std::abs(multiplet.Rap() / rad);
         BottomRap = multiplet.Triplet1().Rap() / rad;
@@ -279,7 +279,7 @@ public:
     Observables Variables();
 
 private:
-    ClassDef(TripletTwoBodyBranch, 1)
+    ClassDef(TripletTwoBody, 1)
 };
 
 /**
@@ -287,10 +287,10 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class QuartetTwoBodyBranch : public boca::TwoBodyBranch
+class QuartetTwoBody : public boca::TwoBody
 {
 
-    QuartetTwoBodyBranch();
+    QuartetTwoBody();
 
     float BottomMass;
     float BottomPt;
@@ -308,7 +308,7 @@ class QuartetTwoBodyBranch : public boca::TwoBodyBranch
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        TwoBodyBranch::Fill(multiplet);
+        TwoBody::Fill(multiplet);
         BottomPt = multiplet.Doublet1().Pt() / GeV;
         //         BottomRap = std::abs(multiplet.Rap() / rad);
         BottomRap = multiplet.Doublet1().Rap() / rad;
@@ -325,7 +325,7 @@ class QuartetTwoBodyBranch : public boca::TwoBodyBranch
 
 private:
 
-    ClassDef(QuartetTwoBodyBranch, 1)
+    ClassDef(QuartetTwoBody, 1)
 
 };
 

@@ -2,7 +2,7 @@
 
 #include "boca/Tagger.hh"
 #include "boca/multiplets/Triplet.hh"
-#include "boca/standardmodel/Branches.hh"
+#include "boca/standardmodel/branch/TopHadronicHep.hh"
 
 namespace boca
 {
@@ -14,7 +14,7 @@ namespace standardmodel
  * @brief BDT tagger for hadronically decaying top quarks based on the HEP top tagger
  *
  */
-class TopHadronicHep2 : public Tagger<Triplet, TopHadronicHepBranch>
+class TopHadronicHep2 : public Tagger<Triplet, branch::TopHadronicHep>
 {
 
 public:
@@ -52,4 +52,5 @@ private:
 };
 
 }
+
 }

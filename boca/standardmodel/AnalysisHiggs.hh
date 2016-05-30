@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/standardmodel/AnalysisStandardModel.hh"
-#include "boca/standardmodel/BottomTagger.hh"
+#include "boca/standardmodel/tagger/Bottom.hh"
 
 namespace boca
 {
@@ -41,14 +41,14 @@ private:
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
             break;
         case Tag::background :
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
             this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::cc);

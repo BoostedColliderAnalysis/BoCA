@@ -14,7 +14,7 @@
 #include "boca/io/Io.hh"
 #include "boca/io/TreeReader.hh"
 #include "boca/multivariant/Trainer.hh"
-#include "boca/Branches.hh"
+#include "boca/branch/Info.hh"
 #include "boca/TaggerBase.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
@@ -93,7 +93,7 @@ double Trainer::Weight(std::string const& tree_name, Tag tag)
 {
     INFO(Tagger().WeightBranchName());
     TreeReader tree_reader( {Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
-    auto& array = tree_reader.Array<InfoBranch>(Tagger().WeightBranchName());
+    auto& array = tree_reader.Array<branch::Info>(Tagger().WeightBranchName());
     tree_reader.ReadEntry(0);
     return array.At(0).Crosssection() / fb / tree_reader.GetEntries();
 }

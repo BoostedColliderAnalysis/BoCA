@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/multiplets/Identification.hh"
-#include "boca/Branches.hh"
+#include "boca/branch/Base.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -46,7 +46,7 @@ boca::Tag Identification::Tag() const
 
 double Identification::InitialValue()
 {
-    return BaseBranch::InitialValue();
+    return branch::Base::InitialValue();
 }
 
 bool Identification::operator<(Identification const& multiplet) const

@@ -17,7 +17,6 @@ class Reader;
 namespace boca
 {
 
-class ResultBranch;
 class PreCuts;
 class Event;
 class Jet;
@@ -25,6 +24,10 @@ class TreeWriter;
 class TreeBranch;
 class Filter;
 template<typename> class Range;
+
+namespace branch{
+class Result;
+}
 
 /**
  * @brief Prepares multivariant analysis
@@ -35,15 +38,15 @@ class TaggerBase
 
 public:
 
-    virtual auto Name() const -> std::string = 0;
+    virtual std::string Name() const = 0;
 
     virtual int SaveBdt(Event const&, PreCuts const&, TMVA::Reader const&) = 0;
 
-    virtual auto Train(Event const&, PreCuts const&, const Tag) -> int = 0;
+    virtual int Train(Event const&, PreCuts const&, Tag) = 0;
 
-    virtual const ResultBranch& Branch() const = 0;
+    virtual const branch::Result& Branch() const = 0;
 
-    virtual ResultBranch& Branch() = 0;
+    virtual branch::Result& Branch() = 0;
 
     virtual latex::String LatexName() const;
 

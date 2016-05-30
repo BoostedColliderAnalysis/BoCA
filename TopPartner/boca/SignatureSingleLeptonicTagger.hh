@@ -36,9 +36,9 @@ private:
 
     Reader<TopPartnerLeptonicNeutralTagger> partner_reader_;
 
-    Reader<standardmodel::TopHadronicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopHadronic> top_reader_;
 
-    Reader<standardmodel::HiggsTagger> higgs_reader_;
+    Reader<standardmodel::tagger::Higgs> higgs_reader_;
 
     Reader<VetoTopPartnerHadronicTagger> veto_reader_;
 };

@@ -1,6 +1,9 @@
 #pragma once
 
-#include "boca/../../boca/Branches.hh"
+#include "boca/branch/Multi.hh"
+#include "boca/branch/Signature.hh"
+#include "boca/branch/Event.hh"
+#include "boca/branch/GlobalBase.hh"
 
 namespace boca
 {
@@ -13,23 +16,23 @@ namespace toppartner
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class TopPartnerBranch : public MultiBranch
+class TopPartnerBranch : public branch::Multi
 {
 public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        MultiBranch::Fill(multiplet);
+        Multi::Fill(multiplet);
     }
 private:
     ClassDef(TopPartnerBranch, 1)
 };
 
-class VetoTopPartnerBranch : public MultiBranch, public EventShapesBase
+class VetoTopPartnerBranch : public branch::Multi, public branch::EventShapesBase
 {
 public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        MultiBranch::Fill(multiplet);
+        Multi::Fill(multiplet);
         EventShapesBase::Fill(multiplet);
     }
     virtual Observables Variables();
@@ -43,36 +46,36 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class HiggsTwoBodyBranch : public MultiBranch
+class HiggsTwoBody : public branch::Multi
 {
 public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        MultiBranch::Fill(multiplet);
+        Multi::Fill(multiplet);
     }
 private:
-    ClassDef(HiggsTwoBodyBranch, 1)
+    ClassDef(HiggsTwoBody, 1)
 };
 
-// class ThreeBodyBranch : public MultiBranch
+// class ThreeBody : public Multi
 // {
 // public:
 //     template<typename Multiplet>
 //     void Fill(Multiplet const& multiplet) {
-//         MultiBranch::Fill(multiplet);
+//         Multi::Fill(multiplet);
 //     }
 // private:
-//     ClassDef(ThreeBodyBranch, 1)
+//     ClassDef(ThreeBody, 1)
 // };
 
-class SignatureSingleBranch : public ThreeBodyBranch
+class SignatureSingleBranch : public branch::ThreeBody
 {
 public:
     SignatureSingleBranch();
     float VetoBdt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        ThreeBodyBranch::Fill(multiplet);
+        ThreeBody::Fill(multiplet);
         VetoBdt = multiplet.VetoBdt();
     }
     Observables Variables();
@@ -80,7 +83,7 @@ private:
     ClassDef(SignatureSingleBranch, 1)
 };
 
-class SignatureSingleHadronicBranch : public ThreeBodyBranch, public EventShapesBase
+class SignatureSingleHadronicBranch : public branch::ThreeBody, public branch::EventShapesBase
 {
 public:
     SignatureSingleHadronicBranch();
@@ -89,7 +92,7 @@ public:
     float HiggsPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        ThreeBodyBranch::Fill(multiplet);
+        ThreeBody::Fill(multiplet);
         EventShapesBase::Fill(multiplet);
         VetoBdt = multiplet.VetoBdt();
         TopPt = multiplet.Triplet().Pt() / GeV;
@@ -101,13 +104,13 @@ private:
     ClassDef(SignatureSingleHadronicBranch, 1)
 };
 
-class SignatureEffectiveBranch : public ThreeBodyBranch, public EventShapesBase
+class SignatureEffectiveBranch : public branch::ThreeBody, public branch::EventShapesBase
 {
 public:
     SignatureEffectiveBranch();
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        ThreeBodyBranch::Fill(multiplet);
+        ThreeBody::Fill(multiplet);
         EventShapesBase::Fill(multiplet);
     }
     Observables Variables();
@@ -116,16 +119,16 @@ private:
     ClassDef(SignatureEffectiveBranch, 1)
 };
 
-class EventBranch : public boca::EventBranch
-{
-public:
-    template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
-        boca::EventBranch::Fill(multiplet);
-    }
-private:
-    ClassDef(EventBranch, 1)
-};
+// class Event : public boca::branch::Event
+// {
+// public:
+//     template<typename Multiplet>
+//     void Fill(Multiplet const& multiplet) {
+//       boca::branch::Event::Fill(multiplet);
+//     }
+// private:
+//     ClassDef(Event, 1)
+// };
 
 
 
@@ -133,41 +136,41 @@ private:
  * @brief Class for saving event informations to root
  *
  */
-class NewEventBranch : public BdtBranch
+class NewEvent : public branch::Bdt
 {
 public:
-    NewEventBranch();
+    NewEvent();
 
     float SignatureBdt;
     float GlobalBdt;
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        boca::BdtBranch::Fill(multiplet);
+      Bdt::Fill(multiplet);
         SignatureBdt = multiplet.Signature().Bdt();
         GlobalBdt = multiplet.GlobalObservables().Bdt();
     }
     Observables Variables();
 
 private:
-    ClassDef(NewEventBranch, 1)
+    ClassDef(NewEvent, 1)
 };
 
 /**
  * @brief Class for saving event informations to root
  *
  */
-class NewEventBranch2 : public BdtBranch, GlobalBase
+class NewEvent2 : public branch::Bdt, branch::GlobalBase
 {
 public:
-    NewEventBranch2();
+    NewEvent2();
 
     float SignatureBdt;
     float VetoBdt;
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        boca::BdtBranch::Fill(multiplet);
+      Bdt::Fill(multiplet);
         GlobalBase::Fill(multiplet.GlobalObservables());
         SignatureBdt = multiplet.Signature().Bdt();
         VetoBdt = multiplet.Signature().VetoBdt();
@@ -176,24 +179,24 @@ public:
     Observables Spectators();
 
 private:
-    ClassDef(NewEventBranch2, 1)
+    ClassDef(NewEvent2, 1)
 };
 
 /**
  * @brief Class for saving event informations to root
  *
  */
-class NewEventBranch3 : public BdtBranch, GlobalBase
+class NewEvent3 : public branch::Bdt, branch::GlobalBase
 {
 public:
-    NewEventBranch3();
+    NewEvent3();
 
     float SignatureBdt;
     float VetoBdt;
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        BdtBranch::Fill(multiplet);
+        Bdt::Fill(multiplet);
         GlobalBase::Fill(multiplet.GlobalObservables());
         SignatureBdt = multiplet.Signature().Bdt();
     }
@@ -201,7 +204,7 @@ public:
     Observables Spectators();
 
 private:
-    ClassDef(NewEventBranch3, 1)
+    ClassDef(NewEvent3, 1)
 };
 
 
@@ -209,14 +212,14 @@ private:
  * @brief Class for saving event informations to root
  *
  */
-class NewEventBranch4 : public BdtBranch, GlobalBase, EventShapesBase
+class NewEvent4 : public branch::Bdt, branch::GlobalBase, branch::EventShapesBase
 {
 public:
-    NewEventBranch4();
+    NewEvent4();
     float SignatureBdt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        BdtBranch::Fill(multiplet);
+        Bdt::Fill(multiplet);
         GlobalBase::Fill(multiplet.GlobalObservables());
         EventShapesBase::Fill(multiplet);
         SignatureBdt = multiplet.Signature().Bdt();
@@ -225,14 +228,14 @@ public:
     Observables Spectators();
 
 private:
-    ClassDef(NewEventBranch4, 1)
+    ClassDef(NewEvent4, 1)
 };
 
 /**
  * @brief Class for saving event informations to root
  *
  */
-class CompleteBranch : public SignatureSingleHadronicBranch, GlobalBase
+class CompleteBranch : public SignatureSingleHadronicBranch, branch::GlobalBase
 {
 public:
     CompleteBranch();
@@ -254,10 +257,10 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class TruthBranch : public BdtBranch
+class Truth : public branch::Bdt
 {
 public:
-    TruthBranch();
+    Truth();
     float TopPt;
     float LeptonPt;
     float BosonNumber;
@@ -285,7 +288,7 @@ public:
     }
     virtual Observables Variables();
 private:
-    ClassDef(TruthBranch, 1)
+    ClassDef(Truth, 1)
 };
 
 }

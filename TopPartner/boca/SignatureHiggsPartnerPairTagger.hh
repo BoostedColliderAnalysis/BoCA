@@ -4,7 +4,7 @@
 #pragma once
 
 #include <functional>
-#include "boca/standardmodel/HiggsTagger.hh"
+#include "boca/standardmodel/tagger/Higgs.hh"
 #include "boca/Duodecuplet.hh"
 #include "boca/TopPartnerHadronicNeutralTagger.hh"
 #include "boca/TopPartnerLeptonicNeutralTagger.hh"
@@ -40,7 +40,7 @@ private:
 
   Reader<TopPartnerLeptonicNeutralTagger> top_partner_leptonic_reader_;
 
-  Reader<standardmodel::HiggsTagger> higgs_reader_;
+  Reader<standardmodel::tagger::Higgs> higgs_reader_;
 
 };
 

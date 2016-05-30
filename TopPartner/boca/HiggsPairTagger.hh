@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/multiplets/Quartet.hh"
-#include "boca/standardmodel/HiggsTagger.hh"
+#include "boca/standardmodel/tagger/Higgs.hh"
 #include "boca/BranchesTopPartner.hh"
 
 namespace boca
@@ -14,7 +14,7 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class HiggsPairTagger : public Tagger<Quartet22, MultiBranch>
+class HiggsPairTagger : public Tagger<Quartet22, branch::Multi>
 {
 
 public:
@@ -33,7 +33,7 @@ private:
 
   std::vector<Quartet22> Quartets(const boca::Event& event, const std::function< Quartet22(Quartet22&) >& function);
 
-    Reader<standardmodel::HiggsTagger> higgs_reader_;
+    Reader<standardmodel::tagger::Higgs> higgs_reader_;
 };
 
 }

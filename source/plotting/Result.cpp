@@ -49,13 +49,13 @@ double Result::BestMIValue(Significance significance) const
     return XValue(BestMIBin(significance));
 }
 
-const InfoBranch& Result::InfoBranch() const
+const branch::Info& Result::Info() const
 {
     INFO0;
     return info_branch_;
 }
 
-const InfoBranch& Result::TrainerInfoBranch() const
+const branch::Info& Result::TrainerInfo() const
 {
     INFO0;
     return trainer_info_branch_;
@@ -82,7 +82,7 @@ std::vector<double> const& Result::PreCutEfficiencies() const
     INFO0;
     return efficiencies_.Get([&]() {
         return Transform(PartialSum(), [&](double event_sum) {
-            return event_sum / InfoBranch().EventNumber();
+            return event_sum / Info().EventNumber();
         });
     });
 }
@@ -102,7 +102,7 @@ std::vector<Crosssection> const& Result::Crosssections() const
     INFO0;
     return crosssections_.Get([&]() {
         return Transform(PreCutEfficiencies(), [&](double efficiency) {
-            return InfoBranch().Crosssection() * efficiency * ScalingFactor();
+            return Info().Crosssection() * efficiency * ScalingFactor();
         });
     });
 }
@@ -133,7 +133,7 @@ std::vector<int> const& Result::Bins() const
     });
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -142,7 +142,7 @@ Result::Result(boca::InfoBranch const& info_branch, std::vector<double> const& b
     Inititialize();
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -151,7 +151,7 @@ Result::Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool
     Inititialize();
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -162,7 +162,7 @@ Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, 
     Inititialize();
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
 {
     INFO0;
     info_branch_ = info_branch;

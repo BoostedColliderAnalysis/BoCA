@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/standardmodel/AnalysisStandardModel.hh"
-#include "boca/standardmodel/ZHadronicTagger.hh"
+#include "boca/standardmodel/tagger/ZHadronic.hh"
 
 namespace boca
 {
@@ -39,11 +39,11 @@ private:
     void SetFiles(Tag tag, Stage stage)override {
         switch (tag) {
         case Tag::signal :
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::zz);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::zz);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh);
             break;
         case Tag::background :
             if(stage == Stage::reader)
@@ -51,10 +51,10 @@ private:
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::cc);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh_bb);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh_bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
             break;
         }
     }

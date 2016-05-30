@@ -2,7 +2,7 @@
 
 #include "boca/Tagger.hh"
 #include "boca/BranchesHeavyHiggs.hh"
-#include "boca/standardmodel/BottomTagger.hh"
+#include "boca/standardmodel/tagger/Bottom.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/CutVariables.hh"
 
@@ -34,7 +34,7 @@ private:
 
     boost::optional<CutVariables> CutMethod(const boca::Event& event);
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

@@ -5,7 +5,7 @@
 
 #include "boca/BranchesTopPartner.hh"
 #include "boca/Tagger.hh"
-#include "boca/../boca/TruthVariables.hh"
+#include "boca/TruthVariables.hh"
 
 namespace boca
 {
@@ -13,7 +13,7 @@ namespace boca
 namespace toppartner
 {
 
-class TruthLevel : public Tagger<TruthVariables, TruthBranch>
+class TruthLevel : public Tagger<TruthVariables, Truth>
 {
 
 public:
@@ -28,7 +28,7 @@ public:
 
 private:
 
-  std::vector<TruthVariables> Jets(Event const& event, PreCuts const& pre_cuts, std::function<Particle(Particle&)>const&)const;
+    std::vector<TruthVariables> Jets(Event const& event, PreCuts const& pre_cuts, std::function<Particle(Particle&)>const&)const;
 
 };
 

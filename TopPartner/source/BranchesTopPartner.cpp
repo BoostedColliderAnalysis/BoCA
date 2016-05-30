@@ -12,12 +12,12 @@ namespace toppartner
 
 Observables VetoTopPartnerBranch::Variables()
 {
-    return MultiBranch::Variables() + EventShapesBase::Variables();
+    return Multi::Variables() + EventShapesBase::Variables();
 }
 
 Observables VetoTopPartnerBranch::Spectators()
 {
-    return MultiBranch::Spectators() + EventShapesBase::Spectators();
+    return Multi::Spectators() + EventShapesBase::Spectators();
 }
 
 SignatureSingleBranch::SignatureSingleBranch()
@@ -27,7 +27,7 @@ SignatureSingleBranch::SignatureSingleBranch()
 
 Observables SignatureSingleBranch::Variables()
 {
-    return ThreeBodyBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}");
+    return ThreeBody::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}");
 }
 
 SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
@@ -39,12 +39,12 @@ SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
 
 Observables SignatureSingleHadronicBranch::Variables()
 {
-    return ThreeBodyBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(HiggsPt, "p_{T}(h)") + EventShapesBase::Variables();
+    return ThreeBody::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(HiggsPt, "p_{T}(h)") + EventShapesBase::Variables();
 }
 
 Observables SignatureSingleHadronicBranch::Spectators()
 {
-    return ThreeBodyBranch::Spectators() + EventShapesBase::Spectators();
+    return ThreeBody::Spectators() + EventShapesBase::Spectators();
 }
 
 SignatureEffectiveBranch::SignatureEffectiveBranch()
@@ -53,15 +53,15 @@ SignatureEffectiveBranch::SignatureEffectiveBranch()
 
 Observables SignatureEffectiveBranch::Variables()
 {
-    return ThreeBodyBranch::Variables() + EventShapesBase::Variables();
+    return ThreeBody::Variables() + EventShapesBase::Variables();
 }
 
 Observables SignatureEffectiveBranch::Spectators()
 {
-    return ThreeBodyBranch::Spectators() + EventShapesBase::Spectators();
+    return ThreeBody::Spectators() + EventShapesBase::Spectators();
 }
 
-TruthBranch::TruthBranch()
+Truth::Truth()
 {
     TopPt = InitialValue();
     LeptonPt = InitialValue();
@@ -76,65 +76,65 @@ TruthBranch::TruthBranch()
     JetPt = InitialValue();
 }
 
-Observables TruthBranch::Variables()
+Observables Truth::Variables()
 {
     return OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(LeptonPt, "p_{T}(l)") + OBSERVABLE(HardBosonNumber, "#B^{0}_{hard}") + OBSERVABLE(SoftestBosonPt, "p_{T}(B^{0})_{soft}") + OBSERVABLE(DetectableBosonNumber, "#B^{0}_{detect}") + OBSERVABLE(HardestBosonPt, "p_{T}(B)_{hard}") + OBSERVABLE(BosonDeltaRMin, "\\Delta R(B,B)_{min}") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}") + OBSERVABLE(JetPt, "p_{T}(j)");
 }
 
-NewEventBranch::NewEventBranch()
+NewEvent::NewEvent()
 {
     GlobalBdt = InitialValue();
     SignatureBdt = InitialValue();
 }
 
-Observables NewEventBranch::Variables()
+Observables NewEvent::Variables()
 {
-    return BdtBranch::Variables() + OBSERVABLE(GlobalBdt, "BDT_{global}") + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
+    return Bdt::Variables() + OBSERVABLE(GlobalBdt, "BDT_{global}") + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
 }
 
-NewEventBranch2::NewEventBranch2()
+NewEvent2::NewEvent2()
 {
     VetoBdt = InitialValue();
     SignatureBdt = InitialValue();
 }
 
-Observables NewEventBranch2::Variables()
+Observables NewEvent2::Variables()
 {
-    return BdtBranch::Variables() + GlobalBase::Variables() + OBSERVABLE(VetoBdt, "BDT_{veto}") + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
+    return Bdt::Variables() + GlobalBase::Variables() + OBSERVABLE(VetoBdt, "BDT_{veto}") + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
 }
 
-Observables NewEventBranch2::Spectators()
+Observables NewEvent2::Spectators()
 {
-    return BdtBranch::Spectators() + GlobalBase::Spectators();
+    return Bdt::Spectators() + GlobalBase::Spectators();
 }
 
-NewEventBranch3::NewEventBranch3()
+NewEvent3::NewEvent3()
 {
     SignatureBdt = InitialValue();
 }
 
-Observables NewEventBranch3::Variables()
+Observables NewEvent3::Variables()
 {
-    return BdtBranch::Variables() + GlobalBase::Variables() + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
+    return Bdt::Variables() + GlobalBase::Variables() + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
 }
 
-Observables NewEventBranch3::Spectators()
+Observables NewEvent3::Spectators()
 {
-    return BdtBranch::Spectators() + GlobalBase::Spectators();
+    return Bdt::Spectators() + GlobalBase::Spectators();
 }
 
-NewEventBranch4::NewEventBranch4(){
+NewEvent4::NewEvent4(){
   SignatureBdt = InitialValue();
 }
 
-Observables NewEventBranch4::Variables()
+Observables NewEvent4::Variables()
 {
-  return BdtBranch::Variables() + GlobalBase::Variables() + EventShapesBase::Variables() + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
+  return Bdt::Variables() + GlobalBase::Variables() + EventShapesBase::Variables() + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
 }
 
-Observables NewEventBranch4::Spectators()
+Observables NewEvent4::Spectators()
 {
-  return BdtBranch::Spectators() + GlobalBase::Spectators() + EventShapesBase::Spectators();
+  return Bdt::Spectators() + GlobalBase::Spectators() + EventShapesBase::Spectators();
 }
 
 CompleteBranch::CompleteBranch()

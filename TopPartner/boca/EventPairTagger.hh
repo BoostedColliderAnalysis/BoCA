@@ -16,7 +16,7 @@ namespace toppartner
  * @brief Prepares multivariant analysis
  *
  */
-class EventPairTagger : public Tagger<EventMultiplet<Decuplet55>,NewEventBranch4>
+class EventPairTagger : public Tagger<EventMultiplet<Decuplet55>,NewEvent4>
 {
 
 public:

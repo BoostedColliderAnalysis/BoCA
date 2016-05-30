@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/multiplets/Quartet.hh"
-#include "boca/standardmodel/TopHadronicTagger.hh"
+#include "boca/standardmodel/tagger/TopHadronic.hh"
 #include "HeavyHiggs/boca/BranchesHeavyHiggs.hh"
 
 namespace boca
@@ -30,9 +30,9 @@ public:
 
 private:
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
-    Reader<standardmodel::TopHadronicTagger> top_hadronic_reader_;
+    Reader<standardmodel::tagger::TopHadronic> top_hadronic_reader_;
 
 };
 

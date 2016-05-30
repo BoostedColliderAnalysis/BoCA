@@ -85,7 +85,7 @@ private:
         auto quarks = SortedByPt(CopyIf5Quark(particles));
         quarks = SortedByPt(RemoveIfMother(quarks, Id::top));
         if (quarks.empty()) {
-            //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
+            //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == tagger::Bottom || Tagger == HBottomReader))
             //       if (PreCut() > 0)
 //             ERROR("Not enough bottom quarks", Quarks.size());
             return 0;

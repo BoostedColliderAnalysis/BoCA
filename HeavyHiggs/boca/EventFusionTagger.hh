@@ -27,7 +27,7 @@ public:
 
 private:
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
     Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 

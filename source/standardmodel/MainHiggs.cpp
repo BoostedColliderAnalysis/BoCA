@@ -1,5 +1,5 @@
 #include "boca/standardmodel/AnalysisHiggs.hh"
-#include "boca/standardmodel/HiggsTagger.hh"
+#include "boca/standardmodel/tagger/Higgs.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
@@ -10,6 +10,6 @@ void Run(boca::Output output = boca::Output::normal)
 
 int main()
 {
-    Run<boca::standardmodel::BottomTagger>(boca::Output::fast) ;
-    Run<boca::standardmodel::HiggsTagger>(boca::Output::efficiency);
+    Run<boca::standardmodel::tagger::Bottom>(boca::Output::fast) ;
+    Run<boca::standardmodel::tagger::Higgs>(boca::Output::efficiency);
 }

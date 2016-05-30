@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/standardmodel/TopLeptonicTagger.hh"
+#include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/ResonanceTagger.hh"
 #include "boca/multiplets/Quintet.hh"
 
@@ -33,7 +33,7 @@ private:
 
     std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function);
 
-    Reader<standardmodel::TopLeptonicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopLeptonic> top_reader_;
 
     Reader<ResonanceTagger> boson_reader_;
 };

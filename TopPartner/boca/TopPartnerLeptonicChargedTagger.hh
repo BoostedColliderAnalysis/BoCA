@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/standardmodel/TopLeptonicTagger.hh"
+#include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/multiplets/Quintet.hh"
 
 namespace boca
@@ -13,7 +13,7 @@ namespace toppartner
  * @brief Top partner to bottom and W BDT tagger
  *
  */
-class TopPartnerLeptonicChargedTagger : public standardmodel::TopLeptonicTagger
+class TopPartnerLeptonicChargedTagger : public standardmodel::tagger::TopLeptonic
 {
 
 public:

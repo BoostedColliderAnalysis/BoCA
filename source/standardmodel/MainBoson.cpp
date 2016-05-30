@@ -1,5 +1,5 @@
 #include "boca/standardmodel/AnalysisBoson.hh"
-#include "boca/standardmodel/BosonTagger.hh"
+#include "boca/standardmodel/tagger/Boson.hh"
 
 template<typename Tagger>
 void Run(boca::Output run = boca::Output::normal)
@@ -10,7 +10,7 @@ void Run(boca::Output run = boca::Output::normal)
 
 int main()
 {
-    Run<boca::standardmodel::BottomTagger>(boca::Output::fast) ;
-    Run<boca::standardmodel::BosonTagger>(boca::Output::efficiency);
+    Run<boca::standardmodel::tagger::Bottom>(boca::Output::fast) ;
+    Run<boca::standardmodel::tagger::Boson>(boca::Output::efficiency);
 }
 

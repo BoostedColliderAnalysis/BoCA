@@ -17,16 +17,20 @@ class FileWriter;
 class Results;
 class Plot;
 class Graphs;
-class InfoBranch;
 template<typename >
 class Rectangle;
 class TaggerBase;
+class Observable;
 
 namespace latex
 {
 class Row;
 class Table;
 class Graphic;
+}
+
+namespace branch{
+class Info;
 }
 
 /**
@@ -56,7 +60,7 @@ private:
 
     Result CutDistribution(FileWriter& file_writer, const Phase& phase, std::string const& tree_name) const;
 
-    std::pair<boca::InfoBranch, int> InfoBranch(Phase const& phase, std::string const& tree_name) const;
+    std::pair<boca::branch::Info, int> Info(Phase const& phase, std::string const& tree_name) const;
 
     void DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const;
 

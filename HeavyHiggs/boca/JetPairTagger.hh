@@ -5,7 +5,7 @@
 
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
-#include "boca/standardmodel/BottomTagger.hh"
+#include "boca/standardmodel/tagger/Bottom.hh"
 #include "HeavyHiggs/boca/BranchesHeavyHiggs.hh"
 #include "boca/Tagger.hh"
 
@@ -46,7 +46,7 @@ private:
 
     std::vector<Doublet> TruthDoubletPairs(Event const& event, std::vector<Doublet>& doublets, Tag tag) const;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/standardmodel/TopLeptonicTagger.hh"
+#include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/multiplets/Sextet.hh"
 #include "boca/BranchesHiggsCpv.hh"
 
@@ -14,7 +14,7 @@ namespace higgscpv
  * @brief JetPair BDT tagger
  *
  */
-class TopLeptonicPairTagger : public Tagger<Sextet, TopLeptonicTwoBodyBranch>
+class TopLeptonicPairTagger : public Tagger<Sextet, TopLeptonicTwoBody>
 {
 
 public:
@@ -29,7 +29,7 @@ public:
 
 private:
 
-    Reader<standardmodel::TopLeptonicTagger> top_leptonic_reader_;
+    Reader<standardmodel::tagger::TopLeptonic> top_leptonic_reader_;
 
 };
 

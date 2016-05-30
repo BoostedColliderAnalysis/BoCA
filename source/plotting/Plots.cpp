@@ -12,7 +12,7 @@ namespace boca
 
 Plots::Plots() {}
 
-Plots::Plots(boca::InfoBranch const& info_branch)
+Plots::Plots(boca::branch::Info const& info_branch)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -67,7 +67,7 @@ Names const& Plots::Names() const
   INFO0;
     return names_;
 }
-boca::InfoBranch const& Plots::InfoBranch() const
+boca::branch::Info const& Plots::Info() const
 {
   INFO0;
     return info_branch_;

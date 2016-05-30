@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/BranchesHeavyHiggs.hh"
-#include "boca/standardmodel/BottomTagger.hh"
+#include "boca/standardmodel/tagger/Bottom.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/Tagger.hh"
 #include "boca/CutVariables.hh"
@@ -17,7 +17,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class CutTagger : public Tagger<CutVariables, HeavyHiggsCutBranch>
+class CutTagger : public Tagger<CutVariables, HeavyHiggsCut>
 {
 
 public:
@@ -34,7 +34,7 @@ private:
 
     boost::optional<CutVariables> CutMethod(const boca::Event& event);
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

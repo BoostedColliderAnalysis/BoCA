@@ -43,7 +43,7 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(Event const& event, std::vector<Sextet> sextets, Tag tag) const
+std::vector<Sextet> TopLeptonicPairTagger::tagger::Truth(Event const& event, std::vector<Sextet> sextets, Tag tag) const
 {
     switch (tag) {
     case Tag::signal : {

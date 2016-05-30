@@ -1,7 +1,7 @@
 #pragma once
 
-#include "boca/standardmodel/TopLeptonicTagger.hh"
-#include "boca/standardmodel/BosonTagger.hh"
+#include "boca/standardmodel/tagger/TopLeptonic.hh"
+#include "boca/standardmodel/tagger/Boson.hh"
 #include "boca/multiplets/Quintet.hh"
 #include "boca/BranchesTopPartner.hh"
 
@@ -34,9 +34,9 @@ private:
 
     std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function);
 
-    Reader<standardmodel::TopLeptonicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopLeptonic> top_reader_;
 
-    Reader<standardmodel::BosonTagger> boson_reader_;
+    Reader<standardmodel::tagger::Boson> boson_reader_;
 };
 
 }

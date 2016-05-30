@@ -9,7 +9,7 @@
 
 #include "boca/generic/Mutable.hh"
 #include "boca/plotting/Significance.hh"
-#include "boca/Branches.hh"
+#include "boca/branch/Info.hh"
 
 namespace boca
 {
@@ -18,12 +18,12 @@ class Result
 {
 public:
     Result() {};
-    Result(boca::InfoBranch const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
-    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
-    Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
-    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
-    boca::InfoBranch const& InfoBranch() const;
-    boca::InfoBranch const& TrainerInfoBranch() const;
+    Result(boca::branch::Info const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
+    Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
+    Result(boca::branch::Info const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
+    Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
+    boca::branch::Info const& Info() const;
+    boca::branch::Info const& TrainerInfo() const;
     std::vector<double> const& Bdts() const;
     std::vector<double> const& Events() const;
     std::vector<double> const& PreCutEfficiencies() const;
@@ -55,8 +55,8 @@ private:
     int XBin(double value) const;
     int trainer_size_;
     static TMVA::Types::EMVA mva_;
-    boca::InfoBranch info_branch_;
-    boca::InfoBranch trainer_info_branch_;
+    boca::branch::Info info_branch_;
+    boca::branch::Info trainer_info_branch_;
     Mutable<std::vector<int>> bins_;
     Mutable<std::vector<int>> event_sums_;
     std::vector<double> bdts_;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/standardmodel/TauTagger.hh"
+#include "boca/standardmodel/tagger/Tau.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/BranchesHeavyHiggs.hh"
@@ -15,7 +15,7 @@ namespace heavyhiggs
  * @brief Semi leptonic top BDT tagger
  *
  */
-class HeavyHiggsTauTagger : public Tagger<Doublet, HeavyHiggsTauBranch>
+class HeavyHiggsTauTagger : public Tagger<Doublet, HeavyHiggsTau>
 {
 
 public:
@@ -26,7 +26,7 @@ public:
 
 private:
 
-    Reader<standardmodel::TauTagger> tau_reader_;
+    Reader<standardmodel::tagger::Tau> tau_reader_;
 
 };
 

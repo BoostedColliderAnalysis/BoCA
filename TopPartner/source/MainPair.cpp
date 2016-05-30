@@ -10,12 +10,12 @@ void Run(boca::Output output = boca::Output::normal)
 
 int main()
 {
-    Run<boca::standardmodel::BottomTagger>();
-    Run<boca::standardmodel::WHadronicTagger>();
-    Run<boca::standardmodel::WLeptonicTagger>();
-    Run<boca::standardmodel::BosonTagger>();
-    Run<boca::standardmodel::TopHadronicTagger>();
-    Run<boca::standardmodel::TopLeptonicTagger>();
+    Run<boca::standardmodel::tagger::Bottom>();
+    Run<boca::standardmodel::tagger::WHadronic>();
+    Run<boca::standardmodel::tagger::WLeptonic>();
+    Run<boca::standardmodel::tagger::Boson>();
+    Run<boca::standardmodel::tagger::TopHadronic>();
+    Run<boca::standardmodel::tagger::TopLeptonic>();
     Run<boca::toppartner::TopPartnerHadronicNeutralTagger>();
     Run<boca::toppartner::TopPartnerLeptonicNeutralTagger>();
     Run<boca::toppartner::TopPartnerPairTagger>(boca::Output::significance);

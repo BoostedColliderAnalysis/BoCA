@@ -18,7 +18,7 @@ namespace toppartner
  * @brief Prepares multivariant analysis
  *
  */
-class EventEffectiveTagger : public Tagger<EventMultiplet<Quattuordecuplet554>, NewEventBranch3>
+class EventEffectiveTagger : public Tagger<EventMultiplet<Quattuordecuplet554>, NewEvent3>
 {
 
 public:

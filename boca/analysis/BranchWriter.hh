@@ -7,7 +7,7 @@
 
 #include "boca/io/FileWriter.hh"
 #include "boca/multivariant/Reader.hh"
-#include "boca/Branches.hh"
+#include "boca/branch/Info.hh"
 #include "boca/File.hh"
 #include "boca/generic/Debug.hh"
 
@@ -34,7 +34,7 @@ public:
         case Stage::reader : reader_.NewBranch(TreeWriter(), Phase().Stage());
             break;
         }
-        tree_branch_ = &(tree_writer_->NewBranch<InfoBranch>(tagger_.WeightBranchName()));
+        tree_branch_ = &(tree_writer_->NewBranch<branch::Info>(tagger_.WeightBranchName()));
     }
 
     ~BranchWriter() {
@@ -43,7 +43,7 @@ public:
     }
 
     void SafeEntry() {
-        InfoBranch info_branch(Import());
+        branch::Info info_branch(Import());
         info_branch.SetEventNumber(event_sum_.load());
         std::lock_guard<std::mutex> lock(write_mutex);
         TreeBranch().AddEntry(info_branch);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/standardmodel/TopLeptonicTagger.hh"
+#include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/multiplets/Triplet.hh"
 #include "boca/BranchesHeavyHiggs.hh"
 
@@ -29,9 +29,9 @@ public:
 
 private:
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
-    Reader<standardmodel::TopLeptonicTagger> top_leptonic_reader_;
+    Reader<standardmodel::tagger::TopLeptonic> top_leptonic_reader_;
 
 };
 

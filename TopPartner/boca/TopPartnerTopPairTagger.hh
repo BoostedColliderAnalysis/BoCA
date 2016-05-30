@@ -2,7 +2,7 @@
 
 #include "boca/multiplets/Octet.hh"
 #include "boca/TopPartnerLeptonicNeutralTagger.hh"
-#include "boca/standardmodel/TopHadronicTagger.hh"
+#include "boca/standardmodel/tagger/TopHadronic.hh"
 
 namespace boca {
 
@@ -12,7 +12,7 @@ namespace toppartner {
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class TopPartnerTopPairTagger : public Tagger<Octet53,MultiBranch> {
+class TopPartnerTopPairTagger : public Tagger<Octet53,branch::Multi> {
 
 public:
 
@@ -26,7 +26,7 @@ private:
 
     Reader<TopPartnerLeptonicNeutralTagger> top_partner_reader_;
 
-    Reader<standardmodel::TopHadronicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopHadronic> top_reader_;
 };
 
 }

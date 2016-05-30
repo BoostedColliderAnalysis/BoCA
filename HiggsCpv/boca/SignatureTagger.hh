@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/MultipletSignature.hh"
-#include "boca/standardmodel/HiggsTagger.hh"
+#include "boca/standardmodel/tagger/Higgs.hh"
 #include "boca/TopLeptonicPairTagger.hh"
 #include "boca/multiplets/Octet.hh"
 
@@ -29,7 +29,7 @@ public:
 
 private:
 
-    Reader<standardmodel::HiggsTagger> higgs_reader_;
+    Reader<standardmodel::tagger::Higgs> higgs_reader_;
 
     Reader<TopLeptonicPairTagger> triplet_pair_reader_;
 

@@ -18,7 +18,7 @@ namespace toppartner
  * @brief Prepares multivariant analysis
  *
  */
-class EventSingleLeptonicTagger : public Tagger<EventMultiplet<Decuplet532>, NewEventBranch>
+class EventSingleLeptonicTagger : public Tagger<EventMultiplet<Decuplet532>, NewEvent>
 {
 
 public:

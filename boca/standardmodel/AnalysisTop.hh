@@ -1,8 +1,8 @@
 #pragma once
 
 #include "boca/standardmodel/AnalysisStandardModel.hh"
-#include "boca/standardmodel/WHadronicTagger.hh"
-#include "boca/standardmodel/WLeptonicTagger.hh"
+#include "boca/standardmodel/tagger/WHadronic.hh"
+#include "boca/standardmodel/tagger/WLeptonic.hh"
 #include "boca/multiplets/Particles.hh"
 
 namespace boca
@@ -53,28 +53,28 @@ public:
 private:
 
     std::string AnalysisName() const override {
-      return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + (TopDecay() == Decay::hadronic ? "-" + Name(TopTagger()) : "") + "-revised-2";
+      return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + (TopDecay() == Decay::hadronic ? "-" + Name(TopTagger()) : "") + "-new-branches";
     }
 
     void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
-            if (TopDecay() == Decay::hadronic || this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if (TopDecay() == Decay::leptonic || this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
-            if (this->template TaggerIs<WHadronicTagger>() || this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::ww);
+            if (TopDecay() == Decay::hadronic || this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
+            if (TopDecay() == Decay::leptonic || this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
+            if (this->template TaggerIs<tagger::WHadronic>() || this->template TaggerIs<tagger::WLeptonic>()) this->NewFile(tag, Process::ww);
             break;
         case Tag::background :
-            if (TopDecay() == Decay::leptonic && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (TopDecay() == Decay::leptonic && !this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::gg);
-            if (!this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::qq);
-            if ((TopDecay() == Decay::hadronic) && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (!this->template TaggerIs<tagger::WLeptonic>()) this->NewFile(tag, Process::qq);
+            if ((TopDecay() == Decay::hadronic) && !this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
-            if (!this->template TaggerIs<WHadronicTagger>() && !this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::ww);
+            if (!this->template TaggerIs<tagger::WHadronic>() && !this->template TaggerIs<tagger::WLeptonic>()) this->NewFile(tag, Process::ww);
             break;
         }
     }

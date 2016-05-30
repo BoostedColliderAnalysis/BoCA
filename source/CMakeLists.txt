@@ -19,14 +19,13 @@ add_subdirectory(delphes)
 add_subdirectory(multiplets)
 add_subdirectory(multivariant)
 add_subdirectory(analysis)
-# add_subdirectory(branch)
+add_subdirectory(branch)
 
 create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh)
 add_subdirectory(plotting)
 
-create_dictionary(Branches Branches.cpp Branches.hh LinkDef.hh)
-
 set(boca_sources
+Names.cpp
 Tag.cpp
 Names.cpp
 MomentumRange.cpp

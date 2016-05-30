@@ -1,8 +1,8 @@
 #pragma once
 
 #include "boca/multiplets/Quintet.hh"
-#include "boca/standardmodel/TopHadronicTagger.hh"
-#include "boca/standardmodel/BosonTagger.hh"
+#include "boca/standardmodel/tagger/TopHadronic.hh"
+#include "boca/standardmodel/tagger/Boson.hh"
 #include "boca/BranchesTopPartner.hh"
 
 namespace boca
@@ -34,9 +34,9 @@ private:
 
     std::vector<Quintet> Quintets(const boca::Event& event, const std::function< Quintet(Quintet&) >& function);
 
-    Reader<standardmodel::TopHadronicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopHadronic> top_reader_;
 
-    Reader<standardmodel::BosonTagger> boson_reader_;
+    Reader<standardmodel::tagger::Boson> boson_reader_;
 
 };
 

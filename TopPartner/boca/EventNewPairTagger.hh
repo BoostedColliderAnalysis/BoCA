@@ -15,7 +15,7 @@ namespace toppartner
  * @brief Prepares multivariant analysis
  *
  */
-class EventNewPairTagger : public Tagger<MultipletEvent<Decuplet55>,EventBranch>
+class EventNewPairTagger : public Tagger<MultipletEvent<Decuplet55>,branch::Event>
 {
 
 public:
@@ -32,7 +32,7 @@ private:
 
     Reader<NewPartnerPairTagger> signature_reader_;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

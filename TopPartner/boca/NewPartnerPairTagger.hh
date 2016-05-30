@@ -14,7 +14,7 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class NewPartnerPairTagger : public Tagger<Decuplet55, MultiBranch>
+class NewPartnerPairTagger : public Tagger<Decuplet55, branch::Multi>
 {
 
 public:

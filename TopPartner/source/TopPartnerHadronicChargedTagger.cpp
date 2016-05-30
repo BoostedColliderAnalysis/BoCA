@@ -7,7 +7,7 @@ namespace toppartner
 {
 
 TopPartnerHadronicChargedTagger::TopPartnerHadronicChargedTagger() :
-    standardmodel::TopHadronicTagger(Id::top_partner) {}
+    standardmodel::tagger::TopHadronic(Id::top_partner) {}
 
 std::string TopPartnerHadronicChargedTagger::Name() const
 {
