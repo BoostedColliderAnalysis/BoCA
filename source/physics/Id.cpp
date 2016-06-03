@@ -79,6 +79,7 @@ std::string Name(Id id)
     case Id::BS : return "B*";
     case Id::BS0 : return "B*0";
     case Id::BsS0 : return "Bs*0";
+    case Id::ypsilon : return "Y";
     case Id::down_down_1 : return "dd1";
     case Id::up_down_0 : return "ud0";
     case Id::up_down_1 : return "ud1";
@@ -120,6 +121,7 @@ Mass MassOf(Id id)
     case Id::D0 : return 1.44_GeV;
     case Id::Bpm : return 5.279_GeV;
     case Id::B0 : return 5.279_GeV;
+    case Id::ypsilon : return 9.46030_GeV;
     case Id::top_partner: return 1_TeV; //< FIXME remove again
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
         DEFAULT(Name(id), massless);

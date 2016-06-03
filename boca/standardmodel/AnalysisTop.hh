@@ -45,15 +45,15 @@ public:
     }
 
     static boca::standardmodel::TopTagger TopTagger() {
-        return boca::standardmodel::TopTagger::boca;
         return boca::standardmodel::TopTagger::hep;
+        return boca::standardmodel::TopTagger::boca;
         return boca::standardmodel::TopTagger::hep2;
     }
 
 private:
 
     std::string AnalysisName() const override {
-      return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + (TopDecay() == Decay::hadronic ? "-" + Name(TopTagger()) : "") + "-new-branches";
+      return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + (TopDecay() == Decay::hadronic ? "-" + Name(TopTagger()) : "") + "";
     }
 
     void SetFiles(Tag tag, Stage)override {

@@ -6,6 +6,8 @@
 #include "boca/external/QJetsBaseExtras.hh"
 #include "boca/external/TopTagger2.hh"
 
+#include "boca/Settings.hh"
+
 namespace hep
 {
 
@@ -90,45 +92,107 @@ TopTagger2::TopTagger2() :
 {}
 
 TopTagger2::TopTagger2(fastjet::PseudoJet const& jet) :
-    _do_optimalR(1), _do_qjets(0),
-    _jet(jet), _initial_jet(jet),
-    _mass_drop_threshold(0.8), _max_subjet_mass(30.),
-    _mode(Mode(0)), _mtmass(172.3), _mwmass(80.4), _mtmin(150.), _mtmax(200.), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),
-    _m23cut(0.35), _m13cutmin(0.2), _m13cutmax(1.3), _minpt_tag(200.),
-    _nfilt(5), _Rfilt(0.3), _jet_algorithm_filter(fastjet::cambridge_algorithm), _minpt_subjet(0.),
+    _do_optimalR(1),
+    _do_qjets(0),
+    _jet(jet),
+    _initial_jet(jet),
+    _mass_drop_threshold(0.8),
+    _max_subjet_mass(30.),
+    _mode(Mode(0)),
+    _mtmass(172.3),
+    _mwmass(80.4),
+    _mtmin(150.),
+    _mtmax(200.),
+    _rmin(0.85 * 80.4 / 172.3),
+    _rmax(1.15 * 80.4 / 172.3),
+    _m23cut(0.35),
+    _m13cutmin(0.2),
+    _m13cutmax(1.3),
+    _minpt_tag(200.),
+    _nfilt(5),
+    _Rfilt(0.3),
+    _jet_algorithm_filter(fastjet::cambridge_algorithm),
+    _minpt_subjet(0.),
     _jet_algorithm_recluster(fastjet::cambridge_algorithm),
-    _zcut(0.1), _rcut_factor(0.5),
-    _max_fatjet_R(jet.validated_cluster_sequence()->jet_def().R()), _min_fatjet_R(0.5), _step_R(0.1), _optimalR_threshold(0.2),
-    _R_filt_optimalR_calc(0.2), _N_filt_optimalR_calc(10), _r_min_exp_function(&R_opt_calc_funct),
-    _optimalR_mmin(150.), _optimalR_mmax(200.), _optimalR_fw(0.175), _R_opt_diff(0.3),
-    _R_filt_optimalR_pass(0.2), _N_filt_optimalR_pass(5), _R_filt_optimalR_fail(0.3), _N_filt_optimalR_fail(3),
-    _q_zcut(0.1), _q_dcut_fctr(0.5), _q_exp_min(0.), _q_exp_max(0.), _q_rigidity(0.1), _q_truncation_fctr(0.0),
+    _zcut(0.1),
+    _rcut_factor(0.5),
+    _max_fatjet_R(jet.validated_cluster_sequence()->jet_def().R()),
+    _min_fatjet_R(0.5),
+    _step_R(0.1),
+    _optimalR_threshold(0.2),
+    _R_filt_optimalR_calc(0.2),
+    _N_filt_optimalR_calc(10),
+    _r_min_exp_function(&R_opt_calc_funct),
+    _optimalR_mmin(150.),
+    _optimalR_mmax(200.),
+    _optimalR_fw(0.175),
+    _R_opt_diff(0.3),
+    _R_filt_optimalR_pass(0.2),
+    _N_filt_optimalR_pass(5),
+    _R_filt_optimalR_fail(0.3),
+    _N_filt_optimalR_fail(3),
+    _q_zcut(0.1),
+    _q_dcut_fctr(0.5),
+    _q_exp_min(0.),
+    _q_exp_max(0.),
+    _q_rigidity(0.1),
+    _q_truncation_fctr(0.0),
     _fat(jet),
     _debug(false)
 {}
 
 TopTagger2::TopTagger2(fastjet::PseudoJet const& jet, double mtmass, double mwmass) :
-    _do_optimalR(1), _do_qjets(0),
-    _jet(jet), _initial_jet(jet),
-    _mass_drop_threshold(0.8), _max_subjet_mass(30.),
-    _mode(Mode(0)), _mtmass(mtmass), _mwmass(mwmass), _mtmin(150.), _mtmax(200.), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),
-    _m23cut(0.35), _m13cutmin(0.2), _m13cutmax(1.3), _minpt_tag(200.),
-    _nfilt(5), _Rfilt(0.3), _jet_algorithm_filter(fastjet::cambridge_algorithm), _minpt_subjet(0.),
+    _do_optimalR(1),
+    _do_qjets(0),
+    _jet(jet),
+    _initial_jet(jet),
+    _mass_drop_threshold(0.8),
+    _max_subjet_mass(30.),
+    _mode(Mode(0)),
+    _mtmass(mtmass),
+    _mwmass(mwmass),
+    _mtmin(150.),
+    _mtmax(200.),
+    _rmin(0.85 * 80.4 / 172.3),
+    _rmax(1.15 * 80.4 / 172.3),
+    _m23cut(0.35),
+    _m13cutmin(0.2),
+    _m13cutmax(1.3),
+    _minpt_tag(200.),
+    _nfilt(5),
+    _Rfilt(0.3),
+    _jet_algorithm_filter(fastjet::cambridge_algorithm),
+    _minpt_subjet(0.),
     _jet_algorithm_recluster(fastjet::cambridge_algorithm),
-    _zcut(0.1), _rcut_factor(0.5),
-    _max_fatjet_R(jet.validated_cluster_sequence()->jet_def().R()), _min_fatjet_R(0.5), _step_R(0.1), _optimalR_threshold(0.2),
-    _R_filt_optimalR_calc(0.2), _N_filt_optimalR_calc(10), _r_min_exp_function(&R_opt_calc_funct),
-    _optimalR_mmin(150.), _optimalR_mmax(200.), _optimalR_fw(0.175), _R_opt_diff(0.3),
-    _R_filt_optimalR_pass(0.2), _N_filt_optimalR_pass(5), _R_filt_optimalR_fail(0.3), _N_filt_optimalR_fail(3),
-    _q_zcut(0.1), _q_dcut_fctr(0.5), _q_exp_min(0.), _q_exp_max(0.), _q_rigidity(0.1), _q_truncation_fctr(0.0),
+    _zcut(0.1),
+    _rcut_factor(0.5),
+    _max_fatjet_R(jet.validated_cluster_sequence()->jet_def().R()),
+    _min_fatjet_R(0.5),
+    _step_R(0.1),
+    _optimalR_threshold(0.2),
+    _R_filt_optimalR_calc(0.2),
+    _N_filt_optimalR_calc(10),
+    _r_min_exp_function(&R_opt_calc_funct),
+    _optimalR_mmin(150.),
+    _optimalR_mmax(200.),
+    _optimalR_fw(0.175),
+    _R_opt_diff(0.3),
+    _R_filt_optimalR_pass(0.2),
+    _N_filt_optimalR_pass(5),
+    _R_filt_optimalR_fail(0.3),
+    _N_filt_optimalR_fail(3),
+    _q_zcut(0.1),
+    _q_dcut_fctr(0.5),
+    _q_exp_min(0.),
+    _q_exp_max(0.),
+    _q_rigidity(0.1),
+    _q_truncation_fctr(0.0),
     _fat(jet),
     _debug(false)
 {}
 
 void TopTagger2::run()
 {
-    //cout << "--- new Tagger run ---" << endl;
-
     qjets::QJetsPlugin _qjet_plugin(_q_zcut, _q_dcut_fctr, _q_exp_min, _q_exp_max, _q_rigidity, _q_truncation_fctr);
     auto maxR = static_cast<int>(_max_fatjet_R * 10);
     auto minR = static_cast<int>(_min_fatjet_R * 10);
@@ -170,7 +234,7 @@ void TopTagger2::run()
         _seq = _initial_jet.validated_cluster_sequence();
         if (_do_qjets) {
             _q_constits = _initial_jet.associated_cluster_sequence()->constituents(_initial_jet);
-            _qjet_seq = new fastjet::ClusterSequence(_q_constits, _qjet_def);
+            _qjet_seq = new fastjet::ClusterSequence(_q_constits, _qjet_def, &boca::Settings::Recombiner());
             _qjet = sorted_by_pt(_qjet_seq->inclusive_jets())[0];
             _qjet_seq->delete_self_when_unused();
             auto ext = dynamic_cast<qjets::QJetsBaseExtras const*>(_qjet_seq->extras());
@@ -241,12 +305,10 @@ void TopTagger2::run()
         }//End of loop over R
 
         // if we did not find Ropt in the loop, pick the last value
-        if (_Ropt == 0 && _TopTagger2[maxR].t().m() > 0)
-            _Ropt = minR;
+        if (_Ropt == 0 && _TopTagger2[maxR].t().m() > 0) _Ropt = minR;
 
         //for the case that there is no tag at all (< 3 hard substructures)
-        if (_Ropt == 0 && _TopTagger2[maxR].t().m() == 0)
-            _Ropt = maxR;
+        if (_Ropt == 0 && _TopTagger2[maxR].t().m() == 0) _Ropt = maxR;
 
         _TopTagger2_opt = _TopTagger2[_Ropt];
 
@@ -255,11 +317,8 @@ void TopTagger2::run()
 
         fastjet::Filter filter_optimalR_pass(_R_filt_optimalR_pass, fastjet::SelectorNHardest(_N_filt_optimalR_pass));
         fastjet::Filter filter_optimalR_fail(_R_filt_optimalR_fail, fastjet::SelectorNHardest(_N_filt_optimalR_fail));
-        if (optimalR_type() == 1) {
-            _filt_fat = filter_optimalR_pass(_fat);
-        } else {
-            _filt_fat = filter_optimalR_fail(_fat);
-        }
+        if (optimalR_type() == 1) _filt_fat = filter_optimalR_pass(_fat);
+        else _filt_fat = filter_optimalR_fail(_fat);
     }
 }
 

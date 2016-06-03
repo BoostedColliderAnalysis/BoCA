@@ -72,11 +72,11 @@ class SignatureSingleBranch : public branch::ThreeBody
 {
 public:
     SignatureSingleBranch();
-    float VetoBdt;
+    float veto_bdt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         ThreeBody::Fill(multiplet);
-        VetoBdt = multiplet.VetoBdt();
+        veto_bdt = multiplet.VetoBdt();
     }
     Observables Variables();
 private:
@@ -87,16 +87,16 @@ class SignatureSingleHadronicBranch : public branch::ThreeBody, public branch::E
 {
 public:
     SignatureSingleHadronicBranch();
-    float VetoBdt;
-    float TopPt;
-    float HiggsPt;
+    float veto_bdt;
+    float top_pt;
+    float higgs_pt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         ThreeBody::Fill(multiplet);
         EventShapesBase::Fill(multiplet);
-        VetoBdt = multiplet.VetoBdt();
-        TopPt = multiplet.Triplet().Pt() / GeV;
-        HiggsPt = multiplet.Doublet().Pt() / GeV;
+        veto_bdt = multiplet.VetoBdt();
+        top_pt = multiplet.Triplet().Pt() / GeV;
+        higgs_pt = multiplet.Doublet().Pt() / GeV;
     }
     Observables Variables();
     Observables Spectators();
@@ -141,14 +141,14 @@ class NewEvent : public branch::Bdt
 public:
     NewEvent();
 
-    float SignatureBdt;
-    float GlobalBdt;
+    float signature_bdt;
+    float global_bdt;
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-      Bdt::Fill(multiplet);
-        SignatureBdt = multiplet.Signature().Bdt();
-        GlobalBdt = multiplet.GlobalObservables().Bdt();
+        Bdt::Fill(multiplet);
+        signature_bdt = multiplet.Signature().Bdt();
+        global_bdt = multiplet.GlobalObservables().Bdt();
     }
     Observables Variables();
 
@@ -165,15 +165,15 @@ class NewEvent2 : public branch::Bdt, branch::GlobalBase
 public:
     NewEvent2();
 
-    float SignatureBdt;
-    float VetoBdt;
+    float signature_bdt;
+    float veto_bdt;
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-      Bdt::Fill(multiplet);
+        Bdt::Fill(multiplet);
         GlobalBase::Fill(multiplet.GlobalObservables());
-        SignatureBdt = multiplet.Signature().Bdt();
-        VetoBdt = multiplet.Signature().VetoBdt();
+        signature_bdt = multiplet.Signature().Bdt();
+        veto_bdt = multiplet.Signature().VetoBdt();
     }
     Observables Variables();
     Observables Spectators();
@@ -191,14 +191,15 @@ class NewEvent3 : public branch::Bdt, branch::GlobalBase
 public:
     NewEvent3();
 
-    float SignatureBdt;
-    float VetoBdt;
+    float signature_bdt;
+    float veto_bdt;
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         Bdt::Fill(multiplet);
         GlobalBase::Fill(multiplet.GlobalObservables());
-        SignatureBdt = multiplet.Signature().Bdt();
+        signature_bdt = multiplet.Signature().Bdt();
+        veto_bdt = multiplet.Signature().VetoBdt();
     }
     Observables Variables();
     Observables Spectators();
@@ -216,13 +217,13 @@ class NewEvent4 : public branch::Bdt, branch::GlobalBase, branch::EventShapesBas
 {
 public:
     NewEvent4();
-    float SignatureBdt;
+    float signature_bdt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         Bdt::Fill(multiplet);
         GlobalBase::Fill(multiplet.GlobalObservables());
         EventShapesBase::Fill(multiplet);
-        SignatureBdt = multiplet.Signature().Bdt();
+        signature_bdt = multiplet.Signature().Bdt();
     }
     Observables Variables();
     Observables Spectators();
@@ -261,30 +262,30 @@ class Truth : public branch::Bdt
 {
 public:
     Truth();
-    float TopPt;
-    float LeptonPt;
-    float BosonNumber;
-    float HardBosonNumber;
-    float SoftestBosonPt;
-    float HardestBosonPt;
-    float DetectableBosonNumber;
-    float BosonDeltaRMin;
-    float MissingEt;
-    float ScalarHt;
-    float JetPt;
+    float top_pt;
+    float lepton_pt;
+    float boson_number;
+    float hard_boson_number;
+    float softest_boson_pt;
+    float hardest_boson_pt;
+    float detectable_boson_number;
+    float boson_delta_r_min;
+    float missing_et;
+    float scalar_ht;
+    float jet_pt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        TopPt = multiplet.TopPt(0) / GeV;
-        LeptonPt = multiplet.LeptonPt(0) / GeV;
-        BosonNumber = multiplet.BosonNumber();
-        HardBosonNumber = multiplet.HardBosonNumber();
-        SoftestBosonPt = multiplet.SoftBosonPt() / GeV;
-        HardestBosonPt = multiplet.HardBosonPt() / GeV;
-        DetectableBosonNumber = multiplet.DetectableBosonNumber();
-        BosonDeltaRMin = multiplet.BosonDeltaRMin() / rad;
-        MissingEt = multiplet.MissingEt() / GeV;
-        ScalarHt = multiplet.ScalarHt() / GeV;
-        JetPt = multiplet.JetPt(0) / GeV;
+        top_pt = multiplet.TopPt(0) / GeV;
+        lepton_pt = multiplet.LeptonPt(0) / GeV;
+        boson_number = multiplet.BosonNumber();
+        hard_boson_number = multiplet.HardBosonNumber();
+        softest_boson_pt = multiplet.SoftBosonPt() / GeV;
+        hardest_boson_pt = multiplet.HardBosonPt() / GeV;
+        detectable_boson_number = multiplet.DetectableBosonNumber();
+        boson_delta_r_min = multiplet.BosonDeltaRMin() / rad;
+        missing_et = multiplet.MissingEt() / GeV;
+        scalar_ht = multiplet.ScalarHt() / GeV;
+        jet_pt = multiplet.JetPt(0) / GeV;
     }
     virtual Observables Variables();
 private:

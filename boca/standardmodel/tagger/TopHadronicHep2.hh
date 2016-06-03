@@ -10,6 +10,9 @@ namespace boca
 namespace standardmodel
 {
 
+namespace tagger
+{
+
 /**
  * @brief BDT tagger for hadronically decaying top quarks based on the HEP top tagger
  *
@@ -50,6 +53,8 @@ private:
     Mass top_mass_window_;
 
 };
+
+}
 
 }
 

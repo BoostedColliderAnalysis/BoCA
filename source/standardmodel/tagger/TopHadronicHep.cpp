@@ -1,18 +1,17 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/external/TopTagger2.hh"
-
+#include "boca/external/TopTagger.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/multiplets/Particles.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/fastjet/ClusterSequence.hh"
-#include "boca/standardmodel/TopHadronicHep2.hh"
+#include "boca/standardmodel/tagger/TopHadronicHep.hh"
 
 #include "boca/Settings.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Event.hh"
-// #define DEBUGGING
+#define NOTIFICATION
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -21,13 +20,16 @@ namespace boca
 namespace standardmodel
 {
 
-TopHadronicHep2::TopHadronicHep2()
+namespace tagger
+{
+
+TopHadronicHep::TopHadronicHep()
 {
 //     top_mass_window_ = 25_GeV;
     top_mass_window_ = MassOf(Id::top);
 }
 
-int TopHadronicHep2::Train(const Event& event, const PreCuts& pre_cuts, Tag tag)
+int TopHadronicHep::Train(const Event& event, const PreCuts& pre_cuts, Tag tag)
 {
     INFO0;
     return SaveEntries(Triplets(event, pre_cuts, [&](Triplet & triplet) {
@@ -37,7 +39,7 @@ int TopHadronicHep2::Train(const Event& event, const PreCuts& pre_cuts, Tag tag)
     }), Particles(event), tag);
 }
 
-std::vector<Particle>TopHadronicHep2::Particles(Event const& event) const
+std::vector<Particle>TopHadronicHep::Particles(Event const& event) const
 {
     INFO0;
     auto particles = event.GenParticles();
@@ -45,7 +47,7 @@ std::vector<Particle>TopHadronicHep2::Particles(Event const& event) const
     return CopyIfGrandDaughter(particles, quarks);
 }
 
-bool TopHadronicHep2::Problematic(boca::Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const
+bool TopHadronicHep::Problematic(boca::Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     INFO0;
     if (Problematic(triplet, pre_cuts)) return true;
@@ -59,14 +61,14 @@ bool TopHadronicHep2::Problematic(boca::Triplet const& triplet, boca::PreCuts co
     return false;
 }
 
-bool TopHadronicHep2::Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const
+bool TopHadronicHep::Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const
 {
     INFO0;
     if (pre_cuts.ApplyCuts(Id::top, triplet)) return true;
     return false;
 }
 
-std::vector<Triplet> TopHadronicHep2::Multiplets(const Event& event, const boca::PreCuts& pre_cuts, TMVA::Reader const& reader)
+std::vector<Triplet> TopHadronicHep::Multiplets(const Event& event, const boca::PreCuts& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     return Triplets(event, pre_cuts, [&](Triplet & triplet) {
@@ -76,40 +78,23 @@ std::vector<Triplet> TopHadronicHep2::Multiplets(const Event& event, const boca:
     });
 }
 
-std::vector<Triplet> TopHadronicHep2::Triplets(Event const& event, PreCuts const& pre_cuts, std::function<Triplet(Triplet&)> const& function) const
+std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const& pre_cuts, std::function<Triplet(Triplet&)> const& function) const
 {
     INFO0;
     auto jets = event.EFlow(JetDetail::structure | JetDetail::isolation);
     if (jets.empty()) return {};
-    INFO(jets.size(), pre_cuts.JetConeMax(Id::top));
-//     if(jets.size() == 209 || jets.size() == 115) return {}; /// FIXME remove this nasty hack which seems to be necessary for a specific gluon file
+    NOTE(jets.size());
+    if(jets.size() == 306 /*|| jets.size() == 115*/) return {}; /// FIXME remove this nasty hack which seems to be necessary for a specific gluon file
     boca::ClusterSequence cluster_sequence(jets, Settings::JetDefinition(pre_cuts.JetConeMax(Id::top)));
     jets = SortedByPt(cluster_sequence.InclusiveJets(pre_cuts.PtLowerCut().Get(Id::top)));
     INFO(jets.size());
     std::vector<Triplet> triplets;
     for (auto const & jet : jets) {
-        hep::TopTagger2 tagger(jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
-
-        // Unclustering, Filtering & Subjet Settings
-        tagger.set_max_subjet_mass(30.);
-        tagger.set_mass_drop_threshold(0.8);
-        tagger.set_filtering_R(0.3);
-        tagger.set_filtering_n(5);
-        tagger.set_filtering_minpt_subjet(30.);
-
-        // How to select among candidates
-        tagger.set_mode(hep::TWO_STEP_FILTER);
-
-        // Requirements to accept a candidate
-        tagger.set_top_minpt(200);
-        tagger.set_top_mass_range(150., 200.);
-
-
-
-        tagger.run();
-        auto sub_jets = JetVector(tagger.top_subjets());
-        if (sub_jets.size() < 3) continue;
-        Triplet triplet(Doublet(sub_jets.at(1), sub_jets.at(2)), sub_jets.at(0));
+        hep::TopTagger tagger(cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
+        tagger.set_top_range((MassOf(Id::top) - top_mass_window_) / GeV, (MassOf(Id::top) + top_mass_window_) / GeV);
+        tagger.run_tagger();
+        if (tagger.top_subjets().size() < 3) continue;
+        Triplet triplet(Doublet(tagger.top_subjets().at(1), tagger.top_subjets().at(2)), tagger.top_subjets().at(0));
         DEBUG(triplet.Mass());
         try {
             triplet = function(triplet);
@@ -122,18 +107,20 @@ std::vector<Triplet> TopHadronicHep2::Triplets(Event const& event, PreCuts const
     return triplets;
 }
 
-std::string TopHadronicHep2::Name() const
+std::string TopHadronicHep::Name() const
 {
     INFO0;
-    return "TopHadronicHep2";
+    return "TopHadronicHep";
 }
 
-latex::String TopHadronicHep2::LatexName() const
+latex::String TopHadronicHep::LatexName() const
 {
     INFO0;
-    return {"t_{h}^{hep2}", true};
+    return {"t_{h}^{hep}", true};
 }
 
 }
+
 }
 
+}

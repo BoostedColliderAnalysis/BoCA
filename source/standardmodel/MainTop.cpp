@@ -1,8 +1,8 @@
 #include "boca/standardmodel/AnalysisTop.hh"
 #include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/standardmodel/tagger/TopHadronic.hh"
-#include "boca/standardmodel/TopHadronicHep.hh"
-#include "boca/standardmodel/TopHadronicHep2.hh"
+#include "boca/standardmodel/tagger/TopHadronicHep.hh"
+#include "boca/standardmodel/tagger/TopHadronicHep2.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
@@ -27,10 +27,10 @@ int main()
             Run<boca::standardmodel::tagger::TopHadronic>(boca::Output::efficiency | boca::Output::plot);
             break;
         case boca::standardmodel::TopTagger::hep :
-            Run<boca::standardmodel::TopHadronicHep>(boca::Output::efficiency | boca::Output::plot);
+            Run<boca::standardmodel::tagger::TopHadronicHep>(boca::Output::efficiency | boca::Output::plot);
             break;
         case boca::standardmodel::TopTagger::hep2 :
-            Run<boca::standardmodel::TopHadronicHep2>(boca::Output::efficiency | boca::Output::plot);
+            Run<boca::standardmodel::tagger::TopHadronicHep2>(boca::Output::efficiency | boca::Output::plot);
             break;
         }
     }

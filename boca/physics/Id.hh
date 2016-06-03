@@ -78,6 +78,7 @@ enum class Id
     BS = 523,
     BS0 = 531,
     BsS0 = 533,
+    ypsilon = 553,
     down_down_1 = 1103,
     up_down_0 = 2101,
     up_down_1 = 2103,
