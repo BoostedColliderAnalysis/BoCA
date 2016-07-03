@@ -14,7 +14,7 @@ namespace boca
 
 std::string Name(int id)
 {
-    std::string sign = (id < 0) ? "-" : " ";
+    auto sign = (id < 0) ? "-" : " ";
     return sign + Name(Id(std::abs(id)));
 }
 
@@ -163,16 +163,14 @@ std::vector<Id> Resolve(MultiId multi_id)
 
 Id Lightest(MultiId multi_id)
 {
-    auto multi = Resolve(multi_id);
-    return *boost::range::min_element(multi, [](Id id_1, Id id_2) {
+    return *boost::range::min_element(Resolve(multi_id), [](Id id_1, Id id_2) {
         return MassOf(id_1) < MassOf(id_2);
     });
 }
 
 Id Heavyest(MultiId multi_id)
 {
-    auto multi = Resolve(multi_id);
-    return *boost::range::max_element(multi, [](Id id_1, Id id_2) {
+    return *boost::range::max_element(Resolve(multi_id), [](Id id_1, Id id_2) {
         return MassOf(id_1) < MassOf(id_2);
     });
 }

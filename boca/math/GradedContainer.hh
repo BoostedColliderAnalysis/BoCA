@@ -5,9 +5,6 @@
 namespace boca
 {
 
-template<typename Value_>
-using Array3 = std::array<Value_, 3>;
-
 template<template <typename> class Container_, typename Value_>
 class GradedContainer
 {

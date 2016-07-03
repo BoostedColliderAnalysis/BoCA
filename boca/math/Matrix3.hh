@@ -20,6 +20,10 @@
 namespace boca
 {
 
+
+template<typename Value_>
+using Array3 = std::array<Value_, 3>;
+
 template <typename Value_>
 class Matrix3
 // : boost::operators<Matrix3<Value_>>

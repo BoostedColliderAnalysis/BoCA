@@ -90,12 +90,28 @@ enum class Id
     CP_violating_higgs = 5000000
 };
 
+/**
+ * @brief Name of a particle with given PDG number
+ *
+ */
 std::string Name(int id);
 
+/**
+ * @brief Name of a particle with given Id
+ *
+ */
 std::string Name(Id id);
 
+/**
+ * @brief Mass of particle with given Id
+ *
+ */
 Mass MassOf(Id id);
 
+/**
+ * @brief Groups of PDG particles
+ *
+ */
 enum class MultiId
 {
     quark,
@@ -106,14 +122,34 @@ enum class MultiId
     bosons ///< Multi particle containing bosons
 };
 
+/**
+ * @brief Names of PDG particle groups
+ *
+ */
 std::string Name(MultiId multi_id);
 
+/**
+ * @brief Common mass of a multi particle
+ *
+ */
 Mass MassOf(MultiId multi_id);
 
+/**
+ * @brief Vector if PDG particle Ids for a given MultiId
+ *
+ */
 std::vector<Id> Resolve(MultiId multi_id);
 
+/**
+ * @brief Lightest particle of a given MultiID
+ *
+ */
 Id Lightest(MultiId multi_id);
 
+/**
+ * @brief Heaviest particle of a given MultiId
+ *
+ */
 Id Heavyest(MultiId multi_id);
 
 }
