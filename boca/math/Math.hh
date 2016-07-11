@@ -23,8 +23,8 @@ int sgn(Value_ value)
 template <typename Value_>
 int LowerBound(std::vector<Value_> const& vector, Value_ value)
 {
-    auto position = boost::range::lower_bound(vector, value, [](double a, double b) {
-        return a > b;
+    auto position = boost::range::lower_bound(vector, value, [](double value_1, double value_2) {
+        return value_1 > value_2;
     });
     if (position == vector.end()) return 0;
     return position - vector.begin();
@@ -33,8 +33,8 @@ int LowerBound(std::vector<Value_> const& vector, Value_ value)
 template <typename Value_>
 int UpperBound(std::vector<Value_> const& vector, Value_ value)
 {
-    auto position = boost::range::upper_bound(vector, value, [](double a, double b) {
-        return a > b;
+    auto position = boost::range::upper_bound(vector, value, [](double value_1, double value_2) {
+        return value_1 > value_2;
     });
     if (position == vector.end()) return 0;
     return position - vector.begin();

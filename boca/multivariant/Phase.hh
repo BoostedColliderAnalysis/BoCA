@@ -3,18 +3,11 @@
  */
 #pragma once
 
-#include "boca/multiplets/Identification.hh"
+#include "boca/Tag.hh"
+#include "boca/multivariant/Stage.hh"
 
 namespace boca
 {
-
-enum class Stage
-{
-    trainer,
-    reader
-};
-
-std::string Name(Stage stage);
 
 class Phase
 {

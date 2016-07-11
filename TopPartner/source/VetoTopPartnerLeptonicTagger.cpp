@@ -11,7 +11,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int VetoTopPartnerLeptonicTagger::Train(Event const& event, PreCuts const& , Tag tag)
@@ -34,7 +34,7 @@ std::vector<Quintet> VetoTopPartnerLeptonicTagger::Multiplets(Event const& event
 
 std::vector<Particle> VetoTopPartnerLeptonicTagger::Particles(Event const& event) const
 {
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto leptons = CopyIfLepton(particles);
     auto candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
     int id;
@@ -72,7 +72,7 @@ std::string VetoTopPartnerLeptonicTagger::Name() const
     return "VetoTopPartnerLeptonic";
 }
 
-Latex VetoTopPartnerLeptonicTagger::LatexName() const
+latex::String VetoTopPartnerLeptonicTagger::LatexName() const
 {
     return "#slash{T}_{l}";
 }

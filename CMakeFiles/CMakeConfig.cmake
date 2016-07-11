@@ -2,27 +2,27 @@
 # Copyright (C) 2015 Jan Hajer
 #
 
-unset(link_libraries CACHE)
-unset(include_directories CACHE)
+unSET(link_libraries CACHE)
+unSET(include_directories CACHE)
 
 # set library and excecutable destination
-set(CMAKE_INSTALL_LIBDIR ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-#set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
-# set(CMAKE_CXX_STANDARD_REQUIRED on)
+SET(CMAKE_INSTALL_LIBDIR ${CMAKE_BINARY_DIR}/lib)
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+#SET(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
+# SET(CMAKE_CXX_STANDARD_REQUIRED on)
 
 if(APPLE)
-  set(CMAKE_MACOSX_RPATH ON)
+  SET(CMAKE_MACOSX_RPATH ON)
 endif()
 
 # set library versions
-set(major_version 0)
-set(minor_version 3)
-set(patch_version 0)
-set(version ${major_version}.${minor_version}.${patch_version})
-set(library_properties
+SET(major_version 0)
+SET(minor_version 3)
+SET(patch_version 0)
+SET(version ${major_version}.${minor_version}.${patch_version})
+SET(library_properties
   ${library_properties}
   VERSION ${version}
   SOVERSION ${major_version}
@@ -34,7 +34,7 @@ set(library_properties
 macro(add_include_path relative_directory)
   get_filename_component(absolute_directory ${relative_directory} ABSOLUTE)
   message("Include:      ${absolute_directory}")
-  set(include_directories
+  SET(include_directories
     ${include_directories}
     ${absolute_directory}
     CACHE INTERNAL include_directories FORCE
@@ -66,32 +66,51 @@ macro(create_executable name source)
   target_compile_features(${name} PRIVATE cxx_decltype_auto)
 endmacro()
 
-macro(create_dictionary name source header link_def)
-  message("Dictionary:   ${name} <- ${source}, ${header} & ${link_def} | ${ARGV4}")
-  if(${ARGC} GREATER 4)
-    set(link_def2 ../../boca/${ARGV4}/${link_def})
-    set(header2 ../../boca/${ARGV4}/${header})
-#     include_directories(../../boca/${ARGV4})
+macro(create_dictionary name sources headers link_defs)
+  message("Dictionary:   ${name} <- ${sources}, ${headers} & ${link_defs} | ${ARGV4} ${ARGV5} ")
+
+  SET(link_defs_2 "")
+  SET(headers_2 "")
+  if(${ARGC} GREATER 5)
+  foreach(link_def ${link_defs})
+    LIST(APPEND link_defs_2 ../../../boca/${ARGV4}/${ARGV5}/${link_def})
+  endforeach()
+  foreach(header ${headers})
+    LIST(APPEND headers_2 ../../../boca/${ARGV4}/${ARGV5}/${header})
+  endforeach()
+  elseif(${ARGC} GREATER 4)
+  foreach(link_def ${link_defs})
+    LIST(APPEND link_defs_2 ../../boca/${ARGV4}/${link_def})
+  endforeach()
+  foreach(header ${headers})
+    LIST(APPEND headers_2 ../../boca/${ARGV4}/${header})
+  endforeach()
   else()
-    set(header2 ../boca/${header})
-    set(link_def2 ../boca/${link_def})
-#     include_directories(../include/)
+  foreach(link_def ${link_defs})
+    LIST(APPEND link_defs_2 ../boca/${link_def})
+  endforeach()
+  foreach(header ${headers})
+    LIST(APPEND headers_2 ../boca/${header})
+  endforeach()
   endif()
-  set(dictionary ${name}Dict)
-  ROOT_GENERATE_DICTIONARY(${dictionary} ${header2} LINKDEF ${link_def2})
-  set(Sources ${source} ${dictionary}.cxx)
+
+  SET(dictionary ${name}Dict)
+  ROOT_GENERATE_DICTIONARY(${dictionary} ${headers_2} LINKDEF ${link_defs_2})
+  SET(Sources ${sources} ${dictionary}.cxx)
   create_library(${name} Sources "-w")
+  SET(pcm "${CMAKE_CURRENT_BINARY_DIR}/${name}Dict_rdict.pcm")
   add_custom_command(
     TARGET ${name}
     PRE_LINK
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${name}Dict_rdict.pcm ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-    COMMENT "Copy: ${CMAKE_CURRENT_BINARY_DIR}/${name}Dict_rdict.pcm to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+# POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${pcm} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    COMMENT "Copy: ${pcm} to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
   )
 endmacro()
 
 macro(add_libraries source)
   message("Link Library: ${source}")
-  set(link_libraries
+  SET(link_libraries
     ${link_libraries}
     ${source}
     CACHE INTERNAL link_libraries FORCE

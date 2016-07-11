@@ -11,7 +11,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
@@ -29,7 +29,7 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Single-Leptonic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-new-higgs";
+        return "Single-Leptonic-" + Name(Settings::Collider()) + "-" + boca::Name(this->Mass()) + "-new-higgs";
     }
 
     void SetFiles(Tag tag, Stage)override {
@@ -59,12 +59,12 @@ private:
 //      std::vector<Jet> partner = partner_tagger.Particles(event);
 //       if(partner.empty()) return 0;
 //     }
-//        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = SortedByPt(event.Jets());
 //         if (jets.size() < 3) return 0;
 //         if (jets.at(2).Pt() < this->JetPreCut()) return 0;
 //
 //
-//        std::vector<Jet> particles = event.Partons().GenParticles();
+//        std::vector<Jet> particles = event.GenParticles();
 //         particles = RemoveIfSoft(particles, this->PreCut());
 //        std::vector<Jet> tops = CopyIfParticle(particles, Id::top);
 //        std::vector<Jet> higgs = CopyIfParticle(particles, Id::higgs);

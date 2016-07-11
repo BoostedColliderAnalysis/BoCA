@@ -12,7 +12,7 @@
 #include "boca/delphes/Classes.hh"
 
 #include "boca/math/LorentzVector.hh"
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 
 namespace boca
 {
@@ -188,14 +188,14 @@ LorentzVector< Momentum >::LorentzVector(const TLorentzVector& lorentzvector)
 
 LorentzVector< Length >::LorentzVector(delphes::Track& track)
 {
-    vector_3_ = Vector3<Length>(double(track.X) * mm, double(track.Y) * mm, double(track.Z) * mm);
-    scalar_ = double(track.T) * mm;
+    vector_3_ = Vector3<Length>(static_cast<double>(track.X) * mm, static_cast<double>(track.Y) * mm, static_cast<double>(track.Z) * mm);
+    scalar_ = static_cast<double>(track.T) * mm;
 }
 
 LorentzVector< Length >::LorentzVector(delphes::GenParticle& particle)
 {
-    SetVect(Vector3<Length>(double(particle.X) * mm, double(particle.Y) * mm, double(particle.Z) * mm));
-    scalar_ = double(particle.T) * mm;
+    SetVect(Vector3<Length>(static_cast<double>(particle.X) * mm, static_cast<double>(particle.Y) * mm, static_cast<double>(particle.Z) * mm));
+    scalar_ = static_cast<double>(particle.T) * mm;
 }
 
 void LorentzVector< Length >::Smearing(Length const& amount)

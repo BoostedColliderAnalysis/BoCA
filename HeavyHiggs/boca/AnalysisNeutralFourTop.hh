@@ -19,7 +19,7 @@ class AnalysisNeutralFourTop : public AnalysisHeavyHiggs<Tagger>
 public:
 
     AnalysisNeutralFourTop() {
-        DetectorGeometry::SetDetectorType(DetectorType::CMS);
+        Settings::SetCollider(this->Collider());
     }
 
     std::string AnalysisName() const override {
@@ -44,7 +44,7 @@ public:
 
     boca::Crosssection Crosssection(Process process) const override {
         switch (this->Collider()) {
-        case Collider::LHC:
+        case boca::Collider::lhc:
             switch (process) {
             case Process::Htt:
                 switch (Int(this->Mass())) {
@@ -72,11 +72,10 @@ public:
 //             case Process::ttwbb : return 0.13588_fb;
             case Process::tttt : return 0.4849_fb;
             case Process::tttwb : return 0.06012_fb;
-            case Process::ttwbb :return  0.03284_fb;
+            case Process::ttwbb : return  0.03284_fb;
                 DEFAULT(Name(process), fb)
             };
-        case Collider::FHC:
-        case Collider::LE:
+        case boca::Collider::future:
             switch (process) {
             case Process::Htt:
                 switch (Int(this->Mass())) {
@@ -123,13 +122,13 @@ public:
 private:
 
     int PassPreCut(Event const&, Tag) const override {
-//         std::vector<Particle> Particles = event.Partons().GenParticles();
+//         std::vector<Particle> Particles = event.GenParticles();
 //
 //         std::vector<Particle> Tops = CopyIfParticle(Particles, Id::top);
 //         std::vector<Particle> Bottoms = CopyIfParticle(Particles, Id::bottom);
 //
-//         if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
-//         std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+//         if (event.MissingEt().Pt() < this->MissingEt()) return 0;
+//         std::vector<Lepton> leptons = SortedByPt(event.Leptons());
 //         if (Leptons.size() < 2) return 0;
 //         int positive_lepton = 0;
 //         int negative_lepton = 0;
@@ -141,7 +140,7 @@ private:
 //         if (positive_lepton < 2 && negative_lepton < 2) return 0;
 //         if ((positive_lepton + negative_lepton) > 2) return 0;
 //
-//         std::vector<Jet> jets = event.Hadrons().Jets();
+//         std::vector<Jet> jets = event.Jets();
 //         if (jets.size() < 4) return 0;
         return 1;
     }

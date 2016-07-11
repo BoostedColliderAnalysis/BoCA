@@ -10,7 +10,7 @@
 #include <boost/range/algorithm/transform.hpp>
 #include <boost/range/adaptors.hpp>
 
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {
@@ -21,25 +21,24 @@ struct function_traits : public function_traits<decltype(&Function_::operator())
 {};
 
 // we specialize for pointers to member function
-template <typename Class_, typename Return_, typename... Arguments_>
-struct function_traits<Return_(Class_::*)(Arguments_...) const> {
+template <typename Class_, typename Result_, typename... Arguments_>
+struct function_traits<Result_(Class_::*)(Arguments_...) const> {
     // arity is the number of arguments.
     enum { arity = sizeof...(Arguments_) };
-
-    typedef Return_ result_type;
+    using result_type = Result_;
 
     template <std::size_t number>
     struct arg {
         // the i-th argument is equivalent to the i-th tuple element of a tuple composed of those arguments.
-        typedef typename std::tuple_element<number, std::tuple<Arguments_...>>::type type;
+        using type = typename std::tuple_element<number, std::tuple<Arguments_...>>::type;
     };
 };
 
 template <typename Input_, typename Function_>
 auto Transform(Input_ const& inputs, Function_ function)
 {
-    using Result = typename function_traits<decltype(function)>::result_type;
-    std::vector<Result> results;
+    using Result_ = typename function_traits<decltype(function)>::result_type;
+    std::vector<Result_> results;
     if (inputs.empty()) return results;
     results.reserve(inputs.size());
     boost::range::transform(inputs, std::back_inserter(results), function);
@@ -112,7 +111,7 @@ class Close
 public:
     Close(Multiplet_1_ const& particle) :
         particle_(particle) ,
-        cone_size_(DetectorGeometry::JetConeSize())
+        cone_size_(Settings::JetConeSize())
     {}
     Close(Multiplet_1_ const& particle, Angle const& cone_size) :
         particle_(particle) ,

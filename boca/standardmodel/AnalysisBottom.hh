@@ -39,14 +39,14 @@ public:
     AnalysisBottom() {
         this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
-        this->PreCuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().TrackerMaxEta().Set(Id::bottom, Settings::TrackerEtaMax());
         this->PreCuts().ConsiderBuildingBlock().Set(Id::bottom, false);
     }
 
 private:
 
     std::string AnalysisName() const override {
-        return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-ca-test";
+        return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-revised";
 //       return  Name(production_channel()) + "_" + Name(this->Collider()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
     }
 
@@ -77,12 +77,13 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const override {
-        auto particles = SortedByPt(event.Partons().GenParticles());
+//         Debug("muons: ", event.Muons().size());
+        auto particles = SortedByPt(event.GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
         if (particles.size() != 1) return 0;
         return 1;
-        auto jets = event.Hadrons().Jets();
+        auto jets = event.Jets();
         jets = RemoveIfOutsidePtWindow(jets, this->LowerPtCut(), this->UpperPtCut());
         return jets.size();
     }

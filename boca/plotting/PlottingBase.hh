@@ -17,12 +17,21 @@ class FileWriter;
 class Results;
 class Plot;
 class Graphs;
-class InfoBranch;
-template<typename Type_>
+template<typename >
 class Rectangle;
-class Tagger;
-class LatexRow;
-class LatexTable;
+class TaggerBase;
+class Observable;
+
+namespace latex
+{
+class Row;
+class Table;
+class Graphic;
+}
+
+namespace branch{
+class Info;
+}
 
 /**
  * @brief Presents result of multivariant analysis
@@ -43,15 +52,15 @@ public:
 
 private:
 
-    Results ReadBdtFiles(boca::Stage stage) const;
+    Results ReadBdtFiles(Stage stage) const;
 
-    std::vector<Result> ReadBdtFile(boca::FileWriter& file_writer, const boca::Phase& phase) const;
+    std::vector<Result> ReadBdtFile(FileWriter& file_writer, const Phase& phase) const;
 
-    Result BdtDistribution(boca::FileWriter& file_writer, const boca::Phase& phase, int tree_number) const;
+    Result BdtDistribution(FileWriter& file_writer, const Phase& phase, const std::string& tree_name) const;
 
-    Result CutDistribution(boca::FileWriter& file_writer, const boca::Phase& phase, int tree_number) const;
+    Result CutDistribution(FileWriter& file_writer, const Phase& phase, std::string const& tree_name) const;
 
-    std::pair<boca::InfoBranch, int> InfoBranch(Phase const& phase, int tree_number) const;
+    std::pair<boca::branch::Info, int> Info(Phase const& phase, std::string const& tree_name) const;
 
     void DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const;
 
@@ -61,7 +70,7 @@ private:
 
     std::vector<Plots> Import2() const;
 
-    Plots PlotResult(TFile& file, int tree_number, const boca::Phase& phase) const;
+    Plots PlotResult(TFile& file, const std::string& tree_name, const Phase& phase) const;
 
     Plots PlotResult2(const Observable& variable, Tag tag, Plots& plots) const;
 
@@ -75,65 +84,61 @@ private:
 
     void PlotProfile(const Plot& signal, const Plot& background, Rectangle<double> const& range) const;
 
-    std::vector<std::string> PlotAcceptanceGraph(Results const& results) const;
+    latex::Graphic PlotAcceptanceGraph(Results const& results) const;
 
-    std::string PlotCrosssectionsGraph(Results const& results) const;
+    latex::Graphic PlotCrosssectionsGraph(Results const& results) const;
 
-    std::string PlotMDExperimentalGraph(Results const& results) const;
+    latex::Graphic PlotMDExperimentalGraph(Results const& results) const;
 
-    std::string PlotExperimentalVsSignificance(Results const& results) const;
+    latex::Graphic PlotExperimentalVsSignificance(Results const& results) const;
 
-    std::string PlotHistograms(Results const& results) const;
+    latex::Graphic PlotHistograms(Results const& results) const;
 
-    LatexTable BestValueTable(const boca::Result& signal, const std::vector< double >& x_values) const;
+    latex::Table BestValueTable(Result const& signal, const std::vector< double >& x_values) const;
 
-    LatexRow BestValueRow(const boca::Result& signal, const std::vector< double >& x_values, boca::Significance significance, const std::__cxx11::string& model, int bin) const;
+    latex::Row BestValueRow(Result const& signal, const std::vector< double >& x_values, Significance significance, const std::string& model, int bin) const;
 
-//     std::string ScalingTable(boca::Results& results) const;
+    latex::Table EfficienciesTable(Results const& results, int bin) const;
 
-//     std::string ScalingRow(const boca::Results& results, double factor) const;
+    latex::Row EfficienciesRow(Result const& result, int, Tag, int bin) const;
 
-    LatexTable EfficienciesTable(const boca::Results& results, int bin) const;
+    latex::Table EfficienciesTableMI(Results const& results, Significance significance) const;
 
-    LatexRow EfficienciesRow(const boca::Result& result, int, boca::Tag, int bin) const;
+    latex::Row EfficienciesRowMI(Result const& result, int bin) const;
 
-    LatexTable EfficienciesTableMI(const boca::Results& results, boca::Significance significance) const;
+    latex::Table CutEfficiencyTable(Results const& results) const;
 
-    LatexRow EfficienciesRowMI(const boca::Result& result, int bin) const;
+    latex::Row CutEfficiencyRow(Result const& result, int, Tag) const;
 
-    LatexTable CutEfficiencyTable(Results const& results) const;
+    latex::Table TruthLevelCutTable(Results const& results) const;
 
-    LatexRow CutEfficiencyRow(const boca::Result& result, int, boca::Tag) const;
+    latex::Row TruthLevelCutRow(Result const& result, Tag) const;
 
-    LatexTable TruthLevelCutTable(const boca::Results& results) const;
+    latex::Graphic PlotEfficiencyGraph(Results const& results) const;
 
-    LatexRow TruthLevelCutRow(const boca::Result& result, boca::Tag) const;
+    latex::Graphic PlotMDGraph(Results const& results) const;
 
-    std::string PlotEfficiencyGraph(Results const& results) const;
+    latex::Graphic PlotMIExclusion(Results const& results) const;
 
-    std::string PlotMDGraph(Results const& results) const;
+    latex::Graphic PlotMIDiscovery(Results const& results) const;
 
-    std::string PlotMIExclusion(Results const& results) const;
+    latex::Graphic PlotMISignificanceExclusion(Results const& results) const;
 
-    std::string PlotMIDiscovery(Results const& results) const;
+    latex::Graphic PlotMISignificanceDiscovery(Results const& results) const;
 
-    std::string PlotMISignificanceExclusion(Results const& results) const;
-
-    std::string PlotMISignificanceDiscovery(Results const& results) const;
-
-    std::string PlotMIExperimentalGraph(Results const& results) const;
+    latex::Graphic PlotMIExperimentalGraph(Results const& results) const;
 
     void SetDefaultXAxis(Graphs& graphs, Results const& results) const;
 
     void PlotVariables(Plots const& plots) const;
 
-    virtual boca::Tagger const& Tagger() const = 0;
+    virtual TaggerBase const& Tagger() const = 0;
 
-    virtual boca::Tagger & Tagger() = 0;
+    virtual TaggerBase& Tagger() = 0;
 
     template<typename Branch_>
-    Branch_ ConstCast(Branch_ const& branch) const{
-      return const_cast<Branch_&>(branch);
+    Branch_ ConstCast(Branch_ const& branch) const {
+        return const_cast<Branch_&>(branch);
     }
 
 };

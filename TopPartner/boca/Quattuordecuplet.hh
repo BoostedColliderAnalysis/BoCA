@@ -5,15 +5,15 @@
 
 namespace boca {
 
-namespace naturalness {
+namespace toppartner {
 
-class Quattuordecuplet104 : public TwoBody<naturalness::Decuplet55, Quartet22> {
+class Quattuordecuplet104 : public TwoBody<toppartner::Decuplet55, Quartet22> {
 
 public:
 
-    using TwoBody<naturalness::Decuplet55, Quartet22>::TwoBody;
+    using TwoBody<toppartner::Decuplet55, Quartet22>::TwoBody;
 
-    naturalness::Decuplet55 Decuplet() const
+    toppartner::Decuplet55 Decuplet() const
     {
         return Multiplet1();
     }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "TClonesArray.h"
 
 class TTree;
@@ -10,11 +11,12 @@ namespace boca
 
 class TreeBranch
 {
+
 public:
 
     TreeBranch(char const* name, TClass* cl, TTree* tree = nullptr);
 
-    TreeBranch(std::string const& name, TClass & cl, TTree & tree);
+    TreeBranch(std::string const& name, TClass& cl, TTree& tree);
 
     TreeBranch(std::string const& name, TClass& cl);
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/Analysis.hh"
+#include "boca/analysis/Analysis.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -27,12 +27,6 @@ enum class Production
 
 std::string Name(Production production_channel);
 
-enum class Detector
-{
-    LHC, FHC, LE
-};
-
-std::string Name(Detector detector_type);
 
 /**
  *
@@ -63,8 +57,8 @@ public:
     }
 
     std::string AnalysisName() const override {
-      return  Name(DetectorType()) + "-eta3.5";
-      //         return  ProductionChannelName(ProductionChannel()) + DetectorName(DetectorType())  + "_" + Name(Mass());
+        return  Name(Collider()) + "-eta3.5";
+        //         return  ProductionChannelName(ProductionChannel()) + DetectorName(Collider())  + "_" + Name(Mass());
     }
 
 private:
@@ -83,10 +77,9 @@ private:
         //         return Production::Associated;
     }
 
-    Detector DetectorType() const {
-        //       return Detector::LHC;
-        //       return Detector::FHC;
-        return Detector::LE;
+    boca::Collider Collider() const {
+        return boca::Collider::lhc;
+        return boca::Collider::future;
     }
 
     Id MotherId(Production production) const {
@@ -94,7 +87,7 @@ private:
         case Production::DYP : return Id::Z;
         case Production::VBF : return Id::bottom;
         case Production::Associated : return Id::gluon;
-        DEFAULT(to_int(production), Id::none);
+            DEFAULT(to_int(production), Id::none);
         }
     }
 
@@ -127,11 +120,11 @@ private:
 
 
     std::string NameString(Process process) const {
-      return Name(ProductionChannel()) + Name(process) + "_" + Name(DetectorType());
+        return Name(ProductionChannel()) + Name(process) + "_" + Name(Collider());
     }
 
     std::string NameString(Process process, Production production) const {
-      return Name(production) + Name(process) + "_" + Name(DetectorType());
+        return Name(production) + Name(process) + "_" + Name(Collider());
     }
 
     File BackgroundFile(Process process, Production production) const {
@@ -156,19 +149,19 @@ private:
 
 
     std:: string SignalName(Process process) {
-      return  NameString(process) + "_" + Name(Mass());
+        return  NameString(process) + "_" + Name(Mass());
     }
 
     std::string TreeName(Process process) const {
-      return NameString(process) + "-run_01";
+        return NameString(process) + "-run_01";
     }
 
     std::string TreeName(Process process, Production production) const {
-      return NameString(process, production) + "-run_01";
+        return NameString(process, production) + "-run_01";
     }
 
     std:: string SignalTreeName(Process process) {
-      return  NameString(process) + "_" + Name(Mass()) + "-run_01";
+        return  NameString(process) + "_" + Name(Mass()) + "-run_01";
     }
 
     Crosssection BackgroundCrosssection(Process) const {

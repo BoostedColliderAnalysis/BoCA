@@ -1,19 +1,19 @@
 #pragma once
 
-#include "boca/standardmodel/TopHadronicTagger.hh"
+#include "boca/standardmodel/tagger/TopHadronic.hh"
 #include "boca/multiplets/Quintet.hh"
 
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
  * @brief Top partner to bottom and W BDT tagger
  *
  */
-class TopPartnerHadronicChargedTagger : public standardmodel::TopHadronicTagger
+class TopPartnerHadronicChargedTagger : public standardmodel::tagger::TopHadronic
 {
 
 public:
@@ -22,7 +22,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 

@@ -10,7 +10,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int ResonanceTagger::Train(Event const& event, PreCuts const&, Tag tag)
@@ -24,7 +24,7 @@ int ResonanceTagger::Train(Event const& event, PreCuts const&, Tag tag)
 
 std::vector<Doublet> ResonanceTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const
 {
-    return UnorderedPairs(event.Leptons().Photons(), [&](Lepton const & photon_1, Lepton const & photon_2) {
+    return UnorderedPairs(event.Photons(), [&](Lepton const & photon_1, Lepton const & photon_2) {
         Doublet doublet(photon_1, photon_2);
         if (doublet.Overlap()) throw Overlap();
         return function(doublet);
@@ -41,13 +41,13 @@ std::vector<Doublet> ResonanceTagger::Multiplets(Event const& event, boca::PreCu
 
 std::vector<Particle> ResonanceTagger::Particles(Event const& event) const
 {
-    return CopyIfParticle(event.Partons().GenParticles(), Id::heavy_higgs);
+    return CopyIfParticle(event.GenParticles(), Id::heavy_higgs);
 }
 std::string ResonanceTagger::Name() const
 {
     return "Resonance";
 }
-Latex ResonanceTagger::LatexName() const
+latex::String ResonanceTagger::LatexName() const
 {
     return {"S", true};
 }

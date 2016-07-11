@@ -14,7 +14,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventFusionTagger : public TaggerTemplate<MultipletEvent<Sextet>, EventFusionBranch>
+class EventFusionTagger : public Tagger<MultipletEvent<Sextet>, EventFusionBranch>
 {
 
 public:
@@ -27,7 +27,7 @@ public:
 
 private:
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
     Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 

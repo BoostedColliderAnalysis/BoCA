@@ -62,10 +62,10 @@ ParticleInfo& Particle::Info()
     return static_cast<ParticleInfo&>(*user_info_shared_ptr().get());
 }
 
-void Particle::SetInfo(ParticleInfo const& user_info)
+void Particle::SetInfo(ParticleInfo const& info)
 {
     if (has_user_info()) ERROR("Particle has already a user info, which gets overwritten: data loss and memory leak");
-    set_user_info(new ParticleInfo(user_info));
+    set_user_info(new ParticleInfo(info));
 }
 
 std::vector< Particle > ParticleVector(std::vector< fastjet::PseudoJet > const& pseudo_jets)

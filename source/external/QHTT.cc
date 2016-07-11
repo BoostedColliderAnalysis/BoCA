@@ -4,7 +4,7 @@ namespace hep
 {
 
 QHTT::QHTT() : _niter(100),   _q_zcut(0.1), _q_dcut_fctr(0.5), _q_exp_min(0.), _q_exp_max(0.), _q_rigidity(0.1), _q_truncation_fctr(0.0)
-{};
+{}
 
 void QHTT::run(TopTagger2 const& htt)
 {
@@ -15,7 +15,7 @@ void QHTT::run(TopTagger2 const& htt)
     _m2_sum = 0.;
     _eps_q = 0.;
     _qtags = 0;
-    auto _htt_q = htt;
+    _htt_q = htt;
     _htt_q.set_qjets(_q_zcut, _q_dcut_fctr, _q_exp_min, _q_exp_max, _q_rigidity, _q_truncation_fctr);
     _htt_q.do_qjets(true);
     for (auto iq = 0; iq < _niter; iq++) {
@@ -33,7 +33,8 @@ void QHTT::run(TopTagger2 const& htt)
         }
     }
     _eps_q = float(_qtags) / float(_niter);
-};
+}
+
 void QHTT::set_iterations(int niter)
 {
     _niter = niter;

@@ -7,6 +7,8 @@
 #include "boca/external/QJetsBaseExtras.hh"
 #include "boca/external/TopTaggerFixedR.hh"
 
+#include "boca/Settings.hh"
+
 namespace hep
 {
 
@@ -143,14 +145,34 @@ double TopTaggerFixedR::nsub(fastjet::PseudoJet const& jet, int order, fastjet::
     return nsub.result(jet);
 }
 
-TopTaggerFixedR::TopTaggerFixedR() : _do_qjets(0),
-    _mass_drop_threshold(0.8), _max_subjet_mass(30.),
-    _mode(Mode(0)), _mtmass(172.3), _mwmass(80.4), _mtmin(150.), _mtmax(200.), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),
-    _m23cut(0.35), _m13cutmin(0.2), _m13cutmax(1.3), _minpt_tag(200.),
-    _nfilt(5), _Rfilt(0.3), _jet_algorithm_filter(fastjet::cambridge_algorithm), _minpt_subjet(0.),
+TopTaggerFixedR::TopTaggerFixedR() :
+    _do_qjets(0),
+    _mass_drop_threshold(0.8),
+    _max_subjet_mass(30.),
+    _mode(Mode(0)),
+    _mtmass(172.3),
+    _mwmass(80.4),
+    _mtmin(150.),
+    _mtmax(200.),
+    _rmin(0.85 * 80.4 / 172.3),
+    _rmax(1.15 * 80.4 / 172.3),
+    _m23cut(0.35),
+    _m13cutmin(0.2),
+    _m13cutmax(1.3),
+    _minpt_tag(200.),
+    _nfilt(5),
+    _Rfilt(0.3),
+    _jet_algorithm_filter(fastjet::cambridge_algorithm),
+    _minpt_subjet(0.),
     _jet_algorithm_recluster(fastjet::cambridge_algorithm),
-    _zcut(0.1), _rcut_factor(0.5),
-    _q_zcut(0.1), _q_dcut_fctr(0.5), _q_exp_min(0.), _q_exp_max(0.), _q_rigidity(0.1), _q_truncation_fctr(0.0),
+    _zcut(0.1),
+    _rcut_factor(0.5),
+    _q_zcut(0.1),
+    _q_dcut_fctr(0.5),
+    _q_exp_min(0.),
+    _q_exp_max(0.),
+    _q_rigidity(0.1),
+    _q_truncation_fctr(0.0),
     _debug(false)
 {
     _djsum = 0.;
@@ -169,28 +191,65 @@ TopTaggerFixedR::TopTaggerFixedR() : _do_qjets(0),
 }
 
 TopTaggerFixedR::TopTaggerFixedR(fastjet::PseudoJet const& jet) : _do_qjets(0),
-    _jet(jet), _initial_jet(jet),
-    _mass_drop_threshold(0.8), _max_subjet_mass(30.),
-    _mode(Mode(0)), _mtmass(172.3), _mwmass(80.4),  _mtmin(150.), _mtmax(200.), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),
-    _m23cut(0.35), _m13cutmin(0.2), _m13cutmax(1.3), _minpt_tag(200.),
-    _nfilt(5), _Rfilt(0.3), _jet_algorithm_filter(fastjet::cambridge_algorithm), _minpt_subjet(0.),
+    _jet(jet),
+    _initial_jet(jet),
+    _mass_drop_threshold(0.8),
+    _max_subjet_mass(30.),
+    _mode(Mode(0)),
+    _mtmass(172.3),
+    _mwmass(80.4),  _mtmin(150.),
+    _mtmax(200.),
+    _rmin(0.85 * 80.4 / 172.3),
+    _rmax(1.15 * 80.4 / 172.3),
+    _m23cut(0.35),
+    _m13cutmin(0.2),
+    _m13cutmax(1.3),
+    _minpt_tag(200.),
+    _nfilt(5),
+    _Rfilt(0.3),
+    _jet_algorithm_filter(fastjet::cambridge_algorithm),
+    _minpt_subjet(0.),
     _jet_algorithm_recluster(fastjet::cambridge_algorithm),
-    _zcut(0.1), _rcut_factor(0.5),
-    _q_zcut(0.1), _q_dcut_fctr(0.5), _q_exp_min(0.), _q_exp_max(0.), _q_rigidity(0.1), _q_truncation_fctr(0.0),
+    _zcut(0.1),
+    _rcut_factor(0.5),
+    _q_zcut(0.1),
+    _q_dcut_fctr(0.5),
+    _q_exp_min(0.),
+    _q_exp_max(0.),
+    _q_rigidity(0.1),
+    _q_truncation_fctr(0.0),
     _fat(jet),
     _debug(false)
 {}
 
 TopTaggerFixedR::TopTaggerFixedR(fastjet::PseudoJet const& jet, double mtmass, double mwmass) :
     _do_qjets(0),
-    _jet(jet), _initial_jet(jet),
-    _mass_drop_threshold(0.8), _max_subjet_mass(30.),
-    _mode(Mode(0)), _mtmass(mtmass), _mwmass(mwmass), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),
-    _m23cut(0.35), _m13cutmin(0.2), _m13cutmax(1.3), _minpt_tag(200.),
-    _nfilt(5), _Rfilt(0.3), _jet_algorithm_filter(fastjet::cambridge_algorithm), _minpt_subjet(0.),
+    _jet(jet),
+    _initial_jet(jet),
+    _mass_drop_threshold(0.8),
+    _max_subjet_mass(30.),
+    _mode(Mode(0)),
+    _mtmass(mtmass),
+    _mwmass(mwmass),
+    _rmin(0.85 * 80.4 / 172.3),
+    _rmax(1.15 * 80.4 / 172.3),
+    _m23cut(0.35),
+    _m13cutmin(0.2),
+    _m13cutmax(1.3),
+    _minpt_tag(200.),
+    _nfilt(5),
+    _Rfilt(0.3),
+    _jet_algorithm_filter(fastjet::cambridge_algorithm),
+    _minpt_subjet(0.),
     _jet_algorithm_recluster(fastjet::cambridge_algorithm),
-    _zcut(0.1), _rcut_factor(0.5),
-    _q_zcut(0.1), _q_dcut_fctr(0.5), _q_exp_min(0.), _q_exp_max(0.), _q_rigidity(0.1), _q_truncation_fctr(0.0),
+    _zcut(0.1),
+    _rcut_factor(0.5),
+    _q_zcut(0.1),
+    _q_dcut_fctr(0.5),
+    _q_exp_min(0.),
+    _q_exp_max(0.),
+    _q_rigidity(0.1),
+    _q_truncation_fctr(0.0),
     _fat(jet),
     _debug(false)
 {}
@@ -217,7 +276,7 @@ void TopTaggerFixedR::run()
     fastjet::PseudoJet _qjet;
     if (_do_qjets) {
         _q_constits = _initial_jet.associated_cluster_sequence()->constituents(_initial_jet);
-        _qjet_seq = new fastjet::ClusterSequence(_q_constits, _qjet_def);
+        _qjet_seq = new fastjet::ClusterSequence(_q_constits, _qjet_def, &boca::Settings::Recombiner());
         _qjet = fastjet::sorted_by_pt(_qjet_seq->inclusive_jets())[0];
         _qjet_seq->delete_self_when_unused();
         auto ext = dynamic_cast<qjets::QJetsBaseExtras const*>(_qjet_seq->extras());
@@ -240,7 +299,8 @@ void TopTaggerFixedR::run()
     _top_parts.clear();
 
     //find hard substructures
-    FindHardSubst(_jet, _top_parts);
+    FindHardSubst(_jet,
+                  _top_parts);
 
     if (_top_parts.size() < 3) {
         if (_debug) {
@@ -270,13 +330,12 @@ void TopTaggerFixedR::run()
                     continue;
 
                 //pick triple
-                auto triple = fastjet::join(_top_parts[rr], _top_parts[ll], _top_parts[kk]);
+                auto triple = fastjet::join(_top_parts[rr],
+                                            _top_parts[ll],
+                                            _top_parts[kk]);
 
                 //filtering
-                auto filt_top_R
-                    = std::min(_Rfilt, 0.5 * sqrt(std::min(_top_parts[kk].squared_distance(_top_parts[ll]),
-                                                  std::min(_top_parts[rr].squared_distance(_top_parts[ll]),
-                                                          _top_parts[kk].squared_distance(_top_parts[rr])))));
+                auto filt_top_R = std::min(_Rfilt, 0.5 * sqrt(std::min(_top_parts[kk].squared_distance(_top_parts[ll]), std::min(_top_parts[rr].squared_distance(_top_parts[ll]), _top_parts[kk].squared_distance(_top_parts[rr])))));
                 fastjet::JetDefinition filtering_def(_jet_algorithm_filter, filt_top_R);
                 fastjet::Filter filter(filtering_def, fastjet::SelectorNHardest(_nfilt) * fastjet::SelectorPtMin(_minpt_subjet));
                 auto topcandidate = filter(triple);
@@ -290,7 +349,7 @@ void TopTaggerFixedR::run()
 
                 // Recluster to 3 subjets and apply mass plane cuts
                 fastjet::JetDefinition reclustering(_jet_algorithm_recluster, 3.14);
-                auto cs_top_sub = new fastjet::ClusterSequence(topcandidate.pieces(), reclustering);
+                auto cs_top_sub = new fastjet::ClusterSequence(topcandidate.pieces(), reclustering, &boca::Settings::Recombiner());
                 auto top_subs = fastjet::sorted_by_pt(cs_top_sub->exclusive_jets(3));
                 cs_top_sub->delete_self_when_unused();
 
@@ -309,8 +368,8 @@ void TopTaggerFixedR::run()
                 //is this candidate better than the other? -> update
                 auto deltatop = fabs(topcandidate.m() - _mtmass);
                 auto djsum = djademod(top_subs[0], top_subs[1], topcandidate)
-                               + djademod(top_subs[0], top_subs[2], topcandidate)
-                               + djademod(top_subs[1], top_subs[2], topcandidate);
+                             + djademod(top_subs[0], top_subs[2], topcandidate)
+                             + djademod(top_subs[1], top_subs[2], topcandidate);
                 auto better = false;
 
                 // Modes 0 and 1 sort by top mass
@@ -345,8 +404,11 @@ void TopTaggerFixedR::run()
                     _top_hadrons = topcandidate.constituents();
                     // Pruning
                     auto _Rprun = _initial_jet.validated_cluster_sequence()->jet_def().R();
-                    fastjet::JetDefinition jet_def_prune(fastjet::cambridge_algorithm, _Rprun);
-                    fastjet::Pruner pruner(jet_def_prune, _zcut, _rcut_factor);
+                    fastjet::JetDefinition jet_def_prune(fastjet::cambridge_algorithm,
+                                                         _Rprun);
+                    fastjet::Pruner pruner(jet_def_prune,
+                                           _zcut,
+                                           _rcut_factor);
                     auto prunedjet = pruner(triple);
                     _pruned_mass = prunedjet.m();
                     _unfiltered_mass = triple.m();

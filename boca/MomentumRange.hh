@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/multiplets/Jet.hh"
 

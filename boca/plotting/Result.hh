@@ -8,53 +8,22 @@
 #include "TMVA/Types.h"
 
 #include "boca/generic/Mutable.hh"
-#include "boca/generic/Flag.hh"
-#include "boca/physics/Units.hh"
-#include "boca/Latex.hh"
-#include "boca/Branches.hh"
+#include "boca/plotting/Significance.hh"
+#include "boca/branch/Info.hh"
 
 namespace boca
 {
-
-enum class Significance
-{
-    none = 0,
-    experimental = 1 << 0,
-    background = 1 << 1,
-    sum = 1 << 2,
-    poisson = 1 << 3,
-    discovery = 1 << 4,
-    exclusion = 1 << 5,
-};
-
-std::string Name(Significance significance);
-
-Latex LatexName(Significance significance);
-
-template<>
-struct Flag<Significance> {
-    static const bool enable = true;
-};
-
-std::vector<Significance> Constrained(std::vector<Significance> const& significances);
-std::vector<Significance> Exclusion(std::vector<Significance> const& significances);
-std::vector<Significance> Discovery(std::vector<Significance> const& significances);
-std::vector<Significance> SignificancesSimple();
-std::vector<Significance> SignificancesBase();
-std::vector<Significance> SignificancesMD();
-std::vector<Significance> SignificancesMI();
-std::vector<Significance> Significances();
 
 class Result
 {
 public:
     Result() {};
-    Result(boca::InfoBranch const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
-    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
-    Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
-    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
-    boca::InfoBranch const& InfoBranch() const;
-    boca::InfoBranch const& TrainerInfoBranch() const;
+    Result(boca::branch::Info const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
+    Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
+    Result(boca::branch::Info const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
+    Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
+    boca::branch::Info const& Info() const;
+    boca::branch::Info const& TrainerInfo() const;
     std::vector<double> const& Bdts() const;
     std::vector<double> const& Events() const;
     std::vector<double> const& PreCutEfficiencies() const;
@@ -79,13 +48,15 @@ public:
     void AddSelectedEfficiency(double selected_efficiency);
     void AddSelectedEfficiency(int selected_efficiency);
     int TrainerSize() const;
+    void SetScalingFactor(double scaling_factor);
+    double ScalingFactor() const;
 private:
     void Inititialize();
     int XBin(double value) const;
     int trainer_size_;
     static TMVA::Types::EMVA mva_;
-    boca::InfoBranch info_branch_;
-    boca::InfoBranch trainer_info_branch_;
+    boca::branch::Info info_branch_;
+    boca::branch::Info trainer_info_branch_;
     Mutable<std::vector<int>> bins_;
     Mutable<std::vector<int>> event_sums_;
     std::vector<double> bdts_;
@@ -99,6 +70,7 @@ private:
     std::map<Significance, int> best_model_independent_bin_;
     std::map<Significance, std::vector<double>> model_dependent_;
     std::map<Significance, std::vector<Crosssection>> model_independent_;
+    double scaling_factor_ = 1;
 };
 
 }

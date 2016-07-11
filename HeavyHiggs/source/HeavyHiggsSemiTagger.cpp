@@ -62,7 +62,7 @@ std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(Event const& event, Tag 
 std::vector<Particle> HeavyHiggsSemiTagger::HiggsParticle(Event const& event, Tag tag)
 {
     if (tag == Tag::background) return std::vector<Particle> {};
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
     auto odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
     return  Combine(even, odd);

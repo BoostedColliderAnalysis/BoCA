@@ -6,12 +6,13 @@
 #include "TFile.h"
 
 #include "TMVA/Factory.h"
+// #include "TMVA/DataLoader.h"
 
-#include "boca/multiplets/Identification.hh"
+#include "boca/Tag.hh"
 
 namespace boca {
 
-class Tagger;
+class TaggerBase;
 
 /**
  * @brief Prepares multivariant analysis
@@ -25,7 +26,7 @@ public:
      * @brief Constructor
      *
      */
-    Trainer(boca::Tagger& tagger);
+    Trainer(TaggerBase& tagger);
 
 private:
 
@@ -62,21 +63,29 @@ private:
 
     std::string FactoryOptions();
 
+    std::string DataLoaderOptions();
+
     std::string MethodOptions() const;
 
-    boca::Tagger const& Tagger() const;
+    TaggerBase const& Tagger() const;
 
-    boca::Tagger & Tagger();
+    TaggerBase & Tagger();
 
     TMVA::Factory const& Factory() const;
 
     TMVA::Factory& Factory();
 
-    boca::Tagger& tagger_;
+    TaggerBase& tagger_;
 
     TFile output_;
 
     TMVA::Factory factory_;
+
+//     TMVA::DataLoader data_loader_;
+
+    TMVA::Factory & DataLoader(){
+      return factory_;
+    }
 
     std::map<Tag, TFile> input_;
 

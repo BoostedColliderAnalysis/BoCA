@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/plotting/Plot.hh"
-#include "boca/Branches.hh"
+#include "boca/branch/Info.hh"
 
 namespace boca
 {
@@ -15,7 +15,7 @@ class Plots
 {
 public:
     Plots();
-    Plots(boca::InfoBranch const& info_branch);
+    Plots(boca::branch::Info const& info_branch);
     void SetNames(NamePairs const& names);
     void SetNames(const std::vector< boca::Names >& names);
     std::vector<Plot> const& PlotVector() const;
@@ -24,10 +24,10 @@ public:
     boca::Names & Names();
     boca::Names const& Names() const;
     Range<double> XRange() const;
-    boca::InfoBranch const& InfoBranch()const;
+    boca::branch::Info const& Info()const;
 private:
     std::vector<Plot> plots_;
-    boca:: InfoBranch info_branch_;
+    boca::branch::Info info_branch_;
     boca::Names names_;
 };
 

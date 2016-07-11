@@ -14,7 +14,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventChargedTagger : public TaggerTemplate<MultipletEvent<Octet44>, EventChargedBranch>
+class EventChargedTagger : public Tagger<MultipletEvent<Octet44>, EventChargedBranch>
 {
 
 public:
@@ -29,7 +29,7 @@ private:
 
     std::vector<MultipletEvent<Octet44>> Events(Event const& event, std::function<MultipletEvent<Octet44>(MultipletEvent<Octet44> &)> const& function);
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
     Reader<SignatureChargedTagger> signature_semi_reader_;
 

@@ -16,8 +16,8 @@ namespace units
 /// specialize root typeof helper
 template<class Y>
 struct root_typeof_helper<quantity<Y>, static_rational<1, 2>> {
-    typedef quantity < typename root_typeof_helper<Y, static_rational<1, 2> >::type
-    > type;
+    using type = quantity < typename root_typeof_helper<Y, static_rational<1, 2> >::type
+    >;
     static type value(const quantity<Y>& x) {
         return sqrt(x);
     }
@@ -26,7 +26,7 @@ struct root_typeof_helper<quantity<Y>, static_rational<1, 2>> {
 /// specialize root typeof helper
 template<>
 struct root_typeof_helper<double, double> {
-    typedef double type;
+    using type = double;
     static type value(double x) {
         return std::sqrt(x);
     }
@@ -100,7 +100,7 @@ inline typename boost::units::root_typeof_helper <boost::units::quantity<Unit, Y
         cbrt(const boost::units::quantity<Unit, Y>& q)
 {
     using boost::math::cbrt;
-    typedef typename boost::units::root_typeof_helper <boost::units::quantity<Unit, Y>, boost::units::static_rational<3>>::type quantity_type;
+    using quantity_type = typename boost::units::root_typeof_helper <boost::units::quantity<Unit, Y>, boost::units::static_rational<3>>::type;
     return quantity_type::from_value(cbrt(q.value()));
 }
 
@@ -108,7 +108,7 @@ template<class Unit, class Y>
 inline boost::units::quantity<Unit, Y> max BOOST_PREVENT_MACRO_SUBSTITUTION(const boost::units::quantity<Unit, Y>& q1, const boost::units::quantity<Unit, Y>& q2)
 {
     using std::max;
-    typedef boost::units::quantity<Unit, Y> result_type;
+    using result_type = boost::units::quantity<Unit, Y>;
     return result_type::from_value(max BOOST_PREVENT_MACRO_SUBSTITUTION(q1.value(), q2.value()));
 }
 
@@ -116,7 +116,7 @@ template<class Unit, class Y>
 inline boost::units::quantity<Unit, Y> min BOOST_PREVENT_MACRO_SUBSTITUTION(const boost::units::quantity<Unit, Y>& q1, const boost::units::quantity<Unit, Y>& q2)
 {
     using std::min;
-    typedef boost::units::quantity<Unit, Y> quantity_type;
+    using quantity_type = boost::units::quantity<Unit, Y>;
     return quantity_type::from_value(min BOOST_PREVENT_MACRO_SUBSTITUTION(q1.value(), q2.value()));
 }
 

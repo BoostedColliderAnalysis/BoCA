@@ -1,20 +1,20 @@
 #pragma once
 
 #include "boca/multiplets/Quintet.hh"
-#include "boca/standardmodel/TopHadronicTagger.hh"
+#include "boca/standardmodel/tagger/TopHadronic.hh"
 #include "boca/ResonanceTagger.hh"
 
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class NewPartnerHadronicTagger : public TaggerTemplate<Quintet, TopPartnerBranch>
+class NewPartnerHadronicTagger : public Tagger<Quintet, TopPartnerBranch>
 {
 
 public:
@@ -25,7 +25,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
     std::vector<Particle> Particles(Event const& event) const;
 
@@ -33,7 +33,7 @@ private:
 
     std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function);
 
-    Reader<standardmodel::TopHadronicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopHadronic> top_reader_;
 
     Reader<ResonanceTagger> resonance_reader_;
 

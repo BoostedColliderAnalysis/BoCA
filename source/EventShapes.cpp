@@ -12,12 +12,14 @@
 //
 
 #include <boost/range/numeric.hpp>
-#include "boca/EventShapes.hh"
+
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Exception.hh"
+#include "boca/multiplets/Sort.hh"
+#include "boca/EventShapes.hh"
+
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
-#include "boca/multiplets/Sort.hh"
 
 namespace boca
 {
@@ -255,7 +257,14 @@ Array3<GradedVector3<double>> EventShapes::Thrusts() const
 {
     INFO0;
     return thrusts_.Get([this]() {
-        return GetThrusts();
+        // algorithm based on Brandt/Dahmen Z Phys C1 (1978)
+        switch (Vectors().size()) {
+        case 0 : ;
+        case 1 : return GetThrusts1();
+        case 2 : return GetThrusts2();
+        case 3 : return GetThrusts3();
+        default : return GetThrusts4();
+        }
     });
 }
 
@@ -263,7 +272,9 @@ Array3<GradedVector3<double>> EventShapes::LinearTensors() const
 {
     INFO0;
     return linear_tensors_.Get([this]() {
-        return DiagonalizeLinearTensors();
+        return boost::accumulate(Vectors(), GradedMatrix3<Momentum>(), [](GradedMatrix3<Momentum>& sum, Vector3<Momentum> const & vector) {
+            return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<Momentum>(MatrixProduct(vector, vector) / vector.Mag(), vector.Mag()) : sum;
+        }).Normalize().EigenSystem();
     });
 }
 
@@ -271,7 +282,9 @@ Array3<GradedVector3<double>> EventShapes::SphericalTensors() const
 {
     INFO0;
     return spherical_tensors_.Get([this]() {
-        return DiagonalizeSphericalTensors();
+        return boost::accumulate(Vectors(), GradedMatrix3<MomentumSquare>(), [](GradedMatrix3<MomentumSquare>& sum, Vector3<Momentum> const & vector) {
+            return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<MomentumSquare>(MatrixProduct(vector, vector), vector.Mag2()) : sum;
+        }).Normalize().EigenSystem();
     });
 }
 
@@ -279,54 +292,19 @@ HemisphereMasses EventShapes::HemisphereMasses() const
 {
     INFO0;
     return hemishpere_masses_.Get([this]() {
-        return GetHemisphereMasses();
+        GradedLorentzVector<Momentum> positive;
+        GradedLorentzVector<Momentum> negative;
+        for (auto const & lorentz_vector : LorentzVectors()) {
+            if (lorentz_vector.Vector() * ThrustAxis() > 0_eV) positive += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
+            else negative += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
+        }
+        boca::HemisphereMasses hemisphere_masses;
+        // masses
+        hemisphere_masses.SetMasses(Range<EnergySquare>(negative.Vector().M2(), positive.Vector().M2()) / sqr(positive.Vector().E() + negative.Vector().E()));
+        // jet broadening
+        hemisphere_masses.SetBroadenings(Range<Energy>(negative.Scalar(), positive.Scalar()) / ScalarMomentum() / 2);
+        return hemisphere_masses;
     });
-}
-
-HemisphereMasses EventShapes::GetHemisphereMasses() const
-{
-    INFO0;
-    GradedLorentzVector<Momentum> positive;
-    GradedLorentzVector<Momentum> negative;
-    for (auto const & lorentz_vector : LorentzVectors()) {
-        if (lorentz_vector.Vector() * ThrustAxis() > 0_eV) positive += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
-        else negative += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
-    }
-    boca::HemisphereMasses hemisphere_masses;
-    // masses
-    hemisphere_masses.SetMasses(Range<EnergySquare>(negative.Vector().M2(), positive.Vector().M2()) / sqr(positive.Vector().E() + negative.Vector().E()));
-    // jet broadening
-    hemisphere_masses.SetBroadenings(Range<Energy>(negative.Scalar(), positive.Scalar()) / ScalarMomentum() / 2);
-    return hemisphere_masses;
-}
-
-Array3<GradedVector3<double>> EventShapes::DiagonalizeLinearTensors() const
-{
-    INFO0;
-    return boost::accumulate(Vectors(), GradedMatrix3<Momentum>(), [](GradedMatrix3<Momentum>& sum, Vector3<Momentum> const & vector) {
-        return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<Momentum>(MatrixProduct(vector, vector) / vector.Mag(), vector.Mag()) : sum;
-    }).Normalize().Eigen().System();
-}
-
-Array3<GradedVector3<double>> EventShapes::DiagonalizeSphericalTensors() const
-{
-    INFO0;
-    return boost::accumulate(Vectors(), GradedMatrix3<MomentumSquare>(), [](GradedMatrix3<MomentumSquare>& sum, Vector3<Momentum> const & vector) {
-        return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<MomentumSquare>(MatrixProduct(vector, vector), vector.Mag2()) : sum;
-    }).Normalize().Eigen().System();
-}
-
-Array3< GradedVector3< double >> EventShapes::GetThrusts() const
-{
-    INFO0;
-    // algorithm based on Brandt/Dahmen Z Phys C1 (1978)
-    switch (Vectors().size()) {
-    case 0 : ;
-    case 1 : return GetThrusts1();
-    case 2 : return GetThrusts2();
-    case 3 : return GetThrusts3();
-    default : return GetThrusts4();
-    }
 }
 
 Array3< GradedVector3< double >> EventShapes::GetThrusts1() const

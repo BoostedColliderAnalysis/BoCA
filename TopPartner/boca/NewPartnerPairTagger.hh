@@ -7,14 +7,14 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class NewPartnerPairTagger : public TaggerTemplate<Decuplet55, MultiBranch>
+class NewPartnerPairTagger : public Tagger<Decuplet55, branch::Multi>
 {
 
 public:
@@ -25,7 +25,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 

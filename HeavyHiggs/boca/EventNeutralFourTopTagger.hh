@@ -14,7 +14,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventNeutralFourTopTagger : public TaggerTemplate<MultipletEvent<Octet62>, EventNeutralFourTopBranch>
+class EventNeutralFourTopTagger : public Tagger<MultipletEvent<Octet62>, EventNeutralFourTopBranch>
 {
 
 public:
@@ -29,7 +29,7 @@ private:
 
     Reader<SignatureNeutralTagger> signature_neutral_reader_;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

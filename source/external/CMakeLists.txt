@@ -8,12 +8,14 @@ Invisible3.cpp
 )
 create_library(External ExternalSources)
 
-# create_executable(WimpMass inv.cpp)
+set(QJetSources
+QJets.cpp
+QJetsPlugin.cpp
+)
+create_library(QJet QJetSources)
 
 set(HEPSources
 TopTagger.cpp
-QJets.cpp
-QJetsPlugin.cpp
 TopTaggerFixedR.cpp
 TopTagger2.cpp
 FWM.cc
@@ -21,3 +23,14 @@ LowPt.cc
 QHTT.cc
 )
 create_library(HEP HEPSources)
+
+set(BoostedBSources
+TopTagger.cpp
+TopTaggerFixedR.cpp
+TopTagger2.cpp
+FWM.cc
+LowPt.cc
+QHTT.cc
+MuXboostedBTagging.cpp
+)
+create_library(BoostedB BoostedBSources)

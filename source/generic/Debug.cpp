@@ -80,7 +80,7 @@ void LogVariable(std::string const&, char const* value)
 {
     std::cout << Column(ValueLength(), value);
 }
-void Error(const std::__cxx11::string& variable)
+void Error(const std::string& variable)
 {
     std::cout << "Error: " << variable << std::endl;
     std::cout << "\n";

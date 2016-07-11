@@ -4,7 +4,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int TopPartnerLeptonicTagger::Train(Event const&, PreCuts const&, Tag )
@@ -30,7 +30,7 @@ std::string TopPartnerLeptonicTagger::Name() const
     return "TopPartnerLeptonic";
 }
 
-Latex TopPartnerLeptonicTagger::LatexName() const
+latex::String TopPartnerLeptonicTagger::LatexName() const
 {
     return "T_{h}";
 }

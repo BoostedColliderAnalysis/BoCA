@@ -39,19 +39,19 @@ void Profile::Draw()
     profile_.Draw("colz");
 }
 
-void Profile::SetXAxis(Latex const& title)
+void Profile::SetXAxis(latex::String const& title)
 {
-    INFO(title.str(Medium::root));
+    INFO(title.str(latex::Medium::root));
     SetAxis(*profile_.GetXaxis(), title);
 }
 
-void Profile::SetYAxis(Latex const& title)
+void Profile::SetYAxis(latex::String const& title)
 {
-    INFO(title.str(Medium::root));
+    INFO(title.str(latex::Medium::root));
     SetAxis(*profile_.GetYaxis(), title);
 }
 
-void Profile::SetZAxis(const Latex& title, int bins)
+void Profile::SetZAxis(const latex::String& title, int bins)
 {
     SetAxis(*profile_.GetZaxis(), title);
     profile_.SetMinimum(range_.Min());
@@ -59,9 +59,9 @@ void Profile::SetZAxis(const Latex& title, int bins)
     profile_.SetContour(bins);
 }
 
-void Profile::SetDimensions(Latex const& name, int bins, Rectangle<double> const& range)
+void Profile::SetDimensions(latex::String const& name, int bins, Rectangle<double> const& range)
 {
-    INFO(name.str(Medium::root));
+    INFO(name.str(latex::Medium::root));
 
     rectangle_ = range;
     SetLog(range.Vertical());
@@ -69,7 +69,7 @@ void Profile::SetDimensions(Latex const& name, int bins, Rectangle<double> const
     if (canvas().GetLogy()) rectangle_.Vertical().Log();
     SetDimensions(bins, bins, rectangle_);
 
-    profile_.SetName(name.str(Medium::root).c_str());
+    profile_.SetName(name.str(latex::Medium::root).c_str());
 }
 
 void Profile::SetDimensions(int bin_x, int bin_y, Rectangle<double> const& range)
@@ -87,8 +87,8 @@ void Profile::SetProfile(Plot const& signal, Plot const& background)
     if (canvas().GetLogy()) SetLogarithmic(*profile_.GetYaxis());
     for (auto const & point : signal.Data()) profile_.Fill(point.X(), point.Y(), point.Z());
     for (auto const & point : background.Data()) profile_.Fill(point.X(), point.Y(), point.Z());
-    auto minmax = std::minmax_element(signal.Data().begin(), signal.Data().end(), [](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.Z() < b.Z();
+    auto minmax = std::minmax_element(signal.Data().begin(), signal.Data().end(), [](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.Z() < vector_2.Z();
     });
     range_.Set(minmax.first->Z(), minmax.second->Z());
 }

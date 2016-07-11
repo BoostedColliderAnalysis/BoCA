@@ -6,133 +6,12 @@
 #include "boca/generic/Types.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/plotting/Result.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
-
-std::vector< Significance > Constrained(std::vector<Significance> const& significances)
-{
-    INFO0;
-    return Transform(significances, [](Significance significance) {
-        return significance | Significance::experimental;
-    });
-}
-
-std::vector< Significance > Exclusion(std::vector<Significance> const& significances)
-{
-    INFO0;
-    return Transform(significances, [](Significance significance) {
-        return significance | Significance::exclusion;
-    });
-}
-
-std::vector< Significance > Discovery(std::vector<Significance> const& significances)
-{
-    INFO0;
-    return Transform(significances, [](Significance significance) {
-        return significance | Significance::discovery;
-    });
-}
-std::vector< Significance > SignificancesSimple()
-{
-    INFO0;
-    return {Significance::sum, Significance::background};
-}
-
-std::vector< Significance > SignificancesMD()
-{
-    INFO0;
-    return Combine(SignificancesSimple(), Exclusion( {Significance::poisson}), Discovery( {Significance::poisson}));
-}
-
-std::vector< Significance > SignificancesBase()
-{
-    INFO0;
-    return Combine(SignificancesSimple(), {Significance::poisson});
-}
-
-std::vector< Significance > SignificancesMI()
-{
-    INFO0;
-    return Combine(Exclusion(SignificancesBase()), Discovery(SignificancesBase()));
-}
-
-std::vector< Significance > SignificancesMDI()
-{
-    INFO0;
-    return Combine(SignificancesMI(), SignificancesSimple(), {Significance::experimental});
-}
-
-std::vector< Significance > Significances()
-{
-    INFO0;
-    return Combine(Constrained(Combine(SignificancesMI(), SignificancesSimple())), SignificancesMDI());
-}
-
-std::string Name(Significance significance)
-{
-    INFO0;
-    std::string name;
-    FlagSwitch(significance, [&](Significance significance) {
-        switch (significance) {
-        case Significance::none : name += "None ";
-            break;
-        case Significance::experimental : name += "Experimental ";
-            break;
-        case Significance::background : name += "Background ";
-            break;
-        case Significance::sum : name += "Sum ";
-            break;
-        case Significance::discovery : name += "Discovery ";
-            break;
-        case Significance::exclusion : name += "Exclusion ";
-            break;
-        case Significance::poisson : name += "Poisson ";
-            break;
-            DEFAULT(to_int(significance));
-        }
-    });
-    return name;
-}
-
-Latex LatexName(Significance significance)
-{
-    INFO0;
-    Latex name;
-    FlagSwitch(significance, [&](Significance significance) {
-        switch (significance) {
-        case Significance::experimental :
-            name += name.empty() ? "" : " and " ;
-            name += "\\frac{S}{B}";
-            break;
-        case Significance::background :
-            name += name.empty() ? "" : " and " ;
-            name += "\\frac{S}{\\sqrt{B}}";
-            break;
-        case Significance::sum :
-            name += name.empty() ? "" : " and " ;
-            name += "\\frac{S}{\\sqrt{S + B}}";
-            break;
-        case Significance::discovery :
-//           name += name.empty() ? "" : " and " ;
-            name += "|_{5}";
-            break;
-        case Significance::exclusion :
-//           name += name.empty() ? "" : " and " ;
-            name += "|_{2}";
-            break;
-        case Significance::poisson :
-            name += name.empty() ? "" : " and " ;
-            name += "\\sqrt{2\\frac{L_{1}}{L_{0}}}";
-            break;
-            DEFAULT(to_int(significance));
-        }
-    });
-    return name;
-}
 
 TMVA::Types::EMVA Result::mva_ = TMVA::Types::EMVA::kVariable;
 
@@ -170,13 +49,13 @@ double Result::BestMIValue(Significance significance) const
     return XValue(BestMIBin(significance));
 }
 
-const InfoBranch& Result::InfoBranch() const
+const branch::Info& Result::Info() const
 {
     INFO0;
     return info_branch_;
 }
 
-const InfoBranch& Result::TrainerInfoBranch() const
+const branch::Info& Result::TrainerInfo() const
 {
     INFO0;
     return trainer_info_branch_;
@@ -193,7 +72,7 @@ std::vector<double> const& Result::Events() const
     INFO0;
     return events_.Get([&]() {
         return Transform(Crosssections(), [](Crosssection const & crosssection) -> double {
-            return crosssection * DetectorGeometry::Luminosity();
+            return crosssection * Settings::Luminosity();
         });
     });
 }
@@ -203,7 +82,7 @@ std::vector<double> const& Result::PreCutEfficiencies() const
     INFO0;
     return efficiencies_.Get([&]() {
         return Transform(PartialSum(), [&](double event_sum) {
-            return event_sum / InfoBranch().EventNumber();
+            return event_sum / Info().EventNumber();
         });
     });
 }
@@ -223,7 +102,7 @@ std::vector<Crosssection> const& Result::Crosssections() const
     INFO0;
     return crosssections_.Get([&]() {
         return Transform(PreCutEfficiencies(), [&](double efficiency) {
-            return InfoBranch().Crosssection() * efficiency;
+            return Info().Crosssection() * efficiency * ScalingFactor();
         });
     });
 }
@@ -234,9 +113,9 @@ std::vector<int> const& Result::PartialSum() const
     return event_sums_.Get([&]() {
         std::vector<int> event_sums(Steps());
         switch (Mva()) {
-        case TMVA::Types::EMVA::kBDT : boost::partial_sum(boost::adaptors::reverse(Bins()) , event_sums.rbegin());
+        case TMVA::Types::EMVA::kBDT : boost::partial_sum(boost::adaptors::reverse(Bins()), event_sums.rbegin());
             break;
-        case TMVA::Types::EMVA::kCuts : for (auto const & passed : passed_) for (auto const & step : IntegerRange(Steps())) if (passed.at(step)) ++event_sums.at(step);
+        case TMVA::Types::EMVA::kCuts : for (auto const & passed : passed_) for (auto step : IntegerRange(Steps())) if (passed.at(step)) ++event_sums.at(step);
             break;
             DEFAULT(Mva());
         };
@@ -254,7 +133,7 @@ std::vector<int> const& Result::Bins() const
     });
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -263,7 +142,7 @@ Result::Result(boca::InfoBranch const& info_branch, std::vector<double> const& b
     Inititialize();
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -272,7 +151,7 @@ Result::Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool
     Inititialize();
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -283,7 +162,7 @@ Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, 
     Inititialize();
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -393,4 +272,15 @@ int Result::TrainerSize() const
     return trainer_size_;
 }
 
+void Result::SetScalingFactor(double scaling_factor)
+{
+    scaling_factor_ = scaling_factor;
 }
+
+double Result::ScalingFactor() const
+{
+    return scaling_factor_;
+}
+
+}
+

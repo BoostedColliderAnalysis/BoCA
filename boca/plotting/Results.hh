@@ -5,6 +5,7 @@
 
 #include "boca/physics/Rectangle.hh"
 #include "boca/plotting/Result.hh"
+#include "boca/Tag.hh"
 
 namespace boca
 {
@@ -20,10 +21,10 @@ public:
     std::vector<double> const& XValues() const;
     void CutEfficiencies();
     std::vector<double> const& SelectedEfficiencies() const;
-    static double ScalingFactor();
+    static double ScalingFactor(Tag tag);
 private:
-    void CalculateSignificance(Result& signal,Significance significance, int step);
-    void CalculateSignificance(Result& signal,Significance significance);
+    void CalculateSignificance(Result& signal, Significance significance, int step);
+    void CalculateSignificance(Result& signal, Significance significance);
     std::vector<Crosssection> BackgroundCrosssections() const;
     double BackgroundEvents(int step) const;
     Crosssection MI(Significance significance, double signal_efficiency, int step) const;

@@ -8,6 +8,9 @@
 #include "TTreeReader.h"
 
 #include "boca/io/TreeReaderArray.hh"
+#include "boca/io/Souce.hh"
+#include "boca/delphes/Event.hh"
+#include "boca/exroot/Event.hh"
 
 namespace boca
 {
@@ -32,16 +35,6 @@ enum class Branch
 };
 
 std::string Name(Branch branch);
-
-enum class Source
-{
-    delphes,
-    pgs,
-    parton,
-    tagger
-};
-
-std::string Name(Source source);
 
 class TreeReader
 {
@@ -82,6 +75,14 @@ public:
 
     TChain & Chain();
 
+    boca::delphes::Event DelphesEvent() const {
+      return {*this};
+    }
+
+    boca::exroot::Event ExRootEvent() const{
+      return {*this};
+    }
+
 private:
 
     void NewBase(std::string name, TClass & cl);
@@ -104,9 +105,9 @@ private:
 
     void NewElements();
 
-    std::map<Branch, std::shared_ptr<ROOT::TTreeReaderArrayBase>> generator_arrays_;
+    std::map<Branch, std::shared_ptr<ROOT::Internal::TTreeReaderArrayBase>> generator_arrays_;
 
-    std::map<std::string, std::shared_ptr<ROOT::TTreeReaderArrayBase>> tagger_arrays_;
+    std::map<std::string, std::shared_ptr<ROOT::Internal::TTreeReaderArrayBase>> tagger_arrays_;
 
     TChain chain_;
 
@@ -117,6 +118,8 @@ private:
     std::string tree_name_;
 
     std::vector<std::string> paths_;
+
+//     std::unique_ptr<boca::Event> event_;
 
 };
 

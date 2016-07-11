@@ -13,9 +13,9 @@ namespace higgscpv
 int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
-   std::vector<Lepton> leptons = event.Leptons().leptons();
+   std::vector<Lepton> leptons = event.Leptons();
     if (leptons.size() < 2) return 0;
-   std::vector<Particle> particles = event.Partons().GenParticles();
+   std::vector<Particle> particles = event.GenParticles();
    std::vector<Particle> lepton_particle = CopyIfParticles(particles, {Id::electron, Id::muon});
 //     ERROR(lepton_particle);
     lepton_particle = CopyIfGrandMother(lepton_particle, Id::top);
@@ -40,7 +40,7 @@ int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag t
 std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
-   std::vector<Lepton> leptons = event.Leptons().leptons();
+   std::vector<Lepton> leptons = event.Leptons();
     if (leptons.size() < 2) return {};
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     INFO(doublets.size());

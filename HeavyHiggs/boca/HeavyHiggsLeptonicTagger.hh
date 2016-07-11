@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/standardmodel/TopLeptonicTagger.hh"
+#include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/multiplets/Sextet.hh"
 #include "boca/BranchesHeavyHiggs.hh"
 
@@ -14,7 +14,7 @@ namespace heavyhiggs
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class HeavyHiggsLeptonicTagger : public TaggerTemplate<Sextet, HeavyHiggsLeptonicBranch>
+class HeavyHiggsLeptonicTagger : public Tagger<Sextet, HeavyHiggsLeptonicBranch>
 {
 
 public:
@@ -27,7 +27,7 @@ public:
 
 private:
 
-    Reader<standardmodel::TopLeptonicTagger> top_leptonic_reader_;
+    Reader<standardmodel::tagger::TopLeptonic> top_leptonic_reader_;
 
 };
 

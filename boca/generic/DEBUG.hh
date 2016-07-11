@@ -13,6 +13,25 @@
 // #define NOTIFICATION
 
 
+
+// #define COMMA_IF_PARENS(...) ,
+//
+// #define LPAREN (
+//
+// #define EXPAND(...) __VA_ARGS__
+//
+// #define NORMAL(number) LOG ## number, impossible, LOG ## number
+//
+// #define SPECIAL LOG1, LOG0, LOG1,
+//
+// #define CHOOSE(...) EXPAND(LOG LPAREN __VA_ARGS__ COMMA_IF_PARENS __VA_ARGS__ COMMA_IF_PARENS __VA_ARGS__ (), NORMAL(4), NORMAL(3), NORMAL(2), SPECIAL))
+//
+// #define LOG(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg, ...) arg
+
+
+
+
+
 #define FILE_NAME ::boca::FileName(__FILE__)
 
 #define NAMESPACE_NAME ::boca::NameSpaceName(__PRETTY_FUNCTION__)
@@ -39,10 +58,9 @@
 
 #define LOG(arg0, arg1, arg2, arg3, arg4, arg5, arg, ...) arg
 
-// #define LOGCHOOSE(...) LOG(,##__VA_ARGS__, LOG4, LOG3, LOG2, LOG1, LOG0)
-#define LOGCHOOSE(...) LOG(__VA_ARGS__, , LOG5, LOG4, LOG3, LOG2, LOG1, )
+#define CHOOSE(...) LOG(__VA_ARGS__, , LOG5, LOG4, LOG3, LOG2, LOG1, )
 
-#define ALIVE(...) LOGCHOOSE(__VA_ARGS__)(__VA_ARGS__)
+#define ALIVE(...) CHOOSE(__VA_ARGS__)(__VA_ARGS__)
 
 #define DEAD(...) do { if (0) ALIVE(__VA_ARGS__); } while (0)
 

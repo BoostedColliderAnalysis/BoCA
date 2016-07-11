@@ -15,7 +15,7 @@ public:
   Plotting(Tagger_ const& tagger) : tagger_(tagger){}
 
 //   Plots PlotResult(int tree_number, Phase const& phase) const {
-//     Plots plots(InfoBranch(phase, tree_number).first);
+//     Plots plots(Info(phase, tree_number).first);
 //     TreeReader tree_reader(Tagger().FileName(phase), Tagger().TreeNames(phase).at(tree_number));
 //     plots.PlotVector() = UnorderedPairs(ConstCast(Tagger().Branch()).Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
 //       Plot plot;

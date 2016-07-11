@@ -34,19 +34,19 @@ void Histograms::AddHistogram(std::vector<double> const& values, Names const& na
     auto min = FloorToDigits(range.Min(), 1);
     auto max = CeilToDigits(range.Max(), 1);
     int bins = is_int ? max - min : 50;
-    TH1F histogram(names.Name().c_str(), names.LatexName().str(Medium::root).c_str(), bins, min , max);
-    INFO(names.LatexName().str(Medium::root).c_str(), histogram.GetTitle());
+    TH1F histogram(names.Name().c_str(), names.LatexName().str(latex::Medium::root).c_str(), bins, min , max);
+    INFO(names.LatexName().str(latex::Medium::root).c_str(), histogram.GetTitle());
     for (auto const & bdt : values) histogram.Fill(bdt);
     if (histogram.Integral() != 0) histogram.Scale(1. / histogram.Integral());
     SetLine(histogram, histograms_.size());
     histograms_.emplace_back(histogram);
 }
 
-void Histograms::AddHistogram(std::vector<double> const& values, Names const& name, Rectangle<double> const& range)
+void Histograms::AddHistogram(std::vector<double> const& values, Names const& names, Rectangle<double> const& range)
 {
     INFO0;
     range_.WidenY(range.Vertical());
-    AddHistogram(values, name, range.Horizontal());
+    AddHistogram(values, names, range.Horizontal());
 }
 
 void Histograms::SetLegend(boca::Orientation orientation, std::string const& title)
@@ -61,35 +61,39 @@ void Histograms::Draw()
 {
     INFO0;
     stack_.Draw("nostack");
-    legend_.Draw();
     for (auto & line : lines_) {
-        line.SetY1(RangeY().Min());
-        line.SetY2(RangeY().Max());
+//         line.SetY1(RangeY().Min());
+        line.SetY1(stack_.GetMinimum());
+        DEBUG(RangeY().Max(), stack_.GetMaximum());
+//         line.SetY2(RangeY().Max() * 0.5);
+        line.SetY2(stack_.GetMaximum() * 0.625);
         line.Draw();
     }
+    legend_.Draw();
 }
 
-void Histograms::SetXAxis(Latex const& title, boca::Range<double> const& range)
+void Histograms::SetXAxis(latex::String const& title, boca::Range<double> const& range)
 {
-    INFO(title.str(Medium::root));
+    INFO(title.str(latex::Medium::root));
     AddHistograms();
     if (!stack_.GetXaxis()) return;
     SetAxis(*stack_.GetXaxis(), title);
     if (range) stack_.GetXaxis()->SetLimits(range.Min(), range.Max());
 }
 
-void Histograms::SetYAxis(Latex const& title, boca::Range<double> const& range)
+void Histograms::SetYAxis(latex::String const& title, boca::Range<double> const& range)
 {
-    INFO(title.str(Medium::root));
+    INFO(title.str(latex::Medium::root));
     AddHistograms();
     if (!stack_.GetYaxis()) return;
     SetAxis(*stack_.GetYaxis(), title);
     if (range) {
-        SetLog(range);
+//         SetLog(range);
         stack_.GetYaxis()->SetLimits(range.Min(), range.Max());
         stack_.SetMinimum(range.Min());
         stack_.SetMaximum(range.Max());
-    } else SetLog(RangeY());
+    }
+//     else SetLog(RangeY());
 }
 
 Range<double> Histograms::RangeY()
@@ -112,7 +116,7 @@ void Histograms::AddHistograms()
     if (stack_.GetHists()) return;
     for (auto & histogram : histograms_) {
         stack_.Add(&histogram);
-        INFO(histogram.GetTitle());
+        INFO(histogram.GetTitle(), histograms_.size());
         if (histograms_.size() > 1) legend_.AddEntry(histogram, histogram.GetTitle());
     }
     Draw();
@@ -123,7 +127,8 @@ void Histograms::AddLine(double x_value, std::string const& title)
     INFO(title, x_value);
     if (!range_.Horizontal().Inside(x_value)) return;
     auto y = RangeY();
-    TLine line(x_value, y.Min(), x_value, y.Max() * 0.8);
+    INFO(y.Max());
+    TLine line(x_value, y.Min(), x_value, y.Max() * 0.5);
     SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();
     if (!title.empty()) legend_.AddEntry(line, title);

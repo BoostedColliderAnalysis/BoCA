@@ -1,8 +1,9 @@
 #pragma once
 
 #include "boca/multivariant/Reader.hh"
+#include "boca/branch/Global.hh"
 #include "boca/GlobalObservables.hh"
-#include "boca/standardmodel/BottomTagger.hh"
+#include "boca/standardmodel/tagger/Bottom.hh"
 
 namespace boca
 {
@@ -12,12 +13,14 @@ namespace boca
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class GlobalTagger : public TaggerTemplate<GlobalObservables, GlobalObservableBranch>
+class GlobalTagger : public Tagger<GlobalObservables, branch::Global>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
+
+    using Tagger::Multiplets;
 
     std::vector<GlobalObservables> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
@@ -25,7 +28,7 @@ public:
 
 private:
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

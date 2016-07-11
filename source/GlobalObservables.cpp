@@ -28,17 +28,17 @@ GlobalObservables::GlobalObservables(const Event& event, const std::vector<boca:
 void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<boca::Jet>& jets)
 {
     SetJets(jets);
-    SetLeptons(event.Leptons().leptons());
-    scalar_ht_ = event.Hadrons().ScalarHt();
-    missing_et_ = event.Hadrons().MissingEt().Pt();
+    SetLeptons(event.Leptons());
+    scalar_ht_ = event.ScalarHt();
+    missing_et_ = event.MissingEt().Pt();
 }
 
 void GlobalObservables::SetEvent(boca::Event const& event)
 {
-    SetJets(event.Hadrons().Jets());
-    SetLeptons(event.Leptons().leptons());
-    scalar_ht_ = event.Hadrons().ScalarHt();
-    missing_et_ = event.Hadrons().MissingEt().Pt();
+    SetJets(event.Jets());
+    SetLeptons(event.Leptons());
+    scalar_ht_ = event.ScalarHt();
+    missing_et_ = event.MissingEt().Pt();
 }
 
 int GlobalObservables::LeptonNumber() const

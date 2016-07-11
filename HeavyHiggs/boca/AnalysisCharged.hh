@@ -34,10 +34,6 @@ public:
         }
     }
 
-//     std::string ProcessName() const {
-//         return "Charged";
-//     }
-
     std::string AnalysisName() const override {
         return  "Charged-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
@@ -46,7 +42,7 @@ private:
 
     Crosssection SignalCrosssection() const {
         switch (this->Collider()) {
-        case heavyhiggs::Collider::LHC:
+        case boca::Collider::lhc:
             switch (this->Mass()) {
             case 500 : return 3.0495761279999996 * fb;
             case 1000 : return 0.22623192864 * fb;
@@ -57,7 +53,7 @@ private:
 //                 ERROR("Signal Crosssection", "unhandled case");
                 return fb;
             } ;
-        case heavyhiggs::Collider::LE:
+        case boca::Collider::future:
             switch (this->Mass()) {
             case 500 : return 247.86995327999998 * fb;
             case 700 : return 109.26120959999999 * fb;
@@ -85,11 +81,11 @@ private:
 
     int PassPreCut(Event const& event, Tag) const override {
 //         INFO("pass pre cut");
-        auto particles = event.Partons().GenParticles();
+        auto particles = event.GenParticles();
         auto quarks = SortedByPt(CopyIf5Quark(particles));
         quarks = SortedByPt(RemoveIfMother(quarks, Id::top));
         if (quarks.empty()) {
-            //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
+            //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == tagger::Bottom || Tagger == HBottomReader))
             //       if (PreCut() > 0)
 //             ERROR("Not enough bottom quarks", Quarks.size());
             return 0;
@@ -99,18 +95,18 @@ private:
 //             ERROR("Not enough top quarks", TopQuarks.size());
             return 0;
         } else if (TopQuarks.front().Pt() < this->PreCut()) return 0;
-        if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
-        auto leptons = SortedByPt(event.Leptons().leptons());
+        if (event.MissingEt().Pt() < this->MissingEt()) return 0;
+        auto leptons = SortedByPt(event.Leptons());
         if (leptons.empty()) return 0;
         if (leptons.front().Pt() < this->LeptonPt()) return 0;
-        auto jets = event.Hadrons().Jets();
+        auto jets = event.Jets();
         if (jets.size() < 4) return 0;
         return 1;
     }
     int BackgroundFileNumber() const override {
         switch (this->Collider()) {
-        case heavyhiggs::Collider::LHC :
-            switch (int(this->PreCut() / GeV)) {
+        case boca::Collider::lhc :
+            switch (static_cast<int>(this->PreCut() / GeV)) {
             case 0 :
                 //                 return 1;
                 return 79; // < should be switched on
@@ -119,8 +115,8 @@ private:
             default :
                 return 1;
             }
-        case heavyhiggs::Collider::LE :
-            switch (int(this->PreCut() / GeV)) {
+        case boca::Collider::future :
+            switch (static_cast<int>(this->PreCut() / GeV)) {
             case 2500 :
                 return 28;
             case 2000 :
@@ -143,12 +139,12 @@ private:
 
     Crosssection BackgroundCrosssection(Process) const {
         switch (this->Collider()) {
-        case heavyhiggs::Collider::LHC :
+        case boca::Collider::lhc :
             switch (this->PreCut()) {
             case 0 : return 97.54 * 2 * fb;
             case 250 : return 4.206 * 2 * fb;
             }
-        case heavyhiggs::Collider::LE: {
+        case boca::Collider::future: {
             switch (this->PreCut()) {
             case 0 : return 3564. * 2 * fb;
             case 300 : return 187.3 * 2 * fb;

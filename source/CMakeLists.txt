@@ -9,56 +9,40 @@ install (TARGETS root-browser DESTINATION "$ENV{HOME}/.bin")
 
 add_subdirectory(fastjet)
 add_subdirectory(generic)
-add_subdirectory(io)
+add_subdirectory(latex)
 add_subdirectory(physics)
 add_subdirectory(math)
 add_subdirectory(external)
 add_subdirectory(exroot)
+add_subdirectory(io)
 add_subdirectory(delphes)
 add_subdirectory(multiplets)
 add_subdirectory(multivariant)
+add_subdirectory(analysis)
+add_subdirectory(branch)
 
 create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh)
 add_subdirectory(plotting)
 
-create_dictionary(Names Names.cpp Names.hh LinkDef.hh)
-create_dictionary(Latex Latex.cpp Latex.hh LinkDef.hh)
-create_dictionary(Branches Branches.cpp Branches.hh LinkDef.hh)
-
-set(shape_sources
-HemisphereMasses.cpp
-EventShapes.cpp
-)
-create_library(EventShapes shape_sources)
-
-set(event_sources
-Event.cpp
-FourVector.cpp
-Hadrons.cpp
-Partons.cpp
-Leptons.cpp
-Isolation.cpp
-)
-create_library(Event event_sources)
-
-set(analysis_sources
+set(boca_sources
+Names.cpp
+Tag.cpp
+Names.cpp
 MomentumRange.cpp
+PreCuts.cpp
+Settings.cpp
+Constituent.cpp
 Observable.cpp
 Observables.cpp
-PreCuts.cpp
-Constituent.cpp
-DetectorGeometry.cpp
+HemisphereMasses.cpp
+EventShapes.cpp
+Event.cpp
 WimpMass.cpp
-)
-create_library(Analysis analysis_sources)
-
-set(tagger_sources
 GlobalObservables.cpp
 GlobalTagger.cpp
 File.cpp
-Tagger.cpp
-AnalysisBase.cpp
+TaggerBase.cpp
 )
-create_library(Tagger tagger_sources)
+create_library(Boca boca_sources)
 
 add_subdirectory(standardmodel)

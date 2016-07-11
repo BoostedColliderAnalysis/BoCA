@@ -2,13 +2,13 @@
 # Copyright (C) 2015-2016 Jan Hajer
 #
 set(plot_sources
+Significance.cpp
 Result.cpp
 Results.cpp
 Plot.cpp
 Plots.cpp
+Orientation.cpp
 Legend.cpp
-LatexFile.cpp
-LatexTable.cpp
 Canvas.cpp
 Histograms.cpp
 Histogram2Dim.cpp

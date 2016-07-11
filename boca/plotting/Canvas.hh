@@ -6,6 +6,7 @@
 #include "TCanvas.h"
 
 #include "boca/physics/Rectangle.hh"
+#include "boca/generic/Debug.hh"
 
 namespace boca
 {
@@ -25,8 +26,9 @@ public:
 
     template<typename Value>
     bool SetLog(Range<Value> const& range) {
-//       return false;
-        if (range.Min() < Value(0) || range.Min() / range.Max() < 10_mU) return false;
+        if(debug_) Debug("min: ", range.Min(), "max: ", range.Max());
+        if (range.Min() < Value(0) || range.Min() / range.Max() > 50_mU) return false;
+        if(debug_) Debug("set log", true);
         canvas_.SetLogy();
         return true;
     }
@@ -66,6 +68,8 @@ private:
     std::string title_;
 
     std::string path_;
+
+    bool debug_ = true;
 
 };
 

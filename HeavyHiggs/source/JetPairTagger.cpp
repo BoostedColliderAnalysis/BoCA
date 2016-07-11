@@ -65,7 +65,7 @@ namespace heavyhiggs
 std::vector<Particle>JetPairTagger::PairBottomQuarks(Event const& event, Tag tag) const
 {
     if (tag == Tag::background) return std::vector<Particle> {};
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto bottom_not_from_even = RemoveIfGrandFamily(particles, Id::bottom, Id::heavy_higgs);
     auto bottom_not_from_higgs = RemoveIfGrandFamily(bottom_not_from_even, Id::bottom, Id::CP_odd_higgs);
     return bottom_not_from_higgs;
@@ -99,7 +99,7 @@ bool JetPairTagger::CheckIfBadBottom(boca::Doublet const& doublet, std::vector<P
 std::vector<Particle> JetPairTagger::HiggsParticle(Event const& event, Tag tag) const
 {
     if (tag == Tag::background) return std::vector<Particle> {};
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
     auto odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
     return Combine(even, odd);

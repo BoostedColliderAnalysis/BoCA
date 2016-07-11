@@ -6,19 +6,19 @@
 #include <functional>
 #include "boca/Decuplet.hh"
 #include "boca/VetoTopPartnerLeptonicTagger.hh"
-#include "boca/EventMultiplet.hh"
+#include "boca/multiplets/EventMultiplet.hh"
 
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class CompleteSingleHadronicTagger : public TaggerTemplate<EventMultiplet<Decuplet532>, CompleteBranch>
+class CompleteSingleHadronicTagger : public Tagger<EventMultiplet<Decuplet532>, CompleteBranch>
 {
 
 public:
@@ -29,7 +29,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 
@@ -37,13 +37,13 @@ private:
 
     Reader<TopPartnerHadronicNeutralTagger> partner_reader_;
 
-    Reader<standardmodel::TopLeptonicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopLeptonic> top_reader_;
 
-    Reader<standardmodel::HiggsTagger> higgs_reader_;
+    Reader<standardmodel::tagger::Higgs> higgs_reader_;
 
     Reader<VetoTopPartnerLeptonicTagger> veto_reader_;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

@@ -4,7 +4,7 @@
 
 #include "boca/MomentumRange.hh"
 
-#include "boca/DetectorGeometry.hh"
+#include "boca/Settings.hh"
 #include "boca/math/Math.hh"
 
 namespace boca
@@ -83,22 +83,22 @@ Momentum MomentumRange::Max() const
 
 Momentum MomentumRange::PtMin(Id id)
 {
-    return PtMin(id, DetectorGeometry::JetConeSize());
+    return PtMin(id, Settings::JetConeSize());
 }
 
 Momentum MomentumRange::PtMax(Id id)
 {
-    return PtMax(id, DetectorGeometry::JetConeSize());
+    return PtMax(id, Settings::JetConeSize());
 }
 
 Momentum MomentumRange::PtMin(SubJet const& id)
 {
-    return PtMin(id.Id(), DetectorGeometry::MinCellResolution());
+    return PtMin(id.Id(), Settings::MinCellResolution());
 }
 
 Momentum MomentumRange::PtMax(SubJet const& id)
 {
-    return PtMax(id.Id(), DetectorGeometry::MinCellResolution());
+    return PtMax(id.Id(), Settings::MinCellResolution());
 }
 
 bool MomentumRange::BelowUpperBound(Jet const& jet) const

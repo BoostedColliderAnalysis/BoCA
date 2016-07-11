@@ -8,7 +8,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int EventEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag)
@@ -46,7 +46,7 @@ std::string EventEffectiveTagger::Name() const
     return "Event";
 }
 
-Latex EventEffectiveTagger::LatexName() const
+latex::String EventEffectiveTagger::LatexName() const
 {
     return "T_{h} T_{l} h h";
 }

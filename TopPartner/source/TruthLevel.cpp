@@ -6,7 +6,7 @@
 #include "boca/Event.hh"
 #include "boca/PreCuts.hh"
 #include "boca/generic/Exception.hh"
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 #include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
@@ -14,7 +14,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int TruthLevel::Train(Event const& event, PreCuts const& pre_cuts, Tag)
@@ -37,7 +37,7 @@ std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const&,
 {
     INFO0;
     TruthVariables truths;
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto bosons = CopyFirst(RemoveIfMother(CopyIfParticles(particles, Resolve(MultiId::bosons)),Id::higgs),6);
     if(bosons.size() > 6) for (auto const & boson : bosons) {
         auto particle = boson.Info().Family().Member(Relative::particle);
@@ -56,9 +56,9 @@ std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const&,
         if (!overlap) alone.emplace_back(particle_1);
     }
     truths.SetDetectable(alone);
-    truths.SetMissingEt(event.Hadrons().MissingEt());
-    truths.SetScalarHt(event.Hadrons().ScalarHt());
-    truths.SetJets(event.Hadrons().Jets());
+    truths.SetMissingEt(event.MissingEt());
+    truths.SetScalarHt(event.ScalarHt());
+    truths.SetJets(event.Jets());
     return {truths};
 }
 
@@ -68,7 +68,7 @@ std::string TruthLevel::Name() const
     return "Truth";
 }
 
-Latex TruthLevel::LatexName() const
+latex::String TruthLevel::LatexName() const
 {
     return "truth";
 }

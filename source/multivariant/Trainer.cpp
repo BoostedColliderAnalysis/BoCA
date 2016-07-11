@@ -10,21 +10,23 @@
 
 #include "boca/generic/Options.hh"
 #include "boca/generic/Types.hh"
+#include "boca/generic/Vector.hh"
 #include "boca/io/Io.hh"
 #include "boca/io/TreeReader.hh"
 #include "boca/multivariant/Trainer.hh"
-#include "boca/Branches.hh"
-#include "boca/Tagger.hh"
+#include "boca/branch/Info.hh"
+#include "boca/TaggerBase.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
 
-Trainer::Trainer(boca::Tagger& tagger) :
+Trainer::Trainer(TaggerBase& tagger) :
     tagger_(tagger),
     output_(Tagger().FactoryFileName().c_str(), "Recreate"),
     factory_(tagger.Name(), &output_, FactoryOptions())
+//     ,data_loader_(DataLoaderOptions())
 {
     INFO0;
     AddObservables();
@@ -45,13 +47,19 @@ std::string Trainer::FactoryOptions()
     return options;
 }
 
+std::string Trainer::DataLoaderOptions()
+{
+  INFO0;
+  return {};
+}
+
 void Trainer::AddObservables()
 {
     INFO0;
     TMVA::gConfig().GetIONames().fWeightFileDir = Tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = Tagger().WeightFileExtension();
-    for (auto const & variable : Tagger().Variables()) Factory().AddVariable(variable.Expression(), variable.Name(), variable.Unit(), variable.Type());
-    for (auto const & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.Expression(), spectator.Name(), spectator.Unit(), spectator.Type());
+    for (auto const & variable : Tagger().Variables()) DataLoader().AddVariable(variable.Expression(), variable.Name(), variable.Unit(), variable.Type());
+    for (auto const & spectator : Tagger().Spectators()) DataLoader().AddSpectator(spectator.Expression(), spectator.Name(), spectator.Unit(), spectator.Type());
 }
 
 long Trainer::AddAllTrees()
@@ -73,9 +81,9 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 {
     INFO(tree_name, Name(tag));
     switch (tag) {
-    case Tag::signal : Factory().AddSignalTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
+      case Tag::signal : DataLoader().AddSignalTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
         break;
-    case Tag::background : Factory().AddBackgroundTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
+      case Tag::background : DataLoader().AddBackgroundTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
         break;
     }
     return Entries(tree_name, tag);
@@ -85,7 +93,7 @@ double Trainer::Weight(std::string const& tree_name, Tag tag)
 {
     INFO(Tagger().WeightBranchName());
     TreeReader tree_reader( {Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
-    auto& array = tree_reader.Array<InfoBranch>(Tagger().WeightBranchName());
+    auto& array = tree_reader.Array<branch::Info>(Tagger().WeightBranchName());
     tree_reader.ReadEntry(0);
     return array.At(0).Crosssection() / fb / tree_reader.GetEntries();
 }
@@ -109,7 +117,7 @@ void Trainer::PrepareTrainingAndTestTree(long event_number)
     options.Add("nTest_Background", event_number);
     options.Add("nTrain_Signal", event_number);
     options.Add("nTest_Signal", event_number);
-    Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options);
+    DataLoader().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options);
 }
 
 std::vector<double> Trainer::BookMethod()
@@ -173,12 +181,12 @@ std::string Trainer::MethodOptions() const
     return options;
 }
 
-Tagger const& Trainer::Tagger() const
+TaggerBase const& Trainer::Tagger() const
 {
     return tagger_;
 }
 
-Tagger& Trainer::Tagger()
+TaggerBase& Trainer::Tagger()
 {
     return tagger_;
 }

@@ -2,12 +2,12 @@
 
 #include "boca/NewPartnerPairTagger.hh"
 #include "boca/MultipletEvent.hh"
-#include "boca/AnalysisBase.hh"
+#include "boca/analysis/AnalysisBase.hh"
 
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
@@ -15,7 +15,7 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventNewPairTagger : public TaggerTemplate<MultipletEvent<Decuplet55>,EventBranch>
+class EventNewPairTagger : public Tagger<MultipletEvent<Decuplet55>,branch::Event>
 {
 
 public:
@@ -26,13 +26,13 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 
     Reader<NewPartnerPairTagger> signature_reader_;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

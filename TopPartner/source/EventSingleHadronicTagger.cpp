@@ -8,7 +8,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int EventSingleHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
@@ -44,7 +44,7 @@ std::string EventSingleHadronicTagger::Name() const
 {
     return "EventSingleHadronic";
 }
-Latex EventSingleHadronicTagger::LatexName() const
+latex::String EventSingleHadronicTagger::LatexName() const
 {
     return "T_{h}t_{l}h";
 }

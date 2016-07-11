@@ -2,8 +2,8 @@
 # Copyright (C) 2015-2016 Jan Hajer
 #
 set(TreeSources
+Source.cpp
 Io.cpp
-# Arrays.cpp
 TreeBranch.cpp
 TreeReaderArray.cpp
 TreeReader.cpp

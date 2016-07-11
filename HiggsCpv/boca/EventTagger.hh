@@ -12,7 +12,7 @@ namespace higgscpv {
  * @brief Prepares multivariant analysis
  *
  */
-class GlobalTagger : public TaggerTemplate<MultipletEvent<Octet62>,EventBranch> {
+class GlobalTagger : public Tagger<MultipletEvent<Octet62>,Event> {
 
 public:
 
@@ -26,7 +26,7 @@ private:
 
     Reader<SignatureTagger> signature_reader_;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

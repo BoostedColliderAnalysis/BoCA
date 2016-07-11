@@ -71,8 +71,8 @@ std::vector< Vector3< double > > Plot::CoreData(std::function<bool (Vector3<doub
 {
     INFO0;
     auto data = data_;
-    boost::range::sort(data, [&](Vector3<double> const & a, Vector3<double> const & b) {
-        return function(a, b);
+    boost::range::sort(data, [&](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return function(vector_1, vector_2);
     });
     int cut_off = data.size() / 25;
     data.erase(data.end() - cut_off, data.end());

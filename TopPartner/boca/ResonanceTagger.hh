@@ -2,19 +2,19 @@
 
 #include "boca/multiplets/Doublet.hh"
 #include "boca/BranchesTopPartner.hh"
-#include "boca/TaggerTemplate.hh"
+#include "boca/Tagger.hh"
 
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class ResonanceTagger : public TaggerTemplate<Doublet, TopPartnerBranch>
+class ResonanceTagger : public Tagger<Doublet, TopPartnerBranch>
 {
 
 public:
@@ -25,7 +25,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 

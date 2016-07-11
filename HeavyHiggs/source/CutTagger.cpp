@@ -67,7 +67,7 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event)
     INFO0;
     CutVariables variables;
 
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto bottom = SortedByPt(CopyIfParticle(particles, Id::bottom));
     DEBUG(bottom.size());
     if (bottom.empty()) return boost::none;
@@ -78,8 +78,8 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event)
     variables.SetBottomMaxRap(boost::units::abs(bottom.front().Rap()));
 
     auto jets = RemoveIfSoft(bottom_reader_.Jets(event), 40_GeV);
-    auto electrons = event.Leptons().Electrons();
-    auto muons = event.Leptons().Muons();
+    auto electrons = event.Electrons();
+    auto muons = event.Muons();
 
     for (auto const & jet : jets) {
         electrons = IsolateLeptons(electrons, jet);
@@ -109,18 +109,18 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event)
     std::vector<Jet> bottoms;
     boost::range::copy(jets | boost::adaptors::filtered([](Jet const & jet) {
 //         return jet.Info().BTag();
-        return jet.Info().Bdt() > 0;
+      return jet.Info().Bdt() > 0.05;
     }), std::back_inserter(bottoms));
     DEBUG(bottoms.size());
     if (bottoms.size() < 4) return boost::none;
     variables.SetBottomNumber(bottoms.size());
 
-    auto missing_et = event.Hadrons().MissingEt();
+    auto missing_et = event.MissingEt();
     DEBUG(missing_et.Pt());
     if (missing_et.Pt() < 30_GeV) return boost::none;
     variables.SetEtMiss(missing_et.Pt());
 
-    variables.SetHt(event.Hadrons().ScalarHt());
+    variables.SetHt(event.ScalarHt());
 
     DEBUG(variables.IsNaN());
     if (variables.IsNaN()) return boost::none;

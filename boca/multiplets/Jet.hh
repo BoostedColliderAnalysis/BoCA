@@ -48,7 +48,7 @@ public:
 
     Jet(exroot::Tau const& tau);
 
-    Jet(double const Momentum[4]);
+    Jet(double const momentum[4]);
 
     JetInfo const& Info() const;
 
@@ -58,15 +58,13 @@ public:
 
     std::vector<Jet> Constituents() const;
 
-    LorentzVector<Momentum> Vector() const;
-
     double Bdt() const;
+
+    void SetInfo(JetInfo const& info = JetInfo());
 
 protected:
 
-    void SetInfo(JetInfo const& user_info = JetInfo());
-
-    void ResetInfo(JetInfo const& user_info);
+    void ResetInfo(JetInfo const& info);
 
 private:
 

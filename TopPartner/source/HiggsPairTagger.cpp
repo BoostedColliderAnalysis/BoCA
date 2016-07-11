@@ -6,7 +6,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag)
@@ -71,7 +71,7 @@ std::string HiggsPairTagger::Name() const
     return "HiggsPair";
 }
 
-Latex HiggsPairTagger::LatexName() const
+latex::String HiggsPairTagger::LatexName() const
 {
     return {"hh", true};
 }

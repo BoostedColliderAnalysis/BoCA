@@ -3,12 +3,27 @@
  */
 #pragma once
 
-#include "boca/Partons.hh"
-#include "boca/Hadrons.hh"
-#include "boca/Isolation.hh"
+#include "boca/generic/Flag.hh"
+#include "boca/multiplets/Jet.hh"
+#include "boca/multiplets/Particle.hh"
 
 namespace boca
 {
+
+enum class JetDetail
+{
+    none = 0,
+    plain = 1 << 0,
+    structure = 1 << 1,
+    isolation = 1 << 2,
+};
+
+template<>
+struct Flag<JetDetail> {
+    static const bool enable = true;
+};
+
+std::string Name(JetDetail jet_detail);
 
 enum class Decay
 {
@@ -17,6 +32,16 @@ enum class Decay
 };
 
 std::string Name(Decay decay);
+
+enum class Status
+{
+  none = 0,
+  stable = 1,
+  unstable = 2,
+  generator = 3
+};
+
+class TreeReader;
 
 /**
  * @brief Base class for the event Topology
@@ -27,43 +52,37 @@ class Event
 
 public:
 
-    Event(TreeReader const& tree_reader, Source source);
+    Event(boca::TreeReader const& tree_reader);
 
-    virtual ~Event();
+    std::vector<Particle> GenParticles() const;
 
-    boca::Hadrons const& Hadrons() const;
+    std::vector<Particle> Particles() const;
 
-    boca::Leptons const& Leptons() const;
+    virtual std::vector<Lepton> Leptons() const;
 
-    boca::Partons const& Partons() const;
+    virtual std::vector<Lepton> Electrons() const = 0;
 
-    std::vector<Lepton> IsolatedLeptons();
+    virtual std::vector<Lepton> Muons() const = 0;
+
+    virtual std::vector<Lepton> Photons() const = 0;
+
+    virtual std::vector<Jet> Jets() const = 0;
+
+    virtual Momentum ScalarHt() const;
+
+    virtual boca::MissingEt MissingEt() const;
+
+    virtual std::vector<Jet> EFlow(JetDetail jet_detail) const;
+
+protected:
+
+    boca::TreeReader const& TreeReader() const;
 
 private:
 
-    friend class Isolation;
+    virtual std::vector<Particle> Particles(Status max_status) const = 0;
 
-    /**
-     * @brief Leptons
-     *
-     */
-    boca::Leptons* leptons_ = nullptr;
-
-    /**
-     * @brief Particles
-     *
-     */
-    boca::Partons* partons_ = nullptr;
-
-    /**
-     * @brief Jets
-     *
-     */
-    boca::Hadrons* hadrons_ = nullptr;
-
-    Isolation isolation_;
-
-    Source source_;
+    boca::TreeReader const* tree_reader_;
 
 };
 

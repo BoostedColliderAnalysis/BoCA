@@ -3,10 +3,11 @@
  */
 #pragma once
 
-#include "boca/standardmodel/BottomTagger.hh"
-#include "boca/TaggerTemplate.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
+#include "boca/standardmodel/tagger/Bottom.hh"
+#include "HeavyHiggs/boca/BranchesHeavyHiggs.hh"
+#include "boca/Tagger.hh"
 
 namespace boca
 {
@@ -18,12 +19,14 @@ namespace heavyhiggs
  * @brief JetPair BDT tagger
  *
  */
-class JetPairTagger : public TaggerTemplate<Doublet, JetPairBranch>
+class JetPairTagger : public Tagger<Doublet, JetPairBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
+
+    using Tagger::Multiplets;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
@@ -43,7 +46,7 @@ private:
 
     std::vector<Doublet> TruthDoubletPairs(Event const& event, std::vector<Doublet>& doublets, Tag tag) const;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

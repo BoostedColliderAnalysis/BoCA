@@ -3,16 +3,9 @@
  */
 #pragma once
 
-#include <string>
+#include "boca/Tag.hh"
 
 namespace boca {
-
-enum class Tag {
-    background = 0,
-    signal = 1
-};
-
-std::string Name(Tag tag);
 
 class Identification {
 

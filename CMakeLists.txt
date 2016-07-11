@@ -20,9 +20,10 @@ set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are
 endif()
 
 # set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -fPIC -fext-numeric-literals -D_GLIBCXX_USE_CXX11_ABI=0")
+# -fext-numeric-literals
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas -g")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas -Wno-language-extension-token")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas")
 
 # use ccache if installed
 find_program(CCACHE_FOUND ccache)
@@ -52,8 +53,8 @@ add_libraries(fastjettools)
 add_libraries(Nsubjettiness)
 
 # ROOT
-find_package(ROOT REQUIRED COMPONENTS RIO TMVA Physics Hist)
-set(ROOT_CXX_FLAGS "${ROOT_CXX_FLAGS} -std=c++14")
+find_package(ROOT REQUIRED COMPONENTS Core RIO TMVA Physics Hist Tree TreePlayer)
+set(ROOT_CXX_FLAGS "${ROOT_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
 include(${ROOT_USE_FILE})
 add_libraries("${ROOT_LIBRARIES}")
 add_libraries(TMVA)

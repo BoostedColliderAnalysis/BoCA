@@ -1,5 +1,5 @@
 #include "boca/standardmodel/AnalysisTop.hh"
-#include "boca/standardmodel/TruthLevel.hh"
+#include "boca/standardmodel/tagger/Truth.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
@@ -10,6 +10,6 @@ void Run(boca::Output output = boca::Output::normal)
 
 int main()
 {
-        Run<boca::standardmodel::TruthLevel>(boca::Output::fast);
+        Run<boca::standardmodel::tagger::Truth>(boca::Output::fast);
 }
 

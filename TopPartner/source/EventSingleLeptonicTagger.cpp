@@ -3,7 +3,7 @@
 
 namespace boca {
 
-namespace naturalness {
+namespace toppartner {
 
 int EventSingleLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
@@ -40,7 +40,7 @@ std::string EventSingleLeptonicTagger::Name() const
 {
     return "EventSingleLep";
 }
-Latex EventSingleLeptonicTagger::LatexName() const
+latex::String EventSingleLeptonicTagger::LatexName() const
 {
   return "T_{l}t_{h}h";
 }

@@ -36,40 +36,40 @@ std::vector<LorentzDim> LorentzDimensions();
  * @brief Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage
  *
  */
-template<typename Value>
+template<typename Value_>
 class LorentzVectorBase
 {
 
 public:
 
-    using ValueSquare = boca::ValueSquare<Value>;
+    using ValueSquare = boca::ValueSquare<Value_>;
 
     template<typename Value_2>
-    using ValueProduct = boca::ValueProduct<Value, Value_2>;
+    using ValueProduct = boca::ValueProduct<Value_, Value_2>;
 
     template<typename Value_2>
-    using ValueQuotient = ValueQuotient<Value, Value_2>;
+    using ValueQuotient = ValueQuotient<Value_, Value_2>;
 
     template <typename> struct IsQuantity : std::false_type {};
     template <typename T> struct IsQuantity<boost::units::quantity<T>> : std::true_type {};
 
     template<typename Value_2>
-    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value, Value_2>::value >::type;
+    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value_, Value_2>::value >::type;
 
     template<typename Value_2>
     using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value_2>::value >::type;
 
     LorentzVectorBase() :
         vector_3_(),
-        scalar_(Value(0)) {}
+        scalar_(Value_(0)) {}
 
 // Constructor giving the components x, y, z, t.
-    LorentzVectorBase(Value x, Value y, Value z, Value t) :
+    LorentzVectorBase(Value_ x, Value_ y, Value_ z, Value_ t) :
         vector_3_(x, y, z),
         scalar_(t) {}
 
 // Constructor giving a 3-Vector and a time component.
-    LorentzVectorBase(Vector3<Value> vector3, Value t) :
+    LorentzVectorBase(Vector3<Value_> vector3, Value_ t) :
         vector_3_(std::move(vector3)),
         scalar_(t) {}
 
@@ -80,21 +80,21 @@ public:
     }
 
 // Set position and time.
-    void SetX(Value x) {
+    void SetX(Value_ x) {
         vector_3_.SetX(x);
     }
-    void SetY(Value y) {
+    void SetY(Value_ y) {
         vector_3_.SetY(y);
     }
-    void SetZ(Value z) {
+    void SetZ(Value_ z) {
         vector_3_.SetZ(z);
     }
-    void SetT(Value t) {
+    void SetT(Value_ t) {
         scalar_ = t;
     }
 
 // Set spatial component.
-    void SetVect(Vector3<Value> const& vector) {
+    void SetVect(Vector3<Value_> const& vector) {
         vector_3_ = vector;
     }
 
@@ -105,72 +105,69 @@ public:
     void SetPhi(boca::Angle const& phi) {
         vector_3_.SetPhi(phi);
     }
-    void SetRho(Value rho) {
+    void SetRho(Value_ rho) {
         vector_3_.SetMag(rho);
     }
 
 // Setters to provide the functionality(but a more meanigful name) of
 // the previous version eg SetV4... PsetV4...
-    void SetXYZT(Value x, Value y, Value z, Value t) {
+    void SetXYZT(Value_ x, Value_ y, Value_ z, Value_ t) {
         vector_3_.SetXYZ(x, y, z);
         SetT(t);
     }
 
-    void SetXYZM(Value x, Value y, Value z, Value m) {
-        if (m >= Value(0)) SetXYZT(x, y, z, sqrt(sqr(x) + sqr(y) + sqr(z) + sqr(m)));
-        else SetXYZT(x, y, z, sqrt(std::max((sqr(x) + sqr(y) + sqr(z) - sqr(m)), ValueSquare(0))));
+    void SetXYZM(Value_ x, Value_ y, Value_ z, Value_ mass) {
+        if (mass >= Value_(0)) SetXYZT(x, y, z, sqrt(sqr(x) + sqr(y) + sqr(z) + sqr(mass)));
+        else SetXYZT(x, y, z, sqrt(std::max((sqr(x) + sqr(y) + sqr(z) - sqr(mass)), ValueSquare(0))));
     }
 
 // Set the transverse component of the spatial vector.
-    void SetPerp(Value perp) {
+    void SetPerp(Value_ perp) {
         vector_3_.SetPerp(perp);
     }
 
     // Copy spatial coordinates, and set energy = sqrt(mass^2 + spatial^2)
-    void SetVectMag(Vector3<Value> const& spatial, Value magnitude) {
+    void SetVectMag(Vector3<Value_> const& spatial, Value_ magnitude) {
         SetXYZM(spatial.X(), spatial.Y(), spatial.Z(), magnitude);
     }
 
-    void SetVectM(Vector3<Value> const& spatial, Value mass) {
+    void SetVectM(Vector3<Value_> const& spatial, Value_ mass) {
         SetVectMag(spatial, mass);
     }
 
 // Get position and time.
-    Value const& X() const {
+    Value_ const& X() const {
         return vector_3_.X();
     }
-    Value const& Y() const {
+    Value_ const& Y() const {
         return vector_3_.Y();
     }
-    Value const& Z() const {
+    Value_ const& Z() const {
         return vector_3_.Z();
     }
-    Value const& T() const {
+    Value_ const& T() const {
         return scalar_;
     }
 
-    Value& X() {
+    Value_& X() {
         return vector_3_.X();
     }
-    Value& Y() {
+    Value_& Y() {
         return vector_3_.Y();
     }
-    Value& Z() {
+    Value_& Z() {
         return vector_3_.Z();
     }
-    Value& T() {
+    Value_& T() {
         return scalar_;
     }
 
 // Get spatial component.
-//     Vector3<Value> Vector() const {
-//         return vector_3_;
-//     }
-    Vector3<Value> const& Vector() const {
+    Vector3<Value_> const& Vector() const {
         return vector_3_;
     }
 
-    Vector3<Value> & Vector() {
+    Vector3<Value_> & Vector() {
       return vector_3_;
     }
 
@@ -178,14 +175,14 @@ public:
     boca::Angle Theta() const {
         return vector_3_.Theta();
     }
-    Value CosTheta() const {
+    Value_ CosTheta() const {
         return vector_3_.CosTheta();
     }
     //returns phi from -pi to pi
     boca::Angle Phi() const {
         return vector_3_.Phi();
     }
-    Value Rho() const {
+    Value_ Rho() const {
         return vector_3_.Mag();
     }
 
@@ -198,7 +195,7 @@ public:
         return vector_3_.Perp2();
     }
 
-    Value Perp() const {
+    Value_ Perp() const {
         return vector_3_.Perp();
     }
 
@@ -209,7 +206,7 @@ public:
     }
 
     template <typename Value_2>
-    Value Perp(Vector3<Value_2> const& vector) const {
+    Value_ Perp(Vector3<Value_2> const& vector) const {
         return vector_3_.Perp(vector);
     }
 
@@ -232,7 +229,7 @@ public:
     }
 
 // Angle wrt. another vector.
-    boca::Angle Angle(Vector3<Value> const& vector) const {
+    boca::Angle Angle(Vector3<Value_> const& vector) const {
         return vector_3_.Angle(vector);
     }
 
@@ -246,7 +243,7 @@ public:
         return sqr(T()) - vector_3_.Mag2();
     }
 // Invariant mass. If mag2() is negative then -sqrt(-mag2()) is returned.
-    Value Mag() const {
+    Value_ Mag() const {
         auto mag2 = Mag2();
         return mag2 < ValueSquare(0) ? -sqrt(-mag2) : sqrt(mag2);
     }
@@ -274,18 +271,18 @@ public:
 //find it easier to define these components as(T{+,-}Z)/sqrt(2). Thus
 //check what definition is used in the physics you're working in and adapt
 //your code accordingly.
-    Value Plus() const {
+    Value_ Plus() const {
         return T() + Z();
     }
-    Value Minus() const {
+    Value_ Minus() const {
         return T() - Z();
     }
 
 
     // Returns the spatial components divided by the time component.
     Vector3<double> BoostVector() const {
-        if (T() == Value(0)) {
-            if (Rho() > Value(0)) std::cout << "boostVector computed for LorentzVector with t=0 -- infinite result" << std::endl;
+        if (T() == Value_(0)) {
+            if (Rho() > Value_(0)) std::cout << "boostVector computed for LorentzVector with t=0 -- infinite result" << std::endl;
             return {};
         }
         return Vector3<double>(X() / T(), Y() / T(), Z() / T());
@@ -300,24 +297,24 @@ public:
     }
 
 // Lorentz boost.
-    void Boost(Vector3<double> const& b) {
+    void Boost(Vector3<double> const& boost) {
       //Boost this Lorentz vector
-      auto b2 = b.Mag2();
-      auto gamma = 1. / std::sqrt(1. - b2);
-      auto bp = b * Vector();
-      auto gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
-      Vector() = Vector() + gamma2 * bp * b + gamma * b * T();
+      auto mag_2 = boost.Mag2();
+      auto gamma = 1. / std::sqrt(1. - mag_2);
+      auto bp = boost * Vector();
+      auto gamma2 = mag_2 > 0. ? (gamma - 1.) / mag_2 : 0.;
+      Vector() = Vector() + gamma2 * bp * boost + gamma * boost * T();
       T() = gamma * (T() + bp);
     }
 
-    LorentzVectorBase<Value> Boosted(Vector3<double> const& b) const {
+    LorentzVectorBase<Value_> Boosted(Vector3<double> const& boost) const {
         //Boost this Lorentz vector
-        auto b2 = b.Mag2();
-        auto gamma = 1. / std::sqrt(1. - b2);
-        auto gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
-        auto bp = b * Vector();
-        LorentzVectorBase<Value> lorentz_vector;
-        lorentz_vector.Vector() = Vector() + gamma2 * bp * b + gamma * b * T();
+        auto mag_2 = boost.Mag2();
+        auto gamma = 1. / std::sqrt(1. - mag_2);
+        auto gamma2 = mag_2 > 0. ? (gamma - 1.) / mag_2 : 0.;
+        auto bp = boost * Vector();
+        LorentzVectorBase<Value_> lorentz_vector;
+        lorentz_vector.Vector() = Vector() + gamma2 * bp * boost + gamma * boost * T();
         lorentz_vector.SetT(gamma * (T() + bp));
         return lorentz_vector;
     }
@@ -325,7 +322,7 @@ public:
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
     boca::Angle Rapidity() const {
         //return rapidity
-        return 0.5 * units::log(double((T() + Z()) / (T() - Z())));
+        return 0.5 * units::log(static_cast<double>((T() + Z()) / (T() - Z())));
     }
 
     /// Rapidity with respect to another vector
@@ -336,11 +333,11 @@ public:
             return 0;
         }
         auto vdotu = Vector().Dot(ref) / std::sqrt(r);
-        if (vdotu == Value(0)) return 0_rad;
-        if (T() <= Value(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
+        if (vdotu == Value_(0)) return 0_rad;
+        if (T() <= Value_(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
         auto pt = sqrt(units::max(sqr(T() * std::numeric_limits<double>::epsilon()), Perp2(ref) + Mag2()));
         auto rap = units::log(((T() + abs(Z())) / pt).value());
-        return Z() > Value(0) ? rap : -rap;
+        return Z() > Value_(0) ? rap : -rap;
     }
 
 
@@ -358,22 +355,22 @@ public:
     }
 
 // Rotate the spatial component around the x-axis.
-    void RotateX(Value angle) {
+    void RotateX(Value_ angle) {
         vector_3_.RotateX(angle);
     }
 
 // Rotate the spatial component around the y-axis.
-    void RotateY(Value angle) {
+    void RotateY(Value_ angle) {
         vector_3_.RotateY(angle);
     }
 
 // Rotate the spatial component around the z-axis.
-    void RotateZ(Value angle) {
+    void RotateZ(Value_ angle) {
         vector_3_.RotateZ(angle);
     }
 
 // Rotates the reference frame from Uz to newUz(unit vector).
-    void RotateUz(Vector3<Value>& newUzVector) {
+    void RotateUz(Vector3<Value_>& newUzVector) {
         vector_3_.RotateUz(newUzVector);
     }
 
@@ -396,7 +393,7 @@ public:
     }
 
     // Get components by index.
-    Value const& operator()(LorentzDim i) const {
+    Value_ const& operator()(LorentzDim i) const {
         //dereferencing operatorconst
         switch (i) {
         case LorentzDim::x : return vector_3_(Dim3::x);
@@ -408,12 +405,12 @@ public:
         return vector_3_(Dim3::x);
     }
 
-    Value const& operator[](LorentzDim i) const {
+    Value_ const& operator[](LorentzDim i) const {
         return (*this)(i);
     }
 
     // Set components by index.
-    Value& operator()(LorentzDim i) {
+    Value_& operator()(LorentzDim i) {
         //dereferencing operator
         switch (i) {
         case LorentzDim::x : return vector_3_(Dim3::x);
@@ -425,23 +422,23 @@ public:
         return scalar_;
     }
 
-    Value& operator[](LorentzDim i) {
+    Value_& operator[](LorentzDim i) {
         return (*this)(i);
     }
 
-    ConstIterator<Vector3, Value, LorentzDim> begin() const {
+    ConstIterator<Vector3, Value_, LorentzDim> begin() const {
         return {this, LorentzDim::x};
     }
 
-    ConstIterator<Vector3, Value, LorentzDim> end() const {
+    ConstIterator<Vector3, Value_, LorentzDim> end() const {
         return {this, LorentzDim::last};
     }
 
-    Iterator<Vector3, Value, LorentzDim> begin() {
+    Iterator<Vector3, Value_, LorentzDim> begin() {
         return {this, LorentzDim::x};
     }
 
-    Iterator<Vector3, Value, LorentzDim> end() {
+    Iterator<Vector3, Value_, LorentzDim> end() {
         return {this, LorentzDim::last};
     }
 
@@ -508,10 +505,10 @@ public:
 protected:
 
     // 3 vector component
-    Vector3<Value> vector_3_;
+    Vector3<Value_> vector_3_;
 
     // time or energy of(x,y,z,t) or(px,py,pz,e)
-    Value scalar_;
+    Value_ scalar_;
 
 };
 

@@ -29,10 +29,10 @@ void SetAxis(TAttAxis& axis)
 
 }
 
-void SetAxis(TAxis& axis, Latex const& title)
+void SetAxis(TAxis& axis, latex::String const& title)
 {
     INFO0;
-    axis.SetTitle(title.str(Medium::root).c_str());
+    axis.SetTitle(title.str(latex::Medium::root).c_str());
     axis.CenterTitle();
     SetAxis(axis);
 }

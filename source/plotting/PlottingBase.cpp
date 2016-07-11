@@ -10,8 +10,14 @@
 #include "boca/io/FileWriter.hh"
 #include "boca/io/TreeReader.hh"
 
+#include "boca/latex/File.hh"
+
+#include "boca/branch/Bdt.hh"
+#include "boca/branch/Cut.hh"
+#include "boca/branch/Info.hh"
+#include "boca/branch/Result.hh"
+
 #include "boca/plotting/PlottingBase.hh"
-#include "boca/plotting/LatexFile.hh"
 #include "boca/plotting/Graphs.hh"
 #include "boca/plotting/Results.hh"
 #include "boca/plotting/Histograms.hh"
@@ -20,7 +26,7 @@
 #include "boca/plotting/Plots.hh"
 #include "boca/plotting/Font.hh"
 
-#include "boca/Tagger.hh"
+#include "boca/TaggerBase.hh"
 
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
@@ -33,8 +39,7 @@ namespace
 
 auto Ratio(int min = 0)
 {
-    return "$\\frac{S}{B}" + (min > 0 ? "\\geq \\unit[" + std::to_string(min * 100) + "]{\\%}$" : "$");
-
+    return LatexName(Significance::experimental) + (min > 0 ? "\\geq \\unit[" + std::to_string(min / cU) + "]{\\%}" : "");
 }
 
 }
@@ -44,10 +49,10 @@ void PlottingBase::TaggingEfficiency() const
     INFO0;
     auto results = ReadBdtFiles(Stage::reader);
     results.CutEfficiencies();
-    LatexFile latex_file(Tagger().ExportFolderName());
-    latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
-    latex_file.IncludeGraphic(PlotAcceptanceGraph(results), "Acceptance");
-    latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
+    latex::File latex_file(Tagger().ExportFolderName());
+    latex_file.AddGraphic(PlotHistograms(results));
+    latex_file.AddGraphic(PlotAcceptanceGraph(results));
+    latex_file.AddGraphic(PlotEfficiencyGraph(results));
     latex_file.AddTable(CutEfficiencyTable(results));
     latex_file.AddTable(TruthLevelCutTable(results));
 }
@@ -57,24 +62,24 @@ void PlottingBase::OptimalCuts() const
     INFO0;
     auto results = ReadBdtFiles(Stage::reader);
     results.CalculateSignificances();
-    LatexFile latex_file(Tagger().ExportFolderName());
-    latex_file.Mass(results.Signals().front().InfoBranch().Mass());
-    if (Tagger().Mva() == TMVA::Types::EMVA::kBDT) latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
-    latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
-    latex_file.IncludeGraphic(PlotCrosssectionsGraph(results), "Crosssection in fb");
-    latex_file.IncludeGraphic(PlotMDGraph(results), "Maximization of significance");
-    latex_file.IncludeGraphic(PlotMDExperimentalGraph(results), "Maximization of " + Ratio());
-    latex_file.IncludeGraphic(PlotMISignificanceExclusion(results), "Minimization of the model independent crosssection for significance");
-    latex_file.IncludeGraphic(PlotMISignificanceDiscovery(results), "Minimization of the model independent crosssection for significance");
-    latex_file.IncludeGraphic(PlotMIExperimentalGraph(results), "Minimization of model independent cross section for " + Ratio(DetectorGeometry::Experimental()));
-    latex_file.IncludeGraphic(PlotMIExclusion(results), "Minimization of model independent crosssection for significance and " + Ratio(DetectorGeometry::Experimental()));
-    latex_file.IncludeGraphic(PlotMIDiscovery(results), "Minimization of model independent crosssection for significance and " + Ratio(DetectorGeometry::Experimental()));
-    latex_file.IncludeGraphic(PlotExperimentalVsSignificance(results), Ratio() + "versus significance");
-    for (const auto signal : results.Signals()) {
+    latex::File latex_file(Tagger().ExportFolderName());
+    latex_file.AddTitle(results.Signals().front().Info().Mass());
+    if (Tagger().Mva() == TMVA::Types::EMVA::kBDT) latex_file.AddGraphic(PlotHistograms(results));
+    latex_file.AddGraphic(PlotEfficiencyGraph(results));
+    latex_file.AddGraphic(PlotCrosssectionsGraph(results));
+    latex_file.AddGraphic(PlotMDGraph(results));
+    latex_file.AddGraphic(PlotMDExperimentalGraph(results));
+    latex_file.AddGraphic(PlotMISignificanceExclusion(results));
+    latex_file.AddGraphic(PlotMISignificanceDiscovery(results));
+    latex_file.AddGraphic(PlotMIExperimentalGraph(results));
+    latex_file.AddGraphic(PlotMIExclusion(results));
+    latex_file.AddGraphic(PlotMIDiscovery(results));
+    latex_file.AddGraphic(PlotExperimentalVsSignificance(results));
+    latex_file.AddTable(EfficienciesTableMI(results, Significance::sum | Significance::experimental | Significance::exclusion));
+    latex_file.AddTable(EfficienciesTableMI(results, Significance::background | Significance::exclusion));
+    latex_file.AddTable(EfficienciesTableMI(results, Significance::experimental));
+    for (const auto & signal : results.Signals()) {
         latex_file.AddTable(EfficienciesTable(results, signal.BestMDBin(Significance::sum)));
-        latex_file.AddTable(EfficienciesTableMI(results, Significance::sum | Significance::experimental));
-        latex_file.AddTable(EfficienciesTableMI(results, Significance::background));
-        latex_file.AddTable(EfficienciesTableMI(results, Significance::experimental));
         latex_file.AddTable(BestValueTable(signal, results.XValues()));
     }
 }
@@ -89,99 +94,99 @@ Results PlottingBase::ReadBdtFiles(Stage stage) const
 std::vector<Result> PlottingBase::ReadBdtFile(FileWriter& file_writer, Phase const& phase) const
 {
     INFO0;
-    return Transform(IntegerRange(Tagger().TreeNames(phase).size()), [&](int tree_number) {
+    return Transform(Tagger().TreeNames(phase), [&](std::string const & tree_name) {
         switch (Tagger().Mva()) {
-        case TMVA::Types::EMVA::kBDT : return BdtDistribution(file_writer, phase, tree_number);
-        case TMVA::Types::EMVA::kCuts : return CutDistribution(file_writer, phase, tree_number);
+        case TMVA::Types::EMVA::kBDT : return BdtDistribution(file_writer, phase, tree_name);
+        case TMVA::Types::EMVA::kCuts : return CutDistribution(file_writer, phase, tree_name);
             DEFAULT(Tagger().MvaName(), Result());
         }
     });
 }
 
-Result PlottingBase::BdtDistribution(FileWriter& file_writer, Phase const& phase, int tree_number) const
+Result PlottingBase::BdtDistribution(FileWriter& file_writer, Phase const& phase, std::string const& tree_name) const
 {
     INFO0;
-    TreeReader tree_reader(Tagger().FileName(phase), Tagger().TreeNames(phase).at(tree_number), Source::tagger);
+    TreeReader tree_reader(Tagger().FileName(phase), tree_name, Source::tagger);
     auto& array = tree_reader.Array(Tagger().BranchName(phase), Tagger().Class());
-    auto& tree_writer = file_writer.NewTree(Tagger().TreeNames(phase).at(tree_number));
-    auto& branch = tree_writer.NewBranch<BdtBranch>(Tagger().BranchName(phase));
+    auto& tree_writer = file_writer.NewTree(tree_name);
+    auto& branch = tree_writer.NewBranch<branch::Bdt>(Tagger().BranchName(phase));
     std::vector<double> bdts;
     while (tree_reader.Next()) {
         for (auto const & entry : array) {
-            double bdt = static_cast<BdtBranch const&>(entry).Bdt;
-            branch.AddEntry<BdtBranch>().Bdt = bdt;
+            double bdt = static_cast<branch::Bdt const&>(entry).bdt;
+            branch.AddEntry<branch::Bdt>().bdt = bdt;
             bdts.emplace_back(bdt);
         }
         tree_writer.Fill();
     }
     tree_writer.Write();
-    return Result(InfoBranch(Phase(Stage::reader, phase.Tag()), tree_number).first, InfoBranch(Phase(Stage::trainer, phase.Tag()), tree_number), bdts, Tagger().Mva());
+    return Result(Info(Phase(Stage::reader, phase.Tag()), tree_name).first, Info(Phase(Stage::trainer, phase.Tag()), tree_name), bdts, Tagger().Mva());
 }
 
-Result PlottingBase::CutDistribution(FileWriter& file_writer, Phase const& phase, int tree_number) const
+Result PlottingBase::CutDistribution(FileWriter& file_writer, Phase const& phase, std::string const& tree_name) const
 {
-    INFO(tree_number);
-    TreeReader tree_reader(Tagger().FileName(phase), Tagger().TreeNames(phase).at(tree_number), Source::tagger);
+    INFO0;
+    TreeReader tree_reader(Tagger().FileName(phase), tree_name, Source::tagger);
     auto& array = tree_reader.Array(Tagger().BranchName(phase), Tagger().Class());
-    auto& tree_writer = file_writer.NewTree(Tagger().TreeNames(phase).at(tree_number));
-    auto& branch = tree_writer.NewBranch<CutBranch>(Tagger().BranchName(phase));
+    auto& tree_writer = file_writer.NewTree(tree_name);
+    auto& branch = tree_writer.NewBranch<branch::Cut>(Tagger().BranchName(phase));
     std::vector<std::vector<bool>> passed_matrix;
     while (tree_reader.Next()) {
         for (auto const & entry : array) {
-            auto passed_vector = static_cast<CutBranch const&>(entry).passed_;
-            branch.AddEntry<CutBranch>().passed_ = passed_vector;
+            auto passed_vector = static_cast<branch::Cut const&>(entry).passed;
+            branch.AddEntry<branch::Cut>().passed = passed_vector;
             passed_matrix.emplace_back(passed_vector);
         }
         tree_writer.Fill();
     }
     tree_writer.Write();
-    return Result(InfoBranch(Phase(Stage::reader, phase.Tag()), tree_number).first, InfoBranch(Phase(Stage::trainer, phase.Tag()), tree_number), passed_matrix, Tagger().Mva());
+    return Result(Info(Phase(Stage::reader, phase.Tag()), tree_name).first, Info(Phase(Stage::trainer, phase.Tag()), tree_name), passed_matrix, Tagger().Mva());
 }
 
-std::pair<InfoBranch, int> PlottingBase::InfoBranch(Phase const& phase, int tree_number) const
+std::pair<branch::Info, int> PlottingBase::Info(Phase const& phase, std::string const& tree_name) const
 {
-    INFO(Name(phase.Tag()), tree_number);
-    TreeReader tree_reader(Tagger().FileName(phase), Tagger().TreeNames(phase).at(tree_number), Source::tagger);
+    INFO(Name(phase.Tag()));
+    TreeReader tree_reader(Tagger().FileName(phase), tree_name, Source::tagger);
     INFO(Tagger().WeightBranchName());
     if (tree_reader.GetEntries() == 0) {
         ERROR("tree reader empty, no object for casting");
-        return std::make_pair(boca::InfoBranch(), 0);
+        return std::make_pair(boca::branch::Info(), 0);
     }
-    auto& array = tree_reader.Array<boca::InfoBranch>(Tagger().WeightBranchName());
+    auto& array = tree_reader.Array<boca::branch::Info>(Tagger().WeightBranchName());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     if (array.GetSize() == 0) {
         ERROR("array empty, no object for casting");
-        return std::make_pair(boca::InfoBranch(), 0);
+        return std::make_pair(boca::branch::Info(), 0);
     }
     return std::make_pair(array.At(array.GetSize() - 1), tree_reader.GetEntries());
 }
 
-std::string PlottingBase::PlotHistograms(Results const& results) const
+latex::Graphic PlottingBase::PlotHistograms(Results const& results) const
 {
     INFO0;
     Histograms histograms(Tagger().ExportFolderName(), "Bdt");
     for (auto const & signal : results.Signals()) {
-        histograms.AddHistogram(signal.Bdts(), signal.InfoBranch().Names(), results.Range());
+        histograms.AddHistogram(signal.Bdts(), signal.Info().Names(), results.Range());
         histograms.AddLine(signal.BestMIValue(Significance::sum | Significance::experimental));
         histograms.AddLine(signal.BestMDValue(Significance::sum));
     }
-    for (auto const & background : results.Backgrounds()) histograms.AddHistogram(background.Bdts(), background.InfoBranch().Names(), results.Range());
+    for (auto const & background : results.Backgrounds()) histograms.AddHistogram(background.Bdts(), background.Info().Names(), results.Range());
     histograms.SetLegend(Orientation::top);
     histograms.SetXAxis("BDT");
-    histograms.SetYAxis(Latex("N", true));
-    return histograms.FileBaseName();
+    histograms.SetYAxis(latex::String("N", true));
+    return {histograms.FileBaseName(), "BDT Distribution"};
 }
 
-std::string PlottingBase::PlotEfficiencyGraph(Results const& results) const
+latex::Graphic PlottingBase::PlotEfficiencyGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Efficiency");
     for (auto const & signal : results.Signals()) {
-        graphs.AddGraph(results.XValues(), signal.PreCutEfficiencies(), signal.InfoBranch().LatexName());
+        graphs.AddGraph(results.XValues(), signal.PreCutEfficiencies(), signal.Info().LatexName());
         graphs.AddLine(signal.BestMDValue(Significance::sum));
         graphs.AddLine(signal.BestMIValue(Significance::sum | Significance::experimental));
     }
-    for (auto const & background : results.Backgrounds()) graphs.AddGraph(results.XValues(), background.PreCutEfficiencies(), background.InfoBranch().LatexName());
+    for (auto const & background : results.Backgrounds()) graphs.AddGraph(results.XValues(), background.PreCutEfficiencies(), background.Info().LatexName());
     graphs.SetLegend(Orientation::bottom | Orientation::left);
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
@@ -194,22 +199,23 @@ std::string PlottingBase::PlotEfficiencyGraph(Results const& results) const
         break;
         DEFAULT(Tagger().Mva());
     }
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), "Efficiency"};
 }
 
-std::vector<std::string> PlottingBase::PlotAcceptanceGraph(Results const& results) const
+latex::Graphic PlottingBase::PlotAcceptanceGraph(Results const& results) const
 {
     INFO0;
     std::vector<std::string> names;
     for (auto const & signal : results.Signals()) {
         Graphs graphs(Tagger().ExportFolderName(), "Acceptance" + std::to_string(Position(results.Signals(), signal)));
-        for (auto const & background : results.Backgrounds()) graphs.AddGraph(signal.PureEfficiencies(), background.PureEfficiencies(), background.InfoBranch().LatexName());
-        graphs.SetLegend(Orientation::right | Orientation::bottom, signal.InfoBranch().LatexName());
+        graphs.AddGraph(signal.PureEfficiencies(), signal.PureEfficiencies(), signal.Info().LatexName());
+        for (auto const & background : results.Backgrounds()) graphs.AddGraph(signal.PureEfficiencies(), background.PureEfficiencies(), background.Info().LatexName());
+        graphs.SetLegend(Orientation::right | Orientation::bottom/*, signal.Info().LatexName()*/);
         graphs.SetXAxis("Signal acceptance", {0.2, 0.9});
         graphs.SetYAxis("Background acceptance", {1e-3, 1});
         names.emplace_back(graphs.FileBaseName());
     }
-    return names;
+    return {names, "Acceptance"};
 }
 
 void PlottingBase::SetDefaultXAxis(Graphs& graphs, Results const& results) const
@@ -225,23 +231,23 @@ void PlottingBase::SetDefaultXAxis(Graphs& graphs, Results const& results) const
     }
 }
 
-std::string PlottingBase::PlotCrosssectionsGraph(Results const& results) const
+latex::Graphic PlottingBase::PlotCrosssectionsGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Crosssection");
     for (auto const & signal : results.Signals()) {
-        graphs.AddGraph(results.XValues(), FloatVector(signal.Crosssections()), signal.InfoBranch().LatexName());
+        graphs.AddGraph(results.XValues(), FloatVector(signal.Crosssections()), signal.Info().LatexName());
         graphs.AddLine(signal.BestMDValue(Significance::sum));
         graphs.AddLine(signal.BestMIValue(Significance::sum | Significance::experimental));
     }
-    for (auto const & background : results.Backgrounds()) graphs.AddGraph(results.XValues(), FloatVector(background.Crosssections()), background.InfoBranch().LatexName());
+    for (auto const & background : results.Backgrounds()) graphs.AddGraph(results.XValues(), FloatVector(background.Crosssections()), background.Info().LatexName());
     graphs.SetLegend(Orientation::bottom | Orientation::left);
     SetDefaultXAxis(graphs, results);
     graphs.SetYAxis("Crosssection [fb]");
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), "Crosssection in fb"};
 }
 
-std::string PlottingBase::PlotMDGraph(Results const& results) const
+latex::Graphic PlottingBase::PlotMDGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "MDSignificance");
@@ -252,10 +258,10 @@ std::string PlottingBase::PlotMDGraph(Results const& results) const
     graphs.SetLegend(Orientation::top | Orientation::left);
     SetDefaultXAxis(graphs, results);
     graphs.SetYAxis("Significance");
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), "Maximization of significance"};
 }
 
-std::string PlottingBase::PlotMDExperimentalGraph(Results const& results) const
+latex::Graphic PlottingBase::PlotMDExperimentalGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "MDExperimental");
@@ -265,20 +271,20 @@ std::string PlottingBase::PlotMDExperimentalGraph(Results const& results) const
     }
     SetDefaultXAxis(graphs, results);
     graphs.SetYAxis( {"S/B", true});
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), "Maximization of " + Ratio()};
 }
 
-std::string PlottingBase::PlotExperimentalVsSignificance(Results const& results) const
+latex::Graphic PlottingBase::PlotExperimentalVsSignificance(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SBvsSsqrtB");
     for (auto const & signal : results.Signals()) for (auto const & significance : SignificancesMD()) graphs.AddGraph(signal.MD(Significance::experimental), signal.MD(significance), LatexName(significance));
-    graphs.SetXAxis(Latex("S/B", true));
+    graphs.SetXAxis(latex::String("S/B", true));
     graphs.SetYAxis("Significance");
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), Ratio() + "versus significance"};
 }
 
-std::string PlottingBase::PlotMISignificanceExclusion(Results const& results) const
+latex::Graphic PlottingBase::PlotMISignificanceExclusion(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "MISignificanceExclusion");
@@ -289,10 +295,10 @@ std::string PlottingBase::PlotMISignificanceExclusion(Results const& results) co
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Exclusion crosssection [fb]");
     SetDefaultXAxis(graphs, results);
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), "Minimization of the model independent crosssection for significance"};
 }
 
-std::string PlottingBase::PlotMISignificanceDiscovery(Results const& results) const
+latex::Graphic PlottingBase::PlotMISignificanceDiscovery(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "MISignificanceDiscovery");
@@ -303,24 +309,24 @@ std::string PlottingBase::PlotMISignificanceDiscovery(Results const& results) co
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Discovery crosssection [fb]");
     SetDefaultXAxis(graphs, results);
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), "Minimization of the model independent crosssection for significance"};
 }
 
-std::string PlottingBase::PlotMIExperimentalGraph(Results const& results) const
+latex::Graphic PlottingBase::PlotMIExperimentalGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "MIExperimental");
     for (auto const & signal : results.Signals()) {
-        graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::experimental)), signal.InfoBranch().LatexName());
+        graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::experimental)), signal.Info().LatexName());
         graphs.AddLine(signal.BestMIValue(Significance::experimental), LatexName(Significance::experimental));
     }
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Crosssection [fb]");
     SetDefaultXAxis(graphs, results);
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), "Minimization of model independent cross section for " + Ratio(Settings::Experimental())};
 }
 
-std::string PlottingBase::PlotMIDiscovery(Results const& results) const
+latex::Graphic PlottingBase::PlotMIDiscovery(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "MIConstrainedDiscovery");
@@ -331,10 +337,10 @@ std::string PlottingBase::PlotMIDiscovery(Results const& results) const
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Discovery crosssection [fb]");
     SetDefaultXAxis(graphs, results);
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), "Minimization of model independent crosssection for significance and " + Ratio(Settings::Experimental())};
 }
 
-std::string PlottingBase::PlotMIExclusion(Results const& results) const
+latex::Graphic PlottingBase::PlotMIExclusion(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "MIConstrainedExclusion");
@@ -345,13 +351,13 @@ std::string PlottingBase::PlotMIExclusion(Results const& results) const
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Exclusion crosssection [fb]");
     SetDefaultXAxis(graphs, results);
-    return graphs.FileBaseName();
+    return {graphs.FileBaseName(), "Minimization of model independent crosssection for significance and " + Ratio(Settings::Experimental())};
 }
 
-LatexTable PlottingBase::BestValueTable(Result const& signal, std::vector<double> const& x_values) const
+latex::Table PlottingBase::BestValueTable(Result const& signal, std::vector<double> const& x_values) const
 {
     INFO0;
-    LatexTable table("rllllll");
+    latex::Table table("rllllll");
     table.AddRow("Model optimization", "Cut", "Significance", "Ratio [\\%]", "Crosssection [fb]");
     table.AddLine();
     for (const auto & significance : SignificancesMD()) table.AddRow(BestValueRow(signal, x_values, significance, "dependent ", signal.BestMDBin(significance)));
@@ -363,10 +369,10 @@ LatexTable PlottingBase::BestValueTable(Result const& signal, std::vector<double
     return table;
 }
 
-LatexRow PlottingBase::BestValueRow(Result const& signal, std::vector<double> const& x_values, Significance significance, std::string const& model, int bin) const
+latex::Row PlottingBase::BestValueRow(Result const& signal, std::vector<double> const& x_values, Significance significance, std::string const& model, int bin) const
 {
     INFO0;
-    LatexRow row(model + LatexName(significance).str(Medium::latex));
+    latex::Row row(model + LatexName(significance).str(latex::Medium::latex));
     row.AddCell(RoundToDigits(x_values.at(bin)));
     row.AddCell(RoundToDigits(signal.MD(significance &~Significance::experimental).at(bin)));
     row.AddCell(RoundToDigits(signal.MD(Significance::experimental).at(bin) / cU));
@@ -374,11 +380,11 @@ LatexRow PlottingBase::BestValueRow(Result const& signal, std::vector<double> co
     return row;
 }
 
-LatexTable PlottingBase::EfficienciesTable(Results const& results, int bin) const
+latex::Table PlottingBase::EfficienciesTable(Results const& results, int bin) const
 {
     INFO0;
-    LatexTable table("rlllll");
-    table.AddRow("Sample", "before", "after", "Efficiency", "$\\sigma$  [fb]", "$N_{\\mathcal L = \\unit[" + std::to_string(RoundToDigits(DetectorGeometry::Luminosity() * fb)) + "]{fb^{-1}}}$");
+    latex::Table table("rllllll");
+    table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]", latex::Formula("N_{", latex::Command("mathcal", "L"), " = ", latex::Unit("fb^{-1}", static_cast<int>(Settings::Luminosity() * fb)), "}").str());
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(EfficienciesRow(result, Position(results.Signals(), result), Tag::signal, bin));
     for (auto const & result : results.Backgrounds()) table.AddRow(EfficienciesRow(result, Position(results.Backgrounds(), result), Tag::background, bin));
@@ -386,50 +392,62 @@ LatexTable PlottingBase::EfficienciesTable(Results const& results, int bin) cons
     return table;
 }
 
-LatexRow PlottingBase::EfficienciesRow(Result const& result, int, Tag , int bin) const
+namespace
+{
+std::string Red(int value)
+{
+    return value == 1 ? latex::Command("textcolor", "red", value).str() : std::to_string(value);
+}
+
+}
+
+latex::Row PlottingBase::EfficienciesRow(Result const& result, int, Tag tag, int bin) const
 {
     INFO0;
-    LatexRow row(result.InfoBranch().LatexName().str(Medium::latex));
-    row.AddCell(result.InfoBranch().EventNumber());
-    row.AddCell(result.PartialSum().at(bin));
+    latex::Row row(result.Info().Names().Latex().str(latex::Medium::latex));
+    row.AddCell(result.Info().EventNumber());
+    row.AddCell(result.PartialSum().front());
+    row.AddCell(Red(result.PartialSum().at(bin)));
     row.AddCell(RoundToDigits(result.PreCutEfficiencies().at(bin)));
-    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() / fb * Results::ScalingFactor()));
-    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor()));
+    row.AddCell(RoundToDigits(result.Info().Crosssection() / fb * Results::ScalingFactor(tag)));
+    row.AddCell(RoundToDigits(result.Info().Crosssection() * Settings::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor(tag)));
     return row;
 }
 
-LatexTable PlottingBase::EfficienciesTableMI(Results const& results, Significance significance) const
+latex::Table PlottingBase::EfficienciesTableMI(Results const& results, Significance significance) const
 {
     INFO0;
-    LatexTable table("rlllll");
-    table.AddRow("Sample", "before", "after", "Efficiency", "$\\sigma$  [fb]\n");
+    latex::Table table("rlllll");
+    table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]\n");
     table.AddLine();
     for (auto const & signal : results.Signals()) {
         auto bin = signal.BestMIBin(significance);
+        CHECK(bin > 0, bin, Name(significance));
         table.AddRow(EfficienciesRowMI(signal, bin));
         for (auto const & background : results.Backgrounds()) table.AddRow(EfficienciesRowMI(background, bin));
     }
-    table.AddCaption("Model independent efficiencies calculated by minimizing the exclusion cross section" + LatexName(significance).str(Medium::latex));
+    table.AddCaption("Model independent efficiencies calculated by minimizing the exclusion cross section" + LatexName(significance).str(latex::Medium::latex));
     return table;
 }
 
-LatexRow PlottingBase::EfficienciesRowMI(const boca::Result& result, int bin) const
+latex::Row PlottingBase::EfficienciesRowMI(Result const& result, int bin) const
 {
     INFO0;
-    LatexRow row(result.InfoBranch().LatexName().str(Medium::latex));
-    row.AddCell(result.InfoBranch().EventNumber());
-    row.AddCell(result.PartialSum().at(bin));
+    latex::Row row(result.Info().LatexName().str(latex::Medium::latex));
+    row.AddCell(result.Info().EventNumber());
+    row.AddCell(result.PartialSum().front());
+    row.AddCell(Red(result.PartialSum().at(bin)));
     row.AddCell(RoundToDigits(result.PreCutEfficiencies().at(bin)));
     row.AddCell(RoundToDigits(result.Crosssections().at(bin) / fb));
     return row;
 }
 
-LatexTable PlottingBase::CutEfficiencyTable(Results const& results) const
+latex::Table PlottingBase::CutEfficiencyTable(Results const& results) const
 {
     INFO0;
-    LatexTable table("rllllllllll");
-    table.AddRow("", "\\multicolumn{9}{c}{Pure Efficiencies [\\%]}");
-    LatexRow row("BDT value");
+    latex::Table table("rllllllllll");
+    table.AddRow("", latex::MultiColumn("Pure Efficiencies [\\%]", 9));
+    latex::Row row("BDT value");
     for (auto const & eff : results.SelectedEfficiencies()) row.AddCell(RoundToDigits(eff));
     table.AddRow(row);
     table.AddLine();
@@ -439,18 +457,18 @@ LatexTable PlottingBase::CutEfficiencyTable(Results const& results) const
     return table;
 }
 
-LatexRow PlottingBase::CutEfficiencyRow(Result const& result, int , Tag) const
+latex::Row PlottingBase::CutEfficiencyRow(Result const& result, int , Tag) const
 {
     INFO0;
-    LatexRow row(result.InfoBranch().LatexName().str(Medium::latex));
+    latex::Row row(result.Info().LatexName().str(latex::Medium::latex));
     for (auto const & eff : result.SelectedEfficiencies()) row.AddCell(RoundToDigits(eff * 100));
     return row;
 }
 
-LatexTable PlottingBase::TruthLevelCutTable(Results const& results) const
+latex::Table PlottingBase::TruthLevelCutTable(Results const& results) const
 {
     INFO0;
-    LatexTable table("rll");
+    latex::Table table("rll");
     table.AddRow("Sample", "Efficiency");
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(TruthLevelCutRow(result, Tag::signal));
@@ -459,11 +477,11 @@ LatexTable PlottingBase::TruthLevelCutTable(Results const& results) const
     return table;
 }
 
-LatexRow PlottingBase::TruthLevelCutRow(Result const& result, Tag) const
+latex::Row PlottingBase::TruthLevelCutRow(Result const& result, Tag) const
 {
     INFO0;
-    LatexRow row(result.InfoBranch().LatexName().str(Medium::latex));
-    row.AddCell(RoundToDigits(double(result.TrainerSize()) / result.TrainerInfoBranch().EventNumber()));
+    latex::Row row(result.Info().LatexName().str(latex::Medium::latex));
+    row.AddCell(RoundToDigits(static_cast<double>(result.TrainerSize()) / result.TrainerInfo().EventNumber()));
     return row;
 }
 
@@ -497,17 +515,17 @@ void PlottingBase::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 void PlottingBase::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 {
     INFO(signal.Data().size(), background.Data().size());
-    auto signal_x = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.X() < b.X();
+    auto signal_x = signal.CoreData([](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.X() < vector_2.X();
     });
-    auto signal_y = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.Y() < b.Y();
+    auto signal_y = signal.CoreData([](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.Y() < vector_2.Y();
     });
-    auto background_x = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.X() < b.X();
+    auto background_x = background.CoreData([](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.X() < vector_2.X();
     });
-    auto background_y = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
-        return a.Y() < b.Y();
+    auto background_y = background.CoreData([](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
+        return vector_1.Y() < vector_2.Y();
     });
     Rectangle<double> range;
     range.SetXMin(std::min(signal_x.front().X(), background_x.front().X()));
@@ -540,7 +558,7 @@ void PlottingBase::PlotProfile(Plot const& signal, Plot const& background, Recta
     profile.SetProfile(signal, background);
     profile.SetXAxis(signal.XAxis().LatexName());
     profile.SetYAxis(signal.YAxis().LatexName());
-    profile.SetZAxis(Latex("BDT_{") + signal.Title().LatexName() + "}", 30);
+    profile.SetZAxis(latex::String("BDT_{") + signal.Title().LatexName() + "}", 30);
 }
 
 std::vector<Plots> PlottingBase::Import(Phase const& phase) const
@@ -548,15 +566,15 @@ std::vector<Plots> PlottingBase::Import(Phase const& phase) const
     INFO(Tagger().FileName(phase), Tagger().TreeNames(phase).size());
     TFile file(Tagger().FileName(phase).c_str(), "Read");
     std::vector<Plots> results;
-    for (auto const & tree_number : IntegerRange(Tagger().TreeNames(phase).size())) results.emplace_back(PlotResult(file, tree_number, phase));
+    for (auto const & tree_name : Tagger().TreeNames(phase)) results.emplace_back(PlotResult(file, tree_name, phase));
     return results;
 }
 
-Plots PlottingBase::PlotResult(TFile& file, int tree_number, Phase const& phase) const
+Plots PlottingBase::PlotResult(TFile& file, std::string const& tree_name, Phase const& phase) const
 {
-    INFO(tree_number);
-    Plots plots(InfoBranch(phase, tree_number).first);
-    TTree& tree = static_cast<TTree&>(*file.Get(Tagger().TreeNames(phase).at(tree_number).c_str()));
+    INFO0;
+    Plots plots(Info(phase, tree_name).first);
+    TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(true);
     plots.PlotVector() = UnorderedPairs(ConstCast(Tagger().Branch()).Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
         auto plot = ReadTree(tree, variable_1.Name(), variable_2.Name(), phase.Stage());
@@ -564,7 +582,7 @@ Plots PlottingBase::PlotResult(TFile& file, int tree_number, Phase const& phase)
         plot.y_is_int = variable_2.IsInt();
         return plot;
     });
-    plots.Names().SetName(Tagger().TreeNames(phase).at(tree_number));
+    plots.Names().SetName(tree_name);
     DEBUG(plots.PlotVector().size(), ConstCast(Tagger().Branch()).Variables().Vector().size());
     return plots;
 }
@@ -611,11 +629,11 @@ Plot PlottingBase::ReadTree(TTree& tree, std::string const& leaf_1_name, std::st
     SetBranch(tree, bdt_values, branch_name + ".Bdt");
 
     Plot plot;
-    for (auto const & entry : IntegerRange(tree.GetEntries())) {
+    for (auto entry : IntegerRange(tree.GetEntries())) {
         DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);
         DETAIL(branch_size, leaf_values_1.size(), leaf_values_2.size());
-        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
+        for (auto element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
     }
     return plot;
 }
@@ -644,15 +662,14 @@ Plots PlottingBase::PlotResult2(Observable const& variable, Tag tag, Plots& plot
     ERROR(Name(tag));
     Phase phase(Stage::trainer, tag);
     TFile file(Tagger().FileName(phase).c_str(), "Read");
-    std::vector<boca::InfoBranch> branches;
-    auto names = Tagger().TreeNames(phase);
-    for (auto const & tree_number : IntegerRange(names.size())) {
-        if (branches.size() < names.size()) branches.emplace_back(InfoBranch(phase, tree_number).first);
-        auto& tree = static_cast<TTree&>(*file.Get(Tagger().TreeNames(phase).at(tree_number).c_str()));
+    std::vector<boca::branch::Info> branches;
+    for (auto const & tree_name : Tagger().TreeNames(phase)) {
+        if (branches.size() < Tagger().TreeNames(phase).size()) branches.emplace_back(Info(phase, tree_name).first);
+        auto& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
         tree.SetMakeClass(true);
         auto plot = ReadTree2(tree, variable.Name());
         plot.x_is_int = variable.IsInt();
-        plot.Title() = branches.at(tree_number).Names();
+        plot.Title() = branches.at(Position(Tagger().TreeNames(phase), tree_name)).Names();
         plots.PlotVector().emplace_back(plot);
     }
     return plots;
@@ -678,10 +695,10 @@ Plot PlottingBase::ReadTree2(TTree& tree, std::string const& leaf_name) const
 
 
     Plot plot;
-    for (auto const & entry : IntegerRange(tree.GetEntries())) {
+    for (auto entry : IntegerRange(tree.GetEntries())) {
         DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values.at(element), 0, 0));
+        for (auto element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values.at(element), 0, 0));
     }
     return plot;
 }
@@ -698,7 +715,7 @@ void PlottingBase::PlotVariables(Plots const& plots) const
     for (auto const & plot : plots.PlotVector()) histograms.AddHistogram(plot.XData(), plot.Title(), plots.XRange(), plot.x_is_int);
     histograms.SetLog();
     histograms.SetLegend(Orientation::outside | Orientation::right);
-    histograms.SetYAxis(Latex("N", true));
+    histograms.SetYAxis(latex::String("N", true));
     histograms.SetXAxis(plots.Names().LatexName());
 }
 

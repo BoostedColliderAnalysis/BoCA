@@ -3,7 +3,7 @@
  */
 #include "boca/generic/Types.hh"
 #include "boca/physics/Member.hh"
-#include "boca/physics/Particles.hh"
+#include "boca/physics/Id.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -11,7 +11,7 @@ namespace boca
 
 Member::Member()
 {
-    id_ = int(boca::Id::none);
+    id_ = static_cast<int>(boca::Id::none);
 }
 
 Member::Member(int id)

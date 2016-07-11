@@ -15,7 +15,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
 //     Mass mass = event.mass();
     Jet HiggsBoson;
     if (tag == Tag::signal) {
-        auto HiggsParticles = event.Partons().GenParticles();
+        auto HiggsParticles = event.GenParticles();
         HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
         if (tag == Tag::signal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
@@ -34,7 +34,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal:
-        for (auto const & triplet : triplets) if (triplet.DeltaRTo(TopQuark) < DetectorGeometry::JetConeSize()) Finaltriplets.emplace_back(triplet);
+        for (auto const & triplet : triplets) if (triplet.DeltaRTo(TopQuark) < Settings::JetConeSize()) Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
         Finaltriplets = triplets;
@@ -43,12 +43,12 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
     std::vector<Jet> BottomJets;
     switch (tag) {
     case Tag::signal : {
-        auto BottomParticles = event.Partons().GenParticles();
+        auto BottomParticles = event.GenParticles();
         BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::charged_higgs);
         Jet BottomQuark;
         if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();
         else ERROR(BottomParticles.size());
-        for (auto const & Jet : jets)  if (Jet.DeltaRTo(BottomQuark) < DetectorGeometry::JetConeSize()) BottomJets.emplace_back(Jet);
+        for (auto const & Jet : jets)  if (Jet.DeltaRTo(BottomQuark) < Settings::JetConeSize()) BottomJets.emplace_back(Jet);
         break;
     }
     case Tag::background :
@@ -58,11 +58,11 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
     std::vector<Quartet31> quartets;
     for (auto const & triplet : Finaltriplets)
         for (auto const & Jet : BottomJets) {
-            if (triplet.DeltaRTo(Jet) < DetectorGeometry::JetConeSize()) continue;
+            if (triplet.DeltaRTo(Jet) < Settings::JetConeSize()) continue;
             Quartet31 quartet(triplet, Jet);
 //             if (tag == Tag::signal && quartet.Mass() < mass / 2.) continue;
 //             if (tag == Tag::signal && quartet.Mass() > mass * 3. / 2.) continue;
-            if (tag == Tag::signal && quartet.DeltaRTo(HiggsBoson) > 2. * DetectorGeometry::JetConeSize()) continue;
+            if (tag == Tag::signal && quartet.DeltaRTo(HiggsBoson) > 2. * Settings::JetConeSize()) continue;
             quartets.emplace_back(quartet);
         }
     INFO(quartets.size());

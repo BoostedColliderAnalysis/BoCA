@@ -19,7 +19,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag)
     auto doublets = jet_pair_reader_.Multiplets(event);
     auto bottoms = SortedByPt(jet_pair_reader_.Tagger().PairBottomQuarks(event, tag));
 
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto tops = CopyIfParticle(particles, Id::top);
     auto tops_even = CopyIfMother(tops, Id::heavy_higgs);
     auto tops_odd = CopyIfMother(tops, Id::CP_odd_higgs);

@@ -8,14 +8,14 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureEffectiveTagger : public TaggerTemplate<Quattuordecuplet554, boca::SignatureBranch>
+class SignatureEffectiveTagger : public Tagger<Quattuordecuplet554, boca::branch::ThreeBody>
 {
 
 public:
@@ -26,7 +26,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 

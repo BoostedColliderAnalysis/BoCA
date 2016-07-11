@@ -5,8 +5,8 @@
 
 #include "fastjet/PseudoJet.hh"
 
-#include "boca/multiplets/Identification.hh"
 #include "boca/Constituent.hh"
+#include "boca/multiplets/Identification.hh"
 
 namespace boca
 {
@@ -99,6 +99,18 @@ public:
 
     void SetCharge(int charge);
 
+    std::vector<Family> Families() const;
+
+    bool ContainsDetectorPart(DetectorPart detector_part) const;
+
+    void SetMuBTag(double min_x, double fraction);
+
+    double EnergyRatio() const;
+
+    double MomentumRatio() const;
+
+    bool InMuonChamber() const;
+
 private:
 
     JetInfo(std::vector<Constituent> const& constituents, std::vector<Constituent> const& dispalced_constituents);
@@ -128,6 +140,10 @@ private:
     int charge_ = 0;
 
     bool sub_structure_ = true;
+
+    double min_x_ = 0;
+
+    double fraction_ = 0;
 
 };
 

@@ -32,14 +32,14 @@ public:
 
     std::string AnalysisName() const override {
         //        return  "Neutral-" + ColliderName(Collider()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
-        return  "Neutral-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "3-jet-cut-large";
+        return  "Neutral-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "3-jet-bdt-large2";
     };
 
 private:
 
     int PassPreCut(Event const&, Tag) const override {
 //         if (tag == Tag::background) return 1;
-//         std::vector<Particle> particles = event.Partons().GenParticles();
+//         std::vector<Particle> particles = event.GenParticles();
 //         for (auto const & particle : particles) ERROR(boca::Name(particle.Info().Family().Member(Relative::particle).Id()), boca::Name(particle.Info().Family().Member(Relative::mother).Id()), boca::Name(particle.Info().Family().Member(Relative::step_mother).Id()), boca::Name(particle.Info().Family().Member(Relative::grand_mother).Id()));
 //         std::vector<Particle> bottoms = SortedByPt(CopyIfParticle(particles, Id::bottom));
 //         std::vector<Particle> tags;
@@ -68,11 +68,11 @@ private:
 //             if (tops.at(0).Pt() < this->PreCut()) return 0;
 //             if (tops.at(1).Pt() < this->PreCut()) return 0;
 //         }
-//         if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
-//         std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+//         if (event.MissingEt().Pt() < this->MissingEt()) return 0;
+//         std::vector<Lepton> leptons = SortedByPt(event.Leptons());
 //         if (leptons.empty()) return 0;
 //         if (leptons.front().Pt() < this->LeptonPt()) return 0;
-//         std::vector<Jet> jets = event.Hadrons().Jets();
+//         std::vector<Jet> jets = event.Jets();
 //         if (jets.size() < 4) return 0;
         return 1;
     }

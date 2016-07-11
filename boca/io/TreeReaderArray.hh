@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "TTreeReaderArray.h"
 
 class TTreeReader;
@@ -10,43 +11,47 @@ class TObject;
 namespace boca
 {
 
-class TreeReaderArray : public ROOT::TTreeReaderArrayBase
+class TreeReaderArray : public ROOT::Internal::TTreeReaderArrayBase
 {
 
 public:
 
-    struct Iterator:
+    class Iterator : public std::iterator<std::input_iterator_tag, TObject, long>
+    {
 
-        public std::iterator<std::input_iterator_tag, TObject, long> {
+    public:
 
         Iterator();
 
-        Iterator(size_t idx, TreeReaderArray* array);
-
-        std::size_t index_;
-
-        TreeReaderArray* array_;
+        Iterator(std::size_t index, TreeReaderArray* array);
 
         bool IsValid() const;
 
-        bool operator==(const Iterator& iterator_) const;
+        bool operator==(Iterator const& iter) const;
 
-        bool operator!=(const Iterator& iterator_) const;
+        bool operator!=(Iterator const& iter) const;
 
         Iterator operator++(int);
 
         Iterator& operator++();
 
         TObject& operator*() const;
+
+    private:
+
+        std::size_t index_;
+
+        TreeReaderArray* array_;
+
     };
 
-    TreeReaderArray(TTreeReader& tr, std::string const& branchname, TClass& cl);
+    TreeReaderArray(TTreeReader& tree_reader, std::string const& branch_name, TClass& cl);
 
-    TObject& At(size_t idx);
+    TObject& At(std::size_t index);
 
-    TObject& operator[](size_t idx);
+    TObject& operator[](std::size_t index);
 
-    typedef Iterator iterator;
+    using iterator = Iterator;
 
     Iterator begin();
 
@@ -54,7 +59,7 @@ public:
 
 protected:
 
-    virtual const char* GetDerivedTypeName() const;
+    virtual char const* GetDerivedTypeName() const;
 
 };
 

@@ -26,7 +26,7 @@ ClosestLepton::ClosestLepton(const Jet& jet, const Event& event)
 {
     INFO0;
     SetJet(jet);
-    AddLeptons(event.Leptons().leptons());
+    AddLeptons(event.Leptons());
 }
 
 void ClosestLepton::SetJet(const Jet& jet)

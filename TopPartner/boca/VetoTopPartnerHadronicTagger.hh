@@ -6,20 +6,20 @@
 #include <functional>
 #include "boca/multiplets/Quintet.hh"
 #include "boca/TopPartnerLeptonicNeutralTagger.hh"
-#include "boca/standardmodel/TopHadronicTagger.hh"
-#include "boca/standardmodel/HiggsTagger.hh"
+#include "boca/standardmodel/tagger/TopHadronic.hh"
+#include "boca/standardmodel/tagger/Higgs.hh"
 
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class VetoTopPartnerHadronicTagger : public TaggerTemplate<Quintet, TopPartnerBranch>
+class VetoTopPartnerHadronicTagger : public Tagger<Quintet, TopPartnerBranch>
 {
 
 public:
@@ -30,7 +30,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 
@@ -40,9 +40,9 @@ private:
 
     Reader<TopPartnerLeptonicNeutralTagger> partner_reader_;
 
-    Reader<standardmodel::TopHadronicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopHadronic> top_reader_;
 
-    Reader<standardmodel::HiggsTagger> higgs_reader_;
+    Reader<standardmodel::tagger::Higgs> higgs_reader_;
 
 };
 

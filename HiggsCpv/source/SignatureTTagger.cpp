@@ -13,7 +13,7 @@ namespace higgscpv
 int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
-   std::vector<Particle> particles = event.Partons().GenParticles();
+   std::vector<Particle> particles = event.GenParticles();
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Particle> tops = CopyIfParticle(particles, Id::top);
 

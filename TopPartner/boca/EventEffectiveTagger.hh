@@ -5,12 +5,12 @@
 
 #include "boca/SignatureEffectiveTagger.hh"
 #include "boca/GlobalTagger.hh"
-#include "boca/EventMultiplet.hh"
+#include "boca/multiplets/EventMultiplet.hh"
 
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
@@ -18,7 +18,7 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventEffectiveTagger : public TaggerTemplate<EventMultiplet<Quattuordecuplet554>, NewEventBranch3>
+class EventEffectiveTagger : public Tagger<EventMultiplet<Quattuordecuplet554>, NewEvent3>
 {
 
 public:
@@ -29,7 +29,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 

@@ -44,7 +44,7 @@ class DelphesFactory: public TNamed
 {
 public:
 
-  DelphesFactory(const char *name = "ObjectFactory");
+  DelphesFactory(char const *name = "ObjectFactory");
 
   ~DelphesFactory();
 

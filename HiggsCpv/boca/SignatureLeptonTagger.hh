@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/MultipletSignature.hh"
-#include "boca/standardmodel/HiggsTagger.hh"
+#include "boca/standardmodel/tagger/Higgs.hh"
 #include "boca/TopLeptonicPairTagger.hh"
 #include "boca/multiplets/Octet.hh"
 
@@ -16,7 +16,7 @@ namespace higgscpv
  * @brief event BDT for
  *
  */
-class SignatureLeptonTagger : public TaggerTemplate<MultipletSignature< Quartet211 >,SignatureLeptonTaggerBranch>
+class SignatureLeptonTagger : public Tagger<MultipletSignature< Quartet211 >,SignatureLeptonTaggerBranch>
 {
 
 public:
@@ -31,7 +31,7 @@ private:
 
     MultipletSignature<Quartet211> Signature(boca::Doublet const& doublet, boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const;
 
-    Reader<standardmodel::HiggsTagger> higgs_reader_;
+    Reader<standardmodel::tagger::Higgs> higgs_reader_;
 
 };
 

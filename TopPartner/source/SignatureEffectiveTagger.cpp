@@ -1,13 +1,12 @@
 #include "boca/SignatureEffectiveTagger.hh"
 #include "boca/generic/Exception.hh"
-#include "boca/plotting/Font.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag)
@@ -48,7 +47,7 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boc
 //     static int eve = 0;
 //     ++eve;
 //     if (!signatures.empty()) ++sig;
-//     double fraction = double(sig) / eve;
+//     double fraction = static_cast<double>(sig) / eve;
 //     ERROR(signatures.size(), hadronic.size(), leptonic.size(), higgs_pairs.size(), fraction);
     return signatures;
 }
@@ -58,7 +57,7 @@ std::string SignatureEffectiveTagger::Name() const
     return "Signature";
 }
 
-Latex SignatureEffectiveTagger::LatexName() const
+latex::String SignatureEffectiveTagger::LatexName() const
 {
     return "T_{h} T_{l} h h";
 }

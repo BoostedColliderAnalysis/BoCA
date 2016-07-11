@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "boca/Analysis.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/analysis/Analysis.hh"
+#include "boca/Settings.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
@@ -15,7 +15,7 @@ namespace boca
  * @brief Naturalness measurment
  *
  */
-namespace naturalness
+namespace toppartner
 {
 
 enum class Process
@@ -37,7 +37,7 @@ enum class Process
 
 std::string Name(Process process);
 
-Latex LatexName(Process process);
+latex::String LatexName(Process process);
 
 bool MassDependent(Process process);
 
@@ -48,14 +48,14 @@ bool MassDependent(Process process);
  * @author Jan Hajer
  *
  */
-template<typename Tagger>
-class AnalysisNaturalness : public boca::Analysis<Tagger>
+template<typename Tagger_>
+class AnalysisNaturalness : public boca::Analysis<Tagger_>
 {
 public:
 
     AnalysisNaturalness() {
         INFO0;
-// DetectorGeometry::set_detector_type(DetectorType::CMS);
+// Settings::set_collider(Collider::lhc);
     }
 
 protected:
@@ -67,8 +67,8 @@ protected:
         return 1_TeV;
         return 500_GeV;
         return 8_TeV;
-        return 6_TeV;
         return 4_TeV;
+        return 6_TeV;
         return 10_TeV;
         return 1.5_TeV;
         return 3_TeV;
@@ -76,10 +76,10 @@ protected:
 
     long TrainNumberMax() const override {
         INFO0;
+        return 100;
         return 10000;
         return 1000;
         return 10;
-        return 100;
         return 5000;
     }
 
@@ -99,11 +99,11 @@ protected:
 
     auto Crosssection(Process process) const {
         INFO0;
-        switch (DetectorGeometry::DetectorType()) {
-        case DetectorType::CMS : {
+        switch (Settings::Collider()) {
+        case Collider::lhc : {
             switch (process) {
             case Process::TT :
-                switch (int(Mass() / GeV)) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 500 : return 0.5156 * 2_pb;
                 case 1000 : return 0.01041 * 2_pb;
                 case 1500 : return 0.0005753 * 2_pb;
@@ -117,15 +117,15 @@ protected:
                 DEFAULT(Name(process), pb);
             }
         }
-        case DetectorType::Spp : {
+        case Collider::future : {
             switch (process) {
             case Process::TthLep :
-                switch (int(Mass() / GeV)) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 1000 : return 0.003087_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TthHad :
-                switch (int(Mass() / GeV)) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 500 : return 0.02534_pb;
                 case 1000 : return 0.003087_pb;
                 case 1500 : return 0.0006824_pb;
@@ -133,7 +133,7 @@ protected:
                     DEFAULT(Mass(), pb);
                 }
             case Process::TT :
-                switch (int(Mass() / GeV)) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 500 : return 6.726 * 2_pb;
                 case 1000 : return 0.3919 * 2_pb;
                 case 1500 : return 0.05993 * 2_pb;
@@ -143,17 +143,17 @@ protected:
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBjj :
-                switch (int(PreCut() / GeV)) {
+                switch (static_cast<int>(PreCut() / GeV)) {
                 case 0 : return 1.669 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::tthBjj :
-                switch (int(PreCut() / GeV)) {
+                switch (static_cast<int>(PreCut() / GeV)) {
                 case 0 : return 0.02535 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TThh :
-                switch (int(Mass() / GeV)) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 500 : return 8.027e-06 * 2_pb;
                 case 1000 : return 4.374e-07 * 2_pb;
                 case 1500 : return 6.82e-08 * 2_pb;
@@ -169,7 +169,7 @@ protected:
                 DEFAULT(Name(process), pb);
             }
         }
-        DEFAULT(Name(DetectorGeometry::DetectorType()), pb);
+        DEFAULT(Name(Settings::Collider()), pb);
         }
     }
 
@@ -177,7 +177,7 @@ protected:
         INFO0;
 //         std::string name = MassDependent(process) ? "pp" : "PP";
         std::string name = "PP";
-        name += "-" + Name(process) + "-" + boca::Name(DetectorGeometry::DetectorType());
+        name += "-" + Name(process) + "-" + boca::Name(Settings::Collider());
         if (MassDependent(process)) name += "-" + boca::Name(Mass());
         return name;
     }

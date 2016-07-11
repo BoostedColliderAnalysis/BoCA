@@ -3,7 +3,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 std::string Name(Process process)
@@ -27,7 +27,7 @@ std::string Name(Process process)
     }
 }
 
-Latex LatexName(Process process)
+latex::String LatexName(Process process)
 {
     INFO0;
     switch (process) {

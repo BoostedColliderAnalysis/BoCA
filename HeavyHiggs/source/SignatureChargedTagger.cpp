@@ -11,7 +11,7 @@ int SignatureChargedTagger::Train(Event const& event, boca::PreCuts const&, Tag 
 {
     INFO0;
     auto higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);
-   auto HiggsParticles = event.Partons().GenParticles();
+   auto HiggsParticles = event.GenParticles();
     HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
     if (tag == Tag::signal && HiggsParticles.size() != 1) ERROR("Where is the Higgs?");
     SortedByMinDeltaRTo(higgs_quartets, HiggsParticles.front());

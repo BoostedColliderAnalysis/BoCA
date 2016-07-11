@@ -3,18 +3,18 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 TopPartnerHadronicChargedTagger::TopPartnerHadronicChargedTagger() :
-    standardmodel::TopHadronicTagger(Id::top_partner) {}
+    standardmodel::tagger::TopHadronic(Id::top_partner) {}
 
 std::string TopPartnerHadronicChargedTagger::Name() const
 {
     return "TopPartnerHadronicCharged";
 }
 
-Latex TopPartnerHadronicChargedTagger::LatexName() const
+latex::String TopPartnerHadronicChargedTagger::LatexName() const
 {
     return {"T_{h}", true};
 }

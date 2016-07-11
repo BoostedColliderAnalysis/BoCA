@@ -141,7 +141,7 @@ public:
     }
 
     ValueCubed Cofactor(LorentzDim dim_1, LorentzDim dim_2) const {
-        return double(Sign(dim_1, dim_2)) * Minor(dim_1, dim_2);
+        return static_cast<double>(Sign(dim_1, dim_2)) * Minor(dim_1, dim_2);
     }
 
     ValueCubed Minor(LorentzDim delete_1, LorentzDim delete_2) const {

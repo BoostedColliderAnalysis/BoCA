@@ -7,7 +7,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 int NewPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
@@ -41,7 +41,7 @@ std::vector<Quintet> NewPartnerHadronicTagger::Quintets(Event const& event, std:
 std::vector<Particle> NewPartnerHadronicTagger::Particles(Event const& event) const
 {
     INFO0;
-    auto particles = event.Partons().GenParticles();
+    auto particles = event.GenParticles();
     auto quarks = CopyIfQuark(particles);
     auto candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
     if (!candidate.empty()) {
@@ -59,7 +59,7 @@ std::string NewPartnerHadronicTagger::Name() const
 {
     return "TopPartnerHadronic";
 }
-Latex NewPartnerHadronicTagger::LatexName() const
+latex::String NewPartnerHadronicTagger::LatexName() const
 {
     return "T_{h}";
 }

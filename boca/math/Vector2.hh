@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include <iostream>
+#include "boca/generic/Debug.hh"
 #include "boca/generic/Iterator.hh"
 #include "boca/math/GradedContainer.hh"
 #include "boca/physics/Units.hh"
@@ -262,7 +262,7 @@ public:
         switch (dimension) {
         case Dim2::x : return x_;
         case Dim2::y : return y_;
-        default : std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
+        default : Debug("Bad index returning x_", Name(dimension));
             return 0;
         }
     }
@@ -277,7 +277,7 @@ public:
         switch (dimension) {
         case Dim2::x : return x_;
         case Dim2::y : return y_;
-        default : std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
+        default : Debug("Bad index returning x_", Name(dimension));
         }
         return x_;
     }

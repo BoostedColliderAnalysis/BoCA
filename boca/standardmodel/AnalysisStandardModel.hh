@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "boca/Analysis.hh"
-#include "boca/DetectorGeometry.hh"
+#include "boca/analysis/Analysis.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {
@@ -34,17 +34,9 @@ enum class Process
 
 std::string ProcessName(Process process);
 
-Latex LatexName(Process process);
+latex::String LatexName(Process process);
 
 std::string Name(Process process);
-
-
-enum class Collider
-{
-    LHC, FHC, LE
-};
-
-std::string Name(Collider collider);
 
 /**
  *
@@ -60,16 +52,16 @@ class AnalysisStandardModel : public Analysis<Tagger>
 public:
 
     AnalysisStandardModel() {
-        if (Collider() == boca::standardmodel::Collider::LHC) DetectorGeometry::SetDetectorType(DetectorType::CMS);
+        Settings::SetCollider(Collider());
     }
 
 protected:
 
     Momentum LowerPtCut() const {
         return 500_GeV;
+        return 1_TeV;
         return 750_GeV;
         return 600_GeV;
-        return 1_TeV;
         return 1.5_TeV;
         return 2_TeV;
         return 2.5_TeV;
@@ -82,14 +74,13 @@ protected:
         return 1.2_TeV;
     }
 
-    boca::standardmodel::Collider Collider() const {
-        return boca::standardmodel::Collider::LHC;
-        return boca::standardmodel::Collider::LE;
-        return boca::standardmodel::Collider::FHC;
+    boca::Collider Collider() const {
+        return boca::Collider::lhc;
+        return boca::Collider::future;
     }
 
     Momentum UpperPtCut() const {
-        switch (int(LowerPtCut() / GeV)) {
+        switch (static_cast<int>(LowerPtCut() / GeV)) {
         case 750 : return 1_TeV;
         case 500 : return 600_GeV;
         case 600 : return 700_GeV;
@@ -123,9 +114,9 @@ private:
     long TrainNumberMax() const override {
         return 10000;
         return 1000;
+        return 500;
         return 100;
         return 5000;
-        return 500;
     }
 
     int BackgroundFileNumber() const override {
@@ -137,7 +128,7 @@ private:
     }
 
     Momentum MadGraphCut() const {
-        switch (int(LowerPtCut() / GeV)) {
+        switch (static_cast<int>(LowerPtCut() / GeV)) {
         case 500: return 500_GeV;
         case 600: return 500_GeV;
         case 700 : return 500_GeV;
@@ -157,8 +148,8 @@ private:
 
     std::string FileName(Process process) const {
         switch (Collider()) {
-        case boca::standardmodel::Collider::LE : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
-        case boca::standardmodel::Collider::LHC : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
+        case boca::Collider::future : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
+        case boca::Collider::lhc : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
         default : std::cout << "Switch default for process " << ProcessName(process) << std::endl;
             return "";
         }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/standardmodel/AnalysisStandardModel.hh"
-#include "boca/standardmodel/BottomTagger.hh"
+#include "boca/standardmodel/tagger/Bottom.hh"
 
 namespace boca
 {
@@ -27,8 +27,8 @@ public:
 //         this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
 //         this->PreCuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut() / 5.);
 //         this->PreCuts().MassUpperCut().Set(Id::higgs, 250_GeV);
-        this->PreCuts().TrackerMaxEta().Set(Id::higgs, DetectorGeometry::TrackerEtaMax());
-        this->PreCuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().TrackerMaxEta().Set(Id::higgs, Settings::TrackerEtaMax());
+        this->PreCuts().TrackerMaxEta().Set(Id::bottom, Settings::TrackerEtaMax());
     }
 
 private:
@@ -41,14 +41,14 @@ private:
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
+            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
             break;
         case Tag::background :
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
             this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::cc);
@@ -60,7 +60,7 @@ private:
 
     int PassPreCut(Event const& , Tag) const override {
           return 1;
-//        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = SortedByPt(event.Jets());
 //         if (jets.size() < 2) return 0;
 //         if ((jets.at(0).Pt() > this->LowerPtCut() && jets.at(0).Pt() < this->UpperPtCut()) &&
 //           (jets.at(1).Pt() > this->LowerPtCut() && jets.at(1).Pt() < this->UpperPtCut())) return 1;

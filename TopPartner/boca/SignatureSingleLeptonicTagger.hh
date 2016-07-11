@@ -10,14 +10,14 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureSingleLeptonicTagger : public TaggerTemplate<Decuplet532, SignatureSingleBranch>
+class SignatureSingleLeptonicTagger : public Tagger<Decuplet532, SignatureSingleBranch>
 {
 
 public:
@@ -28,7 +28,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 
@@ -36,9 +36,9 @@ private:
 
     Reader<TopPartnerLeptonicNeutralTagger> partner_reader_;
 
-    Reader<standardmodel::TopHadronicTagger> top_reader_;
+    Reader<standardmodel::tagger::TopHadronic> top_reader_;
 
-    Reader<standardmodel::HiggsTagger> higgs_reader_;
+    Reader<standardmodel::tagger::Higgs> higgs_reader_;
 
     Reader<VetoTopPartnerHadronicTagger> veto_reader_;
 };

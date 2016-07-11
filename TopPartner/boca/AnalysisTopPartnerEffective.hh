@@ -9,7 +9,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
@@ -26,7 +26,7 @@ class AnalysisEffective : public AnalysisNaturalness<Tagger>
 protected:
 
     std::string AnalysisName() const override {
-        return "Naturalness-Effective-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-latex";
+        return "Naturalness-Effective-" + Name(Settings::Collider()) + "-" + boca::Name(this->Mass()) + "-latex";
     }
 
     void SetFiles(Tag tag, Stage)override {
@@ -47,8 +47,8 @@ protected:
 private:
 
     int PassPreCut(Event const&, Tag) const override {
-//         if (event.Hadrons().Jets().size() < 5) return 0;
-//         if (event.Leptons().leptons().empty()) return 0;
+//         if (event.Jets().size() < 5) return 0;
+//         if (event.Leptons().empty()) return 0;
         return 1;
     }
 

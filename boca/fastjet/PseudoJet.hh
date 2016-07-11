@@ -4,7 +4,7 @@
 #pragma once
 
 #include "fastjet/PseudoJet.hh"
-#include "boca/math/Vector2.hh"
+#include "boca/math/LorentzVector.hh"
 
 class TLorentzVector;
 
@@ -63,6 +63,17 @@ public:
     Momentum Pz() const;
 
     boca::Energy Energy();
+
+    MomentumSquare ModP2() const;
+
+    Momentum ModP() const;
+
+    LorentzVector< Momentum > Vector() const;
+
+    boca::Vector3<Momentum> Vector3() const;
+
+    void ScaleMomentum(double factor);
+
 
 };
 

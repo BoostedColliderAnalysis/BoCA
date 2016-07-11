@@ -13,9 +13,9 @@ int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag)
 {
     INFO0;
     auto jets = bottom_reader_.Jets(event);
-    auto leptons = event.Leptons().leptons();
+    auto leptons = event.Leptons();
     auto sextets = heavy_higgs_semi_reader_.Multiplets(event);
-    auto HiggsParticles = event.Partons().GenParticles();
+    auto HiggsParticles = event.GenParticles();
     auto Even = CopyIfFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
     auto Odd = CopyIfFamily(HiggsParticles, Id::CP_odd_higgs, Id::gluon);
     HiggsParticles = Even;
@@ -46,7 +46,7 @@ std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& e
     INFO0;
     auto sextets = heavy_higgs_semi_reader_.Multiplets(event);
     auto jets = bottom_reader_.Jets(event);
-    auto leptons = event.Leptons().leptons();
+    auto leptons = event.Leptons();
     std::vector<MultipletEvent<Sextet>> sextet_events;
     for (auto const & sextet : sextets) {
         MultipletEvent<Sextet> multiplet_event(sextet, event, jets);

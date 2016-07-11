@@ -8,25 +8,25 @@
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
 {
-    boca::naturalness::AnalysisSingleHadronic<Tagger> analysis;
+    boca::toppartner::AnalysisSingleHadronic<Tagger> analysis;
     analysis.Run(output);
 }
 
 int main()
 {
-    Run<boca::standardmodel::BottomTagger>();
-    Run<boca::standardmodel::HiggsTagger>();
-    Run<boca::standardmodel::BosonTagger>();
-    Run<boca::standardmodel::WHadronicTagger>();
-    Run<boca::standardmodel::WLeptonicTagger>();
-    Run<boca::standardmodel::TopHadronicTagger>();
-    Run<boca::standardmodel::TopLeptonicTagger>();
-    Run<boca::naturalness::TopPartnerHadronicNeutralTagger>(boca::Output::efficiency);
-    Run<boca::naturalness::TopPartnerLeptonicNeutralTagger>(boca::Output::efficiency);
-    Run<boca::naturalness::VetoTopPartnerLeptonicTagger>(boca::Output::efficiency);
-    Run<boca::naturalness::SignatureSingleHadronicTagger>(boca::Output::significance);
+    Run<boca::standardmodel::tagger::Bottom>();
+    Run<boca::standardmodel::tagger::Higgs>();
+    Run<boca::standardmodel::tagger::Boson>();
+    Run<boca::standardmodel::tagger::WHadronic>();
+    Run<boca::standardmodel::tagger::WLeptonic>();
+    Run<boca::standardmodel::tagger::TopHadronic>();
+    Run<boca::standardmodel::tagger::TopLeptonic>();
+    Run<boca::toppartner::TopPartnerHadronicNeutralTagger>(boca::Output::efficiency);
+    Run<boca::toppartner::TopPartnerLeptonicNeutralTagger>(boca::Output::efficiency);
+    Run<boca::toppartner::VetoTopPartnerLeptonicTagger>(boca::Output::efficiency);
+    Run<boca::toppartner::SignatureSingleHadronicTagger>(boca::Output::significance);
     Run<boca::GlobalTagger>(boca::Output::significance);
-    Run<boca::naturalness::EventSingleHadronicTagger>(boca::Output::significance);
-//     Run<boca::naturalness::CompleteSingleHadronicTagger>(boca::Output::significance);
+    Run<boca::toppartner::EventSingleHadronicTagger>(boca::Output::significance);
+//     Run<boca::toppartner::CompleteSingleHadronicTagger>(boca::Output::significance);
 }
 

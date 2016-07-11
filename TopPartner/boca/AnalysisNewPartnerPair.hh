@@ -9,7 +9,7 @@
 namespace boca
 {
 
-namespace naturalness
+namespace toppartner
 {
 
 /**
@@ -27,7 +27,7 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Naturalness-Pair-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-full";
+        return "Naturalness-Pair-" + boca::Name(this->PreCut()) + "-" + Name(Settings::Collider()) + "-" + boca::Name(this->Mass()) + "-full";
     }
 
 //     std::string ProcessName() const override {
