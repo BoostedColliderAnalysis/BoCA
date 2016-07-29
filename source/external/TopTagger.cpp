@@ -1,5 +1,6 @@
 #include "boca/external/TopTagger.hh"
 #include "boca/fastjet/ClusterSequence.hh"
+#include "fastjet/ClusterSequence.hh"
 
 namespace hep
 {
