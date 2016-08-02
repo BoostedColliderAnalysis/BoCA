@@ -6,7 +6,7 @@
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/standardmodel/tagger/Bottom.hh"
-#include "HeavyHiggs/boca/BranchesHeavyHiggs.hh"
+#include "boca/BranchesHeavyHiggs.hh"
 #include "boca/Tagger.hh"
 
 namespace boca

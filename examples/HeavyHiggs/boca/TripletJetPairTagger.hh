@@ -5,7 +5,7 @@
 
 #include "boca/multiplets/Quartet.hh"
 #include "boca/standardmodel/tagger/TopHadronic.hh"
-#include "HeavyHiggs/boca/BranchesHeavyHiggs.hh"
+#include "boca/BranchesHeavyHiggs.hh"
 
 namespace boca
 {

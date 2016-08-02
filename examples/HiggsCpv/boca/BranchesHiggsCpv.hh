@@ -1,6 +1,10 @@
 #pragma once
 
-#include "boca/Branches.hh"
+#include "boca/BranchesHiggsCpv.hh"
+#include "boca/branch/ThreeBody.hh"
+#include "boca/branch/TwoBody.hh"
+#include "boca/branch/Multi.hh"
+#include "boca/branch/Event.hh"
 
 namespace boca
 {
@@ -13,7 +17,7 @@ namespace higgscpv
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureTTaggerBranch : public boca::ThreeBody
+class SignatureTTaggerBranch : public boca::branch::ThreeBody
 {
 public:
   SignatureTTaggerBranch();
@@ -21,7 +25,7 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        boca::ThreeBody::Fill(signature.Multiplet());
+        boca::branch::ThreeBody::Fill(signature.Multiplet());
         Aplanarity = signature.EventShapes().Aplanarity();
         Sphericity = signature.EventShapes().Sphericity();
     }
@@ -48,7 +52,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureLeptonTaggerBranch : public boca::Multi
+class SignatureLeptonTaggerBranch : public boca::branch::Multi
 {
 public:
     SignatureLeptonTaggerBranch();
@@ -84,35 +88,36 @@ public:
     float Sphericity;
     float Aplanarity;
     template<typename Multiplet>
-    void Fill(Multiplet const& signature) {
-        boca::Multi::Fill(signature.Multiplet());
-        Mass12 = signature.Multiplet().Jet12().Mass() / GeV;
-        Mass23 = signature.Multiplet().Jet23().Mass() / GeV;
-        Mass13 = signature.Multiplet().Jet13().Mass() / GeV;
-        Pt12 = signature.Multiplet().Jet12().Pt() / GeV;
-        Pt23 = signature.Multiplet().Jet23().Pt() / GeV;
-        Pt13 = signature.Multiplet().Jet13().Pt() / GeV;
-        DeltaPt23 = signature.Multiplet().DeltaPt23() / GeV;
-        DeltaPt13 = signature.Multiplet().DeltaPt13() / GeV;
-        Ht12 = signature.Multiplet().Ht12() / GeV;
-        Ht23 = signature.Multiplet().Ht23() / GeV;
-        Ht13 = signature.Multiplet().Ht13() / GeV;
-        Rho23 = signature.Multiplet().Rho23();
-        Rho13 = signature.Multiplet().Rho13();
-        DeltaRap23 = signature.Multiplet().DeltaRap23() / rad;
-        DeltaRap13 = signature.Multiplet().DeltaRap13() / rad;
-        DeltaPhi23 = signature.Multiplet().DeltaPhi23() / rad;
-        DeltaPhi13 = signature.Multiplet().DeltaPhi13() / rad;
-        DeltaR23 = signature.Multiplet().DeltaR23() / rad;
-        DeltaR13 = signature.Multiplet().DeltaR13() / rad;
-        DeltaM23 = signature.Multiplet().DeltaM23() / GeV;
-        DeltaM13 = signature.Multiplet().DeltaM13() / GeV;
-        DeltaHt23 = signature.Multiplet().DeltaHt23() / GeV;
-        DeltaHt13 = signature.Multiplet().DeltaHt13() / GeV;
-        Pull23 = signature.Multiplet().Pull23() / rad;
-        Pull13 = signature.Multiplet().Pull13() / rad;
-        DeltaPull23 = signature.Multiplet().Pull32() / rad;
-        DeltaPull13 = signature.Multiplet().Pull31() / rad;
+    void Fill(Multiplet const& multiplet) {
+        auto signature = multiplet.Multiplet();
+        boca::branch::Multi::Fill(signature);
+        Mass12 = signature.Multiplet12().Mass() / GeV;
+        Mass23 = signature.Multiplet23().Mass() / GeV;
+        Mass13 = signature.Multiplet13().Mass() / GeV;
+        Pt12 = signature.Multiplet12().Pt() / GeV;
+        Pt23 = signature.Multiplet23().Pt() / GeV;
+        Pt13 = signature.Multiplet13().Pt() / GeV;
+        DeltaPt23 = signature.Multiplet23().DeltaPt() / GeV;
+        DeltaPt13 = signature.Multiplet13().DeltaPt() / GeV;
+        Ht12 = signature.Multiplet12().Ht() / GeV;
+        Ht23 = signature.Multiplet23().Ht() / GeV;
+        Ht13 = signature.Multiplet13().Ht() / GeV;
+        Rho23 = signature.Multiplet23().Rho();
+        Rho13 = signature.Multiplet13().Rho();
+        DeltaRap23 = signature.Multiplet23().DeltaRap() / rad;
+        DeltaRap13 = signature.Multiplet13().DeltaRap() / rad;
+        DeltaPhi23 = signature.Multiplet23().DeltaPhi() / rad;
+        DeltaPhi13 = signature.Multiplet13().DeltaPhi() / rad;
+        DeltaR23 = signature.Multiplet23().DeltaR() / rad;
+        DeltaR13 = signature.Multiplet13().DeltaR() / rad;
+        DeltaM23 = signature.Multiplet23().DeltaM() / GeV;
+        DeltaM13 = signature.Multiplet13().DeltaM() / GeV;
+        DeltaHt23 = signature.Multiplet23().DeltaHt() / GeV;
+        DeltaHt13 = signature.Multiplet13().DeltaHt() / GeV;
+        Pull23 = signature.Multiplet23().Pull() / rad;
+        Pull13 = signature.Multiplet13().Pull() / rad;
+        DeltaPull23 = signature.Multiplet32().Pull() / rad;
+        DeltaPull13 = signature.Multiplet31().Pull() / rad;
 //         Dipolarity23 = signature.Multiplet().Dipolarity23();
 //         Dipolarity13 = signature.Multiplet().Dipolarity13();
         Aplanarity = signature.EventShapes().Aplanarity();
@@ -129,7 +134,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureLeptonicBranch : public boca::Multi
+class SignatureLeptonicBranch : public boca::branch::Multi
 {
 public:
     SignatureLeptonicBranch();
@@ -143,9 +148,9 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        boca::Multi::Fill(signature.Multiplet());
-        BottomBdt = signature.Multiplet().BottomBdt();
-        PairBottomBdt = signature.Multiplet().Doublet().BottomBdt();
+        boca::branch::Multi::Fill(signature.Multiplet());
+//         BottomBdt = signature.Multiplet().BottomBdt();
+//         PairBottomBdt = signature.Multiplet().Doublet().BottomBdt();
         HardTopPt = signature.Multiplet().Sextet().HardTopPt() / GeV;
         SoftTopPt = signature.Multiplet().Sextet().SoftTopPt() / GeV;
         HiggsMass = signature.Multiplet().Doublet().Mass() / GeV;
@@ -170,7 +175,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class OctetBranch : public boca::Multi
+class OctetBranch : public boca::branch::Multi
 {
 public:
     OctetBranch();
@@ -184,7 +189,7 @@ public:
     float SoftTopPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        boca::Multi::Fill(multiplet);
+        boca::branch::Multi::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.PairBottomBdt();
         PairBdt = multiplet.Doublet().Bdt();
@@ -203,7 +208,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class Event : public boca::Event
+class Event : public boca::branch::Event
 {
 
 public:
@@ -211,7 +216,7 @@ public:
     Event();
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        boca::Event::Fill(multiplet);
+      boca::branch::Event::Fill(multiplet);
     }
     Observables Variables();
     Observables Spectators();
@@ -227,7 +232,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class TopLeptonicTwoBody : public boca::Multi
+class TopLeptonicTwoBody : public boca::branch::Multi
 {
 public:
     TopLeptonicTwoBody();
@@ -244,7 +249,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class TripletTwoBody : public boca::TwoBody
+class TripletTwoBody : public boca::branch::TwoBody
 {
 public:
     TripletTwoBody();
@@ -262,7 +267,7 @@ public:
     float TopBTag;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        TwoBody::Fill(multiplet);
+        boca::branch::TwoBody::Fill(multiplet);
         BottomPt = multiplet.Triplet1().Pt() / GeV;
         //         BottomRap = std::abs(multiplet.Rap() / rad);
         BottomRap = multiplet.Triplet1().Rap() / rad;
@@ -287,7 +292,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class QuartetTwoBody : public boca::TwoBody
+class QuartetTwoBody : public boca::branch::TwoBody
 {
 
     QuartetTwoBody();
@@ -308,7 +313,7 @@ class QuartetTwoBody : public boca::TwoBody
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        TwoBody::Fill(multiplet);
+        boca::branch::TwoBody::Fill(multiplet);
         BottomPt = multiplet.Doublet1().Pt() / GeV;
         //         BottomRap = std::abs(multiplet.Rap() / rad);
         BottomRap = multiplet.Doublet1().Rap() / rad;

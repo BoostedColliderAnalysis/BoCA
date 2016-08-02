@@ -19,10 +19,10 @@ int EventTTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
-    return SaveEntries(multipletevents, 1);
+//     return SaveEntries(multipletevents, 1); //FIXME reanble this
 }
 
-std::vector<MultipletEvent<Octet332>> EventTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<MultipletEvent<Octet332>> EventTTagger::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -30,11 +30,12 @@ std::vector<MultipletEvent<Octet332>> EventTTagger::Multiplets(Event const& even
     std::vector<MultipletEvent<Octet332>> multiplet_events;
     for (auto const& octet : octets) {
         MultipletEvent<Octet332> multiplet_event(octet.Multiplet(), event, jets);
-        multiplet_event.SetBdt(Bdt(multiplet_event, reader));
+        //         multiplet_event.SetBdt(Bdt(multiplet_event, reader)); //FIXME reanble this
         multiplet_events.emplace_back(multiplet_event);
     }
-    return ReduceResult(multiplet_events,1);
+    //     return ReduceResult(multiplet_events,1); //FIXME reanble this
 }
+
 std::string EventTTagger::Name() const
 {
     return "EventTChannel";

@@ -21,9 +21,9 @@ class TopSemiPairTagger : public Tagger<Sextet, TripletTwoBody>
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
+    int Train(boca::Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Sextet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
+    std::vector<Sextet> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

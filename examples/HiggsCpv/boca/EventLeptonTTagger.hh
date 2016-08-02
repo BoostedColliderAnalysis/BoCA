@@ -12,13 +12,13 @@ namespace higgscpv {
  * @brief Prepares multivariant analysis
  *
  */
-class EventLeptonTTagger : public Tagger<MultipletEvent<Octet332>,Event> {
+class EventLeptonTTagger : public Tagger<MultipletEvent<Octet332>, Event> {
 
 public:
 
-    int Train(Event const& event, boca::PreCuts const&, Tag tag) override;
+    int Train(boca::Event const& event, boca::PreCuts const&, Tag tag) override;
 
-    std::vector<MultipletEvent<Octet332>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
+    std::vector<MultipletEvent<Octet332>> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

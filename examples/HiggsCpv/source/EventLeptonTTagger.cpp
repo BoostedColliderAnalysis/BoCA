@@ -1,4 +1,5 @@
 #include "boca/EventLeptonTTagger.hh"
+#include "boca/multiplets/Particles.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -21,10 +22,10 @@ int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
         for (auto const & octet : octets) {
             int match = 0;
             for (auto const & lepton : leptons) {
-                if (Close(lepton)(octet.Multiplet().Triplet1())) match |= 1 << 0;
-                if (Close(lepton)(octet.Multiplet().Triplet2())) match |= 1 << 1;
+                if (Close<Particle>(lepton)(octet.Multiplet().Triplet1())) match |= 1 << 0;
+                if (Close<Particle>(lepton)(octet.Multiplet().Triplet2())) match |= 1 << 1;
             }
-            for (auto const & higgs : higgses) if (Close((higgs)octet.Multiplet().Doublet())) match |= 1 << 2;
+            for (auto const & higgs : higgses) if (Close<Particle>(higgs)(octet.Multiplet().Doublet())) match |= 1 << 2;
             if (match == 7) final_octets.emplace_back(octet);
         }
     } else final_octets = octets;
@@ -39,7 +40,7 @@ int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
     return SaveEntries(multipletevents, 1);
 }
 
-std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -52,6 +53,7 @@ std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(Event const
     }
     return ReduceResult(multiplet_events,1);
 }
+
 std::string EventLeptonTTagger::Name() const
 {
     return "EventLeptonTChannel";

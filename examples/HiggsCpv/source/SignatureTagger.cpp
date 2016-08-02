@@ -1,4 +1,5 @@
 #include "boca/../boca/SignatureTagger.hh"
+#include "boca/multiplets/Particles.hh"
 #include "boca/Event.hh"
 #include "boca/generic/DEBUG.hh"
 
@@ -6,10 +7,10 @@ namespace boca {
 
 namespace higgscpv {
 
-int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
+int SignatureTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
-    std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
+    std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().Truth(event, triplet_pair_reader_.Multiplets(event), tag);
     DEBUG(sextets.size());
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector<Particle> higgses = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs});
@@ -29,7 +30,7 @@ int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
     return SaveEntries(octets, tag);
 }
 
-std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);

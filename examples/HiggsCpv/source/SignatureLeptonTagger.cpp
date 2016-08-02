@@ -1,6 +1,7 @@
 #include "boca/../boca/SignatureLeptonTagger.hh"
 #include "boca/Event.hh"
 #include "boca/generic/Exception.hh"
+#include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
 
@@ -10,7 +11,7 @@ namespace boca
 namespace higgscpv
 {
 
-int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
+int SignatureLeptonTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
    std::vector<Lepton> leptons = event.Leptons();
@@ -37,7 +38,7 @@ int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     return  SaveEntries(quartets);
 }
 
-std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
    std::vector<Lepton> leptons = event.Leptons();
@@ -55,7 +56,7 @@ std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Ev
 MultipletSignature<Quartet211> SignatureLeptonTagger::Signature(Doublet const& doublet, Singlet const& singlet_1, Singlet const& singlet_2) const
 {
     Quartet211 quartet;
-    if ((doublet.Jet() + singlet_1.Jet()).Mass() > (doublet.Jet() + singlet_2.Jet()).Mass()) quartet.SetMultiplets(doublet, singlet_1, singlet_2);
+    if (Jet(doublet.Jet() + singlet_1.Jet()).Mass() > Jet(doublet.Jet() + singlet_2.Jet()).Mass()) quartet.SetMultiplets(doublet, singlet_1, singlet_2);
     else quartet.SetMultiplets(doublet, singlet_2, singlet_1);
     if (quartet.Overlap()) throw Overlap();
     return MultipletSignature<Quartet211>(quartet);

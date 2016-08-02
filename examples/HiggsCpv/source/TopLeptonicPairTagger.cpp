@@ -14,7 +14,7 @@ namespace boca
 namespace higgscpv
 {
 
-int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
+int TopLeptonicPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
@@ -43,7 +43,7 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet> TopLeptonicPairTagger::tagger::Truth(Event const& event, std::vector<Sextet> sextets, Tag tag) const
+std::vector<Sextet> TopLeptonicPairTagger::Truth(boca::Event const& event, std::vector<Sextet> sextets, Tag tag) const
 {
     switch (tag) {
     case Tag::signal : {
@@ -52,8 +52,8 @@ std::vector<Sextet> TopLeptonicPairTagger::tagger::Truth(Event const& event, std
         for (auto const& sextet : sextets) {
             bool truth_level = false;
             for (auto const& top : tops) {
-                if (Close(top)(sextet.Triplet1())) truth_level = true;
-                if (Close(top)(sextet.Triplet2())) truth_level = true;
+                if (Close<Jet>(top)(sextet.Triplet1())) truth_level = true;
+                if (Close<Jet>(top)(sextet.Triplet2())) truth_level = true;
             }
             if (truth_level) final_sextets.emplace_back(sextet);
         }
@@ -64,7 +64,7 @@ std::vector<Sextet> TopLeptonicPairTagger::tagger::Truth(Event const& event, std
     }
 }
 
-std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
+std::vector<Sextet> TopLeptonicPairTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     INFO(triplets.size());

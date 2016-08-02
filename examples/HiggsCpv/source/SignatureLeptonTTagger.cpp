@@ -1,5 +1,6 @@
 #include "boca/../boca/SignatureLeptonTTagger.hh"
 #include "boca/Event.hh"
+#include "boca/generic/Vector.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
@@ -11,7 +12,7 @@ namespace boca
 namespace higgscpv
 {
 
-int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
+int SignatureLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Lepton> triplets = event.Leptons();
@@ -38,7 +39,7 @@ int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag 
     return SaveEntries(octets, 1);
 }
 
-std::vector<Particle>SignatureLeptonTTagger::Leptons(Event const& event) const
+std::vector<Particle>SignatureLeptonTTagger::Leptons(boca::Event const& event) const
 {
     std::vector<Particle> particles = event.GenParticles();
     particles = CopyIfLepton(particles);
@@ -54,7 +55,7 @@ MultipletSignature<Octet332> SignatureLeptonTTagger::Signature(Triplet const& tr
     return MultipletSignature<Octet332>(octet);
 }
 
-std::vector<MultipletSignature<Octet332>> SignatureLeptonTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<MultipletSignature<Octet332>> SignatureLeptonTTagger::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);

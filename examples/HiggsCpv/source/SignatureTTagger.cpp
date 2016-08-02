@@ -1,6 +1,7 @@
 #include "boca/../boca/SignatureTTagger.hh"
 #include "boca/Event.hh"
 #include "boca/generic/Exception.hh"
+#include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
 
@@ -10,7 +11,7 @@ namespace boca
 namespace higgscpv
 {
 
-int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
+int SignatureTTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
    std::vector<Particle> particles = event.GenParticles();
@@ -39,13 +40,13 @@ int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
 MultipletSignature<Octet332> SignatureTTagger::Signature(Triplet const& triplet_1, Triplet const& triplet_2, Doublet const& doublet) const
 {
     Octet332 octet;
-    if ((triplet_1.Jet() + doublet.Jet()).Mass() > (triplet_2.Jet() + doublet.Jet()).Mass()) octet.SetMultiplets(triplet_1, triplet_2, doublet);
+    if (Jet((triplet_1.Jet() + doublet.Jet())).Mass() > Jet(triplet_2.Jet() + doublet.Jet()).Mass()) octet.SetMultiplets(triplet_1, triplet_2, doublet);
     else octet.SetMultiplets(triplet_2, triplet_1, doublet);
     if (octet.Overlap()) throw Overlap();
     return MultipletSignature<Octet332>(octet);
 }
 
-std::vector<MultipletSignature<Octet332>> SignatureTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<MultipletSignature<Octet332>> SignatureTTagger::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
