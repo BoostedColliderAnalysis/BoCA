@@ -57,8 +57,8 @@ BoCa is licenced under the [GPL 3](doc/License.md).
 ## Reference
 
 Please cite:
-[Jan Hajer, Ying-Ying Li, Tao Liu, John F. H. Shiu: *Heavy Higgs Bosons at 14 TeV and 100 TeV*, April 2015](https://inspirehep.net/record/1365110)
-[Nathaniel Craig, Jan Hajer, Ying-Ying Li, Tao Liu, Hao Zhang: *Heavy Higgs Bosons at Low tan β: from the LHC to 100 TeV*, May 2016](https://inspirehep.net/record/1466130)
+* [Jan Hajer, Ying-Ying Li, Tao Liu, John F. H. Shiu: *Heavy Higgs Bosons at 14 TeV and 100 TeV*, April 2015](https://inspirehep.net/record/1365110)
+* [Nathaniel Craig, Jan Hajer, Ying-Ying Li, Tao Liu, Hao Zhang: *Heavy Higgs Bosons at Low tan β: from the LHC to 100 TeV*, May 2016](https://inspirehep.net/record/1466130)
 
 ## Git commands
 
