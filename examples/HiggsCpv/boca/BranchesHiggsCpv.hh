@@ -90,7 +90,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         auto signature = multiplet.Multiplet();
-        boca::branch::Multi::Fill(signature);
+//         boca::branch::Multi::Fill(signature);
         Mass12 = signature.Multiplet12().Mass() / GeV;
         Mass23 = signature.Multiplet23().Mass() / GeV;
         Mass13 = signature.Multiplet13().Mass() / GeV;
@@ -114,10 +114,10 @@ public:
         DeltaM13 = signature.Multiplet13().DeltaM() / GeV;
         DeltaHt23 = signature.Multiplet23().DeltaHt() / GeV;
         DeltaHt13 = signature.Multiplet13().DeltaHt() / GeV;
-        Pull23 = signature.Multiplet23().Pull() / rad;
-        Pull13 = signature.Multiplet13().Pull() / rad;
-        DeltaPull23 = signature.Multiplet32().Pull() / rad;
-        DeltaPull13 = signature.Multiplet31().Pull() / rad;
+//         Pull23 = signature.Multiplet23().Pull() / rad;
+//         Pull13 = signature.Multiplet13().Pull() / rad;
+//         DeltaPull23 = signature.Multiplet32().Pull() / rad;
+//         DeltaPull13 = signature.Multiplet31().Pull() / rad;
 //         Dipolarity23 = signature.Multiplet().Dipolarity23();
 //         Dipolarity13 = signature.Multiplet().Dipolarity13();
         Aplanarity = signature.EventShapes().Aplanarity();
@@ -216,7 +216,7 @@ public:
     Event();
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-      boca::branch::Event::Fill(multiplet);
+//       boca::branch::Event::Fill(multiplet);
     }
     Observables Variables();
     Observables Spectators();

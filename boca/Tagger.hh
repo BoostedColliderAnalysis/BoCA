@@ -43,7 +43,7 @@ public:
         });
     }
 
-    Branch_& Branch()override {
+    Branch_& Branch() override {
         return branch_;
     }
 
