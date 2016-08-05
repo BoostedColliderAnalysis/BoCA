@@ -1,7 +1,6 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/../boca/TruthLevel.hh"
 
 #include "boca/Event.hh"
 #include "boca/PreCuts.hh"
@@ -11,13 +10,12 @@
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
 
-namespace boca
-{
+#include "include/TruthLevel.hh"
 
 namespace toppartner
 {
 
-int TruthLevel::Train(Event const& event, PreCuts const& pre_cuts, Tag)
+int TruthLevel::Train(boca::Event const& event, PreCuts const& pre_cuts, Tag)
 {
     INFO0;
     return SaveEntries(Jets(event, pre_cuts, [&](Particle & jet) {
@@ -25,7 +23,7 @@ int TruthLevel::Train(Event const& event, PreCuts const& pre_cuts, Tag)
     }));
 }
 
-std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const&)
+std::vector<TruthVariables> TruthLevel::Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const&)
 {
     INFO0;
     return Jets(event, pre_cuts, [&](Particle & jet) {
@@ -33,7 +31,7 @@ std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts c
     });
 }
 
-std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const&, std::function<Particle(Particle&)>const&)const
+std::vector<TruthVariables> TruthLevel::Jets(boca::Event const& event, PreCuts const&, std::function<Particle(Particle&)>const&)const
 {
     INFO0;
     TruthVariables truths;
@@ -71,8 +69,6 @@ std::string TruthLevel::Name() const
 latex::String TruthLevel::LatexName() const
 {
     return "truth";
-}
-
 }
 
 }

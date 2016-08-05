@@ -36,4 +36,4 @@ EventShapes.hh
 Signature.hh
 )
 
-create_dictionary(Branches "${source}" "${header}" LinkDef.hh branch)
+create_dictionary(Branches "${source}" "${header}" LinkDef.hh boca branch)

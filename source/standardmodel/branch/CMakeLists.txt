@@ -32,4 +32,4 @@ ZHadronic.hh
 LeptonVeto.hh
 )
 
-create_dictionary(SMBranches "${source}" "${header}" LinkDef.hh standardmodel branch)
+create_dictionary(SMBranches "${source}" "${header}" LinkDef.hh boca standardmodel branch)

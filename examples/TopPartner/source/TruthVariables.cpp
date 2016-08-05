@@ -1,12 +1,10 @@
-#include "boca/../boca/TruthVariables.hh"
 #include "boca/physics/Id.hh"
 #include "boca/physics/Units.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/generic/DEBUG.hh"
 
-namespace boca
-{
+#include "include/TruthVariables.hh"
 
 namespace toppartner
 {
@@ -95,7 +93,7 @@ void TruthVariables::SetScalarHt(Momentum const& scalar_ht)
     scalar_ht_ = scalar_ht;
 }
 
-void TruthVariables::SetJets(std::vector<Jet> const& jets)
+void TruthVariables::SetJets(std::vector<boca::Jet> const& jets)
 {
     jets_ = SortedByPt(jets);
 }
@@ -103,8 +101,6 @@ void TruthVariables::SetJets(std::vector<Jet> const& jets)
 Momentum TruthVariables::JetPt(unsigned number) const
 {
     return jets_.size() > number ? jets_.at(number).Pt() : at_rest;
-}
-
 }
 
 }

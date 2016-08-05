@@ -21,7 +21,7 @@ add_subdirectory(multivariant)
 add_subdirectory(analysis)
 add_subdirectory(branch)
 
-create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh)
+create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh boca)
 add_subdirectory(plotting)
 
 set(boca_sources

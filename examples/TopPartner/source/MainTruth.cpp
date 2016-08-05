@@ -1,15 +1,15 @@
-#include "boca/AnalysisTopPartnerEffective.hh"
-#include "boca/../boca/TruthLevel.hh"
+#include "include/analysis/AnalysisTopPartnerEffective.hh"
+#include "include/TruthLevel.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::fast | boca::Output::plot_hist)
 {
-    boca::toppartner::AnalysisEffective<Tagger> analysis;
+    toppartner::AnalysisEffective<Tagger> analysis;
     analysis.Run(output);
 }
 
 int main()
 {
-    Run<boca::toppartner::TruthLevel>();
+    Run<toppartner::TruthLevel>();
 }
 

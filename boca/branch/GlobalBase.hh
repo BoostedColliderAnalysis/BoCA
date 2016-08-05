@@ -3,6 +3,8 @@
  */
 #pragma once
 
+#include "Rtypes.h"
+
 #include "boca/physics/Prefixes.hh"
 
 #include "boca/Observables.hh"

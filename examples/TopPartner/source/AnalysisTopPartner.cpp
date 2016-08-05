@@ -1,7 +1,4 @@
-#include "../boca/AnalysisTopPartner.hh"
-
-namespace boca
-{
+#include "include/analysis/AnalysisTopPartner.hh"
 
 namespace toppartner
 {
@@ -66,8 +63,6 @@ bool MassDependent(Process process)
     case Process::ttBBBB : return false;
         DEFAULT(Name(process), false);
     }
-}
-
 }
 
 }

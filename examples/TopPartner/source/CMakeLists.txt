@@ -1,32 +1,8 @@
-create_dictionary(BranchTopPartner BranchesTopPartner.cpp BranchesTopPartner.hh LinkDefTopPartner.hh)
+add_subdirectory(branch)
+add_subdirectory(tagger)
 
 set(AnalysisSources
 AnalysisTopPartner.cpp
-TopPartnerHadronicTagger.cpp
-TopPartnerHadronicNeutralTagger.cpp
-TopPartnerHadronicChargedTagger.cpp
-TopPartnerLeptonicNeutralTagger.cpp
-TopPartnerLeptonicChargedTagger.cpp
-TopPartnerLeptonicTagger.cpp
-HiggsPairTagger.cpp
-TopPartnerPairTagger.cpp
-TopPartnerHiggsPairTagger.cpp
-TopPartnerTopPairTagger.cpp
-SignatureSingleLeptonicTagger.cpp
-SignatureSingleHadronicTagger.cpp
-SignatureEffectiveTagger.cpp
-VetoTopPartnerLeptonicTagger.cpp
-VetoTopPartnerHadronicTagger.cpp
-EventSingleLeptonicTagger.cpp
-EventSingleHadronicTagger.cpp
-CompleteSingleHadronicTagger.cpp
-EventPairTagger.cpp
-EventEffectiveTagger.cpp
-ResonanceTagger.cpp
-NewPartnerHadronicTagger.cpp
-NewPartnerLeptonicTagger.cpp
-NewPartnerPairTagger.cpp
-EventNewPairTagger.cpp
 TruthLevel.cpp
 TruthVariables.cpp
 )

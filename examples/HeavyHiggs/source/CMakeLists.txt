@@ -1,4 +1,4 @@
-create_dictionary(BranchHeavyHiggs BranchesHeavyHiggs.cpp BranchesHeavyHiggs.hh LinkDefHeavyHiggs.hh)
+create_dictionary(BranchHeavyHiggs BranchesHeavyHiggs.cpp BranchesHeavyHiggs.hh LinkDefHeavyHiggs.hh boca)
 
 set(AnalysisSources
 JetPairTagger.cpp

@@ -6,7 +6,7 @@ DelphesFactory.cc
 )
 create_library(DelphesFactory DelphesFactorySources)
 
-create_dictionary(Delphes DelphesClasses.cc DelphesClasses.h LinkDef.hh delphes)
+create_dictionary(Delphes DelphesClasses.cc DelphesClasses.h LinkDef.hh boca delphes)
 
 set(EventDelphesSources
 # Partons.cpp
