@@ -1,4 +1,4 @@
 add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
-add_subdirectory(TopPartner)
-add_subdirectory(Cut)
+add_subdirectory(toppartner)
+add_subdirectory(cut)
