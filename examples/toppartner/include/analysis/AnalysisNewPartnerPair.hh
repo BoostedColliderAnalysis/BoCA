@@ -3,11 +3,12 @@
  */
 #pragma once
 
-#include "include/analysis/AnalysisTopPartner.hh"
+#include "include/analysis/TopPartner.hh"
 #include "boca/generic/DEBUG.hh"
 
-namespace toppartner
-{
+namespace toppartner{
+
+namespace analysis{
 
 /**
  *
@@ -17,7 +18,7 @@ namespace toppartner
  *
  */
 template<typename Tagger>
-class AnalysisNewPair : public AnalysisNaturalness<Tagger>
+class AnalysisNewPair : public TopPartner<Tagger>
 {
 
 protected:
@@ -54,5 +55,7 @@ private:
     }
 
 };
+
+}
 
 }

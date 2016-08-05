@@ -6,8 +6,8 @@
 namespace toppartner
 {
 
-  namespace branch
-  {
+namespace branch
+{
 
 /**
  * @brief Class for saving event informations to root
@@ -35,6 +35,6 @@ private:
     ClassDef(NewEvent2, 1)
 };
 
-  }
+}
 
 }

@@ -4,7 +4,7 @@
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
 {
-    toppartner::AnalysisPair<Tagger> analysis;
+    toppartner::analysis::AnalysisPair<Tagger> analysis;
     analysis.Run(output);
 }
 

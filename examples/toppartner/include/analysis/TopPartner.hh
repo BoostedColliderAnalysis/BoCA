@@ -12,10 +12,11 @@
  * @brief Naturalness measurment
  *
  */
-namespace toppartner
-{
+namespace toppartner{
 
 using namespace boca;
+
+namespace analysis{
 
 enum class Process
 {
@@ -48,11 +49,11 @@ bool MassDependent(Process process);
  *
  */
 template<typename Tagger_>
-class AnalysisNaturalness : public boca::Analysis<Tagger_>
+class TopPartner : public boca::Analysis<Tagger_>
 {
 public:
 
-    AnalysisNaturalness() {
+    TopPartner() {
         INFO0;
 // Settings::set_collider(Collider::lhc);
     }
@@ -190,3 +191,4 @@ protected:
 
 }
 
+}

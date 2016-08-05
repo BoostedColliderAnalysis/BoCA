@@ -2,7 +2,7 @@ add_subdirectory(branch)
 add_subdirectory(tagger)
 
 set(AnalysisSources
-AnalysisTopPartner.cpp
+TopPartner.cpp
 TruthLevel.cpp
 TruthVariables.cpp
 )

@@ -1,7 +1,8 @@
-#include "include/analysis/AnalysisTopPartner.hh"
+#include "include/analysis/TopPartner.hh"
 
-namespace toppartner
-{
+namespace toppartner {
+
+namespace analysis {
 
 std::string Name(Process process)
 {
@@ -63,6 +64,8 @@ bool MassDependent(Process process)
     case Process::ttBBBB : return false;
         DEFAULT(Name(process), false);
     }
+}
+
 }
 
 }

@@ -3,13 +3,14 @@
  */
 #pragma once
 
-#include "include/analysis/AnalysisTopPartner.hh"
+#include "include/analysis/TopPartner.hh"
 #include "include/tagger/EventSingleLeptonicTagger.hh"
 #include "include/tagger/TopPartnerHadronicNeutralTagger.hh"
 #include "boca/generic/DEBUG.hh"
 
-namespace toppartner
-{
+namespace toppartner{
+
+namespace analysis{
 
 /**
  *
@@ -19,7 +20,7 @@ namespace toppartner
  *
  */
 template<typename Tagger>
-class AnalysisSingleLeptonic : public AnalysisNaturalness<Tagger>
+class SingleLeptonic : public TopPartner<Tagger>
 {
 
 protected:
@@ -77,5 +78,7 @@ private:
     }
 
 };
+
+}
 
 }
