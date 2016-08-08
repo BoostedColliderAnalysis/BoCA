@@ -3,7 +3,6 @@
 #include "boca/standardmodel/tagger/TopHadronic.hh"
 #include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/multiplets/Sextet.hh"
-#include "boca/multivariant/Reader.hh"
 
 #include "include/branch/TripletTwoBody.hh"
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "boca/Signature.hh"
-#include "boca/MultipletEvent.hh"
 
 namespace higgscpv {
 
@@ -12,7 +11,7 @@ namespace tagger {
  * @brief Prepares multivariant analysis
  *
  */
-class Global : public Tagger<MultipletEvent<Octet62>,Event> {
+class Global : public Tagger<MultipletEvent<Octet62>, Event> {
 
 public:
 
@@ -24,7 +23,7 @@ public:
 
 private:
 
-    Reader<SignatureTagger> signature_reader_;
+    Reader<Signature> signature_reader_;
 
     Reader<standardmodel::tagger::Bottom> bottom_reader_;
 

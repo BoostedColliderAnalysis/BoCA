@@ -2,9 +2,9 @@
 
 #include "boca/MultipletSignature.hh"
 #include "boca/standardmodel/tagger/Higgs.hh"
+#include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/multiplets/Octet.hh"
 
-#include "include/tagger/TopLeptonicPair.hh"
 #include "include/branch/SignatureT.hh"
 
 namespace higgscpv

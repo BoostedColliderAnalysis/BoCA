@@ -1,8 +1,6 @@
 #pragma once
 
-#include "boca/branch/Multi.hh"
-#include "boca/branch/Event.hh"
-#include "boca/branch/Cut.hh"
+#include "boca/branch/TwoBody.hh"
 
 namespace heavyhiggs
 {
