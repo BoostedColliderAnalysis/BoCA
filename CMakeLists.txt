@@ -68,6 +68,8 @@ if(DO_DOXYGEN MATCHES TRUE)
 include(cmake/UseDoxygen.cmake)
 endif()
 
-# Libraries
+# BoCA sources
 add_subdirectory(source)
+
+# application examples
 add_subdirectory(examples)

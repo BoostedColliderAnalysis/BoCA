@@ -116,3 +116,12 @@ macro(add_libraries source)
     CACHE INTERNAL link_libraries FORCE
   )
 endmacro()
+
+macro(add_example folder)
+SET(temp_directories ${include_directories})
+add_subdirectory(${folder})
+SET(include_directories
+    ${temp_directories}
+    CACHE INTERNAL include_directories FORCE
+  )
+endmacro()

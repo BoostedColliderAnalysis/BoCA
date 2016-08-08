@@ -1,25 +1,4 @@
-  SET(temp_directories
-    ${include_directories}
-  )
-
-
-add_subdirectory(higgscpv)
-  SET(include_directories
-    ${temp_directories}
-    CACHE INTERNAL include_directories FORCE
-  )
-add_subdirectory(heavyhiggs)
-  SET(include_directories
-    ${temp_directories}
-    CACHE INTERNAL include_directories FORCE
-  )
-add_subdirectory(toppartner)
-  SET(include_directories
-    ${temp_directories}
-    CACHE INTERNAL include_directories FORCE
-  )
-add_subdirectory(cut)
-  SET(include_directories
-    ${temp_directories}
-    CACHE INTERNAL include_directories FORCE
-  )
+add_example(cut)
+add_example(heavyhiggs)
+add_example(higgscpv)
+add_example(toppartner)
