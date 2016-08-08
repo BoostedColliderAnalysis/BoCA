@@ -179,7 +179,7 @@ public:
     //@}
 
     /**
-    * Energy-energy correlation (EEC) @param hi is the histogram and has
+    * Energy-energy correlation (EEC) @param bins is the histogram and has
     * to be provided externally It is understood that the range of the
     * histogam is -1 < cos(chi) < 1. hi.front() contains the bin [-1 <
     * cos(chi) < -1+delta] and hi.back() the bin [1-delta < cos(chi) <

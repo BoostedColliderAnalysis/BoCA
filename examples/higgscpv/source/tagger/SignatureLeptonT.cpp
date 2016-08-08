@@ -17,14 +17,14 @@ namespace tagger
 int SignatureLeptonT::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
-    std::vector<Lepton> triplets = event.Leptons();
+    auto triplets = event.Leptons();
     if (tag == Tag::signal) {
-        std::vector<Particle> leptons = Leptons(event);
+        auto leptons = Leptons(event);
         triplets = BestMatches(triplets, leptons, tag);
         DEBUG(triplets.size(), leptons.size());
     }
 
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
+    auto doublets = higgs_reader_.Multiplets(event);
     if (tag == Tag::signal) {
         std::vector<Particle> particles = event.GenParticles();
         std::vector<Particle> higgses = CopyIfParticles(particles, {Id::higgs, Id::CP_violating_higgs});
@@ -60,9 +60,9 @@ MultipletSignature<Octet332> SignatureLeptonT::Signature(Triplet const& triplet_
 std::vector<MultipletSignature<Octet332>> SignatureLeptonT::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
+    auto doublets = higgs_reader_.Multiplets(event);
     INFO(doublets.size());
-    std::vector<boca::Jet> triplets = event.Leptons();
+    auto triplets = event.Leptons();
     INFO(triplets.size());
 //     std::vector<MultipletSignature<Octet332>> octets = Triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
 //         auto octet = Signature(triplet_1, triplet_2, doublet);
@@ -72,6 +72,7 @@ std::vector<MultipletSignature<Octet332>> SignatureLeptonT::Multiplets(boca::Eve
 //     DEBUG(octets.size());
 //     return octets;
 }
+
 std::string SignatureLeptonT::Name() const
 {
     return "LeptonTChannel";

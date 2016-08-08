@@ -1,5 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
+ *
+ * YingYing Li: Lepton Isolation
+ *
  */
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Types.hh"

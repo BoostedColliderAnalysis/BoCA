@@ -15,9 +15,9 @@ namespace tagger
 int TopSemiPair::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
-    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
-    std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
-    std::vector<Particle> top_particles = event.GenParticles();
+    auto triplets_hadronic = top_hadronic_reader_.Multiplets(event);
+    auto triplets_leptonic = top_leptonic_reader_.Multiplets(event);
+    auto top_particles = event.GenParticles();
     top_particles = CopyIfParticle(top_particles, Id::top);
     if (top_particles.size() != 2 && tag == Tag::signal) ERROR(top_particles.size());
     std::vector<Triplet> final_triplets_hadronic;
@@ -55,8 +55,8 @@ int TopSemiPair::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 
 std::vector<Sextet> TopSemiPair::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
-    std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
-    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
+    auto triplets_leptonic = top_leptonic_reader_.Multiplets(event);
+    auto triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     std::vector<Sextet>  sextets;
     for (auto const & triplet_hadronic : triplets_hadronic)
         for (auto const & triplet_leptonic : triplets_leptonic)  {

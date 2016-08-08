@@ -16,22 +16,22 @@ namespace tagger
 int SignatureT::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
-   std::vector<Particle> particles = event.GenParticles();
-    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
-    std::vector<Particle> tops = CopyIfParticle(particles, Id::top);
+    auto particles = event.GenParticles();
+    auto triplets = top_reader_.Multiplets(event);
+    auto tops = CopyIfParticle(particles, Id::top);
 
-    std::vector<Triplet> final_triplets = triplets;
-//     std::vector<Triplet> final_triplets = BestMatches(triplets, tops, tag);
+    auto final_triplets = triplets;
+//     auto final_triplets = BestMatches(triplets, tops, tag);
     DEBUG(triplets.size(), tops.size(), final_triplets.size());
 
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    std::vector<Particle> higgses = CopyIfParticles(particles, {Id::higgs, Id::CP_violating_higgs});
-    std::vector<Doublet> final_doublets = doublets;
-//     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
+    auto doublets = higgs_reader_.Multiplets(event);
+    auto higgses = CopyIfParticles(particles, {Id::higgs, Id::CP_violating_higgs});
+    auto final_doublets = doublets;
+//     auto final_doublets = BestMatches(doublets, higgses, tag);
     DEBUG(doublets.size(), higgses.size(), final_doublets.size());
 
-    std::vector<MultipletSignature<Octet332>> octets = Triples(final_triplets, final_doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
-        MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
+    auto octets = Triples(final_triplets, final_doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
+        auto octet = Signature(triplet_1, triplet_2, doublet);
         octet.SetTag(tag);
         return octet;
     });
@@ -51,12 +51,12 @@ MultipletSignature<Octet332> SignatureT::Signature(Triplet const& triplet_1, Tri
 std::vector<MultipletSignature<Octet332>> SignatureT::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
+    auto doublets = higgs_reader_.Multiplets(event);
     INFO(doublets.size());
-    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
+    auto triplets = top_reader_.Multiplets(event);
     INFO(triplets.size());
-    std::vector<MultipletSignature<Octet332>> octets = Triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
-        MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
+    auto octets = Triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
+        auto octet = Signature(triplet_1, triplet_2, doublet);
         octet.SetBdt(Bdt(octet, reader));
         return octet;
     });

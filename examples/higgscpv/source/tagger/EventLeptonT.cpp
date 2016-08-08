@@ -13,16 +13,16 @@ namespace tagger
 int EventLeptonT::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
-    std::vector<boca::Jet> jets = bottom_reader_.Jets(event);
-    std::vector<MultipletSignature<Octet332>> octets = signature_reader_.Multiplets(event);
-   std::vector<Particle> particles = event.GenParticles();
-   std::vector<Particle> higgses = CopyIfParticles(particles, {Id::higgs, Id::CP_violating_higgs});
-   std::vector<Particle> leptons = signature_reader_.Tagger().Leptons(event);
+    auto jets = bottom_reader_.Jets(event);
+    auto octets = signature_reader_.Multiplets(event);
+    auto particles = event.GenParticles();
+    auto higgses = CopyIfParticles(particles, {Id::higgs, Id::CP_violating_higgs});
+    auto leptons = signature_reader_.Tagger().Leptons(event);
 
     std::vector<MultipletSignature<Octet332>> final_octets;
     if (tag == Tag::signal) {
         for (auto const & octet : octets) {
-            int match = 0;
+            auto match = 0;
             for (auto const & lepton : leptons) {
                 if (Close<Particle>(lepton)(octet.Multiplet().Triplet1())) match |= 1 << 0;
                 if (Close<Particle>(lepton)(octet.Multiplet().Triplet2())) match |= 1 << 1;
@@ -45,15 +45,15 @@ int EventLeptonT::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 std::vector<MultipletEvent<Octet332>> EventLeptonT::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
-    std::vector<boca::Jet> jets = bottom_reader_.Jets(event);
-    std::vector<MultipletSignature<Octet332>> octets = signature_reader_.Multiplets(event);
+    auto jets = bottom_reader_.Jets(event);
+    auto octets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet332>> multiplet_events;
     for (auto const & octet : octets) {
         MultipletEvent<Octet332> multiplet_event(octet.Multiplet(), event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }
-    return ReduceResult(multiplet_events,1);
+    return ReduceResult(multiplet_events, 1);
 }
 
 std::string EventLeptonT::Name() const

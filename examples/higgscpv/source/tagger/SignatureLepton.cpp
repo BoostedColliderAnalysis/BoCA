@@ -16,20 +16,20 @@ namespace tagger
 int SignatureLepton::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
-   std::vector<Lepton> leptons = event.Leptons();
+    auto leptons = event.Leptons();
     if (leptons.size() < 2) return 0;
-   std::vector<Particle> particles = event.GenParticles();
-   std::vector<Particle> lepton_particle = CopyIfParticles(particles, {Id::electron, Id::muon});
+    auto particles = event.GenParticles();
+    auto lepton_particle = CopyIfParticles(particles, {Id::electron, Id::muon});
 //     ERROR(lepton_particle);
     lepton_particle = CopyIfGrandMother(lepton_particle, Id::top);
 //     ERROR(lepton_particle);
-    std::vector<Lepton> final_leptons = CopyIfClose(leptons, lepton_particle);
+    auto final_leptons = CopyIfClose(leptons, lepton_particle);
 //     ERROR(final_leptons);
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    std::vector<Particle> higgses = CopyIfParticles(particles, {Id::higgs, Id::CP_violating_higgs});
-    std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
+    auto doublets = higgs_reader_.Multiplets(event);
+    auto higgses = CopyIfParticles(particles, {Id::higgs, Id::CP_violating_higgs});
+    auto final_doublets = BestMatches(doublets, higgses, tag);
 
-    std::vector<MultipletSignature<Quartet211>> quartets = Triples(final_leptons, final_doublets, [&](Singlet const& singlet_1, Singlet const& singlet_2, Doublet const& doublet) {
+    auto quartets = Triples(final_leptons, final_doublets, [&](Singlet const & singlet_1, Singlet const & singlet_2, Doublet const & doublet) {
         MultipletSignature<Quartet211> quartet = Signature(doublet, singlet_1, singlet_2);
         quartet.SetTag(tag);
         return quartet;
@@ -43,11 +43,11 @@ int SignatureLepton::Train(boca::Event const& event, boca::PreCuts const&, Tag t
 std::vector<MultipletSignature<Quartet211>> SignatureLepton::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
-   std::vector<Lepton> leptons = event.Leptons();
+    auto leptons = event.Leptons();
     if (leptons.size() < 2) return {};
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
+    auto doublets = higgs_reader_.Multiplets(event);
     INFO(doublets.size());
-    std::vector<MultipletSignature<Quartet211>> quartets = Triples(leptons, doublets, [&](Singlet const& singlet_1, Singlet const& singlet_2, Doublet const& doublet) {
+    auto quartets = Triples(leptons, doublets, [&](Singlet const & singlet_1, Singlet const & singlet_2, Doublet const & doublet) {
         MultipletSignature<Quartet211> quartet = Signature(doublet, singlet_1, singlet_2);
         quartet.SetBdt(Bdt(quartet, reader));
         return quartet;
