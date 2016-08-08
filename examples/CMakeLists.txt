@@ -3,7 +3,7 @@
   )
 
 
-add_subdirectory(HiggsCpv)
+add_subdirectory(higgscpv)
   SET(include_directories
     ${temp_directories}
     CACHE INTERNAL include_directories FORCE
