@@ -1,5 +1,5 @@
 #include "include/analysis/NewPair.hh"
-#include "include/tagger/EventNewPairTagger.hh"
+#include "include/tagger/EventNewPair.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
@@ -14,9 +14,9 @@ int main()
     Run<boca::standardmodel::tagger::WHadronic>();
     Run<boca::standardmodel::tagger::TopHadronic>();
     Run<boca::standardmodel::tagger::TopLeptonic>();
-    Run<toppartner::ResonanceTagger>();
-    Run<toppartner::NewPartnerHadronicTagger>();
-    Run<toppartner::NewPartnerLeptonicTagger>();
-    Run<toppartner::NewPartnerPairTagger>(boca::Output::efficiency | boca::Output::plot);
-    Run<toppartner::EventNewPairTagger>(boca::Output::efficiency | boca::Output::plot);
+    Run<toppartner::tagger::Resonance>();
+    Run<toppartner::tagger::NewPartnerHadronic>();
+    Run<toppartner::tagger::NewPartnerLeptonic>();
+    Run<toppartner::tagger::NewPartnerPair>(boca::Output::efficiency | boca::Output::plot);
+    Run<toppartner::tagger::EventNewPair>(boca::Output::efficiency | boca::Output::plot);
 }

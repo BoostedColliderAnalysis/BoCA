@@ -1,5 +1,5 @@
 #include "include/analysis/Effective.hh"
-#include "include/tagger/EventEffectiveTagger.hh"
+#include "include/tagger/EventEffective.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
@@ -17,9 +17,9 @@ int main()
     Run<boca::standardmodel::tagger::Boson>();
     Run<boca::standardmodel::tagger::TopHadronic>();
     Run<boca::standardmodel::tagger::TopLeptonic>();
-    Run<toppartner::TopPartnerHadronicNeutralTagger>(boca::Output::efficiency);
-    Run<toppartner::TopPartnerLeptonicNeutralTagger>(boca::Output::efficiency);
-    Run<toppartner::SignatureEffectiveTagger>(boca::Output::significance);
+    Run<toppartner::tagger::TopPartnerHadronicNeutral>(boca::Output::efficiency);
+    Run<toppartner::tagger::TopPartnerLeptonicNeutral>(boca::Output::efficiency);
+    Run<toppartner::tagger::SignatureEffective>(boca::Output::significance);
     Run<boca::GlobalTagger>(boca::Output::significance);
-    Run<toppartner::EventEffectiveTagger>(boca::Output::significance);
+    Run<toppartner::tagger::EventEffective>(boca::Output::significance);
 }

@@ -1,5 +1,5 @@
 #include "include/analysis/SingleLeptonic.hh"
-#include "include/tagger/EventSingleLeptonicTagger.hh"
+#include "include/tagger/EventSingleLeptonic.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
@@ -17,9 +17,9 @@ int main()
     Run<boca::standardmodel::tagger::WHadronic>();
     Run<boca::standardmodel::tagger::TopHadronic>();
     Run<boca::standardmodel::tagger::TopLeptonic>();
-    Run<toppartner::TopPartnerLeptonicNeutralTagger>(boca::Output::efficiency);
-    Run<toppartner::VetoTopPartnerHadronicTagger>(boca::Output::efficiency);
-    Run<toppartner::SignatureSingleLeptonicTagger>(boca::Output::significance);
+    Run<toppartner::tagger::TopPartnerLeptonicNeutral>(boca::Output::efficiency);
+    Run<toppartner::tagger::VetoTopPartnerHadronic>(boca::Output::efficiency);
+    Run<toppartner::tagger::SignatureSingleLeptonic>(boca::Output::significance);
     Run<boca::GlobalTagger>(boca::Output::significance);
-    Run<toppartner::EventSingleLeptonicTagger>(boca::Output::significance);
+    Run<toppartner::tagger::EventSingleLeptonic>(boca::Output::significance);
 }
