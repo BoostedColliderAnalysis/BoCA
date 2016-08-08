@@ -5,10 +5,10 @@
 #include "include/tagger/EventSingleHadronic.hh"
 #include "include/tagger/CompleteSingleHadronic.hh"
 
-template<typename Tagger>
+template<typename Tagger_>
 void Run(boca::Output output = boca::Output::normal)
 {
-    toppartner::analysis::SingleHadronic<Tagger> analysis;
+    toppartner::analysis::SingleHadronic<Tagger_> analysis;
     analysis.Run(output);
 }
 

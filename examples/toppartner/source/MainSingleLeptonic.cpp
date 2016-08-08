@@ -1,10 +1,10 @@
 #include "include/analysis/SingleLeptonic.hh"
 #include "include/tagger/EventSingleLeptonic.hh"
 
-template<typename Tagger>
+template<typename Tagger_>
 void Run(boca::Output output = boca::Output::normal)
 {
-    toppartner::analysis::SingleLeptonic<Tagger> analysis;
+    toppartner::analysis::SingleLeptonic<Tagger_> analysis;
     analysis.Run(output);
 }
 

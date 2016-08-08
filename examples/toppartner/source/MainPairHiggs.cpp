@@ -1,10 +1,10 @@
 #include "include/analysis/Effective.hh"
 #include "include/tagger/EventEffective.hh"
 
-template<typename Tagger>
+template<typename Tagger_>
 void Run(boca::Output output = boca::Output::normal)
 {
-    toppartner::analysis::Effective<Tagger> analysis;
+    toppartner::analysis::Effective<Tagger_> analysis;
     analysis.Run(output);
 }
 

@@ -21,8 +21,8 @@ namespace analysis
  * @author Jan Hajer
  *
  */
-template<typename Tagger>
-class SingleLeptonic : public TopPartner<Tagger>
+template<typename Tagger_>
+class SingleLeptonic : public TopPartner<Tagger_>
 {
 
 protected:

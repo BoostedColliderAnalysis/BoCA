@@ -17,8 +17,8 @@ namespace analysis{
  * \author Jan Hajer
  *
  */
-template<typename Tagger>
-class NewPair : public TopPartner<Tagger>
+template<typename Tagger_>
+class NewPair : public TopPartner<Tagger_>
 {
 
 protected:

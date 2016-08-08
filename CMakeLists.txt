@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(BoCA CXX)
 
-include(CMakeFiles/CMakeConfig.cmake)
+include(cmake/CMakeConfig.cmake)
 find_package(Boost 1.43)
 # find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
 add_include_path(${Boost_INCLUDE_DIRS})
@@ -48,7 +48,7 @@ if (USE_LD_GOLD)
 endif ()
 
 # FastJet
-include(CMakeFiles/Findfastjet.cmake)
+include(cmake/Findfastjet.cmake)
 add_libraries(${fastjet_LIBRARIES})
 add_libraries(fastjettools)
 add_libraries(Nsubjettiness)
@@ -64,7 +64,7 @@ add_libraries(MathMore)
 # Doxygen
 set(DO_DOXYGEN FALSE)
 if(DO_DOXYGEN MATCHES TRUE)
-include(CMakeFiles/UseDoxygen.cmake)
+include(cmake/UseDoxygen.cmake)
 endif()
 
 # Libraries

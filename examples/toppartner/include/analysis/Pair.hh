@@ -17,8 +17,8 @@ namespace analysis{
  * \author Jan Hajer
  *
  */
-template<typename Tagger>
-class Pair : public TopPartner<Tagger>
+template<typename Tagger_>
+class Pair : public TopPartner<Tagger_>
 {
 
     std::string AnalysisName() const override {
