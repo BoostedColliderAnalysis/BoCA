@@ -18,7 +18,7 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class CompleteSingleHadronicTagger : public Tagger<EventMultiplet<Decuplet532>, branch::CompleteBranch>
+class CompleteSingleHadronicTagger : public Tagger<EventMultiplet<Decuplet532>, branch::Complete>
 {
 
 public:

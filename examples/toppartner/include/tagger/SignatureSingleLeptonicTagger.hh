@@ -16,7 +16,7 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureSingleLeptonicTagger : public Tagger<Decuplet532, branch::SignatureSingleBranch>
+class SignatureSingleLeptonicTagger : public Tagger<Decuplet532, branch::SignatureSingle>
 {
 
 public:

@@ -18,7 +18,7 @@ namespace analysis{
  *
  */
 template<typename Tagger>
-class AnalysisEffective : public TopPartner<Tagger>
+class Effective : public TopPartner<Tagger>
 {
 
 protected:

@@ -18,7 +18,7 @@ namespace analysis{
  *
  */
 template<typename Tagger>
-class AnalysisPair : public TopPartner<Tagger>
+class Pair : public TopPartner<Tagger>
 {
 
     std::string AnalysisName() const override {

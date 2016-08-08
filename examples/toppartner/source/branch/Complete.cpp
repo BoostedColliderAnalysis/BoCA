@@ -9,16 +9,16 @@ namespace toppartner
 namespace branch
 {
 
-CompleteBranch::CompleteBranch()
+Complete::Complete()
 {
 }
 
-boca::Observables CompleteBranch::Variables()
+boca::Observables Complete::Variables()
 {
     return SignatureSingleHadronicBranch::Variables() + GlobalBase::Variables();
 }
 
-boca::Observables CompleteBranch::Spectators()
+boca::Observables Complete::Spectators()
 {
     return SignatureSingleHadronicBranch::Spectators() + GlobalBase::Spectators();
 }

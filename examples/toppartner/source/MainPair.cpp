@@ -1,10 +1,10 @@
-#include "include/analysis/AnalysisTopPartnerPair.hh"
+#include "include/analysis/Pair.hh"
 #include "include/tagger/EventPairTagger.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
 {
-    toppartner::analysis::AnalysisPair<Tagger> analysis;
+    toppartner::analysis::Pair<Tagger> analysis;
     analysis.Run(output);
 }
 

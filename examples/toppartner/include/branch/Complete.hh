@@ -13,10 +13,10 @@ namespace branch
  * @brief Class for saving event informations to root
  *
  */
-class CompleteBranch : public SignatureSingleHadronicBranch, boca::branch::GlobalBase
+class Complete : public SignatureSingleHadronicBranch, boca::branch::GlobalBase
 {
 public:
-    CompleteBranch();
+    Complete();
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
@@ -27,9 +27,11 @@ public:
     boca::Observables Spectators();
 
 private:
-    ClassDef(CompleteBranch, 1)
+    ClassDef(Complete, 1)
 };
 
 }
+
+using CompleteBranch = branch::Complete;
 
 }

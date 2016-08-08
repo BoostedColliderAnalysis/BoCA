@@ -10,12 +10,12 @@ namespace toppartner
 namespace branch
 {
 
-SignatureSingleBranch::SignatureSingleBranch()
+SignatureSingle::SignatureSingle()
 {
     veto_bdt = InitialValue();
 }
 
-boca::Observables SignatureSingleBranch::Variables()
+boca::Observables SignatureSingle::Variables()
 {
     return ThreeBody::Variables() + OBSERVABLE(veto_bdt, "BDT_{V}");
 }

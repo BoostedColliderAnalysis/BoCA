@@ -8,10 +8,10 @@ namespace toppartner
 namespace branch
 {
 
-class SignatureSingleBranch : public ::boca::branch::ThreeBody
+class SignatureSingle : public ::boca::branch::ThreeBody
 {
 public:
-    SignatureSingleBranch();
+    SignatureSingle();
     float veto_bdt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
@@ -20,9 +20,11 @@ public:
     }
     boca::Observables Variables();
 private:
-    ClassDef(SignatureSingleBranch, 1)
+    ClassDef(SignatureSingle, 1)
 };
 
 }
+
+using SignatureSingleBranch = branch::SignatureSingle;
 
 }
