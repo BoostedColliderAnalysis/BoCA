@@ -70,4 +70,3 @@ endif()
 # Libraries
 add_subdirectory(source)
 add_subdirectory(examples)
-

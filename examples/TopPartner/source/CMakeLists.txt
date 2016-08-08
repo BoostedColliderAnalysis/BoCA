@@ -1,0 +1,41 @@
+create_dictionary(BranchTopPartner BranchesTopPartner.cpp BranchesTopPartner.hh LinkDefTopPartner.hh)
+
+set(AnalysisSources
+AnalysisTopPartner.cpp
+TopPartnerHadronicTagger.cpp
+TopPartnerHadronicNeutralTagger.cpp
+TopPartnerHadronicChargedTagger.cpp
+TopPartnerLeptonicNeutralTagger.cpp
+TopPartnerLeptonicChargedTagger.cpp
+TopPartnerLeptonicTagger.cpp
+HiggsPairTagger.cpp
+TopPartnerPairTagger.cpp
+TopPartnerHiggsPairTagger.cpp
+TopPartnerTopPairTagger.cpp
+SignatureSingleLeptonicTagger.cpp
+SignatureSingleHadronicTagger.cpp
+SignatureEffectiveTagger.cpp
+VetoTopPartnerLeptonicTagger.cpp
+VetoTopPartnerHadronicTagger.cpp
+EventSingleLeptonicTagger.cpp
+EventSingleHadronicTagger.cpp
+CompleteSingleHadronicTagger.cpp
+EventPairTagger.cpp
+EventEffectiveTagger.cpp
+ResonanceTagger.cpp
+NewPartnerHadronicTagger.cpp
+NewPartnerLeptonicTagger.cpp
+NewPartnerPairTagger.cpp
+EventNewPairTagger.cpp
+TruthLevel.cpp
+TruthVariables.cpp
+)
+create_library(AnalysisTopPartner AnalysisSources)
+
+create_executable(TopPartnerSingleLeptonic MainSingleLeptonic.cpp)
+create_executable(TopPartnerSingleHadronic MainSingleHadronic.cpp)
+create_executable(TopPartnerPair MainPair.cpp)
+create_executable(TopPartnerEffective MainEffective.cpp)
+create_executable(TopPartnerPairHiggs MainPairHiggs.cpp)
+create_executable(TopPartnerNewPair MainNewPair.cpp)
+create_executable(TopPartnerTruth MainTruth.cpp)
