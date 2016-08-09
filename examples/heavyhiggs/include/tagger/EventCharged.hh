@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/MultipletEvent.hh"
+#include "boca/multiplets/EventMultiplet.hh"
 
 #include "include/tagger/SignatureCharged.hh"
 #include "include/branch/EventCharged.hh"
@@ -16,20 +16,20 @@ namespace tagger
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventCharged : public Tagger<MultipletEvent<Octet44>, branch::EventCharged>
+class EventCharged : public Tagger<EventMultiplet<Octet44>, boca::branch::Event>
 {
 
 public:
 
     int Train(boca::Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<MultipletEvent<Octet44>> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
+    std::vector<EventMultiplet<Octet44>> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
 private:
 
-    std::vector<MultipletEvent<Octet44>> Events(boca::Event const& event, std::function<MultipletEvent<Octet44>(MultipletEvent<Octet44> &)> const& function);
+    std::vector<EventMultiplet<Octet44>> Events(boca::Event const& event, std::function<EventMultiplet<Octet44>(EventMultiplet<Octet44> &)> const& function);
 
     Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
