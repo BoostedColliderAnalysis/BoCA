@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/multiplets/Singlet.hh"
-#include "boca/Tagger.hh"
+#include "boca/tagger/Tagger.hh"
 #include "boca/standardmodel/branch/Bottom.hh"
 #include "boca/external/MuXboostedBTagging.hh"
 

@@ -19,8 +19,10 @@ class Plot;
 class Graphs;
 template<typename >
 class Rectangle;
-class TaggerBase;
 class Observable;
+namespace tagger{
+class Base;
+}
 
 namespace latex
 {
@@ -132,9 +134,9 @@ private:
 
     void PlotVariables(Plots const& plots) const;
 
-    virtual TaggerBase const& Tagger() const = 0;
+    virtual tagger::Base const& Tagger() const = 0;
 
-    virtual TaggerBase& Tagger() = 0;
+    virtual tagger::Base& Tagger() = 0;
 
     template<typename Branch_>
     Branch_ ConstCast(Branch_ const& branch) const {

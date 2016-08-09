@@ -2,7 +2,7 @@
 
 #include "boca/standardmodel/tagger/Bottom.hh"
 #include "boca/multivariant/Reader.hh"
-#include "boca/Tagger.hh"
+#include "boca/tagger/Tagger.hh"
 #include "include/CutVariables.hh"
 
 #include "include/branch/Cut.hh"

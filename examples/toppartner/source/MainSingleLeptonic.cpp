@@ -20,6 +20,6 @@ int main()
     Run<toppartner::tagger::TopPartnerLeptonicNeutral>(boca::Output::efficiency);
     Run<toppartner::tagger::VetoTopPartnerHadronic>(boca::Output::efficiency);
     Run<toppartner::tagger::SignatureSingleLeptonic>(boca::Output::significance);
-    Run<boca::GlobalTagger>(boca::Output::significance);
+    Run<boca::tagger::Global>(boca::Output::significance);
     Run<toppartner::tagger::EventSingleLeptonic>(boca::Output::significance);
 }

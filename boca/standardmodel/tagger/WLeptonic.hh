@@ -5,7 +5,7 @@
 
 #include "boca/multiplets/Doublet.hh"
 #include "boca/standardmodel/branch/WLeptonic.hh"
-#include "boca/Tagger.hh"
+#include "boca/tagger/Tagger.hh"
 
 namespace boca
 {

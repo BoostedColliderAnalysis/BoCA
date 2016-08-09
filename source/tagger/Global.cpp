@@ -1,11 +1,14 @@
-#include "boca/GlobalTagger.hh"
+#include "boca/tagger/Global.hh"
 #include "boca/Event.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
 
-int GlobalTagger::Train(Event const& event, PreCuts const& , Tag tag)
+namespace tagger
+{
+
+int Global::Train(Event const& event, PreCuts const& , Tag tag)
 {
     INFO0;
     GlobalObservables global_observables(event, bottom_reader_.Jets(event));
@@ -13,7 +16,7 @@ int GlobalTagger::Train(Event const& event, PreCuts const& , Tag tag)
     return SaveEntries({global_observables});
 }
 
-std::vector<GlobalObservables> GlobalTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader)
+std::vector<GlobalObservables> Global::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader)
 {
     INFO0;
     GlobalObservables global_observables(event, bottom_reader_.Jets(event));
@@ -21,9 +24,11 @@ std::vector<GlobalObservables> GlobalTagger::Multiplets(Event const& event, PreC
     return {global_observables};
 }
 
-std::string GlobalTagger::Name() const
+std::string Global::Name() const
 {
     return "Global";
+}
+
 }
 
 }

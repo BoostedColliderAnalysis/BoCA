@@ -26,7 +26,7 @@
 #include "boca/plotting/Plots.hh"
 #include "boca/plotting/Font.hh"
 
-#include "boca/TaggerBase.hh"
+#include "boca/tagger/Base.hh"
 
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/branch/ThreeBody.hh"
-#include "boca/branch/EventShapes.hh"
+#include "boca/branch/EventShapesBase.hh"
 
 namespace toppartner
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/GlobalTagger.hh"
+#include "boca/tagger/Global.hh"
 #include "boca/multiplets/EventMultiplet.hh"
 #include "boca/analysis/AnalysisBase.hh"
 
@@ -37,7 +37,7 @@ private:
 
     Reader<TopPartnerPair> signature_reader_;
 
-    Reader<GlobalTagger> global_reader_;
+    Reader<boca::tagger::Global> global_reader_;
 
 };
 

@@ -19,7 +19,7 @@ int main()
     //     Run<boca::standardmodel::tagger::TopHadronic>();    Run<boca::standardmodel::tagger::Higgs>(boca::Output::efficiency);
     //     Run<higgscpv::tagger::TopLeptonicPairTagger>(boca::Output::efficiency);
     //     Run<higgscpv::tagger::SignatureTagger>(boca::Output::efficiency);
-    //     Run<higgscpv::tagger::GlobalTagger>(boca::Output::significance);
+    //     Run<higgscpv::tagger::tagger::Global>(boca::Output::significance);
     Run<higgscpv::tagger::SignatureT>(boca::Output::efficiency);
     Run<higgscpv::tagger::EventT>(boca::Output::efficiency);
     //     Run<higgscpv::tagger::SignatureLepton>(boca::Output::efficiency);

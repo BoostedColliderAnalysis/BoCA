@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/branch/EventShapes.hh"
+#include "boca/branch/EventShapesBase.hh"
 #include "boca/branch/ThreeBody.hh"
 
 namespace boca

@@ -12,7 +12,7 @@
 #include "boca/analysis/AnalysisBase.hh"
 #include "boca/Event.hh"
 #include "boca/multivariant/Trainer.hh"
-#include "boca/TaggerBase.hh"
+#include "boca/tagger/Base.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 

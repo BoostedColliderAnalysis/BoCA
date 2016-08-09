@@ -5,7 +5,7 @@
 
 #include <functional>
 
-#include "boca/Tagger.hh"
+#include "boca/tagger/Tagger.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/standardmodel/tagger/Bottom.hh"

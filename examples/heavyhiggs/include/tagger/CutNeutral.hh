@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/Tagger.hh"
+#include "boca/tagger/Tagger.hh"
 #include "boca/standardmodel/tagger/Bottom.hh"
 #include "boca/multivariant/Reader.hh"
 

@@ -12,8 +12,10 @@ namespace boca
 
 class Phase;
 class File;
-class TaggerBase;
 class Event;
+namespace tagger{
+class Base;
+}
 
 enum class Output
 {
@@ -77,7 +79,7 @@ protected:
 
     virtual void SetFiles(Tag tag, Stage) = 0;
 
-    virtual TaggerBase const& Tagger() const = 0;
+    virtual tagger::Base const& Tagger() const = 0;
 
     virtual std::string AnalysisName() const = 0;
 
@@ -133,7 +135,7 @@ protected:
 
 private:
 
-    virtual TaggerBase& Tagger() = 0;
+    virtual tagger::Base& Tagger() = 0;
 
     virtual void TagLoop(Phase phase) = 0;
 

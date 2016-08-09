@@ -6,7 +6,7 @@
 #include "boca/generic/Types.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/io/TreeBranch.hh"
-#include "boca/TaggerBase.hh"
+#include "boca/tagger/Base.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Filter.hh"
 #include "boca/generic/Debug.hh"
@@ -19,19 +19,19 @@ namespace boca
  *
  */
 template<typename Multiplet_, typename Branch_>
-class Tagger : public TaggerBase
+class Tagger : public tagger::Base
 {
 
 public:
 
     double Bdt(Multiplet_ const& multiplet, TMVA::Reader const& reader) {
         FillBranch(multiplet);
-        return TaggerBase::Bdt(reader);
+        return tagger::Base::Bdt(reader);
     }
 
     bool Cut(Multiplet_ const& multiplet, TMVA::Reader const& reader, double effeciency) {
         FillBranch(multiplet);
-        return TaggerBase::Cut(reader, effeciency);
+        return tagger::Base::Cut(reader, effeciency);
     }
 
     std::vector<bool> Cuts(Multiplet_ const& multiplet, TMVA::Reader const& reader) {
@@ -39,7 +39,7 @@ public:
         auto steps = 50;
         // TODO why is this a 2?
         return Transform(IntegerRange(2, steps), [&](int effeciency) {
-            return TaggerBase::Cut(reader, static_cast<double>(effeciency) / steps);
+            return tagger::Base::Cut(reader, static_cast<double>(effeciency) / steps);
         });
     }
 
@@ -54,6 +54,10 @@ public:
     template<typename Input_>
     std::vector<Multiplet_> ReducedMultiplets(Input_ const& input, const PreCuts& pre_cuts, TMVA::Reader const& reader, std::size_t max = 4) {
         return ReduceResult(Multiplets(input, pre_cuts, reader), max);
+    }
+
+    Multiplet_ Multiplet() const {
+      return {};
     }
 
 protected:
@@ -212,4 +216,3 @@ private:
 };
 
 }
-

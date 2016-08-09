@@ -15,14 +15,14 @@
 #include "boca/io/TreeReader.hh"
 #include "boca/multivariant/Trainer.hh"
 #include "boca/branch/Info.hh"
-#include "boca/TaggerBase.hh"
+#include "boca/tagger/Base.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
 
-Trainer::Trainer(TaggerBase& tagger) :
+Trainer::Trainer(tagger::Base& tagger) :
     tagger_(tagger),
     output_(Tagger().FactoryFileName().c_str(), "Recreate"),
     factory_(tagger.Name(), &output_, FactoryOptions())
@@ -181,12 +181,12 @@ std::string Trainer::MethodOptions() const
     return options;
 }
 
-TaggerBase const& Trainer::Tagger() const
+tagger::Base const& Trainer::Tagger() const
 {
     return tagger_;
 }
 
-TaggerBase& Trainer::Tagger()
+tagger::Base& Trainer::Tagger()
 {
     return tagger_;
 }

@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/Tagger.hh"
+#include "boca/tagger/Tagger.hh"
 
 #include "include/multiplets/TruthVariables.hh"
 #include "include/branch/Truth.hh"

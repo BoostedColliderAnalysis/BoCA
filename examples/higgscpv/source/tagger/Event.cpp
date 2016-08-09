@@ -1,4 +1,4 @@
-#include "boca/../boca/GlobalTagger.hh"
+#include "boca/tagger/Global.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace higgscpv
@@ -13,23 +13,23 @@ int Global::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
     auto jets = bottom_reader_.Jets(event);
     auto octets = signature_reader_.Multiplets(event);
     INFO(octets.size());
-    std::vector<MultipletEvent<Octet62>> multipletevents;
+    std::vector<EventMultiplet<Octet62>> multipletevents;
     for (auto const & octet : octets) {
-        MultipletEvent<Octet62> multipletevent(octet.Multiplet(), event, jets);
+        EventMultiplet<Octet62> multipletevent(octet.Multiplet(), event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
     return SaveEntries(multipletevents, 1);
 }
 
-std::vector<MultipletEvent<Octet62>> Global::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<EventMultiplet<Octet62>> Global::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     auto jets = bottom_reader_.Jets(event);
     auto octets = signature_reader_.Multiplets(event);
-    std::vector<MultipletEvent<Octet62>> multiplet_events;
+    std::vector<EventMultiplet<Octet62>> multiplet_events;
     for (auto const & octet : octets) {
-        MultipletEvent<Octet62> multiplet_event(octet.Multiplet(), event, jets);
+        EventMultiplet<Octet62> multiplet_event(octet.Multiplet(), event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }

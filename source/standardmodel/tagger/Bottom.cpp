@@ -123,7 +123,7 @@ std::vector<Jet> Bottom::SubJets(std::vector<Jet> const& jets, int sub_jet_numbe
 {
     INFO0;
     std::vector<Jet> subjets;
-    for (auto const & jet : jets) Insert(subjets, TaggerBase::SubJets(jet, sub_jet_number));
+    for (auto const & jet : jets) Insert(subjets, boca::tagger::Base::SubJets(jet, sub_jet_number));
     return subjets;
 }
 
@@ -141,7 +141,7 @@ std::vector<Jet> Bottom::SubMultiplet(Jet const& jet, TMVA::Reader const& reader
 {
     INFO0;
     std::vector<Jet> jets;
-    for (auto & sub_jet : TaggerBase::SubJets(jet, sub_jet_number)) jets.emplace_back(Multiplet(sub_jet, reader));
+    for (auto & sub_jet : boca::tagger::Base::SubJets(jet, sub_jet_number)) jets.emplace_back(Multiplet(sub_jet, reader));
     return jets;
 }
 

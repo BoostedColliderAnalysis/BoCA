@@ -10,18 +10,21 @@
 #include "boca/io/TreeWriter.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/analysis/AnalysisBase.hh"
+#include "boca/tagger/Base.hh"
 #include "boca/Filter.hh"
 #include "boca/Settings.hh"
-#include "boca/TaggerBase.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
 
-// std::mutex TaggerBase::mutex_;
+namespace tagger
+{
 
-// std::string TaggerBase::analysis_name_;
+// std::mutex Base::mutex_;
+
+// std::string Base::analysis_name_;
 
 // small memory leak, but better than static variable Initialization hell
 std::string& AnalysisName_()
@@ -30,7 +33,7 @@ std::string& AnalysisName_()
     return *analysis_name;
 }
 
-void TaggerBase::Initialize(std::string const& analysis_name)
+void Base::Initialize(std::string const& analysis_name)
 {
     INFO(analysis_name);
     if (!analysis_name.empty()) AnalysisName_() = analysis_name;
@@ -39,38 +42,38 @@ void TaggerBase::Initialize(std::string const& analysis_name)
     INFO("done");
 }
 
-TMVA::Types::EMVA TaggerBase::Mva() const
+TMVA::Types::EMVA Base::Mva() const
 {
     return TMVA::Types::EMVA::kBDT;
 }
 
-std::string TaggerBase::MvaName() const
+std::string Base::MvaName() const
 {
     return std::string(TMVA::Types::Instance().GetMethodName(Mva()));
 }
 
-double TaggerBase::Bdt(TMVA::Reader const& reader) const
+double Base::Bdt(TMVA::Reader const& reader) const
 {
     INFO(Name());
 //     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName());  // const cast is necessary because TMVA is not using const getters
 }
 
-bool TaggerBase::Cut(TMVA::Reader const& reader, double eff) const
+bool Base::Cut(TMVA::Reader const& reader, double eff) const
 {
     INFO(Name());
 //     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(), eff);  // const cast is necessary because TMVA is not using const getters
 }
 
-std::vector<Jet> TaggerBase::SubJets(Jet const& jet, int sub_jet_number) const
+std::vector<Jet> Base::SubJets(Jet const& jet, int sub_jet_number) const
 {
     INFO0;
     ClusterSequence cluster_sequence(jet.Constituents(), Settings::SubJetDefinition());
     return cluster_sequence.ExclusiveJetsUpTo(sub_jet_number);
 }
 
-void TaggerBase::AddTreeName(std::string const& tree_name, Tag tag)
+void Base::AddTreeName(std::string const& tree_name, Tag tag)
 {
     INFO0;
     switch (tag) {
@@ -81,79 +84,79 @@ void TaggerBase::AddTreeName(std::string const& tree_name, Tag tag)
     }
 }
 
-std::string TaggerBase::BranchName(Stage stage) const
+std::string Base::BranchName(Stage stage) const
 {
     INFO0;
     return Name(stage);
 }
 
-// std::string TaggerBase::BranchName(Stage stage, Tag tag) const
+// std::string Base::BranchName(Stage stage, Tag tag) const
 // {
 //     INFO0;
 //     return Name(stage, tag);
 // }
 
-std::string TaggerBase::BranchName(Phase const& phase) const
+std::string Base::BranchName(Phase const& phase) const
 {
     INFO0;
     return Name(phase.Stage());
 }
 
-std::string TaggerBase::TrainerName() const
+std::string Base::TrainerName() const
 {
     INFO0;
     return "Mva" + Name();
 }
 
-std::string TaggerBase::FactoryFileName() const
+std::string Base::FactoryFileName() const
 {
     INFO0;
     return PathName(TrainerName());
 }
 
-std::string TaggerBase::ExportFileName(Phase const& phase) const
+std::string Base::ExportFileName(Phase const& phase) const
 {
     INFO0;
     return ExportFileName(phase.Stage(), phase.Tag());
 }
 
-std::string TaggerBase::ExportFileName(Stage stage, Tag tag) const
+std::string Base::ExportFileName(Stage stage, Tag tag) const
 {
     INFO0;
     return PathName(Name(stage, tag));
 }
 
-std::string TaggerBase::ExportName() const
+std::string Base::ExportName() const
 {
     INFO0;
     return AnalysisName() + "-" + Name();
 }
-std::string TaggerBase::ExportFileName() const
+std::string Base::ExportFileName() const
 {
     INFO0;
     return PathName(ExportName());
 }
-std::string TaggerBase::ExportFolderName() const
+std::string Base::ExportFolderName() const
 {
     INFO0;
     return AnalysisName() + "/" + ExportName();
 }
-std::string TaggerBase::FolderName() const
+std::string Base::FolderName() const
 {
     INFO0;
     return AnalysisName() + "/" + Name();
 }
-std::string TaggerBase::ReaderName() const
+std::string Base::ReaderName() const
 {
     INFO0;
     return ReaderName(Name());
 }
-std::string TaggerBase::ReaderName(std::string const& name) const
+std::string Base::ReaderName(std::string const& name) const
 {
     INFO(name);
     return name + "Reader";
 }
-std::string TaggerBase::Name(Stage stage) const
+std::string Base::Name(Stage stage) const
 {
     INFO0;
     switch (stage) {
@@ -162,23 +165,23 @@ std::string TaggerBase::Name(Stage stage) const
         DEFAULT(boca::Name(stage), "");
     }
 }
-std::string TaggerBase::Name(Phase const& phase) const
+std::string Base::Name(Phase const& phase) const
 {
     INFO0;
-    auto name = TaggerBase::Name(phase.Stage());
+    auto name = Base::Name(phase.Stage());
     switch (phase.Tag()) {
     case Tag::signal : return name;
     case Tag::background : return BackgroundName(name);
         DEFAULT(boca::Name(phase.Tag()), "");
     }
 }
-std::string TaggerBase::Name(Stage stage, Tag tag) const
+std::string Base::Name(Stage stage, Tag tag) const
 {
     INFO0;
-    return TaggerBase::Name(Phase(stage, tag));
+    return Base::Name(Phase(stage, tag));
 }
 
-std::string TaggerBase::FileName(Stage stage, Tag tag) const
+std::string Base::FileName(Stage stage, Tag tag) const
 {
     INFO0;
     switch (tag) {
@@ -188,7 +191,7 @@ std::string TaggerBase::FileName(Stage stage, Tag tag) const
     }
 }
 
-std::string TaggerBase::FileName(Phase const& phase) const
+std::string Base::FileName(Phase const& phase) const
 {
     INFO0;
     switch (phase.Tag()) {
@@ -198,7 +201,7 @@ std::string TaggerBase::FileName(Phase const& phase) const
     }
 }
 
-std::string TaggerBase::SignalFileName(Stage stage) const
+std::string Base::SignalFileName(Stage stage) const
 {
     INFO0;
     auto name = SignalName();
@@ -210,7 +213,7 @@ std::string TaggerBase::SignalFileName(Stage stage) const
     }
     return PathName(name);
 }
-std::string TaggerBase::BackgroundFileName(Stage stage) const
+std::string Base::BackgroundFileName(Stage stage) const
 {
     INFO0;
     auto name = BackgroundName();
@@ -222,31 +225,31 @@ std::string TaggerBase::BackgroundFileName(Stage stage) const
     }
     return PathName(name);
 }
-std::string TaggerBase::AnalysisName() const
+std::string Base::AnalysisName() const
 {
 //     analysis_name_ = boost::filesystem::current_path().filename().string();
 //     ERROR(analysis_name_, _analysis_name_);
     return !AnalysisName_().empty() ? AnalysisName_() : _analysis_name_;
 }
-std::vector<Observable> const& TaggerBase::Variables() const
+std::vector<Observable> const& Base::Variables() const
 {
     INFO0;
     return variables_;
 }
-std::vector<Observable> const& TaggerBase::Spectators() const
+std::vector<Observable> const& Base::Spectators() const
 {
     INFO0;
     return spectators_;
 }
 
-void TaggerBase::ClearTreeNames()
+void Base::ClearTreeNames()
 {
     INFO0;
     signal_tree_names_.clear();
     background_tree_names_.clear();
 }
 
-std::vector<std::string> TaggerBase::TreeNames(Tag tag) const
+std::vector<std::string> Base::TreeNames(Tag tag) const
 {
     INFO0;
     switch (tag) {
@@ -256,19 +259,19 @@ std::vector<std::string> TaggerBase::TreeNames(Tag tag) const
     }
 }
 
-std::vector<std::string> TaggerBase::TreeNames(Phase const& phase) const
+std::vector<std::string> Base::TreeNames(Phase const& phase) const
 {
     INFO0;
     return TreeNames(phase.Tag());
 }
 
-TCut TaggerBase::Cut() const
+TCut Base::Cut() const
 {
     INFO0;
     return TCut();
 }
 
-std::string TaggerBase::MethodName() const
+std::string Base::MethodName() const
 {
     INFO0;
     switch (Mva()) {
@@ -278,105 +281,105 @@ std::string TaggerBase::MethodName() const
     }
 }
 
-std::string TaggerBase::WeightName() const
+std::string Base::WeightName() const
 {
     INFO0;
     return Name() + "_" + MethodName() + "." + WeightFileExtension();
 }
 
-std::string TaggerBase::WeightFileName() const
+std::string Base::WeightFileName() const
 {
     INFO0;
     return PathName(WeightName(), ".xml");
 }
 
-std::string TaggerBase::WeightFileExtension() const
+std::string Base::WeightFileExtension() const
 {
     INFO0;
     return "weights";
     return "";
 }
 
-std::string TaggerBase::WeightBranchName() const
+std::string Base::WeightBranchName() const
 {
     INFO0;
     return "Info";
 }
-std::string TaggerBase::BackgroundName() const
+std::string Base::BackgroundName() const
 {
     INFO0;
     return BackgroundName(Name());
 }
-std::string TaggerBase::SignalName() const
+std::string Base::SignalName() const
 {
     INFO0;
     return SignalName(Name());
 }
-std::string TaggerBase::SignalName(std::string const& name) const
+std::string Base::SignalName(std::string const& name) const
 {
     INFO0;
     return name;
     return name + "SG";
 }
-std::string TaggerBase::BackgroundName(std::string const& name) const
+std::string Base::BackgroundName(std::string const& name) const
 {
     INFO0;
     return "Not" + name;
     return name + "BG";
 }
-void TaggerBase::NewBranch(TreeWriter& tree_writer, Stage stage)
+void Base::NewBranch(TreeWriter& tree_writer, Stage stage)
 {
     INFO(Name(stage));
     tree_branch_ = &tree_writer.NewBranch(Name(stage), Class());
 }
 
-void TaggerBase::AddVariable(Observable& observable)
+void Base::AddVariable(Observable& observable)
 {
     INFO0;
     observable.SetBranchName(BranchName(Stage::trainer));
     variables_.emplace_back(observable);
 }
-void TaggerBase::AddSpectator(Observable& observable)
+void Base::AddSpectator(Observable& observable)
 {
     INFO0;
     observable.SetBranchName(BranchName(Stage::trainer));
     spectators_.emplace_back(observable);
 }
-void TaggerBase::ClearObservables()
+void Base::ClearObservables()
 {
     INFO0;
     variables_.clear();
     spectators_.clear();
 }
 
-TreeBranch& TaggerBase::TreeBranch() const
+TreeBranch& Base::TreeBranch() const
 {
     INFO0;
     return *tree_branch_;
 }
 
-latex::String TaggerBase::LatexName() const
+latex::String Base::LatexName() const
 {
     INFO0;
     return Name();
 }
 
-std::string TaggerBase::Root() const
+std::string Base::Root() const
 {
     INFO0;
     return ".root";
 }
 
-std::string TaggerBase::PathName(std::string const& file_name, std::string const& suffix) const
+std::string Base::PathName(std::string const& file_name, std::string const& suffix) const
 {
     INFO(file_name, suffix);
     return AnalysisName() + "/" + file_name + suffix;
 }
-Filter TaggerBase::Filter() const
+Filter Base::Filter() const
 {
     return {};
 }
-boca::Range< double > TaggerBase::MvaRange() const
+boca::Range< double > Base::MvaRange() const
 {
     switch (Mva()) {
     case TMVA::Types::kCuts : return { -1 , 1};
@@ -387,3 +390,4 @@ boca::Range< double > TaggerBase::MvaRange() const
 
 }
 
+}

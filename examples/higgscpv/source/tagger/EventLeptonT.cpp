@@ -33,23 +33,23 @@ int EventLeptonT::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
     } else final_octets = octets;
 
     INFO(final_octets.size());
-    std::vector<MultipletEvent<Octet332>> multipletevents;
+    std::vector<EventMultiplet<Octet332>> multipletevents;
     for (auto const & octet : final_octets) {
-        MultipletEvent<Octet332> multipletevent(octet.Multiplet(), event, jets);
+        EventMultiplet<Octet332> multipletevent(octet.Multiplet(), event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
     return SaveEntries(multipletevents, 1);
 }
 
-std::vector<MultipletEvent<Octet332>> EventLeptonT::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<EventMultiplet<Octet332>> EventLeptonT::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     auto jets = bottom_reader_.Jets(event);
     auto octets = signature_reader_.Multiplets(event);
-    std::vector<MultipletEvent<Octet332>> multiplet_events;
+    std::vector<EventMultiplet<Octet332>> multiplet_events;
     for (auto const & octet : octets) {
-        MultipletEvent<Octet332> multiplet_event(octet.Multiplet(), event, jets);
+        EventMultiplet<Octet332> multiplet_event(octet.Multiplet(), event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }

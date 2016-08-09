@@ -11,7 +11,7 @@
 #pragma link C++ defined_in "../../../boca/branch/GlobalBase.hh";
 #pragma link C++ defined_in "../../../boca/branch/Global.hh";
 #pragma link C++ defined_in "../../../boca/branch/Event.hh";
-#pragma link C++ defined_in "../../../boca/branch/EventShapes.hh";
+#pragma link C++ defined_in "../../../boca/branch/EventShapesBase.hh";
 #pragma link C++ defined_in "../../../boca/branch/Signature.hh";
 #pragma link C++ defined_in "../../../boca/Names.hh";
 #pragma link C++ defined_in "../../../boca/latex/String.hh";

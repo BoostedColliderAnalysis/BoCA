@@ -25,6 +25,6 @@ int main()
 //     Run<toppartner::tagger::TopPartnerHadronic>();
 //     Run<toppartner::tagger::TopPartnerLeptonic>();
     Run<toppartner::tagger::SignatureEffective>(boca::Output::significance);
-    Run<boca::GlobalTagger>(boca::Output::significance);
+    Run<boca::tagger::Global>(boca::Output::significance);
     Run<toppartner::tagger::EventEffective>(boca::Output::significance);
 }

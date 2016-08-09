@@ -29,11 +29,14 @@ namespace branch{
 class Result;
 }
 
+namespace tagger
+{
+
 /**
  * @brief Prepares multivariant analysis
  *
  */
-class TaggerBase
+class Base
 {
 
 public:
@@ -199,5 +202,7 @@ private:
     std::vector<Observable> spectators_;
 
 };
+
+}
 
 }

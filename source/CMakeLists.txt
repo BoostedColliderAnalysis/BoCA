@@ -20,6 +20,7 @@ add_subdirectory(multiplets)
 add_subdirectory(multivariant)
 add_subdirectory(analysis)
 add_subdirectory(branch)
+add_subdirectory(tagger)
 
 create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh boca)
 add_subdirectory(plotting)
@@ -39,9 +40,7 @@ EventShapes.cpp
 Event.cpp
 WimpMass.cpp
 GlobalObservables.cpp
-GlobalTagger.cpp
 File.cpp
-TaggerBase.cpp
 )
 create_library(Boca boca_sources)
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "boca/Tagger.hh"
+#include "boca/tagger/Tagger.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Event.hh"
 #include "boca/branch/Particle.hh"

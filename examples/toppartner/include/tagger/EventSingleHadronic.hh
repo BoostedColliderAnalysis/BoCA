@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/GlobalTagger.hh"
+#include "boca/tagger/Global.hh"
 #include "boca/multiplets/EventMultiplet.hh"
 
 #include "include/tagger/SignatureSingleHadronic.hh"
@@ -39,7 +39,7 @@ private:
 
     Reader<SignatureSingleHadronic> signature_reader_;
 
-    Reader<GlobalTagger> global_reader_;
+    Reader<boca::tagger::Global> global_reader_;
 
 };
 

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/branch/EventShapes.hh"
+#include "boca/branch/EventShapesBase.hh"
 #include "boca/branch/Base.hh"
 #include "boca/OBSERVABLE.hh"
 // #define INFORMATION

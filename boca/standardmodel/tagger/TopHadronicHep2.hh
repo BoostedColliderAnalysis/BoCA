@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/Tagger.hh"
+#include "boca/tagger/Tagger.hh"
 #include "boca/multiplets/Triplet.hh"
 #include "boca/standardmodel/branch/TopHadronicHep.hh"
 

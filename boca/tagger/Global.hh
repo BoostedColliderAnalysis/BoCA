@@ -8,12 +8,15 @@
 namespace boca
 {
 
+namespace tagger
+{
+
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class GlobalTagger : public Tagger<GlobalObservables, branch::Global>
+class Global : public Tagger<GlobalObservables, branch::Global>
 {
 
 public:
@@ -31,5 +34,7 @@ private:
     Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
+
+}
 
 }

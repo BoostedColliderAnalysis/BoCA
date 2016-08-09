@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/branch/Bdt.hh"
-#include "boca/branch/EventShapes.hh"
+#include "boca/branch/EventShapesBase.hh"
 #include "boca/branch/GlobalBase.hh"
 
 

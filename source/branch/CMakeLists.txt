@@ -15,7 +15,7 @@ ThreeBody.cpp
 GlobalBase.cpp
 Global.cpp
 Event.cpp
-EventShapes.cpp
+EventShapesBase.cpp
 Signature.cpp
 )
 
@@ -32,7 +32,7 @@ ThreeBody.hh
 GlobalBase.hh
 Global.hh
 Event.hh
-EventShapes.hh
+EventShapesBase.hh
 Signature.hh
 )
 

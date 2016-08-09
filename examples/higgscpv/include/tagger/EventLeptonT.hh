@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/MultipletEvent.hh"
+#include "boca/multiplets/EventMultiplet.hh"
 
 #include "include/tagger/SignatureLeptonT.hh"
 #include "include/branch/Event.hh"
@@ -14,13 +14,13 @@ namespace tagger {
  * @brief Prepares multivariant analysis
  *
  */
-class EventLeptonT : public Tagger<MultipletEvent<Octet332>, branch::Event> {
+class EventLeptonT : public Tagger<EventMultiplet<Octet332>, branch::Event> {
 
 public:
 
     int Train(boca::Event const& event, boca::PreCuts const&, Tag tag) override;
 
-    std::vector<MultipletEvent<Octet332>> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
+    std::vector<EventMultiplet<Octet332>> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

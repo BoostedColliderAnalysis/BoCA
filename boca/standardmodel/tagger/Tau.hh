@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/standardmodel/branch/Tau.hh"
-#include "boca/Tagger.hh"
+#include "boca/tagger/Tagger.hh"
 #include "boca/multiplets/Singlet.hh"
 
 namespace boca

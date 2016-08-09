@@ -12,22 +12,22 @@ int EventNewPair::Train(boca::Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     auto jets = bottom_reader_.Jets(event);
-    std::vector<MultipletEvent<Decuplet55>> multipletevents;
+    std::vector<EventMultiplet<Decuplet55>> multipletevents;
     for (auto const & decuplet : signature_reader_.Multiplets(event)) {
-        MultipletEvent<Decuplet55> multipletevent(decuplet, event, jets);
+        EventMultiplet<Decuplet55> multipletevent(decuplet, event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
     return SaveEntries(multipletevents, tag);
 }
 
-std::vector<MultipletEvent<Decuplet55>> EventNewPair::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
+std::vector<EventMultiplet<Decuplet55>> EventNewPair::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     auto jets = bottom_reader_.Jets(event);
-    std::vector<MultipletEvent<Decuplet55>> multiplet_events;
+    std::vector<EventMultiplet<Decuplet55>> multiplet_events;
     for (auto const & decuplet : signature_reader_.Multiplets(event)) {
-        MultipletEvent<Decuplet55> multiplet_event(decuplet, event, jets);
+        EventMultiplet<Decuplet55> multiplet_event(decuplet, event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }
