@@ -6,7 +6,7 @@
 #include "boca/tagger/Global.hh"
 #include "boca/multiplets/EventMultiplet.hh"
 
-#include "include/branch/NewEvent.hh"
+#include "include/branch/Event.hh"
 #include "include/tagger/SignatureSingleLeptonic.hh"
 
 
@@ -21,7 +21,7 @@ namespace tagger
  * @brief Prepares multivariant analysis
  *
  */
-class EventSingleLeptonic : public Tagger<EventMultiplet<Decuplet532>, branch::NewEvent>
+class EventSingleLeptonic : public Tagger<EventMultiplet<Decuplet532>, branch::Event>
 {
 
 public:

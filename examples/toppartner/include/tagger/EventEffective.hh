@@ -4,6 +4,8 @@
 #pragma once
 
 #include "boca/tagger/Event.hh"
+
+#include "include/branch/Event.hh"
 #include "include/tagger/SignatureEffective.hh"
 
 namespace toppartner
@@ -17,7 +19,7 @@ namespace tagger
  * @brief Prepares multivariant analysis
  *
  */
-class EventEffective : public boca::tagger::Event<SignatureEffective, Quattuordecuplet554>
+class EventEffective : public boca::tagger::Event<SignatureEffective, Quattuordecuplet554, branch::Event>
 {
 
 public:

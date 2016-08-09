@@ -15,22 +15,24 @@ namespace tagger
 * @brief event BDT for semi leptonic heavy higgs
 *
 */
-template<typename Signature_, typename Multiplet_>
-class Event : public Tagger<EventMultiplet<Multiplet_>, branch::Event>
+template<typename Signature_, typename Multiplet_, typename Branch_>
+class Event : public Tagger<EventMultiplet<Multiplet_>, Branch_>
 {
+
+  using Tagger_ = Tagger<EventMultiplet<Multiplet_>, Branch_>;
 
 public:
 
     int Train(boca::Event const& event, PreCuts const& pre_cuts, Tag tag) override {
-        return Tagger<EventMultiplet<Multiplet_>, branch::Event>::SaveEntries(Events(event, [&](boca::EventMultiplet<Multiplet_>& event_multiplet) {
+        return Tagger_::SaveEntries(Events(event, [&](boca::EventMultiplet<Multiplet_>& event_multiplet) {
             event_multiplet.SetTag(tag);
             return event_multiplet;
         }), tag);
     }
 
     std::vector<EventMultiplet<Multiplet_>> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override {
-        return Tagger<EventMultiplet<Multiplet_>, branch::Event>::ReduceResult(Events(event, [&](boca::EventMultiplet<Multiplet_>& event_multiplet) {
-          event_multiplet.SetBdt(Tagger<EventMultiplet<Multiplet_>, branch::Event>::Bdt(event_multiplet, reader));
+        return Tagger_::ReduceResult(Events(event, [&](boca::EventMultiplet<Multiplet_>& event_multiplet) {
+            event_multiplet.SetBdt(Tagger_::Bdt(event_multiplet, reader));
             return event_multiplet;
         }), 1);
     }
