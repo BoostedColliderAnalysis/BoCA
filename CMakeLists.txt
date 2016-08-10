@@ -63,8 +63,8 @@ add_libraries(TMVA)
 add_libraries(MathMore)
 
 # Doxygen
-set(DO_DOXYGEN FALSE)
-if(DO_DOXYGEN MATCHES TRUE)
+option(DO_DOXYGEN "Create Doxygen documentation" OFF)
+if(DO_DOXYGEN)
 include(cmake/UseDoxygen.cmake)
 endif()
 
