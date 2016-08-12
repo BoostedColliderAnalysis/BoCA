@@ -1,5 +1,5 @@
 #include "boca/../boca/GlobalTagger.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace higgscpv
 {

@@ -3,7 +3,7 @@
  */
 #include "boca/standardmodel/branch/BottomBase.hh"
 #include "boca/branch/Base.hh"
-#include "boca/OBSERVABLE.hh"
+#include "boca/OBSERVABLE_MACROS.hh"
 
 namespace boca
 {

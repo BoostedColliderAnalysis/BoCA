@@ -5,7 +5,7 @@
 #include "include/analysis/HeavyHiggs.hh"
 #include "include/tagger/JetPair.hh"
 
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace heavyhiggs
 {

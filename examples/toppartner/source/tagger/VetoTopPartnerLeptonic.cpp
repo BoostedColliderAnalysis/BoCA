@@ -6,7 +6,7 @@
 #include "include/multiplets/Decuplet.hh"
 // #define DEBUGGING
 // #define INFORMATION
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace toppartner
 {

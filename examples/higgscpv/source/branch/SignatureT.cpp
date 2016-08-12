@@ -1,5 +1,5 @@
 #include "include/branch/SignatureT.hh"
-#include "boca/OBSERVABLE.hh"
+#include "boca/OBSERVABLE_MACROS.hh"
 
 namespace higgscpv
 {

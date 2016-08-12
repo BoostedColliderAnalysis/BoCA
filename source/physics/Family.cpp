@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/physics/Family.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 #include "boca/generic/Types.hh"
 
 namespace boca

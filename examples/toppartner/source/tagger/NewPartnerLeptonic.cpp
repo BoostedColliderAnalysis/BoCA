@@ -1,6 +1,6 @@
 #include "boca/multiplets/Particles.hh"
 #include "boca/generic/Exception.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 #include "include/tagger/NewPartnerLeptonic.hh"
 

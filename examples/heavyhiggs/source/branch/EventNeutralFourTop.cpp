@@ -1,5 +1,5 @@
 #include "include/branch/EventNeutralFourTop.hh"
-#include "boca/OBSERVABLE.hh"
+#include "boca/OBSERVABLE_MACROS.hh"
 
 namespace heavyhiggs
 {

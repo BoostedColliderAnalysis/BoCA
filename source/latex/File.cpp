@@ -4,7 +4,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include "boca/latex/File.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

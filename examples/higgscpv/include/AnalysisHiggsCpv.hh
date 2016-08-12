@@ -3,7 +3,7 @@
 #include "boca/EventShapes.hh"
 #include "boca/analysis/Analysis.hh"
 #include "boca/standardmodel/tagger/TopLeptonic.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 /**
  * @brief Higgs CPV analysis

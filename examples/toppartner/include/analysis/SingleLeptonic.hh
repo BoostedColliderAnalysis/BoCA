@@ -6,7 +6,7 @@
 #include "include/analysis/TopPartner.hh"
 #include "include/tagger/EventSingleLeptonic.hh"
 #include "include/tagger/TopPartnerHadronicNeutral.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace toppartner
 {

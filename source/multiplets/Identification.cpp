@@ -3,7 +3,7 @@
  */
 #include "boca/multiplets/Identification.hh"
 #include "boca/branch/Base.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

@@ -46,7 +46,7 @@
 #include "boca/external/Invisible2.hh"
 #include "boca/generic/Types.hh"
 #include "boca/multiplets/Quartet.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

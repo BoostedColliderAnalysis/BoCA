@@ -8,7 +8,7 @@
 #include "boca/physics/Id.hh"
 #include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 #include "include/tagger/TruthLevel.hh"
 

@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "include/branch/NewEvent3.hh"
-#include "boca/OBSERVABLE.hh"
+#include "boca/OBSERVABLE_MACROS.hh"
 
 namespace toppartner
 {

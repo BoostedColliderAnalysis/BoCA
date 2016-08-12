@@ -6,7 +6,7 @@
 #include "boca/physics/Si.hh"
 #include "boca/math/Math.hh"
 #include "boca/physics/Prefixes.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

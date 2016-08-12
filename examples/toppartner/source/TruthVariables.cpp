@@ -2,7 +2,7 @@
 #include "boca/physics/Units.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/generic/Vector.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 #include "include/multiplets/TruthVariables.hh"
 

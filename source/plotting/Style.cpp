@@ -10,7 +10,7 @@
 #include "boca/plotting/Style.hh"
 #include "boca/plotting/Font.hh"
 // #define INFORMATION
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

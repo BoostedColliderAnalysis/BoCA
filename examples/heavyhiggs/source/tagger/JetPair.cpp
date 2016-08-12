@@ -8,7 +8,7 @@
 #include "include/tagger/JetPair.hh"
 #include "include/tagger/HeavyHiggsSemi.hh"
 
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace heavyhiggs
 {

@@ -3,9 +3,9 @@
  */
 #include "boca/branch/EventShapes.hh"
 #include "boca/branch/Base.hh"
-#include "boca/OBSERVABLE.hh"
+#include "boca/OBSERVABLE_MACROS.hh"
 // #define INFORMATION
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

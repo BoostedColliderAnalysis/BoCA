@@ -9,7 +9,7 @@
 #include "include/tagger/TopPartnerLeptonicNeutral.hh"
 #include "include/tagger/TopPartnerHadronic.hh"
 #define INFORMATION
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace toppartner
 {

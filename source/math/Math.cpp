@@ -5,7 +5,7 @@
 #include <cmath>
 
 #include "boca/math/Math.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

@@ -7,7 +7,7 @@
 #include "boca/Settings.hh"
 
 // #define INFORMATION
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

@@ -6,7 +6,7 @@
 #include "boca/standardmodel/tagger/TopLeptonic.hh"
 #include "boca/Event.hh"
 // #define DEBUGGING
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

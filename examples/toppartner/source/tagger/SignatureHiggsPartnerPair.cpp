@@ -1,7 +1,7 @@
 #include "boca/SignatureHiggsPartnerPair.hh"
 #include "boca/generic/Exception.hh"
 // #define DEBUGGING
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace toppartner
 {
