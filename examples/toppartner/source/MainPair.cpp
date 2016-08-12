@@ -1,10 +1,10 @@
 #include "include/analysis/Pair.hh"
-#include "include/tagger/EventPairTagger.hh"
+#include "include/tagger/EventPair.hh"
 
-template<typename Tagger>
+template<typename Tagger_>
 void Run(boca::Output output = boca::Output::normal)
 {
-    toppartner::analysis::Pair<Tagger> analysis;
+    toppartner::analysis::Pair<Tagger_> analysis;
     analysis.Run(output);
 }
 
@@ -16,9 +16,9 @@ int main()
     Run<boca::standardmodel::tagger::Boson>();
     Run<boca::standardmodel::tagger::TopHadronic>();
     Run<boca::standardmodel::tagger::TopLeptonic>();
-    Run<toppartner::TopPartnerHadronicNeutralTagger>();
-    Run<toppartner::TopPartnerLeptonicNeutralTagger>();
-    Run<toppartner::TopPartnerPairTagger>(boca::Output::significance);
+    Run<toppartner::tagger::TopPartnerHadronicNeutral>();
+    Run<toppartner::tagger::TopPartnerLeptonicNeutral>();
+    Run<toppartner::tagger::TopPartnerPair>(boca::Output::significance);
     Run<boca::GlobalTagger>(boca::Output::significance);
-    Run<toppartner::EventPairTagger>(boca::Output::significance);
+    Run<toppartner::tagger::EventPair>(boca::Output::significance);
 }

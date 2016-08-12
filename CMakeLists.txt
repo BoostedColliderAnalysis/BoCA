@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(BoCA CXX)
 
-include(CMakeFiles/CMakeConfig.cmake)
+include(cmake/CMakeConfig.cmake)
 find_package(Boost 1.43)
 # find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
 add_include_path(${Boost_INCLUDE_DIRS})
@@ -21,8 +21,9 @@ endif()
 
 # set c++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -fPIC -D_GLIBCXX_USE_CXX11_ABI=0")
- set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals")
-# -fext-numeric-literals
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals")
+endif()
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas -g")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas")
 
@@ -48,7 +49,7 @@ if (USE_LD_GOLD)
 endif ()
 
 # FastJet
-include(CMakeFiles/Findfastjet.cmake)
+include(cmake/Findfastjet.cmake)
 add_libraries(${fastjet_LIBRARIES})
 add_libraries(fastjettools)
 add_libraries(Nsubjettiness)
@@ -64,10 +65,11 @@ add_libraries(MathMore)
 # Doxygen
 set(DO_DOXYGEN FALSE)
 if(DO_DOXYGEN MATCHES TRUE)
-include(CMakeFiles/UseDoxygen.cmake)
+include(cmake/UseDoxygen.cmake)
 endif()
 
-# Libraries
+# BoCA sources
 add_subdirectory(source)
-add_subdirectory(examples)
 
+# application examples
+add_subdirectory(examples)

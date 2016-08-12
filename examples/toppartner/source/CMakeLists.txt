@@ -3,7 +3,6 @@ add_subdirectory(tagger)
 
 set(AnalysisSources
 TopPartner.cpp
-TruthLevel.cpp
 TruthVariables.cpp
 )
 create_library(AnalysisTopPartner AnalysisSources)

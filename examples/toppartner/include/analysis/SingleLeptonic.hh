@@ -4,13 +4,15 @@
 #pragma once
 
 #include "include/analysis/TopPartner.hh"
-#include "include/tagger/EventSingleLeptonicTagger.hh"
-#include "include/tagger/TopPartnerHadronicNeutralTagger.hh"
+#include "include/tagger/EventSingleLeptonic.hh"
+#include "include/tagger/TopPartnerHadronicNeutral.hh"
 #include "boca/generic/DEBUG.hh"
 
-namespace toppartner{
+namespace toppartner
+{
 
-namespace analysis{
+namespace analysis
+{
 
 /**
  *
@@ -19,8 +21,8 @@ namespace analysis{
  * @author Jan Hajer
  *
  */
-template<typename Tagger>
-class SingleLeptonic : public TopPartner<Tagger>
+template<typename Tagger_>
+class SingleLeptonic : public TopPartner<Tagger_>
 {
 
 protected:
@@ -34,13 +36,13 @@ protected:
         INFO0;
         switch (tag) {
         case Tag::signal :
-            if (this->template TaggerIs<VetoTopPartnerHadronicTagger>() || this->template TaggerIs<TopPartnerHadronicNeutralTagger>()) this->NewFile(tag, Process::TT);
+            if (this->template TaggerIs<tagger::VetoTopPartnerHadronic>() || this->template TaggerIs<tagger::TopPartnerHadronicNeutral>()) this->NewFile(tag, Process::TT);
             else this->NewFile(tag, Process::TthLep);
             break;
         case Tag::background :
-            if (this->template TaggerIs<VetoTopPartnerHadronicTagger>() || this->template TaggerIs<TopPartnerHadronicNeutralTagger>()) this->NewFile(tag, Process::TthLep);
-            else if (!this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TT);
-            if (!this->template TaggerIs<VetoTopPartnerHadronicTagger>() || this->template TaggerIs<TopPartnerHadronicNeutralTagger>()) {
+            if (this->template TaggerIs<tagger::VetoTopPartnerHadronic>() || this->template TaggerIs<tagger::TopPartnerHadronicNeutral>()) this->NewFile(tag, Process::TthLep);
+            else if (!this->template TaggerIs<tagger::TopPartnerLeptonicNeutral>()) this->NewFile(tag, Process::TT);
+            if (!this->template TaggerIs<tagger::VetoTopPartnerHadronic>() || this->template TaggerIs<tagger::TopPartnerHadronicNeutral>()) {
                 this->NewFile(tag, Process::ttBB);
                 this->NewFile(tag, Process::ttBjj);
             }

@@ -17,8 +17,8 @@ namespace analysis{
  * @author Jan Hajer
  *
  */
-template<typename Tagger>
-class Effective : public TopPartner<Tagger>
+template<typename Tagger_>
+class Effective : public TopPartner<Tagger_>
 {
 
 protected:
