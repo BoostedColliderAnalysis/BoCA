@@ -19,6 +19,16 @@
 namespace boca
 {
 
+namespace {
+
+bool VertexResultion(Constituent const& constituent)
+{
+    DEBUG(constituent.Position().Perp());
+    return Settings::TrackerRange().Inside(constituent.Position().Perp()) && abs(constituent.Momentum().Rapidity()) < Settings::TrackerEtaMax();
+}
+
+}
+
 JetInfo::JetInfo()
 {
     DEBUG0;
@@ -128,15 +138,10 @@ void JetInfo::AddConstituents(std::vector<Constituent> const& constituents)
 std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> const& constituents) const
 {
     DEBUG(constituents.size());
-    return CopyIf(constituents, [this](Constituent const & constituent) {
+    return CopyIf(constituents, [&](Constituent const & constituent) {
         return VertexResultion(constituent);
     });
-}
 
-bool JetInfo::VertexResultion(Constituent const& constituent) const
-{
-    DEBUG(constituent.Position().Perp());
-    return Settings::TrackerRange().Inside(constituent.Position().Perp()) && abs(constituent.Momentum().Rapidity()) < Settings::TrackerEtaMax();
 }
 
 void JetInfo::AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents)

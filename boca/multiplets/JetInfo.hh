@@ -127,8 +127,6 @@ private:
 
     std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> const& constituents) const;
 
-    bool VertexResultion(boca::Constituent const& constituent) const;
-
     std::vector<Constituent> constituents_;
 
     std::vector<Constituent> displaced_constituents_;
