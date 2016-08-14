@@ -3,7 +3,7 @@
 #include "boca/io/TreeReader.hh"
 #include "boca/exroot/Classes.hh"
 #include "boca/exroot/Event.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

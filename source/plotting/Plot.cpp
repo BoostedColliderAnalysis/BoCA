@@ -8,7 +8,7 @@
 #include "boca/plotting/Plot.hh"
 #include "boca/generic/Vector.hh"
 // #define DEBUGGING
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

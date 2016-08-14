@@ -10,7 +10,7 @@
 #include "boca/delphes/Event.hh"
 #include "boca/multiplets/Sort.hh"
 // #define DEBUGGING
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

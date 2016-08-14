@@ -2,7 +2,7 @@
 
 #include "boca/analysis/Analysis.hh"
 #include "boca/Settings.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 /**
  * @brief Heavy higgs analyses

@@ -1,28 +1,26 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/branch/Event.hh"
+#include "include/branch/NewEvent3.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
-// #define INFORMATION
-#include "boca/generic/DEBUG_MACROS.hh"
 
-namespace boca
+namespace toppartner
 {
 
 namespace branch
 {
 
-Event::Event()
+NewEvent3::NewEvent3()
 {
     signature_bdt = InitialValue();
 }
 
-boca::Observables Event::Variables()
+boca::Observables NewEvent3::Variables()
 {
     return Bdt::Variables() + GlobalBase::Variables() + OBSERVABLE(signature_bdt, "BDT_{Signature}");
 }
 
-boca::Observables Event::Spectators()
+boca::Observables NewEvent3::Spectators()
 {
     return Bdt::Spectators() + GlobalBase::Spectators();
 }

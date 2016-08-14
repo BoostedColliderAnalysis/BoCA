@@ -5,7 +5,7 @@
 #include "TLorentzVector.h"
 #include "boca/multiplets/Particle.hh"
 #include "boca/generic/Vector.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {

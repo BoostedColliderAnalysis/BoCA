@@ -5,7 +5,7 @@
 #include "boca/multiplets/Particles.hh"
 #include "boca/standardmodel/tagger/Tau.hh"
 #include "boca/Event.hh"
-#include "boca/generic/DEBUG.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {
