@@ -125,9 +125,9 @@ private:
 
     void SecondayVertex() const;
 
-    std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> constituents) const;
+    std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> const& constituents) const;
 
-    bool VertexResultion(boca::Constituent constituent) const;
+    bool VertexResultion(boca::Constituent const& constituent) const;
 
     std::vector<Constituent> constituents_;
 

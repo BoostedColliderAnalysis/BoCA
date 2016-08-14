@@ -4,6 +4,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+
 #include "boca/physics/ElectronVolt.hh"
 
 /**

@@ -3,7 +3,8 @@
  */
 #pragma once
 
-#include <algorithm>
+#include <vector>
+
 #include <boost/range/algorithm/lower_bound.hpp>
 #include <boost/range/algorithm/upper_bound.hpp>
 

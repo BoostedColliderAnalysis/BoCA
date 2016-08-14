@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/fastjet/InfoRecombiner.hh"
-#include "boca/physics/Units.hh"
+#include "boca/physics/Range.hh"
 #include "boca/io/Souce.hh"
 #include "boca/plotting/Font.hh"
 
@@ -76,6 +76,8 @@ public:
     static Length TrackerDistanceMin();
 
     static Length TrackerDistanceMax();
+
+    static Range<Length> TrackerRange();
 
     static boca::Luminosity Luminosity();
 

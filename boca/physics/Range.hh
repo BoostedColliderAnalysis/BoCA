@@ -100,11 +100,11 @@ public:
         return CeilToDigits(max_);
     }
 
-    bool Inside(Value_ value) {
+    bool Inside(Value_ value) const {
         return value > min_ && value < max_;
     }
 
-    bool Outside(Value_ value) {
+    bool Outside(Value_ value) const {
         return value < min_ || value > max_;
     }
 

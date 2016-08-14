@@ -1,14 +1,14 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
-add_include_path(..)
+add_include_path(${PROJECT_SOURCE_DIR})
 
 add_executable(root-browser Browser.cpp)
 target_link_libraries(root-browser ${ROOT_LIBRARIES})
 install (TARGETS root-browser DESTINATION "$ENV{HOME}/.bin")
 
-add_subdirectory(fastjet)
 add_subdirectory(generic)
+add_subdirectory(fastjet)
 add_subdirectory(latex)
 add_subdirectory(physics)
 add_subdirectory(math)

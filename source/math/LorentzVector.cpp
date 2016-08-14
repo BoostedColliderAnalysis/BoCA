@@ -6,6 +6,8 @@
 //    Jan 25 2000: implemented as (fP,fE) instead of (fX,fY,fZ,fE)
 //           2015  Jan Hajer
 
+#include <random>
+
 #include "TLorentzVector.h"
 
 #include "boca/exroot/Classes.hh"

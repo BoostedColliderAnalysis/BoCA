@@ -124,6 +124,12 @@ Length Settings::TrackerDistanceMax()
     return 1_m;
 }
 
+Range< Length > Settings::TrackerRange()
+{
+    return {TrackerDistanceMin(), TrackerDistanceMax()};
+}
+
+
 Mass Settings::VertexMassMin()
 {
     return 100_MeV;

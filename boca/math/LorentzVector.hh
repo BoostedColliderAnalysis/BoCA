@@ -110,7 +110,7 @@ public:
     // Transverse energy w.r.t. given axis.
     template<typename Value,  typename = OnlyIfNotQuantity<Value>>
     boca::Energy Et(Vector3<Value> const& vector) const {
-        EnergySquare etet = Et2(vector);
+        auto etet = Et2(vector);
         return E() < 0_GeV ? -sqrt(etet) : sqrt(etet);
     }
 

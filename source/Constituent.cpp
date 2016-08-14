@@ -32,6 +32,7 @@ Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> c
     DEBUG0;
     momentum_ = momentum;
     position_ = position;
+    Smearing(); // Delphes does not smear the position vector
 }
 
 Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, boca::Family const& family, boca::DetectorPart detector_part, int charge)
@@ -39,6 +40,7 @@ Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> c
     DEBUG0;
     momentum_ = momentum;
     position_ = position;
+    Smearing(); // Delphes does not smear the position vector
     detector_part_ = detector_part;
     charge_ = charge;
     families_.emplace_back(family);

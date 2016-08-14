@@ -125,6 +125,20 @@ void JetInfo::AddConstituents(std::vector<Constituent> const& constituents)
     Insert(displaced_constituents_, ApplyVertexResolution(constituents));
 }
 
+std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> const& constituents) const
+{
+    DEBUG(constituents.size());
+    return CopyIf(constituents, [this](Constituent const & constituent) {
+        return VertexResultion(constituent);
+    });
+}
+
+bool JetInfo::VertexResultion(Constituent const& constituent) const
+{
+    DEBUG(constituent.Position().Perp());
+    return Settings::TrackerRange().Inside(constituent.Position().Perp()) && abs(constituent.Momentum().Rapidity()) < Settings::TrackerEtaMax();
+}
+
 void JetInfo::AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents)
 {
     DEBUG0;
@@ -185,7 +199,7 @@ Mass JetInfo::VertexMass() const
     DEBUG0;
     auto vertex_mass = boost::accumulate(displaced_constituents_, LorentzVector<Momentum>(), [](LorentzVector<Momentum> const & momentum, Constituent const & constituent) {
         return momentum + constituent.Momentum();
-    }).M();
+    }).Mass();
     DEBUG(vertex_mass);
     return vertex_mass < Settings::VertexMassMin() ? massless : vertex_mass;
 }
@@ -194,24 +208,6 @@ Energy JetInfo::VertexEnergy() const
 {
     DEBUG0;
     return boost::accumulate(displaced_constituents_, Constituent()).Momentum().E();
-}
-
-std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> constituents) const
-{
-    DEBUG(constituents.size());
-    return CopyIf(constituents, [&](Constituent const& constituent) {
-        return VertexResultion(constituent);
-    });
-}
-
-bool JetInfo::VertexResultion(Constituent constituent) const
-{
-    DEBUG(constituent.Position().Perp());
-//     Length x = constituent.Position().X();
-    constituent.Smearing();
-//     DEBUG(x, constituent.Position().X());
-    auto perp = constituent.Position().Perp();
-    return (perp > Settings::TrackerDistanceMin() && perp < Settings::TrackerDistanceMax() && abs(constituent.Momentum().Rapidity()) < Settings::TrackerEtaMax());
 }
 
 Angle JetInfo::ElectroMagneticRadius(Jet const& jet) const
@@ -391,11 +387,11 @@ double JetInfo::MomentumRatio() const
 
 bool JetInfo::InMuonChamber() const
 {
-  for (auto const & constituent : Constituents()){
-    ERROR(Name(constituent.DetectorPart()), constituent.Position().Perp(), constituent.Position().Z());
-    if (constituent.DetectorPart() == DetectorPart::track && (constituent.Position().Perp() > 2_m || abs(constituent.Position().Z()) > 2_m)) return true;
-  }
-  return false;
+    for (auto const & constituent : Constituents()) {
+        ERROR(Name(constituent.DetectorPart()), constituent.Position().Perp(), constituent.Position().Z());
+        if (constituent.DetectorPart() == DetectorPart::track && (constituent.Position().Perp() > 2_m || abs(constituent.Position().Z()) > 2_m)) return true;
+    }
+    return false;
 }
 
 

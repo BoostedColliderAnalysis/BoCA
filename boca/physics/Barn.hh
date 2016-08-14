@@ -3,6 +3,8 @@
  */
 #pragma once
 
+#include <vector>
+
 #include <boost/units/base_dimension.hpp>
 #include <boost/units/base_unit.hpp>
 #include <boost/units/quantity.hpp>
