@@ -33,8 +33,8 @@ SET(library_properties
 
 #define macros
 macro(print_message text)
-  if(${CMAKE_BUILD_TYPE} EQUAL Debug)
-  message(${text})
+  if(${CMAKE_BUILD_TYPE} MATCHES DEBUG)
+    message(${text})
   endif()
 endmacro()
 
