@@ -138,9 +138,10 @@ void JetInfo::AddConstituents(std::vector<Constituent> const& constituents)
 std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> const& constituents) const
 {
     DEBUG(constituents.size());
-    return CopyIf(constituents, [&](Constituent const & constituent) {
-        return VertexResultion(constituent);
-    });
+    auto lambda = [&](Constituent const & constituent) {
+      return VertexResultion(constituent);
+    }; // http://stackoverflow.com/a/25907302
+    return CopyIf(constituents, std::ref(lambda));
 
 }
 
