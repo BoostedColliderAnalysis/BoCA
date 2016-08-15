@@ -16,13 +16,13 @@ add_include_path(${Boost_INCLUDE_DIRS})
 
 # set build type
 if( NOT CMAKE_BUILD_TYPE )
-set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
 endif()
 
 # set c++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -fPIC -D_GLIBCXX_USE_CXX11_ABI=0")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals")
 endif()
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas -g")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas")
@@ -30,11 +30,11 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wextra -pedan
 # use ccache if installed
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
-  else ()
-    message("CCache is not available.")
-endif(CCACHE_FOUND)
+  set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+  set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+else ()
+  message("CCache is not available.")
+endif()
 
 # use gold linker if installed
 option(USE_LD_GOLD "Use GNU gold linker" ON)
@@ -65,7 +65,7 @@ add_libraries(MathMore)
 # Doxygen
 option(DO_DOXYGEN "Create Doxygen documentation" OFF)
 if(DO_DOXYGEN)
-include(cmake/UseDoxygen.cmake)
+  include(cmake/UseDoxygen.cmake)
 endif()
 
 # BoCA sources
