@@ -10,6 +10,8 @@
  *************************************************************************/
 #pragma once
 
+#include <array>
+
 #include "boost/range/numeric.hpp"
 
 #include "TQuaternion.h"

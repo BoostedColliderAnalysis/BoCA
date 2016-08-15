@@ -56,10 +56,10 @@ std::vector<Result_> TransformIf(Input_ const& inputs, Function_ const& function
 }
 
 template<typename Elements_, typename Function_>
-std::vector<Elements_> CopyIf(std::vector<Elements_> const& inputs, Function_ const& function)
+std::vector<Elements_> CopyIf(std::vector<Elements_> const& inputs, Function_ function)
 {
     std::vector<Elements_> results;
-    return inputs.empty() ? results : boost::range::push_back(results, inputs | boost::adaptors::filtered(function));
+    return inputs.empty() ? results : boost::range::push_back(results, inputs | boost::adaptors::filtered(std::ref(function)));
 }
 
 // template<typename Elements_, typename Function_>

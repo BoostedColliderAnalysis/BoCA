@@ -1,3 +1,4 @@
+
 #
 # Copyright (C) 2015 Jan Hajer
 #
@@ -31,9 +32,15 @@ SET(library_properties
 )
 
 #define macros
+macro(print_message text)
+  if(${CMAKE_BUILD_TYPE} EQUAL Debug)
+  message(${text})
+  endif()
+endmacro()
+
 macro(add_include_path relative_directory)
   get_filename_component(absolute_directory ${relative_directory} ABSOLUTE)
-  message("Include:      ${absolute_directory}")
+  print_message("Include:      ${absolute_directory}")
   SET(include_directories
     ${include_directories}
     ${absolute_directory}
@@ -43,7 +50,7 @@ macro(add_include_path relative_directory)
 endmacro()
 
 macro(create_library name source)
-  message("Library:      ${name} <- ${${source}} ${ARGV2}")
+  print_message("Library:      ${name} <- ${${source}} ${ARGV2}")
   if(${ARGC} GREATER 2)
     set_source_files_properties(${${source}} PROPERTIES COMPILE_FLAGS ${ARGV2})
   endif(${ARGC} GREATER 2)
@@ -60,15 +67,14 @@ macro(create_library name source)
 endmacro()
 
 macro(create_executable name source)
-  message("Executable:   ${name} <- ${source}")
+  print_message("Executable:   ${name} <- ${source}")
   add_executable(${name} ${source})
   target_link_libraries(${name} ${link_libraries})
   target_compile_features(${name} PRIVATE cxx_decltype_auto)
 endmacro()
 
 macro(create_dictionary name sources headers link_defs include_dir)
-  message("Dictionary:   ${name} <- ${sources}, ${headers} & ${link_defs} | ${include_dir} ${ARGV5} ${ARGV6} ")
-
+  print_message("Dictionary:   ${name} <- ${sources}, ${headers} & ${link_defs} | ${include_dir} ${ARGV5} ${ARGV6} ")
   SET(link_defs_2 "")
   SET(headers_2 "")
   if(${ARGC} GREATER 6)
@@ -93,7 +99,6 @@ macro(create_dictionary name sources headers link_defs include_dir)
     LIST(APPEND headers_2 ${CMAKE_CURRENT_LIST_DIR}/../${include_dir}/${header})
   endforeach()
   endif()
-
   SET(dictionary ${name}Dict)
   ROOT_GENERATE_DICTIONARY(${dictionary} ${headers_2} LINKDEF ${link_defs_2})
   SET(Sources ${sources} ${dictionary}.cxx)
@@ -109,7 +114,7 @@ macro(create_dictionary name sources headers link_defs include_dir)
 endmacro()
 
 macro(add_libraries source)
-  message("Link Library: ${source}")
+  print_message("Link Library: ${source}")
   SET(link_libraries
     ${link_libraries}
     ${source}
