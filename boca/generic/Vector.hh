@@ -59,15 +59,8 @@ template<typename Elements_, typename Function_>
 std::vector<Elements_> CopyIf(std::vector<Elements_> const& inputs, Function_ function)
 {
     std::vector<Elements_> results;
-    return inputs.empty() ? results : boost::range::push_back(results, inputs | boost::adaptors::filtered(std::ref(function)));
+    return inputs.empty() ? results : boost::range::push_back(results, inputs | boost::adaptors::filtered(std::ref(function))); // http://stackoverflow.com/a/25907302
 }
-
-// template<typename Elements_, typename Function_>
-// std::vector<Elements_> CopyIf(std::vector<Elements_>& inputs, Function_ const& function)
-// {
-//     std::vector<Elements_> results;
-//     return inputs.empty() ? results : boost::range::push_back(results, inputs | boost::adaptors::filtered(function));
-// }
 
 template <typename Multiplet_>
 std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Momentum const& lower_cut, Momentum const& upper_cut)

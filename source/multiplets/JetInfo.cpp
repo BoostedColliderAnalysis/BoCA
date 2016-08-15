@@ -30,10 +30,9 @@ bool VertexResultion(Constituent const& constituent)
 std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> const& constituents)
 {
   DEBUG(constituents.size());
-  auto lambda = [&](Constituent const & constituent) {
+  return CopyIf(constituents, [&](Constituent const& constituent) {
     return VertexResultion(constituent);
-  }; // http://stackoverflow.com/a/25907302
-  return CopyIf(constituents, std::ref(lambda));
+  });
 
 }
 
