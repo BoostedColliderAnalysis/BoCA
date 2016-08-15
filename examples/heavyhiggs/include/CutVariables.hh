@@ -31,7 +31,7 @@ public:
     double BottomBdt() const;
     Angle DeltaR() const;
     Mass InvariantMass() const;
-    Momentum LeptonPt(unsigned int number) const;
+    Momentum LeptonPt(unsigned number) const;
     Momentum BottomMinPt() const;
     Angle BottomMaxRap() const;
     Momentum Ht() const;

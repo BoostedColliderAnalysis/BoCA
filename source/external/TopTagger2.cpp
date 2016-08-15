@@ -473,7 +473,7 @@ void TopTagger2::set_max_subjet_mass(double x)
 {
     _max_subjet_mass = x;
 }
-void TopTagger2::set_filtering_n(unsigned int nfilt)
+void TopTagger2::set_filtering_n(unsigned nfilt)
 {
     _nfilt = nfilt;
 }
@@ -550,7 +550,7 @@ void TopTagger2::set_filtering_optimalR_calc_R(double x)
 {
     _R_filt_optimalR_calc = x;
 }
-void TopTagger2::set_filtering_optimalR_calc_n(unsigned int x)
+void TopTagger2::set_filtering_optimalR_calc_n(unsigned x)
 {
     _N_filt_optimalR_calc = x;
 }
@@ -575,7 +575,7 @@ void TopTagger2::set_filtering_optimalR_pass_R(double x)
 {
     _R_filt_optimalR_pass = x;
 }
-void TopTagger2::set_filtering_optimalR_pass_n(unsigned int x)
+void TopTagger2::set_filtering_optimalR_pass_n(unsigned x)
 {
     _N_filt_optimalR_pass = x;
 }
@@ -583,7 +583,7 @@ void TopTagger2::set_filtering_optimalR_fail_R(double x)
 {
     _R_filt_optimalR_fail = x;
 }
-void TopTagger2::set_filtering_optimalR_fail_n(unsigned int x)
+void TopTagger2::set_filtering_optimalR_fail_n(unsigned x)
 {
     _N_filt_optimalR_fail = x;
 }

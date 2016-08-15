@@ -7,18 +7,44 @@
 namespace boca
 {
 
-ClusterSequence::ClusterSequence(std::vector< fastjet::PseudoJet > const& jets, const fastjet::JetDefinition& jet_definition)
+ClusterSequence::ClusterSequence(std::vector< fastjet::PseudoJet > const& jets, fastjet::JetDefinition const& jet_definition)
     : cluster_sequence_(new fastjet::ClusterSequence(jets, jet_definition))
 {}
 
-ClusterSequence::ClusterSequence(const std::vector< Jet >& jets, const fastjet::JetDefinition& jet_definition)
+ClusterSequence::ClusterSequence(std::vector< Jet > const& jets, fastjet::JetDefinition const& jet_definition)
     : cluster_sequence_(new fastjet::ClusterSequence(PseudoJetVector(jets), jet_definition))
 {}
+
+ClusterSequence::ClusterSequence(ClusterSequence const& cluster_sequence) :
+    cluster_sequence_(new fastjet::ClusterSequence(*cluster_sequence.cluster_sequence_))
+{}
+
+ClusterSequence::ClusterSequence(ClusterSequence && cluster_sequence) noexcept :
+cluster_sequence_(cluster_sequence.cluster_sequence_)
+{
+    cluster_sequence.cluster_sequence_ = nullptr;
+}
 
 ClusterSequence::~ClusterSequence()
 {
     if (success_) cluster_sequence_->delete_self_when_unused();
     else delete cluster_sequence_;
+}
+
+ClusterSequence& ClusterSequence::operator=(ClusterSequence const& cluster_sequence)
+{
+    ClusterSequence tmp(cluster_sequence);
+    *this = std::move(tmp);
+    return *this;
+}
+
+ClusterSequence& ClusterSequence::operator=(ClusterSequence && cluster_sequence) noexcept
+{
+    if (success_) cluster_sequence_->delete_self_when_unused();
+    else delete cluster_sequence_;
+    cluster_sequence_ = cluster_sequence.cluster_sequence_;
+    cluster_sequence.cluster_sequence_ = nullptr;
+    return *this;
 }
 
 std::vector< Jet > ClusterSequence::ExclusiveJets(int jet_number) const
@@ -35,7 +61,7 @@ std::vector< Jet > ClusterSequence::ExclusiveJetsUpTo(int sub_jet_number) const
     return jets;
 }
 
-std::vector< Jet > ClusterSequence::InclusiveJets(const Momentum& min_pt) const
+std::vector< Jet > ClusterSequence::InclusiveJets(Momentum const& min_pt) const
 {
     auto jets = JetVector(cluster_sequence_->inclusive_jets(min_pt / GeV));
     if (jets.empty()) success_ = false;

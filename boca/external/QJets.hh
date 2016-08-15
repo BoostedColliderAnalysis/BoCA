@@ -30,7 +30,7 @@ class QJets
 private:
     double _zcut, _dcut_fctr, _exp_min, _exp_max, _rigidity, _dcut, _truncation_fctr;
     bool _rand_seed_set;
-    unsigned int _seed;
+    unsigned _seed;
     double Omega;
     std::map<int, bool> _merged_jets;
     std::priority_queue <jet_distance, std::vector<jet_distance>, JetDistanceCompare> _distances;
@@ -42,7 +42,7 @@ private:
     bool Prune(jet_distance& jd, fastjet::ClusterSequence& cs);
     bool JetsUnmerged(const jet_distance& jd) const;
     bool JetUnmerged(int num) const;
-    void ComputeNewDistanceMeasures(fastjet::ClusterSequence& cs, unsigned int new_jet);
+    void ComputeNewDistanceMeasures(fastjet::ClusterSequence& cs, unsigned new_jet);
     void ComputeAllDistances(std::vector<fastjet::PseudoJet> const& inp);
     double ComputeMinimumDistance();
     double ComputeNormalization(double dmin);
@@ -52,7 +52,7 @@ private:
 public:
     QJets(double zcut, double dcut_fctr, double exp_min, double exp_max, double rigidity, double truncation_fctr);
     void Cluster(fastjet::ClusterSequence& cs);
-    void SetRandSeed(unsigned int seed); /* In case you want reproducible behavior */
+    void SetRandSeed(unsigned seed); /* In case you want reproducible behavior */
 };
 
 }

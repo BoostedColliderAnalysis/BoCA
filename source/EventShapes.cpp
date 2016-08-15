@@ -237,7 +237,7 @@ Angle EventShapes::RapidityS(LorentzVector<Momentum> const& lorentz_vector) cons
     return lorentz_vector.T() > lorentz_vector.Vector() * SphericalTensors().at(0).Vector() ? lorentz_vector.Rapidity(SphericalTensors().at(0).Vector()) : 1e99_rad;
 }
 
-void EventShapes::NormalizeEEC(std::vector<double>& hi, long int evts) const
+void EventShapes::NormalizeEEC(std::vector<double>& hi, long evts) const
 {
     INFO0;
     for (auto & bin : hi) bin /= (hi.size() * evts);

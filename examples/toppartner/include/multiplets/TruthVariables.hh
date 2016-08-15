@@ -21,9 +21,9 @@ class TruthVariables : public Identification
 
 public:
 
-    Momentum LeptonPt(unsigned int number) const;
+    Momentum LeptonPt(unsigned number) const;
 
-    Momentum TopPt(unsigned int number) const;
+    Momentum TopPt(unsigned number) const;
 
     int BosonNumber() const;
 

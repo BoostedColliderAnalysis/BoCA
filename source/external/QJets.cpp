@@ -22,7 +22,7 @@ QJets::QJets(double zcut, double dcut_fctr, double exp_min, double exp_max, doub
 {
 }
 
-void QJets::SetRandSeed(unsigned int seed)
+void QJets::SetRandSeed(unsigned seed)
 {
     _rand_seed_set = true;
     _seed = seed;
@@ -126,7 +126,7 @@ void QJets::Cluster(fastjet::ClusterSequence& cs)
 
     // merge remaining jets with beam
     auto num_merged_final = 0;
-    for (unsigned int i = 0 ; i < cs.jets().size(); i++)
+    for (unsigned i = 0 ; i < cs.jets().size(); i++)
         if (JetUnmerged(i)) {
             num_merged_final++;
             cs.plugin_record_iB_recombination(i, 1.);
@@ -156,7 +156,7 @@ bool QJets::Prune(jet_distance& jd, fastjet::ClusterSequence& cs)
 
 void QJets::ComputeAllDistances(std::vector<fastjet::PseudoJet> const& inp)
 {
-    for (unsigned int i = 0 ; i < inp.size() - 1; i++) {
+    for (unsigned i = 0 ; i < inp.size() - 1; i++) {
         // jet-jet distances
         for (auto j = i + 1 ; j < inp.size(); j++) {
             jet_distance jd;
@@ -170,10 +170,10 @@ void QJets::ComputeAllDistances(std::vector<fastjet::PseudoJet> const& inp)
     }
 }
 
-void QJets::ComputeNewDistanceMeasures(fastjet::ClusterSequence& cs, unsigned int new_jet)
+void QJets::ComputeNewDistanceMeasures(fastjet::ClusterSequence& cs, unsigned new_jet)
 {
     // jet-jet distances
-    for (unsigned int i = 0; i < cs.jets().size(); i++)
+    for (unsigned i = 0; i < cs.jets().size(); i++)
         if (JetUnmerged(i) && i != new_jet) {
             jet_distance jd;
             jd.j1 = new_jet;

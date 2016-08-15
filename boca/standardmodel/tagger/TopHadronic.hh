@@ -48,11 +48,11 @@ private:
 
     std::vector<Triplet> ThreeJets(const std::vector< boca::Jet >& jets, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
 
-    std::vector<Triplet> TwoJets(const std::vector< boca::Jet >& jets, const boca::Jet& jet, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
+    std::vector<Triplet> TwoJets(const std::vector< boca::Jet >& jets, boca::Jet const& jet, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
 
-    std::vector<Triplet> ThreeSubJets(const boca::Jet& jet, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
+    std::vector<Triplet> ThreeSubJets(boca::Jet const& jet, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
 
-    std::vector<Triplet> TwoSubJets(const boca::Jet& jet, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
+    std::vector<Triplet> TwoSubJets(boca::Jet const& jet, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
 
     boost::optional<Triplet> HighlyBoosted(Jet const& jet, std::vector<Lepton> const& leptons, Function const& function) const;
 

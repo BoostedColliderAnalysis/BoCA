@@ -10,7 +10,6 @@
 
 namespace boca
 {
-class InfoRecombiner;
 class Jet;
 class Singlet;
 
@@ -22,13 +21,7 @@ class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase
 {
 
 public:
-
-    friend class InfoRecombiner;
-
-    /**
-     * @brief Constructor
-     *
-     */
+  
     JetInfo();
 
     JetInfo(double bdt);
@@ -124,8 +117,6 @@ private:
     std::vector<Constituent> DisplacedConstituents() const;
 
     void SecondayVertex() const;
-
-    std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> const& constituents) const;
 
     std::vector<Constituent> constituents_;
 

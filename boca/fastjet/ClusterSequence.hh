@@ -26,7 +26,15 @@ public :
 
     ClusterSequence(std::vector<Jet> const& jets, fastjet::JetDefinition const& jet_definition);
 
+    ClusterSequence(ClusterSequence const& cluster_sequence);
+
+    ClusterSequence(ClusterSequence && cluster_sequence) noexcept;
+
     ~ClusterSequence();
+
+    ClusterSequence& operator=(ClusterSequence const& cluster_sequence);
+
+    ClusterSequence& operator=(ClusterSequence && cluster_sequence) noexcept;
 
     std::vector<Jet> ExclusiveJets(int jet_number) const;
 

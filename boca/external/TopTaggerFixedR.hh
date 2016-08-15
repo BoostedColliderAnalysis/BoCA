@@ -5,12 +5,13 @@
 namespace hep
 {
 
-enum Mode {EARLY_MASSRATIO_SORT_MASS,
-           LATE_MASSRATIO_SORT_MASS,
-           EARLY_MASSRATIO_SORT_MODDJADE,
-           LATE_MASSRATIO_SORT_MODDJADE,
-           TWO_STEP_FILTER
-          };
+enum Mode {
+    EARLY_MASSRATIO_SORT_MASS,
+    LATE_MASSRATIO_SORT_MASS,
+    EARLY_MASSRATIO_SORT_MODDJADE,
+    LATE_MASSRATIO_SORT_MODDJADE,
+    TWO_STEP_FILTER
+};
 
 class TopTaggerFixedR
 {
@@ -140,7 +141,7 @@ private:
 
     //internal functions
     void FindHardSubst(fastjet::PseudoJet const& jet, std::vector<fastjet::PseudoJet>& t_parts);
-    std::vector<fastjet::PseudoJet> Filtering(const std::vector <fastjet::PseudoJet>& top_constits, const fastjet::JetDefinition& filtering_def);
+    std::vector<fastjet::PseudoJet> Filtering(const std::vector <fastjet::PseudoJet>& top_constits, fastjet::JetDefinition const& filtering_def);
     void store_topsubjets(std::vector<fastjet::PseudoJet> const& top_subs);
     bool check_mass_criteria(std::vector<fastjet::PseudoJet> const& top_subs) const;
     double perp(fastjet::PseudoJet const& vec, fastjet::PseudoJet const& ref);

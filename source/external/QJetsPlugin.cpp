@@ -15,7 +15,7 @@ QJetsPlugin::QJetsPlugin(double zcut, double dcut_fctr, double exp_min, double e
 {
 }
 
-void QJetsPlugin::SetRandSeed(unsigned int seed)
+void QJetsPlugin::SetRandSeed(unsigned seed)
 {
     _rand_seed_set = true;
     _seed = seed;

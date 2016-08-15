@@ -634,7 +634,7 @@ void TopTaggerFixedR::set_filtering_R(double Rfilt)
 {
     _Rfilt = Rfilt;
 }
-void TopTaggerFixedR::set_filtering_n(unsigned int nfilt)
+void TopTaggerFixedR::set_filtering_n(unsigned nfilt)
 {
     _nfilt = nfilt;
 }

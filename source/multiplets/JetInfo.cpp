@@ -27,6 +27,16 @@ bool VertexResultion(Constituent const& constituent)
     return Settings::TrackerRange().Inside(constituent.Position().Perp()) && abs(constituent.Momentum().Rapidity()) < Settings::TrackerEtaMax();
 }
 
+std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> const& constituents)
+{
+  DEBUG(constituents.size());
+  auto lambda = [&](Constituent const & constituent) {
+    return VertexResultion(constituent);
+  }; // http://stackoverflow.com/a/25907302
+  return CopyIf(constituents, std::ref(lambda));
+
+}
+
 }
 
 JetInfo::JetInfo()
@@ -82,7 +92,7 @@ JetInfo::JetInfo(std::vector<Constituent> const& constituents)
 JetInfo::JetInfo(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents)
 {
     DEBUG0;
-    constituents_ = constituents;
+    SetConstituents(constituents);
     displaced_constituents_ = displaced_constituents;
 }
 
@@ -133,16 +143,6 @@ void JetInfo::AddConstituents(std::vector<Constituent> const& constituents)
     DEBUG0;
     Insert(constituents_, constituents);
     Insert(displaced_constituents_, ApplyVertexResolution(constituents));
-}
-
-std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> const& constituents) const
-{
-    DEBUG(constituents.size());
-    auto lambda = [&](Constituent const & constituent) {
-      return VertexResultion(constituent);
-    }; // http://stackoverflow.com/a/25907302
-    return CopyIf(constituents, std::ref(lambda));
-
 }
 
 void JetInfo::AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents)
@@ -345,22 +345,23 @@ void JetInfo::SetBTag(bool b_tag)
 void JetInfo::SecondayVertex() const
 {
     DEBUG0;
-    auto leading = boost::range::max_element(constituents_, [](Constituent const & consituent_1, Constituent const & constituent_2) {
+    auto leading = *boost::range::max_element(Constituents(), [](Constituent const & consituent_1, Constituent const & constituent_2) {
         return consituent_1.Momentum().Pt() < constituent_2.Momentum().Pt();
     });
-    auto x = (*leading).Position().X();
-    auto y = (*leading).Position().Y();
-    auto radius = (*leading).Position().Perp() / 2.;
-    std::vector<Constituent> constituents;
-    auto position = std::copy_if(constituents_.begin(), constituents_.end(), constituents.begin(), [&](Constituent const & constituent) {
-        return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);
+    auto x = leading.Position().X();
+    auto y = leading.Position().Y();
+    auto radius = leading.Position().Perp() / 2.;
+
+    auto constituents = CopyIf(Constituents(), [&](Constituent const & constituent) {
+      return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);
     });
-    constituents.resize(std::distance(constituents.begin(), position));
 }
+
 bool JetInfo::SubStructure() const
 {
     return sub_structure_;
 }
+
 void JetInfo::SetSubStructure(bool sub_structure)
 {
     sub_structure_ = sub_structure;
@@ -372,16 +373,19 @@ std::vector< Family > JetInfo::Families() const
     for (const auto & constituent : Constituents()) Insert(families, constituent.Families());
     return families;
 }
+
 bool JetInfo::ContainsDetectorPart(DetectorPart detector_part) const
 {
     for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == detector_part) return true;
     return false;
 }
+
 void JetInfo::SetMuBTag(double min_x, double fraction)
 {
     min_x_ = min_x;
     fraction_ = fraction;
 }
+
 double JetInfo::EnergyRatio() const
 {
     return min_x_;
@@ -399,6 +403,5 @@ bool JetInfo::InMuonChamber() const
     }
     return false;
 }
-
 
 }

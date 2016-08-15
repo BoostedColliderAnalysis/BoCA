@@ -16,7 +16,7 @@ public:
     void set_q_rigidity(double rigidity);
     void set_q_truncation_fctr(double truncation_fctr);
 
-    void run(const hep::TopTagger2& htt);
+    void run(hep::TopTagger2 const& htt);
     TopTagger2 leading();
     TopTagger2 subleading();
     double weight_leading();

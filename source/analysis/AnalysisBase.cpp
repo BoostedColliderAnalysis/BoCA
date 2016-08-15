@@ -291,7 +291,7 @@ void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
     }
 }
 
-long int AnalysisBase::EventNumberMax(Stage stage) const
+long AnalysisBase::EventNumberMax(Stage stage) const
 {
     switch (stage) {
     case Stage::trainer : return TrainNumberMax();

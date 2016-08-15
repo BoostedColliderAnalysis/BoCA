@@ -87,7 +87,7 @@ class MuXboostedBTagging
 
 public:
 
-  Jet Process(const boca::Jet& jet, std::vector<Lepton> const& delphes_muons = {});
+  Jet Process(boca::Jet const& jet, std::vector<Lepton> const& delphes_muons = {});
 
 private:
 
@@ -95,7 +95,7 @@ private:
     double x_max_ = 3; // xMax for the tag
 //     double min_core_pt_ratio_ = .5; // fMin for the tag
 
-    Momentum min_muon_pt_ = 10_GeV;    // Min muon pT to be a "taggable" muon
+    Momentum min_muon_pt_ = 10_GeV; // Min muon pT to be a "taggable" muon
 
     // Parameters for subjet reconstruction
     double min_tower_pt_ratio_ = 0.05; // Min pT ratio of tower to entire jet, to qualify for reclustering. Helps reduce pileup sensitivity

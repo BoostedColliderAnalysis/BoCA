@@ -10,11 +10,11 @@ class QJetsPlugin: public fastjet::JetDefinition::Plugin
 private:
     double _zcut, _dcut_fctr, _exp_min, _exp_max, _rigidity, _truncation_fctr;
     bool _rand_seed_set;
-    unsigned int _seed;
+    unsigned _seed;
 //     int _truncated_length;
 public:
     QJetsPlugin(double zcut, double dcut_fctr, double exp_min, double exp_max, double rigidity, double truncation_fctr = 0.);
-    void SetRandSeed(unsigned int seed); /* In case you want reproducible behavior */
+    void SetRandSeed(unsigned seed); /* In case you want reproducible behavior */
     double R() const;
     std::string description() const;
     void run_clustering(fastjet::ClusterSequence& cs) const;
@@ -119,7 +119,7 @@ public:
 //
 //     vector<double> masses;
 //
-//     for (unsigned int i = 0 ; i < 100000 ; i++) {
+//     for (unsigned i = 0 ; i < 100000 ; i++) {
 //         if (i % 100 == 0)
 //             cout << i << endl;
 //         fastjet::ClusterSequence qjet_seq(constits, qjet_def);
@@ -147,7 +147,7 @@ public:
 //            "phi", "pt", "m", "e", "n constituents");
 //
 //     // print out the details for each jet
-//     for (unsigned int i = 0; i < sorted_jets.size(); i++) {
+//     for (unsigned i = 0; i < sorted_jets.size(); i++) {
 //         int n_constituents = clust_seq.constituents(sorted_jets[i]).size();
 //         printf("%5u %15.8f %15.8f %15.8f %15.8f %15.8f %8u\n",
 //                i, sorted_jets[i].rap(), sorted_jets[i].phi(),

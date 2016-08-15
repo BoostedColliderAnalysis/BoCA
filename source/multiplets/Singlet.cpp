@@ -94,13 +94,13 @@ const Singlet& Singlet::ConstituentJet() const
     return *this;
 }
 
-void Singlet::Enforce(const boca::Jet& jet)
+void Singlet::Enforce(boca::Jet const& jet)
 {
     reset(jet);
     ResetInfo(jet.Info());
 }
 
-void Singlet::Enforce(const boca::Jet& jet, double bdt)
+void Singlet::Enforce(boca::Jet const& jet, double bdt)
 {
     reset(jet);
     ResetInfo(jet.Info());

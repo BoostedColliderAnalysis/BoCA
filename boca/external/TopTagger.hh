@@ -69,7 +69,7 @@ private:
     std::vector<std::vector<fastjet::PseudoJet> > _candjets;
 
     void FindHardSubst(fastjet::PseudoJet const& jet, std::vector<fastjet::PseudoJet>& t_parts);
-    std::vector<fastjet::PseudoJet> Filtering(std::vector<fastjet::PseudoJet> const& top_constits, const fastjet::JetDefinition& filtering_def);
+    std::vector<fastjet::PseudoJet> Filtering(std::vector<fastjet::PseudoJet> const& top_constits, fastjet::JetDefinition const& filtering_def);
     void store_topsubjets(std::vector<fastjet::PseudoJet> const& top_subs);
     bool check_mass_criteria(std::vector<fastjet::PseudoJet> const& top_subs) const;
     double check_cos_theta(fastjet::PseudoJet const& jet, fastjet::PseudoJet const& subj1, fastjet::PseudoJet const& subj2) const;

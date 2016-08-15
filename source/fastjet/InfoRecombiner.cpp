@@ -12,8 +12,8 @@ InfoRecombiner::InfoRecombiner(fastjet::RecombinationScheme recombination_scheme
 {}
 
 std::string InfoRecombiner::description() const {
-//     return fastjet::JetDefinition::DefaultRecombiner::description() + " (with user info)";
-    return "Recombiner (with user info)";
+    return fastjet::JetDefinition::DefaultRecombiner::description() + " (with user info)";
+//     return "Recombiner (with user info)";
 }
 
 void InfoRecombiner::recombine(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, fastjet::PseudoJet& jet) const {

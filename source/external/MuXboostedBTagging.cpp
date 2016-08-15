@@ -18,7 +18,7 @@ Jet MuXboostedBTagging::Process(Jet const& jet, std::vector<Lepton> const& delph
 {
     INFO0;
     std::vector<Jet> muons;
-    for (auto const & muon : delphes_muons) if (Close<Lepton>(jet)(muon)) muons.emplace_back(muon);
+    for (auto const & muon : delphes_muons) if (Close<Lepton>(jet,Settings::JetConeSize())(muon)) muons.emplace_back(muon);
     if (muons.empty()) return jet;
     boost::sort(muons, [](Jet const & one, Jet const & two) {
         return one.Pt() < two.Pt();

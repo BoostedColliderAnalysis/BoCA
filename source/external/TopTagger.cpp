@@ -227,7 +227,7 @@ void TopTagger::run_tagger()
     return;
 }
 
-std::vector<fastjet::PseudoJet> TopTagger::Filtering(std::vector<fastjet::PseudoJet> const& top_constits, const fastjet::JetDefinition& filtering_def)
+std::vector<fastjet::PseudoJet> TopTagger::Filtering(std::vector<fastjet::PseudoJet> const& top_constits, fastjet::JetDefinition const& filtering_def)
 {
     // perform filtering
     fastjet::ClusterSequence cstopfilt(top_constits, filtering_def);
@@ -305,7 +305,7 @@ std::vector< fastjet::PseudoJet > const& TopTagger::top_hadrons() const
 {
     return _top_hadrons;
 }
-unsigned int TopTagger::top_count() const
+unsigned TopTagger::top_count() const
 {
     return _top_count;
 }
@@ -313,7 +313,7 @@ std::vector< fastjet::PseudoJet > const& TopTagger::hardparts() const
 {
     return _top_parts;
 }
-unsigned int TopTagger::parts_size() const
+unsigned TopTagger::parts_size() const
 {
     return _parts_size;
 }
@@ -349,7 +349,7 @@ void TopTagger::set_mass_ratio_cut(double m23cut, double m13cutmin, double m13cu
     _m13cutmin = m13cutmin;
     _m13cutmax = m13cutmax;
 }
-void TopTagger::set_nfilt(unsigned int nfilt)
+void TopTagger::set_nfilt(unsigned nfilt)
 {
     _nfilt = nfilt;
 }

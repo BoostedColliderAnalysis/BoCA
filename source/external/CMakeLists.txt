@@ -11,6 +11,7 @@ create_library(External ExternalSources)
 set(QJetSources
 QJets.cpp
 QJetsPlugin.cpp
+QJetsBaseExtras.cpp
 )
 create_library(QJet QJetSources)
 

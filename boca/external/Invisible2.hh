@@ -67,27 +67,47 @@ private:
 
     void SetVector(double momentum[4], LorentzVector<Momentum>& jet);
 
+    std::array<double,5> Coefficients();
+
+    Matrix2<double> MatrixA();
+
+    Matrix2<double> MatrixB();
+
+    Vector2<Momentum> VectorA();
+
+    Vector2<Momentum> VectorB();
+
+    MomentumSquare ScalarA();
+
+    MomentumSquare ScalarB();
+
     LorentzVector<double> CoefficientVector1() const;
 
     LorentzVector<double> CoefficientVector2() const;
 
-    LorentzVector<Momentum> CoefficientVector(const boca::Mass& heavy, const boca::Mass& light, const boca::Mass& invisible) const;
+    LorentzVector<Momentum> CoefficientVector() const;
 
-    Matrix2<double> MatrixA(LorentzVector<double> const& ce1, LorentzVector<double> const& ce2);
+    boost::optional<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Solution(Momentum const& root);
 
-    Matrix2<double> MatrixB(LorentzVector<double> const& ce1, LorentzVector<double> const& ce2);
+    Energy Energy1(Energy const& energy_2);
 
-    Vector2<Momentum> VectorA(LorentzVector<Momentum> const& c, LorentzVector<double> const& ce1, LorentzVector<double> const& ce2);
+    Mutable<LorentzVector<Momentum>> coefficient_vector_;
 
-    Vector2<Momentum> VectorB(LorentzVector<Momentum> const& c, LorentzVector<double> const& ce1, LorentzVector<double> const& ce2);
+    Mutable<LorentzVector<double>> coefficient_vector_1_;
 
-    MomentumSquare ScalarA(const boca::LorentzVector< boca::Momentum >& c, const boca::Mass& invisible);
+    Mutable<LorentzVector<double>> coefficient_vector_2_;
 
-    MomentumSquare ScalarB(LorentzVector<Momentum> const& c, Mass const& invisible);
+    Mutable<Matrix2<double>> matrix_a_;
 
-    std::array<double,5> Coefficients(const boca::Matrix2< double >& ma, const boca::Matrix2< double >& mb, const boca::Vector2< boca::Momentum >& va, const boca::Vector2< boca::Momentum >& vb, const MomentumSquare& a, MomentumSquare const& b);
+    Mutable<Matrix2<double>> matrix_b_;
 
-    Energy Energy1(const boca::Matrix2< double >& ma, const boca::Matrix2< double >& mb, const boca::Vector2< boca::Momentum >& va, const boca::Vector2< boca::Momentum >& vb, const MomentumSquare& a, const MomentumSquare& b, const boca::Energy& energy_2);
+    Mutable<Vector2<Momentum>> vector_a_;
+
+    Mutable<Vector2<Momentum>> vector_b_;
+
+    Mutable<MomentumSquare> scalar_a_;
+
+    Mutable<MomentumSquare> scalar_b_;
 
     LorentzVector<Momentum> p3_;
 
@@ -98,6 +118,12 @@ private:
     LorentzVector<Momentum> p6_;
 
     LorentzVector<Momentum> missing_;
+
+    MassSquare heavy_square_;
+
+    MassSquare light_square_;
+
+    MassSquare invisible_square_;
 
 };
 
