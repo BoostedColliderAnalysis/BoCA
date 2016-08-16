@@ -2,6 +2,7 @@
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
 
+#include "boca/generic/Vector.hh"
 #include "boca/math/Math.hh"
 #include "boca/Event.hh"
 #include "boca/multiplets/Particles.hh"
@@ -109,11 +110,10 @@ boost::optional<CutVariables> Cut::CutMethod(boca::Event const& event)
     if (jets.size() < 4) return boost::none;
     variables.SetJetNumber(jets.size());
 
-    std::vector<boca::Jet> bottoms;
-    boost::range::copy(jets | boost::adaptors::filtered([](boca::Jet const & jet) {
+    auto bottoms = CopyIf(jets, [](boca::Jet const & jet) {
 //         return jet.Info().BTag();
       return jet.Info().Bdt() > 0.05;
-    }), std::back_inserter(bottoms));
+    });
     DEBUG(bottoms.size());
     if (bottoms.size() < 4) return boost::none;
     variables.SetBottomNumber(bottoms.size());

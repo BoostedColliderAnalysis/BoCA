@@ -17,5 +17,6 @@ Quintet.cpp
 Sextet.cpp
 Octet.cpp
 Particles.cpp
+GlobalObservables.cpp
 )
 create_library(Multiplets multiplet_sources)

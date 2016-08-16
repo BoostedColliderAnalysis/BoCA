@@ -4,7 +4,7 @@
 #include <boost/range/numeric.hpp>
 #include <boost/range/algorithm/count_if.hpp>
 
-#include "boca/GlobalObservables.hh"
+#include "boca/multiplets/GlobalObservables.hh"
 #include "boca/Event.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/generic/Vector.hh"

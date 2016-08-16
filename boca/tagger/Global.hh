@@ -2,7 +2,7 @@
 
 #include "boca/multivariant/Reader.hh"
 #include "boca/branch/Global.hh"
-#include "boca/GlobalObservables.hh"
+#include "boca/multiplets/GlobalObservables.hh"
 #include "boca/standardmodel/tagger/Bottom.hh"
 
 namespace boca

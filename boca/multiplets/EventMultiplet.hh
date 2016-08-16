@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/GlobalObservables.hh"
+#include "boca/multiplets/GlobalObservables.hh"
 #include "boca/multiplets/TwoBody.hh"
 
 namespace boca

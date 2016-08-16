@@ -39,7 +39,6 @@ HemisphereMasses.cpp
 EventShapes.cpp
 Event.cpp
 WimpMass.cpp
-GlobalObservables.cpp
 File.cpp
 )
 create_library(Boca boca_sources)

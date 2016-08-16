@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/GlobalObservables.hh"
+#include "boca/multiplets/GlobalObservables.hh"
 #include "include/tagger/CompleteSingleHadronic.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"

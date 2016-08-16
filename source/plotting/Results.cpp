@@ -295,13 +295,13 @@ Crosssection Results::MI(Significance significance, double signal_efficiency, in
 double Results::ScalingFactor(Tag tag)
 {
     INFO0;
+    return 1; // should usually be 1
     ERROR("Singal and background are scaled differently");
     switch(tag){
       case Tag::signal : return 0.79608; //< remove lambda_T from coupling
 //       case Tag::signal : return 0.20392;
       case Tag::background : return 1;
     }
-    return 1; // should usually be 1
     ERROR("Semi leptonic BR is beeing removed");
     return 1. / (0.22 * 0.65 * 2); // remove semileptonic branching ratio
 }
