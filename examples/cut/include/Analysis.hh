@@ -12,9 +12,11 @@ public:
     {
         switch (tag) {
         case boca::Tag::signal :
+            // put your signal file here
             boca::AnalysisBase::NewFile(tag, "hh_14TeV-500GeV", "h");
             break;
         case boca::Tag::background :
+            // put your background file here
             boca::AnalysisBase::NewFile(tag, "bb_14TeV-500GeV", "bb");
             break;
         }
