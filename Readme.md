@@ -4,12 +4,13 @@ This code performs staged BDT analyses using root files as in- and output format
 
 ## Dependencies
 
-* [`ROOT`](https://root.cern.ch/) version >= 6 and compiled with TMVA and MathMore
+* [`ROOT`](https://root.cern.ch/) version >= 6 and compiled with [`TMVA`](http://tmva.sourceforge.net/) and [`MathMore`](https://root.cern.ch/mathmore-library)
 * [`fastjet`](http://fastjet.fr/)
 * [`fastjet contrib`](https://fastjet.hepforge.org/contrib/) (must be compiled with `CXXFLAGS=-fPIC`)
 * [`Boost`](http://www.boost.org/) ([`Optional`](http://www.boost.org/doc/libs/release/libs/optional/), [`Range`](http://www.boost.org/doc/libs/release/libs/range/), [`Units`](http://www.boost.org/doc/libs/release/libs/units/))
 
-The BoCA code makes heavy use of modern c++ features. The limiting factor for the minimal supportet compiler version is given by the use of return type deduction.
+The BoCA code makes heavy use of modern C++ features.
+The limiting factor for the minimal supportet compiler version is given by the use of return type deduction.
 Therefore the compiler version must be
 * GCC version >= 4.9
 * Clang version >= 3.3
@@ -41,24 +42,24 @@ The `Analysis` class contains the global information of the analysis, such as fi
 Every `Tagger` class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated `Tagger`.
 The `main.cpp` defines the order in which each `Tagger` is passed to the `Analysis`.
 
-## Standard model
-
-The acceptances for Standard model particles at a future 100 TeV collider are presented [here](doc/standard-model.md).
-These plots represent some examples of the power of this code.
-
 ## Source code documentation
 
 The source code documentation including all classes and functions can be found [here](http://boostedcollideranalysis.github.io/BoCA).
 
-## License
+## Standard model
 
-BoCa is licenced under the [GPL 3](doc/License.md).
+The acceptances for Standard model particles at a future 100 TeV collider are presented [here](doc/standard-model.md).
+These plots represent some examples of the power of this code.
 
 ## Reference
 
 If you use this code to publish analyses please cite:
 * [Jan Hajer, Ying-Ying Li, Tao Liu, John F. H. Shiu: *Heavy Higgs Bosons at 14 TeV and 100 TeV*, April 2015](https://inspirehep.net/record/1365110)
 * [Nathaniel Craig, Jan Hajer, Ying-Ying Li, Tao Liu, Hao Zhang: *Heavy Higgs Bosons at Low tan β: from the LHC to 100 TeV*, May 2016](https://inspirehep.net/record/1466130)
+
+## License
+
+BoCa is licenced under the [GPL 3](doc/License.md).
 
 ## Git commands
 
