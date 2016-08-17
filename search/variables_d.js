@@ -1,13 +1,22 @@
 var searchData=
 [
-  ['name',['Name',['../d0/de6/classboca_1_1InfoBranch.html#ac8c4487af5585a41fced5228ec94c641',1,'boca::InfoBranch::Name()'],['../d0/d88/classboca_1_1Plot.html#ac7ae4d5fe91d8c007fbb68d8d0d6715f',1,'boca::Plot::name()'],['../d7/d93/classboca_1_1Plots.html#adde2902368ab0b16fea2157d8e13d274',1,'boca::Plots::name()']]],
-  ['name_5f',['name_',['../d0/d80/classboca_1_1Obs.html#a56203f23bc6f8a891292d84cbe536799',1,'boca::Obs']]],
-  ['name_5fx',['name_x',['../d0/d88/classboca_1_1Plot.html#a85c6834af965b13c1bb752d5dc549c50',1,'boca::Plot']]],
-  ['name_5fy',['name_y',['../d0/d88/classboca_1_1Plot.html#aa4b415e2e653e03ed4145b628746f269',1,'boca::Plot']]],
-  ['neutrinopt',['NeutrinoPt',['../de/daf/classboca_1_1heavyhiggs_1_1HeavyHiggsTauBranch.html#a441c85923d16f419ac9b9ed36b1f8b7d',1,'boca::heavyhiggs::HeavyHiggsTauBranch::NeutrinoPt()'],['../d7/ded/classboca_1_1standardmodel_1_1WSemiBranch.html#a4184a403bf95f1ea72aec6a972a752c6',1,'boca::standardmodel::WSemiBranch::NeutrinoPt()']]],
-  ['nice_5fname_5f',['nice_name_',['../d0/d80/classboca_1_1Obs.html#a29573eed22d8e8910f2c3490922af91a',1,'boca::Obs::nice_name_()'],['../db/dc2/classboca_1_1File.html#af57377fdb512bc777f904be7deaad25e',1,'boca::File::nice_name_()']]],
-  ['nice_5fname_5fx',['nice_name_x',['../d0/d88/classboca_1_1Plot.html#af9ebfc825e4dafd87b366b4c82f36e70',1,'boca::Plot']]],
-  ['nice_5fname_5fy',['nice_name_y',['../d0/d88/classboca_1_1Plot.html#a03f336b08d2fd13026819205e5ee9921',1,'boca::Plot']]],
-  ['numberbottom',['NumberBottom',['../d6/d20/classboca_1_1heavyhiggs_1_1HeavyHiggsCutBranch.html#a7f4063ed06228ba2c6cbf70a9d4b69cc',1,'boca::heavyhiggs::HeavyHiggsCutBranch']]],
-  ['numberjet',['NumberJet',['../d6/d20/classboca_1_1heavyhiggs_1_1HeavyHiggsCutBranch.html#af25f26e96b64ebae63dd0c536ea45da8',1,'boca::heavyhiggs::HeavyHiggsCutBranch']]]
+  ['name_5f',['name_',['../db/d38/classboca_1_1latex_1_1Environment.html#aeeaa64530e94ba26f1f813e7d1c7e693',1,'boca::latex::Environment::name_()'],['../d6/de5/classboca_1_1Names.html#a358da849b67431a494125c19a7a4c4df',1,'boca::Names::name_()']]],
+  ['names',['names',['../db/d03/classboca_1_1branch_1_1Info.html#a86d7ab36164f62172f1b55fc0b586a1d',1,'boca::branch::Info']]],
+  ['names_5f',['names_',['../db/dc2/classboca_1_1File.html#a975e5c0f4edcbccfec350bbe6a0c1c03',1,'boca::File::names_()'],['../d5/d91/classboca_1_1Observable.html#afb2e5d3d91d7409eea0f2cc222c7fae9',1,'boca::Observable::names_()'],['../d7/d93/classboca_1_1Plots.html#a764272768a439b9fc3933a3dba845314',1,'boca::Plots::names_()']]],
+  ['ncharged',['NCharged',['../d7/da6/classJet.html#af42aaaa2071a6180f71fa9111c7482cc',1,'Jet::NCharged()'],['../d2/d1e/classCandidate.html#aca2d7401164ba90b72425fd1bfab833c',1,'Candidate::NCharged()']]],
+  ['neutral_5f',['neutral_',['../d5/dff/classtoppartner_1_1tagger_1_1TopPartnerHadronic.html#ad42eb54653709ca3b0f211d7fd0aef98',1,'toppartner::tagger::TopPartnerHadronic::neutral_()'],['../d0/db4/classtoppartner_1_1tagger_1_1TopPartnerLeptonic.html#a2c9bf200b66ffd0dd89231d51425994e',1,'toppartner::tagger::TopPartnerLeptonic::neutral_()']]],
+  ['neutrino_5fpt',['neutrino_pt',['../d1/d16/classboca_1_1standardmodel_1_1branch_1_1WLeptonic.html#a84c636b6f2a046c0eaf27574cf32dd0e',1,'boca::standardmodel::branch::WLeptonic']]],
+  ['neutrinopt',['NeutrinoPt',['../db/d19/classheavyhiggs_1_1branch_1_1HeavyHiggsTau.html#a8395d26385c92f4870d93a1eb2730538',1,'heavyhiggs::branch::HeavyHiggsTau']]],
+  ['nevt',['nevt',['../db/d47/classmt2_1_1Mt2.html#a28b423e84a3bf296d73351e4f1690619',1,'mt2::Mt2']]],
+  ['new_5fline_5f',['new_line_',['../db/d38/classboca_1_1latex_1_1Environment.html#accda2a60fc73e617786bf524acce8998',1,'boca::latex::Environment']]],
+  ['nneutrals',['NNeutrals',['../d7/da6/classJet.html#ad9bdb31ca2e6b689a29c0eca6e808a69',1,'Jet::NNeutrals()'],['../d2/d1e/classCandidate.html#a0c8e00b9e593dd5adb862aa75acc5e17',1,'Candidate::NNeutrals()']]],
+  ['nparticles',['Nparticles',['../d3/d74/classTRootLHEFEvent.html#a2db4f2703349268c617e213d6a6790f4',1,'TRootLHEFEvent']]],
+  ['nsubjetspruned',['NSubJetsPruned',['../d7/da6/classJet.html#ac5d1a6bca15792f2d738430855381801',1,'Jet::NSubJetsPruned()'],['../d2/d1e/classCandidate.html#a076efaa30ba06c80355e97a16dd21bf3',1,'Candidate::NSubJetsPruned()']]],
+  ['nsubjetssoftdropped',['NSubJetsSoftDropped',['../d7/da6/classJet.html#a0685bc17e0cfafbb9f810e644fdd9e9b',1,'Jet::NSubJetsSoftDropped()'],['../d2/d1e/classCandidate.html#a5905158ff038d544a5dd036cfcebf05b',1,'Candidate::NSubJetsSoftDropped()']]],
+  ['nsubjetstrimmed',['NSubJetsTrimmed',['../d7/da6/classJet.html#a85def3c1002091efb68bf9c93b5005ab',1,'Jet::NSubJetsTrimmed()'],['../d2/d1e/classCandidate.html#a99c45a7cf8f795700880ecd33eea0c9b',1,'Candidate::NSubJetsTrimmed()']]],
+  ['ntimehits',['NTimeHits',['../df/d76/classTower.html#a89a9bb6354859f911218f579bd977125',1,'Tower::NTimeHits()'],['../d2/d1e/classCandidate.html#a83b20699fb019b6b4037c0acd079a423',1,'Candidate::NTimeHits()']]],
+  ['ntrk',['Ntrk',['../d9/dbb/classTRootElectron.html#a31adbdd98edd9fd0bc9f141ae8bb721d',1,'TRootElectron::Ntrk()'],['../dd/d38/classTRootMuon.html#ac08510ddcec30118c01ece3105abb997',1,'TRootMuon::Ntrk()'],['../dc/d42/classTRootTau.html#a0f11ce2330debd9a49edbfc9369a1242',1,'TRootTau::Ntrk()'],['../d7/d6e/classTRootJet.html#ad13af0a9d1a7e42785ae4482d7a3bd91',1,'TRootJet::Ntrk()']]],
+  ['number',['Number',['../d5/da5/classEvent.html#a2eb5eaa7bffde664df8f77b699baac88',1,'Event::Number()'],['../d3/d74/classTRootLHEFEvent.html#ade333701d5e6fcabf85cb6f155747408',1,'TRootLHEFEvent::Number()'],['../df/db4/classTRootGenEvent.html#ad976826af2b7c96d372a7001cb75d6a5',1,'TRootGenEvent::Number()'],['../d1/d4f/classTRootEvent.html#a17d9adacbb706c056f2636523d5904c9',1,'TRootEvent::Number()']]],
+  ['numberbottom',['NumberBottom',['../d5/d66/classheavyhiggs_1_1branch_1_1Cut.html#ae1971ca59f7d641ccba46afdfec86cf0',1,'heavyhiggs::branch::Cut']]],
+  ['numberjet',['NumberJet',['../d5/d66/classheavyhiggs_1_1branch_1_1Cut.html#a7d3ee6cab2a33b880224175448811cfc',1,'heavyhiggs::branch::Cut']]]
 ];

@@ -1,19 +1,22 @@
 <map id="boca::Quintet" name="boca::Quintet">
-<area shape="rect" id="node2" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Doublet \&gt;" alt="" coords="2781,58,2948,99"/>
-<area shape="rect" id="node3" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="1009,65,1116,92"/>
-<area shape="rect" id="node16" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Singlet, boca::Singlet \&gt;" alt="" coords="1591,122,1757,163"/>
-<area shape="rect" id="node17" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="1239,215,1413,257"/>
-<area shape="rect" id="node21" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Doublet, boca::Singlet \&gt;" alt="" coords="2256,155,2427,197"/>
-<area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="543,127,680,153"/>
-<area shape="rect" id="node6" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make Jet behave like a Multiplet. Additionally this class astracts away the JetInfo u..." alt="" coords="813,144,912,171"/>
-<area shape="rect" id="node5" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="214,127,346,153"/>
-<area shape="rect" id="node7" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="562,228,661,255"/>
-<area shape="rect" id="node9" href="$d6/d09/classboca_1_1Jet.html" title="boca::Jet" alt="" coords="573,40,649,67"/>
-<area shape="rect" id="node10" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="220,40,340,67"/>
-<area shape="rect" id="node12" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; AngleSquare \&gt;" alt="" coords="511,177,712,204"/>
-<area shape="rect" id="node13" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="200,177,360,204"/>
-<area shape="rect" id="node15" href="$d4/d01/classboca_1_1Doublet.html" title="boca::Doublet" alt="" coords="1959,129,2062,156"/>
-<area shape="rect" id="node20" href="$de/dad/classboca_1_1Triplet.html" title="boca::Triplet" alt="" coords="2564,163,2659,189"/>
-<area shape="rect" id="node22" href="$db/d9b/classboca_1_1SubJettiness.html" title="boca::SubJettiness" alt="" coords="2274,261,2409,288"/>
-<area shape="rect" id="node23" href="$d1/d2f/classboca_1_1NSubJettiness.html" title="boca::NSubJettiness" alt="" coords="1939,285,2083,312"/>
+<area shape="rect" id="node2" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Doublet \&gt;" alt="" coords="3015,193,3181,235"/>
+<area shape="rect" id="node3" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="1299,143,1405,170"/>
+<area shape="rect" id="node15" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Singlet, boca::Singlet \&gt;" alt="" coords="1880,236,2047,277"/>
+<area shape="rect" id="node22" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1_, Multiplet_2_ \&gt;" alt="" coords="1528,217,1703,259"/>
+<area shape="rect" id="node26" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Doublet, boca::Singlet \&gt;" alt="" coords="2504,291,2675,332"/>
+<area shape="rect" id="node4" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="995,202,1127,229"/>
+<area shape="rect" id="node5" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::boca::Singlet \&gt;" alt="" coords="989,5,1133,47"/>
+<area shape="rect" id="node6" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Member_ \&gt;" alt="" coords="520,143,703,170"/>
+<area shape="rect" id="node8" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::boca::EventShapes \&gt;" alt="" coords="983,71,1139,112"/>
+<area shape="rect" id="node13" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::boca::Jet \&gt;" alt="" coords="989,136,1133,177"/>
+<area shape="rect" id="node17" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Angle \&gt;" alt="" coords="980,319,1141,346"/>
+<area shape="rect" id="node18" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::Vector2\&lt; AngleSquare \&gt; \&gt;" alt="" coords="968,253,1153,295"/>
+<area shape="rect" id="node9" href="$d2/dc6/classboca_1_1ClosestLepton.html" title="boca::ClosestLepton" alt="" coords="989,370,1132,397"/>
+<area shape="rect" id="node10" href="$d6/d09/classboca_1_1Jet.html" title="boca::Jet" alt="" coords="573,397,649,423"/>
+<area shape="rect" id="node16" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make Jet behave like a Multiplet. " alt="" coords="1303,323,1401,350"/>
+<area shape="rect" id="node11" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="220,397,340,423"/>
+<area shape="rect" id="node14" href="$d4/d01/classboca_1_1Doublet.html" title="boca::Doublet" alt="" coords="2228,243,2331,270"/>
+<area shape="rect" id="node19" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; AngleSquare \&gt;" alt="" coords="511,261,712,287"/>
+<area shape="rect" id="node20" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="200,261,360,287"/>
+<area shape="rect" id="node25" href="$de/dad/classboca_1_1Triplet.html" title="boca::Triplet" alt="" coords="2797,291,2892,318"/>
 </map>

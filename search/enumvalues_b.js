@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['le',['LE',['../d7/db0/namespaceboca_1_1heavyhiggs.html#a59e0e6de77b7dc4521bf0162e1ddebd1acfe6055d2e0503be378bb63449ec7ba6',1,'boca::heavyhiggs::LE()'],['../d3/da0/namespaceboca_1_1fusionpair.html#ac42ffa70fbb7103de78a618844209f39acfe6055d2e0503be378bb63449ec7ba6',1,'boca::fusionpair::LE()'],['../da/d7d/namespaceboca.html#a589c2b51af24cc7f3b34a0f4e49deb36acfe6055d2e0503be378bb63449ec7ba6',1,'boca::LE()'],['../dd/dba/namespaceboca_1_1standardmodel.html#a2bbc4d5fa6a3f4a26709d0f67deed52bacfe6055d2e0503be378bb63449ec7ba6',1,'boca::standardmodel::LE()']]],
+  ['last',['last',['../da/d7d/namespaceboca.html#a980f066568ac81fde9dd96b4831ca863a98bd1c45684cf587ac2347a92dd7bb51',1,'boca::last()'],['../da/d7d/namespaceboca.html#a3d6594c754887ccb6f3a7ec0c383fff5a98bd1c45684cf587ac2347a92dd7bb51',1,'boca::last()'],['../da/d7d/namespaceboca.html#ae1099b4b536335f5655882aaad5c3ecea98bd1c45684cf587ac2347a92dd7bb51',1,'boca::last()']]],
+  ['late_5fmassratio_5fsort_5fmass',['LATE_MASSRATIO_SORT_MASS',['../d8/d82/namespacehep.html#a4a0e35b3d59bb800cef170ffc21b682da564bd0daf78765a38529071609a4ef86',1,'hep']]],
+  ['late_5fmassratio_5fsort_5fmoddjade',['LATE_MASSRATIO_SORT_MODDJADE',['../d8/d82/namespacehep.html#a4a0e35b3d59bb800cef170ffc21b682da7c2731b60b1ec322edb277d57f671360',1,'hep']]],
+  ['latex',['latex',['../da/d95/namespaceboca_1_1latex.html#a883583ac8b724e4aa7baad4c6b02b338a25f7e525b5c0641e1eb1fb3bdbeb15b5',1,'boca::latex']]],
   ['left',['left',['../da/d7d/namespaceboca.html#a87f3a4194164595bf74d9aa1d7315bfba811882fecd5c7618d7099ebbd39ea254',1,'boca']]],
   ['leptonic',['leptonic',['../da/d7d/namespaceboca.html#a9f6ed1fd0ff76eadbfc89156f89ce483a7877f5d2be473efa95b6a4cd8fbc8708',1,'boca']]],
-  ['lhc',['LHC',['../d7/db0/namespaceboca_1_1heavyhiggs.html#a59e0e6de77b7dc4521bf0162e1ddebd1a41c4e78bcfe0e3a31d47c62996bb1848',1,'boca::heavyhiggs::LHC()'],['../d3/da0/namespaceboca_1_1fusionpair.html#ac42ffa70fbb7103de78a618844209f39a41c4e78bcfe0e3a31d47c62996bb1848',1,'boca::fusionpair::LHC()'],['../da/d7d/namespaceboca.html#a589c2b51af24cc7f3b34a0f4e49deb36a41c4e78bcfe0e3a31d47c62996bb1848',1,'boca::LHC()'],['../dd/dba/namespaceboca_1_1standardmodel.html#a2bbc4d5fa6a3f4a26709d0f67deed52ba41c4e78bcfe0e3a31d47c62996bb1848',1,'boca::standardmodel::LHC()']]],
-  ['low',['low',['../da/d7d/namespaceboca.html#ae717cba5e5ece89af042337c8fdb9b04a53cced8d281a1a0ace3cb6594daaa4f7',1,'boca']]]
+  ['lhc',['lhc',['../da/d7d/namespaceboca.html#a3c826a1c689b4e4369d248abc0f4e2d0a8716a246719d761013337db8545f476f',1,'boca']]]
 ];

@@ -34,7 +34,7 @@
 <g id="a_node3"><a xlink:href="../../d0/d7f/classboca_1_1LorentzVectorBase.html" target="_top" xlink:title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage...">
 <polygon fill="white" stroke="black" points="0,-146.5 0,-176.5 127,-176.5 127,-146.5 0,-146.5"/>
 <text text-anchor="start" x="8" y="-164.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::LorentzVectorBase</text>
-<text text-anchor="middle" x="63.5" y="-153.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; Value &gt;</text>
+<text text-anchor="middle" x="63.5" y="-153.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; Value_ &gt;</text>
 </a>
 </g>
 </g>

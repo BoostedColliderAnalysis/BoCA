@@ -1,9 +1,9 @@
 <map id="boca::Singlet" name="boca::Singlet">
-<area shape="rect" id="node2" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="543,12,680,39"/>
-<area shape="rect" id="node3" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="214,5,346,32"/>
-<area shape="rect" id="node4" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="562,71,661,97"/>
-<area shape="rect" id="node6" href="$d6/d09/classboca_1_1Jet.html" title="boca::Jet" alt="" coords="573,124,649,151"/>
-<area shape="rect" id="node7" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="220,127,340,153"/>
-<area shape="rect" id="node9" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; AngleSquare \&gt;" alt="" coords="511,176,712,203"/>
-<area shape="rect" id="node10" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="200,177,360,204"/>
+<area shape="rect" id="node2" href="$d6/d09/classboca_1_1Jet.html" title="boca::Jet" alt="" coords="67,295,143,322"/>
+<area shape="rect" id="node3" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="9,199,129,225"/>
+<area shape="rect" id="node5" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Angle \&gt;" alt="" coords="431,295,593,322"/>
+<area shape="rect" id="node6" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Member_ \&gt;" alt="" coords="435,199,618,225"/>
+<area shape="rect" id="node8" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::Vector2\&lt; AngleSquare \&gt; \&gt;" alt="" coords="179,288,365,329"/>
+<area shape="rect" id="node9" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; AngleSquare \&gt;" alt="" coords="154,199,355,225"/>
+<area shape="rect" id="node10" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="175,109,335,136"/>
 </map>

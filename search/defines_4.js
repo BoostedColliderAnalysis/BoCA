@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['error',['Error',['../d8/de8/Debug_8hh.html#a3820662fa23f7fb1a776c4398eb83c50',1,'Debug.hh']]],
-  ['error0',['Error0',['../d8/de8/Debug_8hh.html#a1bb50b41884194f92ad54ea09c4f22ad',1,'Debug.hh']]]
+  ['error',['ERROR',['../d3/dcd/DEBUG__MACROS_8hh.html#a02ce8a968600d004ba60858425c46307',1,'DEBUG_MACROS.hh']]],
+  ['error0',['ERROR0',['../d3/dcd/DEBUG__MACROS_8hh.html#a6398f053f1ed646607674a0684524edb',1,'DEBUG_MACROS.hh']]]
 ];

@@ -1,20 +1,4 @@
-<map id="include/Sort.hh" name="include/Sort.hh">
-<area shape="rect" id="node4" href="$dd/df7/Jet_8hh.html" title="Jet.hh" alt="" coords="688,87,747,114"/>
-<area shape="rect" id="node23" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="677,244,757,271"/>
-<area shape="rect" id="node27" href="$d6/dc8/LorentzVector_8hh.html" title="physics/LorentzVector.hh" alt="" coords="125,401,296,427"/>
-<area shape="rect" id="node41" href="$db/da5/Particles_8hh.html" title="physics/Particles.hh" alt="" coords="1062,319,1202,345"/>
-<area shape="rect" id="node5" href="$d8/d42/PseudoJet_8hh.html" title="PseudoJet.hh" alt="" coords="771,169,874,196"/>
-<area shape="rect" id="node7" href="$dc/d45/Units_8hh.html" title="physics/Units.hh" alt="" coords="571,707,691,733"/>
-<area shape="rect" id="node9" href="$dc/d6c/Prefixes_8hh.html" title="physics/Prefixes.hh" alt="" coords="707,781,845,808"/>
-<area shape="rect" id="node13" href="$d6/d2c/Si_8hh.html" title="Si.hh" alt="" coords="738,863,790,890"/>
-<area shape="rect" id="node17" href="$d5/d2d/Barn_8hh.html" title="Barn.hh" alt="" coords="815,863,881,890"/>
-<area shape="rect" id="node21" href="$d5/d40/ElectronVolt_8hh.html" title="ElectronVolt.hh" alt="" coords="1077,863,1187,890"/>
-<area shape="rect" id="node24" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="704,319,819,345"/>
-<area shape="rect" id="node26" href="$d3/d32/Constituent_8hh.html" title="Constituent.hh" alt="" coords="429,319,536,345"/>
-<area shape="rect" id="node36" href="$d7/d7f/Math_8hh.html" title="physics/Math.hh" alt="" coords="561,319,679,345"/>
-<area shape="rect" id="node28" href="$d7/d06/DelphesForward_8hh.html" title="delphes/DelphesForward.hh" alt="" coords="5,483,189,509"/>
-<area shape="rect" id="node29" href="$d6/d1c/ExRootAnalysisForward_8hh.html" title="exroot/ExRootAnalysisForward.hh" alt="" coords="213,483,435,509"/>
-<area shape="rect" id="node30" href="$df/d17/LorentzVectorBase_8hh.html" title="LorentzVectorBase.hh" alt="" coords="542,483,693,509"/>
-<area shape="rect" id="node31" href="$d1/df9/Vector3_8hh.html" title="Vector3.hh" alt="" coords="669,557,755,584"/>
-<area shape="rect" id="node35" href="$db/d8e/Vector2_8hh.html" title="physics/Vector2.hh" alt="" coords="517,632,651,659"/>
+<map id="boca/multiplets/Sort.hh" name="boca/multiplets/Sort.hh">
+<area shape="rect" id="node4" href="$d2/d29/Id_8hh.html" title="boca/physics/Id.hh" alt="" coords="351,87,483,114"/>
+<area shape="rect" id="node7" href="$d5/d40/ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="471,169,663,196"/>
 </map>

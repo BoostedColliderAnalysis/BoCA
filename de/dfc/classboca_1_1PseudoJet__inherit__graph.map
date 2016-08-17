@@ -1,4 +1,5 @@
 <map id="boca::PseudoJet" name="boca::PseudoJet">
-<area shape="rect" id="node3" href="$d6/d09/classboca_1_1Jet.html" title="boca::Jet" alt="" coords="5,155,81,181"/>
-<area shape="rect" id="node4" href="$db/dc7/classboca_1_1Particle.html" title="boca::Particle" alt="" coords="105,155,208,181"/>
+<area shape="rect" id="node3" href="$d6/d09/classboca_1_1Jet.html" title="boca::Jet" alt="" coords="17,155,93,181"/>
+<area shape="rect" id="node5" href="$db/dc7/classboca_1_1Particle.html" title="boca::Particle" alt="" coords="117,155,219,181"/>
+<area shape="rect" id="node4" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make Jet behave like a Multiplet. " alt="" coords="5,229,104,256"/>
 </map>

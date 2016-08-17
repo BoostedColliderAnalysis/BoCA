@@ -1,10 +1,11 @@
 <map id="boca::standardmodel::AnalysisStandardModel&lt; Tagger &gt;" name="boca::standardmodel::AnalysisStandardModel&lt; Tagger &gt;">
-<area shape="rect" id="node4" href="$d0/dd3/classboca_1_1standardmodel_1_1AnalysisBoson.html" title="Higgs tagger analysis. " alt="" coords="629,5,811,47"/>
-<area shape="rect" id="node5" href="$d6/d64/classboca_1_1standardmodel_1_1AnalysisBottom.html" title="Bottom Tagger Analysis. " alt="" coords="627,71,813,112"/>
-<area shape="rect" id="node6" href="$d7/d17/classboca_1_1standardmodel_1_1AnalysisHiggs.html" title="Higgs tagger analysis. " alt="" coords="631,136,809,177"/>
-<area shape="rect" id="node7" href="$d0/d8b/classboca_1_1standardmodel_1_1AnalysisW.html" title="HAnalysis subclass defining the W Tagger ananlysis. " alt="" coords="641,201,799,243"/>
-<area shape="rect" id="node8" href="$df/dbf/classboca_1_1standardmodel_1_1AnalysisZ.html" title="W tagger ananlysis. " alt="" coords="644,267,796,308"/>
-<area shape="rect" id="node9" href="$d5/d44/classboca_1_1standardmodel_1_1TopAnalysis.html" title="Top Tagger ananlysis. " alt="" coords="637,332,803,373"/>
-<area shape="rect" id="node2" href="$d1/d36/classboca_1_1Analysis.html" title="provides main analysis loops and logic. " alt="" coords="192,177,364,203"/>
+<area shape="rect" id="node5" href="$d0/dd3/classboca_1_1standardmodel_1_1AnalysisBoson.html" title="Higgs tagger analysis. " alt="" coords="929,5,1111,47"/>
+<area shape="rect" id="node6" href="$d6/d64/classboca_1_1standardmodel_1_1AnalysisBottom.html" title="Bottom Tagger Analysis. " alt="" coords="927,71,1113,112"/>
+<area shape="rect" id="node7" href="$d7/d17/classboca_1_1standardmodel_1_1AnalysisHiggs.html" title="Higgs tagger analysis. " alt="" coords="931,136,1109,177"/>
+<area shape="rect" id="node8" href="$d0/d8b/classboca_1_1standardmodel_1_1AnalysisW.html" title="HAnalysis subclass defining the W Tagger ananlysis. " alt="" coords="941,201,1099,243"/>
+<area shape="rect" id="node9" href="$df/dbf/classboca_1_1standardmodel_1_1AnalysisZ.html" title="Z tagger ananlysis. " alt="" coords="944,267,1096,308"/>
+<area shape="rect" id="node10" href="$d5/d44/classboca_1_1standardmodel_1_1TopAnalysis.html" title="Top Tagger ananlysis. " alt="" coords="937,332,1103,373"/>
+<area shape="rect" id="node2" href="$d1/d36/classboca_1_1Analysis.html" title="boca::Analysis\&lt; Tagger \&gt;" alt="" coords="489,177,661,203"/>
 <area shape="rect" id="node3" href="$d7/d62/classboca_1_1AnalysisBase.html" title="Base for all analyses. " alt="" coords="5,177,144,203"/>
+<area shape="rect" id="node4" href="$d1/d36/classboca_1_1Analysis.html" title="provides main analysis loops and logic. " alt="" coords="193,206,372,233"/>
 </map>

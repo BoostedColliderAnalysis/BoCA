@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['angle',['Angle',['../da/d7d/namespaceboca.html#a6ba185f5feb8e8f93821200521e99aa7',1,'boca']]],
-  ['anglesquare',['AngleSquare',['../da/d7d/namespaceboca.html#ad04e0bb97e3ebf6b4f39716365c946a1',1,'boca']]],
+  ['angle',['Angle',['../d9/d6f/namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa',1,'boca::units']]],
+  ['anglemomentum',['AngleMomentum',['../da/d7d/namespaceboca.html#aa8f1c2bdfce1fbaadd9fa76124dcd5f3',1,'boca']]],
+  ['anglesquare',['AngleSquare',['../d9/d6f/namespaceboca_1_1units.html#ae059f228600fae6e8fda3e1b6d92c1f6',1,'boca::units']]],
   ['anglesquaremomentum',['AngleSquareMomentum',['../da/d7d/namespaceboca.html#a97206261730a019d093d6f8b20bcdab1',1,'boca']]],
-  ['area',['Area',['../df/da4/namespaceboca_1_1barn.html#aa36a801ac5338d55019d4e44d31446b5',1,'boca::barn']]]
+  ['area',['Area',['../d4/d72/namespaceboca_1_1units_1_1barn.html#a69b78d30ad1bc95fcecfa589f7db7091',1,'boca::units::barn']]],
+  ['array',['Array',['../d3/d5a/classboca_1_1Matrix2_1_1Eigen__.html#a51b7c52b6b39f4fef848b0190034d54a',1,'boca::Matrix2::Eigen_']]],
+  ['array3',['Array3',['../da/d7d/namespaceboca.html#a92ef473a625f54f92dfe6a567045af1c',1,'boca']]]
 ];

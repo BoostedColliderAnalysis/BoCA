@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['hectorhit',['HectorHit',['../d2/dec/namespacedelphes.html#a692bba994417b319b5c67b6ee1630d8a',1,'delphes']]],
-  ['hepmcevent',['HepMCEvent',['../d2/dec/namespacedelphes.html#a84d2c78d08fea41af6e76596d7a1c406',1,'delphes']]]
+  ['hectorhit',['HectorHit',['../d2/dec/namespacedelphes.html#a9fbe4c9b28bdad70c2814fd0574e3afd',1,'delphes']]],
+  ['hepmcevent',['HepMCEvent',['../d2/dec/namespacedelphes.html#a18451c877bfd2e85fa897dc70e69d36a',1,'delphes']]]
 ];

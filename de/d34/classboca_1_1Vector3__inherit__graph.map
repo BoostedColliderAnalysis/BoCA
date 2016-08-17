@@ -1,5 +1,7 @@
 <map id="boca::Vector3&lt; Value &gt;" name="boca::Vector3&lt; Value &gt;">
-<area shape="rect" id="node2" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Momentum \&gt;" alt="" coords="5,102,197,129"/>
-<area shape="rect" id="node3" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; boca\l::Momentum \&gt;" alt="" coords="222,95,365,136"/>
-<area shape="rect" id="node4" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Length \&gt;" alt="" coords="389,102,555,129"/>
+<area shape="rect" id="node2" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; double \&gt;" alt="" coords="356,5,521,32"/>
+<area shape="rect" id="node3" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Momentum \&gt;" alt="" coords="343,56,535,83"/>
+<area shape="rect" id="node4" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; boca\l::Momentum \&gt;" alt="" coords="367,107,510,149"/>
+<area shape="rect" id="node5" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Value_ \&gt;" alt="" coords="355,173,522,200"/>
+<area shape="rect" id="node6" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Length \&gt;" alt="" coords="355,224,522,251"/>
 </map>

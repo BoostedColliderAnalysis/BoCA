@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['precision',['Precision',['../da/d7d/namespaceboca.html#ae717cba5e5ece89af042337c8fdb9b04',1,'boca']]],
-  ['process',['Process',['../d7/db0/namespaceboca_1_1heavyhiggs.html#a0e4c1c45e9f4cae3e952c0e4656cf518',1,'boca::heavyhiggs::Process()'],['../d3/da0/namespaceboca_1_1fusionpair.html#ab5191746b58d96503d0c637c29a99ba4',1,'boca::fusionpair::Process()'],['../dd/dba/namespaceboca_1_1standardmodel.html#a368517d92dffe6a2568269f60ff6be83',1,'boca::standardmodel::Process()'],['../df/df9/namespaceboca_1_1naturalness.html#a1c49266c7f0fd04f0a41d7eae13b692f',1,'boca::naturalness::Process()']]],
-  ['production',['Production',['../d3/da0/namespaceboca_1_1fusionpair.html#a09b71cdb2740fbb4007f0d85c3f1b2ca',1,'boca::fusionpair']]]
+  ['matrix',['Matrix',['../da/d7d/namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3',1,'boca']]],
+  ['medium',['Medium',['../da/d95/namespaceboca_1_1latex.html#a883583ac8b724e4aa7baad4c6b02b338',1,'boca::latex']]],
+  ['mode',['Mode',['../d8/d82/namespacehep.html#a4a0e35b3d59bb800cef170ffc21b682d',1,'hep']]],
+  ['multiid',['MultiId',['../da/d7d/namespaceboca.html#a569b0c24545f8fd9a2261326f22fa982',1,'boca']]]
 ];

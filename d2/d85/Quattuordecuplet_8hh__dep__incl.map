@@ -1,7 +1,8 @@
-<map id="TopPartner/include/Quattuordecuplet.hh" name="TopPartner/include/Quattuordecuplet.hh">
-<area shape="rect" id="node2" href="$d2/d61/SignatureEffectiveTagger_8hh.html" title="TopPartner/include\l/SignatureEffectiveTagger.hh" alt="" coords="247,95,438,136"/>
-<area shape="rect" id="node3" href="$d7/d67/EventEffectiveTagger_8hh.html" title="TopPartner/include\l/EventEffectiveTagger.hh" alt="" coords="156,184,327,225"/>
-<area shape="rect" id="node6" href="$dc/d01/SignatureEffectiveTagger_8cpp.html" title="TopPartner/source/Signature\lEffectiveTagger.cpp" alt="" coords="351,184,539,225"/>
-<area shape="rect" id="node4" href="$d6/def/EventEffectiveTagger_8cpp.html" title="TopPartner/source/EventEffective\lTagger.cpp" alt="" coords="5,273,224,315"/>
-<area shape="rect" id="node5" href="$d9/d4c/MainEffective_8cpp.html" title="TopPartner/source/MainEffective.cpp" alt="" coords="249,281,487,307"/>
+<map id="examples/toppartner/include/multiplets/Quattuordecuplet.hh" name="examples/toppartner/include/multiplets/Quattuordecuplet.hh">
+<area shape="rect" id="node2" href="$db/d5e/tagger_2SignatureEffective_8hh.html" title="examples/toppartner\l/include/tagger/SignatureEffective.hh" alt="" coords="301,109,537,151"/>
+<area shape="rect" id="node3" href="$d6/dad/EventEffective_8hh.html" title="examples/toppartner\l/include/tagger/EventEffective.hh" alt="" coords="187,199,401,240"/>
+<area shape="rect" id="node7" href="$d0/d0d/tagger_2SignatureEffective_8cpp.html" title="examples/toppartner\l/source/tagger/SignatureEffective.cpp" alt="" coords="425,199,667,240"/>
+<area shape="rect" id="node4" href="$d9/d4c/MainEffective_8cpp.html" title="examples/toppartner\l/source/MainEffective.cpp" alt="" coords="5,288,180,329"/>
+<area shape="rect" id="node5" href="$de/d9d/MainPairHiggs_8cpp.html" title="examples/toppartner\l/source/MainPairHiggs.cpp" alt="" coords="205,288,383,329"/>
+<area shape="rect" id="node6" href="$d8/d33/EventEffective_8cpp.html" title="examples/toppartner\l/source/tagger/EventEffective.cpp" alt="" coords="408,288,628,329"/>
 </map>

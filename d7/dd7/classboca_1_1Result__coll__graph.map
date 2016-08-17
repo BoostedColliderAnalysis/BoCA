@@ -1,4 +1,10 @@
 <map id="boca::Result" name="boca::Result">
-<area shape="rect" id="node2" href="$d0/de6/classboca_1_1InfoBranch.html" title="Basic tree branches. " alt="" coords="9,157,131,184"/>
-<area shape="rect" id="node3" href="$dc/d87/classboca_1_1BaseBranch.html" title="Basic tree branches. " alt="" coords="5,81,135,108"/>
+<area shape="rect" id="node2" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; std\l::vector\&lt; Crosssection \&gt; \&gt;" alt="" coords="683,5,861,47"/>
+<area shape="rect" id="node3" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Member_ \&gt;" alt="" coords="260,78,443,105"/>
+<area shape="rect" id="node10" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; std\l::vector\&lt; int \&gt; \&gt;" alt="" coords="705,71,839,112"/>
+<area shape="rect" id="node11" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; std\l::vector\&lt; double \&gt; \&gt;" alt="" coords="702,139,842,180"/>
+<area shape="rect" id="node5" href="$db/d03/classboca_1_1branch_1_1Info.html" title="Basic tree branches. " alt="" coords="709,207,835,234"/>
+<area shape="rect" id="node6" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Basic tree branches. " alt="" coords="284,166,419,193"/>
+<area shape="rect" id="node8" href="$d6/de5/classboca_1_1Names.html" title="boca::Names" alt="" coords="301,217,401,243"/>
+<area shape="rect" id="node9" href="$d2/d4e/classboca_1_1latex_1_1String.html" title="boca::latex::String" alt="" coords="5,217,133,243"/>
 </map>

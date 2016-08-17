@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['jet',['Jet',['../d2/dec/namespacedelphes.html#a352fe93d423a03e1628e862ebebc748c',1,'delphes::Jet()'],['../d7/d9a/namespaceexroot.html#a172720e1112c65d84a6d3a1fcc2039f7',1,'exroot::Jet()']]],
-  ['jets',['Jets',['../da/d7d/namespaceboca.html#ae0605431bf3b44ebac8b76c97d5e310d',1,'boca']]]
+  ['iterator',['iterator',['../d3/d76/classboca_1_1TreeReaderArray.html#a6c4325078c3b7607b059bd225a22430f',1,'boca::TreeReaderArray']]],
+  ['iterator_5fcategory',['iterator_category',['../d2/dee/classboca_1_1EnumIterator.html#afa43a5cf65dc7dd6a656e19135d783a5',1,'boca::EnumIterator']]]
 ];

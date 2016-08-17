@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d7/d93/classboca_1_1Options.html" title="boca::Options" alt="" coords="5,5,108,32"/>
+<area shape="rect" id="node1" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="5,5,175,47"/>
+<area shape="rect" id="node2" href="$dd/d3e/classboca_1_1LorentzVector.html" title="boca::LorentzVector\l\&lt; Value_ \&gt;" alt="" coords="223,5,361,47"/>
 </map>

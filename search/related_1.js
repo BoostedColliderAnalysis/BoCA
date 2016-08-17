@@ -1,7 +1,15 @@
 var searchData=
 [
-  ['operator_2b',['operator+',['../d6/dfb/classboca_1_1Vector2.html#af32fd36c0e02bfa7f156fb29471df05f',1,'boca::Vector2::operator+()'],['../d3/da2/classboca_1_1Vector3.html#ad01a5c081384a6ef5e9bb2cff2a35918',1,'boca::Vector3::operator+()']]],
-  ['operator_2d',['operator-',['../d6/dfb/classboca_1_1Vector2.html#a6d51bac79e98545f21ed3fa4791b88eb',1,'boca::Vector2::operator-()'],['../d3/da2/classboca_1_1Vector3.html#a4afe0845ff2c59651ff53a4bbc553e8c',1,'boca::Vector3::operator-()']]],
-  ['operator_2f',['operator/',['../d6/dfb/classboca_1_1Vector2.html#a8baa60610f165100cc0b5227b2a7db99',1,'boca::Vector2::operator/()'],['../d3/da2/classboca_1_1Vector3.html#aa0eb1fde42cdd10571328bfd2e888db9',1,'boca::Vector3::operator/()']]],
+  ['operator_21_3d',['operator!=',['../d2/dee/classboca_1_1EnumIterator.html#a66f508e31e5bd8c3beeda2f81e51af8c',1,'boca::EnumIterator']]],
+  ['operator_2a',['operator*',['../d5/dfe/classboca_1_1Range.html#af8b404d415925cf5851ecb8a1523b2c5',1,'boca::Range']]],
+  ['operator_2b',['operator+',['../d2/dee/classboca_1_1EnumIterator.html#ac7858eea88ba95fffdfb5508e9df2362',1,'boca::EnumIterator::operator+()'],['../d2/dee/classboca_1_1EnumIterator.html#a6cf4c01ef6d0b50179cfd3f534388823',1,'boca::EnumIterator::operator+()'],['../d2/d4e/classboca_1_1latex_1_1String.html#acc6d07ff04dd95f5d9b71d92c62d223e',1,'boca::latex::String::operator+()'],['../d6/dfb/classboca_1_1Vector2.html#af32fd36c0e02bfa7f156fb29471df05f',1,'boca::Vector2::operator+()'],['../d3/da2/classboca_1_1Vector3.html#ad01a5c081384a6ef5e9bb2cff2a35918',1,'boca::Vector3::operator+()'],['../dc/d30/classboca_1_1Observables.html#ab89c56112046b94479c8ea4327e28448',1,'boca::Observables::operator+()'],['../dc/d30/classboca_1_1Observables.html#a365aa677625b8c7c78b82a051c166f4e',1,'boca::Observables::operator+()']]],
+  ['operator_2d',['operator-',['../d2/dee/classboca_1_1EnumIterator.html#a0e45e02e2a7377a3f86c087813a1dd58',1,'boca::EnumIterator::operator-()'],['../d2/dee/classboca_1_1EnumIterator.html#a274c0598bd0ce824c9fdd1ac75996e09',1,'boca::EnumIterator::operator-()'],['../d6/dfb/classboca_1_1Vector2.html#a6d51bac79e98545f21ed3fa4791b88eb',1,'boca::Vector2::operator-()'],['../d3/da2/classboca_1_1Vector3.html#a4afe0845ff2c59651ff53a4bbc553e8c',1,'boca::Vector3::operator-()']]],
+  ['operator_2f',['operator/',['../d6/dfb/classboca_1_1Vector2.html#a1b4f7b196309325c350fbbb28d8526be',1,'boca::Vector2::operator/()'],['../d3/da2/classboca_1_1Vector3.html#aa0eb1fde42cdd10571328bfd2e888db9',1,'boca::Vector3::operator/()'],['../d5/dfe/classboca_1_1Range.html#a275139b227c2647ce2da56c152080344',1,'boca::Range::operator/()']]],
+  ['operator_3c',['operator&lt;',['../d2/dee/classboca_1_1EnumIterator.html#a75cc737f77d96729c4687ad0ef7ac013',1,'boca::EnumIterator']]],
+  ['operator_3c_3c',['operator&lt;&lt;',['../d1/d69/classboca_1_1latex_1_1Command.html#abeada56c46b315b5a1cd4eda977be95f',1,'boca::latex::Command']]],
+  ['operator_3c_3d',['operator&lt;=',['../d2/dee/classboca_1_1EnumIterator.html#ab009c182e28433a56e7a8a7786ea21d5',1,'boca::EnumIterator']]],
+  ['operator_3d_3d',['operator==',['../d2/dee/classboca_1_1EnumIterator.html#a8f224ac2a2751f4e8045422f0df26e9f',1,'boca::EnumIterator']]],
+  ['operator_3e',['operator&gt;',['../d2/dee/classboca_1_1EnumIterator.html#a4a54ada0f1b3cf834a59ba51c63039fe',1,'boca::EnumIterator']]],
+  ['operator_3e_3d',['operator&gt;=',['../d2/dee/classboca_1_1EnumIterator.html#aefc44860b59984eff745339144cb6e2a',1,'boca::EnumIterator']]],
   ['operator_5e',['operator^',['../d6/dfb/classboca_1_1Vector2.html#a6b92c638e4bdecf13a6821fda765e221',1,'boca::Vector2::operator^()'],['../d3/da2/classboca_1_1Vector3.html#a4245849643d0d2ce03746d93773b98bd',1,'boca::Vector3::operator^()']]]
 ];

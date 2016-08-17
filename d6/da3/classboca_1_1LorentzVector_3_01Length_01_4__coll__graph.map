@@ -1,6 +1,7 @@
 <map id="boca::LorentzVector&lt; Length &gt;" name="boca::LorentzVector&lt; Length &gt;">
-<area shape="rect" id="node2" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="boca::LorentzVectorBase\l\&lt; Length \&gt;" alt="" coords="95,329,264,371"/>
-<area shape="rect" id="node3" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Length \&gt;" alt="" coords="5,240,172,267"/>
-<area shape="rect" id="node4" href="$d3/da2/classboca_1_1Vector3.html" title="Copy of root::TVector3 in order to get rid of TObject. " alt="" coords="23,124,183,151"/>
-<area shape="rect" id="node6" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="157,175,327,216"/>
+<area shape="rect" id="node2" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="boca::LorentzVectorBase\l\&lt; Length \&gt;" alt="" coords="145,419,315,460"/>
+<area shape="rect" id="node3" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Length \&gt;" alt="" coords="213,264,380,291"/>
+<area shape="rect" id="node4" href="$d3/da2/classboca_1_1Vector3.html" title="Copy of root::TVector3 in order to get rid of TObject. " alt="" coords="166,124,326,151"/>
+<area shape="rect" id="node7" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Value_ \&gt;" alt="" coords="92,213,259,240"/>
+<area shape="rect" id="node6" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="60,315,229,356"/>
 </map>

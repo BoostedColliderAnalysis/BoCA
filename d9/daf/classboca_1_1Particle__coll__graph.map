@@ -1,12 +1,3 @@
 <map id="boca::Particle" name="boca::Particle">
-<area shape="rect" id="node2" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="9,777,129,804"/>
-<area shape="rect" id="node4" href="$d8/dd8/classboca_1_1ParticleInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="154,777,278,804"/>
-<area shape="rect" id="node6" href="$d1/d78/classboca_1_1Family.html" title="boca::Family" alt="" coords="287,688,385,715"/>
-<area shape="rect" id="node7" href="$d7/d9c/classboca_1_1Member.html" title="boca::Member" alt="" coords="283,525,389,552"/>
-<area shape="rect" id="node8" href="$dd/d3e/classboca_1_1LorentzVector.html" title="boca::LorentzVector\l\&lt; boca::Momentum \&gt;" alt="" coords="263,421,409,463"/>
-<area shape="rect" id="node9" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="boca::LorentzVectorBase\l\&lt; boca::Momentum \&gt;" alt="" coords="197,317,366,359"/>
-<area shape="rect" id="node10" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; boca\l::Momentum \&gt;" alt="" coords="147,213,290,255"/>
-<area shape="rect" id="node11" href="$d3/da2/classboca_1_1Vector3.html" title="Copy of root::TVector3 in order to get rid of TObject. " alt="" coords="168,124,328,151"/>
-<area shape="rect" id="node13" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="314,213,483,255"/>
-<area shape="rect" id="node14" href="$dd/d3e/classboca_1_1LorentzVector.html" title="boca::LorentzVector\l\&lt; Value \&gt;" alt="" coords="391,317,529,359"/>
+<area shape="rect" id="node2" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="9,80,129,107"/>
 </map>

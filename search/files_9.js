@@ -4,10 +4,8 @@ var searchData=
   ['jet_2ehh',['Jet.hh',['../dd/df7/Jet_8hh.html',1,'']]],
   ['jetinfo_2ecpp',['JetInfo.cpp',['../db/d6a/JetInfo_8cpp.html',1,'']]],
   ['jetinfo_2ehh',['JetInfo.hh',['../d1/dce/JetInfo_8hh.html',1,'']]],
-  ['jetinfofamily_2ecpp',['JetInfoFamily.cpp',['../da/d15/JetInfoFamily_8cpp.html',1,'']]],
-  ['jetinfofamily_2ehh',['JetInfoFamily.hh',['../d7/d6c/JetInfoFamily_8hh.html',1,'']]],
-  ['jetpairtagger_2ecpp',['JetPairTagger.cpp',['../dd/dd3/JetPairTagger_8cpp.html',1,'']]],
-  ['jetpairtagger_2ehh',['JetPairTagger.hh',['../d7/da1/JetPairTagger_8hh.html',1,'']]],
-  ['jettag_2ecpp',['JetTag.cpp',['../d7/d5c/JetTag_8cpp.html',1,'']]],
-  ['jettag_2ehh',['JetTag.hh',['../d8/dff/JetTag_8hh.html',1,'']]]
+  ['jetpair_2ecpp',['JetPair.cpp',['../db/dad/branch_2JetPair_8cpp.html',1,'']]],
+  ['jetpair_2ecpp',['JetPair.cpp',['../dd/d28/tagger_2JetPair_8cpp.html',1,'']]],
+  ['jetpair_2ehh',['JetPair.hh',['../dd/d04/tagger_2JetPair_8hh.html',1,'']]],
+  ['jetpair_2ehh',['JetPair.hh',['../dc/d33/branch_2JetPair_8hh.html',1,'']]]
 ];
