@@ -4,10 +4,10 @@ This code performs staged BDT analyses using root files as in- and output format
 
 ## Dependencies
 
-* `ROOT` version >= 6 and compiled with TMVA and MathMore
-* `fastjet`
-* `fastjet contrib` (must be compiled with `CXXFLAGS=-fPIC`)
-* `Boost` (`Optional`, `Range`, `Units`)
+* [`ROOT`](https://root.cern.ch/) version >= 6 and compiled with TMVA and MathMore
+* [`fastjet`](http://fastjet.fr/)
+* [`fastjet contrib`](https://fastjet.hepforge.org/contrib/) (must be compiled with `CXXFLAGS=-fPIC`)
+* [`Boost`](http://www.boost.org/) ([`Optional`](http://www.boost.org/doc/libs/release/libs/optional/), [`Range`](http://www.boost.org/doc/libs/release/libs/range/), [`Units`](http://www.boost.org/doc/libs/release/libs/units/))
 
 The BoCA code makes heavy use of modern c++ features. The limiting factor for the minimal supportet compiler version is given by the use of return type deduction.
 Therefore the compiler version must be
@@ -16,7 +16,7 @@ Therefore the compiler version must be
 
 ## Installation
 
-* the following is tested on recent ubuntu installations
+* the following is tested on recent ubuntu and mac installations
 
 ~~~~
 mkdir build
@@ -56,7 +56,7 @@ BoCa is licenced under the [GPL 3](doc/License.md).
 
 ## Reference
 
-Please cite:
+If you use this code to publish analyses please cite:
 * [Jan Hajer, Ying-Ying Li, Tao Liu, John F. H. Shiu: *Heavy Higgs Bosons at 14 TeV and 100 TeV*, April 2015](https://inspirehep.net/record/1365110)
 * [Nathaniel Craig, Jan Hajer, Ying-Ying Li, Tao Liu, Hao Zhang: *Heavy Higgs Bosons at Low tan β: from the LHC to 100 TeV*, May 2016](https://inspirehep.net/record/1466130)
 
