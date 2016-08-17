@@ -1,0 +1,20 @@
+<map id="boca/tagger/Global.hh" name="boca/tagger/Global.hh">
+<area shape="rect" id="node2" href="$dc/d76/boca_2tagger_2Event_8hh.html" title="boca/tagger/Event.hh" alt="" coords="998,87,1145,114"/>
+<area shape="rect" id="node18" href="$d7/de1/examples_2higgscpv_2source_2tagger_2Event_8cpp.html" title="examples/higgscpv/source\l/tagger/Event.cpp" alt="" coords="1169,80,1347,121"/>
+<area shape="rect" id="node19" href="$d0/d04/tagger_2Global_8cpp.html" title="source/tagger/Global.cpp" alt="" coords="1371,87,1537,114"/>
+<area shape="rect" id="node3" href="$d6/dad/EventEffective_8hh.html" title="examples/toppartner\l/include/tagger/EventEffective.hh" alt="" coords="299,177,513,218"/>
+<area shape="rect" id="node7" href="$d8/dd9/EventPair_8hh.html" title="examples/toppartner\l/include/tagger/EventPair.hh" alt="" coords="823,177,1010,218"/>
+<area shape="rect" id="node10" href="$d6/dd6/EventSingleHadronic_8hh.html" title="examples/toppartner\l/include/tagger/EventSingle\lHadronic.hh" alt="" coords="1137,169,1318,225"/>
+<area shape="rect" id="node14" href="$d8/d77/EventSingleLeptonic_8hh.html" title="examples/toppartner\l/include/tagger/EventSingle\lLeptonic.hh" alt="" coords="1641,169,1822,225"/>
+<area shape="rect" id="node4" href="$d9/d4c/MainEffective_8cpp.html" title="examples/toppartner\l/source/MainEffective.cpp" alt="" coords="5,281,180,322"/>
+<area shape="rect" id="node5" href="$de/d9d/MainPairHiggs_8cpp.html" title="examples/toppartner\l/source/MainPairHiggs.cpp" alt="" coords="205,281,383,322"/>
+<area shape="rect" id="node6" href="$d8/d33/EventEffective_8cpp.html" title="examples/toppartner\l/source/tagger/EventEffective.cpp" alt="" coords="408,281,628,322"/>
+<area shape="rect" id="node8" href="$db/d4f/toppartner_2source_2MainPair_8cpp.html" title="examples/toppartner\l/source/MainPair.cpp" alt="" coords="652,281,797,322"/>
+<area shape="rect" id="node9" href="$d5/db9/EventPair_8cpp.html" title="examples/toppartner\l/source/tagger/EventPair.cpp" alt="" coords="821,281,1012,322"/>
+<area shape="rect" id="node11" href="$da/d5e/SingleHadronic_8hh.html" title="examples/toppartner\l/include/analysis/SingleHadronic.hh" alt="" coords="1037,281,1266,322"/>
+<area shape="rect" id="node12" href="$d4/d64/MainSingleHadronic_8cpp.html" title="examples/toppartner\l/source/MainSingleHadronic.cpp" alt="" coords="1122,377,1333,419"/>
+<area shape="rect" id="node13" href="$d3/d82/EventSingleHadronic_8cpp.html" title="examples/toppartner\l/source/tagger/EventSingle\lHadronic.cpp" alt="" coords="1341,273,1519,329"/>
+<area shape="rect" id="node15" href="$d9/d64/SingleLeptonic_8hh.html" title="examples/toppartner\l/include/analysis/SingleLeptonic.hh" alt="" coords="1543,281,1770,322"/>
+<area shape="rect" id="node16" href="$db/d39/MainSingleLeptonic_8cpp.html" title="examples/toppartner\l/source/MainSingleLeptonic.cpp" alt="" coords="1628,377,1835,419"/>
+<area shape="rect" id="node17" href="$d6/d2d/EventSingleLeptonic_8cpp.html" title="examples/toppartner\l/source/tagger/EventSingle\lLeptonic.cpp" alt="" coords="1845,273,2023,329"/>
+</map>

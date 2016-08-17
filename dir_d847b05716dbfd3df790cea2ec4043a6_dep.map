@@ -1,0 +1,9 @@
+<map id="boca/standardmodel/branch" name="boca/standardmodel/branch">
+<area shape="rect" id="node1" href="dir_d847b05716dbfd3df790cea2ec4043a6.html" title="branch" alt="" coords="33,52,105,100"/>
+<area shape="rect" id="node2" href="dir_6985d9dc5b509d6899ba51291c0da1a7.html" title="physics" alt="" coords="33,244,105,292"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000021_000031.html" title="3" alt="" coords="66,217,74,232"/>
+<area shape="rect" id="node3" href="dir_2ae859f7b40d3e3000583401b38e3d14.html" title="branch" alt="" coords="71,148,143,196"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000021_000005.html" title="10" alt="" coords="91,121,106,135"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000005_000031.html" title="3" alt="" coords="89,223,97,238"/>
+<area shape="rect" id="clust1" href="dir_bbc0fc85085e3458356f17dc0c9e0376.html" title="standardmodel" alt="" coords="16,16,123,111"/>
+</map>

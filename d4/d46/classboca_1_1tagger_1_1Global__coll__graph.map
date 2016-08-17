@@ -1,0 +1,19 @@
+<map id="boca::tagger::Global" name="boca::tagger::Global">
+<area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; GlobalObservables,\l branch::Global \&gt;" alt="" coords="1373,85,1597,126"/>
+<area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="772,159,904,185"/>
+<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1023,210,1181,251"/>
+<area shape="rect" id="node15" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Jet,\l branch::Bottom \&gt;" alt="" coords="1419,207,1551,249"/>
+<area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="499,159,624,185"/>
+<area shape="rect" id="node5" href="$d4/d6f/classboca_1_1branch_1_1Global.html" title="Class for saving event informations to root. " alt="" coords="1031,39,1173,65"/>
+<area shape="rect" id="node6" href="$d0/d6b/classboca_1_1branch_1_1Bdt.html" title="boca::branch::Bdt" alt="" coords="499,227,624,253"/>
+<area shape="rect" id="node17" href="$d6/d92/classboca_1_1branch_1_1Particle.html" title="Class for saving event informations to root. " alt="" coords="763,277,913,304"/>
+<area shape="rect" id="node7" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="boca::branch::Result" alt="" coords="307,227,449,253"/>
+<area shape="rect" id="node8" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Basic tree branches. " alt="" coords="123,227,257,253"/>
+<area shape="rect" id="node10" href="$d1/d72/classboca_1_1branch_1_1GlobalBase.html" title="Class for saving event informations to root. " alt="" coords="752,5,924,32"/>
+<area shape="rect" id="node13" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; standardmodel\l::tagger::Bottom \&gt;" alt="" coords="2116,181,2313,222"/>
+<area shape="rect" id="node14" href="$d5/db7/classboca_1_1standardmodel_1_1tagger_1_1Bottom.html" title="BDT tagger for bottom jets. " alt="" coords="1766,181,1909,222"/>
+<area shape="rect" id="node16" href="$d1/d77/classboca_1_1standardmodel_1_1branch_1_1Bottom.html" title="Bottom tagger root tree structure. " alt="" coords="1031,275,1173,317"/>
+<area shape="rect" id="node18" href="$dd/d50/classboca_1_1standardmodel_1_1branch_1_1BottomBase.html" title="Bottom tagger root tree structure base class. " alt="" coords="763,329,913,370"/>
+<area shape="rect" id="node19" href="$dd/d7a/classboca_1_1MuXboostedBTagging.html" title="boca::MuXboostedBTagging" alt="" coords="1392,156,1579,183"/>
+<area shape="rect" id="node20" href="$de/d69/classboca_1_1Reader.html" title="read results of multivariant analysis wrapper for TMVA::Reader " alt="" coords="1752,267,1923,293"/>
+</map>

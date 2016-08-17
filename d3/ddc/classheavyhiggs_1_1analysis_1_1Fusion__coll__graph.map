@@ -1,0 +1,11 @@
+<map id="heavyhiggs::analysis::Fusion&lt; Tagger_ &gt;" name="heavyhiggs::analysis::Fusion&lt; Tagger_ &gt;">
+<area shape="rect" id="node2" href="$d1/d42/classheavyhiggs_1_1analysis_1_1HeavyHiggs.html" title="Analysis for heavy higgs. " alt="" coords="1367,113,1540,154"/>
+<area shape="rect" id="node3" href="$d1/d36/classboca_1_1Analysis.html" title="provides main analysis loops and logic. " alt="" coords="1139,120,1317,147"/>
+<area shape="rect" id="node4" href="$d7/d62/classboca_1_1AnalysisBase.html" title="Base for all analyses. " alt="" coords="904,91,1043,117"/>
+<area shape="rect" id="node5" href="$d0/dff/classboca_1_1PreCuts.html" title="boca::PreCuts" alt="" coords="688,91,795,117"/>
+<area shape="rect" id="node6" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; bool \&gt;" alt="" coords="323,5,470,32"/>
+<area shape="rect" id="node7" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Value \&gt;" alt="" coords="5,87,161,113"/>
+<area shape="rect" id="node8" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Mass \&gt;" alt="" coords="319,61,474,88"/>
+<area shape="rect" id="node9" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Momentum \&gt;" alt="" coords="303,112,491,139"/>
+<area shape="rect" id="node10" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Angle \&gt;" alt="" coords="319,164,475,191"/>
+</map>

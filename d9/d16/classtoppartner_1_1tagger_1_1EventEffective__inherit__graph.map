@@ -1,0 +1,8 @@
+<map id="toppartner::tagger::EventEffective" name="toppartner::tagger::EventEffective">
+<area shape="rect" id="node2" href="$d0/d60/classboca_1_1tagger_1_1Event.html" title="boca::tagger::Event\l\&lt; SignatureEffective,\l Quattuordecuplet554,\l branch::Event \&gt;" alt="" coords="1199,41,1349,111"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Quattuordecuplet554 \&gt;,\l branch::Event \&gt;" alt="" coords="625,13,819,69"/>
+<area shape="rect" id="node4" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="5,61,137,88"/>
+<area shape="rect" id="node5" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="187,54,345,95"/>
+<area shape="rect" id="node7" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Multiplet_ \&gt;, Branch_ \&gt;" alt="" coords="625,93,819,134"/>
+<area shape="rect" id="node6" href="$d0/d60/classboca_1_1tagger_1_1Event.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="868,81,1021,137"/>
+</map>

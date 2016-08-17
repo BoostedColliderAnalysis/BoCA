@@ -1,0 +1,29 @@
+<map id="boca::wimpmass::Invisible22" name="boca::wimpmass::Invisible22">
+<area shape="rect" id="node2" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::LorentzVector\&lt; double \&gt; \&gt;" alt="" coords="2436,220,2621,261"/>
+<area shape="rect" id="node3" href="$dd/d3e/classboca_1_1LorentzVector.html" title="boca::LorentzVector\l\&lt; double \&gt;" alt="" coords="2154,71,2293,112"/>
+<area shape="rect" id="node4" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="boca::LorentzVectorBase\l\&lt; double \&gt;" alt="" coords="1451,5,1621,47"/>
+<area shape="rect" id="node5" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; double \&gt;" alt="" coords="767,13,933,39"/>
+<area shape="rect" id="node6" href="$d3/da2/classboca_1_1Vector3.html" title="Copy of root::TVector3 in order to get rid of TObject. " alt="" coords="199,101,359,127"/>
+<area shape="rect" id="node9" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Value_ \&gt;" alt="" coords="560,85,727,111"/>
+<area shape="rect" id="node30" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Momentum \&gt;" alt="" coords="754,154,946,181"/>
+<area shape="rect" id="node19" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="563,291,723,318"/>
+<area shape="rect" id="node8" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="985,77,1154,119"/>
+<area shape="rect" id="node12" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="boca::LorentzVectorBase\l\&lt; Value \&gt;" alt="" coords="1451,71,1621,112"/>
+<area shape="rect" id="node29" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="boca::LorentzVectorBase\l\&lt; Momentum \&gt;" alt="" coords="1451,140,1621,181"/>
+<area shape="rect" id="node21" href="$d3/d5a/classboca_1_1Matrix2_1_1Eigen__.html" title="boca::Matrix2\&lt; Value\l_ \&gt;::Eigen_" alt="" coords="996,645,1143,687"/>
+<area shape="rect" id="node25" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; Value_ \&gt;" alt="" coords="986,561,1153,587"/>
+<area shape="rect" id="node11" href="$dd/d3e/classboca_1_1LorentzVector.html" title="boca::LorentzVector\l\&lt; Value \&gt;" alt="" coords="1851,71,1989,112"/>
+<area shape="rect" id="node13" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Member_ \&gt;" alt="" coords="188,546,371,573"/>
+<area shape="rect" id="node15" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; MomentumSquare \&gt;" alt="" coords="1189,799,1424,826"/>
+<area shape="rect" id="node16" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::Matrix2\&lt; double \&gt; \&gt;" alt="" coords="2455,503,2602,544"/>
+<area shape="rect" id="node20" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::Matrix2::Eigen_ \&gt;" alt="" coords="1464,653,1608,695"/>
+<area shape="rect" id="node22" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Array\l\&lt; boca::Vector2\&lt; Value\l_ \&gt; \&gt; \&gt;" alt="" coords="563,677,723,733"/>
+<area shape="rect" id="node23" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Array\l\&lt; Value_ \&gt; \&gt;" alt="" coords="570,612,717,653"/>
+<area shape="rect" id="node26" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::Vector2\&lt; Momentum \&gt; \&gt;" alt="" coords="1448,293,1624,335"/>
+<area shape="rect" id="node31" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::LorentzVector\&lt; Momentum \&gt; \&gt;" alt="" coords="2117,363,2329,404"/>
+<area shape="rect" id="node17" href="$d2/d6c/classboca_1_1Matrix2.html" title="boca::Matrix2\&lt; double \&gt;" alt="" coords="2142,573,2305,599"/>
+<area shape="rect" id="node18" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; double \&gt;" alt="" coords="1648,395,1813,422"/>
+<area shape="rect" id="node27" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; Momentum \&gt;" alt="" coords="973,281,1165,307"/>
+<area shape="rect" id="node24" href="$d2/d6c/classboca_1_1Matrix2.html" title="boca::Matrix2\&lt; Value_ \&gt;" alt="" coords="1837,587,2003,614"/>
+<area shape="rect" id="node28" href="$d8/dc7/classboca_1_1LorentzVector_3_01Momentum_01_4.html" title="boca::LorentzVector\l\&lt; Momentum \&gt;" alt="" coords="1851,140,1989,181"/>
+</map>

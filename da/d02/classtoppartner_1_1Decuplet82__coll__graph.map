@@ -1,0 +1,26 @@
+<map id="toppartner::Decuplet82" name="toppartner::Decuplet82">
+<area shape="rect" id="node2" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Octet53,\l boca::Doublet \&gt;" alt="" coords="356,1419,531,1460"/>
+<area shape="rect" id="node3" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="353,407,459,433"/>
+<area shape="rect" id="node15" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Quintet, boca::Triplet \&gt;" alt="" coords="488,1239,652,1280"/>
+<area shape="rect" id="node17" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Doublet, boca::Singlet \&gt;" alt="" coords="585,837,755,879"/>
+<area shape="rect" id="node19" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Singlet, boca::Singlet \&gt;" alt="" coords="444,615,611,656"/>
+<area shape="rect" id="node26" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1_, Multiplet_2_ \&gt;" alt="" coords="827,496,1001,537"/>
+<area shape="rect" id="node30" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Doublet \&gt;" alt="" coords="487,1045,653,1087"/>
+<area shape="rect" id="node4" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="5,310,137,337"/>
+<area shape="rect" id="node5" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::boca::Singlet \&gt;" alt="" coords="329,303,473,344"/>
+<area shape="rect" id="node6" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Member_ \&gt;" alt="" coords="676,199,859,225"/>
+<area shape="rect" id="node8" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::boca::EventShapes \&gt;" alt="" coords="716,303,872,344"/>
+<area shape="rect" id="node13" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::boca::Jet \&gt;" alt="" coords="547,303,691,344"/>
+<area shape="rect" id="node21" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; Angle \&gt;" alt="" coords="896,310,1057,337"/>
+<area shape="rect" id="node22" href="$de/d99/classboca_1_1Mutable.html" title="boca::Mutable\&lt; boca\l::Vector2\&lt; AngleSquare \&gt; \&gt;" alt="" coords="1081,303,1267,344"/>
+<area shape="rect" id="node9" href="$d2/dc6/classboca_1_1ClosestLepton.html" title="boca::ClosestLepton" alt="" coords="161,310,304,337"/>
+<area shape="rect" id="node10" href="$d6/d09/classboca_1_1Jet.html" title="boca::Jet" alt="" coords="344,199,420,225"/>
+<area shape="rect" id="node20" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make Jet behave like a Multiplet. " alt="" coords="739,407,838,433"/>
+<area shape="rect" id="node11" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="322,109,442,136"/>
+<area shape="rect" id="node14" href="$dd/de7/classboca_1_1Octet53.html" title="An octet composed of two quartets. " alt="" coords="462,1329,566,1356"/>
+<area shape="rect" id="node16" href="$de/dad/classboca_1_1Triplet.html" title="boca::Triplet" alt="" coords="623,956,717,983"/>
+<area shape="rect" id="node18" href="$d4/d01/classboca_1_1Doublet.html" title="boca::Doublet" alt="" coords="463,733,565,760"/>
+<area shape="rect" id="node23" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; AngleSquare \&gt;" alt="" coords="1207,199,1408,225"/>
+<area shape="rect" id="node24" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="1227,109,1387,136"/>
+<area shape="rect" id="node29" href="$d6/d72/classboca_1_1Quintet.html" title="boca::Quintet" alt="" coords="520,1149,620,1176"/>
+</map>

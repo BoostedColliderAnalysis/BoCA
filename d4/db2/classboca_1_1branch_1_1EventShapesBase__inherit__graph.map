@@ -1,0 +1,7 @@
+<map id="boca::branch::EventShapesBase" name="boca::branch::EventShapesBase">
+<area shape="rect" id="node2" href="$d9/d9f/classboca_1_1branch_1_1Signature.html" title="boca::branch::Signature" alt="" coords="294,5,454,32"/>
+<area shape="rect" id="node3" href="$d6/df7/classtoppartner_1_1branch_1_1SignatureEffectiveBranch.html" title="toppartner::branch\l::SignatureEffectiveBranch" alt="" coords="285,57,463,98"/>
+<area shape="rect" id="node4" href="$d7/d26/classtoppartner_1_1branch_1_1SignatureSingleHadronicBranch.html" title="toppartner::branch\l::SignatureSingleHadronicBranch" alt="" coords="267,122,481,163"/>
+<area shape="rect" id="node6" href="$df/d1f/classtoppartner_1_1branch_1_1VetoTopPartnerBranch.html" title="toppartner::branch\l::VetoTopPartnerBranch" alt="" coords="293,187,455,229"/>
+<area shape="rect" id="node5" href="$df/d48/classtoppartner_1_1branch_1_1Complete.html" title="Class for saving event informations to root. " alt="" coords="529,122,656,163"/>
+</map>
