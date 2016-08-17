@@ -29,7 +29,7 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Single-Leptonic-" + Name(Settings::Collider()) + "-" + boca::Name(this->Mass()) + "-new-higgs";
+        return "Single-Leptonic-" + Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-higgs";
     }
 
     void SetFiles(Tag tag, Stage)override {

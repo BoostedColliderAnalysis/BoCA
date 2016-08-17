@@ -16,6 +16,9 @@
 namespace boca
 {
 
+namespace units
+{
+
 // Boost.Units - A C++ library for zero-overhead dimensional analysis and
 // unit/quantity manipulation and conversion
 //
@@ -156,5 +159,9 @@ BOOST_UNITS_LITERAL_SET(b, barn::Area, Barn)
  * dimensionless unit eg 1%=1cU, or 1ppm=1uU
  */
 BOOST_UNITS_LITERAL_SET(U, boost::units::si::dimensionless, boost::units::si::si_dimensionless)
+
+}
+
+using namespace units;
 
 }

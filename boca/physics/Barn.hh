@@ -13,6 +13,8 @@
 namespace boca
 {
 
+namespace units {
+
 namespace barn
 {
 using System = boost::units::make_system<boost::units::metric::barn_base_unit>::type;
@@ -48,5 +50,9 @@ Luminosity to_luminosity(double luminosity);
 Crosssection min(std::vector<Crosssection> vector, bool truncate = false);
 
 std::vector< double > FloatVector(std::vector<Crosssection> const& crosssections);
+
+}
+
+using namespace units;
 
 }

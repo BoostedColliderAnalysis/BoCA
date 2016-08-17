@@ -24,7 +24,7 @@ public:
     }
 
     std::string AnalysisName() const override {
-        return  "NeutralFourTop-" + Name(this->Collider()) + "-" + boca::Name(this->Mass()) + "-new-bg";
+        return  "NeutralFourTop-" + Name(this->Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-bg";
     }
 
     void SetFiles(Tag tag, Stage)override {

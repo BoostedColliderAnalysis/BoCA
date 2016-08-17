@@ -53,7 +53,7 @@ public:
 private:
 
     std::string AnalysisName() const override {
-      return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + (TopDecay() == Decay::hadronic ? "-" + Name(TopTagger()) : "") + "";
+      return Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + (TopDecay() == Decay::hadronic ? "-" + Name(TopTagger()) : "") + "";
     }
 
     void SetFiles(Tag tag, Stage)override {

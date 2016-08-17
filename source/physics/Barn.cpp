@@ -8,6 +8,9 @@
 namespace boca
 {
 
+namespace units
+{
+
 double to_double(Crosssection const& crosssection)
 {
     return crosssection / fb;
@@ -39,6 +42,8 @@ std::vector< double > FloatVector(const std::vector< boca::Crosssection >& cross
     return Transform(crosssections, [](Crosssection const & crosssection) -> double {
         return crosssection / fb;
     });
+}
+
 }
 
 }

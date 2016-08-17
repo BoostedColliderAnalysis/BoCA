@@ -200,7 +200,7 @@ public:
         switch (process) {
         case Process::Hbb : return "";
         case Process::Htt : return "";
-        case Process::Htwb : return "_" + boca::Name(Mass());
+        case Process::Htwb : return "_" + boca::units::Name(Mass());
         case Process::ttwwbb : return "";
         case Process::ttwbb : return "";
         case Process::tttt : return "";
@@ -280,8 +280,8 @@ public:
     virtual std::string FileName(Process process, Tag tag) const {
 //         std::cout << "file name: " << Name(process) + Suffix(process) + "_" + Name(Collider()) << std::endl;
         switch (tag) {
-        case Tag::signal : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "_" + boca::Name(Mass());
-        case Tag::background : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "-" + boca::Name(PreCut());
+        case Tag::signal : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "_" + boca::units::Name(Mass());
+        case Tag::background : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "-" + boca::units::Name(PreCut());
 //         case Tag::background : return Name(process) + Suffix(process) + "_" + Name(Collider());
         default : std::cout << "Switch default for Tag " << to_int(tag) << std::endl;
             return "";

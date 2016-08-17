@@ -178,7 +178,7 @@ protected:
 //         std::string name = MassDependent(process) ? "pp" : "PP";
         std::string name = "PP";
         name += "-" + Name(process) + "-" + boca::Name(Settings::Collider());
-        if (MassDependent(process)) name += "-" + boca::Name(Mass());
+        if (MassDependent(process)) name += "-" + boca::units::Name(Mass());
         return name;
     }
 

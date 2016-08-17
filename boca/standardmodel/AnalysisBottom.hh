@@ -46,8 +46,8 @@ public:
 private:
 
     std::string AnalysisName() const override {
-        return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-revised";
-//       return  Name(production_channel()) + "_" + Name(this->Collider()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
+        return  Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-revised";
+//       return  Name(production_channel()) + "_" + Name(this->Collider()) + "_" + boca::units::Name(this->LowerPtCut()) + "-large-new";
     }
 
 //     Production production_channel() const {

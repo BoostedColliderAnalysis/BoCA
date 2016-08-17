@@ -32,7 +32,7 @@ public:
 
     std::string AnalysisName() const override {
         //        return  "Neutral-" + ColliderName(Collider()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
-        return  "Neutral-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "3-jet-bdt-large2";
+        return  "Neutral-" + Name(this->Collider()) + "-" + boca::units::Name(this->PreCut()) + "-" + boca::units::Name(this->Mass()) + "3-jet-bdt-large2";
     };
 
 private:

@@ -39,7 +39,7 @@ public:
 
     std::string AnalysisName() const final
     {
-      return  "Fusion-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
+      return  "Fusion-" + Name(this->Collider()) + "-" + boca::units::Name(this->PreCut()) + "-" + boca::units::Name(this->Mass());
     }
 
 private:

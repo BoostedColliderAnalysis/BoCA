@@ -11,6 +11,9 @@
 namespace boca
 {
 
+namespace units
+{
+
 namespace electronvolt
 {
 
@@ -57,20 +60,24 @@ using Mass = Energy;
  *
  */
 using Momentum = Energy;
-std::string Name(const boca::Energy& energy);
+std::string Name(Energy const& energy);
 // int to_int(Energy energy);
 
-int Int(const boca::Momentum& energy);
+int Int(Momentum const& energy);
 double to_double(Energy const& energy);
 Energy to_energy(double energy);
 
 Momentum const at_rest = 0. * ElectronVolt;
 Mass const massless = 0. * ElectronVolt;
 
-using EnergySquare = typename boost::units::multiply_typeof_helper<boca::Energy, boca::Energy>::type;
+using EnergySquare = typename boost::units::multiply_typeof_helper<Energy, Energy>::type;
 using MassSquare = typename boost::units::multiply_typeof_helper<Mass, Mass>::type;
 using MomentumSquare = typename boost::units::multiply_typeof_helper<Momentum, Momentum>::type;
 
 }
 
-BOOST_UNITS_DEFINE_CONVERSION_FACTOR(boca::electronvolt::EnergyBaseUnit, boost::units::si::energy, double, 1.602176565e-19);
+using namespace units;
+
+}
+
+BOOST_UNITS_DEFINE_CONVERSION_FACTOR(boca::units::electronvolt::EnergyBaseUnit, boost::units::si::energy, double, 1.602176565e-19);

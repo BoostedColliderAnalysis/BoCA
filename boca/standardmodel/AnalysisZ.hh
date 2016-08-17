@@ -32,7 +32,7 @@ public:
 private:
 
     std::string AnalysisName() const override {
-        return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-large-2";
+        return Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-large-2";
     }
 
 

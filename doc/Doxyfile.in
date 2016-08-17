@@ -56,3 +56,6 @@ ALIASES += "license=@par License:\n"
 EXCLUDE_SYMBOLS = fastjet TMVA TMatrixT
 IMAGE_PATH = doc/images
 HTML_FOOTER = doc/footer.html
+HTML_HEADER = doc/header.html
+HTML_EXTRA_STYLESHEET=doc/customdoxygen.css
+HTML_EXTRA_FILES=doc/doxy-boot.js

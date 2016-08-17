@@ -32,7 +32,7 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Single-Hadronic-" + Name(Settings::Collider()) + "-" + boca::Name(this->Mass()) + "-latex";
+        return "Single-Hadronic-" + Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
     }
 
     void SetFiles(Tag tag, Stage)override {

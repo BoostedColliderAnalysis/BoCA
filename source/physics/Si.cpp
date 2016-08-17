@@ -3,12 +3,17 @@
  */
 
 #include <boost/math/constants/constants.hpp>
-#include "boca/physics/Si.hh"
+
 #include "boca/math/Math.hh"
+#include "boca/physics/Si.hh"
 #include "boca/physics/Prefixes.hh"
+
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
+{
+
+namespace units
 {
 
 double to_double(Length const& length)
@@ -56,6 +61,8 @@ Angle Wrap(Angle phi)
 {
     phi -= static_cast<double>(sgn(phi)) * TwoPi();
     return phi;
+}
+
 }
 
 }

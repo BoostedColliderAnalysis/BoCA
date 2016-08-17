@@ -24,7 +24,7 @@ class Effective : public TopPartner<Tagger_>
 protected:
 
     std::string AnalysisName() const override {
-        return "Naturalness-Effective-" + Name(Settings::Collider()) + "-" + boca::Name(this->Mass()) + "-latex";
+        return "Naturalness-Effective-" + Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
     }
 
     void SetFiles(Tag tag, Stage)override {

@@ -13,6 +13,9 @@
 namespace boca
 {
 
+namespace units
+{
+
 namespace electronvolt
 {
 
@@ -49,6 +52,8 @@ double to_double(Energy const& energy)
 Energy to_energy(double energy)
 {
     return energy * GeV;
+}
+
 }
 
 }

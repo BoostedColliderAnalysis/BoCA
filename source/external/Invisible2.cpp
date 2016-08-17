@@ -366,7 +366,7 @@ LorentzVector< Momentum > Invisible22::CoefficientVector() const
     });
 }
 
-boost::optional<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solution(const Momentum& root)
+boost::optional<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solution(Momentum const& root)
 {
     LorentzVector<Momentum> vector_2;
     vector_2.E() = root;

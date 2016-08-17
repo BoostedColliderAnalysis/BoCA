@@ -9,6 +9,8 @@
 namespace boca
 {
 
+using namespace units;
+
 /**
  * @brief Standard Model analyses
  *
@@ -148,8 +150,8 @@ private:
 
     std::string FileName(Process process) const {
         switch (Collider()) {
-        case boca::Collider::future : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
-        case boca::Collider::lhc : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
+        case boca::Collider::future : return ProcessName(process) + "_" + boca::units::Name(MadGraphCut());
+        case boca::Collider::lhc : return ProcessName(process) + "_14TeV-" + boca::units::Name(MadGraphCut());
         default : std::cout << "Switch default for process " << ProcessName(process) << std::endl;
             return "";
         }

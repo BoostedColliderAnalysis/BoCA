@@ -39,6 +39,9 @@ struct root_typeof_helper<double, double> {
 namespace boca
 {
 
+namespace units
+{
+
 template <typename> struct IsQuantity : std::false_type { };
 template <typename T> struct IsQuantity<boost::units::quantity<T>> : std::true_type { };
 
@@ -48,8 +51,6 @@ using OnlyIfQuantity = typename std::enable_if <IsQuantity<Value>::value >::type
 template<typename Value>
 using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value>::value >::type;
 
-namespace units
-{
 
 /// sinh of theta in radians
 template<class Y>
@@ -118,8 +119,6 @@ inline boost::units::quantity<Unit, Y> min BOOST_PREVENT_MACRO_SUBSTITUTION(cons
     using std::min;
     using quantity_type = boost::units::quantity<Unit, Y>;
     return quantity_type::from_value(min BOOST_PREVENT_MACRO_SUBSTITUTION(q1.value(), q2.value()));
-}
-
 }
 
 template<typename Value, typename Value_2>
@@ -266,7 +265,9 @@ ValueCubed<Value> cube(Value const& value)
   return value * value * value;
 }
 
+}
 
+using namespace units;
 
 }
 

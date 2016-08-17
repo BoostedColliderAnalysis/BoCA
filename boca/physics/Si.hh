@@ -10,6 +10,9 @@
 namespace boca
 {
 
+namespace units
+{
+
 /**
  * @brief Length measured in meter
  *
@@ -49,3 +52,6 @@ Angle TwoPi();
 
 }
 
+using namespace units;
+
+}
