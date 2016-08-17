@@ -12,6 +12,7 @@ std::string Name(Source source)
 {
     switch (source) {
     case Source::delphes : return "Delphes";
+    case Source::snowmass : return "Snowmass";
     case Source::pgs : return "PGS";
     case Source::parton : return "Parton";
     case Source::tagger : return "Tagger";

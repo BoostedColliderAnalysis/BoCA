@@ -13,7 +13,8 @@ enum class Source
     delphes,
     pgs,
     parton,
-    tagger
+    tagger,
+    snowmass
 };
 
 std::string Name(Source source);

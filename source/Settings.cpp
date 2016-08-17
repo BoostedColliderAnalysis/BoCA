@@ -207,6 +207,7 @@ boca::Font Settings::Font()
 boca::Source Settings::Source()
 {
     return boca::Source::delphes;
+    return boca::Source::snowmass;
     return boca::Source::pgs;
     return boca::Source::parton;
 }

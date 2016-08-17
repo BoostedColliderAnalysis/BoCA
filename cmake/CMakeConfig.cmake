@@ -104,12 +104,21 @@ macro(create_dictionary name sources headers link_defs include_dir)
   SET(Sources ${sources} ${dictionary}.cxx)
   create_library(${name} Sources "-w")
   SET(pcm "${CMAKE_CURRENT_BINARY_DIR}/${name}Dict_rdict.pcm")
+  if(APPLE)
+  add_custom_command(
+    TARGET ${name}
+    PRE_LINK
+    COMMAND ${CMAKE_COMMAND} -E copy ${pcm} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    COMMENT "Copy: ${pcm} to ${CMAKE_BINARY_OUTPUT_DIRECTORY}"
+  )
+  else()
   add_custom_command(
     TARGET ${name}
     PRE_LINK
     COMMAND ${CMAKE_COMMAND} -E copy ${pcm} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     COMMENT "Copy: ${pcm} to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
   )
+  endif()
 endmacro()
 
 macro(add_libraries source)
