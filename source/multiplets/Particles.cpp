@@ -53,28 +53,28 @@ struct RelativeIsExactly {
 
 std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, Id id)
 {
-    std::vector<Particle> matches;
+    auto matches = std::vector<Particle>{};
     boost::range::copy(particles | boost::adaptors::filtered(RelativeIs(relative, id)), std::back_inserter(matches));
     return matches;
 }
 
 std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, std::vector<Id> const& ids)
 {
-    std::vector<Particle> matches;
+    auto matches = std::vector<Particle>{};
     boost::range::copy(particles | boost::adaptors::filtered(RelativeIs(relative, ids)), std::back_inserter(matches));
     return matches;
 }
 
 std::vector<Particle> CopyIfRelativeIsExactly(std::vector<Particle> const& particles, Relative relative, int id)
 {
-    std::vector<Particle> matches;
+    auto matches = std::vector<Particle>{};
     boost::range::copy(particles | boost::adaptors::filtered(RelativeIsExactly(relative, id)), std::back_inserter(matches));
     return matches;
 }
 
 std::vector<Particle> CopyIfRelativeIsExactly(std::vector<Particle> const& particles, Relative relative, std::vector<int> const& ids)
 {
-    std::vector<Particle> matches;
+    auto matches = std::vector<Particle>{};
     boost::range::copy(particles | boost::adaptors::filtered(RelativeIsExactly(relative, ids)), std::back_inserter(matches));
     return matches;
 }
@@ -156,7 +156,7 @@ std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, std::
 
 std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Particle mother)
 {
-    std::vector<Particle> daughters;
+    auto daughters = std::vector<Particle>{};
     boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & particle) {
         return particle.Info().Family().Member(Relative::mother).Position() == mother.Info().Family().Member(Relative::particle).Position();
     }), std::back_inserter(daughters));
@@ -165,7 +165,7 @@ std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Parti
 
 std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Particle grand_mother)
 {
-    std::vector<Particle> daughters;
+    auto daughters = std::vector<Particle>{};
     boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & particle) {
         return particle.Info().Family().Member(Relative::grand_mother).Position() == grand_mother.Info().Family().Member(Relative::particle).Position();
     }), std::back_inserter(daughters));
@@ -226,7 +226,7 @@ std::vector<Particle> CopyIf5Quark(std::vector<Particle> const& particles)
 
 std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters)
 {
-    std::vector<Particle> mothers;
+    auto mothers = std::vector<Particle>{};
     boost::range::copy(particles | boost::adaptors::filtered([&daughters](Particle const & particle) {
         for (auto const & daughter : daughters) if (particle.Info().Family().Member(Relative::particle).Position() == daughter.Info().Family().Member(Relative::mother).Position()) return true;
         return false;
@@ -236,7 +236,7 @@ std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std
 
 std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& grand_daughters)
 {
-    std::vector<Particle> grand_mothers;
+    auto grand_mothers = std::vector<Particle>{};
     boost::range::copy(particles | boost::adaptors::filtered([&grand_daughters](Particle const & particle) {
         for (auto const & daughter : grand_daughters) if (particle.Info().Family().Member(Relative::particle).Position() == daughter.Info().Family().Member(Relative::grand_mother).Position()) return true;
         return false;
@@ -246,7 +246,7 @@ std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles
 
 std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2)
 {
-    std::vector<Particle> good;
+    auto good = std::vector<Particle>{};
     boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & particle) {
         return particle.Info().Family().Member(Relative::particle).Position() == position_1 || particle.Info().Family().Member(Relative::particle).Position() == position_2;
     }), std::back_inserter(good));

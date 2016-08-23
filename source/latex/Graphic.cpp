@@ -5,8 +5,8 @@
 namespace boca
 {
 
-  namespace latex
-  {
+namespace latex
+{
 
 Graphic::Graphic()
 {

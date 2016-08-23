@@ -15,6 +15,8 @@ namespace boca
 namespace latex
 {
 
+using namespace std::string_literals;
+
 StringHelper::StringHelper(const std::string& string)
 {
     INFO(string);
@@ -95,7 +97,7 @@ String::String(const std::string& string, bool formula)
 std::string String::str(Medium medium) const
 {
     INFO(Name(medium));
-    std::string string;
+    auto string = ""s;
     for (auto const & latex_string : latex_strings_) {
       INFO(latex_string.Formula(), latex_string.str());
         if (latex_string.Formula()) switch (medium) {
@@ -140,7 +142,7 @@ String String::operator+(String const& latex)
 
 std::string Formula::str()
 {
-    std::string str = "$";
+    auto str = "$"s;
     for (auto const & string : strings_) str += string;
     return str + "$";
 }

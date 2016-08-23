@@ -29,10 +29,10 @@ bool VertexResultion(Constituent const& constituent)
 
 std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> const& constituents)
 {
-  DEBUG(constituents.size());
-  return CopyIf(constituents, [&](Constituent const& constituent) {
-    return VertexResultion(constituent);
-  });
+    DEBUG(constituents.size());
+    return CopyIf(constituents, [&](Constituent const& constituent) {
+        return VertexResultion(constituent);
+    });
 
 }
 
@@ -98,7 +98,7 @@ JetInfo::JetInfo(std::vector<Constituent> const& constituents, std::vector<Const
 JetInfo JetInfo::operator+(JetInfo const& jet_info)
 {
     DEBUG0;
-    JetInfo result(Combine(this->Constituents(), jet_info.Constituents()), Combine(this->DisplacedConstituents(), jet_info.DisplacedConstituents()));
+    auto result = JetInfo {Combine(this->Constituents(), jet_info.Constituents()), Combine(this->DisplacedConstituents(), jet_info.DisplacedConstituents())};
     result.SetBTag(this->BTag() + jet_info.BTag());
     result.SetTauTag(this->TauTag() + jet_info.TauTag());
     result.SetCharge(this->Charge() + jet_info.Charge());
@@ -239,21 +239,13 @@ Angle JetInfo::TrackRadius(Jet const& jet) const
     return energy == 0_eV ? 0_rad : Angle(weight / energy);
 }
 
-struct IsDetector {
-    IsDetector(DetectorPart detector_part) {
-        detector_part_ = detector_part;
-    }
-    bool operator()(Constituent const& constituent) {
-        return constituent.DetectorPart() != detector_part_;
-    }
-    DetectorPart detector_part_;
-};
-
 double JetInfo::LeadingTrackMomentumFraction() const
 {
     DEBUG0;
     auto constituents = Constituents();
-    constituents = boost::range::remove_erase_if(constituents, IsDetector(DetectorPart::track));
+    constituents = boost::range::remove_erase_if(constituents, [](Constituent const& constituent) {
+        return constituent.DetectorPart() != DetectorPart::track;
+    });
     std::sort(constituents.begin(), constituents.end(), [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
     });
@@ -352,7 +344,7 @@ void JetInfo::SecondayVertex() const
     auto radius = leading.Position().Perp() / 2.;
 
     auto constituents = CopyIf(Constituents(), [&](Constituent const & constituent) {
-      return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);
+        return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);
     });
 }
 
@@ -368,7 +360,7 @@ void JetInfo::SetSubStructure(bool sub_structure)
 
 std::vector< Family > JetInfo::Families() const
 {
-    std::vector<Family> families;
+    auto families = std::vector<Family> {};
     for (const auto & constituent : Constituents()) Insert(families, constituent.Families());
     return families;
 }

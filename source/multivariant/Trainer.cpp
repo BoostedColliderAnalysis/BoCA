@@ -40,7 +40,7 @@ Trainer::Trainer(tagger::Base& tagger) :
 std::string Trainer::FactoryOptions()
 {
     INFO0;
-    Options options("Color", false);
+    auto options = Options {"Color", false};
 //     options.Add("V");
 //     options.Add("Silent", false);
     options.Add("DrawProgressBar", false);
@@ -49,8 +49,8 @@ std::string Trainer::FactoryOptions()
 
 std::string Trainer::DataLoaderOptions()
 {
-  INFO0;
-  return {};
+    INFO0;
+    return {};
 }
 
 void Trainer::AddObservables()
@@ -81,9 +81,11 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 {
     INFO(tree_name, Name(tag));
     switch (tag) {
-      case Tag::signal : DataLoader().AddSignalTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
+    case Tag::signal :
+        DataLoader().AddSignalTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
         break;
-      case Tag::background : DataLoader().AddBackgroundTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
+    case Tag::background :
+        DataLoader().AddBackgroundTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
         break;
     }
     return Entries(tree_name, tag);
@@ -92,7 +94,7 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 double Trainer::Weight(std::string const& tree_name, Tag tag)
 {
     INFO(Tagger().WeightBranchName());
-    TreeReader tree_reader( {Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
+    auto tree_reader = TreeReader {{Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger};
     auto& array = tree_reader.Array<branch::Info>(Tagger().WeightBranchName());
     tree_reader.ReadEntry(0);
     return array.At(0).Crosssection() / fb / tree_reader.GetEntries();
@@ -101,9 +103,9 @@ double Trainer::Weight(std::string const& tree_name, Tag tag)
 long Trainer::Entries(std::string const& tree_name, Tag tag)
 {
     INFO0;
-    TreeReader tree_reader( {Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
+    auto tree_reader = TreeReader {{Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger};
     auto& array = tree_reader.Array(Tagger().BranchName(Stage::trainer), Tagger().Class());
-    long entries = 0;
+    auto entries = 0;
     while (tree_reader.Next()) entries += array.GetSize();
     return entries;
 }
@@ -111,7 +113,7 @@ long Trainer::Entries(std::string const& tree_name, Tag tag)
 void Trainer::PrepareTrainingAndTestTree(long event_number)
 {
     INFO0;
-    Options options;
+    auto options = Options {};
 //     options.Add("SplitMode", "Block");
     options.Add("nTrain_Background", event_number);
     options.Add("nTest_Background", event_number);
@@ -126,7 +128,7 @@ std::vector<double> Trainer::BookMethod()
     auto* method = Factory().BookMethod(Tagger().Mva(), Tagger().MethodName(), MethodOptions());
     if (!method) return {};
     TMVA::Event::SetIsTraining(true);
-    std::vector<double> importance;
+    auto importance = std::vector<double> {};
     switch (method->GetMethodType()) {
     case TMVA::Types::EMVA::kBDT : {
         auto& mva = static_cast<TMVA::MethodBDT&>(*method);
@@ -135,7 +137,8 @@ std::vector<double> Trainer::BookMethod()
         mva.Reset();
         break;
     }
-    case TMVA::Types::EMVA::kCuts : break;
+    case TMVA::Types::EMVA::kCuts :
+        break;
         DEFAULT(method->GetMethodName());
     }
     auto pos = Position(importance, *boost::range::max_element(importance));
@@ -146,7 +149,7 @@ std::vector<double> Trainer::BookMethod()
 std::string Trainer::MethodOptions() const
 {
     INFO0;
-    Options options;
+    auto options = Options {};
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
         options.Add("NTrees", 1000);

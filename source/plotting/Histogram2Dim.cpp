@@ -13,6 +13,8 @@
 namespace boca
 {
 
+using namespace std::string_literals;
+
 Histogram2Dim::Histogram2Dim(std::string const& path, std::string const& name, bool show_title):
     Canvas(path, name, show_title)
 {
@@ -39,7 +41,7 @@ void Histogram2Dim::SetLegend(boca::Orientation orientation, latex::String const
 void Histogram2Dim::Draw()
 {
     INFO0;
-    std::string options = "cont1";
+    auto options = "cont1"s;
     auto first = true;
     for (auto & histogram : histograms_) {
         histogram.Draw(options.c_str());
@@ -64,9 +66,9 @@ void Histogram2Dim::SetYAxis(latex::String const& title)
 void Histogram2Dim::AddHistogram(latex::String const& name, int bins, Rectangle<double> const& range, Plot const& plot, EColor color)
 {
     INFO0;
-    int x_bin = plot.x_is_int ? std::floor(range.Width()) : bins;
-    int y_bin = plot.y_is_int ? std::floor(range.Height()) : bins;
-    TH2F histogram(name.str(latex::Medium::root).c_str(), "", x_bin, range.XMin(), range.XMax(), y_bin, range.YMin(), range.YMax());
+    auto x_bin = static_cast<int>(plot.x_is_int ? std::floor(range.Width()) : bins);
+    auto y_bin = static_cast<int>(plot.y_is_int ? std::floor(range.Height()) : bins);
+    auto histogram = TH2F{name.str(latex::Medium::root).c_str(), "", x_bin, range.XMin(), range.XMax(), y_bin, range.YMin(), range.YMax()};
     for (auto const & point : plot.Data()) histogram.Fill(point.X(), point.Y());
     histogram.SetContour(20);
     histogram.SetMarkerColor(color);
@@ -78,7 +80,7 @@ void Histogram2Dim::AddHistogram(latex::String const& name, int bins, Rectangle<
 TExec Histogram2Dim::Exec(EColor color)
 {
     INFO0;
-    TExec exec;
+    auto exec = TExec{};
     switch (color) {
     case kRed : exec.SetAction(Red::Action().c_str());
         break;

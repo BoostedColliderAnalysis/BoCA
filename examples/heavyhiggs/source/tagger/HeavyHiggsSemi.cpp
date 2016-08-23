@@ -46,7 +46,7 @@ std::vector<Sextet>  HeavyHiggsSemi::Multiplets(boca::Event const& event, PreCut
 
 std::vector<Triplet> HeavyHiggsSemi::FinalTriplet(boca::Event const& event, Tag tag, Decay decay)
 {
-    std::vector<Triplet> triplets;
+    auto triplets = std::vector<Triplet>{};
     std::vector<Particle> tops;
     switch (decay) {
     case Decay::leptonic:

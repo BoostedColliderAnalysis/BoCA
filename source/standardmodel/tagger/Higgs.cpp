@@ -42,15 +42,15 @@ std::vector<Doublet> Higgs::Doublets(Event const& event, std::function<boost::op
 {
     INFO0;
     auto jets = event.Jets();
-    MomentumRange jet_range(Id::higgs, Id::higgs);
+    auto jet_range = MomentumRange{Id::higgs, Id::higgs};
     auto doublets = UnorderedPairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
-        Doublet doublet(jet_1, jet_2);
+        auto doublet = Doublet{jet_1, jet_2};
         if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
         if (auto optional = function(doublet)) return *optional;
         throw boca::Problematic();
     });
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
-        Doublet doublet;
+        auto doublet = Doublet{};
         doublet.Enforce(jet);
         if (auto optional = function(doublet)) doublets.emplace_back(*optional);
     }
@@ -76,9 +76,9 @@ Doublet Higgs::PrepareDoublet(Doublet const& doublet, std::vector<Lepton>& lepto
 {
     INFO0;
     //     if (auto optional = MassDrop(doublet)) prepared = *optional;
-    Jet jet_1 = doublet.Singlet1();
-    Jet jet_2 = doublet.Singlet2();
-    Doublet prepared(bottom_reader_.Multiplet(jet_1), bottom_reader_.Multiplet(jet_2));
+    auto jet_1 = static_cast<Jet>(doublet.Singlet1());
+    auto jet_2 = static_cast<Jet>(doublet.Singlet2());
+    auto prepared = Doublet{bottom_reader_.Multiplet(jet_1), bottom_reader_.Multiplet(jet_2)};
     prepared.SetClosestLepton(leptons);
     return prepared;
 }
@@ -126,16 +126,16 @@ boost::optional<Doublet> Higgs::Multiplet(Doublet& doublet, std::vector<Lepton>&
 boost::optional<Doublet> Higgs::MassDrop(Doublet const& doublet)
 {
     INFO0;
-    ClusterSequence cluster_sequence(doublet.Constituents(), Settings::JetDefinition(doublet.DeltaR() + 2. * Settings::JetConeSize()));
+    auto cluster_sequence = ClusterSequence{doublet.Constituents(), Settings::JetDefinition(doublet.DeltaR() + 2. * Settings::JetConeSize())};
     auto exclusive_jets = cluster_sequence.ExclusiveJets(1);
     if (exclusive_jets.empty()) return boost::none;
-    fastjet::MassDropTagger mass_drop_tagger(0.667, 0.09);
+    auto mass_drop_tagger = fastjet::MassDropTagger{0.667, 0.09};
     auto mass_drop_jet = mass_drop_tagger(exclusive_jets.front());
     if (mass_drop_jet == 0) return boost::none;
 
     auto radius = Jet(mass_drop_jet.pieces().at(0)).DeltaRTo(mass_drop_jet.pieces().at(1));
     radius = std::min(radius / 2., 300_mrad);
-    fastjet::Filter filter(Settings::JetDefinition(radius), fastjet::SelectorNHardest(3));
+    auto filter = fastjet::Filter{Settings::JetDefinition(radius), fastjet::SelectorNHardest(3)};
     auto filtered_jet = filter.result(mass_drop_jet);
     if (!filtered_jet.has_pieces()) return boost::none;
     auto pieces = SortedByPt(JetVector(filtered_jet.pieces()));

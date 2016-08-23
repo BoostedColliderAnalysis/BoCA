@@ -14,7 +14,7 @@ namespace exroot
 std::vector<Particle> Event::Particles(Status max_status) const
 {
     INFO0;
-    std::vector<Particle> particles;
+    auto particles = std::vector<Particle>{};
     for (auto const & particle : TreeReader().Array<::exroot::LHEFParticle>(Branch::particle)) {
         if (particle.Status < to_int(max_status)) break;
         particles.emplace_back(Particle(particle, particle.PID));
@@ -25,7 +25,7 @@ std::vector<Particle> Event::Particles(Status max_status) const
 std::vector<Lepton> Event::Electrons() const
 {
     INFO0;
-    std::vector<Lepton> electrons;
+    auto electrons = std::vector<Lepton>{};
     for (auto const & electron : TreeReader().Array<::exroot::Electron>(Branch::electron)) electrons.emplace_back(Lepton(electron));
     return electrons;
 }
@@ -33,7 +33,7 @@ std::vector<Lepton> Event::Electrons() const
 std::vector<Lepton> Event::Muons() const
 {
     INFO0;
-    std::vector<Lepton> muons;
+    auto muons = std::vector<Lepton>{};
     for (auto const & muon : TreeReader().Array<::exroot::Muon>(Branch::muon)) muons.emplace_back(Lepton(muon));
     return muons;
 }
@@ -41,7 +41,7 @@ std::vector<Lepton> Event::Muons() const
 std::vector<Lepton> Event::Photons() const
 {
     INFO0;
-    std::vector<Lepton> photons;
+    auto photons = std::vector<Lepton>{};
     for (auto const & photon : TreeReader().Array<::exroot::Photon>(Branch::photon)) photons.emplace_back(Lepton(photon));
     return photons;
 }
@@ -49,9 +49,9 @@ std::vector<Lepton> Event::Photons() const
 std::vector<Jet> Event::Jets() const
 {
     INFO0;
-    std::vector<Jet> jets;
+    auto jets = std::vector<Jet>{};
     for (auto const & exroot_jet : TreeReader().Array<::exroot::Jet>(Branch::jet)) {
-        Jet jet(exroot_jet);
+        auto jet = Jet{exroot_jet};
         jet.Info().SetBTag(exroot_jet.BTag);
         jets.emplace_back(jet);
     }

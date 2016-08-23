@@ -34,7 +34,7 @@ int HeavyHiggsTau::Train(boca::Event const& event, PreCuts const&, Tag tag)
         if (jet.Info().Tag() != tag) continue;
         NewCleanJets.emplace_back(jet);
     }
-    std::vector<Doublet> doublets;
+    auto doublets = std::vector<Doublet>{};
     for (auto const & Jet : NewCleanJets) {
         Doublet Predoublet(Jet, MissingEt);
 //         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
@@ -56,7 +56,7 @@ std::vector<Doublet>  HeavyHiggsTau::Multiplets(boca::Event const& event, PreCut
     std::vector<boca::Jet> jets;// = tau_reader_.Multiplets(event);
     INFO(jets.size());
     auto missing_et = event.MissingEt();
-    std::vector<Doublet> doublets;
+    auto doublets = std::vector<Doublet>{};
     for (auto const & jet : jets)  {
         Doublet pre_doublet(jet, missing_et);
 //         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);

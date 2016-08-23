@@ -12,7 +12,7 @@ namespace boca
 
 std::vector<boca::Sextet> WimpMass::Sextets(std::vector<Quartet22> const& quartets, Jet const& missing_et)
 {
-    std::vector<boca::Sextet> sextets;
+    auto sextets = std::vector<boca::Sextet>{};
     for (auto const & quartet : quartets) Insert(sextets, Sextets(quartet, missing_et));
     return sextets;
 }
@@ -20,10 +20,10 @@ std::vector<boca::Sextet> WimpMass::Sextets(std::vector<Quartet22> const& quarte
 std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const& missing_et)
 {
     INFO0;
-    wimpmass::Invisible22 invisible(quartet, missing_et.Vector());
-    std::vector<boca::Sextet> sextets;
+    auto invisible = wimpmass::Invisible22{quartet, missing_et.Vector()};
+    auto sextets = std::vector<boca::Sextet>{};
     for (auto const & solution: invisible.Solve(MassOf(Id::top), MassOf(Id::W), MassOf(MultiId::neutrino))){
-        boca::Sextet sextet(Triplet(Doublet(quartet.Doublet1().Singlet2(), solution.first), quartet.Doublet1().Singlet1()), Triplet(Doublet(quartet.Doublet2().Singlet2(), solution.second), quartet.Doublet2().Singlet1()));
+        auto sextet = boca::Sextet{Triplet(Doublet(quartet.Doublet1().Singlet2(), solution.first), quartet.Doublet1().Singlet1()), Triplet(Doublet(quartet.Doublet2().Singlet2(), solution.second), quartet.Doublet2().Singlet1())};
         sextet.Triplet1().SetBdt(quartet.Doublet1().Bdt());
         sextet.Triplet2().SetBdt(quartet.Doublet2().Bdt());
         sextet.SetTag(quartet.Tag());
@@ -37,14 +37,15 @@ std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const&
 std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& missing_et, std::vector<Particle> const& neutrinos, Tag tag)
 {
     INFO0;
-    std::map<Mass, boca::Sextet> map;
+    auto map = std::map<Mass, boca::Sextet>{};
     for (auto const & sextet : Sextets(quartet, missing_et)) {
-        Jet neutrino_1 = sextet.Triplet1().Doublet().Singlet2();
-        Jet neutrino_2 = sextet.Triplet2().Doublet().Singlet2();
-        std::vector<Mass> errors_1, errors_2;
+        auto neutrino_1 = sextet.Triplet1().Doublet().Singlet2();
+        auto neutrino_2 = sextet.Triplet2().Doublet().Singlet2();
+        auto errors_1 = std::vector<Mass>{};
+        auto errors_2 = std::vector<Mass>{};
         for (auto const & neutrino : neutrinos) {
-            errors_1.emplace_back(Particle(neutrino + Particle(neutrino_1)).Mass());
-            errors_2.emplace_back(Particle(neutrino + Particle(neutrino_2)).Mass());
+            errors_1.emplace_back(Particle(neutrino + neutrino_1).Mass());
+            errors_2.emplace_back(Particle(neutrino + neutrino_2).Mass());
         }
         auto error = std::numeric_limits<Mass>::max();
         for (auto const & error_1 : errors_1)
@@ -64,7 +65,7 @@ std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& 
 
 Sextet WimpMass::Fake(Quartet22 const& quartet) const
 {
-    boca::Sextet sextet;
+    auto sextet = boca::Sextet{};
     sextet.Enforce(quartet);
     return sextet;
 }

@@ -61,7 +61,7 @@ void PrintCells(Particle const& particle)
 std::vector<Particle> Event::Particles(Status min_status) const
 {
     INFO0;
-    std::vector<Particle> particles;
+    auto particles = std::vector<Particle>{};
     auto& gen_particles = TreeReader().Array<::delphes::GenParticle>(Branch::particle);
     auto position = 0;
     for (auto const & particle : gen_particles) {
@@ -78,7 +78,7 @@ std::vector<Particle> Event::Particles(Status min_status) const
 std::vector<Lepton> Event::Electrons() const
 {
     INFO0;
-    std::vector<Lepton> electrons;
+    auto electrons = std::vector<Lepton>{};
     for (auto const & electron : TreeReader().Array<::delphes::Electron>(Branch::electron)) electrons.emplace_back(Lepton(electron.P4(), static_cast<int>(electron.Charge)));
     return electrons;
 }
@@ -86,7 +86,7 @@ std::vector<Lepton> Event::Electrons() const
 std::vector<Lepton> Event::Muons() const
 {
     INFO0;
-    std::vector<Lepton> muons;
+    auto muons = std::vector<Lepton>{};
     for (auto const & muon : TreeReader().Array<::delphes::Muon>(Branch::muon)) muons.emplace_back(Lepton(muon.P4(), static_cast<int>(muon.Charge)));
     return muons;
 }
@@ -94,7 +94,7 @@ std::vector<Lepton> Event::Muons() const
 std::vector<Lepton> Event::Photons() const
 {
     INFO0;
-    std::vector<Lepton> photons;
+    auto photons = std::vector<Lepton>{};
     for (auto const & muon : TreeReader().Array<::delphes::Photon>(Branch::photon)) photons.emplace_back(Lepton(muon.P4()));
     return photons;
 }
@@ -124,7 +124,7 @@ std::vector<Jet> Event::Jets() const
 std::vector<Jet> Event::GenJets() const
 {
     INFO0;
-    std::vector<Jet> gen_jets;
+    auto gen_jets = std::vector<Jet> {};
     for (auto const & jet : TreeReader().Array<::delphes::Jet>(Branch::gen_jet)) gen_jets.emplace_back(jet.P4());
     return gen_jets;
 }
@@ -132,7 +132,7 @@ std::vector<Jet> Event::GenJets() const
 std::vector<Jet> Event::DelphesJets(JetDetail jet_detail) const
 {
     INFO0;
-    std::vector<Jet> jets;
+    auto jets = std::vector<Jet>{};
     for (auto const & jet : TreeReader().Array<::delphes::Jet>(Branch::jet)) {
         FlagSwitch(jet_detail, [&](JetDetail jet_detail_int) {
             switch (jet_detail_int) {
@@ -152,7 +152,7 @@ std::vector<Jet> Event::DelphesJets(JetDetail jet_detail) const
 boost::optional<Jet> Event::StructuredJet(::delphes::Jet const& delphes_jet, JetDetail jet_detail) const
 {
     INFO(delphes_jet.Constituents.GetEntriesFast());
-    std::vector<Jet> constituents;
+    auto constituents = std::vector<Jet>{};
     for (auto constituent_number : IntegerRange(delphes_jet.Constituents.GetEntriesFast())) {
         if (!delphes_jet.Constituents.At(constituent_number)) continue;
         if (auto optional = ConstituentJet(*delphes_jet.Constituents.At(constituent_number), jet_detail)) constituents.emplace_back(*optional);
@@ -198,7 +198,7 @@ boost::optional<Jet> Event::ConstituentTower(TObject& object, JetDetail jet_deta
 {
     INFO0;
     auto& tower = static_cast<::delphes::Tower&>(object);
-    std::vector<boca::Family> families;
+    auto families = std::vector<boca::Family>{};
     for (auto particle_number : IntegerRange(tower.Particles.GetEntriesFast())) {
         auto& object = *tower.Particles.At(particle_number);
         if (IsLepton(object, jet_detail)) return boost::none;
@@ -227,7 +227,7 @@ std::vector<TObject*> Event::LeptonsObjects() const
 {
     INFO0;
     return lepton_objects_.Get([&]() {
-        std::vector<TObject*> leptons;
+        auto leptons = std::vector<TObject*>{};
         for (auto const & electron : TreeReader().Array<::delphes::Electron>(Branch::electron)) leptons.emplace_back(electron.Particle.GetObject());
         for (auto const & muon : TreeReader().Array<::delphes::Muon>(Branch::muon)) leptons.emplace_back(muon.Particle.GetObject());
         return leptons;
@@ -236,7 +236,7 @@ std::vector<TObject*> Event::LeptonsObjects() const
 
 boca::Family Event::Family(TObject& object) const
 {
-    boca::Family family;
+    auto family = boca::Family{};
     auto& particle = static_cast<::delphes::GenParticle&>(object);
     auto& particles = TreeReader().Array<::delphes::GenParticle>(Branch::particle);
     family.SetMember( {particle.PID}, Relative::particle);
@@ -249,14 +249,14 @@ boca::Family Event::Family(TObject& object) const
 std::vector<Jet> Event::EFlowJets(JetDetail jet_detail) const
 {
     INFO0;
-    ClusterSequence cluster_sequence(EFlow(jet_detail), Settings::JetDefinition());
+    auto cluster_sequence = ClusterSequence{EFlow(jet_detail), Settings::JetDefinition()};
     return cluster_sequence.InclusiveJets(Settings::JetMinPt());
 }
 
 std::vector<Jet> Event::EFlow(JetDetail jet_detail) const
 {
     INFO0;
-    std::vector<Jet> jets;
+    auto jets = std::vector<Jet>{};
     if (TreeReader().Has(Branch::e_flow_track)) Insert(jets, EFlowTrack(jet_detail));
     if (TreeReader().Has(Branch::e_flow_photon)) Insert(jets, EFlowPhoton(jet_detail));
     if (TreeReader().Has(Branch::e_flow_neutral_hadron)) Insert(jets, EFlowHadron(jet_detail));
@@ -267,7 +267,7 @@ std::vector<Jet> Event::EFlow(JetDetail jet_detail) const
 std::vector<Jet> Event::EFlowTrack(JetDetail jet_detail) const
 {
     INFO0;
-    std::vector<Jet> e_flow_jets;
+    auto e_flow_jets = std::vector<Jet>{};
     for (auto & e_flow_track : TreeReader().Array<::delphes::Track>(Branch::e_flow_track)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (auto optional = ConstituentJet(e_flow_track, jet_detail)) e_flow_jets.emplace_back(*optional);
@@ -280,7 +280,7 @@ std::vector<Jet> Event::EFlowTrack(JetDetail jet_detail) const
 std::vector<Jet> Event::EFlowPhoton(JetDetail jet_detail) const
 {
     INFO0;
-    std::vector<Jet> e_flow_jets;
+    auto e_flow_jets = std::vector<Jet>{};
     for (auto & e_flow_photon : TreeReader().Array<::delphes::Tower>(Branch::e_flow_photon)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (auto optional = ConstituentJet(e_flow_photon, jet_detail)) e_flow_jets.emplace_back(*optional);
@@ -292,7 +292,7 @@ std::vector<Jet> Event::EFlowPhoton(JetDetail jet_detail) const
 std::vector<Jet> Event::EFlowHadron(JetDetail jet_detail) const
 {
     INFO0;
-    std::vector<Jet> e_flow_jets;
+    auto e_flow_jets = std::vector<Jet>{};
     for (auto & e_flow_hadron : TreeReader().Array<::delphes::Tower>(Branch::e_flow_neutral_hadron)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (auto optional = ConstituentJet(e_flow_hadron, jet_detail)) e_flow_jets.emplace_back(*optional);
@@ -304,7 +304,7 @@ std::vector<Jet> Event::EFlowHadron(JetDetail jet_detail) const
 std::vector<Jet> Event::EFlowMuon(JetDetail jet_detail) const
 {
     INFO0;
-    std::vector<Jet> e_flow_jets;
+    auto e_flow_jets = std::vector<Jet>{};
     for (auto & e_flow_muon : TreeReader().Array<::delphes::Muon>(Branch::e_flow_muon)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (auto optional = ConstituentJet(e_flow_muon, jet_detail)) e_flow_jets.emplace_back(*optional);
@@ -316,5 +316,3 @@ std::vector<Jet> Event::EFlowMuon(JetDetail jet_detail) const
 }
 
 }
-
-

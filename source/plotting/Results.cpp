@@ -166,7 +166,7 @@ Rectangle<double> const& Results::Range() const
 {
     INFO0;
     return range_.Get([&]() {
-        Rectangle<double> range;
+        auto range = Rectangle<double>{};
         switch (Result::Mva()) {
         case TMVA::Types::kBDT : for (auto const & signal : signals_) range.WidenXMax(*boost::range::max_element(signal.Bdts()));
             for (auto const & background : backgrounds_) range.WidenXMin(*boost::range::min_element(background.Bdts()));
@@ -251,10 +251,10 @@ Crosssection Results::MIPoisson(Significance significance, double signal_efficie
 {
     INFO0;
     if (signal_efficiency == 0 || BackgroundEvents(step) == 0) return 0_b;
-    ROOT::Math::Functor1D function([&](double crosssection) {
+    auto function = [&](double crosssection) {
         return SignificancePoisson(significance, crosssection * fb * Settings::Luminosity() * signal_efficiency, BackgroundEvents(step)) - PValue(significance);
-    });
-    boca::Range<double> range(MIBackground(significance, signal_efficiency, step) / fb);
+    };
+    auto range = boca::Range<double>{MIBackground(significance, signal_efficiency, step) / fb};
     do {
         range.Widen(1.1);
     } while (sgn(function(range.Min())) == sgn(function(range.Max())));

@@ -9,9 +9,11 @@
 namespace boca
 {
 
+using namespace std::string_literals;
+
 std::string Name(Orientation orientation)
 {
-    std::string name;
+    auto name = ""s;
     FlagSwitch(orientation, [&](Orientation orientation_1) {
         switch (orientation_1) {
         case Orientation::none : name += " None"; break;

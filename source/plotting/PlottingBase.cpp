@@ -106,14 +106,14 @@ std::vector<Result> PlottingBase::ReadBdtFile(FileWriter& file_writer, Phase con
 Result PlottingBase::BdtDistribution(FileWriter& file_writer, Phase const& phase, std::string const& tree_name) const
 {
     INFO0;
-    TreeReader tree_reader(Tagger().FileName(phase), tree_name, Source::tagger);
+    auto tree_reader = TreeReader{Tagger().FileName(phase), tree_name, Source::tagger};
     auto& array = tree_reader.Array(Tagger().BranchName(phase), Tagger().Class());
     auto& tree_writer = file_writer.NewTree(tree_name);
     auto& branch = tree_writer.NewBranch<branch::Bdt>(Tagger().BranchName(phase));
-    std::vector<double> bdts;
+    auto bdts = std::vector<double>{};
     while (tree_reader.Next()) {
         for (auto const & entry : array) {
-            double bdt = static_cast<branch::Bdt const&>(entry).bdt;
+            auto bdt = static_cast<branch::Bdt const&>(entry).bdt;
             branch.AddEntry<branch::Bdt>().bdt = bdt;
             bdts.emplace_back(bdt);
         }
@@ -126,11 +126,11 @@ Result PlottingBase::BdtDistribution(FileWriter& file_writer, Phase const& phase
 Result PlottingBase::CutDistribution(FileWriter& file_writer, Phase const& phase, std::string const& tree_name) const
 {
     INFO0;
-    TreeReader tree_reader(Tagger().FileName(phase), tree_name, Source::tagger);
+    auto tree_reader = TreeReader{Tagger().FileName(phase), tree_name, Source::tagger};
     auto& array = tree_reader.Array(Tagger().BranchName(phase), Tagger().Class());
     auto& tree_writer = file_writer.NewTree(tree_name);
     auto& branch = tree_writer.NewBranch<branch::Cut>(Tagger().BranchName(phase));
-    std::vector<std::vector<bool>> passed_matrix;
+    auto passed_matrix = std::vector<std::vector<bool>>{};
     while (tree_reader.Next()) {
         for (auto const & entry : array) {
             auto passed_vector = static_cast<branch::Cut const&>(entry).passed;
@@ -146,7 +146,7 @@ Result PlottingBase::CutDistribution(FileWriter& file_writer, Phase const& phase
 std::pair<branch::Info, int> PlottingBase::Info(Phase const& phase, std::string const& tree_name) const
 {
     INFO(Name(phase.Tag()));
-    TreeReader tree_reader(Tagger().FileName(phase), tree_name, Source::tagger);
+    auto tree_reader = TreeReader{Tagger().FileName(phase), tree_name, Source::tagger};
     INFO(Tagger().WeightBranchName());
     if (tree_reader.GetEntries() == 0) {
         ERROR("tree reader empty, no object for casting");
@@ -205,7 +205,7 @@ latex::Graphic PlottingBase::PlotEfficiencyGraph(Results const& results) const
 latex::Graphic PlottingBase::PlotAcceptanceGraph(Results const& results) const
 {
     INFO0;
-    std::vector<std::string> names;
+    auto names = std::vector<std::string>{};
     for (auto const & signal : results.Signals()) {
         Graphs graphs(Tagger().ExportFolderName(), "Acceptance" + std::to_string(Position(results.Signals(), signal)));
         graphs.AddGraph(signal.PureEfficiencies(), signal.PureEfficiencies(), signal.Info().LatexName());
@@ -357,7 +357,7 @@ latex::Graphic PlottingBase::PlotMIExclusion(Results const& results) const
 latex::Table PlottingBase::BestValueTable(Result const& signal, std::vector<double> const& x_values) const
 {
     INFO0;
-    latex::Table table("rllllll");
+    auto table = latex::Table{"rllllll"};
     table.AddRow("Model optimization", "Cut", "Significance", "Ratio [\\%]", "Crosssection [fb]");
     table.AddLine();
     for (const auto & significance : SignificancesMD()) table.AddRow(BestValueRow(signal, x_values, significance, "dependent ", signal.BestMDBin(significance)));
@@ -372,7 +372,7 @@ latex::Table PlottingBase::BestValueTable(Result const& signal, std::vector<doub
 latex::Row PlottingBase::BestValueRow(Result const& signal, std::vector<double> const& x_values, Significance significance, std::string const& model, int bin) const
 {
     INFO0;
-    latex::Row row(model + LatexName(significance).str(latex::Medium::latex));
+    auto row = latex::Row{model + LatexName(significance).str(latex::Medium::latex)};
     row.AddCell(RoundToDigits(x_values.at(bin)));
     row.AddCell(RoundToDigits(signal.MD(significance &~Significance::experimental).at(bin)));
     row.AddCell(RoundToDigits(signal.MD(Significance::experimental).at(bin) / cU));
@@ -383,7 +383,7 @@ latex::Row PlottingBase::BestValueRow(Result const& signal, std::vector<double> 
 latex::Table PlottingBase::EfficienciesTable(Results const& results, int bin) const
 {
     INFO0;
-    latex::Table table("rllllll");
+    auto table = latex::Table{"rllllll"};
     table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]", latex::Formula("N_{", latex::Command("mathcal", "L"), " = ", latex::Unit("fb^{-1}", static_cast<int>(Settings::Luminosity() * fb)), "}").str());
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(EfficienciesRow(result, Position(results.Signals(), result), Tag::signal, bin));
@@ -404,7 +404,7 @@ std::string Red(int value)
 latex::Row PlottingBase::EfficienciesRow(Result const& result, int, Tag tag, int bin) const
 {
     INFO0;
-    latex::Row row(result.Info().Names().Latex().str(latex::Medium::latex));
+    auto row = latex::Row{result.Info().Names().Latex().str(latex::Medium::latex)};
     row.AddCell(result.Info().EventNumber());
     row.AddCell(result.PartialSum().front());
     row.AddCell(Red(result.PartialSum().at(bin)));
@@ -417,7 +417,7 @@ latex::Row PlottingBase::EfficienciesRow(Result const& result, int, Tag tag, int
 latex::Table PlottingBase::EfficienciesTableMI(Results const& results, Significance significance) const
 {
     INFO0;
-    latex::Table table("rlllll");
+    auto table = latex::Table{"rlllll"};
     table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]\n");
     table.AddLine();
     for (auto const & signal : results.Signals()) {
@@ -433,7 +433,7 @@ latex::Table PlottingBase::EfficienciesTableMI(Results const& results, Significa
 latex::Row PlottingBase::EfficienciesRowMI(Result const& result, int bin) const
 {
     INFO0;
-    latex::Row row(result.Info().LatexName().str(latex::Medium::latex));
+    auto row = latex::Row{result.Info().LatexName().str(latex::Medium::latex)};
     row.AddCell(result.Info().EventNumber());
     row.AddCell(result.PartialSum().front());
     row.AddCell(Red(result.PartialSum().at(bin)));
@@ -445,9 +445,9 @@ latex::Row PlottingBase::EfficienciesRowMI(Result const& result, int bin) const
 latex::Table PlottingBase::CutEfficiencyTable(Results const& results) const
 {
     INFO0;
-    latex::Table table("rllllllllll");
+    auto table = latex::Table{"rllllllllll"};
     table.AddRow("", latex::MultiColumn("Pure Efficiencies [\\%]", 9));
-    latex::Row row("BDT value");
+    auto row = latex::Row{"BDT value"};
     for (auto const & eff : results.SelectedEfficiencies()) row.AddCell(RoundToDigits(eff));
     table.AddRow(row);
     table.AddLine();
@@ -460,7 +460,7 @@ latex::Table PlottingBase::CutEfficiencyTable(Results const& results) const
 latex::Row PlottingBase::CutEfficiencyRow(Result const& result, int , Tag) const
 {
     INFO0;
-    latex::Row row(result.Info().LatexName().str(latex::Medium::latex));
+    auto row = latex::Row{result.Info().LatexName().str(latex::Medium::latex)};
     for (auto const & eff : result.SelectedEfficiencies()) row.AddCell(RoundToDigits(eff * 100));
     return row;
 }
@@ -468,7 +468,7 @@ latex::Row PlottingBase::CutEfficiencyRow(Result const& result, int , Tag) const
 latex::Table PlottingBase::TruthLevelCutTable(Results const& results) const
 {
     INFO0;
-    latex::Table table("rll");
+    auto table = latex::Table{"rll"};
     table.AddRow("Sample", "Efficiency");
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(TruthLevelCutRow(result, Tag::signal));
@@ -480,7 +480,7 @@ latex::Table PlottingBase::TruthLevelCutTable(Results const& results) const
 latex::Row PlottingBase::TruthLevelCutRow(Result const& result, Tag) const
 {
     INFO0;
-    latex::Row row(result.Info().LatexName().str(latex::Medium::latex));
+    auto row = latex::Row{result.Info().LatexName().str(latex::Medium::latex)};
     row.AddCell(RoundToDigits(static_cast<double>(result.TrainerSize()) / result.TrainerInfo().EventNumber()));
     return row;
 }
@@ -527,7 +527,7 @@ void PlottingBase::PlotDetails(Plot& signal, Plot& background, Stage stage) cons
     auto background_y = background.CoreData([](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
         return vector_1.Y() < vector_2.Y();
     });
-    Rectangle<double> range;
+    auto range = Rectangle<double>{};
     range.SetXMin(std::min(signal_x.front().X(), background_x.front().X()));
     range.SetXMax(std::max(signal_x.back().X(), background_x.back().X()));
     range.SetYMin(std::min(signal_y.front().Y(), background_y.front().Y()));
@@ -573,7 +573,7 @@ std::vector<Plots> PlottingBase::Import(Phase const& phase) const
 Plots PlottingBase::PlotResult(TFile& file, std::string const& tree_name, Phase const& phase) const
 {
     INFO0;
-    Plots plots(Info(phase, tree_name).first);
+    auto plots = Plots{Info(phase, tree_name).first};
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(true);
     plots.PlotVector() = UnorderedPairs(ConstCast(Tagger().Branch()).Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
@@ -618,17 +618,17 @@ Plot PlottingBase::ReadTree(TTree& tree, std::string const& leaf_1_name, std::st
     SetBranch(tree, branch_size, branch_name + "_size");
 
     //FIXME remove this magic number
-    std::size_t max_value = 10;
-    std::vector<double> leaf_values_1(max_value);
+    auto max_value = 10;
+    auto leaf_values_1 = std::vector<double>(max_value);
     SetBranch(tree, leaf_values_1, branch_name + "." + leaf_1_name);
 
-    std::vector<double> leaf_values_2(max_value);
+    auto leaf_values_2 = std::vector<double>(max_value);
     SetBranch(tree, leaf_values_2, branch_name + "." + leaf_2_name);
 
-    std::vector<double> bdt_values(max_value);
+    auto bdt_values = std::vector<double>(max_value);
     SetBranch(tree, bdt_values, branch_name + ".Bdt");
 
-    Plot plot;
+    auto plot = Plot{};
     for (auto entry : IntegerRange(tree.GetEntries())) {
         DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);
@@ -650,7 +650,7 @@ std::vector<Plots> PlottingBase::Import2() const
 Plots PlottingBase::PlotResult3(Observable const& variable) const
 {
     ERROR0;
-    Plots plots;
+    auto plots = Plots{};
     plots.Names() = variable.Names();
     for (auto const & tag : std::vector<Tag>( {Tag::signal, Tag::background})) PlotResult2(variable, tag, plots);
     return plots;
@@ -660,9 +660,9 @@ Plots PlottingBase::PlotResult3(Observable const& variable) const
 Plots PlottingBase::PlotResult2(Observable const& variable, Tag tag, Plots& plots) const
 {
     ERROR(Name(tag));
-    Phase phase(Stage::trainer, tag);
+    auto phase = Phase{Stage::trainer, tag};
     TFile file(Tagger().FileName(phase).c_str(), "Read");
-    std::vector<boca::branch::Info> branches;
+    auto branches = std::vector<boca::branch::Info>{};
     for (auto const & tree_name : Tagger().TreeNames(phase)) {
         if (branches.size() < Tagger().TreeNames(phase).size()) branches.emplace_back(Info(phase, tree_name).first);
         auto& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
@@ -689,12 +689,12 @@ Plot PlottingBase::ReadTree2(TTree& tree, std::string const& leaf_name) const
     SetBranch(tree, branch_size, branch_name + "_size");
 
     //FIXME remove this magic number
-    std::size_t max_value = 200;
-    std::vector<double> leaf_values(max_value);
+    auto max_value = 200;
+    auto leaf_values = std::vector<double>(max_value);
     SetBranch(tree, leaf_values, branch_name + "." + leaf_name);
 
 
-    Plot plot;
+    auto plot = Plot{};
     for (auto entry : IntegerRange(tree.GetEntries())) {
         DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);

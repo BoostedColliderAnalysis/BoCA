@@ -33,7 +33,7 @@ std::string EnergyBaseUnit::symbol()
 
 std::string Name(Energy const& energy)
 {
-    std::stringstream stream;
+    auto stream = std::stringstream{};
     stream << boost::units::engineering_prefix << energy;
     auto string = stream.str();
     return boost::range::remove_erase_if(string, isspace);

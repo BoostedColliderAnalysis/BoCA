@@ -33,8 +33,8 @@ void Histograms::AddHistogram(std::vector<double> const& values, Names const& na
     range_.WidenX(range);
     auto min = FloorToDigits(range.Min(), 1);
     auto max = CeilToDigits(range.Max(), 1);
-    int bins = is_int ? max - min : 50;
-    TH1F histogram(names.Name().c_str(), names.LatexName().str(latex::Medium::root).c_str(), bins, min , max);
+    auto bins = static_cast<int>(is_int ? max - min : 50);
+    auto histogram = TH1F{names.Name().c_str(), names.LatexName().str(latex::Medium::root).c_str(), bins, min , max};
     INFO(names.LatexName().str(latex::Medium::root).c_str(), histogram.GetTitle());
     for (auto const & bdt : values) histogram.Fill(bdt);
     if (histogram.Integral() != 0) histogram.Scale(1. / histogram.Integral());
@@ -128,7 +128,7 @@ void Histograms::AddLine(double x_value, std::string const& title)
     if (!range_.Horizontal().Inside(x_value)) return;
     auto y = RangeY();
     INFO(y.Max());
-    TLine line(x_value, y.Min(), x_value, y.Max() * 0.5);
+    auto line = TLine{x_value, y.Min(), x_value, y.Max() * 0.5};
     SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();
     if (!title.empty()) legend_.AddEntry(line, title);

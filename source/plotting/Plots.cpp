@@ -52,24 +52,26 @@ std::vector<Plot>& Plots::PlotVector()
 
 boca::Range< double > Plots::XRange() const
 {
-  INFO0;
-    Range<double> range;
+    INFO0;
+    auto range = Range<double> {};
     for (auto const & plot : plots_) range.Widen(plot.XRange());
     return range;
 }
+
 Names& Plots::Names()
 {
-  INFO0;
+    INFO0;
     return names_;
 }
+
 Names const& Plots::Names() const
 {
-  INFO0;
+    INFO0;
     return names_;
 }
 boca::branch::Info const& Plots::Info() const
 {
-  INFO0;
+    INFO0;
     return info_branch_;
 }
 

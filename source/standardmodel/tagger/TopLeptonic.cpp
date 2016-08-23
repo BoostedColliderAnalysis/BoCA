@@ -93,16 +93,16 @@ std::vector<Triplet> TopLeptonic::Triplets(Event const& event, std::function<Tri
     auto jets = SortedByPt(bottom_reader_.Jets(event));
     auto leptons = Leptons(event, jets);
     DEBUG(jets.size(), leptons.size());
-    std::vector<Doublet> doublets;
+    auto doublets = std::vector<Doublet>{};
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
     else for (auto const & lepton : leptons) {
-            Doublet doublet;
+            auto doublet = Doublet{};
             doublet.Enforce(lepton);
             doublets.emplace_back(doublet);
         }
     auto triplets = Pairs(doublets, jets, [&](Doublet const & doublet, Jet const & jet) {
         DEBUG(doublet.Rap(), jet.rap());
-        Triplet triplet(doublet, jet);
+        auto triplet = Triplet{doublet, jet};
         CHECK(triplet.Mass() == triplet.Mass(), triplet.Mass());
         return function(triplet);
     });
@@ -137,7 +137,7 @@ latex::String TopLeptonic::LatexName() const
 
 boca::Filter TopLeptonic::Filter() const
 {
-    boca::Filter filter("Pull1");
+    auto filter = boca::Filter{"Pull1"};
     if (!use_w_) filter.Add("BDT1");
     return filter;
 }

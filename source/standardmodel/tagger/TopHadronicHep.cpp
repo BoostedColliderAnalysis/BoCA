@@ -85,16 +85,16 @@ std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const&
     if (jets.empty()) return {};
     NOTE(jets.size());
     if(jets.size() == 306 /*|| jets.size() == 115*/) return {}; /// FIXME remove this nasty hack which seems to be necessary for a specific gluon file
-    boca::ClusterSequence cluster_sequence(jets, Settings::JetDefinition(pre_cuts.JetConeMax(Id::top)));
+    auto cluster_sequence = boca::ClusterSequence{jets, Settings::JetDefinition(pre_cuts.JetConeMax(Id::top))};
     jets = SortedByPt(cluster_sequence.InclusiveJets(pre_cuts.PtLowerCut().Get(Id::top)));
     INFO(jets.size());
-    std::vector<Triplet> triplets;
+    auto triplets = std::vector<Triplet>{};
     for (auto const & jet : jets) {
-        hep::TopTagger tagger(cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
+        auto tagger = hep::TopTagger{cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV};
         tagger.set_top_range((MassOf(Id::top) - top_mass_window_) / GeV, (MassOf(Id::top) + top_mass_window_) / GeV);
         tagger.run_tagger();
         if (tagger.top_subjets().size() < 3) continue;
-        Triplet triplet(Doublet(tagger.top_subjets().at(1), tagger.top_subjets().at(2)), tagger.top_subjets().at(0));
+        auto triplet = Triplet{Doublet(tagger.top_subjets().at(1), tagger.top_subjets().at(2)), tagger.top_subjets().at(0)};
         DEBUG(triplet.Mass());
         try {
             triplet = function(triplet);

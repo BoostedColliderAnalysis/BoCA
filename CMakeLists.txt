@@ -64,9 +64,9 @@ add_libraries(MathMore)
 
 # Doxygen
 option(DO_DOXYGEN "Create Doxygen documentation" OFF)
-# if(DO_DOXYGEN)
+if(DO_DOXYGEN)
   include(cmake/UseDoxygen.cmake)
-# endif()
+endif()
 
 # BoCA sources
 add_subdirectory(source)

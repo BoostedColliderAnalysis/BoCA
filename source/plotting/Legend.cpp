@@ -93,7 +93,7 @@ Vector2<double> Position(Orientation orientation, double width, double height)
             }
         });
     }
-    Vector2<double> min;
+    auto min = Vector2<double>{};
     auto margin = TextHeight() / 2;
     if (is(orientation, Orientation::outside)) {
         INFO("Outside");
@@ -115,13 +115,13 @@ Vector2<double> Position(Orientation orientation, double width, double height)
 double Legend::Width(std::vector<latex::String> const& entries) const
 {
     INFO(entries.size());
-    TLatex longest(0, 0, boost::range::max_element(entries, [](latex::String const & entry_1, latex::String const & entry_2) {
+    auto longest = TLatex{0, 0, boost::range::max_element(entries, [](latex::String const & entry_1, latex::String const & entry_2) {
         TLatex latex_1(0, 0, entry_1.str(latex::Medium::root).c_str());
         SetText(latex_1);
         TLatex latex_2(0, 0, entry_2.str(latex::Medium::root).c_str());
         SetText(latex_2);
         return latex_1.GetXsize() < latex_2.GetXsize();
-    })->str(latex::Medium::root).c_str());
+    })->str(latex::Medium::root).c_str()};
     auto extra_width = 0.5 * TextHeight();
     auto width = longest.GetXsize() + RepresentationWidth() + extra_width;
     return width * columns_;  // TODO must be more sofisticated
@@ -131,7 +131,7 @@ double Legend::Height(std::vector<latex::String> const& entries, latex::String c
 {
     INFO(entries.size(), title.str(latex::Medium::root));
     auto height = boost::accumulate(entries, 0., [](double & sum, latex::String const & entry) {
-        TLatex latex(0, 0, entry.str(latex::Medium::root).c_str());
+        auto latex = TLatex{0, 0, entry.str(latex::Medium::root).c_str()};
         SetText(latex);
         INFO(entry.str(latex::Medium::root), latex.GetYsize());
         return sum + latex.GetYsize();
@@ -141,7 +141,7 @@ double Legend::Height(std::vector<latex::String> const& entries, latex::String c
     height /= columns_; // TODO must be more sofisticated
     INFO(height);
     if (title.empty()) return height;
-    TLatex latex(0, 0, title.str(latex::Medium::root).c_str());
+    auto latex = TLatex{0, 0, title.str(latex::Medium::root).c_str()};
     SetText(latex);
     height += latex.GetYsize();
     height += EntrySeparation();
@@ -194,9 +194,9 @@ void Legend::SetOrientation(Orientation orientation, latex::String const& title)
 {
     INFO0;
     if (!legend_.GetListOfPrimitives()) return;
-    std::vector<latex::String> entries;
+    auto entries = std::vector<latex::String>{};
     auto list = legend_.GetListOfPrimitives()->MakeIterator();
-    TLegendEntry* entry;
+    auto * entry = static_cast<TLegendEntry*>(nullptr);
     while ((entry = static_cast<TLegendEntry*>(list->Next()))) entries.emplace_back(entry->GetLabel());
     SetOrientation(orientation, entries, title);
     SetTitle(title);

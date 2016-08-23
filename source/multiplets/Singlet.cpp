@@ -85,7 +85,7 @@ AngleSquareMomentum Singlet::Dipolarity(const Line2< Angle >& line) const
 Angle Singlet::Pull(const Vector2< Angle >& reference) const
 {
     if (reference.Mod2() <= 0. * rad2 || Pull().Mod2() <= 0. * rad2 * rad2) return Pi();
-    Range<double> range(-1, 1);
+    auto range = Range<double>{-1, 1};
     return acos(range.Constrain(reference * Pull() / reference.Mod() / Pull().Mod()));
 }
 

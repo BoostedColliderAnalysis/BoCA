@@ -33,7 +33,7 @@ ClusterSequence::~ClusterSequence()
 
 ClusterSequence& ClusterSequence::operator=(ClusterSequence const& cluster_sequence)
 {
-    ClusterSequence tmp(cluster_sequence);
+    auto tmp = ClusterSequence{cluster_sequence};
     *this = std::move(tmp);
     return *this;
 }

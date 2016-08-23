@@ -203,8 +203,8 @@ LorentzVector< Length >::LorentzVector(delphes::GenParticle& particle)
 void LorentzVector< Length >::Smearing(Length const& amount)
 {
     std::random_device random_device;
-    std::mt19937 generator(random_device());
-    std::normal_distribution<double> normal_distribution(0, amount / m);
+    auto generator = std::mt19937{random_device()};
+    auto normal_distribution = std::normal_distribution<double>{0, amount / m};
 
     scalar_ += normal_distribution(generator) * m;
     vector_3_.X() += normal_distribution(generator) * m;

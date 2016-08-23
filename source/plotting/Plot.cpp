@@ -74,29 +74,32 @@ std::vector< Vector3< double > > Plot::CoreData(std::function<bool (Vector3<doub
     boost::range::sort(data, [&](Vector3<double> const & vector_1, Vector3<double> const & vector_2) {
         return function(vector_1, vector_2);
     });
-    int cut_off = data.size() / 25;
+    auto cut_off = static_cast<int>(data.size() / 25);
     data.erase(data.end() - cut_off, data.end());
     data.erase(data.begin(), data.begin() + cut_off);
     return data;
 }
+
 std::vector< double > Plot::XData() const
 {
-    std::vector<double> x_data(data_.size());
+    auto x_data = std::vector<double>(data_.size());
     boost::range::transform(data_, std::back_inserter(x_data), [](Vector3<double> const & vector) {
         return vector.X();
     });
     return x_data;
 }
+
 boca::Range< double > Plot::XRange() const
 {
     return MinMax(XCoreData());
 }
+
 std::vector< double > Plot::XCoreData() const
 {
   INFO0;
   auto data = XData();
   boost::range::sort(data);
-  int cut_off = data.size() / 25;
+  auto cut_off = static_cast<int>(data.size() / 25);
   data.erase(data.end() - cut_off, data.end());
   data.erase(data.begin(), data.begin() + cut_off);
   return data;
