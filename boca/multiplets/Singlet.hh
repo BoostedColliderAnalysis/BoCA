@@ -71,13 +71,9 @@ public:
 
     int Charge() const;
 
-    double EnergyRatio() const {
-      return Info().EnergyRatio();
-    }
+    double EnergyRatio() const;
 
-    double MomentumRatio() const{
-      return Info().MomentumRatio();
-    }
+    double MomentumRatio() const;
 
     Singlet const& ConstituentJet() const;
 
@@ -123,17 +119,9 @@ public:
 
     AngleSquareMomentum Dipolarity(Line2<Angle> const& line) const;
 
-    std::vector<boca::LorentzVector<Momentum>> LorentzVectors() const {
-      return {Vector()};
-    }
+    std::vector<boca::LorentzVector<Momentum>> LorentzVectors() const;
 
 private:
-
-    Angle GetRadius() const;
-
-    Vector2<AngleSquare> GetPull() const;
-
-    double Log(const boca::Length& length) const;
 
     // save expensive results in mutable member variables
 

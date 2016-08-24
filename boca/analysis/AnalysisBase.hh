@@ -36,7 +36,8 @@ struct Flag<Output> {
     static const bool enable = true;
 };
 
-extern std::string _analysis_name_; //< global variabel; FIXME remove again; is necesarry due to bug in root
+// global variabel; FIXME remove again; is necesarry due to bug in root
+extern std::string _analysis_name_;
 
 /**
  * @brief Base for all analyses.
