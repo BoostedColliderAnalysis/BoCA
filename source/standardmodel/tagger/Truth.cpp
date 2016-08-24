@@ -16,7 +16,8 @@ namespace boca
 namespace standardmodel
 {
 
-  namespace tagger {
+namespace tagger
+{
 
 int Truth::Train(Event const& event, PreCuts const& pre_cuts, Tag)
 {
@@ -44,10 +45,10 @@ std::vector<TruthVariables> Truth::Jets(Event const& event, PreCuts const& pre_c
     auto particle = event.GenParticles();
     auto tops = CopyIfParticle(particle, Id::top);
     CHECK(tops.size() == 2, tops.size());
-    std::vector<TruthVariables> truths;
+    auto truths = std::vector<TruthVariables>{};
     for (auto const & top : tops) {
         if (top.Pt() < pre_cuts.PtLowerCut().Get(Id::top) || top.Pt() > pre_cuts.PtUpperCut().Get(Id::top)) continue;
-        TruthVariables truth;
+        auto truth = TruthVariables{};
         truth.SetTop(top);
         auto bottoms = CopyIfMother(CopyIfParticle(particle, Id::bottom), top);
         CHECK(bottoms.size() == 1, bottoms.size());

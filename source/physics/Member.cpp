@@ -53,7 +53,7 @@ int Member::Id() const
 
 std::string Member::Name() const
 {
-  return boca::Name(Id());
+    return boca::Name(Id());
 }
 
 void Member::Set(int id, int position)
@@ -75,8 +75,8 @@ bool Member::operator==(Member const& member)
 
 bool Member::operator!=(Member const& member)
 {
-  CHECK(Position() != EmptyPosition(), Position());
-  return Position() != member.Position();
+    CHECK(Position() != EmptyPosition(), Position());
+    return Position() != member.Position();
 }
 
 }

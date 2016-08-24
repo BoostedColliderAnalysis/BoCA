@@ -13,7 +13,7 @@ int ChargedHiggsLeptonic::Train(boca::Event const& event, PreCuts const&, const 
     auto triplets = top_leptonic_reader_.Multiplets(event);
     INFO(triplets.size());
     /*
-        std::vector<Triplet> triplets;
+        auto triplets = std::vector<Triplet>{};
         for (auto const& triplet : triplets) {
             for (auto const& Jet : jets)  {
                 if (triplet.Singlet1() == Jet) continue;
@@ -46,7 +46,7 @@ std::vector<Triplet>  ChargedHiggsLeptonic::Multiplets(boca::Event const&, PreCu
 //    std::vector<Jet> jets = bottom_reader_.Jets(event);
 //     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
 //
-//     std::vector<Triplet> triplets;
+//     auto triplets = std::vector<Triplet>{};
 //     for (auto const& doublet : doublets) {
 //         for (auto const& jet : jets)  {
 //             if (doublet.Singlet1() == jet) continue;

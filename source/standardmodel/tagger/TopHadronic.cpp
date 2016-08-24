@@ -49,8 +49,8 @@ namespace
 std::vector< Triplet > ordered_doublets(std::vector<Jet> const& jets, std::function< boost::optional<Triplet>(Jet const& piece_1, Jet const& piece_2)> const& function)
 {
     INFO0;
-    std::vector<Triplet> triplets;
-    unsigned sub_jet_number = 2;
+    auto triplets = std::vector<Triplet>{};
+    auto sub_jet_number = static_cast<unsigned>(2);
     if (jets.size() < sub_jet_number) return triplets;
     for (std::size_t i = 0; i < jets.size(); ++i) if (auto optional = function(jets.at(i), jets.at((i + 1) % sub_jet_number))) triplets.emplace_back(*optional);
     return triplets;
@@ -59,8 +59,8 @@ std::vector< Triplet > ordered_doublets(std::vector<Jet> const& jets, std::funct
 std::vector< Triplet > ordered_triplets(std::vector<Jet> const& jets, std::function< boost::optional<Triplet>(Jet const& piece_1, Jet const& piece_2, Jet const& piece_3)> const& function)
 {
     INFO0;
-    std::vector<Triplet> triplets;
-    unsigned sub_jet_number = 3;
+    auto triplets = std::vector<Triplet>{};
+    auto sub_jet_number = static_cast<unsigned>(3);
     if (jets.size() < sub_jet_number) return triplets;
     for (std::size_t i = 0; i < jets.size(); ++i) if (auto optional = function(jets.at(i), jets.at((i + 1) % sub_jet_number), jets.at((i + 2) % sub_jet_number))) triplets.emplace_back(*optional);
     return triplets;
@@ -104,18 +104,18 @@ std::vector<Triplet> TopHadronic::Triplets(Event const& event, Function const& f
     auto jets = SortedByPt(bottom_reader_.Jets(event));
     auto leptons = event.Leptons();
 
-    MomentumRange three_jet_range(Id::W);
+    auto three_jet_range = MomentumRange{Id::W};
     auto triplets = ThreeJets(three_jet_range.SofterThanMax(jets), leptons, function, three_jet_range);
 
-    MomentumRange two_jet_range(Id::W, id_);
+    auto two_jet_range = MomentumRange{Id::W, id_};
     for (auto const & jet : two_jet_range.InsidePtWindow(jets)) Insert(triplets, TwoJets(two_jet_range.SofterThanMax(jets), jet, leptons, function, two_jet_range));
 
-    MomentumRange three_sub_jet_range(id_, SubJet(Id::W));
+    auto three_sub_jet_range = MomentumRange{id_, SubJet{Id::W}};
     for (auto const & jet : three_sub_jet_range.HarderThanMin(jets)) {
         if (three_sub_jet_range.InsideRange(jet)) Insert(triplets, ThreeSubJets(jet, leptons, function, three_sub_jet_range));
-        MomentumRange two_sub_jet_range((SubJet(Id::W)), (SubJet(id_)));
+        auto two_sub_jet_range = MomentumRange{SubJet{Id::W}, SubJet{id_}};
         if (two_sub_jet_range.InsideRange(jet)) Insert(triplets, TwoSubJets(jet, leptons, function, two_sub_jet_range));
-        MomentumRange one_sub_jet_range((SubJet(id_)));
+        auto one_sub_jet_range = MomentumRange{SubJet{id_}};
         if (one_sub_jet_range.InsideRange(jet)) if (auto optional = HighlyBoosted(jet, leptons, function)) triplets.emplace_back(*optional);
     }
     INFO(triplets.size());
@@ -158,7 +158,7 @@ std::vector<Triplet> TopHadronic::TwoSubJets(Jet const& jet, std::vector<Lepton>
 boost::optional<Triplet> TopHadronic::HighlyBoosted(Jet const& jet, std::vector<Lepton> const& leptons, Function const& function) const
 {
     INFO0;
-    Triplet triplet;
+    auto triplet = Triplet{};
     triplet.Enforce(jet);
     triplet.Doublet().SetBdt(0);
     return function(triplet, leptons);
@@ -167,7 +167,7 @@ boost::optional<Triplet> TopHadronic::HighlyBoosted(Jet const& jet, std::vector<
 std::vector<Triplet> TopHadronic::Triplets(std::vector<boca::Doublet> const& doublets, std::vector<Jet> const& jets, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const
 {
     INFO(doublets.size());
-    std::vector<Triplet> triplets;
+    auto triplets = std::vector<Triplet>{};
     for (auto const & doublet : doublets) Insert(triplets, Triplets(doublet, jets, leptons, function, range));
     INFO(triplets.size());
     return triplets;
@@ -176,7 +176,7 @@ std::vector<Triplet> TopHadronic::Triplets(std::vector<boca::Doublet> const& dou
 std::vector<Triplet> TopHadronic::Triplets(boca::Doublet const& doublet, std::vector<Jet> const& jets, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const
 {
     INFO0;
-    std::vector<Triplet> triplets;
+    auto triplets = std::vector<Triplet>{};
     for (auto const & jet : jets) if (auto optional = Tripple(doublet, jet, leptons, function, range, true)) triplets.emplace_back(*optional);
     INFO(triplets.size());
     return triplets;
@@ -185,7 +185,7 @@ std::vector<Triplet> TopHadronic::Triplets(boca::Doublet const& doublet, std::ve
 boost::optional<Triplet> TopHadronic::Tripple(boca::Doublet const& doublet, Jet const& jet, std::vector<Lepton> const& leptons , Function const& function, MomentumRange const& range, bool check_overlap) const
 {
     INFO0;
-    Triplet triplet(doublet, jet);
+    auto triplet = Triplet{doublet, jet};
     DEBUG(triplet.Pt(), range.Min(), range.Max());
     if (!range.InsideRange(triplet)) return boost::none;
     if (check_overlap && triplet.Overlap()) return boost::none;

@@ -38,28 +38,28 @@ std::vector<Doublet> WHadronic::Doublets(Event const& event, PreCuts const& pre_
 {
     INFO0;
     auto jets = event.Jets();
-    MomentumRange two_jet_range(Id::W);
-    std::vector<Jet> soft;
+    auto two_jet_range = MomentumRange{Id::W};
+    auto soft = std::vector<Jet> {};
     for (auto & jet : two_jet_range.SofterThanMax(jets)) soft.emplace_back(bottom_reader_.Multiplet(jet));
     auto doublets = Doublets(soft, function);
 
-    MomentumRange w_jet_range(Id::W, SubJet(Id::W));
+    auto w_jet_range = MomentumRange{Id::W, SubJet{Id::W}};
     for (auto const & jet : w_jet_range.HarderThanMin(jets)) {
 
-        MomentumRange top_jet_range(Id::top, SubJet(Id::W));
+      auto top_jet_range = MomentumRange{Id::top, SubJet{Id::W}};
         if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideRange(jet)) Insert(doublets, Doublets(bottom_reader_.SubMultiplet(jet, 3), function));
 
-        MomentumRange boosted_range((SubJet(Id::W)), (SubJet(Id::top)));
+        auto boosted_range = MomentumRange{SubJet{Id::W}, SubJet{Id::top}};
         if (pre_cuts.DoSubJets(Id::W) && boosted_range.InsideRange(jet)) {
             auto pieces = bottom_reader_.SubMultiplet(jet, 2);
             for (auto const& piece : pieces) {
-                Doublet doublet;
+                auto doublet = Doublet{};
                 doublet.Enforce(piece);
                 if (auto optional = function(doublet)) doublets.emplace_back(*optional);
             }
         }
 
-        Doublet doublet;
+        auto doublet = Doublet{};
         doublet.Enforce(bottom_reader_.SubMultiplet(jet, 2));
         if (auto optional = function(doublet)) doublets.emplace_back(*optional);
 
@@ -88,7 +88,7 @@ boost::optional<Doublet> WHadronic::CheckDoublet(Doublet doublet, PreCuts const&
 std::vector<Doublet> WHadronic::Doublets(std::vector<Jet> const& jets, Function const& function) const
 {
     return UnorderedPairs(jets, [&](Jet const & jet_1, Jet const & jet_2) {
-        Doublet doublet(jet_1, jet_2);
+        auto doublet = Doublet{jet_1, jet_2};
         if (auto optional = function(doublet)) return *optional;
         throw boca::Problematic();
     });
@@ -140,15 +140,15 @@ std::vector<Doublet> WHadronic::Multiplets(std::vector<Jet> const& jets, PreCuts
 }
 
 boost::optional<Doublet> WHadronic::Multiplet(Jet const& jet, TMVA::Reader const& reader) {
-    PreCuts pre_cuts;
-    Doublet doublet;
+    auto pre_cuts = PreCuts{};
+    auto doublet = Doublet{};
     doublet.Enforce(jet);
     return Multiplet(doublet, pre_cuts, reader);
 }
 
 boost::optional<Doublet> WHadronic::SubMultiplet(Jet const& jet, TMVA::Reader const& reader)
 {
-    PreCuts pre_cuts;
+    auto pre_cuts = PreCuts {};
     return SubDoublet(jet, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
     });
@@ -159,7 +159,7 @@ boost::optional<Doublet> WHadronic::SubDoublet(Jet const& jet, Function const& f
     INFO0;
     auto pieces = bottom_reader_.SubMultiplet(jet, 2);
     if (pieces.empty()) return boost::none;
-    Doublet doublet;
+    auto doublet = Doublet{};
     if (pieces.size() == 1) doublet.Enforce(pieces.front());
     else doublet = Doublet(pieces.at(0), pieces.at(1));
     return function(doublet);
@@ -167,8 +167,8 @@ boost::optional<Doublet> WHadronic::SubDoublet(Jet const& jet, Function const& f
 
 boost::optional<Doublet> WHadronic::Multiplet(Jet const& jet_1, Jet const& jet_2, TMVA::Reader const& reader)
 {
-    PreCuts pre_cuts;
-    Doublet doublet(jet_1, jet_2);
+    auto pre_cuts = PreCuts {};
+    auto doublet = Doublet{jet_1, jet_2};
     return Multiplet(doublet, pre_cuts, reader);
 }
 

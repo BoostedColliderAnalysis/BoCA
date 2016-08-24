@@ -10,6 +10,8 @@
 namespace boca
 {
 
+using namespace std::string_literals;
+
 std::vector< Significance > Constrained(std::vector<Significance> const& significances)
 {
     INFO0;
@@ -72,7 +74,7 @@ std::vector< Significance > Significances()
 std::string Name(Significance significance)
 {
     INFO0;
-    std::string name;
+    auto name = ""s;
     FlagSwitch(significance, [&](Significance signific) {
         switch (signific) {
         case Significance::none : name += "None ";
@@ -98,7 +100,7 @@ std::string Name(Significance significance)
 latex::String LatexName(Significance significance)
 {
     INFO0;
-    latex::String name;
+    auto name = latex::String{};
     FlagSwitch(significance, [&](Significance signific) {
         switch (signific) {
         case Significance::experimental :

@@ -21,35 +21,34 @@ int Tau::Train(Event const& event, PreCuts const&, Tag tag)
     INFO0;
     auto jets = event.Jets();
     INFO(jets.size());
-    auto Particles = event.GenParticles();
-    Particles = CopyIfParticle(Particles, Id::tau);
-//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(Id::tau)), Particles.end());
-//     if(Particles.size()!=1)
-    INFO(Particles.size());
-    auto final_jets = CleanJets(jets, Particles, tag);
+    auto particles = event.GenParticles();
+    particles = CopyIfParticle(particles, Id::tau);
+//     particles.erase(std::remove_if(particles.begin(), particles.end(), WrongAbsId(Id::tau)), particles.end());
+//     if(particles.size()!=1)
+    INFO(particles.size());
+    auto final_jets = CleanJets(jets, particles, tag);
 //     if(FinalJets.size()!=1)
     INFO(final_jets.size());
-//    std::vector<Jet> Pieces = GetSubJets(jets, Particles, Tag, 2);
+//    std::vector<Jet> Pieces = GetSubJets(jets, particles, Tag, 2);
 //     FinalJets.insert(FinalJets.end(), Pieces.begin(), Pieces.end());
 //
-//    std::vector<Jet> Pieces2 = GetSubJets(jets, Particles, Tag, 3);
+//    std::vector<Jet> Pieces2 = GetSubJets(jets, particles, Tag, 3);
 //     FinalJets.insert(FinalJets.end(), Pieces2.begin(), Pieces2.end());
-    std::vector<Singlet> singlets;
+    auto singlets = std::vector<Singlet>{};
     for (auto const & final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
     return SaveEntries(singlets);
 }
 
 
-std::vector<Jet> Tau::CleanJets(std::vector<Jet>& jets, std::vector<Particle> const& Particles, Tag tag) const
+std::vector<Jet> Tau::CleanJets(std::vector<Jet>& jets, std::vector<Particle> const& particles, Tag tag) const
 {
     INFO0;
-    for (auto const & Particle : Particles) {
-        SortedByMinDeltaRTo(jets, Particle);
-        if (jets.front().DeltaRTo(Particle) < 0.4_rad) jets.front().Info().SetTag(Tag::signal);
+    for (auto const & particle : particles) {
+        SortedByMinDeltaRTo(jets, particle);
+        if (jets.front().DeltaRTo(particle) < 0.4_rad) jets.front().Info().SetTag(Tag::signal);
     }
-    std::vector<Jet> NewCleanJets;
+    auto new_clean_jets = std::vector<Jet>{};
     for (auto const & Jet : jets) {
-
 //         if (std::abs(Jet.rap()) > 2.5) continue;
 // if (Jet.m() < 0){
 //   ERROR("Clean Jets", "Massless Jet");
@@ -60,16 +59,16 @@ std::vector<Jet> Tau::CleanJets(std::vector<Jet>& jets, std::vector<Particle> co
 //   ERROR("Clean Jets", "Not Tagged Jet");
             continue;
         }
-        NewCleanJets.emplace_back(Jet);
+        new_clean_jets.emplace_back(Jet);
     }
-    return NewCleanJets;
+    return new_clean_jets;
 }
 
 std::vector<Singlet> Tau::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
-    std::vector<Singlet> final_jets;
     INFO0;
     auto jets = event.Jets();
+    auto final_jets = std::vector<Singlet>{};
     for (auto & jet : jets) {
         jet.Info().SetBdt(Bdt(jet, reader));
         final_jets.emplace_back(Singlet(jet));

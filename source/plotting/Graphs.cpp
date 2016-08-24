@@ -37,7 +37,7 @@ void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& 
     auto ys2 = ys;
     range_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
     ERROR(range_.YMin());
-    TGraph graph(xs.size(), xs.data(), ys.data());
+    auto graph = TGraph{xs.size(), xs.data(), ys.data()};
     SetLine(graph, graphs_.size());
     graph.SetTitle(name.str(latex::Medium::root).c_str());
     graphs_.emplace_back(graph);
@@ -141,7 +141,7 @@ void Graphs::AddLine(double x_value, latex::String const& title)
 //     if (!RangeX().Inside(x_value)) return;
     if (x_value <= -1) return;  // FIXME reenable proper check
     auto y = RangeY();
-    TLine line(x_value, y.Min(), x_value, y.Max());
+    auto line = TLine{x_value, y.Min(), x_value, y.Max()};
     SetLine(line, graphs_.size() + lines_.size());
     lines_.emplace_back(line, title.str(latex::Medium::root));
 }

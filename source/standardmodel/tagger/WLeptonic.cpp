@@ -98,9 +98,9 @@ std::vector<Doublet> WLeptonic::Doublets(Event const& event, std::function<boost
 //     std::vector<Lepton> leptons = SortedByPt(event.Leptons());
     auto leptons = Leptons(event);
     auto missing_et = event.MissingEt();
-    std::vector<Doublet> doublets;
+    auto doublets = std::vector<Doublet>{};
     for (auto const & lepton : leptons) {
-        Doublet pre_doublet(lepton, missing_et);
+        auto pre_doublet = Doublet{lepton, missing_et};
         auto post_doublets = ReconstructNeutrino(pre_doublet);
         for (auto & doublet : post_doublets) if (auto optional = function(doublet)) doublets.emplace_back(*optional);
     }
@@ -129,10 +129,10 @@ std::vector<Doublet> WLeptonic::ReconstructNeutrino(Doublet const& doublet) cons
     auto sqrt = boost::units::sqrt(radicant);
     auto neutrino_1_e = (lepton.Energy() * linear_term - sqrt) / lepton_square;
     auto neutrino_1_pz = (lepton_pz_square * linear_term - lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
-    Lepton neutrino_1(missing_et.Px(), missing_et.Py(), neutrino_1_pz, neutrino_1_e);
+    auto neutrino_1 = Lepton{missing_et.Px(), missing_et.Py(), neutrino_1_pz, neutrino_1_e};
     auto neutrino_2_e = (lepton.Energy() * linear_term + sqrt) / lepton_square;
     auto neutrino_2_pz = (lepton_pz_square * linear_term + lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
-    Lepton neutrino_2(missing_et.Px(), missing_et.Py(), neutrino_2_pz, neutrino_2_e);
+    auto neutrino_2 = Lepton{missing_et.Px(), missing_et.Py(), neutrino_2_pz, neutrino_2_e};
     return {Doublet(lepton, neutrino_1), Doublet(lepton, neutrino_2)};
 }
 

@@ -111,7 +111,7 @@ std::vector<int> const& Result::PartialSum() const
 {
     INFO0;
     return event_sums_.Get([&]() {
-        std::vector<int> event_sums(Steps());
+        auto event_sums = std::vector<int>(Steps());
         switch (Mva()) {
         case TMVA::Types::EMVA::kBDT : boost::partial_sum(boost::adaptors::reverse(Bins()), event_sums.rbegin());
             break;
@@ -127,7 +127,7 @@ std::vector<int> const& Result::Bins() const
 {
     INFO0;
     return bins_.Get([&]() {
-        std::vector<int> bins(Steps());
+        auto bins = std::vector<int>(Steps());
         for (auto const & bdt : Bdts()) ++bins.at(XBin(bdt));
         return bins;
     });

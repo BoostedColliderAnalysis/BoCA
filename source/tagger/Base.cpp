@@ -69,7 +69,7 @@ bool Base::Cut(TMVA::Reader const& reader, double eff) const
 std::vector<Jet> Base::SubJets(Jet const& jet, int sub_jet_number) const
 {
     INFO0;
-    ClusterSequence cluster_sequence(jet.Constituents(), Settings::SubJetDefinition());
+    auto cluster_sequence = ClusterSequence{jet.Constituents(), Settings::SubJetDefinition()};
     return cluster_sequence.ExclusiveJetsUpTo(sub_jet_number);
 }
 

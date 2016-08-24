@@ -86,12 +86,12 @@ std::vector<Triplet> TopHadronicHep2::Triplets(Event const& event, PreCuts const
     if (jets.empty()) return {};
     INFO(jets.size(), pre_cuts.JetConeMax(Id::top));
     if(jets.size() == 306 /*|| jets.size() == 115*/) return {}; /// FIXME remove this nasty hack which seems to be necessary for a specific gluon file
-    boca::ClusterSequence cluster_sequence(jets, Settings::JetDefinition(pre_cuts.JetConeMax(Id::top)));
+    auto cluster_sequence = boca::ClusterSequence{jets, Settings::JetDefinition(pre_cuts.JetConeMax(Id::top))};
     jets = SortedByPt(cluster_sequence.InclusiveJets(pre_cuts.PtLowerCut().Get(Id::top)));
     INFO(jets.size());
-    std::vector<Triplet> triplets;
+    auto triplets = std::vector<Triplet>{};
     for (auto const & jet : jets) {
-        hep::TopTagger2 tagger(jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
+        auto tagger = hep::TopTagger2{jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV};
 
         // Unclustering, Filtering & Subjet Settings
 //         tagger.set_max_subjet_mass(30.);

@@ -34,19 +34,19 @@ std::vector<Doublet> ZHadronic::Doublets(Event const& event, std::function<boost
 {
     INFO0;
     auto jets = event.Jets();
-    MomentumRange jet_range(Id::Z, Id::Z);
-    std::vector<Jet> soft;
+    auto jet_range = MomentumRange{Id::Z, Id::Z};
+    auto soft = std::vector<Jet>{};
     for (auto & jet : jet_range.SofterThanMax(jets)) soft.emplace_back(bottom_reader_.Multiplet(jet));
 
     auto doublets = UnorderedPairs(soft, [&](Jet const & jet_1, Jet const & jet_2) {
-        Doublet doublet(jet_1, jet_2);
+        auto doublet = Doublet{jet_1, jet_2};
         if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
         if (auto optional = function(doublet)) return *optional;
         else throw boca::Problematic();
     });
 
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
-        Doublet doublet;
+        auto doublet = Doublet{};
         doublet.Enforce(bottom_reader_.SubMultiplet(jet, 2));
         if (auto optional = function(doublet)) doublets.emplace_back(*optional);
     }

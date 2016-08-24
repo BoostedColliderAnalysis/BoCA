@@ -50,7 +50,7 @@ std::vector< Lepton > Event::Leptons() const
 {
     INFO0;
     if (!Settings::Isolation()) return Combine(Electrons(), Muons());
-    std::vector<Lepton> leptons;
+    auto leptons = std::vector<Lepton>{};
     for (auto const & lepton : Combine(Electrons(), Muons())) {
         if (lepton.Pt() > Settings::HardLeptonMomentum()) {
             leptons.emplace_back(lepton);

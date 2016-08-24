@@ -40,10 +40,10 @@ namespace tagger
 //         break;
 //     }
 // //    std::vector<boca::Jet> bottom_jets = BestMatches(jets,bottoms,tag);
-//     std::vector<Doublet> doublets;
+//     auto doublets = std::vector<Doublet>{};
 //     for (auto jet1 = bottom_jets.begin(); jet1 != bottom_jets.end(); ++jet1)
 //         for (auto jet2 = jet1 + 1; jet2 != bottom_jets.end(); ++jet2) {
-//             Doublet doublet;
+//             auto doublet = Doublet{};
 //             if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet.SetMultiplets(*jet1, *jet2);
 //             else doublet.SetMultiplets(*jet2, *jet1);
 //
@@ -79,7 +79,7 @@ std::vector<Particle>JetPair::PairBottomQuarks(boca::Event const& event, Tag tag
 //     std::vector<Doublet>  doublets;
 //     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1)
 //         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
-//             Doublet doublet;
+//             auto doublet = Doublet{};
 //             if (std::abs((*jet_1).rap()) > std::abs((*jet_2).rap()))
 //                 doublet.SetMultiplets(*jet_1, *jet_2);
 //             else
@@ -123,10 +123,10 @@ int JetPair::Train(boca::Event const& event, const PreCuts&, Tag tag)
     auto bottom_jets = TruthJetPair(event, jets, tag);
 
     auto bottoms = PairBottomQuarks(event, tag);
-    std::vector<Doublet> doublets;
+    auto doublets = std::vector<Doublet>{};
     for (auto jet1 = bottom_jets.begin(); jet1 != bottom_jets.end(); ++jet1)
         for (auto jet2 = jet1 + 1; jet2 != bottom_jets.end(); ++jet2) {
-            Doublet doublet;
+            auto doublet = Doublet{};
             if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet = Doublet(*jet1, *jet2);
             else doublet = Doublet(*jet2, *jet1);
             if (tag == Tag::background && !higgs.empty() && bottoms.size() == 2 && CheckIfBadBottom(doublet, bottoms)) continue;
@@ -199,7 +199,7 @@ std::vector<Doublet> JetPair::Multiplets(boca::Event const& event, const PreCuts
     std::vector<Doublet>  doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1)
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
-            Doublet doublet;
+            auto doublet = Doublet{};
             if (std::abs((*jet_1).rap()) > std::abs((*jet_2).rap())) doublet = Doublet(*jet_1, *jet_2);
             else doublet = Doublet(*jet_2, *jet_1);
             if (doublet.Overlap())continue;

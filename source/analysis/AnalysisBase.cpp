@@ -3,8 +3,6 @@
  */
 
 #include <sys/stat.h>
-// #include <fstream>
-// #include <boost/lexical_cast.hpp>
 
 #include "boca/generic/Types.hh"
 #include "boca/io/Io.hh"
@@ -19,9 +17,11 @@
 namespace boca
 {
 
+using namespace std::string_literals;
+
 std::string Name(Output output)
 {
-    std::string name;
+    auto name = ""s;
     FlagSwitch(output, [&](Output out) {
         switch (out) {
         case Output::none : name += "None";
@@ -236,7 +236,7 @@ void AnalysisBase::RunTrainer()
     INFO0;
     if (Exists(Tagger().WeightFileName())) return;
     PrepareFiles(Stage::trainer);
-    std::ofstream cout_file(Tagger().FolderName() + ".txt");
+    auto cout_file = std::ofstream{Tagger().FolderName() + ".txt"};
     auto cout = std::cout.rdbuf();
     std::cout.rdbuf(cout_file.rdbuf());
     Trainer trainer(Tagger());

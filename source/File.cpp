@@ -13,7 +13,7 @@
 namespace boca
 {
 
-  File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, latex::String const& latex_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
+File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, latex::String const& latex_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
 {
     INFO0;
     process_folders_ = processes;
@@ -39,9 +39,12 @@ std::string File::FileSuffix() const
 {
     INFO0;
     switch (Source()) {
-    case boca::Source::delphes : return "_delphes_events.root";
-    case boca::Source::parton : return "_unweighted_events.root";
-    case boca::Source::pgs : return "_pgs_events.root";
+    case boca::Source::delphes :
+        return "_delphes_events.root";
+    case boca::Source::parton :
+        return "_unweighted_events.root";
+    case boca::Source::pgs :
+        return "_pgs_events.root";
         DEFAULT(boca::Name(Source()), "");
     }
 }
@@ -50,9 +53,12 @@ std::string File::TreeName() const
 {
     INFO0;
     switch (Source()) {
-    case boca::Source::delphes : return "Delphes";
-    case boca::Source::parton : return "LHEF";
-    case boca::Source::pgs : return "LHCO";
+    case boca::Source::delphes :
+        return "Delphes";
+    case boca::Source::parton :
+        return "LHEF";
+    case boca::Source::pgs :
+        return "LHCO";
         DEFAULT(boca::Name(Source()), "");
     }
 }

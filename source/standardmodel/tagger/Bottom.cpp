@@ -69,7 +69,7 @@ std::vector<Jet> Bottom::Multiplets(std::vector<Jet> jets, std::function<Jet(Jet
 {
     INFO0;
     if (sub_jet_number > 1) jets = SubJets(jets, sub_jet_number);
-    std::vector<Jet> final_jets;
+    auto final_jets = std::vector<Jet>{};
     for (auto & jet : jets) try {
             DEBUG(jet.Mass(), jet.Pt(), jet.Rap(), jet.Phi());
             final_jets.emplace_back(function(jet));
@@ -122,7 +122,7 @@ bool Bottom::Problematic(Jet const& jet, PreCuts const& pre_cuts) const
 std::vector<Jet> Bottom::SubJets(std::vector<Jet> const& jets, int sub_jet_number) const
 {
     INFO0;
-    std::vector<Jet> subjets;
+    auto subjets = std::vector<Jet>{};
     for (auto const & jet : jets) Insert(subjets, boca::tagger::Base::SubJets(jet, sub_jet_number));
     return subjets;
 }
@@ -140,7 +140,7 @@ std::vector<Jet> Bottom::Jets(Event const& event, boca::PreCuts const& pre_cuts,
 std::vector<Jet> Bottom::SubMultiplet(Jet const& jet, TMVA::Reader const& reader, int sub_jet_number)
 {
     INFO0;
-    std::vector<Jet> jets;
+    auto jets = std::vector<Jet>{};
     for (auto & sub_jet : boca::tagger::Base::SubJets(jet, sub_jet_number)) jets.emplace_back(Multiplet(sub_jet, reader));
     return jets;
 }
