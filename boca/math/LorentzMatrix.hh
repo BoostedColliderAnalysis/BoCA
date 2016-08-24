@@ -150,9 +150,9 @@ public:
 
     Matrix3<Value_> SubMatrix(LorentzDim delete_1, LorentzDim delete_2) const {
 //       std::cout << "delete " << Name(delete_1) <<  " " << Name(delete_2) << std::endl;
-        EnumIterator<Dim3> dim3_1(Dim3::x);
-        EnumIterator<Dim3> dim3_2(Dim3::x);
-        Matrix3<Value_> matrix;
+        auto dim3_1 = EnumIterator<Dim3>{Dim3::x};
+        auto dim3_2 = EnumIterator<Dim3>{Dim3::x};
+        auto matrix = Matrix3<Value_>{};
         for (auto dim4_1 : LorentzDimensions()) {
             if (dim4_1 == delete_1) continue;
             for (auto dim4_2 : LorentzDimensions()) {

@@ -130,9 +130,9 @@ public:
 
     template<typename Multiplet_>
     auto Transform(Event const& event) {
-        std::vector<Multiplet_> multiplets;
+        auto multiplets = std::vector<Multiplet_>{};
         for (auto const & multiplet : Multiplets(event)) {
-            Multiplet_ new_multiplet;
+            auto new_multiplet = Multiplet_{};
             new_multiplet.Enforce(multiplet);
             multiplets.emplace_back(new_multiplet);
         }

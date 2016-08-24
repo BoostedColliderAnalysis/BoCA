@@ -121,8 +121,11 @@ public:
     friend void swap(EnumIterator const& lhs, EnumIterator const& rhs) {
         std::swap(lhs.enum_, rhs.enum_);
     }
+
 private:
+
     Enum_ enum_;
+
     using Type_ = typename std::underlying_type<Enum_>::type;
 
     Enum_ Add(size_type size) {

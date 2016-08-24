@@ -102,8 +102,8 @@ public:
     // Transverse energy w.r.t. given axis squared.
     template<typename Value,  typename = OnlyIfNotQuantity<Value>>
     EnergySquare Et2(Vector3<Value> const& vector) const {
-        MomentumSquare pt2 = vector_3_.Perp2(vector);
-        Momentum pv = vector_3_.Dot(vector.Unit());
+        auto pt2 = vector_3_.Perp2(vector);
+        auto pv = vector_3_.Dot(vector.Unit());
         return pt2 == 0. * GeV2 ? 0. * GeV2 : sqr(E()) * pt2 / (pt2 + sqr(pv));
     }
 

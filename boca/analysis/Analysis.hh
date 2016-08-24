@@ -52,7 +52,7 @@ private:
     void FileLoop(BranchWriter<Tagger_> branch_writer) {
         auto threading = true;
         if (threading) {
-            std::vector<std::thread> threads;
+            auto threads = std::vector<std::thread>{};
             // int cores = std::thread::hardware_concurrency();
             auto cores = 1;
 //         for (auto core : IntegerRange(cores)) // FIXME why is this not the same as next line
@@ -75,20 +75,20 @@ private:
     void RunSignificance() override {
         if (Exists(Tagger().ExportFileName())) return;
         PrepareFiles(Stage::reader);
-        Plotting<Tagger_> plotting(Tagger());
+        auto plotting = Plotting<Tagger_>{Tagger()};
         plotting.OptimalCuts();
     }
 
     void RunEfficiency() override {
         if (Exists(Tagger().ExportFileName())) return;
         PrepareFiles(Stage::reader);
-        Plotting<Tagger_> plotting(Tagger());
+        auto plotting = Plotting<Tagger_>{Tagger()};
         plotting.TaggingEfficiency();
     }
 
     void RunPlots() override {
         if (Exists(Tagger().ExportFolderName())) return;
-        Plotting<Tagger_> plotting(Tagger());
+        auto plotting = Plotting<Tagger_>{Tagger()};
         PrepareFiles(Stage::trainer);
         plotting.RunPlots(Stage::trainer);
         PrepareFiles(Stage::reader);
@@ -98,7 +98,7 @@ private:
 
     void RunPlotHist() override {
         //   if (Exists(Tagger().ExportFolderName())) return;
-        Plotting<Tagger_> plotting(Tagger());
+        auto plotting = Plotting<Tagger_>{Tagger()};
         PrepareFiles(Stage::trainer);
         plotting.RunPlotHist();
     }
@@ -108,7 +108,7 @@ private:
         RunTrainer();
         RunTagger(Stage::reader);
         PrepareFiles(Stage::reader);
-        Plotting<Tagger_> plotting(Tagger());
+        auto plotting = Plotting<Tagger_>{Tagger()};
         plotting.OptimalCuts();
     }
 

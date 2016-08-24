@@ -175,7 +175,7 @@ public:
       boost::remove_erase(xs, 0);
       auto ys = ys1;
       boost::remove_erase(ys, 0);
-        Range<int> bound;
+        auto bound = Range<int>{};
         if (boost::range::is_sorted(xs, Smaller<Value2>())) {
 //             std::cout << "smaller" << std::endl;
             bound.SetMin(boost::range::lower_bound(xs, Value2(bound_x.Min())) - xs.begin());
@@ -190,7 +190,7 @@ public:
             bound.SetMax(xs.size());
         }
 //         std::cout << "min_x " << bound.Min() << " max_x " << bound.Max() << std::endl;
-        Range<Value2> bound_y;
+        auto bound_y = Range<Value2>{};
         auto min = std::min_element(ys.begin() + bound.Min(), ys.begin() + bound.Max());
 //         , SmallerButNonZero<Value2>());
         bound_y.SetMin(*min);
@@ -201,8 +201,8 @@ public:
 
     template <typename Value2>
     void WidenX(Range<Value> const& y, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
-        int min_y = boost::range::upper_bound(ys, Value2(y.Min())) - ys.begin();
-        int max_y = boost::range::lower_bound(ys, Value2(y.Max())) - ys.begin();
+        auto min_y = boost::range::upper_bound(ys, Value2(y.Min())) - ys.begin();
+        auto max_y = boost::range::lower_bound(ys, Value2(y.Max())) - ys.begin();
         auto min = std::min_element(xs.begin() + min_y, xs.begin() + max_y, SmallerButNonZero<Value2>());
         auto max = std::max_element(xs.begin() + min_y, xs.begin() + max_y);
         x_.Widen( {std::min(*min, *max), std::max(*min, *max)});

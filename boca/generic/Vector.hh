@@ -38,7 +38,7 @@ template <typename Input_, typename Function_>
 auto Transform(Input_ const& inputs, Function_ function)
 {
     using Result_ = typename function_traits<decltype(function)>::result_type;
-    std::vector<Result_> results;
+    auto results = std::vector<Result_>{};
     if (inputs.empty()) return results;
     results.reserve(inputs.size());
     boost::range::transform(inputs, std::back_inserter(results), function);
@@ -49,7 +49,7 @@ auto Transform(Input_ const& inputs, Function_ function)
 template<typename Result_, typename Input_, typename Function_>
 std::vector<Result_> TransformIf(Input_ const& inputs, Function_ const& function_1, Function_ const& function_2)
 {
-    std::vector<Result_> results;
+    auto results = std::vector<Result_>{};
     if (inputs.empty()) return results;
     boost::range::push_back(results, inputs | boost::adaptors::filtered(function_1) | boost::adaptors::transformed(function_2));
     return results;
@@ -145,7 +145,7 @@ template <typename Multiplet_1_, typename Multiplet_2_>
 std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplets, std::vector<Multiplet_2_> const& particles)
 {
     if (multiplets.empty()) return multiplets;
-    std::vector<Multiplet_1_> close_multiplets;
+    auto close_multiplets = std::vector<Multiplet_1_>{};
     for (auto const & particle : particles) Insert(close_multiplets, CopyIfClose(multiplets, particle));
     return close_multiplets;
 }
@@ -209,7 +209,7 @@ Multiplet_1_ ClosestJet(std::vector<Multiplet_1_> const& multiplets, Multiplet_2
 template <typename Element_>
 std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2)
 {
-    std::vector<Element_> combined;
+    auto combined = std::vector<Element_>{};
     combined.reserve(vector_1.size() + vector_2.size());
     if (!vector_1.empty()) combined.insert(combined.end(), vector_1.begin(), vector_1.end());
     if (!vector_2.empty()) combined.insert(combined.end(), vector_2.begin(), vector_2.end());
@@ -223,7 +223,7 @@ std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector
 template <typename Element_>
 std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
 {
-    std::vector<Element_> combined;
+    auto combined = std::vector<Element_>{};
     combined.reserve(vector_1.size() + vector_2.size() + vector_3.size());
     if (!vector_1.empty()) combined.insert(combined.end(), vector_1.begin(), vector_1.end());
     if (!vector_2.empty()) combined.insert(combined.end(), vector_2.begin(), vector_2.end());
@@ -261,7 +261,7 @@ template < typename Element_,
          typename Result = typename std::result_of<Function&(Element_, Element_)>::type >
 auto OrderedPairs(std::vector<Element_> const& container, Function function)
 {
-    std::vector<Result> results;
+    auto results = std::vector<Result>{};
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2) {
             try {
@@ -282,7 +282,7 @@ auto OrderedPairs(std::vector<Element_> const& container, Function function)
 template < typename Element_, typename Function_, typename Result_ = typename std::result_of<Function_&(Element_, Element_)>::type >
 auto UnorderedPairs(std::vector<Element_> const& container, Function_ function)
 {
-    std::vector<Result_> results;
+    auto results = std::vector<Result_>{};
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2)
             try {
@@ -299,7 +299,7 @@ auto UnorderedPairs(std::vector<Element_> const& container, Function_ function)
 template < typename Element_1_, typename Element_2_, typename Function_, typename Result_ = typename std::result_of<Function_&(Element_1_, Element_2_)>::type >
 auto Pairs(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, Function_ function)
 {
-    std::vector<Result_> results;
+    auto results = std::vector<Result_>{};
     for (auto const & element_1 : container_1) {
         for (auto const & element_2 : container_2) {
             try {
@@ -317,7 +317,7 @@ template < typename Element_1_, typename Element_2_, typename Function_, typenam
  */
 auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, Function_ function)
 {
-    std::vector<Result_> results;
+    auto results = std::vector<Result_>{};
     for (auto element_1 = container_1.begin(); element_1 != container_1.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container_1.end(); ++element_2)
             for (auto & element_3 : container_2) {
@@ -340,7 +340,7 @@ template < typename Element_1_,
  */
 auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, std::vector<Element_3_> const& container_3, Function_ function)
 {
-    std::vector<Result_> results;
+    auto results = std::vector<Result_>{};
     for (auto const & element_1 : container_1) {
         for (auto const & element_2 : container_2) {
             for (auto const & element_3 : container_3) {
@@ -366,7 +366,7 @@ template < typename Element_1_,
  */
 auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, std::vector<Element_3_> const& container_3, Function_1_ function_1, Function_2_ function_2)
 {
-    std::vector<Result_2_> results;
+    auto results = std::vector<Result_2_>{};
     for (auto const & element_1 : container_1) {
         for (auto const & element_2 : container_2) {
             Result_1_ pair;

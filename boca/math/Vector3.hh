@@ -253,8 +253,8 @@ public:
     template <typename Value_2>
     boca::Angle DeltaR(Vector3<Value_2> const& vector) const {
         //return deltaR with respect to v
-        boca::Angle deta = Eta() - vector.Eta();
-        boca::Angle dphi = RestrictPhi(Phi() - vector.Phi());
+        auto deta = Eta() - vector.Eta();
+        auto dphi = RestrictPhi(Phi() - vector.Phi());
         return sqrt(sqr(deta) + sqr(dphi));
     }
 

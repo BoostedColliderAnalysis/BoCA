@@ -37,7 +37,7 @@ void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& 
     auto ys2 = ys;
     range_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
     ERROR(range_.YMin());
-    auto graph = TGraph{xs.size(), xs.data(), ys.data()};
+    auto graph = TGraph(xs.size(), xs.data(), ys.data());
     SetLine(graph, graphs_.size());
     graph.SetTitle(name.str(latex::Medium::root).c_str());
     graphs_.emplace_back(graph);

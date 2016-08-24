@@ -28,8 +28,8 @@ public:
 
 private:
 
-    long FirstEntry(long object_sum_max, int core_number)  {
-        long entry = core_number;
+    long FirstEntry(long object_sum_max, long core_number)  {
+        auto entry = core_number;
         if (BranchWriter().Phase().Stage() == Stage::reader) entry = std::min(GetEntries(), object_sum_max + core_number);  // TODO fix corner cases
         return entry;
     }

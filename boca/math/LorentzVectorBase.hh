@@ -313,7 +313,7 @@ public:
         auto gamma = 1. / std::sqrt(1. - mag_2);
         auto gamma2 = mag_2 > 0. ? (gamma - 1.) / mag_2 : 0.;
         auto bp = boost * Vector();
-        LorentzVectorBase<Value_> lorentz_vector;
+        auto lorentz_vector = LorentzVectorBase<Value_>{};
         lorentz_vector.Vector() = Vector() + gamma2 * bp * boost + gamma * boost * T();
         lorentz_vector.SetT(gamma * (T() + bp));
         return lorentz_vector;

@@ -70,13 +70,13 @@ public:
 
     //set X axis
     Matrix2& SetXAxis(Vector2<Value_> const& axis) {
-        Vector2<Value_> xyPlane(0, 1, 0);
+        auto xyPlane = Vector2<Value_>{0, 1, 0};
         return SetXAxis(axis, xyPlane);
     }
 
     //set Y axis
     Matrix2& SetYAxis(Vector2<Value_> const& axis) {
-        Vector2<Value_> yzPlane(0, 0, 1);
+        auto yzPlane = Vector2<Value_>{0, 0, 1};
         return SetYAxis(axis, yzPlane);
     }
 
@@ -175,13 +175,13 @@ public:
         }
         Array<Vector2<Value_>> Vectors() const {
             return vectors_.Get([&]() {
-                Array<Vector2<Value_>> vectors;
+                auto vectors = Array<Vector2<Value_>>{};
                 for (auto index : IntegerRange(vectors.size())) vectors.at(index) = Vector(index);
                 return vectors;
             });
         }
         Array<GradedVector2<Value_>> System() const {
-            Array<GradedVector2<Value_>> system;
+            auto system = Array<GradedVector2<Value_>>{};
             for (auto index : IntegerRange(system.size())) system.at(index) = {Vectors().at(index), Values().at(index)};
             return system;
         }

@@ -43,7 +43,7 @@ public:
     }
 
     void SafeEntry() {
-        branch::Info info_branch(Import());
+        auto info_branch = branch::Info{Import()};
         info_branch.SetEventNumber(event_sum_.load());
         std::lock_guard<std::mutex> lock(write_mutex);
         TreeBranch().AddEntry(info_branch);

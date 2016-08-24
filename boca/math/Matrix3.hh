@@ -197,14 +197,14 @@ public:
 
     //set X axis
     Matrix3& SetXAxis(Vector3<Value_> const& axis) {
-        Vector3<Value_> xyPlane(0, 1, 0);
+        auto xyPlane = Vector3<Value_>{0, 1, 0};
         return SetXAxis(axis, xyPlane);
     }
 
     //set X axis
     Matrix3& SetXAxis(Vector3<Value_> const& axis, Vector3<Value_> const& xyPlane) {
         auto matrix = MakeBasis(xyPlane, axis);
-        Matrix3 matrix2(matrix.Z(), matrix.X(), matrix.Y());
+        auto matrix2 = Matrix3{matrix.Z(), matrix.X(), matrix.Y()};
         x_ = matrix2.ColumnX();
         y_ = matrix2.ColumnY();
         z_ = matrix2.ColumnZ();
@@ -213,14 +213,14 @@ public:
 
     //set Y axis
     Matrix3& SetYAxis(Vector3<Value_> const& axis) {
-        Vector3<Value_> yzPlane(0, 0, 1);
+        auto yzPlane = Vector3<Value_>{0, 0, 1};
         return SetYAxis(axis, yzPlane);
     }
 
     //set Y axis
     Matrix3& SetYAxis(Vector3<Value_> const& axis, Vector3<Value_> const& yzPlane) {
         auto matrix = MakeBasis(yzPlane, axis);
-        Matrix3 matrix2(matrix.Y(), matrix.Z(), matrix.X());
+        auto matrix2 = Matrix3{matrix.Y(), matrix.Z(), matrix.X()};
         x_ = matrix2.ColumnX();
         y_ = matrix2.ColumnY();
         z_ = matrix2.ColumnZ();
@@ -229,7 +229,7 @@ public:
 
     //set Z axis
     Matrix3& SetZAxis(Vector3<Value_> const& axis) {
-        Vector3<Value_> zxPlane(1, 0, 0);
+        auto zxPlane = Vector3<Value_>{1, 0, 0};
         return SetZAxis(axis, zxPlane);
     }
 
@@ -335,7 +335,7 @@ public:
     //rotate axes
     Matrix3& RotateAxes(Vector3<Value_> const& vector_x, Vector3<Value_> const& vector_y, Vector3<Value_> const& vector_z) {
         auto epsilon = 0.001;
-        Vector3<Value_> cross = vector_x.Cross(vector_y);
+        auto cross = vector_x.Cross(vector_y);
         if (std::abs(vector_z.X() - cross.X()) > epsilon || std::abs(vector_z.Y() - cross.Y()) > epsilon || std::abs(vector_z.Z() - cross.Z()) > epsilon || std::abs(vector_x.Mag2() - 1) > epsilon || std::abs(vector_y.Mag2() - 1) > epsilon || std::abs(vector_z.Mag2() - 1) > epsilon || std::abs(vector_x.Dot(vector_y)) > epsilon || std::abs(vector_y.Dot(vector_z)) > epsilon || std::abs(vector_z.Dot(vector_x)) > epsilon) {
             std::cout << "RotateAxes bad axis vectors" << std::endl;
             return *this;
@@ -408,7 +408,7 @@ public:
 // current rotation.  See SetXEulerAngles for a note about conventions.
     Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
         // Rotate using the x-convention.
-        Matrix3 euler;
+        auto euler = Matrix3{};
         euler.SetXEulerAngles(phi, theta, psi);
         return Transform(euler);
     }
@@ -483,32 +483,32 @@ public:
         }
     }
 
-    Value_ Trace()const {
+    auto Trace()const {
         return x_.X() + y_.Y() + z_.Z();
     }
 
-    ValueCubed Determinant()const {
+    auto Determinant()const {
         return  boost::accumulate(Dimensions3(), ValueCubed(0), [&](ValueCubed & sum, Dim3 dim) {
             return sum + Laplace(Dim3::x, dim);
         });
     }
 
-    ValueCubed Laplace(Dim3 dim_1, Dim3 dim_2) const {
+    auto Laplace(Dim3 dim_1, Dim3 dim_2) const {
         return (*this)[dim_1][dim_2] * Cofactor(dim_1, dim_2);
     }
 
-    ValueSquare Cofactor(Dim3 dim_1, Dim3 dim_2) const {
+    auto Cofactor(Dim3 dim_1, Dim3 dim_2) const {
         return static_cast<double>(Sign(dim_1, dim_2)) * Minor(dim_1, dim_2);
     }
 
-    ValueSquare Minor(Dim3 delete_1, Dim3 delete_2) const {
+    auto Minor(Dim3 delete_1, Dim3 delete_2) const {
         return SubMatrix(delete_1, delete_2).Determinant();
     }
 
-    Matrix2<Value_> SubMatrix(Dim3 delete_1, Dim3 delete_2) const {
-        EnumIterator<Dim2> dim2_1(Dim2::x);
-        EnumIterator<Dim2> dim2_2(Dim2::x);
-        Matrix2<Value_> matrix;
+    auto SubMatrix(Dim3 delete_1, Dim3 delete_2) const {
+        auto dim2_1 = EnumIterator<Dim2>{Dim2::x};
+        auto dim2_2 = EnumIterator<Dim2>{Dim2::x};
+        auto matrix = Matrix2<Value_>{};
         for (auto dim3_1 : Dimensions3()) {
             if (dim3_1 == delete_1) continue;
             for (auto dim3_2 : Dimensions3()) {
@@ -522,16 +522,16 @@ public:
         return matrix;
     }
 
-    ValueCubed ReducedDeterminant(Dim3 dim_1, Dim3 dim_2) const {
+    auto ReducedDeterminant(Dim3 dim_1, Dim3 dim_2) const {
         return Determinant() - Laplace(dim_1, dim_2);
     }
 
-    int Sign(Dim3 i, Dim3 j) const {
+    auto Sign(Dim3 i, Dim3 j) const {
         return (static_cast<int>(i) + static_cast<int>(j)) % 2 ? -1 : 1;
     }
 
     template<typename Value_2_>
-    ValueProduct<Value_2_> ProductTrace(Matrix3<Value_2_> const& matrix) const {
+    auto ProductTrace(Matrix3<Value_2_> const& matrix) const {
         return x_ * matrix.ColumnX() + y_ * matrix.ColumnY() + z_ * matrix.ColumnZ();
     }
 
@@ -545,7 +545,7 @@ public:
 // current rotation.  See SetYEulerAngles for a note about conventions.
     // Rotate using the y-convention.
     Matrix3& RotateYEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
-        Matrix3 euler;
+        auto euler = Matrix3{};
         euler.SetYEulerAngles(phi, theta, psi);
         return Transform(euler);
     }
@@ -576,7 +576,7 @@ public:
 // the Set?Axis functions, but is exposed because the functionality is
 // often useful.
     Matrix3 MakeBasis(Vector3<Value_> const& xAxis, Vector3<Value_> const& zAxis) const {
-        Matrix3 matrix;
+        auto matrix = Matrix3{};
         // Make the Z axis into a unit variable.
         auto zmag = zAxis.Mag();
         if (zmag < 1E-6) std::cout << "MakeBasis(X,Y,Z) non-zero Z Axis is required" << std::endl;
@@ -667,7 +667,7 @@ public:
     // Addition.
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     Matrix3 operator+(Matrix3<Value_2> const& matrix) const {
-        Matrix3<Value_> sum;
+        auto sum = Matrix3<Value_>{};
         sum.X() = x_ + matrix.x_;
         sum.Y() = y_ + matrix.y_;
         sum.Z() = z_ + matrix.z_;
@@ -686,7 +686,7 @@ public:
     // Addition.
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     Matrix3 operator-(Matrix3<Value_2> const& matrix) const {
-        Matrix3<Value_> diff;
+        auto diff = Matrix3<Value_>{};
         diff.X() = x_ - matrix.x_;
         diff.Y() = y_ - matrix.y_;
         diff.Z() = z_ - matrix.z_;
@@ -833,7 +833,7 @@ private:
         }
         Array3<Value_> Values() const {
             return values_.Get([&]() {
-                Array3<Value_> values;
+                auto values = Array3<Value_>{};
                 if (complex_) {
                     for (auto & value : values) value = -1;
                     std::cerr << "Eigensystem has no real Eigenvalues!\n";
@@ -847,13 +847,13 @@ private:
         }
         Array3<Vector3<Value_>> Vectors() const {
             return vectors_.Get([&]() {
-                Array3<Vector3<Value_>> vectors;
+                auto vectors = Array3<Vector3<Value_>>{};
                 for (auto index : IntegerRange(vectors.size())) vectors.at(index) = Vector(index);
                 return vectors;
             });
         }
         Array3<GradedVector3<Value_>> System() const {
-            Array3<GradedVector3<Value_>> system;
+            auto system = Array3<GradedVector3<Value_>>{};
             for (auto index : IntegerRange(system.size())) system.at(index) = {Vectors().at(index), Values().at(index)};
             return system;
         }
