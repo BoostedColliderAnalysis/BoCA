@@ -126,33 +126,33 @@
 </g>
 <!-- Node17 -->
 <g id="node17" class="node"><title>Node17</title>
-<g id="a_node17"><a xlink:href="../../d6/d3b/classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt; Quintet,\l boca::Doublet \&gt;">
-<polygon fill="white" stroke="black" points="564,-641.572 564,-671.572 692,-671.572 692,-641.572 564,-641.572"/>
-<text text-anchor="start" x="572" y="-659.572" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt; Quintet,</text>
-<text text-anchor="middle" x="628" y="-648.572" font-family="Helvetica,sans-Serif" font-size="10.00"> boca::Doublet &gt;</text>
+<g id="a_node17"><a xlink:href="../../d6/d3b/classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt; Doublet,\l Doublet \&gt;">
+<polygon fill="white" stroke="black" points="562.5,-641.572 562.5,-671.572 693.5,-671.572 693.5,-641.572 562.5,-641.572"/>
+<text text-anchor="start" x="570.5" y="-659.572" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt; Doublet,</text>
+<text text-anchor="middle" x="628" y="-648.572" font-family="Helvetica,sans-Serif" font-size="10.00"> Doublet &gt;</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node17 -->
 <g id="edge16" class="edge"><title>Node1&#45;&gt;Node17</title>
-<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M331.448,-534.087C344.967,-559.054 369.416,-596.82 402,-616.572 450.856,-646.188 515.941,-655.142 563.538,-657.309"/>
+<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M331.448,-534.087C344.967,-559.054 369.416,-596.82 402,-616.572 450.347,-645.88 514.587,-654.954 562.045,-657.239"/>
 <polygon fill="orange" stroke="orange" points="334.379,-532.138 326.648,-524.893 328.173,-535.378 334.379,-532.138"/>
-<text text-anchor="middle" x="468.5" y="-658.572" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Quintet, boca::Doublet &gt;</text>
+<text text-anchor="middle" x="468.5" y="-658.572" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Doublet, Doublet &gt;</text>
 </g>
-<!-- Node18 -->
-<g id="node18" class="node"><title>Node18</title>
-<g id="a_node18"><a xlink:href="../../d6/d3b/classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt; Doublet,\l Doublet \&gt;">
-<polygon fill="white" stroke="black" points="562.5,-592.572 562.5,-622.572 693.5,-622.572 693.5,-592.572 562.5,-592.572"/>
-<text text-anchor="start" x="570.5" y="-610.572" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt; Doublet,</text>
-<text text-anchor="middle" x="628" y="-599.572" font-family="Helvetica,sans-Serif" font-size="10.00"> Doublet &gt;</text>
+<!-- Node19 -->
+<g id="node19" class="node"><title>Node19</title>
+<g id="a_node19"><a xlink:href="../../d6/d3b/classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt; Quintet,\l boca::Doublet \&gt;">
+<polygon fill="white" stroke="black" points="564,-592.572 564,-622.572 692,-622.572 692,-592.572 564,-592.572"/>
+<text text-anchor="start" x="572" y="-610.572" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt; Quintet,</text>
+<text text-anchor="middle" x="628" y="-599.572" font-family="Helvetica,sans-Serif" font-size="10.00"> boca::Doublet &gt;</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node18 -->
-<g id="edge17" class="edge"><title>Node1&#45;&gt;Node18</title>
-<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M343.857,-531.485C359.414,-544.283 380.618,-559.627 402,-568.572 453.386,-590.069 516.14,-599.717 562.307,-604.047"/>
+<!-- Node1&#45;&gt;Node19 -->
+<g id="edge18" class="edge"><title>Node1&#45;&gt;Node19</title>
+<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M343.857,-531.485C359.414,-544.283 380.618,-559.627 402,-568.572 453.934,-590.299 517.482,-599.922 563.78,-604.184"/>
 <polygon fill="orange" stroke="orange" points="345.725,-528.481 335.83,-524.694 341.204,-533.825 345.725,-528.481"/>
-<text text-anchor="middle" x="468.5" y="-604.572" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Doublet, Doublet &gt;</text>
+<text text-anchor="middle" x="468.5" y="-604.572" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Quintet, boca::Doublet &gt;</text>
 </g>
 <!-- Node20 -->
 <g id="node20" class="node"><title>Node20</title>
@@ -203,33 +203,33 @@
 </g>
 <!-- Node25 -->
 <g id="node25" class="node"><title>Node25</title>
-<g id="a_node25"><a xlink:href="../../d6/d3b/classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt; boca\l::Quintet, Quartet22 \&gt;">
-<polygon fill="white" stroke="black" points="570.5,-396.572 570.5,-426.572 685.5,-426.572 685.5,-396.572 570.5,-396.572"/>
-<text text-anchor="start" x="578.5" y="-414.572" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt; boca</text>
-<text text-anchor="middle" x="628" y="-403.572" font-family="Helvetica,sans-Serif" font-size="10.00">::Quintet, Quartet22 &gt;</text>
+<g id="a_node25"><a xlink:href="../../d6/d3b/classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt; Triplet,\l Triplet \&gt;">
+<polygon fill="white" stroke="black" points="566,-396.572 566,-426.572 690,-426.572 690,-396.572 566,-396.572"/>
+<text text-anchor="start" x="574" y="-414.572" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt; Triplet,</text>
+<text text-anchor="middle" x="628" y="-403.572" font-family="Helvetica,sans-Serif" font-size="10.00"> Triplet &gt;</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node25 -->
 <g id="edge24" class="edge"><title>Node1&#45;&gt;Node25</title>
-<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M344.232,-487.831C359.788,-475.315 380.86,-460.369 402,-451.572 456.395,-428.936 523.394,-419.101 570.071,-414.834"/>
+<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M344.232,-487.831C359.788,-475.315 380.86,-460.369 402,-451.572 454.747,-429.621 519.345,-419.709 565.772,-415.237"/>
 <polygon fill="orange" stroke="orange" points="341.668,-485.41 336.192,-494.48 346.129,-490.805 341.668,-485.41"/>
-<text text-anchor="middle" x="468.5" y="-454.572" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; boca::Quintet, Quartet22 &gt;</text>
+<text text-anchor="middle" x="468.5" y="-454.572" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Triplet, Triplet &gt;</text>
 </g>
 <!-- Node27 -->
 <g id="node27" class="node"><title>Node27</title>
-<g id="a_node27"><a xlink:href="../../d6/d3b/classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt; Triplet,\l Triplet \&gt;">
-<polygon fill="white" stroke="black" points="566,-347.572 566,-377.572 690,-377.572 690,-347.572 566,-347.572"/>
-<text text-anchor="start" x="574" y="-365.572" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt; Triplet,</text>
-<text text-anchor="middle" x="628" y="-354.572" font-family="Helvetica,sans-Serif" font-size="10.00"> Triplet &gt;</text>
+<g id="a_node27"><a xlink:href="../../d6/d3b/classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt; boca\l::Quintet, Quartet22 \&gt;">
+<polygon fill="white" stroke="black" points="570.5,-347.572 570.5,-377.572 685.5,-377.572 685.5,-347.572 570.5,-347.572"/>
+<text text-anchor="start" x="578.5" y="-365.572" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt; boca</text>
+<text text-anchor="middle" x="628" y="-354.572" font-family="Helvetica,sans-Serif" font-size="10.00">::Quintet, Quartet22 &gt;</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node27 -->
 <g id="edge26" class="edge"><title>Node1&#45;&gt;Node27</title>
-<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M331.598,-485.567C345.241,-461.109 369.792,-424.084 402,-404.572 451.621,-374.511 517.826,-365.077 565.559,-362.521"/>
+<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M331.598,-485.567C345.241,-461.109 369.792,-424.084 402,-404.572 453.32,-373.481 522.38,-364.456 570.396,-362.282"/>
 <polygon fill="orange" stroke="orange" points="328.409,-484.108 326.749,-494.572 334.572,-487.427 328.409,-484.108"/>
-<text text-anchor="middle" x="468.5" y="-407.572" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Triplet, Triplet &gt;</text>
+<text text-anchor="middle" x="468.5" y="-407.572" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; boca::Quintet, Quartet22 &gt;</text>
 </g>
 <!-- Node29 -->
 <g id="node29" class="node"><title>Node29</title>
@@ -446,18 +446,18 @@
 <path fill="none" stroke="midnightblue" d="M703.902,-754.572C722.496,-754.572 742.131,-754.572 759.728,-754.572"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="703.699,-751.072 693.699,-754.572 703.699,-758.072 703.699,-751.072"/>
 </g>
-<!-- Node19 -->
-<g id="node19" class="node"><title>Node19</title>
-<g id="a_node19"><a xlink:href="../../df/d7b/classboca_1_1Quartet22.html" target="_top" xlink:title="boca::Quartet22">
-<polygon fill="white" stroke="black" points="775,-598.072 775,-617.072 861,-617.072 861,-598.072 775,-598.072"/>
-<text text-anchor="middle" x="818" y="-605.072" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Quartet22</text>
+<!-- Node18 -->
+<g id="node18" class="node"><title>Node18</title>
+<g id="a_node18"><a xlink:href="../../df/d7b/classboca_1_1Quartet22.html" target="_top" xlink:title="boca::Quartet22">
+<polygon fill="white" stroke="black" points="775,-647.072 775,-666.072 861,-666.072 861,-647.072 775,-647.072"/>
+<text text-anchor="middle" x="818" y="-654.072" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Quartet22</text>
 </a>
 </g>
 </g>
-<!-- Node18&#45;&gt;Node19 -->
-<g id="edge18" class="edge"><title>Node18&#45;&gt;Node19</title>
-<path fill="none" stroke="midnightblue" d="M703.923,-607.572C728.075,-607.572 753.981,-607.572 774.895,-607.572"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="703.699,-604.072 693.699,-607.572 703.699,-611.072 703.699,-604.072"/>
+<!-- Node17&#45;&gt;Node18 -->
+<g id="edge17" class="edge"><title>Node17&#45;&gt;Node18</title>
+<path fill="none" stroke="midnightblue" d="M703.923,-656.572C728.075,-656.572 753.981,-656.572 774.895,-656.572"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="703.699,-653.072 693.699,-656.572 703.699,-660.072 703.699,-653.072"/>
 </g>
 <!-- Node22 -->
 <g id="node22" class="node"><title>Node22</title>
@@ -487,29 +487,29 @@
 </g>
 <!-- Node26 -->
 <g id="node26" class="node"><title>Node26</title>
-<g id="a_node26"><a xlink:href="../../dc/d04/classboca_1_1toppartner_1_1Nonet.html" target="_top" xlink:title="boca::toppartner::Nonet">
-<polygon fill="white" stroke="black" points="758.5,-402.072 758.5,-421.072 877.5,-421.072 877.5,-402.072 758.5,-402.072"/>
-<text text-anchor="middle" x="818" y="-409.072" font-family="Helvetica,sans-Serif" font-size="10.00">boca::toppartner::Nonet</text>
+<g id="a_node26"><a xlink:href="../../d5/d59/classboca_1_1Sextet.html" target="_top" xlink:title="A sextet of 2 triplets. ">
+<polygon fill="white" stroke="black" points="782,-402.072 782,-421.072 854,-421.072 854,-402.072 782,-402.072"/>
+<text text-anchor="middle" x="818" y="-409.072" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Sextet</text>
 </a>
 </g>
 </g>
 <!-- Node25&#45;&gt;Node26 -->
 <g id="edge25" class="edge"><title>Node25&#45;&gt;Node26</title>
-<path fill="none" stroke="midnightblue" d="M695.8,-411.572C716.16,-411.572 738.383,-411.572 758.174,-411.572"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="695.661,-408.072 685.661,-411.572 695.661,-415.072 695.661,-408.072"/>
+<path fill="none" stroke="midnightblue" d="M700.163,-411.572C728.048,-411.572 758.787,-411.572 781.734,-411.572"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="700.038,-408.072 690.038,-411.572 700.038,-415.072 700.038,-408.072"/>
 </g>
 <!-- Node28 -->
 <g id="node28" class="node"><title>Node28</title>
-<g id="a_node28"><a xlink:href="../../d5/d59/classboca_1_1Sextet.html" target="_top" xlink:title="A sextet of 2 triplets. ">
-<polygon fill="white" stroke="black" points="782,-353.072 782,-372.072 854,-372.072 854,-353.072 782,-353.072"/>
-<text text-anchor="middle" x="818" y="-360.072" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Sextet</text>
+<g id="a_node28"><a xlink:href="../../d9/dbb/classtoppartner_1_1Nonet.html" target="_top" xlink:title="toppartner::Nonet">
+<polygon fill="white" stroke="black" points="772,-353.072 772,-372.072 864,-372.072 864,-353.072 772,-353.072"/>
+<text text-anchor="middle" x="818" y="-360.072" font-family="Helvetica,sans-Serif" font-size="10.00">toppartner::Nonet</text>
 </a>
 </g>
 </g>
 <!-- Node27&#45;&gt;Node28 -->
 <g id="edge27" class="edge"><title>Node27&#45;&gt;Node28</title>
-<path fill="none" stroke="midnightblue" d="M700.163,-362.572C728.048,-362.572 758.787,-362.572 781.734,-362.572"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="700.038,-359.072 690.038,-362.572 700.038,-366.072 700.038,-359.072"/>
+<path fill="none" stroke="midnightblue" d="M695.881,-362.572C721.047,-362.572 749.049,-362.572 771.785,-362.572"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="695.661,-359.072 685.661,-362.572 695.661,-366.072 695.661,-359.072"/>
 </g>
 <!-- Node32 -->
 <g id="node32" class="node"><title>Node32</title>

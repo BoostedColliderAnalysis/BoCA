@@ -25,7 +25,7 @@ var searchData=
   ['leptonpt2',['LeptonPt2',['../d5/d66/classheavyhiggs_1_1branch_1_1Cut.html#a2cd96362335d43668aefc1132db76ba1',1,'heavyhiggs::branch::Cut']]],
   ['leptons_5f',['leptons_',['../dc/d8b/classboca_1_1GlobalObservables.html#abaa9f157d906cfab812c7a355b5ff521',1,'boca::GlobalObservables::leptons_()'],['../de/dca/classObservables.html#a760d46d990c41fb899027e61e56ce464',1,'Observables::leptons_()'],['../dc/d2a/classtoppartner_1_1TruthVariables.html#a598a8a3643f292b69182aa59f48b5bcb',1,'toppartner::TruthVariables::leptons_()']]],
   ['lifetime',['LifeTime',['../d2/d13/classTRootLHEFParticle.html#a5d2cdacf29fef4a2d21f0fac12a88089',1,'TRootLHEFParticle']]],
-  ['light_5fsquare_5f',['light_square_',['../d4/d69/classboca_1_1wimpmass_1_1Invisible22.html#aa53200e00cbbb671ef91730479754d6f',1,'boca::wimpmass::Invisible22']]],
+  ['light_5fsquare_5f',['light_square_',['../de/d6e/classwimpmass_1_1Invisible22.html#aa340844e9d122bb8d233011619ca5965',1,'wimpmass::Invisible22']]],
   ['linear_5f',['linear_',['../dd/d77/classboca_1_1Matrix3_1_1Characteristic__.html#a7ac6b3c1d634327dc3452fc35aa5d33c',1,'boca::Matrix3::Characteristic_::linear_()'],['../dc/d48/classboca_1_1Matrix3_1_1Depressed__.html#a1c551a5ee7b08275d9d86e837105fbb1',1,'boca::Matrix3::Depressed_::linear_()']]],
   ['linear_5ftensors_5f',['linear_tensors_',['../d5/dcc/classboca_1_1EventShapes.html#acbc4f3b8e776de296c2fd48bbf60aa0e',1,'boca::EventShapes']]],
   ['lines_5f',['lines_',['../dd/d81/classboca_1_1Graphs.html#a3142d4bbdba48c6b86f7596fd868c58c',1,'boca::Graphs::lines_()'],['../dd/df4/classboca_1_1Histograms.html#a8b79fb9e3b1c1769ed77d15075b0ad74',1,'boca::Histograms::lines_()']]],

@@ -16,7 +16,7 @@
 </g>
 <!-- Node7 -->
 <g id="node7" class="node"><title>Node7</title>
-<g id="a_node7"><a xlink:href="../../d2/dfe/classboca_1_1branch_1_1Multi.html" target="_top" xlink:title="boca::branch::Multi">
+<g id="a_node7"><a xlink:href="../../d2/dfe/classboca_1_1branch_1_1Multi.html" target="_top" xlink:title="Multi obejct tree branch ">
 <polygon fill="white" stroke="black" points="815.5,-540 815.5,-559 915.5,-559 915.5,-540 815.5,-540"/>
 <text text-anchor="middle" x="865.5" y="-547" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Multi</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node22 -->
 <g id="node22" class="node"><title>Node22</title>
-<g id="a_node22"><a xlink:href="../../d0/d97/classboca_1_1standardmodel_1_1branch_1_1Higgs.html" target="_top" xlink:title="Higgs tagger root tree structure. ">
+<g id="a_node22"><a xlink:href="../../d0/d97/classboca_1_1standardmodel_1_1branch_1_1Higgs.html" target="_top" xlink:title="Higgs tagger tree branch ">
 <polygon fill="white" stroke="black" points="812,-490.5 812,-520.5 919,-520.5 919,-490.5 812,-490.5"/>
 <text text-anchor="start" x="820" y="-508.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::standardmodel</text>
 <text text-anchor="middle" x="865.5" y="-497.5" font-family="Helvetica,sans-Serif" font-size="10.00">::branch::Higgs</text>
@@ -43,7 +43,7 @@
 </g>
 <!-- Node23 -->
 <g id="node23" class="node"><title>Node23</title>
-<g id="a_node23"><a xlink:href="../../d5/d4b/classboca_1_1standardmodel_1_1branch_1_1TopLeptonic.html" target="_top" xlink:title="Top tagger root tree structure. ">
+<g id="a_node23"><a xlink:href="../../d5/d4b/classboca_1_1standardmodel_1_1branch_1_1TopLeptonic.html" target="_top" xlink:title="Top leptonic tagger tree branch. ">
 <polygon fill="white" stroke="black" points="810,-441.5 810,-471.5 921,-471.5 921,-441.5 810,-441.5"/>
 <text text-anchor="start" x="818" y="-459.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::standardmodel</text>
 <text text-anchor="middle" x="865.5" y="-448.5" font-family="Helvetica,sans-Serif" font-size="10.00">::branch::TopLeptonic</text>
@@ -57,7 +57,7 @@
 </g>
 <!-- Node24 -->
 <g id="node24" class="node"><title>Node24</title>
-<g id="a_node24"><a xlink:href="../../d1/d7a/classboca_1_1standardmodel_1_1branch_1_1WHadronic.html" target="_top" xlink:title="Higgs tagger root tree structure. ">
+<g id="a_node24"><a xlink:href="../../d1/d7a/classboca_1_1standardmodel_1_1branch_1_1WHadronic.html" target="_top" xlink:title="W hadronic tagger tree branch. ">
 <polygon fill="white" stroke="black" points="812,-392.5 812,-422.5 919,-422.5 919,-392.5 812,-392.5"/>
 <text text-anchor="start" x="820" y="-410.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::standardmodel</text>
 <text text-anchor="middle" x="865.5" y="-399.5" font-family="Helvetica,sans-Serif" font-size="10.00">::branch::WHadronic</text>
@@ -71,7 +71,7 @@
 </g>
 <!-- Node25 -->
 <g id="node25" class="node"><title>Node25</title>
-<g id="a_node25"><a xlink:href="../../d1/d16/classboca_1_1standardmodel_1_1branch_1_1WLeptonic.html" target="_top" xlink:title="Top tagger root tree structure. ">
+<g id="a_node25"><a xlink:href="../../d1/d16/classboca_1_1standardmodel_1_1branch_1_1WLeptonic.html" target="_top" xlink:title="W leptonic tagger tree branch. ">
 <polygon fill="white" stroke="black" points="812,-343.5 812,-373.5 919,-373.5 919,-343.5 812,-343.5"/>
 <text text-anchor="start" x="820" y="-361.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::standardmodel</text>
 <text text-anchor="middle" x="865.5" y="-350.5" font-family="Helvetica,sans-Serif" font-size="10.00">::branch::WLeptonic</text>
@@ -85,7 +85,7 @@
 </g>
 <!-- Node26 -->
 <g id="node26" class="node"><title>Node26</title>
-<g id="a_node26"><a xlink:href="../../d4/d98/classboca_1_1standardmodel_1_1branch_1_1ZHadronic.html" target="_top" xlink:title="Z tagger root tree structure. ">
+<g id="a_node26"><a xlink:href="../../d4/d98/classboca_1_1standardmodel_1_1branch_1_1ZHadronic.html" target="_top" xlink:title="Z hadronic tagger tree branch. ">
 <polygon fill="white" stroke="black" points="812,-294.5 812,-324.5 919,-324.5 919,-294.5 812,-294.5"/>
 <text text-anchor="start" x="820" y="-312.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::standardmodel</text>
 <text text-anchor="middle" x="865.5" y="-301.5" font-family="Helvetica,sans-Serif" font-size="10.00">::branch::ZHadronic</text>
@@ -183,7 +183,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d6/d92/classboca_1_1branch_1_1Particle.html" target="_top" xlink:title="Class for saving event informations to root. ">
+<g id="a_node2"><a xlink:href="../../d6/d92/classboca_1_1branch_1_1Particle.html" target="_top" xlink:title="Particle tree branch ">
 <polygon fill="white" stroke="black" points="497,-275 497,-294 609,-294 609,-275 497,-275"/>
 <text text-anchor="middle" x="553" y="-282" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Particle</text>
 </a>
@@ -196,7 +196,7 @@
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="../../d0/d6b/classboca_1_1branch_1_1Bdt.html" target="_top" xlink:title="boca::branch::Bdt">
+<g id="a_node3"><a xlink:href="../../d0/d6b/classboca_1_1branch_1_1Bdt.html" target="_top" xlink:title="Bdt base tree branch ">
 <polygon fill="white" stroke="black" points="367,-275 367,-294 461,-294 461,-275 367,-275"/>
 <text text-anchor="middle" x="414" y="-282" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Bdt</text>
 </a>
@@ -209,7 +209,7 @@
 </g>
 <!-- Node4 -->
 <g id="node4" class="node"><title>Node4</title>
-<g id="a_node4"><a xlink:href="../../d3/d39/classboca_1_1branch_1_1Result.html" target="_top" xlink:title="boca::branch::Result">
+<g id="a_node4"><a xlink:href="../../d3/d39/classboca_1_1branch_1_1Result.html" target="_top" xlink:title="Result tree branch ">
 <polygon fill="white" stroke="black" points="224,-275 224,-294 331,-294 331,-275 224,-275"/>
 <text text-anchor="middle" x="277.5" y="-282" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Result</text>
 </a>
@@ -222,7 +222,7 @@
 </g>
 <!-- Node5 -->
 <g id="node5" class="node"><title>Node5</title>
-<g id="a_node5"><a xlink:href="../../df/d34/classboca_1_1branch_1_1Base.html" target="_top" xlink:title="Basic tree branches. ">
+<g id="a_node5"><a xlink:href="../../df/d34/classboca_1_1branch_1_1Base.html" target="_top" xlink:title="Base tree branch ">
 <polygon fill="white" stroke="black" points="87,-275 87,-294 188,-294 188,-275 87,-275"/>
 <text text-anchor="middle" x="137.5" y="-282" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Base</text>
 </a>
@@ -245,7 +245,7 @@
 </g>
 <!-- Node8 -->
 <g id="node8" class="node"><title>Node8</title>
-<g id="a_node8"><a xlink:href="../../dd/d7a/classboca_1_1standardmodel_1_1branch_1_1TopHadronic.html" target="_top" xlink:title="Top tagger root tree structure. ">
+<g id="a_node8"><a xlink:href="../../dd/d7a/classboca_1_1standardmodel_1_1branch_1_1TopHadronic.html" target="_top" xlink:title="Top hadronic tagger tree branch. ">
 <polygon fill="white" stroke="black" points="984.5,-850.5 984.5,-880.5 1097.5,-880.5 1097.5,-850.5 984.5,-850.5"/>
 <text text-anchor="start" x="992.5" y="-868.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::standardmodel</text>
 <text text-anchor="middle" x="1041" y="-857.5" font-family="Helvetica,sans-Serif" font-size="10.00">::branch::TopHadronic</text>
@@ -259,7 +259,7 @@
 </g>
 <!-- Node9 -->
 <g id="node9" class="node"><title>Node9</title>
-<g id="a_node9"><a xlink:href="../../da/d75/classboca_1_1standardmodel_1_1branch_1_1TopHadronicHep.html" target="_top" xlink:title="Top tagger root tree structure. ">
+<g id="a_node9"><a xlink:href="../../da/d75/classboca_1_1standardmodel_1_1branch_1_1TopHadronicHep.html" target="_top" xlink:title="HEPTopTagger tree branch ">
 <polygon fill="white" stroke="black" points="975.5,-801.5 975.5,-831.5 1106.5,-831.5 1106.5,-801.5 975.5,-801.5"/>
 <text text-anchor="start" x="983.5" y="-819.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::standardmodel</text>
 <text text-anchor="middle" x="1041" y="-808.5" font-family="Helvetica,sans-Serif" font-size="10.00">::branch::TopHadronicHep</text>

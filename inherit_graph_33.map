@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$da/da2/structboca_1_1IsDetector.html" title="boca::IsDetector" alt="" coords="5,5,124,32"/>
+<area shape="rect" id="node2" href="$d7/d8e/structboca_1_1IsMatrix2_3_01Matrix2_3_01Value_01_4_01_4.html" title="boca::IsMatrix2\&lt; Matrix2\l\&lt; Value \&gt; \&gt;" alt="" coords="146,5,313,47"/>
+<area shape="rect" id="node3" href="$da/d4e/structboca_1_1IsMatrix3_3_01Matrix3_3_01Value_01_4_01_4.html" title="boca::IsMatrix3\&lt; Matrix3\l\&lt; Value \&gt; \&gt;" alt="" coords="146,71,313,112"/>
+<area shape="rect" id="node4" href="$d3/db9/structboca_1_1IsVector2_3_01Vector2_3_01Value_01_4_01_4.html" title="boca::IsVector2\&lt; Vector2\l\&lt; Value \&gt; \&gt;" alt="" coords="144,136,315,177"/>
+<area shape="rect" id="node5" href="$d2/d24/structboca_1_1IsVector3_3_01Vector3_3_01Value_01_4_01_4.html" title="boca::IsVector3\&lt; Vector3\l\&lt; Value \&gt; \&gt;" alt="" coords="144,201,315,243"/>
+<area shape="rect" id="node6" href="$dd/dad/structboca_1_1LorentzVectorBase_1_1IsQuantity_3_01boost_1_1units_1_1quantity_3_01T_01_4_01_4.html" title="boca::LorentzVectorBase\l\&lt; Value_ \&gt;::IsQuantity\l\&lt; boost::units::quantity\&lt; T \&gt; \&gt;" alt="" coords="129,266,329,322"/>
+<area shape="rect" id="node7" href="$d7/dae/structboca_1_1PreCuts_1_1IsVector_3_01std_1_1vector_3_01Value_01_4_01_4.html" title="boca::PreCuts::IsVector\l\&lt; std::vector\&lt; Value \&gt; \&gt;" alt="" coords="147,345,312,387"/>
+<area shape="rect" id="node8" href="$dc/d76/structboca_1_1units_1_1IsQuantity_3_01boost_1_1units_1_1quantity_3_01T_01_4_01_4.html" title="boca::units::IsQuantity\l\&lt; boost::units::quantity\l\&lt; T \&gt; \&gt;" alt="" coords="151,410,307,466"/>
 </map>

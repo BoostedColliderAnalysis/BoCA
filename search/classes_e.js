@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['pair',['Pair',['../d7/dfe/classheavyhiggs_1_1analysis_1_1Pair.html',1,'heavyhiggs::analysis']]],
   ['pair',['Pair',['../dd/df6/classtoppartner_1_1analysis_1_1Pair.html',1,'toppartner::analysis']]],
+  ['pair',['Pair',['../d7/dfe/classheavyhiggs_1_1analysis_1_1Pair.html',1,'heavyhiggs::analysis']]],
   ['particle',['Particle',['../d6/d92/classboca_1_1branch_1_1Particle.html',1,'boca::branch']]],
   ['particle',['Particle',['../db/dc7/classboca_1_1Particle.html',1,'boca']]],
   ['particleinfo',['ParticleInfo',['../d8/dd8/classboca_1_1ParticleInfo.html',1,'boca']]],

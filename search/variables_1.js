@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['a1',['a1',['../db/d47/classmt2_1_1Mt2.html#a75ed1186bddbab3593a3f0dfdab3b129',1,'mt2::Mt2']]],
-  ['a2',['a2',['../db/d47/classmt2_1_1Mt2.html#ab05a1bb090c534a363519a7b5d979f8e',1,'mt2::Mt2']]],
+  ['a1',['a1',['../d2/d84/classwimpmass_1_1Mt2.html#a0bdbd5e7eef5b8af072d914eb21182b8',1,'wimpmass::Mt2']]],
+  ['a2',['a2',['../d2/d84/classwimpmass_1_1Mt2.html#a8ae4e7b34f06818c65c952a1d82549a6',1,'wimpmass::Mt2']]],
   ['add_5fline_5f',['add_line_',['../d1/d69/classboca_1_1latex_1_1Command.html#ac9fb35a82b3e9822f4774149ac35261b',1,'boca::latex::Command']]],
   ['alphaqcd',['AlphaQCD',['../dc/d5e/classLHEFEvent.html#acc524094de19a5ce556516690a297936',1,'LHEFEvent::AlphaQCD()'],['../d7/d03/classHepMCEvent.html#aed568f06d038a73e25df9e009f5e823b',1,'HepMCEvent::AlphaQCD()']]],
   ['alphaqed',['AlphaQED',['../dc/d5e/classLHEFEvent.html#a96efc2e0673a73b6b421d442c7d726a5',1,'LHEFEvent::AlphaQED()'],['../d7/d03/classHepMCEvent.html#a96e0513b7fb742a12453fd3fb9fabdcb',1,'HepMCEvent::AlphaQED()']]],

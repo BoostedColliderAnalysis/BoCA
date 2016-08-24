@@ -16,7 +16,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d9/d9f/classboca_1_1branch_1_1Signature.html" target="_top" xlink:title="boca::branch::Signature">
+<g id="a_node2"><a xlink:href="../../d9/d9f/classboca_1_1branch_1_1Signature.html" target="_top" xlink:title="Signature tree branch ">
 <polygon fill="white" stroke="black" points="216.5,-148 216.5,-167 336.5,-167 336.5,-148 216.5,-148"/>
 <text text-anchor="middle" x="276.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Signature</text>
 </a>

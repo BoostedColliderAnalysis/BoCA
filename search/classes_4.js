@@ -17,7 +17,7 @@ var searchData=
   ['event',['Event',['../d8/d66/classtoppartner_1_1branch_1_1Event.html',1,'toppartner::branch']]],
   ['event',['Event',['../db/d0c/classboca_1_1delphes_1_1Event.html',1,'boca::delphes']]],
   ['event',['Event',['../d5/da5/classEvent.html',1,'']]],
-  ['event22',['event22',['../d1/dff/structboca_1_1wimpmass_1_1Invisible22_1_1event22.html',1,'boca::wimpmass::Invisible22']]],
+  ['event22',['event22',['../d9/d43/structwimpmass_1_1Invisible22_1_1event22.html',1,'wimpmass::Invisible22']]],
   ['event33',['event33',['../dd/db4/structwimpmass_1_1event33.html',1,'wimpmass']]],
   ['event_3c_20signatureeffective_2c_20quattuordecuplet554_2c_20branch_3a_3aevent_20_3e',['Event&lt; SignatureEffective, Quattuordecuplet554, branch::Event &gt;',['../d0/d60/classboca_1_1tagger_1_1Event.html',1,'boca::tagger']]],
   ['event_3c_20signaturesinglehadronic_2c_20decuplet532_2c_20branch_3a_3aevent_20_3e',['Event&lt; SignatureSingleHadronic, Decuplet532, branch::Event &gt;',['../d0/d60/classboca_1_1tagger_1_1Event.html',1,'boca::tagger']]],

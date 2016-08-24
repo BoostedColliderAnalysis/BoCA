@@ -12,21 +12,21 @@
 <area shape="rect" id="node45" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopLeptonic \&gt;" alt="" coords="1537,1255,1693,1297"/>
 <area shape="rect" id="node49" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Multiplet_ \&gt;, Branch_ \&gt;" alt="" coords="1518,813,1711,854"/>
 <area shape="rect" id="node5" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="522,1237,647,1264"/>
-<area shape="rect" id="node6" href="$d2/d83/classboca_1_1branch_1_1Event.html" title="Class for saving event informations to root. " alt="" coords="804,1664,943,1691"/>
-<area shape="rect" id="node7" href="$d0/d6b/classboca_1_1branch_1_1Bdt.html" title="boca::branch::Bdt" alt="" coords="522,1613,647,1640"/>
-<area shape="rect" id="node18" href="$d6/d92/classboca_1_1branch_1_1Particle.html" title="Class for saving event informations to root. " alt="" coords="799,1605,948,1632"/>
-<area shape="rect" id="node8" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="boca::branch::Result" alt="" coords="307,1613,449,1640"/>
-<area shape="rect" id="node9" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Basic tree branches. " alt="" coords="123,1613,257,1640"/>
-<area shape="rect" id="node11" href="$d1/d72/classboca_1_1branch_1_1GlobalBase.html" title="Class for saving event informations to root. " alt="" coords="499,1672,671,1699"/>
+<area shape="rect" id="node6" href="$d2/d83/classboca_1_1branch_1_1Event.html" title="Event tree branch " alt="" coords="804,1664,943,1691"/>
+<area shape="rect" id="node7" href="$d0/d6b/classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="522,1613,647,1640"/>
+<area shape="rect" id="node18" href="$d6/d92/classboca_1_1branch_1_1Particle.html" title="Particle tree branch " alt="" coords="799,1605,948,1632"/>
+<area shape="rect" id="node8" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="307,1613,449,1640"/>
+<area shape="rect" id="node9" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="123,1613,257,1640"/>
+<area shape="rect" id="node11" href="$d1/d72/classboca_1_1branch_1_1GlobalBase.html" title="Global base tree branch " alt="" coords="499,1672,671,1699"/>
 <area shape="rect" id="node14" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; SignatureEffective \&gt;" alt="" coords="3680,507,3911,533"/>
 <area shape="rect" id="node15" href="$dc/db3/classtoppartner_1_1tagger_1_1SignatureEffective.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="3447,499,3584,541"/>
-<area shape="rect" id="node17" href="$d2/d41/classboca_1_1branch_1_1ThreeBody.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1048,1503,1216,1529"/>
-<area shape="rect" id="node24" href="$d0/d51/classboca_1_1branch_1_1TwoBody.html" title="boca::branch::TwoBody" alt="" coords="1052,1553,1212,1580"/>
+<area shape="rect" id="node17" href="$d2/d41/classboca_1_1branch_1_1ThreeBody.html" title="Three body tree branch. " alt="" coords="1048,1503,1216,1529"/>
+<area shape="rect" id="node24" href="$d0/d51/classboca_1_1branch_1_1TwoBody.html" title="Two body tree branch. " alt="" coords="1052,1553,1212,1580"/>
 <area shape="rect" id="node19" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; toppartner\l::tagger::TopPartnerHadronicNeutral \&gt;" alt="" coords="3029,466,3273,507"/>
 <area shape="rect" id="node20" href="$df/daa/classtoppartner_1_1tagger_1_1TopPartnerHadronicNeutral.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="2704,622,2892,663"/>
 <area shape="rect" id="node42" href="$df/d6f/classtoppartner_1_1tagger_1_1TopPartnerLeptonicNeutral.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="2705,794,2891,835"/>
 <area shape="rect" id="node22" href="$d3/d08/classtoppartner_1_1branch_1_1TopPartnerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1943,1285,2078,1326"/>
-<area shape="rect" id="node23" href="$d2/dfe/classboca_1_1branch_1_1Multi.html" title="boca::branch::Multi" alt="" coords="1548,1439,1681,1465"/>
+<area shape="rect" id="node23" href="$d2/dfe/classboca_1_1branch_1_1Multi.html" title="Multi obejct tree branch " alt="" coords="1548,1439,1681,1465"/>
 <area shape="rect" id="node25" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; standardmodel\l::tagger::TopHadronic \&gt;" alt="" coords="2323,487,2520,529"/>
 <area shape="rect" id="node26" href="$da/d57/classboca_1_1standardmodel_1_1tagger_1_1TopHadronic.html" title="BDT tagger for hadronically decaying top quarks. " alt="" coords="1937,451,2085,493"/>
 <area shape="rect" id="node28" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; tagger\l::boca::standardmodel\l::tagger::WHadronic \&gt;" alt="" coords="1539,417,1690,473"/>

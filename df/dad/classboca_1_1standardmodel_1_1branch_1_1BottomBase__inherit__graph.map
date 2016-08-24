@@ -1,9 +1,9 @@
 <map id="boca::standardmodel::branch::BottomBase" name="boca::standardmodel::branch::BottomBase">
-<area shape="rect" id="node2" href="$d1/d77/classboca_1_1standardmodel_1_1branch_1_1Bottom.html" title="Bottom tagger root tree structure. " alt="" coords="219,5,361,47"/>
-<area shape="rect" id="node3" href="$d0/d97/classboca_1_1standardmodel_1_1branch_1_1Higgs.html" title="Higgs tagger root tree structure. " alt="" coords="219,71,361,112"/>
-<area shape="rect" id="node4" href="$dd/d7a/classboca_1_1standardmodel_1_1branch_1_1TopHadronic.html" title="Top tagger root tree structure. " alt="" coords="215,136,365,177"/>
-<area shape="rect" id="node5" href="$da/d75/classboca_1_1standardmodel_1_1branch_1_1TopHadronicHep.html" title="Top tagger root tree structure. " alt="" coords="203,201,377,243"/>
-<area shape="rect" id="node6" href="$d5/d4b/classboca_1_1standardmodel_1_1branch_1_1TopLeptonic.html" title="Top tagger root tree structure. " alt="" coords="216,267,364,308"/>
-<area shape="rect" id="node7" href="$d1/d7a/classboca_1_1standardmodel_1_1branch_1_1WHadronic.html" title="Higgs tagger root tree structure. " alt="" coords="219,332,361,373"/>
-<area shape="rect" id="node8" href="$d4/d98/classboca_1_1standardmodel_1_1branch_1_1ZHadronic.html" title="Z tagger root tree structure. " alt="" coords="219,397,361,439"/>
+<area shape="rect" id="node2" href="$d1/d77/classboca_1_1standardmodel_1_1branch_1_1Bottom.html" title="Bottom tagger tree branch " alt="" coords="219,5,361,47"/>
+<area shape="rect" id="node3" href="$d0/d97/classboca_1_1standardmodel_1_1branch_1_1Higgs.html" title="Higgs tagger tree branch " alt="" coords="219,71,361,112"/>
+<area shape="rect" id="node4" href="$dd/d7a/classboca_1_1standardmodel_1_1branch_1_1TopHadronic.html" title="Top hadronic tagger tree branch. " alt="" coords="215,136,365,177"/>
+<area shape="rect" id="node5" href="$da/d75/classboca_1_1standardmodel_1_1branch_1_1TopHadronicHep.html" title="HEPTopTagger tree branch " alt="" coords="203,201,377,243"/>
+<area shape="rect" id="node6" href="$d5/d4b/classboca_1_1standardmodel_1_1branch_1_1TopLeptonic.html" title="Top leptonic tagger tree branch. " alt="" coords="216,267,364,308"/>
+<area shape="rect" id="node7" href="$d1/d7a/classboca_1_1standardmodel_1_1branch_1_1WHadronic.html" title="W hadronic tagger tree branch. " alt="" coords="219,332,361,373"/>
+<area shape="rect" id="node8" href="$d4/d98/classboca_1_1standardmodel_1_1branch_1_1ZHadronic.html" title="Z hadronic tagger tree branch. " alt="" coords="219,397,361,439"/>
 </map>

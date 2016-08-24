@@ -11,11 +11,11 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-46 134,-46 134,4 -4,4"/>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="de/d99/classboca_1_1Mutable.html" target="_top" xlink:title="boca::Mutable\&lt; boca\l::TwoBody\&lt; boca::Triplet,\l boca::Doublet \&gt; \&gt;">
+<g id="a_node1"><a xlink:href="de/d99/classboca_1_1Mutable.html" target="_top" xlink:title="boca::Mutable\&lt; boca\l::TwoBody\&lt; boca::Triplet,\l boca::Triplet \&gt; \&gt;">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-41.5 130,-41.5 130,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Mutable&lt; boca</text>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">::TwoBody&lt; boca::Triplet,</text>
-<text text-anchor="middle" x="65" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> boca::Doublet &gt; &gt;</text>
+<text text-anchor="middle" x="65" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> boca::Triplet &gt; &gt;</text>
 </a>
 </g>
 </g>

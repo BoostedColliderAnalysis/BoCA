@@ -30,7 +30,7 @@ var searchData=
   ['ttwbb',['ttwbb',['../d2/dd6/namespaceheavyhiggs_1_1analysis.html#aa5bf34c2fbdfbfb8027ddfb8135786c6af03d32394cd29eba4360a23b9a7abfb0',1,'heavyhiggs::analysis']]],
   ['ttwbbb',['ttWBBB',['../d6/d64/namespacetoppartner_1_1analysis.html#a0f27d482f2ef36bc1c4308d164f4ea58a4b018f4c27bf9f4eb31d85ce6a027e93',1,'toppartner::analysis']]],
   ['ttwcc',['ttwcc',['../d2/dd6/namespaceheavyhiggs_1_1analysis.html#aa5bf34c2fbdfbfb8027ddfb8135786c6aa7dbac453f0af72c58a1351d02732a74',1,'heavyhiggs::analysis']]],
-  ['ttwwbb',['ttwwbb',['../d2/dd6/namespaceheavyhiggs_1_1analysis.html#aa5bf34c2fbdfbfb8027ddfb8135786c6ae498061db100a7777210ddb9dca9d407',1,'heavyhiggs::analysis::ttwwbb()'],['../d6/d64/namespacetoppartner_1_1analysis.html#a0f27d482f2ef36bc1c4308d164f4ea58a462177f5a1da442055a409dbe3a913f6',1,'toppartner::analysis::ttWWBB()']]],
+  ['ttwwbb',['ttWWBB',['../d6/d64/namespacetoppartner_1_1analysis.html#a0f27d482f2ef36bc1c4308d164f4ea58a462177f5a1da442055a409dbe3a913f6',1,'toppartner::analysis::ttWWBB()'],['../d2/dd6/namespaceheavyhiggs_1_1analysis.html#aa5bf34c2fbdfbfb8027ddfb8135786c6ae498061db100a7777210ddb9dca9d407',1,'heavyhiggs::analysis::ttwwbb()']]],
   ['ttwwwb',['ttWWWB',['../d6/d64/namespacetoppartner_1_1analysis.html#a0f27d482f2ef36bc1c4308d164f4ea58aa63aa4312c1b2f641e2454de4c08f91b',1,'toppartner::analysis']]],
   ['ttwwww',['ttWWWW',['../d6/d64/namespacetoppartner_1_1analysis.html#a0f27d482f2ef36bc1c4308d164f4ea58af294d337ddf03e69dfcc83f104d45821',1,'toppartner::analysis']]],
   ['two_5fstep_5ffilter',['TWO_STEP_FILTER',['../d8/d82/namespacehep.html#a4a0e35b3d59bb800cef170ffc21b682da804efdf4767cfd7755f698c68bf54c11',1,'hep']]]

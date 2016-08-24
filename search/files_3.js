@@ -10,6 +10,5 @@ var searchData=
   ['delphesfactory_2eh',['DelphesFactory.h',['../da/da9/DelphesFactory_8h.html',1,'']]],
   ['doublet_2ecpp',['Doublet.cpp',['../d2/d12/Doublet_8cpp.html',1,'']]],
   ['doublet_2ehh',['Doublet.hh',['../df/d3a/Doublet_8hh.html',1,'']]],
-  ['doxy_2dboot_2ejs',['doxy-boot.js',['../dc/d0d/doxy-boot_8js.html',1,'']]],
   ['duodecuplet_2ehh',['Duodecuplet.hh',['../d5/d36/Duodecuplet_8hh.html',1,'']]]
 ];

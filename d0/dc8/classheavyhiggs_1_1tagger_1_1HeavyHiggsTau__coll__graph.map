@@ -5,12 +5,12 @@
 <area shape="rect" id="node16" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Singlet,\l branch::Tau \&gt;" alt="" coords="1320,159,1475,201"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="499,191,624,217"/>
 <area shape="rect" id="node5" href="$db/d19/classheavyhiggs_1_1branch_1_1HeavyHiggsTau.html" title="Top tagger root tree structure. " alt="" coords="1330,10,1465,51"/>
-<area shape="rect" id="node6" href="$d0/d51/classboca_1_1branch_1_1TwoBody.html" title="boca::branch::TwoBody" alt="" coords="1000,5,1160,32"/>
-<area shape="rect" id="node7" href="$d6/d92/classboca_1_1branch_1_1Particle.html" title="Class for saving event informations to root. " alt="" coords="752,59,901,85"/>
-<area shape="rect" id="node17" href="$de/ddc/classboca_1_1standardmodel_1_1branch_1_1Tau.html" title="Tau tagger root tree structure. " alt="" coords="1009,57,1151,98"/>
-<area shape="rect" id="node8" href="$d0/d6b/classboca_1_1branch_1_1Bdt.html" title="boca::branch::Bdt" alt="" coords="499,59,624,85"/>
-<area shape="rect" id="node9" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="boca::branch::Result" alt="" coords="307,59,449,85"/>
-<area shape="rect" id="node10" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Basic tree branches. " alt="" coords="123,59,257,85"/>
+<area shape="rect" id="node6" href="$d0/d51/classboca_1_1branch_1_1TwoBody.html" title="Two body tree branch. " alt="" coords="1000,5,1160,32"/>
+<area shape="rect" id="node7" href="$d6/d92/classboca_1_1branch_1_1Particle.html" title="Particle tree branch " alt="" coords="752,59,901,85"/>
+<area shape="rect" id="node17" href="$de/ddc/classboca_1_1standardmodel_1_1branch_1_1Tau.html" title="Tau tagger tree branch " alt="" coords="1009,57,1151,98"/>
+<area shape="rect" id="node8" href="$d0/d6b/classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="499,59,624,85"/>
+<area shape="rect" id="node9" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="307,59,449,85"/>
+<area shape="rect" id="node10" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="123,59,257,85"/>
 <area shape="rect" id="node14" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; standardmodel\l::tagger::Tau \&gt;" alt="" coords="1945,159,2143,201"/>
 <area shape="rect" id="node15" href="$de/dff/classboca_1_1standardmodel_1_1tagger_1_1Tau.html" title="BDT tagger for tau leptons. " alt="" coords="1591,159,1734,201"/>
 <area shape="rect" id="node18" href="$de/d69/classboca_1_1Reader.html" title="read results of multivariant analysis wrapper for TMVA::Reader " alt="" coords="1577,275,1748,301"/>

@@ -15,6 +15,5 @@ var searchData=
   ['analysistop_2ecpp',['AnalysisTop.cpp',['../d7/d95/AnalysisTop_8cpp.html',1,'']]],
   ['analysistop_2ehh',['AnalysisTop.hh',['../d0/dda/AnalysisTop_8hh.html',1,'']]],
   ['analysisw_2ehh',['AnalysisW.hh',['../da/dd8/AnalysisW_8hh.html',1,'']]],
-  ['analysisz_2ehh',['AnalysisZ.hh',['../d0/d88/AnalysisZ_8hh.html',1,'']]],
-  ['authors_2emd',['Authors.md',['../d1/dc6/Authors_8md.html',1,'']]]
+  ['analysisz_2ehh',['AnalysisZ.hh',['../d0/d88/AnalysisZ_8hh.html',1,'']]]
 ];

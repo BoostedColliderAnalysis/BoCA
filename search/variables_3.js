@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['c1',['c1',['../db/d47/classmt2_1_1Mt2.html#a8ffb25a45d924e971f2a7be06dff46e1',1,'mt2::Mt2']]],
-  ['c2',['c2',['../db/d47/classmt2_1_1Mt2.html#a9b85dccce6c7bd8e57ff7595bdeee688',1,'mt2::Mt2']]],
+  ['c1',['c1',['../d2/d84/classwimpmass_1_1Mt2.html#aad1d109294bc743097388962e4775b48',1,'wimpmass::Mt2']]],
+  ['c2',['c2',['../d2/d84/classwimpmass_1_1Mt2.html#ac171f7fa128ba12ba9532e9945b632d0',1,'wimpmass::Mt2']]],
   ['c_5fparameter',['c_parameter',['../de/d2f/classboca_1_1branch_1_1EventShapesBase.html#affa58061bb75b3c67873494aa6841cd3',1,'boca::branch::EventShapesBase']]],
   ['canvas_5f',['canvas_',['../de/daa/classboca_1_1Canvas.html#a5f9c70bf29e4dd51b5eb25efb2149c66',1,'boca::Canvas']]],
   ['chain_5f',['chain_',['../d6/dde/classboca_1_1TreeReader.html#adba4559343aec80846f1d2e5f81e5ce3',1,'boca::TreeReader']]],
@@ -13,9 +13,9 @@ var searchData=
   ['closest_5flepton_5f',['closest_lepton_',['../d1/d5c/classboca_1_1Multiplet.html#a5d2e98530e203815e368e5d3d654cce6',1,'boca::Multiplet']]],
   ['cluster_5fsequence_5f',['cluster_sequence_',['../d6/d64/classboca_1_1ClusterSequence.html#a346aa6c1fb651fc0bd49288bfc9fbb47',1,'boca::ClusterSequence']]],
   ['clustermass',['ClusterMass',['../de/ddc/classboca_1_1standardmodel_1_1branch_1_1Tau.html#a5bb076211057920444b1501c694f92bf',1,'boca::standardmodel::branch::Tau']]],
-  ['coefficient_5fvector_5f',['coefficient_vector_',['../d4/d69/classboca_1_1wimpmass_1_1Invisible22.html#a024193bf6773d2afc577ac7d1b58d0b2',1,'boca::wimpmass::Invisible22']]],
-  ['coefficient_5fvector_5f1_5f',['coefficient_vector_1_',['../d4/d69/classboca_1_1wimpmass_1_1Invisible22.html#a4233e5b9667f4b3bb6386d96534f591a',1,'boca::wimpmass::Invisible22']]],
-  ['coefficient_5fvector_5f2_5f',['coefficient_vector_2_',['../d4/d69/classboca_1_1wimpmass_1_1Invisible22.html#a0473a79b8d9445bf6f151b50652b5021',1,'boca::wimpmass::Invisible22']]],
+  ['coefficient_5fvector_5f',['coefficient_vector_',['../de/d6e/classwimpmass_1_1Invisible22.html#a4b153602c98b451975dd0859d90ae113',1,'wimpmass::Invisible22']]],
+  ['coefficient_5fvector_5f1_5f',['coefficient_vector_1_',['../de/d6e/classwimpmass_1_1Invisible22.html#aedcef553150d2a4a334df568d56b3a6a',1,'wimpmass::Invisible22']]],
+  ['coefficient_5fvector_5f2_5f',['coefficient_vector_2_',['../de/d6e/classwimpmass_1_1Invisible22.html#a0626b4e2b08de486244e5fb6b6e26fb2',1,'wimpmass::Invisible22']]],
   ['collider_5f',['collider_',['../d3/dd1/classboca_1_1Settings.html#afacd5389364a432c50c0922ee9526908',1,'boca::Settings']]],
   ['colorline1',['ColorLine1',['../d2/d13/classTRootLHEFParticle.html#ab3edcc5ce9786b75a864db3c7aa54c78',1,'TRootLHEFParticle']]],
   ['colorline2',['ColorLine2',['../d2/d13/classTRootLHEFParticle.html#a4f80a6424344940d8b22e90142cfd6bc',1,'TRootLHEFParticle']]],

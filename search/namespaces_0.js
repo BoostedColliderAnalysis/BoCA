@@ -10,10 +10,8 @@ var searchData=
   ['exroot',['exroot',['../d1/d55/namespaceboca_1_1exroot.html',1,'boca']]],
   ['latex',['latex',['../da/d95/namespaceboca_1_1latex.html',1,'boca']]],
   ['standardmodel',['standardmodel',['../dd/dba/namespaceboca_1_1standardmodel.html',1,'boca']]],
-  ['tagger',['tagger',['../d3/d72/namespaceboca_1_1tagger.html',1,'boca']]],
   ['tagger',['tagger',['../d1/d19/namespaceboca_1_1standardmodel_1_1tagger.html',1,'boca::standardmodel']]],
-  ['toppartner',['toppartner',['../d2/d2d/namespaceboca_1_1toppartner.html',1,'boca']]],
+  ['tagger',['tagger',['../d3/d72/namespaceboca_1_1tagger.html',1,'boca']]],
   ['units',['units',['../d1/dfa/namespaceboost_1_1units.html',1,'boost']]],
-  ['units',['units',['../d9/d6f/namespaceboca_1_1units.html',1,'boca']]],
-  ['wimpmass',['wimpmass',['../d6/d12/namespaceboca_1_1wimpmass.html',1,'boca']]]
+  ['units',['units',['../d9/d6f/namespaceboca_1_1units.html',1,'boca']]]
 ];

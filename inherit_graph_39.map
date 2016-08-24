@@ -1,11 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d1/d69/classboca_1_1latex_1_1Command.html" title="boca::latex::Command" alt="" coords="5,157,160,184"/>
-<area shape="rect" id="node2" href="$d0/dc7/classboca_1_1latex_1_1Caption.html" title="boca::latex::Caption" alt="" coords="236,5,375,32"/>
-<area shape="rect" id="node3" href="$db/d9a/classboca_1_1latex_1_1DocumentClass.html" title="boca::latex::DocumentClass" alt="" coords="211,56,399,83"/>
-<area shape="rect" id="node5" href="$d7/d04/classboca_1_1latex_1_1MultiColumn.html" title="boca::latex::MultiColumn" alt="" coords="222,107,389,133"/>
-<area shape="rect" id="node6" href="$db/d27/classboca_1_1latex_1_1RenewCommand.html" title="boca::latex::RenewCommand" alt="" coords="208,157,403,184"/>
-<area shape="rect" id="node7" href="$d9/db8/classboca_1_1latex_1_1SetCounter.html" title="boca::latex::SetCounter" alt="" coords="225,208,385,235"/>
-<area shape="rect" id="node8" href="$d4/de8/classboca_1_1latex_1_1Unit.html" title="boca::latex::Unit" alt="" coords="246,259,365,285"/>
-<area shape="rect" id="node9" href="$d8/d4d/classboca_1_1latex_1_1UsePackage.html" title="boca::latex::UsePackage" alt="" coords="221,309,390,336"/>
-<area shape="rect" id="node4" href="$d7/d32/classboca_1_1latex_1_1Article.html" title="boca::latex::Article" alt="" coords="451,56,581,83"/>
+<area shape="rect" id="node1" href="$db/d38/classboca_1_1latex_1_1Environment.html" title="boca::latex::Environment" alt="" coords="5,5,172,32"/>
 </map>

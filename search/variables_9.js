@@ -14,7 +14,7 @@ var searchData=
   ['input_5f',['input_',['../d6/df2/classboca_1_1Trainer.html#a9543876841105cce237995484166c355',1,'boca::Trainer']]],
   ['invariant_5fmass_5f',['invariant_mass_',['../d9/dff/classboca_1_1CutVariables.html#afc3db35cea9369651afdc4da9a420a92',1,'boca::CutVariables']]],
   ['invariantmass',['InvariantMass',['../d5/d66/classheavyhiggs_1_1branch_1_1Cut.html#a8a2ba748d8b648f0632caed24caf7f8f',1,'heavyhiggs::branch::Cut']]],
-  ['invisible_5fsquare_5f',['invisible_square_',['../d4/d69/classboca_1_1wimpmass_1_1Invisible22.html#a5824178d22bc21f334d59732e15d9080',1,'boca::wimpmass::Invisible22']]],
+  ['invisible_5fsquare_5f',['invisible_square_',['../de/d6e/classwimpmass_1_1Invisible22.html#a2078d2235654175e522171239724bf55',1,'wimpmass::Invisible22']]],
   ['isconstituent',['IsConstituent',['../d2/d1e/classCandidate.html#ab289dee9e668fa7d9b7035dab3c692f5',1,'Candidate']]],
   ['isfromconversion',['IsFromConversion',['../d2/d1e/classCandidate.html#ad8895b53601a099a64e73f54d193fbe4',1,'Candidate']]],
   ['isolationvar',['IsolationVar',['../da/d43/classPhoton.html#ad565f91ced3624100981133f8880fb93',1,'Photon::IsolationVar()'],['../d4/dfe/classElectron.html#a44b92bf2e1f5c87298cc63ec955912cc',1,'Electron::IsolationVar()'],['../d4/d24/classMuon.html#a1e379f4ab13d9a3177bf3c2b5919dd7b',1,'Muon::IsolationVar()'],['../d2/d1e/classCandidate.html#acaee8dd83fa4da74e5f46eca9521b2b6',1,'Candidate::IsolationVar()']]],

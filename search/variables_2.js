@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['b1',['b1',['../db/d47/classmt2_1_1Mt2.html#a9370282934c1ee25c581f7cd6e3900ae',1,'mt2::Mt2']]],
-  ['b2',['b2',['../db/d47/classmt2_1_1Mt2.html#a641704456b2be41bfcca2e2fb1a1f20f',1,'mt2::Mt2']]],
+  ['b1',['b1',['../d2/d84/classwimpmass_1_1Mt2.html#a727d55fd9edf177599957b01b1278b06',1,'wimpmass::Mt2']]],
+  ['b2',['b2',['../d2/d84/classwimpmass_1_1Mt2.html#af259e4b7c6e13cacf0cc71f50787e2a0',1,'wimpmass::Mt2']]],
   ['b_5fmax',['b_max',['../de/d2f/classboca_1_1branch_1_1EventShapesBase.html#aa6babd54ced1862ded9ec46786e8ab53',1,'boca::branch::EventShapesBase']]],
   ['b_5fmin',['b_min',['../de/d2f/classboca_1_1branch_1_1EventShapesBase.html#a07d916ca2e426a20ad396b250255df00',1,'boca::branch::EventShapesBase']]],
   ['b_5ftag_5f',['b_tag_',['../df/d8a/classboca_1_1JetInfo.html#abbd37703d6b6a0c281b17e895a870e00',1,'boca::JetInfo']]],

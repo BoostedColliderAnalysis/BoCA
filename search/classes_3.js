@@ -8,5 +8,5 @@ var searchData=
   ['depressed_5f',['Depressed_',['../dc/d48/classboca_1_1Matrix3_1_1Depressed__.html',1,'boca::Matrix3']]],
   ['documentclass',['DocumentClass',['../db/d9a/classboca_1_1latex_1_1DocumentClass.html',1,'boca::latex']]],
   ['doublet',['Doublet',['../d4/d01/classboca_1_1Doublet.html',1,'boca']]],
-  ['duodecuplet552',['Duodecuplet552',['../dd/d9f/classboca_1_1toppartner_1_1Duodecuplet552.html',1,'boca::toppartner']]]
+  ['duodecuplet552',['Duodecuplet552',['../d2/d52/classtoppartner_1_1Duodecuplet552.html',1,'toppartner']]]
 ];

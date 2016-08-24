@@ -1,8 +1,8 @@
 <map id="toppartner::branch::SignatureSingleHadronicBranch" name="toppartner::branch::SignatureSingleHadronicBranch">
-<area shape="rect" id="node2" href="$d2/d41/classboca_1_1branch_1_1ThreeBody.html" title="Higgs cpv tagger root tree structure. " alt="" coords="5,379,173,405"/>
-<area shape="rect" id="node3" href="$d6/d92/classboca_1_1branch_1_1Particle.html" title="Class for saving event informations to root. " alt="" coords="15,304,164,331"/>
-<area shape="rect" id="node4" href="$d0/d6b/classboca_1_1branch_1_1Bdt.html" title="boca::branch::Bdt" alt="" coords="27,229,152,256"/>
-<area shape="rect" id="node5" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="boca::branch::Result" alt="" coords="18,155,161,181"/>
-<area shape="rect" id="node6" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Basic tree branches. " alt="" coords="22,80,157,107"/>
-<area shape="rect" id="node8" href="$de/d2f/classboca_1_1branch_1_1EventShapesBase.html" title="Event Shape Branch. " alt="" coords="197,379,411,405"/>
+<area shape="rect" id="node2" href="$d2/d41/classboca_1_1branch_1_1ThreeBody.html" title="Three body tree branch. " alt="" coords="5,379,173,405"/>
+<area shape="rect" id="node3" href="$d6/d92/classboca_1_1branch_1_1Particle.html" title="Particle tree branch " alt="" coords="15,304,164,331"/>
+<area shape="rect" id="node4" href="$d0/d6b/classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="27,229,152,256"/>
+<area shape="rect" id="node5" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="18,155,161,181"/>
+<area shape="rect" id="node6" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="22,80,157,107"/>
+<area shape="rect" id="node8" href="$de/d2f/classboca_1_1branch_1_1EventShapesBase.html" title="EventShapes base tree branch " alt="" coords="197,379,411,405"/>
 </map>

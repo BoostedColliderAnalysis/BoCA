@@ -17,7 +17,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d1/d6c/classboca_1_1branch_1_1Cut.html" target="_top" xlink:title="boca::branch::Cut">
+<g id="a_node2"><a xlink:href="../../d1/d6c/classboca_1_1branch_1_1Cut.html" target="_top" xlink:title="Cut base tree branch ">
 <polygon fill="white" stroke="black" points="6,-67.5 6,-86.5 101,-86.5 101,-67.5 6,-67.5"/>
 <text text-anchor="middle" x="53.5" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Cut</text>
 </a>
@@ -30,7 +30,7 @@
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="../../d3/d39/classboca_1_1branch_1_1Result.html" target="_top" xlink:title="boca::branch::Result">
+<g id="a_node3"><a xlink:href="../../d3/d39/classboca_1_1branch_1_1Result.html" target="_top" xlink:title="Result tree branch ">
 <polygon fill="white" stroke="black" points="-7.10543e-15,-123.5 -7.10543e-15,-142.5 107,-142.5 107,-123.5 -7.10543e-15,-123.5"/>
 <text text-anchor="middle" x="53.5" y="-130.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Result</text>
 </a>
@@ -43,7 +43,7 @@
 </g>
 <!-- Node4 -->
 <g id="node4" class="node"><title>Node4</title>
-<g id="a_node4"><a xlink:href="../../df/d34/classboca_1_1branch_1_1Base.html" target="_top" xlink:title="Basic tree branches. ">
+<g id="a_node4"><a xlink:href="../../df/d34/classboca_1_1branch_1_1Base.html" target="_top" xlink:title="Base tree branch ">
 <polygon fill="white" stroke="black" points="3,-179.5 3,-198.5 104,-198.5 104,-179.5 3,-179.5"/>
 <text text-anchor="middle" x="53.5" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Base</text>
 </a>

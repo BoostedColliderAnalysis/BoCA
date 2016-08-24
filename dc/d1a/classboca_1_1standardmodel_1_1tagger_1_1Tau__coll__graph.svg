@@ -72,7 +72,7 @@
 </g>
 <!-- Node5 -->
 <g id="node5" class="node"><title>Node5</title>
-<g id="a_node5"><a xlink:href="../../de/ddc/classboca_1_1standardmodel_1_1branch_1_1Tau.html" target="_top" xlink:title="Tau tagger root tree structure. ">
+<g id="a_node5"><a xlink:href="../../de/ddc/classboca_1_1standardmodel_1_1branch_1_1Tau.html" target="_top" xlink:title="Tau tagger tree branch ">
 <polygon fill="white" stroke="black" points="752,-0.5 752,-30.5 859,-30.5 859,-0.5 752,-0.5"/>
 <text text-anchor="start" x="760" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::standardmodel</text>
 <text text-anchor="middle" x="805.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">::branch::Tau</text>
@@ -87,7 +87,7 @@
 </g>
 <!-- Node6 -->
 <g id="node6" class="node"><title>Node6</title>
-<g id="a_node6"><a xlink:href="../../d6/d92/classboca_1_1branch_1_1Particle.html" target="_top" xlink:title="Class for saving event informations to root. ">
+<g id="a_node6"><a xlink:href="../../d6/d92/classboca_1_1branch_1_1Particle.html" target="_top" xlink:title="Particle tree branch ">
 <polygon fill="white" stroke="black" points="560,-6 560,-25 672,-25 672,-6 560,-6"/>
 <text text-anchor="middle" x="616" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Particle</text>
 </a>
@@ -100,7 +100,7 @@
 </g>
 <!-- Node7 -->
 <g id="node7" class="node"><title>Node7</title>
-<g id="a_node7"><a xlink:href="../../d0/d6b/classboca_1_1branch_1_1Bdt.html" target="_top" xlink:title="boca::branch::Bdt">
+<g id="a_node7"><a xlink:href="../../d0/d6b/classboca_1_1branch_1_1Bdt.html" target="_top" xlink:title="Bdt base tree branch ">
 <polygon fill="white" stroke="black" points="370,-6 370,-25 464,-25 464,-6 370,-6"/>
 <text text-anchor="middle" x="417" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Bdt</text>
 </a>
@@ -113,7 +113,7 @@
 </g>
 <!-- Node8 -->
 <g id="node8" class="node"><title>Node8</title>
-<g id="a_node8"><a xlink:href="../../d3/d39/classboca_1_1branch_1_1Result.html" target="_top" xlink:title="boca::branch::Result">
+<g id="a_node8"><a xlink:href="../../d3/d39/classboca_1_1branch_1_1Result.html" target="_top" xlink:title="Result tree branch ">
 <polygon fill="white" stroke="black" points="226,-6 226,-25 333,-25 333,-6 226,-6"/>
 <text text-anchor="middle" x="279.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Result</text>
 </a>
@@ -126,7 +126,7 @@
 </g>
 <!-- Node9 -->
 <g id="node9" class="node"><title>Node9</title>
-<g id="a_node9"><a xlink:href="../../df/d34/classboca_1_1branch_1_1Base.html" target="_top" xlink:title="Basic tree branches. ">
+<g id="a_node9"><a xlink:href="../../df/d34/classboca_1_1branch_1_1Base.html" target="_top" xlink:title="Base tree branch ">
 <polygon fill="white" stroke="black" points="88,-6 88,-25 189,-25 189,-6 88,-6"/>
 <text text-anchor="middle" x="138.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">boca::branch::Base</text>
 </a>

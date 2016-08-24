@@ -1,4 +1,4 @@
 <map id="boca::standardmodel::branch::Truth" name="boca::standardmodel::branch::Truth">
-<area shape="rect" id="node2" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="boca::branch::Result" alt="" coords="5,155,148,181"/>
-<area shape="rect" id="node3" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Basic tree branches. " alt="" coords="9,80,144,107"/>
+<area shape="rect" id="node2" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="5,155,148,181"/>
+<area shape="rect" id="node3" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="9,80,144,107"/>
 </map>
