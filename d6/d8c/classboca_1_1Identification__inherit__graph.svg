@@ -95,15 +95,15 @@
 </g>
 <!-- Node48 -->
 <g id="node48" class="node"><title>Node48</title>
-<g id="a_node48"><a xlink:href="../../de/dca/classObservables.html" target="_top" xlink:title="Observables">
-<polygon fill="white" stroke="black" points="165,-798.901 165,-817.901 236,-817.901 236,-798.901 165,-798.901"/>
-<text text-anchor="middle" x="200.5" y="-805.901" font-family="Helvetica,sans-Serif" font-size="10.00">Observables</text>
+<g id="a_node48"><a xlink:href="../../d5/da8/classsimple_1_1Observables.html" target="_top" xlink:title="simple::Observables">
+<polygon fill="white" stroke="black" points="147.5,-798.901 147.5,-817.901 253.5,-817.901 253.5,-798.901 147.5,-798.901"/>
+<text text-anchor="middle" x="200.5" y="-805.901" font-family="Helvetica,sans-Serif" font-size="10.00">simple::Observables</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node48 -->
 <g id="edge73" class="edge"><title>Node1&#45;&gt;Node48</title>
-<path fill="none" stroke="midnightblue" d="M64.9449,-889.74C80.6525,-871.628 107.371,-843.848 136,-827.401 144.781,-822.356 155.028,-818.535 164.696,-815.691"/>
+<path fill="none" stroke="midnightblue" d="M64.9449,-889.74C80.6525,-871.628 107.371,-843.848 136,-827.401 142.585,-823.617 149.996,-820.522 157.368,-818.011"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="61.9446,-887.867 58.1582,-897.763 67.2889,-892.388 61.9446,-887.867"/>
 </g>
 <!-- Node49 -->

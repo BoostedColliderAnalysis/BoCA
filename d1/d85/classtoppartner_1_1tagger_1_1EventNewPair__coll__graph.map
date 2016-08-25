@@ -1,7 +1,7 @@
 <map id="toppartner::tagger::EventNewPair" name="toppartner::tagger::EventNewPair">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Decuplet55 \&gt;, boca::branch\l::Event \&gt;" alt="" coords="1831,1369,2025,1425"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="1180,1175,1312,1201"/>
-<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1437,1025,1595,1066"/>
+<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1437,1025,1595,1066"/>
 <area shape="rect" id="node15" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Decuplet55,\l boca::branch::Multi \&gt;" alt="" coords="1838,1058,2018,1099"/>
 <area shape="rect" id="node21" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quintet,\l branch::TopPartnerBranch \&gt;" alt="" coords="1833,717,2023,758"/>
 <area shape="rect" id="node25" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopHadronic \&gt;" alt="" coords="1849,649,2007,690"/>

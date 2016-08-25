@@ -1,7 +1,7 @@
 <map id="boca::standardmodel::tagger::TopLeptonic" name="boca::standardmodel::tagger::TopLeptonic">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopLeptonic \&gt;" alt="" coords="1609,77,1765,118"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="965,60,1097,87"/>
-<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1215,17,1374,58"/>
+<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1215,17,1374,58"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="685,60,811,87"/>
 <area shape="rect" id="node5" href="$d5/d4b/classboca_1_1standardmodel_1_1branch_1_1TopLeptonic.html" title="Top leptonic tagger tree branch. " alt="" coords="1221,134,1369,175"/>
 <area shape="rect" id="node6" href="$d0/d51/classboca_1_1branch_1_1TwoBody.html" title="Two body tree branch. " alt="" coords="951,113,1111,140"/>

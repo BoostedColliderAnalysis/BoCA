@@ -1,7 +1,7 @@
 <map id="boca::tagger::Global" name="boca::tagger::Global">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; GlobalObservables,\l branch::Global \&gt;" alt="" coords="1373,85,1597,126"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="772,159,904,185"/>
-<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1023,210,1181,251"/>
+<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1023,210,1181,251"/>
 <area shape="rect" id="node15" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Jet,\l branch::Bottom \&gt;" alt="" coords="1419,207,1551,249"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="499,159,624,185"/>
 <area shape="rect" id="node5" href="$d4/d6f/classboca_1_1branch_1_1Global.html" title="Global tree branch " alt="" coords="1031,39,1173,65"/>

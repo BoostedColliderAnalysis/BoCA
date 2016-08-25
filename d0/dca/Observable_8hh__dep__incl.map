@@ -4,7 +4,7 @@
 <area shape="rect" id="node50" href="$d9/dba/Observable_8cpp.html" title="source/Observable.cpp" alt="" coords="3403,80,3559,107"/>
 <area shape="rect" id="node3" href="$da/d1e/Plotting_8hh.html" title="boca/plotting/Plotting.hh" alt="" coords="3328,162,3491,189"/>
 <area shape="rect" id="node5" href="$dc/d11/branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="298,162,451,189"/>
-<area shape="rect" id="node9" href="$d8/d6f/Branch_8hh.html" title="examples/cut/include\l/Branch.hh" alt="" coords="1042,348,1187,389"/>
+<area shape="rect" id="node9" href="$d8/d6f/Branch_8hh.html" title="examples/simple/include\l/Branch.hh" alt="" coords="1021,348,1187,389"/>
 <area shape="rect" id="node16" href="$d5/dba/GlobalBase_8hh.html" title="boca/branch/GlobalBase.hh" alt="" coords="733,259,915,285"/>
 <area shape="rect" id="node18" href="$da/d5b/EventShapesBase_8hh.html" title="boca/branch/EventShapesBase.hh" alt="" coords="1547,162,1770,189"/>
 <area shape="rect" id="node24" href="$dc/d3c/BottomBase_8hh.html" title="boca/standardmodel\l/branch/BottomBase.hh" alt="" coords="2605,155,2763,196"/>
@@ -18,8 +18,8 @@
 <area shape="rect" id="node15" href="$d0/d89/branch_2Result_8cpp.html" title="source/branch/Result.cpp" alt="" coords="379,259,549,285"/>
 <area shape="rect" id="node7" href="$d2/d02/boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="745,355,895,382"/>
 <area shape="rect" id="node8" href="$d8/de8/branch_2Global_8hh.html" title="boca/branch/Global.hh" alt="" coords="567,355,719,382"/>
-<area shape="rect" id="node10" href="$dc/dea/examples_2cut_2include_2Tagger_8hh.html" title="examples/cut/include\l/Tagger.hh" alt="" coords="1718,437,1863,479"/>
-<area shape="rect" id="node11" href="$d2/d4d/Branch_8cpp.html" title="examples/cut/source\l/Branch.cpp" alt="" coords="1043,437,1186,479"/>
+<area shape="rect" id="node10" href="$dd/da2/examples_2simple_2include_2Tagger_8hh.html" title="examples/simple/include\l/Tagger.hh" alt="" coords="1708,437,1873,479"/>
+<area shape="rect" id="node11" href="$d2/d4d/Branch_8cpp.html" title="examples/simple/source\l/Branch.cpp" alt="" coords="1023,437,1185,479"/>
 <area shape="rect" id="node17" href="$df/dde/Complete_8hh.html" title="examples/toppartner\l/include/branch/Complete.hh" alt="" coords="1211,348,1399,389"/>
 <area shape="rect" id="node19" href="$de/dd5/boca_2branch_2Signature_8hh.html" title="boca/branch/Signature.hh" alt="" coords="1891,259,2061,285"/>
 <area shape="rect" id="node20" href="$d9/d81/branch_2SignatureEffective_8hh.html" title="examples/toppartner\l/include/branch/SignatureEffective.hh" alt="" coords="939,251,1178,293"/>

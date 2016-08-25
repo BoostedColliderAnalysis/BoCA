@@ -4,9 +4,9 @@
 <area shape="rect" id="node30" href="$dd/d58/GlobalObservables_8hh.html" title="boca/multiplets/GlobalObservables.hh" alt="" coords="2871,341,3113,367"/>
 <area shape="rect" id="node35" href="$db/d40/tagger_2Bottom_8hh.html" title="boca/standardmodel\l/tagger/Bottom.hh" alt="" coords="1853,333,1992,375"/>
 <area shape="rect" id="node44" href="$d9/de1/tagger_2Tau_8hh.html" title="boca/standardmodel\l/tagger/Tau.hh" alt="" coords="696,155,835,196"/>
-<area shape="rect" id="node46" href="$d9/da3/examples_2cut_2include_2Observables_8hh.html" title="examples/cut/include\l/Observables.hh" alt="" coords="1725,155,1870,196"/>
-<area shape="rect" id="node49" href="$db/d6a/JetInfo_8cpp.html" title="source/multiplets/JetInfo.cpp" alt="" coords="1894,162,2085,189"/>
-<area shape="rect" id="node50" href="$d5/dd3/Singlet_8cpp.html" title="source/multiplets/Singlet.cpp" alt="" coords="2109,162,2299,189"/>
+<area shape="rect" id="node46" href="$d6/d0d/examples_2simple_2include_2Observables_8hh.html" title="examples/simple/include\l/Observables.hh" alt="" coords="1724,155,1889,196"/>
+<area shape="rect" id="node49" href="$db/d6a/JetInfo_8cpp.html" title="source/multiplets/JetInfo.cpp" alt="" coords="1914,162,2105,189"/>
+<area shape="rect" id="node50" href="$d5/dd3/Singlet_8cpp.html" title="source/multiplets/Singlet.cpp" alt="" coords="2129,162,2319,189"/>
 <area shape="rect" id="node4" href="$d2/d91/multiplets_2TwoBody_8hh.html" title="boca/multiplets/TwoBody.hh" alt="" coords="1203,251,1389,278"/>
 <area shape="rect" id="node29" href="$d4/d4f/Multiplet_8cpp.html" title="source/multiplets/Multiplet.cpp" alt="" coords="979,251,1178,278"/>
 <area shape="rect" id="node5" href="$df/d3a/Doublet_8hh.html" title="boca/multiplets/Doublet.hh" alt="" coords="1081,341,1258,367"/>
@@ -46,6 +46,6 @@
 <area shape="rect" id="node43" href="$d0/d66/tagger_2Bottom_8cpp.html" title="source/standardmodel\l/tagger/Bottom.cpp" alt="" coords="2414,430,2565,471"/>
 <area shape="rect" id="node38" href="$d6/d9f/MainHiggs_8cpp.html" title="source/standardmodel\l/MainHiggs.cpp" alt="" coords="2671,534,2822,575"/>
 <area shape="rect" id="node45" href="$d9/ddb/tagger_2Tau_8cpp.html" title="source/standardmodel\l/tagger/Tau.cpp" alt="" coords="690,244,841,285"/>
-<area shape="rect" id="node47" href="$dc/dea/examples_2cut_2include_2Tagger_8hh.html" title="examples/cut/include\l/Tagger.hh" alt="" coords="1725,244,1870,285"/>
-<area shape="rect" id="node48" href="$d8/d39/examples_2cut_2source_2Observables_8cpp.html" title="examples/cut/source\l/Observables.cpp" alt="" coords="1894,244,2037,285"/>
+<area shape="rect" id="node47" href="$dd/da2/examples_2simple_2include_2Tagger_8hh.html" title="examples/simple/include\l/Tagger.hh" alt="" coords="1724,244,1889,285"/>
+<area shape="rect" id="node48" href="$d5/d44/examples_2simple_2source_2Observables_8cpp.html" title="examples/simple/source\l/Observables.cpp" alt="" coords="1913,244,2076,285"/>
 </map>

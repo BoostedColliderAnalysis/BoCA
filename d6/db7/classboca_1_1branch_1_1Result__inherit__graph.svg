@@ -118,15 +118,15 @@
 </g>
 <!-- Node44 -->
 <g id="node44" class="node"><title>Node44</title>
-<g id="a_node44"><a xlink:href="../../d8/dd7/classBranch.html" target="_top" xlink:title="Branch">
-<polygon fill="white" stroke="black" points="548,-286 548,-305 595,-305 595,-286 548,-286"/>
-<text text-anchor="middle" x="571.5" y="-293" font-family="Helvetica,sans-Serif" font-size="10.00">Branch</text>
+<g id="a_node44"><a xlink:href="../../d0/dd7/classsimple_1_1Branch.html" target="_top" xlink:title="simple::Branch">
+<polygon fill="white" stroke="black" points="530.5,-286 530.5,-305 612.5,-305 612.5,-286 530.5,-286"/>
+<text text-anchor="middle" x="571.5" y="-293" font-family="Helvetica,sans-Serif" font-size="10.00">simple::Branch</text>
 </a>
 </g>
 </g>
 <!-- Node4&#45;&gt;Node44 -->
 <g id="edge43" class="edge"><title>Node4&#45;&gt;Node44</title>
-<path fill="none" stroke="midnightblue" d="M478.055,-307.288C502.381,-304.186 529.422,-300.738 547.941,-298.377"/>
+<path fill="none" stroke="midnightblue" d="M477.892,-307.309C495.314,-305.088 514.142,-302.687 530.243,-300.633"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="477.305,-303.856 467.828,-308.592 478.19,-310.799 477.305,-303.856"/>
 </g>
 <!-- Node45 -->

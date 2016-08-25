@@ -2,10 +2,10 @@
 <area shape="rect" id="node2" href="$d2/d02/boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="1735,177,1885,203"/>
 <area shape="rect" id="node30" href="$d8/de8/branch_2Global_8hh.html" title="boca/branch/Global.hh" alt="" coords="3587,87,3739,114"/>
 <area shape="rect" id="node36" href="$d1/d88/branch_2Particle_8hh.html" title="boca/branch/Particle.hh" alt="" coords="4389,87,4548,114"/>
-<area shape="rect" id="node43" href="$d8/d6f/Branch_8hh.html" title="examples/cut/include\l/Branch.hh" alt="" coords="4816,80,4961,121"/>
-<area shape="rect" id="node46" href="$db/df1/examples_2toppartner_2include_2branch_2Truth_8hh.html" title="examples/toppartner\l/include/branch/Truth.hh" alt="" coords="4986,80,5149,121"/>
-<area shape="rect" id="node49" href="$da/d5e/Bdt_8cpp.html" title="source/branch/Bdt.cpp" alt="" coords="5173,87,5327,114"/>
-<area shape="rect" id="node50" href="$d5/d94/PlottingBase_8cpp.html" title="source/plotting/Plotting\lBase.cpp" alt="" coords="5351,80,5506,121"/>
+<area shape="rect" id="node43" href="$d8/d6f/Branch_8hh.html" title="examples/simple/include\l/Branch.hh" alt="" coords="4815,80,4981,121"/>
+<area shape="rect" id="node46" href="$db/df1/examples_2toppartner_2include_2branch_2Truth_8hh.html" title="examples/toppartner\l/include/branch/Truth.hh" alt="" coords="5005,80,5167,121"/>
+<area shape="rect" id="node49" href="$da/d5e/Bdt_8cpp.html" title="source/branch/Bdt.cpp" alt="" coords="5192,87,5345,114"/>
+<area shape="rect" id="node50" href="$d5/d94/PlottingBase_8cpp.html" title="source/plotting/Plotting\lBase.cpp" alt="" coords="5370,80,5525,121"/>
 <area shape="rect" id="node3" href="$dc/d76/boca_2tagger_2Event_8hh.html" title="boca/tagger/Event.hh" alt="" coords="3207,273,3354,300"/>
 <area shape="rect" id="node8" href="$d1/d33/branch_2EventCharged_8hh.html" title="examples/heavyhiggs\l/include/branch/EventCharged.hh" alt="" coords="360,266,575,307"/>
 <area shape="rect" id="node11" href="$d8/dd3/branch_2EventFusion_8hh.html" title="examples/heavyhiggs\l/include/branch/EventFusion.hh" alt="" coords="715,266,921,307"/>
@@ -44,8 +44,8 @@
 <area shape="rect" id="node41" href="$df/d95/branch_2Tau_8hh.html" title="boca/standardmodel\l/branch/Tau.hh" alt="" coords="4654,169,4793,211"/>
 <area shape="rect" id="node42" href="$d3/dc1/branch_2Particle_8cpp.html" title="source/branch/Particle.cpp" alt="" coords="3892,177,4069,203"/>
 <area shape="rect" id="node38" href="$da/df0/Multi_8hh.html" title="boca/branch/Multi.hh" alt="" coords="4108,273,4251,300"/>
-<area shape="rect" id="node44" href="$dc/dea/examples_2cut_2include_2Tagger_8hh.html" title="examples/cut/include\l/Tagger.hh" alt="" coords="4984,169,5129,211"/>
-<area shape="rect" id="node45" href="$d2/d4d/Branch_8cpp.html" title="examples/cut/source\l/Branch.cpp" alt="" coords="4817,169,4960,211"/>
-<area shape="rect" id="node47" href="$d8/d02/TruthLevel_8hh.html" title="examples/toppartner\l/include/tagger/TruthLevel.hh" alt="" coords="5344,169,5535,211"/>
-<area shape="rect" id="node48" href="$d0/d3b/examples_2toppartner_2source_2branch_2Truth_8cpp.html" title="examples/toppartner\l/source/branch/Truth.cpp" alt="" coords="5153,169,5320,211"/>
+<area shape="rect" id="node44" href="$dd/da2/examples_2simple_2include_2Tagger_8hh.html" title="examples/simple/include\l/Tagger.hh" alt="" coords="5003,169,5169,211"/>
+<area shape="rect" id="node45" href="$d2/d4d/Branch_8cpp.html" title="examples/simple/source\l/Branch.cpp" alt="" coords="4817,169,4979,211"/>
+<area shape="rect" id="node47" href="$d8/d02/TruthLevel_8hh.html" title="examples/toppartner\l/include/tagger/TruthLevel.hh" alt="" coords="5384,169,5575,211"/>
+<area shape="rect" id="node48" href="$d0/d3b/examples_2toppartner_2source_2branch_2Truth_8cpp.html" title="examples/toppartner\l/source/branch/Truth.cpp" alt="" coords="5193,169,5360,211"/>
 </map>

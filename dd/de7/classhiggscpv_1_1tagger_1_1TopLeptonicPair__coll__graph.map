@@ -1,7 +1,7 @@
 <map id="higgscpv::tagger::TopLeptonicPair" name="higgscpv::tagger::TopLeptonicPair">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Sextet,\l branch::TopLeptonicTwoBody \&gt;" alt="" coords="2003,310,2213,351"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="965,384,1097,411"/>
-<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1215,307,1374,349"/>
+<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1215,307,1374,349"/>
 <area shape="rect" id="node17" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopLeptonic \&gt;" alt="" coords="1631,269,1787,310"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="685,384,811,411"/>
 <area shape="rect" id="node5" href="$d2/d70/classhiggscpv_1_1branch_1_1TopLeptonicTwoBody.html" title="Higgs tagger root tree structure. " alt="" coords="1609,203,1809,245"/>

@@ -1,7 +1,7 @@
 <map id="higgscpv::tagger::SignatureLepton" name="higgscpv::tagger::SignatureLepton">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; MultipletSignature\l\&lt; Quartet211 \&gt;, branch::SignatureLepton \&gt;" alt="" coords="1987,250,2257,291"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="965,333,1097,360"/>
-<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1215,305,1374,346"/>
+<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1215,305,1374,346"/>
 <area shape="rect" id="node17" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Doublet,\l branch::Higgs \&gt;" alt="" coords="1622,233,1781,274"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="685,333,811,360"/>
 <area shape="rect" id="node5" href="$d2/d54/classhiggscpv_1_1branch_1_1SignatureLepton.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1609,167,1793,209"/>

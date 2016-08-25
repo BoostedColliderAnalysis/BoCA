@@ -1,7 +1,7 @@
 <map id="toppartner::tagger::Resonance" name="toppartner::tagger::Resonance">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Doublet,\l branch::TopPartnerBranch \&gt;" alt="" coords="1716,75,1907,117"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="1161,69,1293,96"/>
-<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1392,17,1551,58"/>
+<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1392,17,1551,58"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="889,69,1015,96"/>
 <area shape="rect" id="node5" href="$d3/d08/classtoppartner_1_1branch_1_1TopPartnerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1404,134,1539,175"/>
 <area shape="rect" id="node6" href="$d2/dfe/classboca_1_1branch_1_1Multi.html" title="Multi obejct tree branch " alt="" coords="1160,141,1293,168"/>

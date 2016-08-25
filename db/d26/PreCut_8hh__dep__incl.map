@@ -1,14 +1,14 @@
 <map id="boca/PreCut.hh" name="boca/PreCut.hh">
-<area shape="rect" id="node2" href="$da/d59/PreCuts_8hh.html" title="boca/PreCuts.hh" alt="" coords="2919,80,3039,107"/>
-<area shape="rect" id="node3" href="$df/d2c/Reader_8hh.html" title="boca/multivariant/Reader.hh" alt="" coords="1479,237,1664,263"/>
+<area shape="rect" id="node2" href="$da/d59/PreCuts_8hh.html" title="boca/PreCuts.hh" alt="" coords="2927,80,3047,107"/>
+<area shape="rect" id="node3" href="$df/d2c/Reader_8hh.html" title="boca/multivariant/Reader.hh" alt="" coords="1468,237,1653,263"/>
 <area shape="rect" id="node32" href="$d1/dcf/AnalysisBase_8hh.html" title="boca/analysis/AnalysisBase.hh" alt="" coords="252,237,456,263"/>
-<area shape="rect" id="node35" href="$d4/dee/boca_2tagger_2Tagger_8hh.html" title="boca/tagger/Tagger.hh" alt="" coords="2173,155,2325,181"/>
+<area shape="rect" id="node35" href="$d4/dee/boca_2tagger_2Tagger_8hh.html" title="boca/tagger/Tagger.hh" alt="" coords="2181,155,2333,181"/>
 <area shape="rect" id="node37" href="$d0/d66/tagger_2Bottom_8cpp.html" title="source/standardmodel\l/tagger/Bottom.cpp" alt="" coords="2747,326,2897,367"/>
 <area shape="rect" id="node41" href="$da/d81/tagger_2TopHadronicHep_8cpp.html" title="source/standardmodel\l/tagger/TopHadronicHep.cpp" alt="" coords="2922,326,3111,367"/>
 <area shape="rect" id="node43" href="$d5/d0e/TopHadronicHep2_8cpp.html" title="source/standardmodel\l/tagger/TopHadronicHep2.cpp" alt="" coords="3136,326,3332,367"/>
 <area shape="rect" id="node45" href="$d8/dca/source_2standardmodel_2tagger_2Truth_8cpp.html" title="source/standardmodel\l/tagger/Truth.cpp" alt="" coords="3356,326,3507,367"/>
 <area shape="rect" id="node49" href="$d3/d65/TruthLevel_8cpp.html" title="examples/toppartner\l/source/tagger/TruthLevel.cpp" alt="" coords="3531,326,3726,367"/>
-<area shape="rect" id="node50" href="$d5/d37/PreCuts_8cpp.html" title="source/PreCuts.cpp" alt="" coords="3547,155,3686,181"/>
+<area shape="rect" id="node50" href="$d5/d37/PreCuts_8cpp.html" title="source/PreCuts.cpp" alt="" coords="3555,155,3694,181"/>
 <area shape="rect" id="node4" href="$de/d21/BranchWriter_8hh.html" title="boca/analysis/BranchWriter.hh" alt="" coords="1029,333,1229,360"/>
 <area shape="rect" id="node7" href="$d0/d6d/tagger_2WHadronic_8hh.html" title="boca/standardmodel\l/tagger/WHadronic.hh" alt="" coords="1303,326,1453,367"/>
 <area shape="rect" id="node14" href="$d5/dc6/tagger_2ZHadronic_8hh.html" title="boca/standardmodel\l/tagger/ZHadronic.hh" alt="" coords="1991,326,2135,367"/>
@@ -39,13 +39,13 @@
 <area shape="rect" id="node21" href="$d7/d28/tagger_2SignatureLepton_8hh.html" title="examples/higgscpv/include\l/tagger/SignatureLepton.hh" alt="" coords="365,534,543,575"/>
 <area shape="rect" id="node33" href="$d0/d59/EventNewPair_8hh.html" title="examples/toppartner\l/include/tagger/EventNewPair.hh" alt="" coords="247,326,461,367"/>
 <area shape="rect" id="node34" href="$d1/de1/AnalysisBase_8cpp.html" title="source/analysis/Analysis\lBase.cpp" alt="" coords="5,326,172,367"/>
-<area shape="rect" id="node36" href="$db/d40/tagger_2Bottom_8hh.html" title="boca/standardmodel\l/tagger/Bottom.hh" alt="" coords="2179,229,2318,271"/>
-<area shape="rect" id="node38" href="$df/d67/tagger_2WLeptonic_8hh.html" title="boca/standardmodel\l/tagger/WLeptonic.hh" alt="" coords="806,229,953,271"/>
-<area shape="rect" id="node39" href="$d9/de1/tagger_2Tau_8hh.html" title="boca/standardmodel\l/tagger/Tau.hh" alt="" coords="1073,229,1211,271"/>
-<area shape="rect" id="node40" href="$d7/d7b/tagger_2TopHadronicHep_8hh.html" title="boca/standardmodel\l/tagger/TopHadronicHep.hh" alt="" coords="2495,229,2677,271"/>
-<area shape="rect" id="node42" href="$de/dba/TopHadronicHep2_8hh.html" title="boca/standardmodel\l/tagger/TopHadronicHep2.hh" alt="" coords="2753,229,2942,271"/>
-<area shape="rect" id="node44" href="$dd/d53/boca_2standardmodel_2tagger_2Truth_8hh.html" title="boca/standardmodel\l/tagger/Truth.hh" alt="" coords="3017,229,3155,271"/>
-<area shape="rect" id="node46" href="$dc/dea/examples_2cut_2include_2Tagger_8hh.html" title="examples/cut/include\l/Tagger.hh" alt="" coords="1791,229,1936,271"/>
-<area shape="rect" id="node47" href="$d5/deb/Resonance_8hh.html" title="examples/toppartner\l/include/tagger/Resonance.hh" alt="" coords="1961,229,2155,271"/>
-<area shape="rect" id="node48" href="$d8/d02/TruthLevel_8hh.html" title="examples/toppartner\l/include/tagger/TruthLevel.hh" alt="" coords="3180,229,3371,271"/>
+<area shape="rect" id="node36" href="$db/d40/tagger_2Bottom_8hh.html" title="boca/standardmodel\l/tagger/Bottom.hh" alt="" coords="2187,229,2326,271"/>
+<area shape="rect" id="node38" href="$df/d67/tagger_2WLeptonic_8hh.html" title="boca/standardmodel\l/tagger/WLeptonic.hh" alt="" coords="803,229,950,271"/>
+<area shape="rect" id="node39" href="$d9/de1/tagger_2Tau_8hh.html" title="boca/standardmodel\l/tagger/Tau.hh" alt="" coords="1067,229,1206,271"/>
+<area shape="rect" id="node40" href="$d7/d7b/tagger_2TopHadronicHep_8hh.html" title="boca/standardmodel\l/tagger/TopHadronicHep.hh" alt="" coords="2503,229,2685,271"/>
+<area shape="rect" id="node42" href="$de/dba/TopHadronicHep2_8hh.html" title="boca/standardmodel\l/tagger/TopHadronicHep2.hh" alt="" coords="2761,229,2950,271"/>
+<area shape="rect" id="node44" href="$dd/d53/boca_2standardmodel_2tagger_2Truth_8hh.html" title="boca/standardmodel\l/tagger/Truth.hh" alt="" coords="3025,229,3163,271"/>
+<area shape="rect" id="node46" href="$dd/da2/examples_2simple_2include_2Tagger_8hh.html" title="examples/simple/include\l/Tagger.hh" alt="" coords="1779,229,1945,271"/>
+<area shape="rect" id="node47" href="$d5/deb/Resonance_8hh.html" title="examples/toppartner\l/include/tagger/Resonance.hh" alt="" coords="1969,229,2163,271"/>
+<area shape="rect" id="node48" href="$d8/d02/TruthLevel_8hh.html" title="examples/toppartner\l/include/tagger/TruthLevel.hh" alt="" coords="3188,229,3379,271"/>
 </map>

@@ -1,7 +1,7 @@
 <map id="heavyhiggs::tagger::ChargedHiggsSemi" name="heavyhiggs::tagger::ChargedHiggsSemi">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quartet31,\l branch::ChargedHiggsSemi \&gt;" alt="" coords="1989,69,2188,110"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="965,81,1097,108"/>
-<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1215,137,1374,178"/>
+<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1215,137,1374,178"/>
 <area shape="rect" id="node17" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopLeptonic \&gt;" alt="" coords="1625,286,1781,327"/>
 <area shape="rect" id="node26" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Jet,\l branch::Bottom \&gt;" alt="" coords="1637,167,1769,209"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="685,81,811,108"/>

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['analysis_2ehh',['Analysis.hh',['../d4/d12/boca_2analysis_2Analysis_8hh.html',1,'']]],
-  ['analysis_2ehh',['Analysis.hh',['../d9/dee/examples_2cut_2include_2Analysis_8hh.html',1,'']]],
+  ['analysis_2ehh',['Analysis.hh',['../d3/d0c/examples_2simple_2include_2Analysis_8hh.html',1,'']]],
   ['analysisbase_2ecpp',['AnalysisBase.cpp',['../d1/de1/AnalysisBase_8cpp.html',1,'']]],
   ['analysisbase_2ehh',['AnalysisBase.hh',['../d1/dcf/AnalysisBase_8hh.html',1,'']]],
   ['analysisboson_2ehh',['AnalysisBoson.hh',['../d4/d6b/AnalysisBoson_8hh.html',1,'']]],
@@ -15,5 +15,6 @@ var searchData=
   ['analysistop_2ecpp',['AnalysisTop.cpp',['../d7/d95/AnalysisTop_8cpp.html',1,'']]],
   ['analysistop_2ehh',['AnalysisTop.hh',['../d0/dda/AnalysisTop_8hh.html',1,'']]],
   ['analysisw_2ehh',['AnalysisW.hh',['../da/dd8/AnalysisW_8hh.html',1,'']]],
-  ['analysisz_2ehh',['AnalysisZ.hh',['../d0/d88/AnalysisZ_8hh.html',1,'']]]
+  ['analysisz_2ehh',['AnalysisZ.hh',['../d0/d88/AnalysisZ_8hh.html',1,'']]],
+  ['authors_2emd',['Authors.md',['../d1/dc6/Authors_8md.html',1,'']]]
 ];

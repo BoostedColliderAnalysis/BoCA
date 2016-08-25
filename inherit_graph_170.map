@@ -1,6 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="5,1989,137,2015"/>
-<area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="241,5,400,47"/>
+<area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="241,5,400,47"/>
 <area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; boca\l::EventMultiplet\&lt; boca\l::Sextet \&gt;, branch::EventFusion \&gt;" alt="" coords="211,70,431,126"/>
 <area shape="rect" id="node5" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; boca\l::MultipletSignature\l\&lt; boca::Octet62 \&gt;, branch\l::SignatureLeptonic \&gt;" alt="" coords="233,151,408,221"/>
 <area shape="rect" id="node7" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; boca\l::Octet62, branch::OctetNeutral \&gt;" alt="" coords="212,245,429,287"/>
@@ -92,7 +92,7 @@
 <area shape="rect" id="node69" href="$d9/d6b/classhiggscpv_1_1tagger_1_1SignatureLeptonT.html" title="event BDT for " alt="" coords="523,2236,705,2277"/>
 <area shape="rect" id="node71" href="$da/dc9/classhiggscpv_1_1tagger_1_1SignatureT.html" title="event BDT for " alt="" coords="519,2302,709,2329"/>
 <area shape="rect" id="node73" href="$d2/d88/classhiggscpv_1_1tagger_1_1SignatureLepton.html" title="event BDT for " alt="" coords="523,2353,705,2395"/>
-<area shape="rect" id="node75" href="$d0/df0/classTagger.html" title="Tagger" alt="" coords="583,2419,645,2446"/>
+<area shape="rect" id="node75" href="$d1/d2d/classsimple_1_1Tagger.html" title="simple::Tagger" alt="" coords="560,2419,668,2446"/>
 <area shape="rect" id="node77" href="$da/d2b/classheavyhiggs_1_1tagger_1_1SignatureCharged.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="547,2471,681,2512"/>
 <area shape="rect" id="node79" href="$d9/daf/classtoppartner_1_1tagger_1_1TopPartnerTopPair.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="545,2536,683,2577"/>
 <area shape="rect" id="node81" href="$df/d6d/classtoppartner_1_1tagger_1_1HiggsPair.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="552,2601,676,2643"/>

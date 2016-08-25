@@ -19,7 +19,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="da/d42/classboca_1_1Tagger.html" target="_top" xlink:title="Tagger base class using Branch template. ">
+<g id="a_node2"><a xlink:href="da/d42/classboca_1_1Tagger.html" target="_top" xlink:title="Tagger base class using Branch template ">
 <polygon fill="white" stroke="black" points="177,-3102.5 177,-3132.5 296,-3132.5 296,-3102.5 177,-3102.5"/>
 <text text-anchor="start" x="185" y="-3120.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Tagger&lt; Multiplet</text>
 <text text-anchor="middle" x="236.5" y="-3109.5" font-family="Helvetica,sans-Serif" font-size="10.00">_, Branch_ &gt;</text>
@@ -1317,15 +1317,15 @@
 </g>
 <!-- Node75 -->
 <g id="node75" class="node"><title>Node75</title>
-<g id="a_node75"><a xlink:href="d0/df0/classTagger.html" target="_top" xlink:title="Tagger">
-<polygon fill="white" stroke="black" points="433,-1303 433,-1322 480,-1322 480,-1303 433,-1303"/>
-<text text-anchor="middle" x="456.5" y="-1310" font-family="Helvetica,sans-Serif" font-size="10.00">Tagger</text>
+<g id="a_node75"><a xlink:href="d1/d2d/classsimple_1_1Tagger.html" target="_top" xlink:title="simple::Tagger">
+<polygon fill="white" stroke="black" points="416,-1303 416,-1322 497,-1322 497,-1303 416,-1303"/>
+<text text-anchor="middle" x="456.5" y="-1310" font-family="Helvetica,sans-Serif" font-size="10.00">simple::Tagger</text>
 </a>
 </g>
 </g>
 <!-- Node74&#45;&gt;Node75 -->
 <g id="edge74" class="edge"><title>Node74&#45;&gt;Node75</title>
-<path fill="none" stroke="midnightblue" d="M316.845,-1310.59C358.118,-1311.16 405.53,-1311.81 432.853,-1312.19"/>
+<path fill="none" stroke="midnightblue" d="M317.071,-1310.6C350.712,-1311.06 388.397,-1311.58 415.942,-1311.96"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="316.823,-1307.09 306.776,-1310.45 316.727,-1314.09 316.823,-1307.09"/>
 </g>
 <!-- Node77 -->

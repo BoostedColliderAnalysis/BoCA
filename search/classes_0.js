@@ -1,8 +1,8 @@
 var searchData=
 [
   ['analysis',['Analysis',['../d1/d36/classboca_1_1Analysis.html',1,'boca']]],
-  ['analysis',['Analysis',['../d7/dae/classAnalysis.html',1,'']]],
   ['analysis',['Analysis',['../d2/d9b/classhiggscpv_1_1Analysis.html',1,'higgscpv']]],
+  ['analysis',['Analysis',['../d8/d64/classsimple_1_1Analysis.html',1,'simple']]],
   ['analysis_3c_20tagger_20_3e',['Analysis&lt; Tagger &gt;',['../d1/d36/classboca_1_1Analysis.html',1,'boca']]],
   ['analysisbase',['AnalysisBase',['../d7/d62/classboca_1_1AnalysisBase.html',1,'boca']]],
   ['analysisboson',['AnalysisBoson',['../d0/dd3/classboca_1_1standardmodel_1_1AnalysisBoson.html',1,'boca::standardmodel']]],

@@ -45,7 +45,7 @@
 </g>
 <!-- Node13 -->
 <g id="node13" class="node"><title>Node13</title>
-<g id="a_node13"><a xlink:href="../../da/d42/classboca_1_1Tagger.html" target="_top" xlink:title="Tagger base class using Branch template. ">
+<g id="a_node13"><a xlink:href="../../da/d42/classboca_1_1Tagger.html" target="_top" xlink:title="Tagger base class using Branch template ">
 <polygon fill="white" stroke="black" points="1145.5,-712.792 1145.5,-742.792 1264.5,-742.792 1264.5,-712.792 1145.5,-712.792"/>
 <text text-anchor="start" x="1153.5" y="-730.792" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Tagger&lt; Multiplet</text>
 <text text-anchor="middle" x="1205" y="-719.792" font-family="Helvetica,sans-Serif" font-size="10.00">_, Branch_ &gt;</text>

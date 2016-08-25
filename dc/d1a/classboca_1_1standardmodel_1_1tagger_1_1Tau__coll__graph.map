@@ -1,7 +1,7 @@
 <map id="boca::standardmodel::tagger::Tau" name="boca::standardmodel::tagger::Tau">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Singlet,\l branch::Tau \&gt;" alt="" coords="1319,75,1473,117"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="761,69,893,96"/>
-<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1000,17,1159,58"/>
+<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1000,17,1159,58"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="499,69,624,96"/>
 <area shape="rect" id="node5" href="$de/ddc/classboca_1_1standardmodel_1_1branch_1_1Tau.html" title="Tau tagger tree branch " alt="" coords="1008,134,1151,175"/>
 <area shape="rect" id="node6" href="$d6/d92/classboca_1_1branch_1_1Particle.html" title="Particle tree branch " alt="" coords="752,141,901,168"/>

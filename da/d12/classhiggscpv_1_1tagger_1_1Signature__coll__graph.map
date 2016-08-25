@@ -1,7 +1,7 @@
 <map id="higgscpv::tagger::Signature" name="higgscpv::tagger::Signature">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; boca\l::MultipletSignature\l\&lt; boca::Octet62 \&gt;, branch\l::SignatureLeptonic \&gt;" alt="" coords="2021,136,2195,207"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="965,212,1097,238"/>
-<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1215,136,1374,178"/>
+<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1215,136,1374,178"/>
 <area shape="rect" id="node17" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Sextet,\l branch::TopLeptonicTwoBody \&gt;" alt="" coords="2003,308,2213,350"/>
 <area shape="rect" id="node21" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopLeptonic \&gt;" alt="" coords="1631,339,1787,380"/>
 <area shape="rect" id="node30" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Doublet,\l branch::Higgs \&gt;" alt="" coords="1630,272,1789,314"/>

@@ -1,7 +1,7 @@
 <map id="toppartner::tagger::VetoTopPartnerLeptonic" name="toppartner::tagger::VetoTopPartnerLeptonic">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quintet,\l branch::VetoTopPartnerBranch \&gt;" alt="" coords="1872,159,2089,201"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="1201,397,1333,424"/>
-<area shape="rect" id="node14" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1478,473,1637,514"/>
+<area shape="rect" id="node14" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1478,473,1637,514"/>
 <area shape="rect" id="node18" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Doublet,\l branch::Higgs \&gt;" alt="" coords="1901,621,2060,662"/>
 <area shape="rect" id="node27" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quintet,\l branch::TopPartnerBranch \&gt;" alt="" coords="1885,290,2076,331"/>
 <area shape="rect" id="node31" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopHadronic \&gt;" alt="" coords="1901,522,2060,563"/>

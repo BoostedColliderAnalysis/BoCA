@@ -1,7 +1,7 @@
 <map id="toppartner::tagger::SignatureEffective" name="toppartner::tagger::SignatureEffective">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quattuordecuplet554,\l boca::branch::ThreeBody \&gt;" alt="" coords="1896,5,2131,47"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="1257,855,1389,882"/>
-<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1502,884,1661,925"/>
+<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1502,884,1661,925"/>
 <area shape="rect" id="node15" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quintet,\l branch::TopPartnerBranch \&gt;" alt="" coords="1918,797,2109,839"/>
 <area shape="rect" id="node21" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopHadronic \&gt;" alt="" coords="1934,1011,2093,1052"/>
 <area shape="rect" id="node31" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Doublet,\l branch::ZHadronic \&gt;" alt="" coords="1934,732,2093,773"/>

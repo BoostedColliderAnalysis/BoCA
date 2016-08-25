@@ -1,8 +1,8 @@
 <map id="boca/io/TreeBranch.hh" name="boca/io/TreeBranch.hh">
 <area shape="rect" id="node2" href="$dc/d65/TreeWriter_8hh.html" title="boca/io/TreeWriter.hh" alt="" coords="492,80,639,107"/>
-<area shape="rect" id="node32" href="$da/da9/DelphesFactory_8h.html" title="boca/delphes/DelphesFactory.h" alt="" coords="3086,80,3293,107"/>
+<area shape="rect" id="node32" href="$da/da9/DelphesFactory_8h.html" title="boca/delphes/DelphesFactory.h" alt="" coords="3095,80,3302,107"/>
 <area shape="rect" id="node35" href="$d4/dee/boca_2tagger_2Tagger_8hh.html" title="boca/tagger/Tagger.hh" alt="" coords="2296,80,2448,107"/>
-<area shape="rect" id="node50" href="$d9/da9/TreeBranch_8cpp.html" title="source/io/TreeBranch.cpp" alt="" coords="3317,80,3488,107"/>
+<area shape="rect" id="node50" href="$d9/da9/TreeBranch_8cpp.html" title="source/io/TreeBranch.cpp" alt="" coords="3327,80,3497,107"/>
 <area shape="rect" id="node3" href="$d0/d9f/FileWriter_8hh.html" title="boca/io/FileWriter.hh" alt="" coords="195,162,338,189"/>
 <area shape="rect" id="node7" href="$df/d2c/Reader_8hh.html" title="boca/multivariant/Reader.hh" alt="" coords="1343,162,1529,189"/>
 <area shape="rect" id="node30" href="$db/dde/tagger_2Base_8cpp.html" title="source/tagger/Base.cpp" alt="" coords="643,259,803,285"/>
@@ -32,17 +32,17 @@
 <area shape="rect" id="node21" href="$dd/dbb/TopPartnerLeptonicNeutral_8hh.html" title="examples/toppartner\l/include/tagger/TopPartner\lLeptonicNeutral.hh" alt="" coords="1913,348,2087,404"/>
 <area shape="rect" id="node22" href="$de/d28/MainBoson_8cpp.html" title="source/standardmodel\l/MainBoson.cpp" alt="" coords="2338,355,2489,397"/>
 <area shape="rect" id="node23" href="$d7/d32/Boson_8cpp.html" title="source/standardmodel\l/tagger/Boson.cpp" alt="" coords="2163,355,2314,397"/>
-<area shape="rect" id="node33" href="$d6/d34/DelphesClasses_8cc.html" title="source/delphes/DelphesClasses.cc" alt="" coords="3690,162,3918,189"/>
-<area shape="rect" id="node34" href="$d9/dcd/DelphesFactory_8cc.html" title="source/delphes/DelphesFactory.cc" alt="" coords="3943,162,4167,189"/>
+<area shape="rect" id="node33" href="$d6/d34/DelphesClasses_8cc.html" title="source/delphes/DelphesClasses.cc" alt="" coords="3709,162,3937,189"/>
+<area shape="rect" id="node34" href="$d9/dcd/DelphesFactory_8cc.html" title="source/delphes/DelphesFactory.cc" alt="" coords="3961,162,4185,189"/>
 <area shape="rect" id="node36" href="$db/d40/tagger_2Bottom_8hh.html" title="boca/standardmodel\l/tagger/Bottom.hh" alt="" coords="2016,155,2155,196"/>
 <area shape="rect" id="node41" href="$df/d67/tagger_2WLeptonic_8hh.html" title="boca/standardmodel\l/tagger/WLeptonic.hh" alt="" coords="2701,155,2848,196"/>
 <area shape="rect" id="node43" href="$d9/de1/tagger_2Tau_8hh.html" title="boca/standardmodel\l/tagger/Tau.hh" alt="" coords="907,155,1045,196"/>
 <area shape="rect" id="node44" href="$d7/d7b/tagger_2TopHadronicHep_8hh.html" title="boca/standardmodel\l/tagger/TopHadronicHep.hh" alt="" coords="2281,155,2463,196"/>
 <area shape="rect" id="node45" href="$de/dba/TopHadronicHep2_8hh.html" title="boca/standardmodel\l/tagger/TopHadronicHep2.hh" alt="" coords="2488,155,2677,196"/>
 <area shape="rect" id="node46" href="$dd/d53/boca_2standardmodel_2tagger_2Truth_8hh.html" title="boca/standardmodel\l/tagger/Truth.hh" alt="" coords="2923,155,3061,196"/>
-<area shape="rect" id="node47" href="$dc/dea/examples_2cut_2include_2Tagger_8hh.html" title="examples/cut/include\l/Tagger.hh" alt="" coords="3086,155,3231,196"/>
-<area shape="rect" id="node48" href="$d5/deb/Resonance_8hh.html" title="examples/toppartner\l/include/tagger/Resonance.hh" alt="" coords="3256,155,3451,196"/>
-<area shape="rect" id="node49" href="$d8/d02/TruthLevel_8hh.html" title="examples/toppartner\l/include/tagger/TruthLevel.hh" alt="" coords="3475,155,3666,196"/>
+<area shape="rect" id="node47" href="$dd/da2/examples_2simple_2include_2Tagger_8hh.html" title="examples/simple/include\l/Tagger.hh" alt="" coords="3085,155,3251,196"/>
+<area shape="rect" id="node48" href="$d5/deb/Resonance_8hh.html" title="examples/toppartner\l/include/tagger/Resonance.hh" alt="" coords="3275,155,3469,196"/>
+<area shape="rect" id="node49" href="$d8/d02/TruthLevel_8hh.html" title="examples/toppartner\l/include/tagger/TruthLevel.hh" alt="" coords="3494,155,3685,196"/>
 <area shape="rect" id="node37" href="$d4/d6b/AnalysisBoson_8hh.html" title="boca/standardmodel\l/AnalysisBoson.hh" alt="" coords="2700,251,2839,293"/>
 <area shape="rect" id="node38" href="$d7/db6/AnalysisHiggs_8hh.html" title="boca/standardmodel\l/AnalysisHiggs.hh" alt="" coords="1845,251,1984,293"/>
 <area shape="rect" id="node39" href="$d7/d2e/MainBottom_8cpp.html" title="source/standardmodel\l/MainBottom.cpp" alt="" coords="2187,251,2338,293"/>

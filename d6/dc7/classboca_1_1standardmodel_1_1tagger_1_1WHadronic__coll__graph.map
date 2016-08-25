@@ -1,7 +1,7 @@
 <map id="boca::standardmodel::tagger::WHadronic" name="boca::standardmodel::tagger::WHadronic">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Doublet,\l branch::WHadronic \&gt;" alt="" coords="1609,93,1768,134"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="965,56,1097,83"/>
-<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1215,23,1374,65"/>
+<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1215,23,1374,65"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="685,56,811,83"/>
 <area shape="rect" id="node5" href="$d1/d7a/classboca_1_1standardmodel_1_1branch_1_1WHadronic.html" title="W hadronic tagger tree branch. " alt="" coords="1223,141,1366,182"/>
 <area shape="rect" id="node6" href="$d0/d51/classboca_1_1branch_1_1TwoBody.html" title="Two body tree branch. " alt="" coords="951,107,1111,133"/>

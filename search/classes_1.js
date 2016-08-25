@@ -8,7 +8,7 @@ var searchData=
   ['bottom',['Bottom',['../d5/db7/classboca_1_1standardmodel_1_1tagger_1_1Bottom.html',1,'boca::standardmodel::tagger']]],
   ['bottom',['Bottom',['../d1/d77/classboca_1_1standardmodel_1_1branch_1_1Bottom.html',1,'boca::standardmodel::branch']]],
   ['bottombase',['BottomBase',['../dd/d50/classboca_1_1standardmodel_1_1branch_1_1BottomBase.html',1,'boca::standardmodel::branch']]],
-  ['branch',['Branch',['../d8/dd7/classBranch.html',1,'']]],
+  ['branch',['Branch',['../d0/dd7/classsimple_1_1Branch.html',1,'simple']]],
   ['branchwriter',['BranchWriter',['../d1/d7d/classboca_1_1BranchWriter.html',1,'boca']]],
   ['browser',['Browser',['../d0/ddb/classBrowser.html',1,'']]]
 ];

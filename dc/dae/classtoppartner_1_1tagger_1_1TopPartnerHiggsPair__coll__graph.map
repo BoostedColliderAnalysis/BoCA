@@ -1,7 +1,7 @@
 <map id="toppartner::tagger::TopPartnerHiggsPair" name="toppartner::tagger::TopPartnerHiggsPair">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Septet,\l boca::branch::Multi \&gt;" alt="" coords="1613,896,1765,937"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="965,647,1097,674"/>
-<area shape="rect" id="node12" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1215,676,1374,717"/>
+<area shape="rect" id="node12" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1215,676,1374,717"/>
 <area shape="rect" id="node16" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Doublet,\l branch::Higgs \&gt;" alt="" coords="1609,44,1768,85"/>
 <area shape="rect" id="node25" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quintet,\l branch::TopPartnerBranch \&gt;" alt="" coords="1961,735,2152,776"/>
 <area shape="rect" id="node29" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Doublet,\l branch::ZHadronic \&gt;" alt="" coords="1609,588,1768,629"/>

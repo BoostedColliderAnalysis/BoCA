@@ -6,14 +6,14 @@
 <area shape="rect" id="node32" href="$dc/d3c/BottomBase_8hh.html" title="boca/standardmodel\l/branch/BottomBase.hh" alt="" coords="2831,169,2989,211"/>
 <area shape="rect" id="node36" href="$d9/d1e/LeptonVeto_8hh.html" title="boca/standardmodel\l/branch/LeptonVeto.hh" alt="" coords="2653,169,2807,211"/>
 <area shape="rect" id="node38" href="$d9/d0e/boca_2standardmodel_2branch_2Truth_8hh.html" title="boca/standardmodel\l/branch/Truth.hh" alt="" coords="125,80,263,121"/>
-<area shape="rect" id="node40" href="$d8/d6f/Branch_8hh.html" title="examples/cut/include\l/Branch.hh" alt="" coords="3264,80,3409,121"/>
-<area shape="rect" id="node43" href="$de/d10/examples_2heavyhiggs_2include_2branch_2Cut_8hh.html" title="examples/heavyhiggs\l/include/branch/Cut.hh" alt="" coords="3433,80,3587,121"/>
-<area shape="rect" id="node45" href="$d1/db9/branch_2CutNeutral_8hh.html" title="examples/heavyhiggs\l/include/branch/CutNeutral.hh" alt="" coords="3611,80,3806,121"/>
-<area shape="rect" id="node46" href="$db/df1/examples_2toppartner_2include_2branch_2Truth_8hh.html" title="examples/toppartner\l/include/branch/Truth.hh" alt="" coords="3830,80,3993,121"/>
-<area shape="rect" id="node47" href="$d9/d26/Barn_8cpp.html" title="source/physics/Barn.cpp" alt="" coords="4017,87,4184,114"/>
-<area shape="rect" id="node48" href="$d3/dee/ElectronVolt_8cpp.html" title="source/physics/ElectronVolt.cpp" alt="" coords="4207,87,4418,114"/>
-<area shape="rect" id="node49" href="$dd/d6f/Id_8cpp.html" title="source/physics/Id.cpp" alt="" coords="4443,87,4593,114"/>
-<area shape="rect" id="node50" href="$d8/d04/Si_8cpp.html" title="source/physics/Si.cpp" alt="" coords="4617,87,4768,114"/>
+<area shape="rect" id="node40" href="$de/d10/examples_2heavyhiggs_2include_2branch_2Cut_8hh.html" title="examples/heavyhiggs\l/include/branch/Cut.hh" alt="" coords="3264,80,3417,121"/>
+<area shape="rect" id="node43" href="$d1/db9/branch_2CutNeutral_8hh.html" title="examples/heavyhiggs\l/include/branch/CutNeutral.hh" alt="" coords="3442,80,3637,121"/>
+<area shape="rect" id="node45" href="$d8/d6f/Branch_8hh.html" title="examples/simple/include\l/Branch.hh" alt="" coords="3661,80,3826,121"/>
+<area shape="rect" id="node46" href="$db/df1/examples_2toppartner_2include_2branch_2Truth_8hh.html" title="examples/toppartner\l/include/branch/Truth.hh" alt="" coords="3850,80,4013,121"/>
+<area shape="rect" id="node47" href="$d9/d26/Barn_8cpp.html" title="source/physics/Barn.cpp" alt="" coords="4037,87,4204,114"/>
+<area shape="rect" id="node48" href="$d3/dee/ElectronVolt_8cpp.html" title="source/physics/ElectronVolt.cpp" alt="" coords="4227,87,4438,114"/>
+<area shape="rect" id="node49" href="$dd/d6f/Id_8cpp.html" title="source/physics/Id.cpp" alt="" coords="4463,87,4613,114"/>
+<area shape="rect" id="node50" href="$d8/d04/Si_8cpp.html" title="source/physics/Si.cpp" alt="" coords="4637,87,4788,114"/>
 <area shape="rect" id="node3" href="$db/d8e/Vector2_8hh.html" title="boca/math/Vector2.hh" alt="" coords="985,177,1136,203"/>
 <area shape="rect" id="node4" href="$d6/dcd/Range_8hh.html" title="boca/physics/Range.hh" alt="" coords="803,177,961,203"/>
 <area shape="rect" id="node5" href="$de/d83/File_8hh.html" title="boca/File.hh" alt="" coords="1161,177,1254,203"/>
@@ -45,7 +45,7 @@
 <area shape="rect" id="node35" href="$d2/d0b/BottomBase_8cpp.html" title="source/standardmodel\l/branch/BottomBase.cpp" alt="" coords="2827,259,2993,300"/>
 <area shape="rect" id="node37" href="$d8/dae/LeptonVeto_8cpp.html" title="source/standardmodel\l/branch/LeptonVeto.cpp" alt="" coords="2083,259,2243,300"/>
 <area shape="rect" id="node39" href="$da/d28/source_2standardmodel_2branch_2Truth_8cpp.html" title="source/standardmodel\l/branch/Truth.cpp" alt="" coords="5,169,156,211"/>
-<area shape="rect" id="node41" href="$dc/dea/examples_2cut_2include_2Tagger_8hh.html" title="examples/cut/include\l/Tagger.hh" alt="" coords="3827,169,3972,211"/>
-<area shape="rect" id="node42" href="$d2/d4d/Branch_8cpp.html" title="examples/cut/source\l/Branch.cpp" alt="" coords="3996,169,4139,211"/>
-<area shape="rect" id="node44" href="$dc/d87/examples_2heavyhiggs_2include_2tagger_2Cut_8hh.html" title="examples/heavyhiggs\l/include/tagger/Cut.hh" alt="" coords="4163,169,4313,211"/>
+<area shape="rect" id="node41" href="$dc/d87/examples_2heavyhiggs_2include_2tagger_2Cut_8hh.html" title="examples/heavyhiggs\l/include/tagger/Cut.hh" alt="" coords="3827,169,3977,211"/>
+<area shape="rect" id="node42" href="$d6/d4d/examples_2heavyhiggs_2source_2branch_2Cut_8cpp.html" title="examples/heavyhiggs\l/source/branch/Cut.cpp" alt="" coords="4001,169,4160,211"/>
+<area shape="rect" id="node44" href="$d8/d46/tagger_2CutNeutral_8hh.html" title="examples/heavyhiggs\l/include/tagger/CutNeutral.hh" alt="" coords="4185,169,4377,211"/>
 </map>

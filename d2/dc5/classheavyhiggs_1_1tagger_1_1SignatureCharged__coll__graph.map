@@ -1,7 +1,7 @@
 <map id="heavyhiggs::tagger::SignatureCharged" name="heavyhiggs::tagger::SignatureCharged">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Octet44,\l branch::OctetCharged \&gt;" alt="" coords="1908,47,2075,89"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="1169,523,1301,549"/>
-<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1498,349,1657,390"/>
+<area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1498,349,1657,390"/>
 <area shape="rect" id="node17" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quartet31,\l branch::TripletJetPair \&gt;" alt="" coords="1906,355,2077,397"/>
 <area shape="rect" id="node21" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopHadronic \&gt;" alt="" coords="1912,635,2071,677"/>
 <area shape="rect" id="node31" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Jet,\l branch::Bottom \&gt;" alt="" coords="1925,567,2057,609"/>

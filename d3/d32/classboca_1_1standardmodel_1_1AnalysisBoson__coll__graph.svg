@@ -17,7 +17,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d6/d8a/classboca_1_1standardmodel_1_1AnalysisStandardModel.html" target="_top" xlink:title="Tagger ananlysis. ">
+<g id="a_node2"><a xlink:href="../../d6/d8a/classboca_1_1standardmodel_1_1AnalysisStandardModel.html" target="_top" xlink:title="Standard model analysis base. ">
 <polygon fill="white" stroke="black" points="1268,-58.5 1268,-99.5 1393,-99.5 1393,-58.5 1268,-58.5"/>
 <text text-anchor="start" x="1276" y="-87.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::standardmodel</text>
 <text text-anchor="start" x="1276" y="-76.5" font-family="Helvetica,sans-Serif" font-size="10.00">::AnalysisStandardModel</text>
@@ -175,7 +175,7 @@
 </g>
 <!-- Node11 -->
 <g id="node11" class="node"><title>Node11</title>
-<g id="a_node11"><a xlink:href="../../da/d42/classboca_1_1Tagger.html" target="_top" xlink:title="Tagger base class using Branch template. ">
+<g id="a_node11"><a xlink:href="../../da/d42/classboca_1_1Tagger.html" target="_top" xlink:title="Tagger base class using Branch template ">
 <polygon fill="white" stroke="black" points="887.5,-20 887.5,-50 1006.5,-50 1006.5,-20 887.5,-20"/>
 <text text-anchor="start" x="895.5" y="-38" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Tagger&lt; Multiplet</text>
 <text text-anchor="middle" x="947" y="-27" font-family="Helvetica,sans-Serif" font-size="10.00">_, Branch_ &gt;</text>

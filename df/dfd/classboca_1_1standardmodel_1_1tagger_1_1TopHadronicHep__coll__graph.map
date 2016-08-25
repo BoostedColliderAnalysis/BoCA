@@ -1,7 +1,7 @@
 <map id="boca::standardmodel::tagger::TopHadronicHep" name="boca::standardmodel::tagger::TopHadronicHep">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopHadronicHep \&gt;" alt="" coords="1741,79,1924,121"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="1169,56,1301,83"/>
-<area shape="rect" id="node15" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1416,21,1575,62"/>
+<area shape="rect" id="node15" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1416,21,1575,62"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="889,56,1015,83"/>
 <area shape="rect" id="node5" href="$da/d75/classboca_1_1standardmodel_1_1branch_1_1TopHadronicHep.html" title="HEPTopTagger tree branch " alt="" coords="1408,149,1583,190"/>
 <area shape="rect" id="node6" href="$d2/dfe/classboca_1_1branch_1_1Multi.html" title="Multi obejct tree branch " alt="" coords="1168,107,1301,133"/>

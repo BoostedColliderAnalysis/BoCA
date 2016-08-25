@@ -52,6 +52,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
@@ -114,18 +115,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>for quicker compilation (install ccache and ninja-build)</li>
 </ul>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake -G Ninja ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;ninja</div></div><!-- fragment --><h2>Usage</h2>
-<p>Each analysis needs a dedicated <code><a class="el" href="d7/dae/classAnalysis.html">Analysis</a></code> class, a set of <code><a class="el" href="d0/df0/classTagger.html">Tagger</a></code> classess and a <code><a class="el" href="df/d0a/main_8cpp.html">main.cpp</a></code> file. The <code><a class="el" href="d7/dae/classAnalysis.html">Analysis</a></code> class contains the global information of the analysis, such as file names, path names, variables names etc. Every <code><a class="el" href="d0/df0/classTagger.html">Tagger</a></code> class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated <code><a class="el" href="d0/df0/classTagger.html">Tagger</a></code>. The <code><a class="el" href="df/d0a/main_8cpp.html">main.cpp</a></code> defines the order in which each <code><a class="el" href="d0/df0/classTagger.html">Tagger</a></code> is passed to the <code><a class="el" href="d7/dae/classAnalysis.html">Analysis</a></code>.</p>
+<p>Each analysis needs a dedicated <code>Analysis</code> class, a set of <code>Tagger</code> classess and a <code><a class="el" href="df/d0a/main_8cpp.html">main.cpp</a></code> file. The <code>Analysis</code> class contains the global information of the analysis, such as file names, path names, variables names etc. Every <code>Tagger</code> class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated <code>Tagger</code>. The <code><a class="el" href="df/d0a/main_8cpp.html">main.cpp</a></code> defines the order in which each <code>Tagger</code> is passed to the <code>Analysis</code>.</p>
 <h2>Source code documentation</h2>
 <p>The source code documentation including all classes and functions can be found <a href="http://boostedcollideranalysis.github.io/BoCA">here</a>.</p>
 <h2>Standard model</h2>
-<p>The acceptances for Standard model particles at a future 100 TeV collider are presented here. These plots represent some examples of the power of this code.</p>
+<p>The acceptances for Standard model particles at a future 100 TeV collider are presented <a class="el" href="md_doc_standard-model.html">here</a>. These plots represent some examples of the power of this code.</p>
 <h2>Reference</h2>
 <p>If you use this code to publish analyses please cite:</p><ul>
 <li><a href="https://inspirehep.net/record/1365110">Jan Hajer, Ying-Ying Li, Tao Liu, John F. H. Shiu: <em>Heavy Higgs Bosons at 14 TeV and 100 TeV</em>, April 2015</a></li>
 <li><a href="https://inspirehep.net/record/1466130">Nathaniel Craig, Jan Hajer, Ying-Ying Li, Tao Liu, Hao Zhang: <em>Heavy Higgs Bosons at Low tan β: from the LHC to 100 TeV</em>, May 2016</a></li>
 </ul>
 <h2>License</h2>
-<p>BoCa is licenced under the GPL 3.</p>
+<p>BoCa is licenced under the <a class="el" href="md_doc_License.html">GPL 3</a>.</p>
 <h2>Git commands</h2>
 <ul>
 <li>initial download of the project <code>git clone git@github.com:BoostedColliderAnalysis/BoCA.git</code></li>

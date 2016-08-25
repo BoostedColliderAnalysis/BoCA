@@ -1,7 +1,7 @@
 <map id="heavyhiggs::tagger::Cut" name="heavyhiggs::tagger::Cut">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; CutVariables,\l branch::Cut \&gt;" alt="" coords="1397,57,1587,98"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="807,117,939,144"/>
-<area shape="rect" id="node9" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1047,110,1205,151"/>
+<area shape="rect" id="node9" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1047,110,1205,151"/>
 <area shape="rect" id="node13" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Jet,\l branch::Bottom \&gt;" alt="" coords="1426,185,1558,226"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="499,117,624,144"/>
 <area shape="rect" id="node5" href="$d1/d6c/classboca_1_1branch_1_1Cut.html" title="Cut base tree branch " alt="" coords="648,5,775,32"/>

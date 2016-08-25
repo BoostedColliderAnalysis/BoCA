@@ -4,6 +4,7 @@ var searchData=
   ['debug_2ehh',['Debug.hh',['../d8/de8/Debug_8hh.html',1,'']]],
   ['debug_5fmacros_2ehh',['DEBUG_MACROS.hh',['../d3/dcd/DEBUG__MACROS_8hh.html',1,'']]],
   ['decuplet_2ehh',['Decuplet.hh',['../dd/d9e/Decuplet_8hh.html',1,'']]],
+  ['delphes_2edox',['Delphes.dox',['../df/d17/Delphes_8dox.html',1,'']]],
   ['delphesclasses_2ecc',['DelphesClasses.cc',['../d6/d34/DelphesClasses_8cc.html',1,'']]],
   ['delphesclasses_2eh',['DelphesClasses.h',['../d2/d20/DelphesClasses_8h.html',1,'']]],
   ['delphesfactory_2ecc',['DelphesFactory.cc',['../d9/dcd/DelphesFactory_8cc.html',1,'']]],

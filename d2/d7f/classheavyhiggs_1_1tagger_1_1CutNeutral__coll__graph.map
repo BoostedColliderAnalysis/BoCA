@@ -1,7 +1,7 @@
 <map id="heavyhiggs::tagger::CutNeutral" name="heavyhiggs::tagger::CutNeutral">
 <area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; CutVariables,\l branch::CutNeutral \&gt;" alt="" coords="1481,85,1671,127"/>
 <area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="807,146,939,173"/>
-<area shape="rect" id="node10" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template. " alt="" coords="1131,139,1289,180"/>
+<area shape="rect" id="node10" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="1131,139,1289,180"/>
 <area shape="rect" id="node14" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Jet,\l branch::Bottom \&gt;" alt="" coords="1510,213,1642,255"/>
 <area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="499,146,624,173"/>
 <area shape="rect" id="node5" href="$d7/dfb/classheavyhiggs_1_1branch_1_1CutNeutral.html" title="heavyhiggs::branch\l::CutNeutral" alt="" coords="972,5,1107,47"/>

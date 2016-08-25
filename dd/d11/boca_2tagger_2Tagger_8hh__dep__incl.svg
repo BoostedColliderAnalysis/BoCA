@@ -94,7 +94,7 @@
 </g>
 </g>
 <!-- Node1&#45;&gt;Node35 -->
-<g id="edge74" class="edge"><title>Node1&#45;&gt;Node35</title>
+<g id="edge73" class="edge"><title>Node1&#45;&gt;Node35</title>
 <path fill="none" stroke="midnightblue" d="M1890.99,-359.135C1901.69,-341.148 1920.78,-314.227 1945.39,-301 2067.97,-235.138 2120.16,-293.29 2256.39,-265 2264.13,-263.393 2272.27,-261.286 2280.08,-259.042"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="1887.81,-357.639 1885.92,-368.064 1893.9,-361.092 1887.81,-357.639"/>
 </g>
@@ -108,7 +108,7 @@
 </g>
 </g>
 <!-- Node1&#45;&gt;Node36 -->
-<g id="edge75" class="edge"><title>Node1&#45;&gt;Node36</title>
+<g id="edge74" class="edge"><title>Node1&#45;&gt;Node36</title>
 <path fill="none" stroke="midnightblue" d="M1901.47,-362.283C1913.39,-353.522 1928.78,-342.166 1942.39,-332 1960.7,-318.33 1962.08,-309.221 1983.39,-301 2151.58,-236.127 2209.55,-294.441 2387.39,-265 2396.94,-263.421 2407.01,-261.326 2416.7,-259.087"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="1899.11,-359.674 1893.12,-368.414 1903.25,-365.317 1899.11,-359.674"/>
 </g>
@@ -122,7 +122,7 @@
 </g>
 </g>
 <!-- Node1&#45;&gt;Node37 -->
-<g id="edge76" class="edge"><title>Node1&#45;&gt;Node37</title>
+<g id="edge75" class="edge"><title>Node1&#45;&gt;Node37</title>
 <path fill="none" stroke="midnightblue" d="M1912.72,-364.517C1931.96,-356.321 1956.78,-344.778 1977.39,-332 1996.21,-320.333 1995.75,-308.996 2016.39,-301 2127.31,-258.051 2433.12,-284.813 2550.39,-265 2559.34,-263.49 2568.76,-261.34 2577.76,-259.007"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="1911.37,-361.288 1903.5,-368.375 1914.07,-367.747 1911.37,-361.288"/>
 </g>
@@ -198,45 +198,45 @@
 </g>
 <!-- Node48 -->
 <g id="node48" class="node"><title>Node48</title>
-<g id="a_node48"><a xlink:href="../../dc/dea/examples_2cut_2include_2Tagger_8hh.html" target="_top" xlink:title="examples/cut/include\l/Tagger.hh">
-<polygon fill="white" stroke="red" points="2269.89,-301.5 2269.89,-331.5 2378.89,-331.5 2378.89,-301.5 2269.89,-301.5"/>
-<text text-anchor="start" x="2277.89" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">examples/cut/include</text>
-<text text-anchor="middle" x="2324.39" y="-308.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Tagger.hh</text>
+<g id="a_node48"><a xlink:href="../../dd/da2/examples_2simple_2include_2Tagger_8hh.html" target="_top" xlink:title="examples/simple/include\l/Tagger.hh">
+<polygon fill="white" stroke="red" points="2269.39,-301.5 2269.39,-331.5 2393.39,-331.5 2393.39,-301.5 2269.39,-301.5"/>
+<text text-anchor="start" x="2277.39" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">examples/simple/include</text>
+<text text-anchor="middle" x="2331.39" y="-308.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Tagger.hh</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node48 -->
-<g id="edge73" class="edge"><title>Node1&#45;&gt;Node48</title>
-<path fill="none" stroke="midnightblue" d="M1948.87,-371.138C2024.9,-364.034 2152.03,-350.656 2260.39,-332 2263.43,-331.478 2266.53,-330.905 2269.66,-330.297"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1948.12,-367.692 1938.49,-372.098 1948.77,-374.662 1948.12,-367.692"/>
+<g id="edge76" class="edge"><title>Node1&#45;&gt;Node48</title>
+<path fill="none" stroke="midnightblue" d="M1948.8,-370.708C2024.77,-363.22 2151.84,-349.498 2260.39,-332 2263.25,-331.54 2266.17,-331.045 2269.11,-330.526"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1948.04,-367.266 1938.43,-371.723 1948.72,-374.232 1948.04,-367.266"/>
 </g>
 <!-- Node49 -->
 <g id="node49" class="node"><title>Node49</title>
 <g id="a_node49"><a xlink:href="../../d5/deb/Resonance_8hh.html" target="_top" xlink:title="examples/toppartner\l/include/tagger/Resonance.hh">
-<polygon fill="white" stroke="red" points="2397.39,-301.5 2397.39,-331.5 2543.39,-331.5 2543.39,-301.5 2397.39,-301.5"/>
-<text text-anchor="start" x="2405.39" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">examples/toppartner</text>
-<text text-anchor="middle" x="2470.39" y="-308.5" font-family="Helvetica,sans-Serif" font-size="10.00">/include/tagger/Resonance.hh</text>
+<polygon fill="white" stroke="red" points="2411.39,-301.5 2411.39,-331.5 2557.39,-331.5 2557.39,-301.5 2411.39,-301.5"/>
+<text text-anchor="start" x="2419.39" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">examples/toppartner</text>
+<text text-anchor="middle" x="2484.39" y="-308.5" font-family="Helvetica,sans-Serif" font-size="10.00">/include/tagger/Resonance.hh</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node49 -->
 <g id="edge77" class="edge"><title>Node1&#45;&gt;Node49</title>
-<path fill="none" stroke="midnightblue" d="M1948.74,-372.823C2045.9,-366.386 2230.9,-352.592 2387.39,-332 2390.59,-331.58 2393.84,-331.125 2397.13,-330.645"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1948.23,-369.349 1938.48,-373.497 1948.69,-376.334 1948.23,-369.349"/>
+<path fill="none" stroke="midnightblue" d="M1948.84,-373.096C2048.35,-366.901 2240.25,-353.295 2402.39,-332 2405.26,-331.623 2408.18,-331.217 2411.13,-330.788"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1948.39,-369.617 1938.62,-373.726 1948.82,-376.604 1948.39,-369.617"/>
 </g>
 <!-- Node50 -->
 <g id="node50" class="node"><title>Node50</title>
 <g id="a_node50"><a xlink:href="../../d8/d02/TruthLevel_8hh.html" target="_top" xlink:title="examples/toppartner\l/include/tagger/TruthLevel.hh">
-<polygon fill="white" stroke="red" points="2561.89,-301.5 2561.89,-331.5 2704.89,-331.5 2704.89,-301.5 2561.89,-301.5"/>
-<text text-anchor="start" x="2569.89" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">examples/toppartner</text>
-<text text-anchor="middle" x="2633.39" y="-308.5" font-family="Helvetica,sans-Serif" font-size="10.00">/include/tagger/TruthLevel.hh</text>
+<polygon fill="white" stroke="red" points="2575.89,-301.5 2575.89,-331.5 2718.89,-331.5 2718.89,-301.5 2575.89,-301.5"/>
+<text text-anchor="start" x="2583.89" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">examples/toppartner</text>
+<text text-anchor="middle" x="2647.39" y="-308.5" font-family="Helvetica,sans-Serif" font-size="10.00">/include/tagger/TruthLevel.hh</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node50 -->
 <g id="edge78" class="edge"><title>Node1&#45;&gt;Node50</title>
-<path fill="none" stroke="midnightblue" d="M1948.83,-374.936C2070.02,-370.679 2332.53,-358.968 2552.39,-332 2555.37,-331.635 2558.41,-331.232 2561.47,-330.8"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1948.47,-371.446 1938.59,-375.289 1948.71,-378.442 1948.47,-371.446"/>
+<path fill="none" stroke="midnightblue" d="M1948.44,-375.077C2071.36,-371.001 2340.86,-359.508 2566.39,-332 2569.37,-331.637 2572.41,-331.236 2575.47,-330.805"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1948.31,-371.58 1938.43,-375.404 1948.54,-378.576 1948.31,-371.58"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
