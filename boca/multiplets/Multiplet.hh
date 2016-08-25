@@ -12,12 +12,18 @@
 namespace boca
 {
 
+/**
+* @ingroup Multiplets
+* @brief %Multiplet base class
+*
+* capable of returning effective jets
+*/
 class Multiplet : public Identification
 {
 
 public:
 
-    void SetClosestLepton(std::vector<boca::Lepton> const& leptons);
+    void SetClosestLepton(std::vector<boca::Lepton> const &leptons);
 
     ClosestLepton Lepton() const;
 
@@ -35,38 +41,42 @@ public:
 
     Vector2<Angle> Angles() const;
 
-    Vector2<Angle> Angles(Vector2<Angle> const& angles) const;
+    Vector2<Angle> Angles(Vector2<Angle> const &angles) const;
 
     template<typename Multiplet_>
     using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value && !std::is_same<Multiplet_, boca::Particle>::value >::type;
 
     template <typename Multiplet_, typename = NotJet<Multiplet_>>
-    Angle DeltaPhiTo(Multiplet_ const& multiplet) const {
+    Angle DeltaPhiTo(Multiplet_ const &multiplet) const
+    {
         return Jet().DeltaPhiTo(multiplet.Jet());
     }
 
     template <typename Multiplet_, typename = NotJet<Multiplet_>>
-    Angle DeltaRTo(Multiplet_ const& multiplet) const {
+    Angle DeltaRTo(Multiplet_ const &multiplet) const
+    {
         return Jet().DeltaRTo(multiplet.Jet());
     }
 
     template <typename Multiplet_, typename = NotJet<Multiplet_>>
-    Angle DeltaRapTo(Multiplet_ const& multiplet) const {
+    Angle DeltaRapTo(Multiplet_ const &multiplet) const
+    {
         return Jet().DeltaRapTo(multiplet.Jet());
     }
 
     template <typename Multiplet_, typename = NotJet<Multiplet_>>
-    Vector2<Angle> DeltaTo(Multiplet_ const& multiplet) const {
+    Vector2<Angle> DeltaTo(Multiplet_ const &multiplet) const
+    {
         return Jet().DeltaTo(multiplet.Jet());
     }
 
-    Angle DeltaPhiTo(PseudoJet const& jet) const;
+    Angle DeltaPhiTo(PseudoJet const &jet) const;
 
-    Angle DeltaRTo(PseudoJet const& jet) const;
+    Angle DeltaRTo(PseudoJet const &jet) const;
 
-    Angle DeltaRapTo(PseudoJet const& jet) const;
+    Angle DeltaRapTo(PseudoJet const &jet) const;
 
-    Vector2<Angle> DeltaTo(PseudoJet const& jet) const;
+    Vector2<Angle> DeltaTo(PseudoJet const &jet) const;
 
     std::vector<boca::Jet> Constituents() const;
 

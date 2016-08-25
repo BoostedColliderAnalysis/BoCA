@@ -36,8 +36,8 @@ public:
         HiggsBdt = event.Signature().Sextet().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Doublet().DeltaRap() / rad;
-        HardTopPt = event.Signature().Sextet().HardTopPt() / GeV;
-        SoftTopPt = event.Signature().Sextet().SoftTopPt() / GeV;
+        HardTopPt = event.Signature().Sextet().HarderComponent().Pt() / GeV;
+        SoftTopPt = event.Signature().Sextet().SofterComponent().Pt() / GeV;
     }
 
     Observables Variables();

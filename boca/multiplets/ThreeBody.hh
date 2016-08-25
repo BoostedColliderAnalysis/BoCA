@@ -8,6 +8,11 @@
 namespace boca
 {
 
+/**
+* @ingroup Multiplets
+* @brief Three body base class
+*
+*/
 template <typename Multiplet_1_, typename Multiplet_2_, typename Multiplet_3_>
 class ThreeBody : public Multiplet
 {

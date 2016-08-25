@@ -9,7 +9,8 @@ namespace boca
 {
 
 /**
- * @brief A sextet of 2 triplets
+ * @ingroup Multiplets
+ * @brief A %Sextet consisting of two Triplet%s
  *
  */
 class Sextet : public TwoBody<Triplet, Triplet>
@@ -26,34 +27,6 @@ public:
     Triplet & Triplet1();
 
     Triplet & Triplet2();
-
-    Momentum HardTopPt() const;
-
-    Momentum SoftTopPt() const;
-
-    Angle GetLargertripletDeltaR() const;
-
-    Angle GetSmallertripletDeltaR() const;
-
-    Angle GetLargertripletDeltaRap() const;
-
-    Angle GetSmallertripletDeltaRap() const;
-
-    Angle GetLargerTripleDeltaPhi() const;
-
-    Angle GetSmallertripletDeltaPhi() const;
-
-    boca::Mass GetBetterTripleMass(Id id) const;
-
-    boca::Mass GetWorseTripleMass(Id id) const;
-
-    boca::Mass GetBetterPairMass(Id id) const;
-
-    boca::Mass GetWorsePairMass(Id id) const;
-
-    boca::Mass GetBetterJetMass(Id id) const;
-
-    boca::Mass GetWorseJetMass(Id id) const;
 
 };
 

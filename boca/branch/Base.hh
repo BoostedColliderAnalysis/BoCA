@@ -9,6 +9,7 @@ namespace boca
 {
 
 /**
+* @ingroup Boca
 * @brief Tree branches for root files
 *
 */

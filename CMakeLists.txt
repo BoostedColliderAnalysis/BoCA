@@ -5,6 +5,11 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(BoCA CXX)
 
+find_program(iwyu_path NAMES include-what-you-use iwyu)
+if(!iwyu_path)
+  message("'Include what You Use' is not available.")
+endif()
+
 include(cmake/CMakeConfig.cmake)
 find_package(Boost 1.43)
 # find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
@@ -64,9 +69,9 @@ add_libraries(MathMore)
 
 # Doxygen
 option(DO_DOXYGEN "Create Doxygen documentation" OFF)
-# if(DO_DOXYGEN)
+if(DO_DOXYGEN)
   include(cmake/UseDoxygen.cmake)
-# endif()
+endif()
 
 # BoCA sources
 add_subdirectory(source)

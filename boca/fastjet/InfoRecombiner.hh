@@ -9,6 +9,7 @@ namespace boca
 {
 
 /**
+  * @ingroup FastJet
   * @brief Recombine two fastjet::Jet with attached fastjet::UserInfo
   *
   */

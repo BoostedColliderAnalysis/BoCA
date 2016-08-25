@@ -1,0 +1,6 @@
+/**
+ * @defgroup FastJet FastJet
+ * @ingroup Boca
+ * @brief Convinience subclasses of FastJet classes
+ *
+ */

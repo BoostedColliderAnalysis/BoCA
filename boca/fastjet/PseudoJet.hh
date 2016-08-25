@@ -15,6 +15,7 @@ template<typename Value_>
 class LorentzVector;
 
 /**
+* @ingroup FastJet
 * @brief Subclass of fastjet::PseudoJet adding BoCA related functions
 *
 */

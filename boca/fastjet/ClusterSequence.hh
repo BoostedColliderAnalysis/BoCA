@@ -18,6 +18,7 @@ namespace boca
 {
 
 /**
+ * @ingroup FastJet
  * @brief Wrapper around fastjet:ClusterSequence taking care of memory managment
  *
  */

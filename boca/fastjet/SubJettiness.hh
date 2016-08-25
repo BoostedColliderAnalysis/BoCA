@@ -8,6 +8,11 @@
 namespace boca
 {
 
+/**
+* @ingroup FastJet
+* @brief Calculate <a href="https://inspirehep.net/record/876746">N-subjettiness</a> of a jet
+*
+*/
 class SubJettiness
 {
 

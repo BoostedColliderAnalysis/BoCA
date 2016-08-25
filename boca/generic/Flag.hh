@@ -110,8 +110,8 @@ void FlagSwitch(Enum enum_1, Function function)
     }
 }
 
-}
-
 /*
  * @}
  */
+
+}

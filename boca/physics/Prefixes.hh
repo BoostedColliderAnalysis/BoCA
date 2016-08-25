@@ -108,6 +108,11 @@ BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
     BOOST_UNITS_LITERAL(suffix, quant, unit, z, -21) \
     BOOST_UNITS_LITERAL(suffix, quant, unit, y, -24)
 
+/**
+* @brief Meter
+*
+* Unit of length
+*/
 BOOST_UNITS_LITERAL_SET(m, boost::units::si::length, boost::units::si::metre)
 // BOOST_UNITS_LITERAL_SET(g, boost::units::si::mass, 0.001 * boost::units::si::kilogram)
 // BOOST_UNITS_LITERAL_SET(s, boost::units::si::time, boost::units::si::second)
@@ -116,6 +121,11 @@ BOOST_UNITS_LITERAL_SET(m, boost::units::si::length, boost::units::si::metre)
 // BOOST_UNITS_LITERAL_SET(mol, boost::units::si::amount, boost::units::si::mole)
 // BOOST_UNITS_LITERAL_SET(cd, boost::units::si::luminous_intensity, boost::units::si::candela)
 // BOOST_UNITS_LITERAL_SET(Hz, boost::units::si::frequency, boost::units::si::hertz)
+/**
+* @brief Radian
+*
+* Unit of angular measure
+*/
 BOOST_UNITS_LITERAL_SET(rad, boost::units::si::plane_angle, boost::units::si::radian)
 // BOOST_UNITS_LITERAL_SET(sr, boost::units::si::solid_angle, boost::units::si::steradian)
 // BOOST_UNITS_LITERAL_SET(N, boost::units::si::force, boost::units::si::newton)
@@ -140,22 +150,25 @@ BOOST_UNITS_LITERAL_SET(rad, boost::units::si::plane_angle, boost::units::si::ra
 // BOOST_UNITS_LITERAL_SET(min, boost::units::si::time, 60. * boost::units::si::second)
 // BOOST_UNITS_LITERAL_SET(h, boost::units::si::time, 60. * 60. * boost::units::si::second)
 // BOOST_UNITS_LITERAL_SET(day, boost::units::si::time, 60. * 60. * 24. * boost::units::si::second)
-// BOOST_UNITS_LITERAL_SET(deg, boost::units::si::plane_angle, boost::math::constants::pi<double>() / 180. * boost::units::si::radian)
+// BOOST_UNITS_LITERAL_SET(deg, boost::units::si::plane_angle, Pi() / 180.)
 // BOOST_UNITS_LITERAL_SET(l, boost::units::si::volume, 0.001 * boost::units::si::cubic_meter)
 // BOOST_UNITS_LITERAL_SET(L, boost::units::si::volume, 0.001 * boost::units::si::cubic_meter)
 // BOOST_UNITS_LITERAL_SET(t, boost::units::si::mass, 1000. * boost::units::si::kilogram)
 /**
  * @brief ElectronVolt
+ *
  * Unit of Energy
  */
 BOOST_UNITS_LITERAL_SET(eV, electronvolt::Energy, ElectronVolt)
 /**
  * @brief Barn
+ *
  * Unit of Area
  */
 BOOST_UNITS_LITERAL_SET(b, barn::Area, Barn)
 /**
  * @brief Uno
+ *
  * dimensionless unit eg 1%=1cU, or 1ppm=1uU
  */
 BOOST_UNITS_LITERAL_SET(U, boost::units::si::dimensionless, boost::units::si::si_dimensionless)

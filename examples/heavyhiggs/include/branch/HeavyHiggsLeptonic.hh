@@ -46,18 +46,18 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         TwoBody::Fill(multiplet);
-        LargerWDeltaR = multiplet.GetLargertripletDeltaR() / rad;
-        LargerWDeltaRap = multiplet.GetLargertripletDeltaRap() / rad;
-        LargerWDeltaPhi = multiplet.GetLargerTripleDeltaPhi() / rad;
-        SmallerWDeltaR = multiplet.GetSmallertripletDeltaR() / rad;
-        SmallerWDeltaRap = multiplet.GetSmallertripletDeltaRap() / rad;
-        SmallerWDeltaPhi = multiplet.GetSmallertripletDeltaPhi() / rad;
-        LargerNeutrinoDeltaR = multiplet.GetLargertripletDeltaR() / rad;
-        LargerNeutrinoDeltaRap = multiplet.GetLargertripletDeltaRap() / rad;
-        LargerNeutrinoDeltaPhi = multiplet.GetLargerTripleDeltaPhi() / rad;
-        SmallerNeutrinoDeltaR = multiplet.GetSmallertripletDeltaR() / rad;
-        SmallerNeutrinoDeltaRap = multiplet.GetSmallertripletDeltaRap() / rad;
-        SmallerNeutrinoDeltaPhi = multiplet.GetSmallertripletDeltaPhi() / rad;
+//         LargerWDeltaR = multiplet.GetLargertripletDeltaR() / rad;
+//         LargerWDeltaRap = multiplet.GetLargertripletDeltaRap() / rad;
+//         LargerWDeltaPhi = multiplet.GetLargerTripleDeltaPhi() / rad;
+//         SmallerWDeltaR = multiplet.GetSmallertripletDeltaR() / rad;
+//         SmallerWDeltaRap = multiplet.GetSmallertripletDeltaRap() / rad;
+//         SmallerWDeltaPhi = multiplet.GetSmallertripletDeltaPhi() / rad;
+//         LargerNeutrinoDeltaR = multiplet.GetLargertripletDeltaR() / rad;
+//         LargerNeutrinoDeltaRap = multiplet.GetLargertripletDeltaRap() / rad;
+//         LargerNeutrinoDeltaPhi = multiplet.GetLargerTripleDeltaPhi() / rad;
+//         SmallerNeutrinoDeltaR = multiplet.GetSmallertripletDeltaR() / rad;
+//         SmallerNeutrinoDeltaRap = multiplet.GetSmallertripletDeltaRap() / rad;
+//         SmallerNeutrinoDeltaPhi = multiplet.GetSmallertripletDeltaPhi() / rad;
     }
 
     Observables Variables();
