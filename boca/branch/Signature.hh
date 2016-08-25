@@ -11,6 +11,10 @@ namespace boca
 
 namespace branch {
 
+/**
+* @brief %Signature tree branch
+*
+*/
 class Signature : public ThreeBody, public EventShapesBase
 {
 

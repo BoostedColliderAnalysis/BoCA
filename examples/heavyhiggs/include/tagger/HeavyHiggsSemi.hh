@@ -9,6 +9,10 @@
 namespace heavyhiggs
 {
 
+/**
+* @brief %Tagger
+*
+*/
 namespace tagger
 {
 

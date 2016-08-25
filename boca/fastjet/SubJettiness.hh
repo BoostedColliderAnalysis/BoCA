@@ -3,42 +3,10 @@
  */
 #pragma once
 #include "boca/multiplets/Jet.hh"
-
-namespace fastjet
-{
-namespace contrib
-{
-class AxesDefinition;
-}
-}
+#include "boca/fastjet/NSubJettiness.hh"
 
 namespace boca
 {
-
-class NSubJettiness
-{
-
-public:
-
-    NSubJettiness();
-
-    NSubJettiness(Jet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta);
-
-    double tau_1() const;
-    double tau_2() const;
-    double tau_3() const;
-    double tau_2_1() const;
-    double tau_3_2() const;
-
-private:
-
-    double tau_1_;
-    double tau_2_;
-    double tau_3_;
-    double tau_2_1_;
-    double tau_3_2_;
-};
-
 
 class SubJettiness
 {

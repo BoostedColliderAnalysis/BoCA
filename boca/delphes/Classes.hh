@@ -5,3 +5,8 @@
 
 #include "boca/delphes/DelphesClasses.h"
 #include "boca/delphes/TypeDef.hh"
+
+
+/**
+ * @}
+ */

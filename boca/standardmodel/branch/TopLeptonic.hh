@@ -16,7 +16,7 @@ namespace branch {
 
 /**
  *
- * @brief Top tagger root tree structure
+ * @brief Top leptonic tagger tree branch
  *
  */
 class TopLeptonic : public boca::branch::TwoBody, public BottomBase

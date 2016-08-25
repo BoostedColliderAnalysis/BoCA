@@ -17,7 +17,7 @@ namespace branch
 
 /**
  *
- * @brief LeptonVeto tagger root tree structure
+ * @brief %LeptonVeto base tree branch
  *
  */
 class LeptonVeto

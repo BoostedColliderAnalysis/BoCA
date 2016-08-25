@@ -10,7 +10,7 @@ namespace branch
 {
 
 /**
- * @brief Class for saving event informations to root
+ * @brief %Event tree branch
  *
  */
 class Event : public boca::branch::Bdt, boca::branch::GlobalBase

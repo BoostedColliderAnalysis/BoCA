@@ -30,7 +30,10 @@
 
 
 
-
+/**
+ * @ingroup Debug
+ * @{
+ */
 
 #define FILE_NAME ::boca::FileName(__FILE__)
 
@@ -126,3 +129,7 @@
 // #define DISAMBIGUATE2(args, ...) MACRO_ ## args (__VA_ARGS__)
 // #define DISAMBIGUATE(args, ...) DISAMBIGUATE2(args, __VA_ARGS__)
 // #define ERROR(...) DISAMBIGUATE(HAS_ARGS(__VA_ARGS__), __VA_ARGS__)
+
+/*
+ * @}
+ */

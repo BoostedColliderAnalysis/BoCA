@@ -15,7 +15,7 @@ namespace branch {
 
 /**
  *
- * @brief Tau tagger root tree structure
+ * @brief %Tau tagger tree branch
  *
  */
 class Tau : public boca::branch::Particle

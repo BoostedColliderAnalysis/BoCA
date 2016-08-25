@@ -1,9 +1,6 @@
 #include "boca/multiplets/Quintet.hh"
 #include "boca/multiplets/Quartet.hh"
 
-namespace boca
-{
-
 namespace toppartner
 {
 
@@ -23,7 +20,5 @@ public:
     }
 
 };
-
-}
 
 }

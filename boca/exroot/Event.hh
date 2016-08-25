@@ -9,7 +9,7 @@ namespace boca
 {
 
 /**
- * @brief exroot classes
+ * @brief ExRoot
  *
  */
 namespace exroot

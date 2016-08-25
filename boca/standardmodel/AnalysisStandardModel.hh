@@ -12,7 +12,7 @@ namespace boca
 using namespace units;
 
 /**
- * @brief Standard Model analyses
+ * @brief Standard Model
  *
  */
 namespace standardmodel
@@ -42,9 +42,7 @@ std::string Name(Process process);
 
 /**
  *
- * @brief Tagger ananlysis
- *
- * @author Jan Hajer
+ * @brief Standard model analysis base
  *
  */
 template<typename Tagger>

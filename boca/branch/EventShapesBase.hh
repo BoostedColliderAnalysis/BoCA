@@ -13,7 +13,7 @@ namespace branch
 {
 
 /**
- * @brief Event Shape Branch
+ * @brief %EventShapes base tree branch
  *
  */
 class EventShapesBase

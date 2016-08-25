@@ -6,7 +6,8 @@
 #include "boca/generic/DEBUG_MACROS.hh"
 
 /**
- * @brief Higgs CPV analysis
+ * @brief CP-violating Higgs couplings
+ * @ingroup Examples
  *
  */
 namespace higgscpv

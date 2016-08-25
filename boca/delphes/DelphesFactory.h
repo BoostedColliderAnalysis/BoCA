@@ -19,6 +19,10 @@
 #ifndef DelphesFactory_h
 #define DelphesFactory_h
 
+/** @addtogroup Delphes
+ *  @{
+ */
+
 /** \class DelphesFactory
  *
  *  Class handling creation of Candidate,
@@ -76,6 +80,8 @@ private:
 };
 
 // }
+
+/*! @} */
 
 #endif /* DelphesFactory */
 

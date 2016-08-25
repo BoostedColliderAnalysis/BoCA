@@ -9,6 +9,11 @@ class PseudoJet;
 class ClusterSequence;
 }
 
+/**
+* \ingroup External
+* @brief <a href="http://jets.physics.harvard.edu/Qjets/html/Welcome.html">Qjets</a>: A Non-Deterministic Approach to Tree-Based Jet Substructure
+*
+*/
 namespace qjets
 {
 

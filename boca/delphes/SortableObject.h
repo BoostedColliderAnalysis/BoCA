@@ -19,6 +19,11 @@
 #ifndef SortableObject_h
 #define SortableObject_h
 
+
+/** @addtogroup Delphes
+ *  @{
+ */
+
 /** \class SortableObject
  *
  *  \author P. Demin - UCL, Louvain-la-Neuve
@@ -225,6 +230,8 @@ public:
 };
 
 // }
+
+  /*! @} */
 
 #endif // SortableObject_h
 

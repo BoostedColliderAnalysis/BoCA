@@ -16,6 +16,13 @@ namespace boca
 class Jet;
 class Particle;
 
+/**
+ * @ingroup Generic
+ * @defgroup Debug
+ * @brief Debugging and error reporting functions and macros
+ * @{
+ */
+
 std::string Shorten(std::string const& pretty_function, std::size_t brake);
 
 std::string Shorten2(std::string const& pretty_function, std::size_t brake);
@@ -177,5 +184,9 @@ void Default(std::string const& variable, const Value value){
 }
 
 void Error(std::string const& variable);
+
+/*
+ * @}
+ */
 
 }

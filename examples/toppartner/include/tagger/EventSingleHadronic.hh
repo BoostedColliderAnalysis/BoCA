@@ -11,6 +11,10 @@
 namespace toppartner
 {
 
+/**
+* @brief %Tagger
+*
+*/
 namespace tagger
 {
 

@@ -10,6 +10,9 @@ namespace boca
 class Event;
 }
 
+namespace simple
+{
+
 class Observables : public boca::Identification
 {
 
@@ -80,3 +83,5 @@ private:
     boca::Mutable<boca::Singlet> constituent_jet_;
 
 };
+
+}

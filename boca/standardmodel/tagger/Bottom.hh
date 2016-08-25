@@ -15,6 +15,10 @@ namespace boca
 namespace standardmodel
 {
 
+/**
+* @brief %Tagger
+*
+*/
 namespace tagger
 {
 

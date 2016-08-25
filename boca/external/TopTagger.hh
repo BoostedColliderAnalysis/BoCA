@@ -2,6 +2,11 @@
 
 #include "fastjet/JetDefinition.hh"
 
+/**
+* \ingroup External
+* @brief <a href="http://www.thphys.uni-heidelberg.de/~plehn/index.php?show=heptoptagger">HEP Top Tagger</a> is a top tagger for Standard Model processes or new physics searches at intermediate transverse momenta.
+*
+*/
 namespace hep
 {
 

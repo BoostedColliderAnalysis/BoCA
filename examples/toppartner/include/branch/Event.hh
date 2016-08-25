@@ -5,6 +5,10 @@
 namespace toppartner
 {
 
+/**
+* @brief Branches
+*
+*/
 namespace branch
 {
 

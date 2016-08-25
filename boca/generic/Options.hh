@@ -7,6 +7,11 @@ class TString;
 namespace boca
 {
 
+/**
+* @ingroup Generic
+* @brief Key-value-pair options
+*
+*/
 class Options
 {
 

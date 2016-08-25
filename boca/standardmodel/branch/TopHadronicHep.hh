@@ -17,7 +17,7 @@ namespace branch {
 
 /**
  *
- * @brief Top tagger root tree structure
+ * @brief %HEPTopTagger tree branch
  *
  */
 class TopHadronicHep : public boca::branch::Multi, public BottomBase, public LeptonVeto

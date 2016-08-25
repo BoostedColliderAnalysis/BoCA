@@ -5,15 +5,19 @@
 #include "boca/generic/DEBUG_MACROS.hh"
 
 /**
- * @brief Heavy higgs analyses
+ * @brief Heavy Higgs partner
+ * @ingroup Examples
  *
  */
-
 namespace heavyhiggs
 {
 
 using namespace boca;
 
+/**
+* @brief Analyses
+*
+*/
 namespace analysis
 {
 

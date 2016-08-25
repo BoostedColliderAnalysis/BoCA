@@ -16,7 +16,7 @@ namespace branch{
 
 /**
  *
- * @brief Z tagger root tree structure
+ * @brief Z hadronic tagger tree branch
  *
  */
 class ZHadronic : public boca::branch::TwoBody, public BottomBase
@@ -37,7 +37,7 @@ public:
 private:
 
     ClassDef(ZHadronic, 1)
-    
+
 };
 
 }

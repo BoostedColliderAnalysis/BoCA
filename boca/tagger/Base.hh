@@ -9,6 +9,10 @@
 #include "boca/multivariant/Phase.hh"
 
 class TCut;
+/**
+* @brief TMVA provides a ROOT-integrated machine learning environment for the processing and parallel evaluation of multivariate classification and regression techniques.
+*
+*/
 namespace TMVA
 {
 class Reader;
@@ -29,6 +33,10 @@ namespace branch{
 class Result;
 }
 
+/**
+* @brief %Tagger
+*
+*/
 namespace tagger
 {
 

@@ -7,6 +7,10 @@ namespace higgscpv
 
 using namespace boca;
 
+/**
+* @brief Branches
+*
+*/
 namespace branch
 {
 

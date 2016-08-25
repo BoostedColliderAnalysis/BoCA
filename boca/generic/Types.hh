@@ -9,6 +9,11 @@
 namespace boca
 {
 
+/**
+ * @ingroup Generic
+ * @{
+ */
+
 template<typename Integer>
 boost::integer_range<Integer> IntegerRange(Integer last) {
   return boost::integer_range<Integer>(0, last);
@@ -32,5 +37,9 @@ template <typename Enumeration>
 auto to_unsigned(Enumeration value) -> typename Unsigned<Enumeration>::type {
     return static_cast<typename Unsigned<Enumeration>::type>(value);
 }
+
+/*
+ * @}
+ */
 
 }

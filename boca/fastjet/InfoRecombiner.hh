@@ -8,6 +8,10 @@
 namespace boca
 {
 
+/**
+  * @brief Recombine two fastjet::Jet with attached fastjet::UserInfo
+  *
+  */
 class InfoRecombiner : public fastjet::JetDefinition::DefaultRecombiner
 {
 

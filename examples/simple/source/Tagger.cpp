@@ -1,5 +1,7 @@
 #include "include/Tagger.hh"
 
+namespace simple
+{
 
 int Tagger::Train(boca::Event const &event, boca::PreCuts const &pre_cuts, boca::Tag tag)
 {
@@ -20,4 +22,6 @@ std::vector<Observables> Tagger::Multiplets(boca::Event const &event, boca::PreC
 std::string Tagger::Name() const
 {
     return "Simple";
+}
+
 }

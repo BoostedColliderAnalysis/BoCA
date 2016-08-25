@@ -15,7 +15,7 @@ namespace boca
 {
 
 /**
- * @brief Tagger base class using Branch template
+ * @brief %Tagger base class using Branch template
  *
  */
 template<typename Multiplet_, typename Branch_>

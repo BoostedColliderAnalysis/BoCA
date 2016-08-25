@@ -18,7 +18,7 @@ namespace branch
 
 /**
  *
- * @brief Higgs tagger root tree structure
+ * @brief %Higgs tagger tree branch
  *
  */
 class Higgs : public boca::branch::TwoBody, public BottomBase, public LeptonVeto

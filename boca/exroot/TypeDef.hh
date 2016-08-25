@@ -4,8 +4,10 @@
 #pragma once
 
 /**
- * @brief ExRoot
+ * @ingroup ExRoot
+ * @brief <a href="https://cp3.irmp.ucl.ac.be/projects/ExRootAnalysis/wiki/UserManual">ExRoot</a>
  *
+ * ExRootAnalysis is a package designed to simplify ROOT tree production and analysis.
  */
 namespace exroot
 {

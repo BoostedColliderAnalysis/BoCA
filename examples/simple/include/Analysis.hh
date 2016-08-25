@@ -2,6 +2,14 @@
 
 #include "boca/analysis/Analysis.hh"
 
+/**
+* @ingroup Examples
+* @brief Example
+*
+*/
+namespace simple
+{
+
 template<typename Tagger_>
 class Analysis : public boca::Analysis<Tagger_>
 {
@@ -33,3 +41,5 @@ public:
     }
 
 };
+
+}

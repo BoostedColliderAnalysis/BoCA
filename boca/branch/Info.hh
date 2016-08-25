@@ -17,7 +17,7 @@ namespace branch
 {
 
 /**
- * @brief Basic tree branches
+ * @brief %Info tree branch
  *
  */
 class Info : public Base
@@ -66,7 +66,7 @@ private:
     boca::Names names;
 
     ClassDef(Info, 1)
-    
+
 };
 
 }

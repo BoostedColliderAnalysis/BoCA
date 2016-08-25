@@ -16,7 +16,7 @@ namespace branch {
 
 /**
  *
- * @brief Top tagger root tree structure
+ * @brief %Truth tagger tree branch
  *
  */
 class Truth : public boca::branch::Result

@@ -10,7 +10,7 @@ namespace boca
 {
 
 /**
- * @brief Delphes classes
+ * @brief Delphes
  *
  */
 namespace delphes

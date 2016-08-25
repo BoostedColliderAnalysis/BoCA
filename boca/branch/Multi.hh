@@ -11,6 +11,10 @@ namespace boca
 namespace branch
 {
 
+/**
+* @brief %Multi obejct tree branch
+*
+*/
 class Multi : public TwoBody
 {
 

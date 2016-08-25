@@ -5,6 +5,9 @@
 #include "include/Observables.hh"
 #include "include/Branch.hh"
 
+namespace simple
+{
+
 class Tagger : public boca::Tagger<Observables, Branch>
 {
 
@@ -19,3 +22,5 @@ public:
     std::string Name() const override;
 
 };
+
+}

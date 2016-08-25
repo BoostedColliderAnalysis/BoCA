@@ -3,9 +3,6 @@
 #include "boca/multiplets/ThreeBody.hh"
 #include "boca/multiplets/Quintet.hh"
 
-namespace boca
-{
-
 namespace toppartner
 {
 
@@ -29,7 +26,5 @@ public:
     }
 
 };
-
-}
 
 }

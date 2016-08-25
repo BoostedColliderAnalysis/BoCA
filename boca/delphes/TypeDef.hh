@@ -3,8 +3,10 @@
  */
 #pragma once
 /**
- * @brief Delphes
+ * @ingroup Delphes
+ * @brief <a href="https://cp3.irmp.ucl.ac.be/projects/delphes">Delphes</a>
  *
+ * Delphes is a C++ framework, performing a fast multipurpose detector response simulation.
  */
 namespace delphes
 {

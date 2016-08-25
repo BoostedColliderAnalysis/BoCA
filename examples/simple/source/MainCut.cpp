@@ -4,6 +4,6 @@
 int main(){
 //   Analysis<boca::standardmodel::tagger::Bottom> bottom;
 //   bottom.Run(boca::Output::normal);
-  Analysis<Tagger> global;
+  simple::Analysis<simple::Tagger> global;
   global.Run(boca::Output::efficiency);
 }

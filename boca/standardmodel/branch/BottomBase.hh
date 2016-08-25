@@ -18,7 +18,7 @@ namespace branch
 
 /**
  *
- * @brief Bottom tagger root tree structure base class
+ * @brief %Bottom tagger base tree branch
  * @details this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond
  *
  */

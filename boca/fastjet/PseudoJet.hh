@@ -14,6 +14,10 @@ namespace boca
 template<typename Value_>
 class LorentzVector;
 
+/**
+* @brief Subclass of fastjet::PseudoJet adding BoCA related functions
+*
+*/
 class PseudoJet : public fastjet::PseudoJet
 {
 public:

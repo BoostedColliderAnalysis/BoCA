@@ -1,6 +1,10 @@
 #pragma once
 
-namespace mt2
+/**
+* \ingroup External
+* @brief <a href="http://particle.physics.ucdavis.edu/hefti/projects/doku.php?id=wimpmass">Wimpmass</a> contains a few packages useful for determining the mass of the dark matter particle at the LHC.
+*/
+namespace wimpmass
 {
 
 class Mt2

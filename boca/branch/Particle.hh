@@ -13,7 +13,7 @@ namespace branch
 {
 
 /**
- * @brief Class for saving event informations to root
+ * @brief %Particle tree branch
  *
  */
 class Particle : public Bdt

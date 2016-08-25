@@ -19,6 +19,11 @@
 #ifndef DelphesClasses_h
 #define DelphesClasses_h
 
+
+/** @addtogroup Delphes
+ *  @{
+ */
+
 /**
  *
  *  Definition of classes to be stored in the root tree.
@@ -596,5 +601,7 @@ private:
 
   ClassDef(Candidate, 4)
 };
+
+  /*! @} */
 
 #endif // DelphesClasses_h

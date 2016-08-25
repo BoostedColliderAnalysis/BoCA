@@ -35,7 +35,7 @@
 #include <cmath>
 #include "boca/external/Mt2.hh"
 
-namespace mt2
+namespace wimpmass
 {
 
 namespace

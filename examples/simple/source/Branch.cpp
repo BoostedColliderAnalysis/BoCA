@@ -5,6 +5,8 @@
 
 #include "include/Branch.hh"
 
+namespace simple
+{
 
 Branch::Branch()
 {
@@ -26,4 +28,6 @@ boca::Observables Branch::Variables()
 boca::Observables Branch::Spectators()
 {
     return boca::branch::Bdt::Spectators();
+}
+
 }

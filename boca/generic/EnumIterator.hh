@@ -6,6 +6,10 @@
 namespace boca
 {
 
+/**
+* @ingroup Generic
+* @brief Enables the use of strongly typed enumerators as iterators
+*/
 template<typename Enum_>
 class EnumIterator
 {

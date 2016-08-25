@@ -9,7 +9,8 @@
 #include "boca/physics/ElectronVolt.hh"
 
 /**
- * @brief contains the general analysis and SM taggers
+ * @ingroup Boca
+ * @brief Boosted Collider %Analysis
  *
  */
 namespace boca
@@ -22,15 +23,15 @@ namespace boca
 enum class Id
 {
     none = 0,
-    down = 1,
-    up = 2,
-    strange = 3,
-    charm = 4,
-    bottom = 5,
-    top = 6,
-    bottom_partner = 7,
-    top_partner = 8,
-    electron = 11,
+    down = 1, ///< Down Quark
+    up = 2, ///< Up Quark
+    strange = 3, ///< Strange Quark
+    charm = 4, ///< Charm Quark
+    bottom = 5, ///< Bottom Quark
+    top = 6, ///< Top Quark
+    bottom_partner = 7, ///< Bottom Partner Quark
+    top_partner = 8, ///< Top Partner Quark
+    electron = 11,                                          ///< %Electron
     electron_neutrino = 12,
     muon = 13,
     muon_neutrino = 14,

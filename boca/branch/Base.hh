@@ -8,11 +8,15 @@
 namespace boca
 {
 
+/**
+* @brief Tree branches for root files
+*
+*/
 namespace branch
 {
 
 /**
- * @brief Basic tree branches
+ * @brief %Base tree branch
  *
  */
 class Base : public TObject

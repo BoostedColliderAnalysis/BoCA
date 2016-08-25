@@ -11,6 +11,9 @@
 
 #include "include/Observables.hh"
 
+namespace simple
+{
+
 Observables::Observables() {}
 
 Observables::Observables(boca::Event const& event)
@@ -162,4 +165,6 @@ std::vector< boca::Jet > Observables::Constituents() const
 std::vector< boca::LorentzVector< boca::Momentum > > Observables::LorentzVectors() const
 {
     return {};
+}
+
 }

@@ -15,6 +15,13 @@
 namespace boca
 {
 
+/**
+ * @ingroup Generic
+ * @defgroup Vector
+ * @brief Functions used for Container (mainly std::vector) manipulation
+ * @{
+ */
+
 // For generic types, directly use the result of the signature of its 'operator()'
 template <typename Function_>
 struct function_traits : public function_traits<decltype(&Function_::operator())>
@@ -384,5 +391,9 @@ auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_>
     }
     return results;
 }
+
+/*
+ * @}
+ */
 
 }

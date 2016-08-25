@@ -14,6 +14,10 @@ namespace boca
 namespace units
 {
 
+/**
+* @brief Electronvolt
+*
+*/
 namespace electronvolt
 {
 

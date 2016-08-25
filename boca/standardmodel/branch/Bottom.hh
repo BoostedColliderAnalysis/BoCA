@@ -12,12 +12,16 @@ namespace boca
 namespace standardmodel
 {
 
+/**
+* @brief Tree branches
+*
+*/
 namespace branch
 {
 
 /**
  *
- * @brief Bottom tagger root tree structure
+ * @brief %Bottom tagger tree branch
  *
  */
 class Bottom : public boca::branch::Particle, public BottomBase
@@ -30,7 +34,8 @@ public:
     Observables Spectators();
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
+    void Fill(Multiplet const &multiplet)
+    {
         Particle::Fill(multiplet);
         BottomBase::Fill(multiplet);
     }

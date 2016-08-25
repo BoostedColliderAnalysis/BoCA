@@ -12,16 +12,21 @@ namespace boca
 namespace branch
 {
 
+/**
+* @brief %Result tree branch
+*
+*/
 class Result : public Base
 {
 public:
-  
+
     Result();
 
     float tag;
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
+    void Fill(Multiplet const &multiplet)
+    {
         tag = static_cast<int>(multiplet.Tag());
     }
 

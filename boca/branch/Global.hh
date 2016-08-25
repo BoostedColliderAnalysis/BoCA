@@ -13,7 +13,7 @@ namespace branch
 {
 
 /**
- * @brief Class for saving event informations to root
+ * @brief %Global tree branch
  *
  */
 class Global : public Bdt, public GlobalBase

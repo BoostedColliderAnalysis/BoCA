@@ -9,13 +9,18 @@
 #include "boca/generic/DEBUG_MACROS.hh"
 
 /**
- * @brief Naturalness measurment
- *
- */
+* @brief Fermionic top partner
+* @ingroup Examples
+*
+*/
 namespace toppartner{
 
 using namespace boca;
 
+/**
+* @brief Analyses
+*
+*/
 namespace analysis{
 
 enum class Process

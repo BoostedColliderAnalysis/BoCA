@@ -4,6 +4,10 @@
 
 namespace higgscpv {
 
+/**
+* @brief %Tagger
+*
+*/
 namespace tagger {
 
 /**

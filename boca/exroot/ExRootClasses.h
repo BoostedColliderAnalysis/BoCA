@@ -1,6 +1,10 @@
 #ifndef EXROOTCLASSES_H
 #define EXROOTCLASSES_H
 
+/** @addtogroup ExRoot
+ *  @{
+ */
+
 /** \class ExRootClasses
  *
  *  Definition of classes to be stored in the root tree.
@@ -467,6 +471,8 @@ public:
       return 0;
   }
 };
+
+  /*! @} */
 
 #endif // EXROOTCLASSES_H
 

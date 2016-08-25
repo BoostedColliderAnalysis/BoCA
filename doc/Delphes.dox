@@ -1,0 +1,6 @@
+/**
+ * @defgroup Delphes Delphes
+ * @ingroup External
+ * @brief <a href="https://cp3.irmp.ucl.ac.be/projects/delphes">Delphes</a> is a C++ framework, performing a fast multipurpose detector response simulation.
+ *
+ */

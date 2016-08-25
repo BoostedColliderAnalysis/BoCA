@@ -6,6 +6,10 @@
 namespace boca
 {
 
+/**
+* @brief LaTeX
+*
+*/
 namespace latex
 {
 

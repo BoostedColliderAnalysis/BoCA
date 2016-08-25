@@ -16,7 +16,7 @@ namespace branch
 
 /**
  *
- * @brief Top tagger root tree structure
+ * @brief W leptonic tagger tree branch
  *
  */
 class WLeptonic : public boca::branch::TwoBody

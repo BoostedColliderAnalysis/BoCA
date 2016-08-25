@@ -25,7 +25,7 @@ namespace boca
 {
 class Doublet;
 class Quartet22;
-
+}
 
 namespace wimpmass
 {
@@ -36,23 +36,23 @@ public:
 
     Invisible22();
 
-    Invisible22(Quartet22 const& quartet, LorentzVector<Momentum> const& missing);
+    Invisible22(boca::Quartet22 const& quartet, boca::LorentzVector<boca::Momentum> const& missing);
 
-    Invisible22(LorentzVector<Momentum> const& missing);
+    Invisible22(boca::LorentzVector<boca::Momentum> const& missing);
 
-    void SetMissingMomentum(LorentzVector<Momentum> const& missing);
+    void SetMissingMomentum(boca::LorentzVector<boca::Momentum> const& missing);
 
-    void Set(Quartet22 const& quartet);
+    void Set(boca::Quartet22 const& quartet);
 
-    void SetFirstChain(Doublet const& doublet);
+    void SetFirstChain(boca::Doublet const& doublet);
 
-    void SetSecondChain(Doublet const& doublet);
+    void SetSecondChain(boca::Doublet const& doublet);
 
-    void SetFirstChain(LorentzVector<Momentum> const& first, LorentzVector<Momentum> const& second);
+    void SetFirstChain(boca::LorentzVector<boca::Momentum> const& first, boca::LorentzVector<boca::Momentum> const& second);
 
-    void SetSecondChain(LorentzVector<Momentum> const& first, LorentzVector<Momentum> const& second);
+    void SetSecondChain(boca::LorentzVector<boca::Momentum> const& first, boca::LorentzVector<boca::Momentum> const& second);
 
-    std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Solve(const boca::Mass& heavy, const boca::Mass& light, boca::Mass const& invisible);
+    std::vector<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solve(const boca::Mass& heavy, const boca::Mass& light, boca::Mass const& invisible);
 
     struct event22 {
         double p3[4], p4[4], p5[4], p6[4];
@@ -63,71 +63,69 @@ public:
 
 private:
 
-    void SetMomentum(double momentum[4], LorentzVector<Momentum> const& jet);
+    void SetMomentum(double momentum[4], boca::LorentzVector<boca::Momentum> const& jet);
 
-    void SetVector(double momentum[4], LorentzVector<Momentum>& jet);
+    void SetVector(double momentum[4], boca::LorentzVector<boca::Momentum>& jet);
 
     std::array<double,5> Coefficients();
 
-    Matrix2<double> MatrixA();
+    boca::Matrix2<double> MatrixA();
 
-    Matrix2<double> MatrixB();
+    boca::Matrix2<double> MatrixB();
 
-    Vector2<Momentum> VectorA();
+    boca::Vector2<boca::Momentum> VectorA();
 
-    Vector2<Momentum> VectorB();
+    boca::Vector2<boca::Momentum> VectorB();
 
-    MomentumSquare ScalarA();
+    boca::MomentumSquare ScalarA();
 
-    MomentumSquare ScalarB();
+    boca::MomentumSquare ScalarB();
 
-    LorentzVector<double> CoefficientVector1() const;
+    boca::LorentzVector<double> CoefficientVector1() const;
 
-    LorentzVector<double> CoefficientVector2() const;
+    boca::LorentzVector<double> CoefficientVector2() const;
 
-    LorentzVector<Momentum> CoefficientVector() const;
+    boca::LorentzVector<boca::Momentum> CoefficientVector() const;
 
-    boost::optional<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Solution(Momentum const& root);
+    boost::optional<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solution(boca::Momentum const& root);
 
-    Energy Energy1(Energy const& energy_2);
+    boca::Energy Energy1(boca::Energy const& energy_2);
 
-    Mutable<LorentzVector<Momentum>> coefficient_vector_;
+    boca::Mutable<boca::LorentzVector<boca::Momentum>> coefficient_vector_;
 
-    Mutable<LorentzVector<double>> coefficient_vector_1_;
+    boca::Mutable<boca::LorentzVector<double>> coefficient_vector_1_;
 
-    Mutable<LorentzVector<double>> coefficient_vector_2_;
+    boca::Mutable<boca::LorentzVector<double>> coefficient_vector_2_;
 
-    Mutable<Matrix2<double>> matrix_a_;
+    boca::Mutable<boca::Matrix2<double>> matrix_a_;
 
-    Mutable<Matrix2<double>> matrix_b_;
+    boca::Mutable<boca::Matrix2<double>> matrix_b_;
 
-    Mutable<Vector2<Momentum>> vector_a_;
+    boca::Mutable<boca::Vector2<boca::Momentum>> vector_a_;
 
-    Mutable<Vector2<Momentum>> vector_b_;
+    boca::Mutable<boca::Vector2<boca::Momentum>> vector_b_;
 
-    Mutable<MomentumSquare> scalar_a_;
+    boca::Mutable<boca::MomentumSquare> scalar_a_;
 
-    Mutable<MomentumSquare> scalar_b_;
+    boca::Mutable<boca::MomentumSquare> scalar_b_;
 
-    LorentzVector<Momentum> p3_;
+    boca::LorentzVector<boca::Momentum> p3_;
 
-    LorentzVector<Momentum> p4_;
+    boca::LorentzVector<boca::Momentum> p4_;
 
-    LorentzVector<Momentum> p5_;
+    boca::LorentzVector<boca::Momentum> p5_;
 
-    LorentzVector<Momentum> p6_;
+    boca::LorentzVector<boca::Momentum> p6_;
 
-    LorentzVector<Momentum> missing_;
+    boca::LorentzVector<boca::Momentum> missing_;
 
-    MassSquare heavy_square_;
+    boca::MassSquare heavy_square_;
 
-    MassSquare light_square_;
+    boca::MassSquare light_square_;
 
-    MassSquare invisible_square_;
+    boca::MassSquare invisible_square_;
 
 };
-
-}
 
 }
 

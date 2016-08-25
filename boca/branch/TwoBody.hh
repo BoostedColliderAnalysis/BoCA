@@ -11,6 +11,10 @@ namespace boca
 namespace branch
 {
 
+/**
+* @brief Two body tree branch
+*
+*/
 class TwoBody : public Particle
 {
 

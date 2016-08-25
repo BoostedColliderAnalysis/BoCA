@@ -7,9 +7,14 @@
 
 #include "boca/physics/Prefixes.hh"
 
+/**
+* @brief <a href="http://www.boost.org">Boost</a> provides free peer-reviewed portable C++ source libraries.
+*/
 namespace boost
 {
-
+/**
+* @brief <a href="http://www.boost.org/doc/libs/release/libs/units/">Units</a>: Zero-overhead dimensional analysis and unit/quantity manipulation and conversion.
+*/
 namespace units
 {
 
@@ -39,6 +44,10 @@ struct root_typeof_helper<double, double> {
 namespace boca
 {
 
+/**
+* @brief Units
+*
+*/
 namespace units
 {
 

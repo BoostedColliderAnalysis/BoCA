@@ -8,6 +8,16 @@
 namespace boca
 {
 
+/**
+ * @ingroup Generic
+ * @defgroup Flag
+ * @brief Enables the usage of strongly typed enumerators as flags
+ * @{
+ */
+
+/**
+* @brief Mark a strongly typed enumerator as a flag
+*/
 template<typename Enum>
 struct Flag {
     static const bool enable = false;
@@ -101,3 +111,7 @@ void FlagSwitch(Enum enum_1, Function function)
 }
 
 }
+
+/*
+ * @}
+ */

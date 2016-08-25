@@ -13,7 +13,7 @@ namespace branch
 
 /**
  *
- * @brief Higgs cpv tagger root tree structure
+ * @brief Three body tree branch
  *
  */
 class ThreeBody : public Particle
@@ -118,7 +118,7 @@ public:
     }
 
     Observables Variables();
-    
+
     Observables Spectators();
 
 private:

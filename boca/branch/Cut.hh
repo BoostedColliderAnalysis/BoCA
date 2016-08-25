@@ -11,6 +11,10 @@ namespace boca
 namespace branch
 {
 
+/**
+* @brief %Cut base tree branch
+*
+*/
 class Cut : public Result
 {
 

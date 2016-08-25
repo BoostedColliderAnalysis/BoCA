@@ -11,17 +11,21 @@ namespace boca
 namespace branch
 {
 
+/**
+* @brief %Bdt base tree branch
+*
+*/
 class Bdt : public Result
 {
 
 public:
-  
+
     Bdt();
 
     float bdt;
 
-    template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
+    template<typename Multiplet_>
+    void Fill(Multiplet_ const& multiplet) {
         Result::Fill(multiplet);
         bdt = multiplet.Bdt();
     }

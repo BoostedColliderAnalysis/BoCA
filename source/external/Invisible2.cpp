@@ -48,11 +48,10 @@
 #include "boca/multiplets/Quartet.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
-namespace boca
-{
-
 namespace wimpmass
 {
+
+using namespace boca;
 
 Invisible22::Invisible22() {}
 
@@ -398,6 +397,3 @@ Energy Invisible22::Energy1(Energy const& energy_2)
 }
 
 }
-
-}
-

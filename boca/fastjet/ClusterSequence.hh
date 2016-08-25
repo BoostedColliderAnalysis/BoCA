@@ -4,6 +4,10 @@
 #pragma once
 #include "boca/multiplets/Jet.hh"
 
+/**
+* @brief <a href="http://fastjet.fr/">FastJet</a> A software package for jet finding in pp and e+e− collisions.
+*
+*/
 namespace fastjet
 {
 class ClusterSequence;

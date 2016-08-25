@@ -17,7 +17,7 @@ namespace branch
 
 /**
  *
- * @brief Higgs tagger root tree structure
+ * @brief W hadronic tagger tree branch
  *
  */
 class WHadronic : public boca::branch::TwoBody, public BottomBase

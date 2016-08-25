@@ -15,6 +15,10 @@ namespace boca
 
 namespace units {
 
+/**
+* @brief Barn
+*
+*/
 namespace barn
 {
 using System = boost::units::make_system<boost::units::metric::barn_base_unit>::type;

@@ -6,5 +6,6 @@ PseudoJet.cpp
 ClusterSequence.cpp
 InfoRecombiner.cpp
 SubJettiness.cpp
+NSubJettiness.cpp
 )
 create_library(Fastjet fastjet_sources)

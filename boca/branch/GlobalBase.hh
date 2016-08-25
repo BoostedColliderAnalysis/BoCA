@@ -16,7 +16,7 @@ namespace branch
 {
 
 /**
- * @brief Class for saving event informations to root
+ * @brief %Global base tree branch
  *
  */
 class GlobalBase
