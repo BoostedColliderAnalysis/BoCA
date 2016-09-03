@@ -1,5 +1,5 @@
-#include "include/analysis/NeutralFourTop.hh"
-#include "include/tagger/Cut.hh"
+#include "heavyhiggs/analysis/NeutralFourTop.hh"
+#include "heavyhiggs/tagger/Cut.hh"
 
 template<typename Tagger_>
 void Run(boca::Output output)

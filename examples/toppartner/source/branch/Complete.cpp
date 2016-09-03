@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "include/branch/Complete.hh"
+#include "toppartner/branch/Complete.hh"
 
 namespace toppartner
 {

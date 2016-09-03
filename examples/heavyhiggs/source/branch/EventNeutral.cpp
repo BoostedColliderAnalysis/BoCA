@@ -1,4 +1,4 @@
-#include "include/branch/EventNeutral.hh"
+#include "heavyhiggs/branch/EventNeutral.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace heavyhiggs

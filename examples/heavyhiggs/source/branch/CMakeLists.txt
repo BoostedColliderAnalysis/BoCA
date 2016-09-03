@@ -34,4 +34,4 @@ JetPair.hh
 TripletJetPair.hh
 )
 
-create_dictionary(HeavyHiggsBranches "${HeavyHiggsSources}" "${HeavyHiggsHeader}" LinkDefHeavyHiggs.hh include branch)
+create_dictionary(HeavyHiggsBranches "${HeavyHiggsSources}" "${HeavyHiggsHeader}" LinkDefHeavyHiggs.hh heavyhiggs branch)

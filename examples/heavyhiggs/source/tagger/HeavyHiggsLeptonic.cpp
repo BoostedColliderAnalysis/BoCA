@@ -4,7 +4,7 @@
 #include "boca/Event.hh"
 #include "boca/multiplets/Particles.hh"
 
-#include "include/tagger/HeavyHiggsLeptonic.hh"
+#include "heavyhiggs/tagger/HeavyHiggsLeptonic.hh"
 
 #include "boca/generic/DEBUG_MACROS.hh"
 

@@ -1,5 +1,5 @@
-#include "include/analysis/NeutralFourTop.hh"
-#include "include/tagger/EventNeutralFourTop.hh"
+#include "heavyhiggs/analysis/NeutralFourTop.hh"
+#include "heavyhiggs/tagger/EventNeutralFourTop.hh"
 
 template<typename Tagger_>
 void Run(boca::Output output = boca::Output::fast)

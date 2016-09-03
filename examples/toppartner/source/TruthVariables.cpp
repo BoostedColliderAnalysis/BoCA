@@ -4,7 +4,7 @@
 #include "boca/generic/Vector.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
-#include "include/multiplets/TruthVariables.hh"
+#include "toppartner/multiplets/TruthVariables.hh"
 
 namespace toppartner
 {

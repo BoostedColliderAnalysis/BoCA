@@ -1,5 +1,5 @@
-#include "include/analysis/Charged.hh"
-#include "include/tagger/EventCharged.hh"
+#include "heavyhiggs/analysis/Charged.hh"
+#include "heavyhiggs/tagger/EventCharged.hh"
 
 template<typename Tagger_>
 void Run(boca::Output output = boca::Output::fast)

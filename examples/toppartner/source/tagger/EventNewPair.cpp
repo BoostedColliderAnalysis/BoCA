@@ -1,4 +1,4 @@
-#include "include/tagger/EventNewPair.hh"
+#include "toppartner/tagger/EventNewPair.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 

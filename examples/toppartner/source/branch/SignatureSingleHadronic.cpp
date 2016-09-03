@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "include/branch/SignatureSingleHadronic.hh"
+#include "toppartner/branch/SignatureSingleHadronic.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace toppartner

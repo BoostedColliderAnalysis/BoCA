@@ -5,7 +5,7 @@
 #include "boca/Event.hh"
 #include "boca/multiplets/Particles.hh"
 
-#include "include/tagger/TripletJetPair.hh"
+#include "heavyhiggs/tagger/TripletJetPair.hh"
 
 #include "boca/generic/DEBUG_MACROS.hh"
 

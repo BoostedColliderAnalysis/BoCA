@@ -1,4 +1,4 @@
-#include "include/branch/HeavyHiggsTau.hh"
+#include "heavyhiggs/branch/HeavyHiggsTau.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace heavyhiggs

@@ -1,4 +1,4 @@
-#include "include/tagger/TopPartnerHiggsPair.hh"
+#include "toppartner/tagger/TopPartnerHiggsPair.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

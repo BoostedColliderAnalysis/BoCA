@@ -1,4 +1,4 @@
-#include "include/branch/TripletTwoBody.hh"
+#include "higgscpv/branch/TripletTwoBody.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace higgscpv

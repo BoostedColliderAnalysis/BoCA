@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "include/branch/VetoTopPartner.hh"
+#include "toppartner/branch/VetoTopPartner.hh"
 
 namespace toppartner
 {

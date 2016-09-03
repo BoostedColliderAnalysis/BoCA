@@ -2,7 +2,7 @@
 #include "boca/generic/Exception.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
-#include "include/tagger/NewPartnerLeptonic.hh"
+#include "toppartner/tagger/NewPartnerLeptonic.hh"
 
 namespace toppartner
 {

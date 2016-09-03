@@ -1,4 +1,4 @@
-create_dictionary(BranchSimple Branch.cpp Branch.hh LinkDef.hh include)
+create_dictionary(BranchSimple Branch.cpp Branch.hh LinkDef.hh simple)
 
 set(CutFiles Tagger.cpp Observables.cpp)
 

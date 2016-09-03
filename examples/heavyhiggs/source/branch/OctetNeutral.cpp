@@ -1,4 +1,4 @@
-#include "include/branch/OctetNeutral.hh"
+#include "heavyhiggs/branch/OctetNeutral.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace heavyhiggs

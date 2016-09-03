@@ -1,5 +1,5 @@
-#include "include/analysis/Fusion.hh"
-#include "include/tagger/EventFusion.hh"
+#include "heavyhiggs/analysis/Fusion.hh"
+#include "heavyhiggs/tagger/EventFusion.hh"
 
 template<typename Tagger_>
 void Run(boca::Output output = boca::Output::fast)

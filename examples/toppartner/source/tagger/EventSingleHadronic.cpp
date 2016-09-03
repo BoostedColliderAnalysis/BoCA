@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "include/tagger/EventSingleHadronic.hh"
+#include "toppartner/tagger/EventSingleHadronic.hh"
 
 namespace toppartner
 {

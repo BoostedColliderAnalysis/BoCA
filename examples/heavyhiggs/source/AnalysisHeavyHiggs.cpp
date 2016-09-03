@@ -1,4 +1,4 @@
-#include "include/analysis/HeavyHiggs.hh"
+#include "heavyhiggs/analysis/HeavyHiggs.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace heavyhiggs

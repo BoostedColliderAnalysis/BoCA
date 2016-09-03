@@ -1,4 +1,4 @@
-#include "include/tagger/TopPartnerTopPair.hh"
+#include "toppartner/tagger/TopPartnerTopPair.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace toppartner

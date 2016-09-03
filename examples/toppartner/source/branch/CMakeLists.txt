@@ -22,4 +22,4 @@ Truth.hh
 VetoTopPartner.hh
 )
 
-create_dictionary(TopPartnerBranches "${TopPartnerBranchSources}" "${TopPartnerBranchHeader}" LinkDef.hh include branch)
+create_dictionary(TopPartnerBranches "${TopPartnerBranchSources}" "${TopPartnerBranchHeader}" LinkDef.hh toppartner branch)

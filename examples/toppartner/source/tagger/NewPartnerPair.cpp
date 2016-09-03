@@ -1,7 +1,7 @@
 #include "boca/generic/Exception.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
-#include "include/tagger/NewPartnerPair.hh"
+#include "toppartner/tagger/NewPartnerPair.hh"
 
 namespace toppartner
 {

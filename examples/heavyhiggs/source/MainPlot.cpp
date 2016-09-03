@@ -1,4 +1,4 @@
-#include "include/analysis/Neutral.hh"
+#include "heavyhiggs/analysis/Neutral.hh"
 #include "boca/EventNeutralTagger.hh"
 
 int main()

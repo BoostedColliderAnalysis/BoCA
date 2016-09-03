@@ -1,7 +1,7 @@
 #include "boca/generic/Exception.hh"
 
-#include "include/tagger/SignatureSubDom.hh"
-#include "include/multiplets/Decuplet.hh"
+#include "toppartner/tagger/SignatureSubDom.hh"
+#include "toppartner/multiplets/Decuplet.hh"
 
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"

@@ -1,5 +1,5 @@
-#include "include/analysis/Neutral.hh"
-#include "include/tagger/EventNeutral.hh"
+#include "heavyhiggs/analysis/Neutral.hh"
+#include "heavyhiggs/tagger/EventNeutral.hh"
 
 template<typename Tagger_>
 void Run(boca::Output output = boca::Output::fast)

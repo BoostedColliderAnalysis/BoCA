@@ -22,4 +22,4 @@ TopLeptonicTwoBody.hh
 TripletTwoBody.hh
 )
 
-create_dictionary(HiggsCpvBranches "${HiggsCpvSources}" "${HiggsCpvHeader}" LinkDefHiggsCpv.hh include branch)
+create_dictionary(HiggsCpvBranches "${HiggsCpvSources}" "${HiggsCpvHeader}" LinkDefHiggsCpv.hh higgscpv branch)

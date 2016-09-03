@@ -3,7 +3,7 @@
  */;
 #include "boca/OBSERVABLE_MACROS.hh"
 
-#include "include/Branch.hh"
+#include "simple/Branch.hh"
 
 namespace simple
 {

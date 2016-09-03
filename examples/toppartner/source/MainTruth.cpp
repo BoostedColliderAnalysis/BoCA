@@ -1,5 +1,5 @@
-#include "include/analysis/Effective.hh"
-#include "include/tagger/TruthLevel.hh"
+#include "toppartner/analysis/Effective.hh"
+#include "toppartner/tagger/TruthLevel.hh"
 
 template<typename Tagger_>
 void Run(boca::Output output = boca::Output::fast | boca::Output::plot_hist)

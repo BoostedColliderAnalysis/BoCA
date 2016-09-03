@@ -9,7 +9,7 @@
 #include "boca/generic/Vector.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
-#include "include/Observables.hh"
+#include "simple/Observables.hh"
 
 namespace simple
 {

@@ -10,7 +10,7 @@
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 
-#include "include/tagger/TruthLevel.hh"
+#include "toppartner/tagger/TruthLevel.hh"
 
 namespace toppartner
 {

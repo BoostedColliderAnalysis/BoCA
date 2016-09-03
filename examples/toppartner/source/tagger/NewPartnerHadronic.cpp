@@ -3,7 +3,7 @@
 #include "boca/generic/Exception.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
-#include "include/tagger/NewPartnerHadronic.hh"
+#include "toppartner/tagger/NewPartnerHadronic.hh"
 
 namespace toppartner
 {

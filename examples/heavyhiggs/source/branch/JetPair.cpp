@@ -1,4 +1,4 @@
-#include "include/branch/JetPair.hh"
+#include "heavyhiggs/branch/JetPair.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace heavyhiggs

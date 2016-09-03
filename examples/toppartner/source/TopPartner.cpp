@@ -1,4 +1,4 @@
-#include "include/analysis/TopPartner.hh"
+#include "toppartner/analysis/TopPartner.hh"
 
 namespace toppartner {
 

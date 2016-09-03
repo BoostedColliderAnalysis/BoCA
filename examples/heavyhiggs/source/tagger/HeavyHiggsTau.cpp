@@ -1,7 +1,7 @@
 #include "boca/Event.hh"
 #include "boca/multiplets/Particles.hh"
 
-#include "include/tagger/HeavyHiggsTau.hh"
+#include "heavyhiggs/tagger/HeavyHiggsTau.hh"
 
 #include "boca/generic/DEBUG_MACROS.hh"
 

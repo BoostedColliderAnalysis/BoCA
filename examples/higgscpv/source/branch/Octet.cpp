@@ -1,4 +1,4 @@
-#include "include/branch/Octet.hh"
+#include "higgscpv/branch/Octet.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace higgscpv

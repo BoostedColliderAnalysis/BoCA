@@ -1,4 +1,4 @@
-#include "include/branch/CutNeutral.hh"
+#include "heavyhiggs/branch/CutNeutral.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace heavyhiggs

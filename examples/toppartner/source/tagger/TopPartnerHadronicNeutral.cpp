@@ -3,7 +3,7 @@
 #include "boca/multiplets/Particles.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
-#include "include/tagger/TopPartnerHadronicNeutral.hh"
+#include "toppartner/tagger/TopPartnerHadronicNeutral.hh"
 
 namespace toppartner
 {

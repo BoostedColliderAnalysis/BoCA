@@ -1,5 +1,5 @@
-#include "include/analysis/Pair.hh"
-#include "include/tagger/JetPair.hh"
+#include "heavyhiggs/analysis/Pair.hh"
+#include "heavyhiggs/tagger/JetPair.hh"
 
 template<typename Tagger_>
 void Run(boca::Output output = boca::Output::fast)

@@ -5,7 +5,7 @@
 #include "boca/generic/Exception.hh"
 #include "boca/Event.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
-#include "include/tagger/Resonance.hh"
+#include "toppartner/tagger/Resonance.hh"
 
 namespace toppartner
 {

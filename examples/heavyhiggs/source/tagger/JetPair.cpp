@@ -5,8 +5,8 @@
 #include "boca/multiplets/Sort.hh"
 #include "boca/multiplets/Particles.hh"
 
-#include "include/tagger/JetPair.hh"
-#include "include/tagger/HeavyHiggsSemi.hh"
+#include "heavyhiggs/tagger/JetPair.hh"
+#include "heavyhiggs/tagger/HeavyHiggsSemi.hh"
 
 #include "boca/generic/DEBUG_MACROS.hh"
 

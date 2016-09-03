@@ -1,6 +1,6 @@
 #include "boca/Event.hh"
 
-#include "include/tagger/EventNeutralFourTop.hh"
+#include "heavyhiggs/tagger/EventNeutralFourTop.hh"
 
 #include "boca/generic/DEBUG_MACROS.hh"
 

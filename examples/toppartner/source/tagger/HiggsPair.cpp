@@ -1,5 +1,5 @@
 #include "boca/generic/Exception.hh"
-#include "include/tagger/HiggsPair.hh"
+#include "toppartner/tagger/HiggsPair.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 

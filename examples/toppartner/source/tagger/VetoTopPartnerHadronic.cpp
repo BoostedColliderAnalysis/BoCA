@@ -2,8 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/multiplets/Particles.hh"
-#include "include/tagger/VetoTopPartnerHadronic.hh"
-#include "include/multiplets/Decuplet.hh"
+#include "toppartner/tagger/VetoTopPartnerHadronic.hh"
+#include "toppartner/multiplets/Decuplet.hh"
 // #define DEBUGGING
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"

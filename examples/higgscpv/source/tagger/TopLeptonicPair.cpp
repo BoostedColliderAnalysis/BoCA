@@ -6,7 +6,7 @@
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Exception.hh"
 
-#include "include/tagger/TopLeptonicPair.hh"
+#include "higgscpv/tagger/TopLeptonicPair.hh"
 
 #include "boca/generic/DEBUG_MACROS.hh"
 

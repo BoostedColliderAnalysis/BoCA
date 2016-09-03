@@ -3,7 +3,7 @@
  */
 #include "boost/range/algorithm/sort.hpp"
 
-#include "include/CutVariables.hh"
+#include "heavyhiggs/CutVariables.hh"
 
 #include "boca/generic/DEBUG_MACROS.hh"
 
