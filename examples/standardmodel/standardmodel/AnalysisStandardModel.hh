@@ -8,6 +8,7 @@
 
 /**
  * @brief Standard Model
+ * @ingroup Examples
  *
  */
 namespace standardmodel

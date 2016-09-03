@@ -3,24 +3,15 @@
  */
 #include <deque>
 
-#include "TApplication.h"
 #include "TFile.h"
-#include "TBrowser.h"
 
-class Browser : public TBrowser
-{
-public:
-    Browser() : TBrowser() {}
-    ~Browser() {
-        gApplication->Terminate();
-    }
-};
+#include "boca/io/Browser.hh"
 
 int main(int argc, char** argv)
 {
     auto files = std::deque<TFile>{};
     for (auto const & argument : std::vector<std::string>(argv + 1, argv + argc)) files.emplace_back(argument.c_str(), "read");
     TApplication application("Browser", &argc, argv);
-    Browser browser;
+    boca::Browser browser;
     application.Run();
 }

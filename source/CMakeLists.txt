@@ -3,10 +3,6 @@
 #
 add_include_path(${PROJECT_SOURCE_DIR})
 
-add_executable(root-browser Browser.cpp)
-target_link_libraries(root-browser ${ROOT_LIBRARIES})
-install (TARGETS root-browser DESTINATION "$ENV{HOME}/.bin")
-
 add_subdirectory(generic)
 add_subdirectory(fastjet)
 add_subdirectory(latex)
