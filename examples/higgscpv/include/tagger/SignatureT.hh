@@ -1,7 +1,7 @@
 #pragma once
 
-#include "boca/standardmodel/tagger/Higgs.hh"
-#include "boca/standardmodel/tagger/TopLeptonic.hh"
+#include "standardmodel/tagger/Higgs.hh"
+#include "standardmodel/tagger/TopLeptonic.hh"
 #include "boca/multiplets/Octet.hh"
 
 #include "include/MultipletSignature.hh"

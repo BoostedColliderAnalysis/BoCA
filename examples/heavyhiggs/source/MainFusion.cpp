@@ -10,11 +10,11 @@ void Run(boca::Output output = boca::Output::fast)
 
 int main()
 {
-    Run<boca::standardmodel::tagger::Bottom>();
-    Run<boca::standardmodel::tagger::WHadronic>();
-    Run<boca::standardmodel::tagger::WLeptonic>();
-    Run<boca::standardmodel::tagger::TopHadronic>();
-    Run<boca::standardmodel::tagger::TopLeptonic>();
+    Run<standardmodel::tagger::Bottom>();
+    Run<standardmodel::tagger::WHadronic>();
+    Run<standardmodel::tagger::WLeptonic>();
+    Run<standardmodel::tagger::TopHadronic>();
+    Run<standardmodel::tagger::TopLeptonic>();
     Run<heavyhiggs::tagger::HeavyHiggsSemi>();
     Run<heavyhiggs::tagger::EventFusion>(boca::Output::significance);
 }

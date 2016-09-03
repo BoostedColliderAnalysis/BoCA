@@ -300,7 +300,7 @@ long AnalysisBase::EventNumberMax(Stage stage) const
     }
 }
 
-int AnalysisBase::PassPreCut(const Event&, Tag) const
+int AnalysisBase::PassPreCut(Event const&, Tag) const
 {
     return 1;
 }

@@ -3,7 +3,7 @@
 #include "include/multiplets/Septet.hh"
 #include "include/tagger/TopPartnerLeptonicNeutral.hh"
 
-#include "boca/standardmodel/tagger/Higgs.hh"
+#include "standardmodel/tagger/Higgs.hh"
 
 namespace toppartner
 {

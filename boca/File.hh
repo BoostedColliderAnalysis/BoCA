@@ -21,9 +21,9 @@ class File
 
 public:
 
-    File(const std::vector< std::string >& processes, const std::string& base_path, const std::string& file_suffix, latex::String const& latex_name, const boca::Crosssection& crosssection = pb, const boca::Mass& mass = 0_eV);
+    File(const std::vector< std::string >& processes, const std::string& base_path, const std::string& file_suffix, latex::String const& latex_name, const boca::Crosssection& crosssection = pb, boca::Mass const& mass = 0_eV);
 
-    File(const std::vector< std::string >& processes, const std::string& base_path, const std::string& file_suffix, const boca::Names& nice_name, const boca::Crosssection& crosssection = pb, const boca::Mass& mass = 0_eV);
+    File(const std::vector< std::string >& processes, const std::string& base_path, const std::string& file_suffix, const boca::Names& nice_name, const boca::Crosssection& crosssection = pb, boca::Mass const& mass = 0_eV);
 
     std::string Title() const;
 

@@ -3,7 +3,7 @@
 #include "boca/multivariant/Reader.hh"
 #include "boca/branch/Global.hh"
 #include "boca/multiplets/GlobalObservables.hh"
-#include "boca/standardmodel/tagger/Bottom.hh"
+#include "boca/tagger/Tagger.hh"
 
 namespace boca
 {
@@ -30,8 +30,6 @@ public:
     std::string Name() const override;
 
 private:
-
-    Reader<standardmodel::tagger::Bottom> bottom_reader_;
 
 };
 

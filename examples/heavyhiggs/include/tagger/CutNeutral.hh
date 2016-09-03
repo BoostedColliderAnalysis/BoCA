@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/tagger/Tagger.hh"
-#include "boca/standardmodel/tagger/Bottom.hh"
+#include "standardmodel/tagger/Bottom.hh"
 #include "boca/multivariant/Reader.hh"
 
 #include "include/CutVariables.hh"

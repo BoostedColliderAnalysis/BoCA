@@ -5,7 +5,8 @@
 
 #include "boca/multiplets/Sextet.hh"
 
-namespace boca {
+namespace boca
+{
 
 class Quartet22;
 class Particle;
@@ -15,17 +16,18 @@ class Particle;
  * reconstructs two missing neutrino momenta
  *
  */
-class WimpMass {
+class WimpMass
+{
 
 public:
 
-    std::vector<boca::Sextet> Sextets(std::vector<Quartet22> const& quartets, Jet const& missing_et);
+    std::vector<boca::Sextet> Sextets(std::vector<Quartet22> const &quartets, Jet const &missing_et);
 
-    std::vector<boca::Sextet> Sextet(Quartet22 const& quartet, Jet const& missing_et,std::vector<Particle> const& neutrinos, Tag tag);
+    std::vector<boca::Sextet> Sextet(Quartet22 const &quartet, Jet const &missing_et, std::vector<Particle> const &neutrinos, Tag tag);
 
-    std::vector<boca::Sextet> Sextets(Quartet22 const& quartet, Jet const& missing_et);
+    std::vector<boca::Sextet> Sextets(Quartet22 const &quartet, Jet const &missing_et);
 
-    boca::Sextet Fake(boca::Quartet22 const& quartet) const;
+    boca::Sextet Fake(boca::Quartet22 const &quartet) const;
 
 private:
 

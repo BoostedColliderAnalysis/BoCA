@@ -47,7 +47,7 @@ public:
         return branch_;
     }
 
-    int SaveBdt(const Event& event, const PreCuts& pre_cuts, TMVA::Reader const& reader) override {
+    int SaveBdt(Event const& event, const PreCuts& pre_cuts, TMVA::Reader const& reader) override {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 

@@ -22,7 +22,7 @@ ClosestLepton::ClosestLepton(const Jet& jet, const std::vector<Lepton>& leptons)
     AddLeptons(leptons);
 }
 
-ClosestLepton::ClosestLepton(const Jet& jet, const Event& event)
+ClosestLepton::ClosestLepton(const Jet& jet, Event const& event)
 {
     INFO0;
     SetJet(jet);

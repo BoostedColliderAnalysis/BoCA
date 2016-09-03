@@ -42,5 +42,3 @@ WimpMass.cpp
 File.cpp
 )
 create_library(Boca boca_sources)
-
-add_subdirectory(standardmodel)

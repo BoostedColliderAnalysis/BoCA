@@ -10,6 +10,6 @@ void Run(boca::Output output)
 
 int main()
 {
-    Run<boca::standardmodel::tagger::Bottom>(boca::Output::fast);
+    Run<standardmodel::tagger::Bottom>(boca::Output::fast);
     Run<heavyhiggs::tagger::CutNeutral>(boca::Output::cut);
 }

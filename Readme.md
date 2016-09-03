@@ -1,4 +1,4 @@
-# Readme
+# Readme {#mainpage}
 
 This code performs staged BDT analyses using root files as in- and output format.
 

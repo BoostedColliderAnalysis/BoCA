@@ -52,7 +52,7 @@ public:
 
     void SetSecondChain(boca::LorentzVector<boca::Momentum> const& first, boca::LorentzVector<boca::Momentum> const& second);
 
-    std::vector<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solve(const boca::Mass& heavy, const boca::Mass& light, boca::Mass const& invisible);
+    std::vector<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solve(boca::Mass const& heavy, boca::Mass const& light, boca::Mass const& invisible);
 
     struct event22 {
         double p3[4], p4[4], p5[4], p6[4];

@@ -19,7 +19,7 @@ public:
 
     void SetJetNumber(int jet_number);
     void SetBottomNumber(int bottom_number);
-    void SetInvariantMass(const boca::Mass& invariant_mass);
+    void SetInvariantMass(boca::Mass const& invariant_mass);
     void SetHt(const boca::Energy& ht);
     void SetEtMiss(const boca::Energy& et_miss);
     void SetBottomMinPt(Momentum const& bottom_min_pt);

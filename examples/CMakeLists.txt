@@ -1,3 +1,4 @@
+add_subdirectory(standardmodel)
 add_example(simple)
 add_example(heavyhiggs)
 add_example(higgscpv)

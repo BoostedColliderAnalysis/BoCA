@@ -47,7 +47,7 @@ public:
 
     void SetCrosssectionError(const boca::Crosssection& crosssection_error_);
 
-    void SetMass(const boca::Mass& mass_);
+    void SetMass(boca::Mass const& mass_);
 
     void SetEventNumber(int event_number);
 

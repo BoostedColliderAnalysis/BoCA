@@ -10,6 +10,6 @@ void Run(boca::Output output = boca::Output::fast)
 
 int main()
 {
-    Run<boca::standardmodel::tagger::Bottom>();
+    Run<standardmodel::tagger::Bottom>();
     Run<heavyhiggs::tagger::JetPair>(boca::Output::efficiency);
 }

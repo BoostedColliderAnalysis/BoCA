@@ -6,8 +6,8 @@
 #include <functional>
 
 #include "boca/multiplets/Quintet.hh"
-#include "boca/standardmodel/tagger/TopHadronic.hh"
-#include "boca/standardmodel/tagger/Higgs.hh"
+#include "standardmodel/tagger/TopHadronic.hh"
+#include "standardmodel/tagger/Higgs.hh"
 
 #include "include/tagger/TopPartnerLeptonicNeutral.hh"
 

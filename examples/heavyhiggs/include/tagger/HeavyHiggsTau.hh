@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/standardmodel/tagger/Tau.hh"
+#include "standardmodel/tagger/Tau.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/multivariant/Reader.hh"
 

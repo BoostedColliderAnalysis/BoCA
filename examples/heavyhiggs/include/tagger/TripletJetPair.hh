@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/multiplets/Quartet.hh"
-#include "boca/standardmodel/tagger/TopHadronic.hh"
+#include "standardmodel/tagger/TopHadronic.hh"
 
 #include "include/branch/TripletJetPair.hh"
 

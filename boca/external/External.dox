@@ -1,3 +1,4 @@
 /**
  * @defgroup External External libraries
+ * @brief extrnal libraries which can not be expected to be present in a repository
  */

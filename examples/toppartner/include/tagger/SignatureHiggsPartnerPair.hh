@@ -5,7 +5,7 @@
 
 #include <functional>
 
-#include "boca/standardmodel/tagger/Higgs.hh"
+#include "standardmodel/tagger/Higgs.hh"
 
 #include "include/branch/SignatureSingleHadronic.hh"
 #include "include/tagger/TopPartnerHadronicNeutral.hh"

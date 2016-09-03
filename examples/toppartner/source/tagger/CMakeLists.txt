@@ -12,6 +12,7 @@ TopPartnerTopPair.cpp
 SignatureSingleLeptonic.cpp
 SignatureSingleHadronic.cpp
 SignatureEffective.cpp
+SignatureSubDom.cpp
 VetoTopPartnerLeptonic.cpp
 VetoTopPartnerHadronic.cpp
 EventSingleLeptonic.cpp

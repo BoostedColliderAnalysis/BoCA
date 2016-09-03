@@ -15,12 +15,12 @@ namespace boca
 
 GlobalObservables::GlobalObservables() {}
 
-GlobalObservables::GlobalObservables(const Event& event)
+GlobalObservables::GlobalObservables(Event const& event)
 {
     SetEvent(event);
 }
 
-GlobalObservables::GlobalObservables(const Event& event, const std::vector<boca::Jet>& jets)
+GlobalObservables::GlobalObservables(Event const& event, const std::vector<boca::Jet>& jets)
 {
     SetEvent(event, jets);
 }

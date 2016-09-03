@@ -1,3 +1,5 @@
 /**
  * @defgroup Examples Examples and Projects
+ * @brief a simple example of how to use the BoCA library, as well as some projects which are based on the BoCA library.
+ *
  */
