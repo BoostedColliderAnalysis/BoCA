@@ -1,8 +1,9 @@
 #pragma once
 
+#include "boca/multiplets/Quintet.hh"
+
 #include "standardmodel/tagger/TopLeptonic.hh"
 #include "standardmodel/tagger/Boson.hh"
-#include "boca/multiplets/Quintet.hh"
 
 #include "toppartner/branch/TopPartner.hh"
 

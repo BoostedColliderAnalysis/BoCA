@@ -1,9 +1,9 @@
-#include "include/Analysis.hh"
-#include "include/Tagger.hh"
+#include "tthh/Analysis.hh"
+#include "tthh/Tagger.hh"
 
 int main(){
 //   Analysis<boca::standardmodel::tagger::Bottom> bottom;
 //   bottom.Run(boca::Output::normal);
-  Analysis<Tagger> global;
+  tthh::Analysis<tthh::Tagger> global;
   global.Run(boca::Output::efficiency);
 }

@@ -1,7 +1,7 @@
-create_dictionary(Branchtthh Branch.cpp Branch.hh LinkDef.hh include)
+create_dictionary(Branchtthh Branch.cpp Branch.hh LinkDef.hh tthh)
 
 set(tthhFiles Tagger.cpp Observables.cpp)
 
-create_library(tthh CutFiles)
+create_library(tthh tthhFiles)
 
 create_executable(tthhAnalysis MainCut.cpp)

@@ -2,9 +2,10 @@
 
 #include "boca/branch/ThreeBody.hh"
 
+#include "standardmodel/tagger/Higgs.hh"
+
 #include "toppartner/tagger/TopPartnerLeptonic.hh"
 #include "toppartner/tagger/TopPartnerHadronic.hh"
-#include "standardmodel/tagger/Higgs.hh"
 #include "toppartner/multiplets/Duodecuplet.hh"
 
 namespace toppartner

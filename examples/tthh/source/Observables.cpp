@@ -9,7 +9,9 @@
 #include "boca/generic/Vector.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
-#include "include/Observables.hh"
+#include "tthh/Observables.hh"
+
+namespace tthh {
 
 Observables::Observables() {}
 
@@ -162,4 +164,6 @@ std::vector< boca::Jet > Observables::Constituents() const
 std::vector< boca::LorentzVector< boca::Momentum > > Observables::LorentzVectors() const
 {
     return {};
+}
+
 }

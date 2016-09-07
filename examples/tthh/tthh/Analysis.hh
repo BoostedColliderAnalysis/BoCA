@@ -2,13 +2,15 @@
 
 #include "boca/analysis/Analysis.hh"
 
+namespace tthh {
+
 template<typename Tagger_>
 class Analysis : public boca::Analysis<Tagger_>
 {
 
 public:
 
-    void SetFiles(boca::Tag tag, boca::Stage)
+    void SetFiles(boca::Tag tag, boca::Stage) override
     {
         switch (tag) {
         case boca::Tag::signal :
@@ -27,9 +29,11 @@ public:
         return 1000;
     }
 
-    std::string AnalysisName() const
+    std::string AnalysisName() const override
     {
         return "SimpleAnalysis";
     }
 
 };
+
+}

@@ -1,5 +1,7 @@
-#include "boca/SignatureHiggsPartnerPair.hh"
 #include "boca/generic/Exception.hh"
+
+#include "toppartner/tagger/SignatureHiggsPartnerPair.hh"
+
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 

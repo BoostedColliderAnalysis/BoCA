@@ -3,8 +3,9 @@
  */;
 #include "boca/OBSERVABLE_MACROS.hh"
 
-#include "include/Branch.hh"
+#include "tthh/Branch.hh"
 
+namespace tthh {
 
 Branch::Branch()
 {
@@ -26,4 +27,6 @@ boca::Observables Branch::Variables()
 boca::Observables Branch::Spectators()
 {
     return boca::branch::Bdt::Spectators();
+}
+
 }

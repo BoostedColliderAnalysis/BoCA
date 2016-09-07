@@ -6,7 +6,12 @@
 #include "boca/physics/Prefixes.hh"
 #include "boca/branch/Bdt.hh"
 #include "boca/Observables.hh"
-;
+
+/**
+* @brief tthh Analysis
+*
+*/
+namespace tthh {
 
 class Branch :  public boca::branch::Bdt
 {
@@ -45,3 +50,5 @@ public:
 private:
     ClassDef(Branch, 1)
 };
+
+}

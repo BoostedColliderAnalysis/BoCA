@@ -1,6 +1,7 @@
 #pragma once
 
 #include "boca/multiplets/Octet.hh"
+
 #include "standardmodel/tagger/TopHadronic.hh"
 
 #include "toppartner/tagger/TopPartnerLeptonicNeutral.hh"

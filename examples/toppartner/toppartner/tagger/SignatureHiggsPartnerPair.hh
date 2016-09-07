@@ -10,7 +10,7 @@
 #include "toppartner/branch/SignatureSingleHadronic.hh"
 #include "toppartner/tagger/TopPartnerHadronicNeutral.hh"
 #include "toppartner/tagger/TopPartnerLeptonicNeutral.hh"
-#include "toppartner/multiplets//Duodecuplet.hh"
+#include "toppartner/multiplets/Duodecuplet.hh"
 
 namespace toppartner
 {

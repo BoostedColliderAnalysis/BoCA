@@ -6,6 +6,7 @@
 #include <functional>
 
 #include "boca/multiplets/Quintet.hh"
+
 #include "standardmodel/tagger/TopLeptonic.hh"
 #include "standardmodel/tagger/Higgs.hh"
 

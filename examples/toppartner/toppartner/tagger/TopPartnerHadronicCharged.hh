@@ -1,7 +1,8 @@
 #pragma once
 
-#include "standardmodel/tagger/TopHadronic.hh"
 #include "boca/multiplets/Quintet.hh"
+
+#include "standardmodel/tagger/TopHadronic.hh"
 
 namespace toppartner
 {

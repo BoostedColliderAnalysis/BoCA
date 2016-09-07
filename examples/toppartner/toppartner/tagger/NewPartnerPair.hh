@@ -4,7 +4,6 @@
 #include "toppartner/tagger/NewPartnerLeptonic.hh"
 #include "toppartner/multiplets/Decuplet.hh"
 
-
 namespace toppartner
 {
 

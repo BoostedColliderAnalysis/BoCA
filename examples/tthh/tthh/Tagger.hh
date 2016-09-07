@@ -2,8 +2,10 @@
 
 #include "boca/tagger/Tagger.hh"
 
-#include "include/Observables.hh"
-#include "include/Branch.hh"
+#include "tthh/Observables.hh"
+#include "tthh/Branch.hh"
+
+namespace tthh {
 
 class Tagger : public boca::Tagger<Observables, Branch>
 {
@@ -19,3 +21,5 @@ public:
     std::string Name() const override;
 
 };
+
+}

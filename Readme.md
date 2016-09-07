@@ -6,7 +6,7 @@ This code performs staged BDT analyses using root files as in- and output format
 
 * [`ROOT`](https://root.cern.ch/) version >= 6 and compiled with [`TMVA`](http://tmva.sourceforge.net/) and [`MathMore`](https://root.cern.ch/mathmore-library)
 * [`fastjet`](http://fastjet.fr/)
-* [`fastjet contrib`](https://fastjet.hepforge.org/contrib/) (must be compiled with `CXXFLAGS=-fPIC`)
+* [`fastjet contrib`](https://fastjet.hepforge.org/contrib/) (must be compiled with `CXXFLAGS=-f[PIC](https://en.wikipedia.org/wiki/Position-independent_code)`)
 * [`Boost`](http://www.boost.org/) ([`Optional`](http://www.boost.org/doc/libs/release/libs/optional/), [`Range`](http://www.boost.org/doc/libs/release/libs/range/), [`Units`](http://www.boost.org/doc/libs/release/libs/units/))
 
 The BoCA code makes heavy use of modern C++ features.

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "boca/multiplets/Quartet.hh"
+
 #include "standardmodel/tagger/Higgs.hh"
 
 #include "boca/branch/Multi.hh"
