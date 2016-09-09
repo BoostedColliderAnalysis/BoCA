@@ -39,7 +39,7 @@ public:
 
     Angle Phi() const;
 
-    Vector2<Angle> Angles() const;
+    Vector2<Angle> Angles(bool wrap_phi = false) const;
 
     Vector2<Angle> Angles(Vector2<Angle> const &angles) const;
 

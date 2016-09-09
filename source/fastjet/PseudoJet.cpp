@@ -119,18 +119,16 @@ Vector2< Angle > PseudoJet::DeltaTo(const PseudoJet& jet) const
     return {DeltaRapTo(jet), DeltaPhiTo(jet)};
 }
 
-Vector2< Angle > PseudoJet::Angles() const
+Vector2< Angle > PseudoJet::Angles(bool wrap_phi) const
 {
-    return {Rap(), Phi()};
+    return {Rap(), wrap_phi ? Wrap(Phi()) : Phi()};
 }
 
 Vector2<Angle> PseudoJet::Angles(Vector2<Angle> const& angles) const
 {
-    auto phi = Phi();
-    auto angles_1 = Vector2<Angle>{Rap(), phi};
+    auto angles_1 = Angles(false);
     auto distance_1 = (angles - angles_1).Mod2();
-    phi = Wrap(phi);
-    auto angles_2 = Vector2<Angle>{Rap(), phi};
+    auto angles_2 = Angles(true);
     auto distance_2 = (angles - angles_2).Mod2();
     return distance_2 < distance_1 ? angles_2 : angles_1;
 }

@@ -48,9 +48,9 @@ Angle Multiplet::Phi() const
     return Jet().Phi();
 }
 
-Vector2< Angle > Multiplet::Angles() const
+Vector2< Angle > Multiplet::Angles(bool wrap_phi) const
 {
-    return Jet().Angles();
+    return Jet().Angles(wrap_phi);
 
 }
 
