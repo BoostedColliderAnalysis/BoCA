@@ -127,10 +127,8 @@ Vector2< Angle > PseudoJet::Angles(bool wrap_phi) const
 Vector2<Angle> PseudoJet::Angles(Vector2<Angle> const& angles) const
 {
     auto angles_1 = Angles(false);
-    auto distance_1 = (angles - angles_1).Mod2();
     auto angles_2 = Angles(true);
-    auto distance_2 = (angles - angles_2).Mod2();
-    return distance_2 < distance_1 ? angles_2 : angles_1;
+    return (angles - angles_1) < (angles - angles_2)  ?  angles_1 : angles_2;
 }
 
 MomentumSquare PseudoJet::ModP2() const
