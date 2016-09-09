@@ -24,8 +24,8 @@ namespace boca
 
 // For generic types, directly use the result of the signature of its 'operator()'
 template <typename Function_>
-struct function_traits : public function_traits<decltype(&Function_::operator())>
-{};
+struct function_traits : public function_traits<decltype(&Function_::operator())> {
+};
 
 // we specialize for pointers to member function
 template <typename Class_, typename Result_, typename... Arguments_>
@@ -42,10 +42,10 @@ struct function_traits<Result_(Class_::*)(Arguments_...) const> {
 };
 
 template <typename Input_, typename Function_>
-auto Transform(Input_ const& inputs, Function_ function)
+auto Transform(Input_ const &inputs, Function_ function)
 {
     using Result_ = typename function_traits<decltype(function)>::result_type;
-    auto results = std::vector<Result_>{};
+    auto results = std::vector<Result_> {};
     if (inputs.empty()) return results;
     results.reserve(inputs.size());
     boost::range::transform(inputs, std::back_inserter(results), function);
@@ -54,23 +54,23 @@ auto Transform(Input_ const& inputs, Function_ function)
 }
 
 template<typename Result_, typename Input_, typename Function_>
-std::vector<Result_> TransformIf(Input_ const& inputs, Function_ const& function_1, Function_ const& function_2)
+std::vector<Result_> TransformIf(Input_ const &inputs, Function_ const &function_1, Function_ const &function_2)
 {
-    auto results = std::vector<Result_>{};
+    auto results = std::vector<Result_> {};
     if (inputs.empty()) return results;
     boost::range::push_back(results, inputs | boost::adaptors::filtered(function_1) | boost::adaptors::transformed(function_2));
     return results;
 }
 
 template<typename Elements_, typename Function_>
-std::vector<Elements_> CopyIf(std::vector<Elements_> const& inputs, Function_ function)
+std::vector<Elements_> CopyIf(std::vector<Elements_> const &inputs, Function_ function)
 {
     std::vector<Elements_> results;
     return inputs.empty() ? results : boost::range::push_back(results, inputs | boost::adaptors::filtered(std::ref(function))); // http://stackoverflow.com/a/25907302
 }
 
 template <typename Multiplet_>
-std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Momentum const& lower_cut, Momentum const& upper_cut)
+std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Momentum const &lower_cut, Momentum const &upper_cut)
 {
     return boost::range::remove_erase_if(jets, [lower_cut, upper_cut](Multiplet_ const & jet) {
         return jet.Pt() < lower_cut || jet.Pt() > upper_cut;
@@ -82,7 +82,7 @@ std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Mo
  *
  */
 template<typename Multiplet_>
-std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, double value = 0)
+std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const &multiplets, double value = 0)
 {
     return CopyIf(multiplets, [value](Multiplet_ const & multiplet) {
         return multiplet.Bdt() > value;
@@ -90,7 +90,7 @@ std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, dou
 }
 
 template<typename Multiplet_>
-std::vector<Multiplet_> RemoveIfSoft(std::vector<Multiplet_> multiplets, Momentum const& pt_min)
+std::vector<Multiplet_> RemoveIfSoft(std::vector<Multiplet_> multiplets, Momentum const &pt_min)
 {
     return boost::range::remove_erase_if(multiplets, [&](Multiplet_ const & multiplet) {
         return multiplet.Pt() < pt_min;
@@ -98,7 +98,7 @@ std::vector<Multiplet_> RemoveIfSoft(std::vector<Multiplet_> multiplets, Momentu
 }
 
 template<typename Multiplet_>
-std::vector<Multiplet_> RemoveIfHard(std::vector<Multiplet_> multiplets, Momentum const& pt_max)
+std::vector<Multiplet_> RemoveIfHard(std::vector<Multiplet_> multiplets, Momentum const &pt_max)
 {
     return boost::range::remove_erase_if(multiplets, [&](Multiplet_ const & multiplet) {
         return multiplet.Pt() > pt_max;
@@ -109,16 +109,17 @@ template <typename Multiplet_1_>
 class Close
 {
 public:
-    Close(Multiplet_1_ const& particle) :
+    Close(Multiplet_1_ const &particle) :
         particle_(particle) ,
         cone_size_(Settings::JetConeSize())
     {}
-    Close(Multiplet_1_ const& particle, Angle const& cone_size) :
+    Close(Multiplet_1_ const &particle, Angle const &cone_size) :
         particle_(particle) ,
         cone_size_(cone_size)
     {}
     template <typename Multiplet_2_>
-    bool operator()(Multiplet_2_ const& multiplet) {
+    bool operator()(Multiplet_2_ const &multiplet)
+    {
         return multiplet.DeltaRTo(particle_) < cone_size_;
     }
 private:
@@ -127,38 +128,38 @@ private:
 };
 
 template <typename Multiplet_1_, typename Multiplet_2_>
-std::vector<Multiplet_1_> RemoveIfClose(std::vector<Multiplet_1_> jets, std::vector<Multiplet_2_> const& particles)
+std::vector<Multiplet_1_> RemoveIfClose(std::vector<Multiplet_1_> jets, std::vector<Multiplet_2_> const &particles)
 {
-    for (auto const & particle : particles) jets = boost::range::remove_erase_if(jets, Close<Multiplet_2_>(particle));
+    for (auto const &particle : particles) jets = boost::range::remove_erase_if(jets, Close<Multiplet_2_>(particle));
     return jets;
 }
 
 template <typename Multiplet_1_, typename Multiplet_2_>
-bool CrossComparison(Multiplet_1_ const& multiplet, std::pair<Multiplet_2_, Multiplet_2_> const& particles)
+bool CrossComparison(Multiplet_1_ const &multiplet, std::pair<Multiplet_2_, Multiplet_2_> const &particles)
 {
     return (Close<Multiplet_2_>(particles.first)(multiplet.Multiplet1()) && Close<Multiplet_2_>(particles.second)(multiplet.Multiplet2())) || (Close<Multiplet_2_>(particles.first)(multiplet.Multiplet2()) && Close<Multiplet_2_>(particles.second)(multiplet.Multiplet1()));
 }
 
 template <typename Multiplet_1_, typename Multiplet_2_>
-std::vector<Multiplet_1_> RemoveIfClose(std::vector<Multiplet_1_> jets, std::vector<std::pair<Multiplet_2_, Multiplet_2_>> const& particles)
+std::vector<Multiplet_1_> RemoveIfClose(std::vector<Multiplet_1_> jets, std::vector<std::pair<Multiplet_2_, Multiplet_2_>> const &particles)
 {
-    for (auto const & particle : particles) jets = boost::range::remove_erase_if(jets, [&](Multiplet_1_ const & multiplet) {
+    for (auto const &particle : particles) jets = boost::range::remove_erase_if(jets, [&](Multiplet_1_ const & multiplet) {
         return CrossComparison(multiplet, particle);
     });
     return jets;
 }
 
 template <typename Multiplet_1_, typename Multiplet_2_>
-std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplets, std::vector<Multiplet_2_> const& particles)
+std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const &multiplets, std::vector<Multiplet_2_> const &particles)
 {
     if (multiplets.empty()) return multiplets;
-    auto close_multiplets = std::vector<Multiplet_1_>{};
-    for (auto const & particle : particles) Insert(close_multiplets, CopyIfClose(multiplets, particle));
+    auto close_multiplets = std::vector<Multiplet_1_> {};
+    for (auto const &particle : particles) Insert(close_multiplets, CopyIfClose(multiplets, particle));
     return close_multiplets;
 }
 
 template <typename Multiplet_1_, typename Multiplet_2_>
-std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplets, Multiplet_2_ const& particle)
+std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const &multiplets, Multiplet_2_ const &particle)
 {
     return CopyIf(multiplets, [&](Multiplet_1_ const & multiplet) {
         return Close<Multiplet_2_>(particle)(multiplet);
@@ -166,7 +167,7 @@ std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplet
 }
 
 template <typename Multiplet_1_, typename Multiplet_2_>
-std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplets, std::pair<Multiplet_2_, Multiplet_2_> const& particle)
+std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const &multiplets, std::pair<Multiplet_2_, Multiplet_2_> const &particle)
 {
     return CopyIf(multiplets, [&](Multiplet_1_ const & multiplet) {
         return CrossComparison(multiplet, particle);
@@ -183,13 +184,13 @@ std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplet
 // }
 
 template <typename Element_>
-std::size_t Position(std::vector<Element_> const& vector, Element_ const& element)
+std::size_t Position(std::vector<Element_> const &vector, Element_ const &element)
 {
     return std::addressof(element) - vector.data();
 }
 
 template <typename Element_>
-int Position(std::array<Element_, 3> const& vector, Element_ const& element)
+int Position(std::array<Element_, 3> const &vector, Element_ const &element)
 {
     return std::addressof(element) - vector.data();
 }
@@ -202,7 +203,7 @@ bool FindInVector(const std::vector<Element_> vector, const Element_ element)
 }
 
 template <typename Multiplet_1_, typename Multiplet_2_>
-Multiplet_1_ ClosestJet(std::vector<Multiplet_1_> const& multiplets, Multiplet_2_ const& multiplet)
+Multiplet_1_ ClosestJet(std::vector<Multiplet_1_> const &multiplets, Multiplet_2_ const &multiplet)
 {
     return *boost::range::min_element(multiplets, [&](Multiplet_1_ const & multiplet_1, Multiplet_1_ const & multiplet_2) {
         return multiplet.DeltaRTo(multiplet_1) < multiplet.DeltaRTo(multiplet_2);
@@ -214,9 +215,9 @@ Multiplet_1_ ClosestJet(std::vector<Multiplet_1_> const& multiplets, Multiplet_2
  *
  */
 template <typename Element_>
-std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2)
+std::vector<Element_> Combine(std::vector<Element_> const &vector_1, std::vector<Element_> const &vector_2)
 {
-    auto combined = std::vector<Element_>{};
+    auto combined = std::vector<Element_> {};
     combined.reserve(vector_1.size() + vector_2.size());
     if (!vector_1.empty()) combined.insert(combined.end(), vector_1.begin(), vector_1.end());
     if (!vector_2.empty()) combined.insert(combined.end(), vector_2.begin(), vector_2.end());
@@ -228,9 +229,9 @@ std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector
  *
  */
 template <typename Element_>
-std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
+std::vector<Element_> Combine(std::vector<Element_> const &vector_1, std::vector<Element_> const &vector_2, std::vector<Element_> const &vector_3)
 {
-    auto combined = std::vector<Element_>{};
+    auto combined = std::vector<Element_> {};
     combined.reserve(vector_1.size() + vector_2.size() + vector_3.size());
     if (!vector_1.empty()) combined.insert(combined.end(), vector_1.begin(), vector_1.end());
     if (!vector_2.empty()) combined.insert(combined.end(), vector_2.begin(), vector_2.end());
@@ -243,7 +244,7 @@ std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector
  *
  */
 template <typename Element_>
-void Insert(std::vector<Element_>& vector_1, std::vector<Element_> const& vector_2)
+void Insert(std::vector<Element_> &vector_1, std::vector<Element_> const &vector_2)
 {
     if (!vector_2.empty()) vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
 }
@@ -253,7 +254,7 @@ void Insert(std::vector<Element_>& vector_1, std::vector<Element_> const& vector
  *
  */
 template <typename Element_>
-void Insert(std::vector<Element_>& vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
+void Insert(std::vector<Element_> &vector_1, std::vector<Element_> const &vector_2, std::vector<Element_> const &vector_3)
 {
     if (!vector_2.empty()) vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
     if (!vector_3.empty()) vector_1.insert(vector_1.end(), vector_3.begin(), vector_3.end());
@@ -264,19 +265,19 @@ void Insert(std::vector<Element_>& vector_1, std::vector<Element_> const& vector
  *
  */
 template < typename Element_,
-         typename Function,
-         typename Result = typename std::result_of<Function&(Element_, Element_)>::type >
-auto OrderedPairs(std::vector<Element_> const& container, Function function)
+           typename Function,
+           typename Result = typename std::result_of<Function&(Element_, Element_)>::type >
+auto OrderedPairs(std::vector<Element_> const &container, Function function)
 {
-    auto results = std::vector<Result>{};
+    auto results = std::vector<Result> {};
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2) {
             try {
                 results.emplace_back(function(*element_1, *element_2));
-            } catch (std::exception const&) {}
+            } catch (std::exception const &) {}
             try {
                 results.emplace_back(function(*element_2, *element_1));
-            } catch (std::exception const&) {}
+            } catch (std::exception const &) {}
         }
     }
     return results;
@@ -287,14 +288,14 @@ auto OrderedPairs(std::vector<Element_> const& container, Function function)
  *
  */
 template < typename Element_, typename Function_, typename Result_ = typename std::result_of<Function_&(Element_, Element_)>::type >
-auto UnorderedPairs(std::vector<Element_> const& container, Function_ function)
+auto UnorderedPairs(std::vector<Element_> const &container, Function_ function)
 {
-    auto results = std::vector<Result_>{};
+    auto results = std::vector<Result_> {};
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2)
             try {
                 results.emplace_back(function(*element_1, *element_2));
-            } catch (std::exception const&) {}
+            } catch (std::exception const &) {}
     }
     return results;
 }
@@ -304,56 +305,59 @@ auto UnorderedPairs(std::vector<Element_> const& container, Function_ function)
  *
  */
 template < typename Element_1_, typename Element_2_, typename Function_, typename Result_ = typename std::result_of<Function_&(Element_1_, Element_2_)>::type >
-auto Pairs(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, Function_ function)
+auto Pairs(std::vector<Element_1_> const &container_1, std::vector<Element_2_> const &container_2, Function_ function)
 {
-    auto results = std::vector<Result_>{};
-    for (auto const & element_1 : container_1) {
-        for (auto const & element_2 : container_2) {
+    auto results = std::vector<Result_> {};
+    for (auto const &element_1 : container_1) {
+        for (auto const &element_2 : container_2) {
             try {
                 results.emplace_back(function(element_1, element_2));
-            } catch (std::exception const&) {}
+            } catch (std::exception const &) {}
         }
     }
     return results;
 }
 
-template < typename Element_1_, typename Element_2_, typename Function_, typename Result_ = typename std::result_of<Function_&(Element_1_, Element_1_, Element_2_)>::type >
+template < typename Element_1_,
+           typename Element_2_,
+           typename Function_,
+           typename Result_ = typename std::result_of<Function_&(Element_1_, Element_1_, Element_2_)>::type >
 /**
  * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
  *
  */
-auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, Function_ function)
+auto Triples(std::vector<Element_1_> const &container_1, std::vector<Element_2_> const &container_2, Function_ function)
 {
-    auto results = std::vector<Result_>{};
+    auto results = std::vector<Result_> {};
     for (auto element_1 = container_1.begin(); element_1 != container_1.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container_1.end(); ++element_2)
-            for (auto & element_3 : container_2) {
+            for (auto &element_3 : container_2) {
                 try {
                     results.emplace_back(function(*element_1, *element_2, element_3));
-                } catch (std::exception const&) {}
+                } catch (std::exception const &) {}
             }
     }
     return results;
 }
 
 template < typename Element_1_,
-         typename Element_2_,
-         typename Element_3_,
-         typename Function_,
-         typename Result_ = typename std::result_of<Function_&(Element_1_, Element_2_, Element_3_)>::type >
+           typename Element_2_,
+           typename Element_3_,
+           typename Function_,
+           typename Result_ = typename std::result_of<Function_&(Element_1_, Element_2_, Element_3_)>::type >
 /**
  * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
  *
  */
-auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, std::vector<Element_3_> const& container_3, Function_ function)
+auto Triples(std::vector<Element_1_> const &container_1, std::vector<Element_2_> const &container_2, std::vector<Element_3_> const &container_3, Function_ function)
 {
-    auto results = std::vector<Result_>{};
-    for (auto const & element_1 : container_1) {
-        for (auto const & element_2 : container_2) {
-            for (auto const & element_3 : container_3) {
+    auto results = std::vector<Result_> {};
+    for (auto const &element_1 : container_1) {
+        for (auto const &element_2 : container_2) {
+            for (auto const &element_3 : container_3) {
                 try {
                     results.emplace_back(function(element_1, element_2, element_3));
-                } catch (std::exception const&) {}
+                } catch (std::exception const &) {}
             }
         }
     }
@@ -361,31 +365,31 @@ auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_>
 }
 
 template < typename Element_1_,
-         typename Element_2_,
-         typename Element_3_,
-         typename Function_1_,
-         typename Function_2_,
-         typename Result_1_ = typename std::result_of<Function_1_&(Element_1_, Element_2_)>::type,
-         typename Result_2_ = typename std::result_of<Function_2_&(Result_1_, Element_3_)>::type >
+           typename Element_2_,
+           typename Element_3_,
+           typename Function_1_,
+           typename Function_2_,
+           typename Result_1_ = typename std::result_of<Function_1_&(Element_1_, Element_2_)>::type,
+           typename Result_2_ = typename std::result_of<Function_2_&(Result_1_, Element_3_)>::type >
 /**
  * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
  *
  */
-auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, std::vector<Element_3_> const& container_3, Function_1_ function_1, Function_2_ function_2)
+auto Triples(std::vector<Element_1_> const &container_1, std::vector<Element_2_> const &container_2, std::vector<Element_3_> const &container_3, Function_1_ function_1, Function_2_ function_2)
 {
-    auto results = std::vector<Result_2_>{};
-    for (auto const & element_1 : container_1) {
-        for (auto const & element_2 : container_2) {
+    auto results = std::vector<Result_2_> {};
+    for (auto const &element_1 : container_1) {
+        for (auto const &element_2 : container_2) {
             Result_1_ pair;
             try {
                 pair = function_1(element_1, element_2);
-            } catch (std::exception const&) {
+            } catch (std::exception const &) {
                 continue;
             }
-            for (auto const & element_3 : container_3) {
+            for (auto const &element_3 : container_3) {
                 try {
                     results.emplace_back(function_2(pair, element_3));
-                } catch (std::exception const&) {}
+                } catch (std::exception const &) {}
             }
         }
     }

@@ -23,14 +23,14 @@ class Event : public Tagger<EventMultiplet<Multiplet_>, Branch_>
 
 public:
 
-    int Train(boca::Event const& event, PreCuts const& pre_cuts, Tag tag) override {
+    int Train(boca::Event const& event, PreCuts const& , Tag tag) override {
         return Tagger_::SaveEntries(Events(event, [&](boca::EventMultiplet<Multiplet_>& event_multiplet) {
             event_multiplet.SetTag(tag);
             return event_multiplet;
         }), tag);
     }
 
-    std::vector<EventMultiplet<Multiplet_>> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override {
+    std::vector<EventMultiplet<Multiplet_>> Multiplets(boca::Event const& event, PreCuts const& , TMVA::Reader const& reader) override {
         return Tagger_::ReduceResult(Events(event, [&](boca::EventMultiplet<Multiplet_>& event_multiplet) {
             event_multiplet.SetBdt(Tagger_::Bdt(event_multiplet, reader));
             return event_multiplet;

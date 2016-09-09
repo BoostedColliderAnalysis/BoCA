@@ -19,7 +19,7 @@ int EventT::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
-//     return SaveEntries(multipletevents, 1); //FIXME reanble this
+    return SaveEntries(multipletevents, 1); //FIXME reanble this
 }
 
 std::vector<EventMultiplet<Octet332>> EventT::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
@@ -30,10 +30,10 @@ std::vector<EventMultiplet<Octet332>> EventT::Multiplets(boca::Event const& even
     std::vector<EventMultiplet<Octet332>> multiplet_events;
     for (auto const & octet : octets) {
         EventMultiplet<Octet332> multiplet_event(octet.Multiplet(), event, jets);
-        //         multiplet_event.SetBdt(Bdt(multiplet_event, reader)); //FIXME reanble this
+                multiplet_event.SetBdt(Bdt(multiplet_event, reader)); //FIXME reanble this
         multiplet_events.emplace_back(multiplet_event);
     }
-    //     return ReduceResult(multiplet_events,1); //FIXME reanble this
+        return ReduceResult(multiplet_events,1); //FIXME reanble this
 }
 
 std::string EventT::Name() const

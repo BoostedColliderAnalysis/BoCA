@@ -17,11 +17,10 @@ namespace tagger
 int SignatureLeptonT::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
-    auto triplets = event.Leptons();
+    auto singlets = event.Leptons();
     if (tag == Tag::signal) {
-        auto leptons = Leptons(event);
-        triplets = BestMatches(triplets, leptons, tag);
-        DEBUG(triplets.size(), leptons.size());
+        singlets = BestMatches(singlets, Leptons(event), tag);
+        DEBUG(singlets.size());
     }
 
     auto doublets = higgs_reader_.Multiplets(event);
@@ -32,13 +31,13 @@ int SignatureLeptonT::Train(boca::Event const& event, boca::PreCuts const&, Tag 
         DEBUG(doublets.size(), higgses.size());
     }
 
-//     auto octets = Triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
-//         auto octet = Signature(triplet_1, triplet_2, doublet);
-//         octet.SetTag(tag);
-//         return octet;
-//     });
-//     DEBUG(octets.size());
-//     return SaveEntries(octets, 1);
+    auto octets = Triples(singlets, doublets, [&](Singlet const & triplet_1, Singlet const & triplet_2, Doublet const & doublet) {
+        auto octet = Signature(triplet_1, triplet_2, doublet);
+        octet.SetTag(tag);
+        return octet;
+    });
+    DEBUG(octets.size());
+    return SaveEntries(octets, 1);
 }
 
 std::vector<Particle>SignatureLeptonT::Leptons(boca::Event const& event) const
@@ -48,11 +47,20 @@ std::vector<Particle>SignatureLeptonT::Leptons(boca::Event const& event) const
     return CopyIfGrandMother(particles, Id::top);
 }
 
-MultipletSignature<Octet332> SignatureLeptonT::Signature(Triplet const& triplet_1, Triplet const& triplet_2, Doublet const& doublet) const
+MultipletSignature<Octet332> SignatureLeptonT::Signature(boca::Jet const& triplet_1, boca::Jet const& triplet_2, Doublet const& doublet) const
 {
     Octet332 octet;
-    if (boca::Jet(triplet_1.Jet() + doublet.Jet()).Mass() > boca::Jet(triplet_2.Jet() + doublet.Jet()).Mass()) octet.SetMultiplets(triplet_1, triplet_2, doublet);
-    else octet.SetMultiplets(triplet_2, triplet_1, doublet);
+    Triplet trip_1;
+    Triplet trip_2;
+
+    if (boca::Jet(triplet_1 + doublet.Jet()).Mass() > boca::Jet(triplet_2 + doublet.Jet()).Mass()) {
+        trip_1.Enforce(triplet_1);
+        trip_2.Enforce(triplet_2);
+    } else {
+        trip_1.Enforce(triplet_2);
+        trip_2.Enforce(triplet_1);
+    }
+        octet.SetMultiplets(trip_1, trip_2, doublet);
     if (octet.Overlap()) throw Overlap();
     return MultipletSignature<Octet332>(octet);
 }
@@ -62,15 +70,15 @@ std::vector<MultipletSignature<Octet332>> SignatureLeptonT::Multiplets(boca::Eve
     INFO0;
     auto doublets = higgs_reader_.Multiplets(event);
     INFO(doublets.size());
-    auto triplets = event.Leptons();
-    INFO(triplets.size());
-//     std::vector<MultipletSignature<Octet332>> octets = Triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
-//         auto octet = Signature(triplet_1, triplet_2, doublet);
-//         octet.SetBdt(Bdt(octet, reader));
-//         return octet;
-//     });
-//     DEBUG(octets.size());
-//     return octets;
+    auto singlets = event.Leptons();
+    INFO(singlets.size());
+    std::vector<MultipletSignature<Octet332>> octets = Triples(singlets, doublets, [&](Singlet const & triplet_1, Singlet const & triplet_2, Doublet const & doublet) {
+        auto octet = Signature(triplet_1, triplet_2, doublet);
+        octet.SetBdt(Bdt(octet, reader));
+        return octet;
+    });
+    DEBUG(octets.size());
+    return octets;
 }
 
 std::string SignatureLeptonT::Name() const

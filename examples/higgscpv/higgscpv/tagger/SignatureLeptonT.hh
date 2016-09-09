@@ -34,7 +34,7 @@ public:
 
 private:
 
-    MultipletSignature<Octet332> Signature(boca::Triplet const& triplet_1, boca::Triplet const& triplet_2, boca::Doublet const& doublet) const;
+    MultipletSignature<Octet332> Signature(boca::Jet const& triplet_1, boca::Jet const& triplet_2, boca::Doublet const& doublet) const;
 
     Reader<standardmodel::tagger::Higgs> higgs_reader_;
 

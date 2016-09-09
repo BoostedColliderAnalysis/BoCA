@@ -2,7 +2,7 @@
 
 namespace tthh {
 
-int Tagger::Train(boca::Event const &event, boca::PreCuts const &pre_cuts, boca::Tag tag)
+int Tagger::Train(boca::Event const &event, boca::PreCuts const &, boca::Tag tag)
 {
     Observables observables(event);
     observables.SetTag(tag);
@@ -11,7 +11,7 @@ int Tagger::Train(boca::Event const &event, boca::PreCuts const &pre_cuts, boca:
 
 //     using boca::Tagger::Multiplets;
 
-std::vector<Observables> Tagger::Multiplets(boca::Event const &event, boca::PreCuts const &pre_cuts, TMVA::Reader const &reader)
+std::vector<Observables> Tagger::Multiplets(boca::Event const &event, boca::PreCuts const &, TMVA::Reader const &reader)
 {
     Observables observables(event);
     observables.SetBdt(Bdt(observables, reader));

@@ -23,7 +23,7 @@ public:
     Event();
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-//       boca::branch::Event::Fill(multiplet);
+      boca::branch::Event::Fill(multiplet);
     }
     Observables Variables();
     Observables Spectators();

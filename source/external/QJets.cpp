@@ -122,7 +122,7 @@ void QJets::Cluster(fastjet::ClusterSequence& cs)
     }
 
     extras->SetWeight(Omega);
-    cs.plugin_associate_extras(std::auto_ptr<fastjet::ClusterSequence::Extras>(extras));
+    cs.plugin_associate_extras(extras);
 
     // merge remaining jets with beam
     auto num_merged_final = 0;
