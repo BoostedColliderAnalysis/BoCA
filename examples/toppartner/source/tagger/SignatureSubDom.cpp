@@ -36,7 +36,7 @@ std::vector<Duodecuplet552> SignatureSubDom::Quattuordecuplets(boca::Event const
     auto hadronic = top_partner_hadronic_reader_.Multiplets(event, 8);
     auto leptonic = top_partner_leptonic_reader_.Multiplets(event, 8);
     auto higgses = higgs_reader_.Multiplets(event, 8);
-    auto signatures = Triples(hadronic, leptonic, higgses, [&](Quintet const & quintet_1, Quintet const & quintet_2) {
+    return  Triples(hadronic, leptonic, higgses, [&](Quintet const & quintet_1, Quintet const & quintet_2) {
         Decuplet55 decuplet(quintet_1, quintet_2);
         if (decuplet.Overlap()) throw Overlap();
         return decuplet;
@@ -46,7 +46,6 @@ std::vector<Duodecuplet552> SignatureSubDom::Quattuordecuplets(boca::Event const
         if (duodecuplet.Overlap()) throw Overlap();
         return function(duodecuplet);
     });
-    return signatures;
 }
 
 std::string SignatureSubDom::Name() const

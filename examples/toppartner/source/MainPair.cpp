@@ -19,6 +19,6 @@ int main()
     Run<toppartner::tagger::TopPartnerHadronicNeutral>();
     Run<toppartner::tagger::TopPartnerLeptonicNeutral>();
     Run<toppartner::tagger::TopPartnerPair>(boca::Output::significance);
-    Run<boca::tagger::Global>(boca::Output::significance);
+    Run<standardmodel::tagger::Global>(boca::Output::significance);
     Run<toppartner::tagger::EventPair>(boca::Output::significance);
 }

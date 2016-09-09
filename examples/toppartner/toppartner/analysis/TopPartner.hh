@@ -32,6 +32,11 @@ enum class Process
     tthBjj,
     ttBBjj,
     ttBB,
+    TTh,
+    ttWWW,
+    ttWWB,
+    ttWBB,
+    ttBBB,
     TThh,
     ttWWWW,
     ttWWWB,
@@ -65,11 +70,11 @@ public:
 
 protected:
 
-    auto Mass() const {
+    boca::Mass Mass() const {
         INFO0;
+        return 1_TeV;
         return 2_TeV;
         return 1.5_TeV;
-        return 1_TeV;
         return 500_GeV;
         return 8_TeV;
         return 4_TeV;
@@ -163,6 +168,11 @@ protected:
                 case 1000 : return 4.374e-07 * 2_pb;
                 case 1500 : return 6.82e-08 * 2_pb;
                 case 2000 : return 1.698e-08 * 2_pb;
+                    DEFAULT(Mass(), pb);
+                }
+            case Process::TTh :
+                switch (static_cast<int>(Mass() / GeV)) {
+                case 1000 : return 0.001309 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBB : return 0.03206 * 2_pb;

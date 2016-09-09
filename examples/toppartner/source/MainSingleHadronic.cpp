@@ -25,7 +25,7 @@ int main()
     Run<toppartner::tagger::TopPartnerLeptonicNeutral>(boca::Output::efficiency);
     Run<toppartner::tagger::VetoTopPartnerLeptonic>(boca::Output::efficiency);
     Run<toppartner::tagger::SignatureSingleHadronic>(boca::Output::significance);
-    Run<boca::tagger::Global>(boca::Output::significance);
+    Run<standardmodel::tagger::Global>(boca::Output::significance);
     Run<toppartner::tagger::EventSingleHadronic>(boca::Output::significance);
 //     Run<toppartner::tagger::CompleteSingleHadronic>(boca::Output::significance);
 }

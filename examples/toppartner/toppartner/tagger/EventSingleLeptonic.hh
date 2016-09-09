@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/tagger/Event.hh"
+#include "standardmodel/tagger/Event.hh"
 
 #include "toppartner/tagger/SignatureSingleLeptonic.hh"
 #include "toppartner/branch/Event.hh"
@@ -20,7 +20,7 @@ namespace tagger
  * @brief Prepares multivariant analysis
  *
  */
-class EventSingleLeptonic : public boca::tagger::Event<SignatureSingleLeptonic, Decuplet532, branch::Event>
+class EventSingleLeptonic : public standardmodel::tagger::Event<SignatureSingleLeptonic, Decuplet532, branch::Event>
 {
 
 public:

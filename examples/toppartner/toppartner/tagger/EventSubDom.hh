@@ -6,7 +6,7 @@
 #include "standardmodel/tagger/Event.hh"
 
 #include "toppartner/branch/Event.hh"
-#include "toppartner/tagger/SignatureEffective.hh"
+#include "toppartner/tagger/SignatureSubDom.hh"
 
 namespace toppartner
 {
@@ -19,7 +19,7 @@ namespace tagger
  * @brief Prepares multivariant analysis
  *
  */
-class EventEffective : public standardmodel::tagger::Event<SignatureEffective, Quattuordecuplet554, branch::Event>
+class EventSubDom : public standardmodel::tagger::Event<SignatureSubDom, Duodecuplet552, branch::Event>
 {
 
 public:

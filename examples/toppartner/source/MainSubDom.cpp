@@ -1,10 +1,10 @@
-#include "toppartner/analysis/Effective.hh"
-#include "toppartner/tagger/EventEffective.hh"
+#include "toppartner/analysis/SubDom.hh"
+#include "toppartner/tagger/EventSubDom.hh"
 
 template<typename Tagger_>
 void Run(boca::Output output = boca::Output::normal)
 {
-    toppartner::analysis::Effective<Tagger_> analysis;
+    toppartner::analysis::SubDom<Tagger_> analysis;
     analysis.Run(output);
 }
 
@@ -17,14 +17,9 @@ int main()
     Run<standardmodel::tagger::Boson>();
     Run<standardmodel::tagger::TopHadronic>();
     Run<standardmodel::tagger::TopLeptonic>();
-    Run<toppartner::tagger::HiggsPair>(boca::Output::efficiency);
     Run<toppartner::tagger::TopPartnerHadronicNeutral>(boca::Output::efficiency);
     Run<toppartner::tagger::TopPartnerLeptonicNeutral>(boca::Output::efficiency);
-//     Run<toppartner::tagger::TopPartnerHadronicCharged>();
-//     Run<toppartner::tagger::TopPartnerLeptonicCharged>();
-//     Run<toppartner::tagger::TopPartnerHadronic>();
-//     Run<toppartner::tagger::TopPartnerLeptonic>();
-    Run<toppartner::tagger::SignatureEffective>(boca::Output::significance);
+    Run<toppartner::tagger::SignatureSubDom>(boca::Output::significance);
     Run<standardmodel::tagger::Global>(boca::Output::significance);
-    Run<toppartner::tagger::EventEffective>(boca::Output::significance);
+    Run<toppartner::tagger::EventSubDom>(boca::Output::significance);
 }

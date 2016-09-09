@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/tagger/Event.hh"
+#include "standardmodel/tagger/Event.hh"
 
 #include "toppartner/tagger/TopPartnerPair.hh"
 
@@ -15,7 +15,7 @@ namespace tagger
  * @brief Prepares multivariant analysis
  *
  */
-class EventPair : public boca::tagger::Event<TopPartnerPair, Decuplet55, boca::branch::Event>
+class EventPair : public standardmodel::tagger::Event<TopPartnerPair, Decuplet55, boca::branch::Event>
 {
 
 public:

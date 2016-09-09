@@ -20,6 +20,7 @@ EventSingleHadronic.cpp
 CompleteSingleHadronic.cpp
 EventPair.cpp
 EventEffective.cpp
+EventSubDom.cpp
 Resonance.cpp
 NewPartnerHadronic.cpp
 NewPartnerLeptonic.cpp
