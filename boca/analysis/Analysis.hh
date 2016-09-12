@@ -8,8 +8,8 @@
 #include "boca/generic/Types.hh"
 #include "boca/io/Io.hh"
 #include "boca/plotting/Plotting.hh"
-#include "boca/analysis/AnalysisBase.hh"
-#include "boca/analysis/AnalysisData.hh"
+#include "boca/analysis/Base.hh"
+#include "boca/analysis/Data.hh"
 #include "boca/Event.hh"
 
 namespace boca
@@ -26,7 +26,7 @@ namespace boca
  *
  */
 template<typename Tagger_>
-class Analysis : public AnalysisBase
+class Analysis : public analysis::Base
 {
 
 protected:
@@ -49,7 +49,7 @@ private:
      * @brief Analysis performed on each file
      *
      */
-    void FileLoop(boca::Files<Tagger_> files) {
+    void FileLoop(boca::analysis::Files<Tagger_> files) {
         auto threading = true;
         if (threading) {
             auto threads = std::vector<std::thread>{};
@@ -64,8 +64,8 @@ private:
         } else Thread( {files, TrainNumberMax(), 1, 0});
     }
 
-    void Thread(AnalysisData<Tagger_> analysis_data) {
-        analysis_data.ReadEvents(PreCuts(), [&](Stage stage) {
+    void Thread(analysis::Data<Tagger_> data) {
+        data.ReadEvents(PreCuts(), [&](Stage stage) {
             return EventNumberMax(stage);
         }, [&](Event const & event, Tag tag) {
             return PassPreCut(event, tag);

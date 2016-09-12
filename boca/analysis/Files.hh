@@ -14,6 +14,9 @@
 namespace boca
 {
 
+namespace analysis
+{
+
 template<typename Tagger_>
 class Files
 {
@@ -110,4 +113,4 @@ private:
 
 }
 
-
+}

@@ -103,7 +103,7 @@ protected:
         }
     }
     void NewFile(Tag tag, Process process) {
-        boca::AnalysisBase::NewFile(tag, FileName(process), LatexName(process));
+        boca::analysis::Base::NewFile(tag, FileName(process), LatexName(process));
     }
 
     Momentum LowerQuarkCut() const {

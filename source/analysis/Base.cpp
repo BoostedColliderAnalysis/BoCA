@@ -7,7 +7,7 @@
 #include "boca/generic/Types.hh"
 #include "boca/io/Io.hh"
 #include "boca/File.hh"
-#include "boca/analysis/AnalysisBase.hh"
+#include "boca/analysis/Base.hh"
 #include "boca/Event.hh"
 #include "boca/multivariant/Trainer.hh"
 #include "boca/tagger/Base.hh"
@@ -44,33 +44,36 @@ std::string Name(Output output)
     return name;
 }
 
-AnalysisBase::AnalysisBase()
+namespace analysis
+{
+
+Base::Base()
 {
     INFO0;
 }
 
-std::string _analysis_name_;
+std::string _name_;
 
-void AnalysisBase::Initialize()
+void Base::Initialize()
 {
     ERROR(Tagger().Name());
 //     working_path_ = WorkingPath();
-//     if (AnalysisName() != AnalysisBase::AnalysisName())
+//     if (AnalysisName() != analysis::Base::AnalysisName())
 //     INFO(working_path_, AnalysisName());
     mkdir(AnalysisName().c_str(), 0700);
 //     else ERROR(AnalysisName());
     Tagger().Initialize(AnalysisName());
-    _analysis_name_ = AnalysisName();
+    _name_ = AnalysisName();
 }
 
 
-std::vector<File> AnalysisBase::Files(Tag tag)
+std::vector<File> Base::Files(Tag tag)
 {
     ERROR(Name(tag));
     return files_;
 }
 
-void AnalysisBase::PrepareFiles(Stage stage)
+void Base::PrepareFiles(Stage stage)
 {
     INFO0;
     ClearFiles();
@@ -78,116 +81,116 @@ void AnalysisBase::PrepareFiles(Stage stage)
     SetFiles(Tag::background, stage);
 }
 
-long AnalysisBase::TrainNumberMax() const
+long Base::TrainNumberMax() const
 {
     INFO0;
     return 100000;
 }
 
-long AnalysisBase::ReadNumberMax() const
+long Base::ReadNumberMax() const
 {
     INFO0;
     return TrainNumberMax();
 }
 
-void AnalysisBase::NewFile(Tag tag, const std::vector<std::string>& names, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass)
+void Base::NewFile(Tag tag, const std::vector<std::string>& names, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass)
 {
     INFO0;
     files_.emplace_back(File(names, crosssection, latex_name, mass));
     Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, latex::String const& latex_name)
+void Base::NewFile(Tag tag, std::vector<std::string> const& names, latex::String const& latex_name)
 {
     INFO0;
     files_.emplace_back(File(names, latex_name));
     Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, Crosssection const& crosssection, Names const& latex_name, Mass const& mass)
+void Base::NewFile(Tag tag, std::vector<std::string> const& names, Crosssection const& crosssection, Names const& latex_name, Mass const& mass)
 {
     INFO0;
     files_.emplace_back(File(names, latex_name, crosssection, mass));
     Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, std::string const& name, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass)
+void Base::NewFile(Tag tag, std::string const& name, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass)
 {
     INFO0;
     files_.emplace_back(File( {name}, crosssection, latex_name, mass));
     Tagger().AddTreeName(TreeName(name), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, std::string const& name, Crosssection const& crosssection, Names const& latex_name, Mass const& mass)
+void Base::NewFile(Tag tag, std::string const& name, Crosssection const& crosssection, Names const& latex_name, Mass const& mass)
 {
     INFO0;
     files_.emplace_back(File( {name}, latex_name, crosssection, mass));
     Tagger().AddTreeName(TreeName(name), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, std::string const& name, latex::String const& latex_name)
+void Base::NewFile(Tag tag, std::string const& name, latex::String const& latex_name)
 {
     INFO0;
     files_.emplace_back(File( {name}, latex_name));
     Tagger().AddTreeName(TreeName(name), tag);
 }
 
-File AnalysisBase::File(std::vector<std::string> const& names, Names const& latex_name, Crosssection const& crosssection, Mass const& mass) const
+File Base::File(std::vector<std::string> const& names, Names const& latex_name, Crosssection const& crosssection, Mass const& mass) const
 {
     INFO0;
     return boca::File(names, FilePath(), FileSuffix(), latex_name, crosssection, mass);
 }
 
-File AnalysisBase::File(std::vector<std::string> const& names, latex::String const& latex_name) const
+File Base::File(std::vector<std::string> const& names, latex::String const& latex_name) const
 {
     INFO0;
     return boca::File(names, FilePath(), FileSuffix(), latex_name);
 }
 
-File AnalysisBase::File(std::vector<std::string> const& names, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass) const
+File Base::File(std::vector<std::string> const& names, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass) const
 {
     INFO0;
     return boca::File(names, FilePath(), FileSuffix(), latex_name, crosssection, mass);
 }
 
-std::string AnalysisBase::TreeName(std::string const& name) const
+std::string Base::TreeName(std::string const& name) const
 {
     INFO0;
     return name + "-run_01";
 }
 
-boca::PreCuts const& AnalysisBase::PreCuts() const
+boca::PreCuts const& Base::PreCuts() const
 {
     INFO0;
     return pre_cuts_;
 }
 
-boca::PreCuts& AnalysisBase::PreCuts()
+boca::PreCuts& Base::PreCuts()
 {
     INFO0;
     return pre_cuts_;
 }
 
-std::string AnalysisBase::FileSuffix() const
+std::string Base::FileSuffix() const
 {
     INFO0;
     return ".root";
 }
 
-std::string AnalysisBase::FilePath() const
+std::string Base::FilePath() const
 {
     INFO0;
     return WorkingPath();
 }
 
-int AnalysisBase::BackgroundFileNumber() const
+int Base::BackgroundFileNumber() const
 {
     INFO0;
 //     return configuration_.BackgroundFileNumber();
     return 1;
 }
 
-void AnalysisBase::RunFast()
+void Base::RunFast()
 {
     INFO0;
     RunTagger(Stage::trainer);
@@ -195,7 +198,7 @@ void AnalysisBase::RunFast()
     RunTrainer();
 }
 
-void AnalysisBase::RunNormal()
+void Base::RunNormal()
 {
     INFO0;
     RunFast();
@@ -203,35 +206,35 @@ void AnalysisBase::RunNormal()
     INFO("Analysis Loop done");
 }
 
-void AnalysisBase::RunFullSignificance()
+void Base::RunFullSignificance()
 {
     INFO0;
     RunNormal();
     RunSignificance();
 }
 
-void AnalysisBase::ClearFiles()
+void Base::ClearFiles()
 {
     INFO0;
     files_.clear();
     Tagger().ClearTreeNames();
 }
 
-void AnalysisBase::RunFullEfficiency()
+void Base::RunFullEfficiency()
 {
     INFO0;
     RunNormal();
     RunEfficiency();
 }
 
-void AnalysisBase::RunTagger(Stage stage)
+void Base::RunTagger(Stage stage)
 {
     INFO0;
     if (Exists(Tagger().FileName(stage, Tag::signal))) return;
     AnalysisLoop(stage);
 }
 
-void AnalysisBase::RunTrainer()
+void Base::RunTrainer()
 {
     INFO0;
     if (Exists(Tagger().WeightFileName())) return;
@@ -243,7 +246,7 @@ void AnalysisBase::RunTrainer()
     std::cout.rdbuf(cout);
 }
 
-std::string AnalysisBase::WorkingPath() const
+std::string Base::WorkingPath() const
 {
     INFO0;
     return "./";
@@ -252,7 +255,7 @@ std::string AnalysisBase::WorkingPath() const
 //     return path;
 }
 
-void AnalysisBase::Run(Output output)
+void Base::Run(Output output)
 {
     INFO(Name(output));
     Initialize();
@@ -278,7 +281,7 @@ void AnalysisBase::Run(Output output)
     });
 }
 
-void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
+void Base::PrintGeneratorLevel(Event const& event, bool signature) const
 {
     INFO0;
     for (auto const & particle : event.GenParticles()) {
@@ -291,7 +294,7 @@ void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
     }
 }
 
-long AnalysisBase::EventNumberMax(Stage stage) const
+long Base::EventNumberMax(Stage stage) const
 {
     switch (stage) {
     case Stage::trainer : return TrainNumberMax();
@@ -300,14 +303,16 @@ long AnalysisBase::EventNumberMax(Stage stage) const
     }
 }
 
-int AnalysisBase::PassPreCut(Event const&, Tag) const
+int Base::PassPreCut(Event const&, Tag) const
 {
     return 1;
 }
 
-void AnalysisBase::AnalysisLoop(Stage stage)
+void Base::AnalysisLoop(Stage stage)
 {
     for (auto const & tag : std::array<Tag, 2>{{Tag::signal, Tag::background}}) TagLoop( {stage, tag});
+}
+
 }
 
 }

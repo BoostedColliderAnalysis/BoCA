@@ -6,11 +6,11 @@
 #include "boca/multiplets/Particles.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/fastjet/ClusterSequence.hh"
-#include "standardmodel/tagger/TopHadronicHep.hh"
-
 #include "boca/Settings.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Event.hh"
+
+#include "standardmodel/tagger/TopHadronicHep.hh"
 #define NOTIFICATION
 #include "boca/generic/DEBUG_MACROS.hh"
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/multiplets/EventMultiplet.hh"
-#include "boca/analysis/AnalysisBase.hh"
+#include "boca/analysis/Base.hh"
 #include "boca/branch/Event.hh"
 
 #include "toppartner/tagger/NewPartnerPair.hh"

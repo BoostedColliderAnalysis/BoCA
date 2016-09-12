@@ -110,7 +110,7 @@ private:
     }
 
     void NewFile(Tag tag, Process process, Production production) {
-        AnalysisBase::NewFile(tag, NameString(process, production));
+        boca::analysis::Base::NewFile(tag, NameString(process, production));
     }
 
 

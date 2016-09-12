@@ -9,7 +9,7 @@
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/io/TreeWriter.hh"
 #include "boca/multivariant/Reader.hh"
-#include "boca/analysis/AnalysisBase.hh"
+#include "boca/analysis/Base.hh"
 #include "boca/tagger/Base.hh"
 #include "boca/Filter.hh"
 #include "boca/Settings.hh"
@@ -228,8 +228,8 @@ std::string Base::BackgroundFileName(Stage stage) const
 std::string Base::AnalysisName() const
 {
 //     analysis_name_ = boost::filesystem::current_path().filename().string();
-//     ERROR(analysis_name_, _analysis_name_);
-    return !AnalysisName_().empty() ? AnalysisName_() : _analysis_name_;
+//     ERROR(analysis_name_, analysis::_name_);
+    return !AnalysisName_().empty() ? AnalysisName_() : analysis::_name_;
 }
 std::vector<Observable> const& Base::Variables() const
 {

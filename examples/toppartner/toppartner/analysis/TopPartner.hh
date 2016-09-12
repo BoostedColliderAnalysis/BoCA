@@ -199,7 +199,7 @@ protected:
 
     void NewFile(Tag tag, Process process) {
         INFO0;
-        AnalysisBase::NewFile(tag, this->FileName(process), this->Crosssection(process), Names(Name(process), LatexName(process)), Mass());
+        boca::analysis::Base::NewFile(tag, this->FileName(process), this->Crosssection(process), Names(Name(process), LatexName(process)), Mass());
     }
 
 };

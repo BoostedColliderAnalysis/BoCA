@@ -8,12 +8,15 @@
 namespace boca
 {
 
+namespace analysis
+{
+
 template<typename Tagger_>
-class AnalysisData
+class Data
 {
 public:
 
-    AnalysisData(boca::Files<Tagger_>& files, long object_sum_max, int core_number, int core_sum) :
+    Data(boca::analysis::Files<Tagger_>& files, long object_sum_max, int core_number, int core_sum) :
         files_(files),
         reader_(files.Reader()),
         tagger_(files.Tagger()),
@@ -89,7 +92,7 @@ private:
         return EventNumber() < GetEntries() && Files().KeepGoing(event_number_max);
     }
 
-    boca::Files<Tagger_>& Files() {
+    boca::analysis::Files<Tagger_>& Files() {
         return files_;
     }
 
@@ -113,7 +116,7 @@ private:
         return tagger_;
     }
 
-    boca::Files<Tagger_> const& Files() const {
+    boca::analysis::Files<Tagger_> const& Files() const {
         return files_;
     }
 
@@ -121,7 +124,7 @@ private:
         return reader_;
     }
 
-    boca::Files<Tagger_>& files_;
+    boca::analysis::Files<Tagger_>& files_;
 
     boca::Reader<Tagger_> reader_;
 
@@ -134,5 +137,7 @@ private:
     int core_sum_;
 
 };
+
+}
 
 }

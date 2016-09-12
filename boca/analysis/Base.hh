@@ -36,8 +36,11 @@ struct Flag<Output> {
     static const bool enable = true;
 };
 
+namespace analysis
+{
+
 // global variabel; FIXME remove again; is necesarry due to bug in root
-extern std::string _analysis_name_;
+extern std::string _name_;
 
 /**
  * @brief Base for all analyses.
@@ -47,12 +50,12 @@ extern std::string _analysis_name_;
  * @license GPL 3
  *
  */
-class AnalysisBase
+class Base
 {
 
 public:
 
-    AnalysisBase();
+    Base();
 
     void Run(Output output);
 
@@ -154,5 +157,7 @@ private:
     std::vector<boca::File> files_;
 
 };
+
+}
 
 }

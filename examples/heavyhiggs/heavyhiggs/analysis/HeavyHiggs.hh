@@ -264,11 +264,11 @@ public:
 
 
     virtual void NewFile(Tag tag, Process process) {
-        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), this->Crosssection(process), LatexName(process));
+        boca::analysis::Base::NewFile(tag, FileNames(process, tag), this->Crosssection(process), LatexName(process));
     }
 
     virtual void NewFile(Tag tag, boca::Crosssection const& crosssection, Process process) {
-        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, Names(Name(process), LatexName(process)), Mass());
+        boca::analysis::Base::NewFile(tag, FileNames(process, tag), crosssection, Names(Name(process), LatexName(process)), Mass());
     }
 
     std::vector<std::string> FileNames(Process process, Tag tag) const {
