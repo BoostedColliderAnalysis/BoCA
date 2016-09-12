@@ -12,9 +12,6 @@ namespace heavyhiggs
 
 using namespace boca;
 
-namespace analysis
-{
-
 enum class Production
 {
     DYP, VBF, Associated
@@ -22,6 +19,8 @@ enum class Production
 
 std::string Name(Production production_channel);
 
+namespace analysis
+{
 
 /**
  *
@@ -51,8 +50,8 @@ public:
         }
     }
 
-    std::string AnalysisName() const override {
-        return  Name(Collider()) + "-eta3.5";
+    std::string Name() const override {
+        return boca::Name(Collider()) + "-eta3.5";
         //         return  ProductionChannelName(ProductionChannel()) + DetectorName(Collider())  + "_" + Name(Mass());
     }
 
@@ -115,11 +114,11 @@ private:
 
 
     std::string NameString(Process process) const {
-        return Name(ProductionChannel()) + Name(process) + "_" + Name(Collider());
+        return heavyhiggs::Name(ProductionChannel()) + heavyhiggs::Name(process) + "_" + boca::Name(Collider());
     }
 
     std::string NameString(Process process, Production production) const {
-        return Name(production) + Name(process) + "_" + Name(Collider());
+        return heavyhiggs::Name(production) + heavyhiggs::Name(process) + "_" + boca::Name(Collider());
     }
 
     File BackgroundFile(Process process, Production production) const {
@@ -144,7 +143,7 @@ private:
 
 
     std:: string SignalName(Process process) {
-        return  NameString(process) + "_" + Name(Mass());
+        return  NameString(process) + "_" + boca::units::Name(Mass());
     }
 
     std::string TreeName(Process process) const {
@@ -156,7 +155,7 @@ private:
     }
 
     std:: string SignalTreeName(Process process) {
-        return  NameString(process) + "_" + Name(Mass()) + "-run_01";
+        return  NameString(process) + "_" + boca::units::Name(Mass()) + "-run_01";
     }
 
     Crosssection BackgroundCrosssection(Process) const {

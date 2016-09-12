@@ -56,20 +56,20 @@ std::string _name_;
 
 void Base::Initialize()
 {
-    ERROR(Tagger().Name());
+    ERROR(Tagger().AnalysisName());
 //     working_path_ = WorkingPath();
-//     if (AnalysisName() != analysis::Base::AnalysisName())
-//     INFO(working_path_, AnalysisName());
-    mkdir(AnalysisName().c_str(), 0700);
-//     else ERROR(AnalysisName());
-    Tagger().Initialize(AnalysisName());
-    _name_ = AnalysisName();
+//     if (Name() != analysis::Base::Name())
+//     INFO(working_path_, Name());
+    mkdir(Name().c_str(), 0700);
+//     else ERROR(Name());
+    Tagger().Initialize(Name());
+    _name_ = Name();
 }
 
 
 std::vector<File> Base::Files(Tag tag)
 {
-    ERROR(Name(tag));
+    ERROR(boca::Name(tag));
     return files_;
 }
 
@@ -257,7 +257,7 @@ std::string Base::WorkingPath() const
 
 void Base::Run(Output output)
 {
-    INFO(Name(output));
+    INFO(boca::Name(output));
     Initialize();
     //   analysis.PreRequisits<analysis.Tagger()::type>(analysis,run);
     FlagSwitch(output, [&](Output output_2) {
@@ -276,7 +276,7 @@ void Base::Run(Output output)
             break;
         case Output::plot_hist : RunPlotHist();
             break;
-            DEFAULT(Name(output_2));
+            DEFAULT(boca::Name(output_2));
         }
     });
 }
@@ -287,9 +287,9 @@ void Base::PrintGeneratorLevel(Event const& event, bool signature) const
     for (auto const & particle : event.GenParticles()) {
         auto family = particle.Info().Family();
         if (signature && family.Member(Relative::step_mother).Id() == 0) continue;
-        auto id = Name(family.Member(Relative::particle).Id());
-        auto mother = Name(family.Member(Relative::mother).Id());
-        auto mother2 = Name(family.Member(Relative::step_mother).Id());
+        auto id = boca::Name(family.Member(Relative::particle).Id());
+        auto mother = boca::Name(family.Member(Relative::mother).Id());
+        auto mother2 = boca::Name(family.Member(Relative::step_mother).Id());
         ERROR(id, mother, mother2);
     }
 }
@@ -299,7 +299,7 @@ long Base::EventNumberMax(Stage stage) const
     switch (stage) {
     case Stage::trainer : return TrainNumberMax();
     case Stage::reader : return ReadNumberMax();
-        DEFAULT(Name(stage), 0);
+        DEFAULT(boca::Name(stage), 0);
     }
 }
 

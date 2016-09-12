@@ -34,8 +34,8 @@ public:
         }
     }
 
-    std::string AnalysisName() const override {
-        return  "Charged-" + Name(this->Collider()) + "-" + boca::units::Name(this->PreCut()) + "-" + boca::units::Name(this->Mass());
+    std::string Name() const override {
+        return  "Charged-" + boca::Name(this->Collider()) + "-" + boca::units::Name(this->PreCut()) + "-" + boca::units::Name(this->Mass());
     }
 
 private:

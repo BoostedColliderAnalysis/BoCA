@@ -4,9 +4,6 @@
 namespace heavyhiggs
 {
 
-namespace analysis
-{
-
 std::string Name(Production production)
 {
     switch (production) {
@@ -17,8 +14,6 @@ std::string Name(Production production)
         ERROR("ProductionChannelName", "unhandeld case");
         return "";
     }
-}
-
 }
 
 }

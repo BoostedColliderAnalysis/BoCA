@@ -14,13 +14,6 @@ namespace heavyhiggs
 
 using namespace boca;
 
-/**
-* @brief Analyses
-*
-*/
-namespace analysis
-{
-
 
 enum class Process
 {
@@ -47,6 +40,13 @@ enum class Process
 std::string Name(Process process);
 
 boca::latex::String LatexName(Process process);
+
+/**
+* @brief Analyses
+*
+*/
+namespace analysis
+{
 
 /**
  *
@@ -268,7 +268,7 @@ public:
     }
 
     virtual void NewFile(Tag tag, boca::Crosssection const& crosssection, Process process) {
-        boca::analysis::Base::NewFile(tag, FileNames(process, tag), crosssection, Names(Name(process), LatexName(process)), Mass());
+        boca::analysis::Base::NewFile(tag, FileNames(process, tag), crosssection, Names(heavyhiggs::Name(process), LatexName(process)), Mass());
     }
 
     std::vector<std::string> FileNames(Process process, Tag tag) const {

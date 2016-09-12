@@ -1,13 +1,12 @@
 
 add_subdirectory(branch)
 add_subdirectory(tagger)
+add_subdirectory(analysis)
 
-set(AnalysisSources
-AnalysisPair.cpp
-AnalysisHeavyHiggs.cpp
+set(VarSources
 CutVariables.cpp
 )
-create_library(AnalysisHeavyHiggs AnalysisSources)
+create_library(HeavyHiggsVar VarSources)
 
 create_executable(PairTagger MainPair.cpp)
 create_executable(HeavyHiggsNeutral MainNeutral.cpp)

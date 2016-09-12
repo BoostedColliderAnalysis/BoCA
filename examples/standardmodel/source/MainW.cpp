@@ -2,10 +2,10 @@
 #include "standardmodel/tagger/WHadronic.hh"
 #include "standardmodel/tagger/WLeptonic.hh"
 
-template<typename Tagger>
+template<typename Tagger_>
 void Run(boca::Output output = boca::Output::normal)
 {
-    standardmodel::analysis::W<Tagger> analysis;
+    standardmodel::analysis::W<Tagger_> analysis;
     analysis.Run(output);
 }
 

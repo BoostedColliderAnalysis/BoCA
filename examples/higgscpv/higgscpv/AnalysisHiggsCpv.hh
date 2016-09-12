@@ -22,8 +22,8 @@ using namespace boca;
  * \author Jan Hajer
  *
  */
-template <typename Tagger>
-class Analysis : public boca::Analysis<Tagger>
+template <typename Tagger_>
+class Analysis : public boca::Analysis<Tagger_>
 {
 
 public:
@@ -44,7 +44,7 @@ protected:
 
 private:
 
-    std::string AnalysisName() const override {
+    std::string Name() const override {
         return  "CPV-after-tahoe";
     }
 

@@ -21,9 +21,9 @@ template<typename Tagger_>
 class Pair : public TopPartner<Tagger_>
 {
 
-    std::string AnalysisName() const override {
+    std::string Name() const override {
         INFO0;
-        return "Naturalness-Pair-" + Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
+        return "Naturalness-Pair-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
     }
 
     void SetFiles(Tag tag, Stage)override {

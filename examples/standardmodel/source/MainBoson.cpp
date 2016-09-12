@@ -1,10 +1,10 @@
 #include "standardmodel/analysis/Boson.hh"
 #include "standardmodel/tagger/Boson.hh"
 
-template<typename Tagger>
+template<typename Tagger_>
 void Run(boca::Output run = boca::Output::normal)
 {
-    standardmodel::analysis::Boson<Tagger> analysis;
+    standardmodel::analysis::Boson<Tagger_> analysis;
     analysis.Run(run);
 }
 

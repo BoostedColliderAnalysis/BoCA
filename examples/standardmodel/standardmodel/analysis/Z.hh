@@ -16,8 +16,8 @@ namespace analysis
  * @author Jan Hajer
  *
  */
-template<typename Tagger>
-class Z : public StandardModel<Tagger>
+template<typename Tagger_>
+class Z : public StandardModel<Tagger_>
 {
 
 public:
@@ -32,8 +32,8 @@ public:
 
 private:
 
-    std::string AnalysisName() const override {
-        return Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-large-2";
+    std::string Name() const override {
+        return boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-large-2";
     }
 
 

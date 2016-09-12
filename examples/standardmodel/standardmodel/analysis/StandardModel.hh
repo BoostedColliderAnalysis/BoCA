@@ -50,8 +50,8 @@ std::string Name(Process process);
  * @brief Standard model analysis base
  *
  */
-template<typename Tagger>
-class StandardModel : public Analysis<Tagger>
+template<typename Tagger_>
+class StandardModel : public Analysis<Tagger_>
 {
 
 public:

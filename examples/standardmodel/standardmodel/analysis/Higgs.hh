@@ -16,8 +16,8 @@ namespace analysis
  * @author Jan Hajer
  *
  */
-template<typename Tagger>
-class Higgs : public StandardModel<Tagger>
+template<typename Tagger_>
+class Higgs : public StandardModel<Tagger_>
 {
 
 public:
@@ -34,8 +34,8 @@ public:
 
 private:
 
-    std::string AnalysisName() const override {
-        return Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-jet-1";
+    std::string Name() const override {
+        return boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-jet-1";
     }
 
     void SetFiles(Tag tag, Stage)override {

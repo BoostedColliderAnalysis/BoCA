@@ -27,9 +27,9 @@ class SingleLeptonic : public TopPartner<Tagger_>
 
 protected:
 
-    std::string AnalysisName() const override {
+    std::string Name() const override {
         INFO0;
-        return "Single-Leptonic-" + Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-higgs";
+        return "Single-Leptonic-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-higgs";
     }
 
     void SetFiles(Tag tag, Stage)override {

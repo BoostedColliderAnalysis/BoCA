@@ -17,12 +17,6 @@ namespace toppartner{
 
 using namespace boca;
 
-/**
-* @brief Analyses
-*
-*/
-namespace analysis{
-
 enum class Process
 {
     TthLep,
@@ -50,6 +44,12 @@ std::string Name(Process process);
 latex::String LatexName(Process process);
 
 bool MassDependent(Process process);
+
+/**
+* @brief Analyses
+*
+*/
+namespace analysis{
 
 /**
  *
@@ -124,7 +124,7 @@ protected:
                 }
             case Process::ttBjj : return 0.03024 * 2_pb;
             case Process::ttBB : return 0.0004068 * 2_pb;
-                DEFAULT(Name(process), pb);
+                DEFAULT(toppartner::Name(process), pb);
             }
         }
         case Collider::future : {
@@ -181,7 +181,7 @@ protected:
             case Process::ttWWBB : return 0.71735E-06 * 2_pb;
             case Process::ttWBBB : return 0.32324E-06 * 2_pb;
             case Process::ttBBBB : return 0.30222E-06 * 2_pb;
-                DEFAULT(Name(process), pb);
+                DEFAULT(toppartner::Name(process), pb);
             }
         }
         DEFAULT(Name(Settings::Collider()), pb);
@@ -199,7 +199,7 @@ protected:
 
     void NewFile(Tag tag, Process process) {
         INFO0;
-        boca::analysis::Base::NewFile(tag, this->FileName(process), this->Crosssection(process), Names(Name(process), LatexName(process)), Mass());
+        boca::analysis::Base::NewFile(tag, this->FileName(process), this->Crosssection(process), Names(toppartner::Name(process), LatexName(process)), Mass());
     }
 
 };

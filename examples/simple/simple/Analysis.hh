@@ -35,7 +35,7 @@ public:
         return 1000;
     }
 
-    std::string AnalysisName() const override
+    std::string Name() const override
     {
         return "SimpleAnalysis";
     }

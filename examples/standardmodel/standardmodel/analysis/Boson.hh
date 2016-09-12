@@ -15,8 +15,8 @@ namespace analysis{
  * @author Jan Hajer
  *
  */
-template<typename Tagger>
-class Boson : public StandardModel<Tagger>
+template<typename Tagger_>
+class Boson : public StandardModel<Tagger_>
 {
 
 public:
@@ -33,11 +33,11 @@ public:
 
 private:
 
-    std::string AnalysisName() const override {
-        return  Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-large";
+    std::string Name() const override {
+        return  boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-large";
     }
 
-    void SetFiles(Tag tag, Stage stage)override {
+    void SetFiles(Tag tag, Stage stage) override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);

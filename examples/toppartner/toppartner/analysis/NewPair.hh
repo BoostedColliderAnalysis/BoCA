@@ -23,9 +23,9 @@ class NewPair : public TopPartner<Tagger_>
 
 protected:
 
-    std::string AnalysisName() const override {
+    std::string Name() const override {
         INFO0;
-        return "Naturalness-Pair-" + boca::units::Name(this->PreCut()) + "-" + Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-full";
+        return "Naturalness-Pair-" + boca::units::Name(this->PreCut()) + "-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-full";
     }
 
 //     std::string ProcessName() const override {

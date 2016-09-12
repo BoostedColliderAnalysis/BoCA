@@ -23,8 +23,8 @@ public:
         Settings::SetCollider(this->Collider());
     }
 
-    std::string AnalysisName() const override {
-        return  "NeutralFourTop-" + Name(this->Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-bg";
+    std::string Name() const override {
+        return  "NeutralFourTop-" + boca::Name(this->Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-bg";
     }
 
     void SetFiles(Tag tag, Stage)override {
@@ -74,7 +74,7 @@ public:
             case Process::tttt : return 0.4849_fb;
             case Process::tttwb : return 0.06012_fb;
             case Process::ttwbb : return  0.03284_fb;
-                DEFAULT(Name(process), fb)
+                DEFAULT(heavyhiggs::Name(process), fb)
             };
         case boca::Collider::future:
             switch (process) {
@@ -114,9 +114,9 @@ public:
                 }
             case Process::ttwwbb : return 396_fb;
             case Process::ttwbb : return 1.3204_fb;
-                DEFAULT(Name(process), fb)
+                DEFAULT(heavyhiggs::Name(process), fb)
             }
-            DEFAULT(Name(this->Collider()), fb)
+            DEFAULT(boca::Name(this->Collider()), fb)
         }
     }
 

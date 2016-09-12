@@ -58,7 +58,7 @@ std::string Name(Process process)
     case Process::zz_bb : return "Z";
     case Process::tt_had : return "top";
     case Process::tt_lep : return "top";
-        DEFAULT(Name(process), "");
+        DEFAULT(ProcessName(process), "");
     }
 }
 

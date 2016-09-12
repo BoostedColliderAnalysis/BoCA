@@ -89,7 +89,7 @@ protected:
 
     virtual tagger::Base const& Tagger() const = 0;
 
-    virtual std::string AnalysisName() const = 0;
+    virtual std::string Name() const = 0;
 
     void RunTagger(Stage stage);
 

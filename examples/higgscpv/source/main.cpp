@@ -3,10 +3,10 @@
 #include "higgscpv/tagger/EventT.hh"
 #include "higgscpv/tagger/EventLeptonT.hh"
 
-template<typename Tagger>
+template<typename Tagger_>
 void Run(boca::Output output = boca::Output::normal)
 {
-    higgscpv::Analysis<Tagger> analysis;
+    higgscpv::Analysis<Tagger_> analysis;
     analysis.Run(output);
 }
 

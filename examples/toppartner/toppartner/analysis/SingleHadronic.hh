@@ -30,9 +30,9 @@ class SingleHadronic : public TopPartner<Tagger_>
 
 protected:
 
-    std::string AnalysisName() const override {
+    std::string Name() const override {
         INFO0;
-        return "Single-Hadronic-" + Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
+        return "Single-Hadronic-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
     }
 
     void SetFiles(Tag tag, Stage)override {

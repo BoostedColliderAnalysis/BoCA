@@ -2,8 +2,6 @@
 
 namespace toppartner {
 
-namespace analysis {
-
 std::string Name(Process process)
 {
     INFO0;
@@ -50,7 +48,7 @@ latex::String LatexName(Process process)
     case Process::ttWWBB : return "t_{l}t_{h}W^{#pm}W^{#mp}B^{0}B^{0}";
     case Process::ttWBBB : return "t_{l}t_{h}W^{#pm}B^{0}B^{0}B^{0}";
     case Process::ttBBBB : return "t_{l}t_{h}B^{0}B^{0}B^{0}B^{0}";
-        DEFAULT(Name(process), "");
+        DEFAULT(toppartner::Name(process), "");
     }
 }
 
@@ -76,10 +74,9 @@ bool MassDependent(Process process)
     case Process::ttWWBB : return false;
     case Process::ttWBBB : return false;
     case Process::ttBBBB : return false;
-        DEFAULT(Name(process), false);
+        DEFAULT(toppartner::Name(process), false);
     }
 }
 
 }
 
-}

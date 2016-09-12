@@ -4,9 +4,6 @@
 namespace heavyhiggs
 {
 
-namespace analysis
-{
-
 std::string Name(Process process)
 {
     switch (process) {
@@ -47,10 +44,8 @@ latex::String LatexName(Process process)
     case Process::bb : return "bb";
     case Process::cc : return "cc";
     case Process::jj : return "jj";
-        DEFAULT(Name(process), "");
+        DEFAULT(heavyhiggs::Name(process), "");
     }
-}
-
 }
 
 }

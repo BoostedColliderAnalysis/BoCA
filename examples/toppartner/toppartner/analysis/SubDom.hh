@@ -23,8 +23,8 @@ class SubDom : public TopPartner<Tagger_>
 
 protected:
 
-    std::string AnalysisName() const override {
-        return "Naturalness-SubDom-" + Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
+    std::string Name() const override {
+        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
     }
 
     void SetFiles(Tag tag, Stage)override {
