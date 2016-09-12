@@ -40,13 +40,13 @@ public:
 
     boca::Filter Filter() const override;
 
+    std::vector<Triplet> Triplets(boca::Event const& event, std::function<Triplet(Triplet&)> const& function);
+
 private:
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const;
-
-    std::vector<Triplet> Triplets(boca::Event const& event, std::function<Triplet(Triplet&)> const& function);
 
     Stage InitializeLeptonicReader();
 

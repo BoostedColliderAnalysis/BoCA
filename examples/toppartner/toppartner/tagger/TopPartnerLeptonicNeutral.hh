@@ -34,9 +34,9 @@ public:
 
     std::vector<Particle> Particles(boca::Event const& event, Tag tag = Tag::signal) const;
 
-private:
-
     std::vector<Quintet> Quintets(boca::Event const& event, std::function<Quintet(Quintet&)> const& function);
+
+private:
 
     Reader<standardmodel::tagger::TopLeptonic> top_reader_;
 

@@ -36,6 +36,10 @@ struct Flag<Output> {
     static const bool enable = true;
 };
 
+/**
+* @brief Analysis Classes
+*
+*/
 namespace analysis
 {
 

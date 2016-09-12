@@ -48,14 +48,14 @@ std::vector<Quintet> TopPartnerHadronic::Multiplets(boca::Event const &event, bo
 std::vector<Quintet> TopPartnerHadronic::Quintets(boca::Event const &event, std::function<Quintet(Quintet &)> const &function_1, standardmodel::tagger::TopHadronic::Function const &function_2)
 {
     INFO0;
-    return Combine(neutral_.Tagger().Quintets(event, function_1), Transform(charged_.Tagger().Triplets(event, function_2), [](Triplet const & triplet) {
+    return Combine(neutral_.Quintets(event, function_1), Transform(charged_.Triplets(event, function_2), [](Triplet const & triplet) {
         return Map(triplet);
     }));
 }
 
 std::vector<Particle> TopPartnerHadronic::Particles(boca::Event const &event) const
 {
-    return Combine(charged_.Tagger().Particles(event), neutral_.Tagger().Particles(event));
+    return Combine(charged_.Particles(event), neutral_.Particles(event));
 }
 
 std::string TopPartnerHadronic::Name() const

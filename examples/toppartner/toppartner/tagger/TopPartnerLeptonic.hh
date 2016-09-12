@@ -23,13 +23,7 @@ public:
 
     using Tagger::Multiplets;
 
-    std::vector<Quintet> Multiplets(boca::Event const&, boca::PreCuts const&, TMVA::Reader const&) const {
-        return {};
-    }
-
-    std::vector<Quintet> Multiplets(const boca::Event& event, const boca::PreCuts&);
-
-    std::vector<Quintet> Multiplets(boca::Event const& event);
+    std::vector<Quintet> Multiplets(boca::Event const&, boca::PreCuts const&, TMVA::Reader const&);
 
     std::vector<Particle> Particles(boca::Event const& event) const;
 
@@ -39,9 +33,11 @@ public:
 
 private:
 
-    Reader<TopPartnerLeptonicCharged> charged_;
+    std::vector<Quintet> Quintets(boca::Event const& event, std::function< Quintet(Quintet&) > const& function_1, std::function<Triplet(Triplet&)> const& function_2);
 
-    Reader<TopPartnerLeptonicNeutral> neutral_;
+    TopPartnerLeptonicCharged charged_;
+
+    TopPartnerLeptonicNeutral neutral_;
 
 };
 

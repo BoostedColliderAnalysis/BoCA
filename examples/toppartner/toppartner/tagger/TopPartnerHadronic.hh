@@ -32,11 +32,11 @@ public:
 
 private:
 
-    std::vector<Quintet> Quintets(const boca::Event& event, const std::function< Quintet(Quintet&) >& function_1, const standardmodel::tagger::TopHadronic::Function& function_2);
+    std::vector<Quintet> Quintets(boca::Event const& event, std::function< Quintet(Quintet&) > const& function_1, standardmodel::tagger::TopHadronic::Function const& function_2);
 
-    Reader<TopPartnerHadronicCharged> charged_;
+    TopPartnerHadronicCharged charged_;
 
-    Reader<TopPartnerHadronicNeutral> neutral_;
+    TopPartnerHadronicNeutral neutral_;
 
 };
 
