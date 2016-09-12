@@ -1,4 +1,4 @@
-#include "standardmodel/AnalysisTop.hh"
+#include "standardmodel/analysis/Top.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace standardmodel

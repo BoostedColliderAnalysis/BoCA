@@ -1,9 +1,12 @@
 #pragma once
 
-#include "standardmodel/AnalysisStandardModel.hh"
+#include "standardmodel/analysis/StandardModel.hh"
 #include "standardmodel/tagger/WHadronic.hh"
 
 namespace standardmodel
+{
+
+namespace analysis
 {
 
 /**
@@ -14,12 +17,12 @@ namespace standardmodel
  *
  */
 template <typename Tagger>
-class AnalysisW : public AnalysisStandardModel<Tagger>
+class W : public StandardModel<Tagger>
 {
 
 public:
 
-    AnalysisW() {
+    W() {
         this->PreCuts().PtLowerCut().Set(Id::W, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
 //         this->PreCuts().MassUpperCut().Set(Id::W, 200_GeV);
@@ -68,5 +71,7 @@ private:
     }
 
 };
+
+}
 
 }

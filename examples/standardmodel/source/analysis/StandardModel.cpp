@@ -1,7 +1,10 @@
-#include "standardmodel/AnalysisStandardModel.hh"
+#include "standardmodel/analysis/StandardModel.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace standardmodel
+{
+
+namespace analysis
 {
 
 std::string ProcessName(Process process)
@@ -57,6 +60,8 @@ std::string Name(Process process)
     case Process::tt_lep : return "top";
         DEFAULT(Name(process), "");
     }
+}
+
 }
 
 }

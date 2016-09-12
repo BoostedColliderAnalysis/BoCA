@@ -1,10 +1,14 @@
 #pragma once
 
-#include "standardmodel/AnalysisStandardModel.hh"
+#include "standardmodel/analysis/StandardModel.hh"
 #include "standardmodel/tagger/ZHadronic.hh"
 
 namespace standardmodel
 {
+
+namespace analysis
+{
+
 /**
  *
  * @brief Z tagger ananlysis
@@ -13,13 +17,13 @@ namespace standardmodel
  *
  */
 template<typename Tagger>
-class AnalysisZ : public AnalysisStandardModel<Tagger>
+class Z : public StandardModel<Tagger>
 {
 
 public:
 
 
-    AnalysisZ() {
+    Z() {
         this->PreCuts().PtLowerCut().Set(Id::Z, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::Z, this->UpperPtCut());
 //         this->PreCuts().MassUpperCut().Set(Id::Z, 200_GeV);
@@ -63,5 +67,7 @@ private:
     }
 
 };
+
+}
 
 }

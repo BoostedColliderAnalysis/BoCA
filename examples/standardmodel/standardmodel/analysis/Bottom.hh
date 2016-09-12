@@ -5,20 +5,14 @@
 
 #include "boca/multiplets/Sort.hh"
 #include "boca/multiplets/Particles.hh"
-#include "standardmodel/AnalysisStandardModel.hh"
+#include "standardmodel/analysis/StandardModel.hh"
 #include "boca/Event.hh"
 
 namespace standardmodel
 {
 
-// enum class Production
-// {
-//     DYP,
-//     VBF,
-//     Associated
-// };
-
-// std::string Name(const Production production_channel);
+namespace analysis
+{
 
 /**
  *
@@ -28,12 +22,12 @@ namespace standardmodel
  *
  */
 template<typename Tagger>
-class AnalysisBottom : public AnalysisStandardModel<Tagger>
+class Bottom : public StandardModel<Tagger>
 {
 
 public:
 
-    AnalysisBottom() {
+    Bottom() {
         this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
         this->PreCuts().TrackerMaxEta().Set(Id::bottom, Settings::TrackerEtaMax());
@@ -86,5 +80,7 @@ private:
     }
 
 };
+
+}
 
 }

@@ -1,10 +1,13 @@
 #pragma once
 
-#include "standardmodel/AnalysisStandardModel.hh"
+#include "standardmodel/analysis/StandardModel.hh"
 #include "standardmodel/tagger/Bottom.hh"
 
 namespace standardmodel
 {
+
+namespace analysis{
+
 /**
  *
  * @brief Higgs tagger analysis
@@ -13,12 +16,12 @@ namespace standardmodel
  *
  */
 template<typename Tagger>
-class AnalysisBoson : public AnalysisStandardModel<Tagger>
+class Boson : public StandardModel<Tagger>
 {
 
 public:
 
-    AnalysisBoson() {
+    Boson() {
         this->PreCuts().PtLowerCut().Set(MultiId::neutral_boson, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(MultiId::neutral_boson, this->UpperPtCut());
 //         this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
@@ -71,3 +74,4 @@ private:
 
 }
 
+}

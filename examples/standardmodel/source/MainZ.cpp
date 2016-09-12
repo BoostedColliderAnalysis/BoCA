@@ -1,10 +1,10 @@
-#include "standardmodel/AnalysisZ.hh"
+#include "standardmodel/analysis/Z.hh"
 #include "standardmodel/tagger/ZHadronic.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
 {
-    standardmodel::AnalysisZ<Tagger> analysis;
+    standardmodel::analysis::Z<Tagger> analysis;
     analysis.Run(output);
 }
 

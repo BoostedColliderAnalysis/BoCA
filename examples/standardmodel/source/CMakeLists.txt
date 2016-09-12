@@ -1,12 +1,6 @@
 add_subdirectory(branch)
 add_subdirectory(tagger)
-
-
-set(TaggerLibraries
-AnalysisTop.cpp
-AnalysisStandardModel.cpp
-)
-create_library(AnalysisTagger TaggerLibraries)
+add_subdirectory(analysis)
 
 create_executable(BottomAnalysis MainBottom.cpp)
 create_executable(WAnalysis MainW.cpp)

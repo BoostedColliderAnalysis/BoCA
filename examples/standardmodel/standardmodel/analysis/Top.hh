@@ -1,9 +1,10 @@
 #pragma once
 
-#include "standardmodel/AnalysisStandardModel.hh"
+#include "boca/multiplets/Particles.hh"
+
+#include "standardmodel/analysis/StandardModel.hh"
 #include "standardmodel/tagger/WHadronic.hh"
 #include "standardmodel/tagger/WLeptonic.hh"
-#include "boca/multiplets/Particles.hh"
 
 namespace standardmodel
 {
@@ -17,6 +18,9 @@ enum class TopTagger
 
 std::string Name(TopTagger top_tagger);
 
+namespace analysis
+{
+
 /**
  *
  * @brief Top Tagger ananlysis
@@ -24,13 +28,13 @@ std::string Name(TopTagger top_tagger);
  * @author Jan Hajer
  *
  */
-template<typename Tagger>
-class TopAnalysis : public AnalysisStandardModel<Tagger>
+template<typename Tagger_>
+class Top : public StandardModel<Tagger_>
 {
 
 public:
 
-    TopAnalysis() {
+    Top() {
         this->PreCuts().PtLowerCut().Set(Id::top, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
         this->PreCuts().TrackerMaxEta().Set(Id::top, Settings::TrackerEtaMax());
@@ -85,5 +89,7 @@ private:
     }
 
 };
+
+}
 
 }

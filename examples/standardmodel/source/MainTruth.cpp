@@ -1,10 +1,10 @@
-#include "standardmodel/AnalysisTop.hh"
+#include "standardmodel/analysis/Top.hh"
 #include "standardmodel/tagger/Truth.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
 {
-    standardmodel::TopAnalysis<Tagger> analysis;
+    standardmodel::analysis::Top<Tagger> analysis;
     analysis.Run(output);
 }
 

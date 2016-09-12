@@ -16,6 +16,13 @@ namespace standardmodel
 
 using namespace boca;
 
+/**
+* @brief Standard model analyses
+*
+*/
+namespace analysis
+{
+
 enum class Process
 {
     tt,
@@ -44,12 +51,12 @@ std::string Name(Process process);
  *
  */
 template<typename Tagger>
-class AnalysisStandardModel : public Analysis<Tagger>
+class StandardModel : public Analysis<Tagger>
 {
 
 public:
 
-    AnalysisStandardModel() {
+    StandardModel() {
         Settings::SetCollider(Collider());
     }
 
@@ -158,5 +165,7 @@ private:
     }
 
 };
+
+}
 
 }
