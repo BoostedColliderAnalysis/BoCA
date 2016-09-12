@@ -35,8 +35,8 @@ private:
 
     std::vector<Duodecuplet552> Quattuordecuplets(boca::Event const& event, std::function<Duodecuplet552(Duodecuplet552&)> const& function);
 
-    Reader<TopPartnerHadronicNeutral> top_partner_hadronic_reader_;
-    Reader<TopPartnerLeptonicNeutral> top_partner_leptonic_reader_;
+    Reader<TopPartnerHadronic> top_partner_hadronic_reader_;
+    Reader<TopPartnerLeptonic> top_partner_leptonic_reader_;
     Reader<standardmodel::tagger::Higgs> higgs_reader_;
 
 };

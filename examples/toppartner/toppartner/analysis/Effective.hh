@@ -27,7 +27,7 @@ protected:
         return "Naturalness-Effective-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
     }
 
-    void SetFiles(Tag tag, Stage)override {
+    void SetFiles(Tag tag, Stage) override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::TThh);
