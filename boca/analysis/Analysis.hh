@@ -8,8 +8,8 @@
 #include "boca/generic/Types.hh"
 #include "boca/io/Io.hh"
 #include "boca/plotting/Plotting.hh"
-#include "boca/analysis/Third.hh"
 #include "boca/analysis/AnalysisBase.hh"
+#include "boca/analysis/AnalysisData.hh"
 #include "boca/Event.hh"
 
 namespace boca
@@ -49,7 +49,7 @@ private:
      * @brief Analysis performed on each file
      *
      */
-    void FileLoop(BranchWriter<Tagger_> branch_writer) {
+    void FileLoop(boca::Files<Tagger_> files) {
         auto threading = true;
         if (threading) {
             auto threads = std::vector<std::thread>{};
@@ -58,14 +58,14 @@ private:
 //         for (auto core : IntegerRange(cores)) // FIXME why is this not the same as next line
             for (auto core = 0; core < cores; ++core)
                 threads.emplace_back([&] {
-                Thread({branch_writer, TrainNumberMax(), cores, core});
+                Thread({files, TrainNumberMax(), cores, core});
             });
             for (auto & thread : threads) thread.join();
-        } else Thread( {branch_writer, TrainNumberMax(), 1, 0});
+        } else Thread( {files, TrainNumberMax(), 1, 0});
     }
 
-    void Thread(Third<Tagger_> third) {
-        third.ReadEvents(PreCuts(), [&](Stage stage) {
+    void Thread(AnalysisData<Tagger_> analysis_data) {
+        analysis_data.ReadEvents(PreCuts(), [&](Stage stage) {
             return EventNumberMax(stage);
         }, [&](Event const & event, Tag tag) {
             return PassPreCut(event, tag);

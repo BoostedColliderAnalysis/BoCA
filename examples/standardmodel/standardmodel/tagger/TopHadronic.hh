@@ -42,9 +42,11 @@ public:
 
     std::vector<Particle> Particles(boca::Event const& event) const;
 
-private:
-
     using Function = std::function<boost::optional<Triplet>(Triplet&, std::vector<boca::Jet> const&)>;
+
+    std::vector<Triplet> Triplets(boca::Event const& event, Function const& function);
+
+private:
 
     std::vector<Triplet> ThreeJets(const std::vector< boca::Jet >& jets, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
 
@@ -59,8 +61,6 @@ private:
     boost::optional<Triplet> Tripple(Doublet const& doublet, boca::Jet const& jet, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range, bool check_overlap = false) const;
 
     boost::optional<Triplet> Tripple(Triplet& triplet, std::vector<Lepton> const& leptons, PreCuts const& pre_cuts, Tag tag) const;
-
-    std::vector<Triplet> Triplets(boca::Event const& event, Function const& function);
 
     std::vector<Triplet> Triplets(std::vector<Doublet> const& doublets, std::vector<boca::Jet> const& jets, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const;
 

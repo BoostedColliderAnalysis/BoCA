@@ -3,21 +3,21 @@
  */
 #pragma once
 
-#include "boca/analysis/BranchWriter.hh"
+#include "boca/analysis/Files.hh"
 
 namespace boca
 {
 
 template<typename Tagger_>
-class Third
+class AnalysisData
 {
 public:
 
-    Third(boca::BranchWriter<Tagger_>& branch_writer, long object_sum_max, int core_number, int core_sum) :
-        branch_writer_(branch_writer),
-        reader_(branch_writer.Reader()),
-        tagger_(branch_writer.Tagger()),
-        tree_reader_(BranchWriter().Import().Paths(), BranchWriter().Import().TreeName()) {
+    AnalysisData(boca::Files<Tagger_>& files, long object_sum_max, int core_number, int core_sum) :
+        files_(files),
+        reader_(files.Reader()),
+        tagger_(files.Tagger()),
+        tree_reader_(Files().Import().Paths(), Files().Import().TreeName()) {
         event_number_ = FirstEntry(object_sum_max, core_number);
         core_sum_ = core_sum;
     }
@@ -30,7 +30,7 @@ private:
 
     long FirstEntry(long object_sum_max, long core_number)  {
         auto entry = core_number;
-        if (BranchWriter().Phase().Stage() == Stage::reader) entry = std::min(GetEntries(), object_sum_max + core_number);  // TODO fix corner cases
+        if (Files().Phase().Stage() == Stage::reader) entry = std::min(GetEntries(), object_sum_max + core_number);  // TODO fix corner cases
         return entry;
     }
 
@@ -47,25 +47,25 @@ private:
 
     void ReadDelphesEvent(PreCuts const& pre_cuts, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
         auto event = TreeReader().DelphesEvent();
-        if (pass_pre_cut(event, BranchWriter().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
+        if (pass_pre_cut(event, Files().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
         Increment(0);
     }
-  
+
     void ReadExRootEvent(PreCuts const& pre_cuts, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
         auto event = TreeReader().ExRootEvent();
-        if (pass_pre_cut(event, BranchWriter().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
+        if (pass_pre_cut(event, Files().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
         Increment(0);
     }
 
     void SaveEntry(int number) {
         Increment(number);
         if (number == 0) return;
-        BranchWriter().SafeEntry();
+        Files().SafeEntry();
     }
 
     int Switch(boca::Event const& event, PreCuts const& pre_cuts) {
-        switch (BranchWriter().Phase().Stage()) {
-        case Stage::trainer : return Tagger().Train(event, pre_cuts, BranchWriter().Phase().Tag());
+        switch (Files().Phase().Stage()) {
+        case Stage::trainer : return Tagger().Train(event, pre_cuts, Files().Phase().Tag());
         case Stage::reader : return Reader().Bdt(event, pre_cuts);
         default : return 0;
         }
@@ -82,15 +82,15 @@ private:
     void Increment(int number) {
         EventNumber() += core_sum_;
 //         if (number > 0)
-        BranchWriter().Increment(number);
+        Files().Increment(number);
     }
 
     bool KeepGoing(std::function<long(Stage)> const& event_number_max) const {
-        return EventNumber() < GetEntries() && BranchWriter().KeepGoing(event_number_max);
+        return EventNumber() < GetEntries() && Files().KeepGoing(event_number_max);
     }
 
-    boca::BranchWriter<Tagger_>& BranchWriter() {
-        return branch_writer_;
+    boca::Files<Tagger_>& Files() {
+        return files_;
     }
 
     boca::TreeReader& TreeReader() {
@@ -113,15 +113,15 @@ private:
         return tagger_;
     }
 
-    boca::BranchWriter<Tagger_> const& BranchWriter() const {
-        return branch_writer_;
+    boca::Files<Tagger_> const& Files() const {
+        return files_;
     }
 
     boca::Reader<Tagger_>& Reader() {
         return reader_;
     }
 
-    boca::BranchWriter<Tagger_>& branch_writer_;
+    boca::Files<Tagger_>& files_;
 
     boca::Reader<Tagger_> reader_;
 

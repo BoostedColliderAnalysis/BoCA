@@ -27,6 +27,8 @@ public:
 
     latex::String LatexName() const override;
 
+    std::vector<Particle> Particles(boca::Event const& event) const;
+
 private:
 
 

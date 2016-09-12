@@ -19,6 +19,11 @@ latex::String TopPartnerHadronicCharged::LatexName() const
     return {"T_{h}", true};
 }
 
+std::vector<Particle> TopPartnerHadronicCharged::Particles(boca::Event const&) const
+{
+    return {};
+}
+
 }
 
 }

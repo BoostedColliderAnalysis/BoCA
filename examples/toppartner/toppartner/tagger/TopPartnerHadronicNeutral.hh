@@ -34,9 +34,9 @@ public:
 
     std::vector<Particle> Particles(boca::Event const& event) const;
 
-private:
-
     std::vector<Quintet> Quintets(const boca::Event& event, const std::function< Quintet(Quintet&) >& function);
+
+private:
 
     Reader<standardmodel::tagger::TopHadronic> top_reader_;
 

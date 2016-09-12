@@ -1,6 +1,6 @@
 /**
  * @defgroup FastJet FastJet
  * @ingroup Boca
- * @brief Convinience subclasses of FastJet classes
+ * @brief Wrapper classes for FastJet classes
  *
  */

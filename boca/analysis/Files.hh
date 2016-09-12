@@ -15,12 +15,12 @@ namespace boca
 {
 
 template<typename Tagger_>
-class BranchWriter
+class Files
 {
 
 public:
 
-    BranchWriter(boca::Phase& phase, boca::File& file, boca::FileWriter& file_writer, Tagger_& tagger) :
+    Files(boca::Phase& phase, boca::File& file, boca::FileWriter& file_writer, Tagger_& tagger) :
         tagger_(tagger),
         reader_(phase.Stage()),
         import_file_(file),
@@ -37,7 +37,7 @@ public:
         tree_branch_ = &(tree_writer_->NewBranch<branch::Info>(tagger_.WeightBranchName()));
     }
 
-    ~BranchWriter() {
+    ~Files() {
         std::cout << "PreCut ratio: " << RoundToDigits(static_cast<double>(object_sum_.load()) / event_sum_.load()) << std::endl;
         if (object_sum_.load()) TreeWriter().Write();
     }

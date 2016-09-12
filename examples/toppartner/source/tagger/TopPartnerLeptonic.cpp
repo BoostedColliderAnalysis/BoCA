@@ -7,6 +7,18 @@ namespace toppartner
 namespace tagger
 {
 
+namespace
+{
+Quintet Map(Triplet const &triplet)
+{
+    Quintet quintet;
+    quintet.Doublet() = triplet.Doublet();
+    quintet.Triplet().Enforce(triplet.Singlet());
+    quintet.SetBdt(triplet.Bdt());
+    return quintet;
+}
+}
+
 int TopPartnerLeptonic::Train(boca::Event const&, PreCuts const&, Tag)
 {
     INFO0;

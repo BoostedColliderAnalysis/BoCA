@@ -21,6 +21,10 @@ public:
 
     boca::Triplet const& Triplet() const;
 
+    boca::Doublet & Doublet();
+
+    boca::Triplet & Triplet();
+
 };
 
 }

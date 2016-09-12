@@ -4,7 +4,13 @@ namespace boca
 {
 
 /**
-* @ingroup Generic
+ * @ingroup Generic
+ * @defgroup Iterator
+ * @brief Iterators
+ * @{
+ */
+
+/**
 * @brief %Iterator
 */
 template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
@@ -35,7 +41,6 @@ private:
 };
 
 /**
-* @ingroup Generic
 * @brief const iterator
 */
 template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
@@ -66,7 +71,6 @@ private:
 };
 
 /**
-* @ingroup Generic
 * @brief %Iterator
 */
 template <template <typename> class Container_, typename Value_, typename Enum_>
@@ -97,7 +101,6 @@ private:
 };
 
 /**
-* @ingroup Generic
 * @brief const iterator
 */
 template <template <typename> class Container_, typename Value_, typename Enum_>
@@ -128,3 +131,7 @@ private:
 };
 
 }
+
+/*
+ * @}
+ */

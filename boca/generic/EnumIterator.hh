@@ -7,7 +7,7 @@ namespace boca
 {
 
 /**
-* @ingroup Generic
+* @ingroup Iterator
 * @brief Enables the use of strongly typed enumerators as iterators
 */
 template<typename Enum_>

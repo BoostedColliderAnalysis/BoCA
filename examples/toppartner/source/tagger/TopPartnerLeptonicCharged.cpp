@@ -19,6 +19,11 @@ latex::String TopPartnerLeptonicCharged::LatexName() const
     return {"T_{l}", true};
 }
 
+std::vector<Particle> TopPartnerLeptonicCharged::Particles(boca::Event const&) const
+{
+    return {};
+}
+
 }
 
 }

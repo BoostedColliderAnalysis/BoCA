@@ -22,13 +22,7 @@ public:
 
     using Tagger::Multiplets;
 
-    std::vector<Quintet> Multiplets(boca::Event const&, boca::PreCuts const&, TMVA::Reader const&) const {
-        return {};
-    }
-
-    std::vector<Quintet> Multiplets(const boca::Event& event, const boca::PreCuts&);
-
-    std::vector<Quintet> Multiplets(const boca::Event& event);
+    std::vector<Quintet> Multiplets(boca::Event const&, boca::PreCuts const&, TMVA::Reader const&);
 
     std::vector<Particle> Particles(boca::Event const& event) const;
 
@@ -37,6 +31,8 @@ public:
     latex::String LatexName() const override;
 
 private:
+
+    std::vector<Quintet> Quintets(const boca::Event& event, const std::function< Quintet(Quintet&) >& function_1, const standardmodel::tagger::TopHadronic::Function& function_2);
 
     Reader<TopPartnerHadronicCharged> charged_;
 
