@@ -178,28 +178,6 @@ public:
     Angle RapidityS(LorentzVector<Momentum> const& lorentz_vector) const;
     //@}
 
-    /**
-    * Energy-energy correlation (EEC) @param bins is the histogram and has
-    * to be provided externally It is understood that the range of the
-    * histogam is -1 < cos(chi) < 1. hi.front() contains the bin [-1 <
-    * cos(chi) < -1+delta] and hi.back() the bin [1-delta < cos(chi) <
-    * 1]. delta = 2/hi.size(). We use classical indices to access the
-    * vector.
-    */
-    std::vector<double> EnergyEnergyCorrelation(int bins = 10) const;
-
-    /**
-    * Before writing the histogram it has to be normalized according to
-    * the number of events.
-    */
-    void NormalizeEEC(std::vector<double>& hi, long evts) const;
-
-    /**
-    * The asymmetry of EEC is calculated from a given \f$\cos\chi\f$ and
-    * EEC histogram, which is a std::vector<double> as described above.
-    */
-    double AEEC(std::vector<double>& hi, double& coschi) const;
-
 private:
     /**
     * Accessors for certain class of event shapes
@@ -225,19 +203,19 @@ private:
     /**
      * Calculate the thrust and related axes for less than two jets
      */
-    Array3<GradedVector3<double>> GetThrusts1() const;
+    Array3<GradedVector3<double>> Thrusts1() const;
     /**
      * Calculate the thrust and related axes for two jets
      */
-    Array3<GradedVector3<double>> GetThrusts2() const;
+    Array3<GradedVector3<double>> Thrusts2() const;
     /**
      * Calculate the thrust and related axes for three jets
      */
-    Array3<GradedVector3<double>> GetThrusts3() const;
+    Array3<GradedVector3<double>> Thrusts3() const;
     /**
      * Calculate the thrust and related axes for more than three jets
      */
-    Array3<GradedVector3<double>> GetThrusts4() const;
+    Array3<GradedVector3<double>> Thrusts4() const;
     /**
     * Calculate the thrust
     * @param vectors The three vectors
@@ -271,7 +249,11 @@ private:
     /**
      * Vector of particle 3 momenta to be analysed
      */
-    std::vector<Vector3<Momentum>> vectors_;
+    Mutable<std::vector<Vector3<Momentum>>> vectors_;
+    /**
+     * @brief scalar sum of all momenta
+     */
+    Mutable<Momentum> scalar_momentum_;
 
     /**
      * Various event shapes

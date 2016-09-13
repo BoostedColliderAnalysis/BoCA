@@ -9,7 +9,6 @@
 
 namespace boca
 {
-
 class Phase;
 class File;
 class Event;

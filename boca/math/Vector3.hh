@@ -564,6 +564,26 @@ public:
         return vector.x_ != x_ || vector.y_ != y_ || vector.z_ != z_;
     }
 
+    bool operator<(Vector3 const& vector)
+    {
+       return Mag2() < vector.Mag2();
+    }
+
+    bool operator>(Vector3 const& vector)
+    {
+        return vector < *this;
+    }
+
+    bool operator<=(Vector3 const& vector)
+    {
+        return !(*this > vector);
+    }
+
+    bool operator>=(Vector3 const& vector)
+    {
+        return !(*this < vector);
+    }
+
     // Unary minus
     Vector3 operator-() const {
         return { -x_, -y_, -z_};
