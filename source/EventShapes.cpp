@@ -236,18 +236,12 @@ Array3<GradedVector3<double>> EventShapes::Thrusts() const
 {
     INFO0;
     return thrusts_.Get([this]() {
-        // algorithm based on Brandt/Dahmen Z Phys C1 (1978)
         switch (Vectors().size()) {
-        case 0 :
-            ;
-        case 1 :
-            return Thrusts1();
-        case 2 :
-            return Thrusts2();
-        case 3 :
-            return Thrusts3();
-        default :
-            return Thrusts4();
+        case 0 : ;
+        case 1 : return Thrusts1();
+        case 2 : return Thrusts2();
+        case 3 : return Thrusts3();
+        default : return Thrusts4();
         }
     });
 }

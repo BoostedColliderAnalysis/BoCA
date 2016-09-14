@@ -27,7 +27,7 @@ public:
 
     void AddHistogram(const std::vector< double >& values, const Names& name, const boca::Rectangle< double >& range);
 
-    void AddHistogram(const std::vector< double >& values, const Names& name, const boca::Range< double >& range, bool is_int = false);
+    void AddHistogram(const std::vector< double >& values, const Names& name, boca::Range<double> const& range, bool is_int = false);
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 

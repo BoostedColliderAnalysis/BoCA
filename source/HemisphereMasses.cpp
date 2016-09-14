@@ -4,12 +4,20 @@
 namespace boca
 {
 
-void HemisphereMasses::SetMasses(const boca::Range< double >& masses)
+HemisphereMasses::HemisphereMasses() {}
+
+HemisphereMasses::HemisphereMasses(boca::Range<double> const& masses, boca::Range<double> const& broadenings)
+{
+  SetMasses(masses);
+  SetBroadenings(broadenings);
+}
+
+void HemisphereMasses::SetMasses(boca::Range<double> const& masses)
 {
     masses_ = masses;
 }
 
-void HemisphereMasses::SetBroadenings(const boca::Range< double >& broadenings)
+void HemisphereMasses::SetBroadenings(boca::Range<double> const& broadenings)
 {
     broadenings_ = broadenings;
 }
