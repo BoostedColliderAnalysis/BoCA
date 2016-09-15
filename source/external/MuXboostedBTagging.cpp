@@ -14,30 +14,30 @@
 namespace boca
 {
 
-Jet MuXboostedBTagging::Process(Jet const& jet, std::vector<Lepton> const& delphes_muons)
+Jet MuXboostedBTagging::Process(Jet const &jet, std::vector<Lepton> const &delphes_muons)
 {
     INFO0;
-    auto muons = std::vector<Jet>{};
-    for (auto const & muon : delphes_muons) if (Close<Lepton>(jet,Settings::JetConeSize())(muon)) muons.emplace_back(muon);
+    auto muons = std::vector<Jet> {};
+    for (auto const &muon : delphes_muons) if (Close<Lepton>(jet, Settings::JetConeSize())(muon)) muons.emplace_back(muon);
     if (muons.empty()) return jet;
     boost::sort(muons, [](Jet const & one, Jet const & two) {
         return one.Pt() < two.Pt();
     });
 
     auto recluster_input = muons;
-    for (auto const & consituent : jet.Constituents()) {
+    for (auto const &consituent : jet.Constituents()) {
         if (consituent.Info().ContainsDetectorPart(DetectorPart::tower) && consituent.Pt() < min_tower_pt_ratio_ * jet.Pt()) continue; // Don't use
         recluster_input.emplace_back(consituent);
     }
     // Recluster the jet, to find core candidates
-    auto cluster_sequence = boca::ClusterSequence{recluster_input, fastjet::JetDefinition(fastjet::antikt_algorithm, core_jet_radius / rad, &Settings::Recombiner())};
+    auto cluster_sequence = boca::ClusterSequence {recluster_input, fastjet::JetDefinition(fastjet::antikt_algorithm, core_jet_radius / rad, &Settings::Recombiner())};
     // Get the core candidates (NOT sorted by pT until we remove muons)
     auto core_candidates = cluster_sequence.InclusiveJets();
     if (core_candidates.empty()) return jet;
     cluster_sequence.NoLongerNeeded();
 
     // If a taggable muon is inside a core candidate, remove the muon p4
-    for (auto const & muon : muons) for (auto & core_candidate : core_candidates) if (muon.DeltaRTo(core_candidate) < core_jet_radius) {
+    for (auto const &muon : muons) for (auto &core_candidate : core_candidates) if (muon.DeltaRTo(core_candidate) < core_jet_radius) {
                 core_candidate -= muon;
                 break;
             }
@@ -52,20 +52,24 @@ Jet MuXboostedBTagging::Process(Jet const& jet, std::vector<Lepton> const& delph
     auto min_delta_mass = std::numeric_limits<Mass>::max(); // Default to infinity
     auto core = core_candidates.front();  // Default to hardest core
 
-    for (auto const & core_candidate : core_candidates) {
+    for (auto const &core_candidate : core_candidates) {
+        if (core_candidate.Energy() == 0_eV) continue;
         auto g = sqr(MassOf(Id::Dpm) / core_candidate.Energy());
         // Make sure we still have sufficient boost after muon subtraction
         if (g * sqr(core_min_boost_) > 1.) continue;
         auto y = core_candidate.Vector3().Tan2(hardest_muon.Vector3());
 
         // The core has the mass closest to fSubjetMassHypothesis
-        auto delta_mass = abs(sqrt(sqr(MassOf(Id::Dpm)) + (4. * hardest_muon.Energy() * core_candidate.Energy() * (g + y)) / (1. + y + sqrt(1. - ((g - y) + g * y)))) - MassOf(Id::B0));
+        auto denom = 1. + y + sqrt(1. - ((g - y) + g * y));
+        if (denom == 0) continue;
+        auto delta_mass = abs(sqrt(sqr(MassOf(Id::Dpm)) + (4. * hardest_muon.Energy() * core_candidate.Energy() * (g + y)) / denom) - MassOf(Id::B0));
 
         if (delta_mass > min_delta_mass) continue;
         min_delta_mass = delta_mass;
         core = core_candidate;
     }
 
+    if (core.ModP2() ==  0_eV * eV) return jet;
     // The current mass depends more on the granularity of the CAL more than anything else
     // To fix the mass, We need to scale the momentum of the core (but not the energy)
     core.ScaleMomentum(sqrt((core.Energy() - MassOf(Id::Dpm)) * (core.Energy() + MassOf(Id::Dpm)) / core.ModP2()));
@@ -73,12 +77,16 @@ Jet MuXboostedBTagging::Process(Jet const& jet, std::vector<Lepton> const& delph
     // Keep track of the smallest x for any muon
     auto min_x = std::numeric_limits<double>::max(); // Large enough, simple significand
     // Iterate through each muon, add it to the core, and calculate the resulting boost invariant
-    auto p4_neutrino_correction = Jet{};
-    for (auto const & muon : muons) {
+    auto p4_neutrino_correction = Jet {};
+    for (auto const &muon : muons) {
         // Add back the muon and the neutrino
         core += 2 * muon;
         // Set a hard ceiling on subjet mass, for poor reconstruction
-        auto x_core = static_cast<double>(core.Energy() * muon.Vector3().Cross(core.Vector3()).Mag() / muon.Vector3().Dot(core.Vector3()) / std::min(core.Mass(), max_sub_jet_mass_));
+        auto dot = muon.Vector3().Dot(core.Vector3());
+        auto min = std::min(core.Mass(), MaxSubJetMass());
+        if (dot == 0_eV * eV || min == 0_eV) continue;
+        auto cross = muon.Vector3().Cross(core.Vector3()).Mag();
+        auto x_core = static_cast<double>(core.Energy() * cross / dot / min);
         CHECK(x_core >= 0, x_core);
         if (x_core < 0) return jet;
         // Add the neutrino to original jet IFF the muon passes the boosted test
@@ -95,6 +103,11 @@ Jet MuXboostedBTagging::Process(Jet const& jet, std::vector<Lepton> const& delph
     result.SetInfo(jet.Info());
     result.Info().SetMuBTag(min_x, core.Pt() / result.Pt());
     return result;
+}
+
+Mass MuXboostedBTagging::MaxSubJetMass() const
+{
+    return 12_GeV;
 }
 
 }

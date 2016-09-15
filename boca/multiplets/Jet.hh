@@ -75,6 +75,8 @@ private:
 
 using Lepton = Jet;
 
+using Photon = Jet;
+
 using MissingEt = Jet;
 
 std::vector<Jet> JetVector(std::vector<fastjet::PseudoJet> const& pseudo_jets);

@@ -24,7 +24,7 @@ int Resonance::Train(boca::Event const& event, PreCuts const&, Tag tag)
 
 std::vector<Doublet> Resonance::Doublets(boca::Event const& event, std::function<Doublet(Doublet&)> const& function) const
 {
-    return UnorderedPairs(event.Photons(), [&](Lepton const & photon_1, Lepton const & photon_2) {
+    return UnorderedPairs(event.Photons(), [&](boca::Photon const & photon_1, boca::Photon const & photon_2) {
         Doublet doublet(photon_1, photon_2);
         if (doublet.Overlap()) throw Overlap();
         return function(doublet);

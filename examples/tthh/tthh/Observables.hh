@@ -49,6 +49,8 @@ public:
 
     boca::Momentum JetPt(std::size_t number) const;
 
+    boca::Momentum PhotonPt(std::size_t number) const;
+
     boca::Momentum LeptonPt(std::size_t number) const;
 
     boca::Energy MissingEt() const;
@@ -58,6 +60,8 @@ public:
     void SetJets(std::vector<boca::Jet> const &jets);
 
     void SetLeptons(std::vector<boca::Lepton> const &leptons);
+
+    void SetPhotons(std::vector<boca::Photon> const &photons);
 
     boca::Singlet ConstituentJet() const;
 
@@ -72,6 +76,8 @@ private:
     std::vector<boca::Jet> jets_;
 
     std::vector<boca::Lepton> leptons_;
+
+    std::vector<boca::Photon> photons_;
 
     boca::Momentum scalar_ht_;
 

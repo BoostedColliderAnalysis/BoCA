@@ -29,6 +29,7 @@ void Observables::SetEvent(boca::Event const& event, const std::vector<boca::Jet
 {
     SetJets(jets);
     SetLeptons(event.Leptons());
+    SetPhotons(event.Photons());
     scalar_ht_ = event.ScalarHt();
     missing_et_ = event.MissingEt().Pt();
 }
@@ -37,6 +38,7 @@ void Observables::SetEvent(boca::Event const& event)
 {
     SetJets(event.Jets());
     SetLeptons(event.Leptons());
+    SetPhotons(event.Photons());
     scalar_ht_ = event.ScalarHt();
     missing_et_ = event.MissingEt().Pt();
 }
@@ -110,9 +112,20 @@ void Observables::SetLeptons(std::vector<boca::Lepton> const& leptons)
     leptons_ = SortedByPt(leptons);
 }
 
+void Observables::SetPhotons(std::vector<boca::Photon> const& photons)
+{
+    INFO0;
+    photons_ = SortedByPt(photons);
+}
+
 boca::Momentum Observables::JetPt(std::size_t number) const
 {
     return jets_.size() > number ? jets_.at(number).Pt() : boca::at_rest;
+}
+
+boca::Momentum Observables::PhotonPt(std::size_t number) const
+{
+    return photons_.size() > number ? photons_.at(number).Pt() : boca::at_rest;
 }
 
 boca::Momentum Observables::LeptonPt(std::size_t number) const

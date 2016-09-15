@@ -38,11 +38,11 @@ std::vector<Lepton> Event::Muons() const
     return muons;
 }
 
-std::vector<Lepton> Event::Photons() const
+std::vector<Photon> Event::Photons() const
 {
     INFO0;
-    auto photons = std::vector<Lepton>{};
-    for (auto const & photon : TreeReader().Array<::exroot::Photon>(Branch::photon)) photons.emplace_back(Lepton(photon));
+    auto photons = std::vector<Photon>{};
+    for (auto const & photon : TreeReader().Array<::exroot::Photon>(Branch::photon)) photons.emplace_back(Photon(photon));
     return photons;
 }
 

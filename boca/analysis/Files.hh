@@ -41,7 +41,7 @@ public:
     }
 
     ~Files() {
-        std::cout << "PreCut ratio: " << RoundToDigits(static_cast<double>(object_sum_.load()) / event_sum_.load()) << std::endl;
+        Debug("PreCut ratio", RoundToDigits(static_cast<double>(object_sum_.load()) / event_sum_.load()));
         if (object_sum_.load()) TreeWriter().Write();
     }
 

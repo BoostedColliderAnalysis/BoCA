@@ -87,7 +87,7 @@ class MuXboostedBTagging
 
 public:
 
-  Jet Process(boca::Jet const& jet, std::vector<Lepton> const& delphes_muons = {});
+    Jet Process(boca::Jet const &jet, std::vector<Lepton> const &delphes_muons = {});
 
 private:
 
@@ -103,7 +103,8 @@ private:
 
     double core_min_boost_ = 1; // Minimum core boost during core selection (keep this low to reduce fake rate)
 
-    Mass max_sub_jet_mass_ = 12_GeV; // Ceiling of reconstructe subjet mass, for sanity
+    // Ceiling of reconstructe subjet mass, for sanity
+    Mass MaxSubJetMass() const;
 
 };
 
