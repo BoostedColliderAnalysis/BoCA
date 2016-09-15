@@ -632,19 +632,19 @@ public:
         return operator()(i);
     }
 
-    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() const {
+    ConstSubIterator<boca::Matrix3, Vector3, Value_, Dim3> begin() const {
         return {this, Dim3::x};
     }
 
-    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> end() const {
+    ConstSubIterator<boca::Matrix3, Vector3, Value_, Dim3> end() const {
         return {this, Dim3::last};
     }
 
-    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() {
+    SubIterator<boca::Matrix3, Vector3, Value_, Dim3> begin() {
         return {this, Dim3::x};
     }
 
-    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> end() {
+    SubIterator<boca::Matrix3, Vector3, Value_, Dim3> end() {
         return {this, Dim3::last};
     }
 

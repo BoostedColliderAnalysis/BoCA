@@ -81,13 +81,13 @@ public:
 
 // Set position and time.
     void SetX(Value_ x) {
-        vector_3_.SetX(x);
+        vector_3_.X() = x;
     }
     void SetY(Value_ y) {
-        vector_3_.SetY(y);
+        vector_3_.Y() = y;
     }
     void SetZ(Value_ z) {
-        vector_3_.SetZ(z);
+        vector_3_.Z() = z;
     }
     void SetT(Value_ t) {
         scalar_ = t;
@@ -112,7 +112,7 @@ public:
 // Setters to provide the functionality(but a more meanigful name) of
 // the previous version eg SetV4... PsetV4...
     void SetXYZT(Value_ x, Value_ y, Value_ z, Value_ t) {
-        vector_3_.SetXYZ(x, y, z);
+        vector_3_ = {x, y, z};
         SetT(t);
     }
 
@@ -136,16 +136,16 @@ public:
     }
 
 // Get position and time.
-    Value_ const& X() const {
+    Value_ X() const {
         return vector_3_.X();
     }
-    Value_ const& Y() const {
+    Value_ Y() const {
         return vector_3_.Y();
     }
-    Value_ const& Z() const {
+    Value_ Z() const {
         return vector_3_.Z();
     }
-    Value_ const& T() const {
+    Value_ T() const {
         return scalar_;
     }
 
@@ -163,7 +163,7 @@ public:
     }
 
 // Get spatial component.
-    Vector3<Value_> const& Vector() const {
+    Vector3<Value_> Vector() const {
         return vector_3_;
     }
 

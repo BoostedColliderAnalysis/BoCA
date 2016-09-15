@@ -76,11 +76,11 @@ public:
         LorentzVectorByMass(particle, particle.M * GeV);
     }
     // Get momentum and energy.
-    Momentum const& Px() const;
-    Momentum const& Py() const;
-    Momentum const& Pz() const;
-    boca::Energy const& E() const;
-    boca::Energy const& Energy() const;
+    Momentum Px() const;
+    Momentum Py() const;
+    Momentum Pz() const;
+    boca::Energy E() const;
+    boca::Energy Energy() const;
     Momentum & Px() ;
     Momentum & Py() ;
     Momentum & Pz() ;

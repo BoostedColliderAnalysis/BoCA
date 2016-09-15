@@ -20,16 +20,16 @@ public:
     }
 
     Value DistanceToSegment(Vector2<Value> const& point) const {
-        if (Mod2() == ValueSquare(0)) return Distance_1(point); // v == w case
+        if (Mag2() == ValueSquare(0)) return Distance_1(point); // v == w case
         auto parameter = Paramter(point);
         if (parameter < 0) return Distance_1(point); // Beyond the 'v' end of the segment
         if (parameter > 1) return Distance_2(point); // Beyond the 'w' end of the segment
         return DistanceToLine(point); // Projection falls on the segment
     }
     Value DistanceToLine(Vector2<Value> const& point) const {
-        if (Mod2() == ValueSquare(0)) return Distance_1(point); // v == w case
-        return (point - Projection(point)).Mod(); // second implementation
-        return Area(point) / Mod(); // first implementation
+        if (Mag2() == ValueSquare(0)) return Distance_1(point); // v == w case
+        return (point - Projection(point)).Mag(); // second implementation
+        return Area(point) / Mag(); // first implementation
     }
     template<typename Jet_>
     Angle MinDistanceTo(Jet_ const& jet) const {
@@ -45,11 +45,11 @@ public:
     Vector2<Value> const& Point_2() const {
         return point_2_;
     }
-    Value Mod() const {
-        return Vector().Mod();
+    Value Mag() const {
+        return Vector().Mag();
     }
-    ValueSquare Mod2() const {
-        return Vector().Mod2();
+    ValueSquare Mag2() const {
+        return Vector().Mag2();
     }
     Vector2<Value> Vector() const {
         return point_2_ - point_1_;
@@ -61,16 +61,16 @@ public:
         return point - point_2_;
     }
     Value Distance_1(Vector2<Value> const& point) const {
-        return Vector_1(point).Mod();
+        return Vector_1(point).Mag();
     }
     Value Distance_2(Vector2<Value> const& point) const {
-        return Vector_2(point).Mod();
+        return Vector_2(point).Mag();
     }
     double Paramter(Vector2<Value> const& point) const {
         // Consider the line extending the segment, parameterized as v + t (w - v).
         // We find projection of point p onto the line.
         // It falls where t = [(p-v) . (w-v)] / |w-v|^2
-        return point * Vector() / Mod2();
+        return point * Vector() / Mag2();
     }
     Vector2<Value> Projection(Vector2<Value> const& point) const {
         return point_1_ + Vector() * Paramter(point);
