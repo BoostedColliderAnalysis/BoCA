@@ -13,7 +13,7 @@ endif()
 include(cmake/CMakeConfig.cmake)
 find_package(Boost 1.43)
 # find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
-add_include_path(${Boost_INCLUDE_DIRS})
+add_include_path(${Boost_INCLUDE_DIRS} SYSTEM)
 # add_libraries(
 #   ${Boost_FILESYSTEM_LIBRARY}
 #   ${Boost_SYSTEM_LIBRARY}
