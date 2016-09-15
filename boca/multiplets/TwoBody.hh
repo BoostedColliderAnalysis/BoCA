@@ -23,9 +23,18 @@ class TwoBody : public Multiplet
 {
 
 public:
-
+    /**
+    * @name Constructors
+    */
+    //@{
+    /**
+    * @brief Default constructor
+    *
+    */
     TwoBody() {};
-
+    /**
+    * @brief Constructor accepting two different Multiplets
+    */
     TwoBody(Multiplet_1_ const &multiplet_1, Multiplet_2_ const &multiplet_2)
     {
         multiplet_1_ = multiplet_1;
@@ -34,7 +43,16 @@ public:
         else if (multiplet_1.Bdt() != InitialValue()) SetBdt(multiplet_1.Bdt());
         else if (multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_2.Bdt());
     }
-
+    //@}
+    /**
+    * @name Enforce Multiplet from other Objects
+    *
+    * this ensures strong type safety
+    */
+    //@{
+    /**
+    * @brief Enforce Multiplet from a single other Multiplet
+    */
     template<typename Multiplet_3_, typename Multiplet_4_>
     void Enforce(TwoBody<Multiplet_3_, Multiplet_4_> const &multiplet)
     {
@@ -42,12 +60,16 @@ public:
         multiplet_2_.Enforce(multiplet.Multiplet2());
         SetBdt(multiplet.Bdt());
     }
-
+    /**
+    * @brief Enforce a Multiplet from a Jet
+    */
     void Enforce(boca::Jet const &jet)
     {
         Enforce(jet, jet.Bdt());
     }
-
+    /**
+    * @brief Enforce a Multiplet from a vector of jets
+    */
     void Enforce(std::vector<boca::Jet> const &jets)
     {
         if (jets.empty()) return;
@@ -57,7 +79,9 @@ public:
         SetBdt(jets.at(0).Bdt(), jets.at(1).Bdt());
         if (jets.size() > 2) std::cout << "to many jets to enforce a multiplet" << std::endl;
     }
-
+    /**
+    * @brief Enforce a Multiplet from a jet and a seperate bdt
+    */
     void Enforce(boca::Jet const &jet, double bdt)
     {
         if (jet.Constituents().size() < 2) return EnforceJet(jet, bdt);
@@ -68,7 +92,9 @@ public:
         multiplet_2_.Enforce(jets.at(1), bdt);
         SetBdt(bdt);
     }
-
+    /**
+    * @brief Enforce a Multiplet from a jet and a seperate bdt
+    */
     void EnforceJet(boca::Jet jet, double bdt)
     {
         jet.Info().SetSubStructure(false);
@@ -76,121 +102,237 @@ public:
         multiplet_2_.Enforce(jet / 2, bdt);
         SetBdt(bdt);
     }
-
+    //@}
+    /**
+    * @brief Setter for two Multiplets
+    */
+    void Set(Multiplet_1_ const &multiplet_1, Multiplet_2_ const &multiplet_2)
+    {
+        multiplet_1_ = multiplet_1;
+        multiplet_2_ = multiplet_2;
+    }
+    /**
+    * @name Global accessors
+    */
+    //@{
+    /**
+    * @brief Accessor for event shapes
+    */
+    boca::EventShapes EventShapes() const
+    {
+        return event_shapes_.Get([this]() {
+            return boca::EventShapes(Jets());
+        });
+    }
+    /**
+    * @brief Accessor for jets
+    */
+    std::vector<boca::Jet> Jets() const override
+    {
+        return Combine(Multiplet1().Jets(), Multiplet2().Jets());
+    }
+    /**
+    * @brief Accessor for lorentz vectors
+    */
+    std::vector<LorentzVector<Momentum>> LorentzVectors() const override
+    {
+        return DeltaR() > Settings::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>> {Jet().Vector()};
+    }
+    //@}
+    /**
+    * @name Acessors to the Multiplets
+    */
+    //@{
+    /**
+    * @brief Accessor to the first multiplet
+    */
     Multiplet_1_ &Multiplet1()
     {
         return multiplet_1_;
     }
-
+    /**
+    * @brief Const accessor to the first multiplet
+    */
     Multiplet_1_ const &Multiplet1() const
     {
         return multiplet_1_;
     }
-
+    /**
+    * @brief Accessor to the second multiplet
+    */
     Multiplet_2_ &Multiplet2()
     {
         return multiplet_2_;
     }
-
+    /**
+    * @brief Const accessor to the second multiplet
+    */
     Multiplet_2_ const &Multiplet2() const
     {
         return multiplet_2_;
     }
-
+    //@}
+    /**
+    * @name Calculate overlap between multiplets
+    */
+    //@{
+    /**
+    * @brief Overlap with another multiplet
+    */
     template <typename Multiplet_3_>
     bool Overlap(Multiplet_3_ const &multiplet) const
     {
         return multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_);
     }
-
+    /**
+    * @brief Overlap with a singlet
+    */
     bool Overlap(boca::Singlet const &singlet) const
     {
         return multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet);
     }
-
+    /**
+    * @brief Overlap with a jet
+    */
     bool Overlap(boca::Jet const &jet) const
     {
         return multiplet_1_.Overlap(jet) || multiplet_2_.Overlap(jet);
     }
-
+    /**
+    * @brief Overlap within a multiplet
+    */
     bool Overlap() const
     {
         return multiplet_1_.Overlap(multiplet_2_);
     }
-
-    std::vector<boca::Jet> Jets() const override
-    {
-        return Combine(Multiplet1().Jets(), Multiplet2().Jets());
-    }
-
+    //@}
+    /**
+    * @name Energy related accessors
+    */
+    //@{
+    /**
+    * @brief Transverse momentum \f$\Delta p_T\f$
+    */
     Momentum DeltaPt() const
     {
         return Multiplet2().Pt() - Multiplet1().Pt();
     }
-
+    /**
+    * @brief Scalar sum of transverse momenta \f$H_T = \sum_i \left|p_{Ti}\right|\f$
+    */
     Momentum Ht() const
     {
         return Multiplet1().Ht() + Multiplet2().Ht();
     }
-
-    Angle DeltaRap() const
-    {
-        return Multiplet1().DeltaRapTo(Multiplet2());
-    }
-
-    Angle DeltaPhi() const
-    {
-        return Multiplet1().DeltaPhiTo(Multiplet2());
-    }
-
-    Angle DeltaR() const
-    {
-        return Multiplet1().DeltaRTo(Multiplet2());
-    }
-
+    /**
+    * @brief Mass difference
+    */
     boca::Mass DeltaM() const
     {
         return Multiplet2().Mass() - Multiplet1().Mass();
     }
-
+    /**
+    * @brief Difference in the scalar sum of transverse moenta
+    */
     Momentum DeltaHt() const
     {
         return Multiplet2().Ht() - Multiplet1().Ht();
     }
-
-    double Rho() const
-    {
-        return Pt() > Settings::MinCellPt() && DeltaR() > Settings::MinCellResolution() ? static_cast<double>(Mass() / Pt() / DeltaR() * 2_rad) : 0;
-    }
-
+    /**
+    * @brief Mass difference to a particle with Id
+    */
     boca::Mass MassDifferenceTo(Id id) const
     {
         return boost::units::abs(Mass() - MassOf(id));
     }
-
-    int Charge() const
+    //@}
+    /**
+    * @name Angle related accessors
+    */
+    //@{
+    /**
+    * @brief Difference rapidity \f$\Delta y\f$
+    */
+    Angle DeltaRap() const
     {
-        return Multiplet1().Charge() + Multiplet2().Charge();
+        return Multiplet1().DeltaRapTo(Multiplet2());
     }
-
+    /**
+    * @brief Difference in azimuth \f$\Delta \phi\f$
+    */
+    Angle DeltaPhi() const
+    {
+        return Multiplet1().DeltaPhiTo(Multiplet2());
+    }
+    /**
+    * @brief Difference in angular distance \f$\Delta R = \sqrt{(\Delta y)^2 + (\Delta \phi)^2}\f$
+    */
+    Angle DeltaR() const
+    {
+        return Multiplet1().DeltaRTo(Multiplet2());
+    }
+    /**
+    * @brief Line in agular space from the second component to the first
+    */
+    Line2<Angle> AngleLine() const
+    {
+        return {Multiplet2().Angles(), Multiplet1().AnglesMinTo(Multiplet2())};
+    }
+    //@}
+    /**
+    * @name Sub-structure
+    */
+    //@{
+    /**
+    * @brief Pull towards another multiplet
+    */
+    template<typename Multiplet_>
+    Angle Pull(Multiplet_ const &multiplet) const
+    {
+        return ConstituentJet().Pull(DeltaTo(multiplet));
+    }
+    /**
+    * @brief Pull from the first component to the second
+    */
     Angle Pull12() const
     {
         return Multiplet1().Pull(Multiplet2());
     }
-
+    /**
+    * @brief Pull from the second component to the first
+    */
     Angle Pull21() const
     {
         return Multiplet2().Pull(Multiplet1());
     }
-
+    /**
+    * @brief Dipolarity according to \f$\mathcal D = \frac{1}{R_{12}^2 p_{TJ}} \sum_{i\in J}p_{Ti}R_i^2\f$
+    */
+    double Dipolarity() const
+    {
+        if (Pt() <= at_rest || DeltaR() <= 0_rad) return 0;
+        return ConstituentJet().DipolaritySum(AngleLine()) / Pt() / sqr(DeltaR());
+    }
+    //@}
+    /**
+    * @name Selectors for subcomponents
+    */
+    //@{
+    /**
+    * @brief Harder subcomponent
+    */
     boca::Jet HarderComponent() const {
         return Multiplet1().Pt() > Multiplet2().Pt() ? Multiplet1().Jet() : Multiplet2().Jet();
     }
-
+    /**
+    * @brief Softer subcomponent
+    */
     boca::Jet SofterComponent() const {
         return Multiplet1().Pt() < Multiplet2().Pt() ? Multiplet1().Jet() : Multiplet2().Jet();
     }
-
+    /**
+    * @brief Subcomponent with the better mass of an object with Id
+    */
     boca::Jet ComponentWithBetterMass(Id id) const {
         return Multiplet1().MassDifferenceTo(id) < Multiplet2().MassDifferenceTo(id) ? Multiplet1().Jet() : Multiplet2().Jet();
     }
@@ -198,41 +340,23 @@ public:
     boca::Jet ComponentWithWorseMass(Id id) const {
         return Multiplet1().MassDifferenceTo(id) > Multiplet2().MassDifferenceTo(id) ? Multiplet1().Jet() : Multiplet2().Jet();
     }
-
-    Line2<Angle> Line() const
+    //@}
+    /**
+    * @brief Particle likeliness \f$\rho = \frac{2 m}{p_T \Delta R}\f$
+    *
+    * \f$\rho = 1\f$ for a particle
+    *
+    */
+    double Rho() const
     {
-        auto angles_1 = Multiplet1().Angles();
-        return {angles_1, Multiplet2().Angles(angles_1)};
+        return Pt() > Settings::MinCellPt() && DeltaR() > Settings::MinCellResolution() ? static_cast<double>(Mass() / Pt() / DeltaR() * 2_rad) : 0;
     }
-
-    double Dipolarity() const
+    /**
+    * @brief Charge
+    */
+    int Charge() const
     {
-        if (Pt() <= at_rest || DeltaR() <= 0_rad) return 0;
-        return ConstituentJet().Dipolarity(Line()) / Pt() / sqr(DeltaR());
-    }
-
-    template<typename Multiplet_>
-    Angle Pull(Multiplet_ const &multiplet) const
-    {
-        return ConstituentJet().Pull(DeltaTo(multiplet));
-    }
-
-    void Set(Multiplet_1_ const &multiplet_1, Multiplet_2_ const &multiplet_2)
-    {
-        multiplet_1_ = multiplet_1;
-        multiplet_2_ = multiplet_2;
-    }
-
-    std::vector<LorentzVector<Momentum>> LorentzVectors() const override
-    {
-        return DeltaR() > Settings::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>> {Jet().Vector()};
-    }
-
-    boca::EventShapes EventShapes() const
-    {
-        return event_shapes_.Get([this]() {
-            return boca::EventShapes(Jets());
-        });
+        return Multiplet1().Charge() + Multiplet2().Charge();
     }
 
 protected:

@@ -9,6 +9,9 @@
 namespace boca
 {
 
+/**
+* @brief Jet
+*/
 class Jet : public PseudoJet
 {
 

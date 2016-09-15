@@ -24,13 +24,13 @@ class SubDom : public TopPartner<Tagger_>
 protected:
 
     std::string Name() const override {
-        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
+        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-first";
     }
 
     void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
-            this->NewFile(tag, Process::TThh);
+            this->NewFile(tag, Process::TTh);
             break;
         case Tag::background :
             this->NewFile(tag, Process::ttWWW);

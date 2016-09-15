@@ -149,7 +149,7 @@ Mass GlobalObservables::Mass() const
 {
     return Jet().Mass();
 }
-Angle GlobalObservables::DeltaRTo(const PseudoJet& jet) const
+Angle GlobalObservables::DeltaRTo(PseudoJet const& jet) const
 {
     return Jet().DeltaRTo(jet);
 }

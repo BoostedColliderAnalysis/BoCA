@@ -176,6 +176,10 @@ protected:
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBB : return 0.03206 * 2_pb;
+            case Process::ttBBB : return 0.0003712 * 2_pb;
+            case Process::ttWBB : return 0.0002817 * 2_pb;
+            case Process::ttWWB : return 0.002644 * 2_pb;
+            case Process::ttWWW : return 0.0003265 * 2_pb;
             case Process::ttWWWW : return 0.24093E-05 * 2_pb;
             case Process::ttWWWB : return 0.70031E-06 * 2_pb;
             case Process::ttWWBB : return 0.71735E-06 * 2_pb;

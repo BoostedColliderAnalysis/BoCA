@@ -51,17 +51,11 @@ Angle Multiplet::Phi() const
 Vector2< Angle > Multiplet::Angles(bool wrap_phi) const
 {
     return Jet().Angles(wrap_phi);
-
-}
-
-Vector2< Angle > Multiplet::Angles(const Vector2< Angle >& angles) const
-{
-    return Jet().Angles(angles);
 }
 
 boca::SubJettiness Multiplet::SubJettiness() const
 {
-    return boca::SubJettiness(Singlet());
+    return boca::SubJettiness(ConstituentJet());
 }
 
 boca::Mass Multiplet::Mass() const
@@ -74,24 +68,29 @@ std::vector<boca::Jet> Multiplet::Constituents() const
     return ConstituentJet().Constituents();
 }
 
-Angle Multiplet::DeltaPhiTo(const PseudoJet& jet) const
+Angle Multiplet::DeltaPhiTo(PseudoJet const& jet) const
 {
     return Jet().DeltaPhiTo(jet);
 }
 
-Angle Multiplet::DeltaRTo(const PseudoJet& jet) const
+Angle Multiplet::DeltaRTo(PseudoJet const& jet) const
 {
     return Jet().DeltaRTo(jet);
 }
 
-Angle Multiplet::DeltaRapTo(const PseudoJet& jet) const
+Angle Multiplet::DeltaRapTo(PseudoJet const& jet) const
 {
     return Jet().DeltaRapTo(jet);
 }
 
-Vector2< Angle > Multiplet::DeltaTo(const PseudoJet& jet) const
+Vector2< Angle > Multiplet::DeltaTo(PseudoJet const& jet) const
 {
     return Jet().DeltaTo(jet);
+}
+
+Vector2< Angle > Multiplet::AnglesMinTo(PseudoJet const& jet) const
+{
+    return Jet().AnglesMinTo(jet);
 }
 
 bool Multiplet::HasConstituents() const

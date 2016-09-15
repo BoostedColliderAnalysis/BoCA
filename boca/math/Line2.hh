@@ -32,7 +32,7 @@ public:
         return Area(point) / Mod(); // first implementation
     }
     template<typename Jet_>
-    Angle Distance(Jet_ const& jet) const {
+    Angle MinDistanceTo(Jet_ const& jet) const {
         auto phi = jet.Phi();
         auto distance_1 = DistanceToSegment(Vector2<Angle>(jet.Rap(), phi));
         phi = Wrap(phi);

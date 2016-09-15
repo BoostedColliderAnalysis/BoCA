@@ -211,12 +211,12 @@ public:
     }
 
     boca::Angle DeltaPhi(LorentzVectorBase const& lorentz_vector) const {
-        return RestrictPhi(Phi() - lorentz_vector.Phi());
+        return Restrict(Phi() - lorentz_vector.Phi());
     }
 
     boca::Angle DeltaR(LorentzVectorBase const& lorentz_vector) const {
         auto delta_eta = Eta() - lorentz_vector.Eta();
-        auto delta_phi = RestrictPhi(Phi() - lorentz_vector.Phi());
+        auto delta_phi = Restrict(Phi() - lorentz_vector.Phi());
         return sqrt(sqr(delta_eta) + sqr(delta_phi));
     }
 

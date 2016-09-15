@@ -8,6 +8,15 @@ class TTreeReader;
 class TClass;
 class TObject;
 
+
+
+namespace ROOT{
+class TTreeReaderArrayBase;
+namespace Internal{
+    using ROOT::TTreeReaderArrayBase;
+}
+using namespace Internal;
+}
 namespace boca
 {
 

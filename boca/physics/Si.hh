@@ -32,23 +32,29 @@ using Angle = boost::units::quantity<boost::units::si::plane_angle>;
 
 using AngleSquare = typename boost::units::multiply_typeof_helper<Angle, Angle>::type;
 
-double to_double(Angle angle);
-
-Angle to_angle(double angle);
-
 BOOST_UNITS_STATIC_CONSTANT(radian, boost::units::si::plane_angle);
 
 BOOST_UNITS_STATIC_CONSTANT(radians, boost::units::si::plane_angle);
 
-// returns phi angle in the interval [-PI,PI)
-Angle RestrictPhi(Angle phi);
-
-// Wrap phi around by 2 pi
-Angle Wrap(Angle phi);
-
+/**
+* @brief \f$\pi\f$
+*/
 Angle Pi();
 
+/**
+* @brief \f$2 \pi\f$
+*/
 Angle TwoPi();
+
+/**
+* @brief returns an angle in the interval \f$[-\pi,\pi]\f$)
+*/
+Angle Restrict(Angle phi);
+
+/**
+* @brief Wrap an angle around by \f$2 \pi\f$
+*/
+Angle Wrap(Angle phi);
 
 }
 
