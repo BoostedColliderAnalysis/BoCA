@@ -17,7 +17,7 @@ namespace boca
 
 /**
  * @ingroup Generic
- * @defgroup Vector
+ * @defgroup Vector Vector
  * @brief Functions used for Container (mainly std::vector) manipulation
  * @{
  */

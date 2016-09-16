@@ -287,23 +287,23 @@ public:
     * @brief Pull towards another multiplet
     */
     template<typename Multiplet_>
-    Angle Pull(Multiplet_ const &multiplet) const
+    Angle PullTo(Multiplet_ const &multiplet) const
     {
-        return ConstituentJet().Pull(DeltaTo(multiplet));
+        return ConstituentJet().PullAngle(DeltaTo(multiplet));
     }
     /**
     * @brief Pull from the first component to the second
     */
     Angle Pull12() const
     {
-        return Multiplet1().Pull(Multiplet2());
+        return Multiplet1().PullTo(Multiplet2());
     }
     /**
     * @brief Pull from the second component to the first
     */
     Angle Pull21() const
     {
-        return Multiplet2().Pull(Multiplet1());
+        return Multiplet2().PullTo(Multiplet1());
     }
     /**
     * @brief Dipolarity according to \f$\mathcal D = \frac{1}{R_{12}^2 p_{TJ}} \sum_{i\in J}p_{Ti}R_i^2\f$

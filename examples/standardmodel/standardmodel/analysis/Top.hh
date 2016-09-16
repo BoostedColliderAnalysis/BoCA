@@ -80,12 +80,12 @@ private:
         }
     }
 
-    int PassPreCut(boca::Event const& event, Tag) const override {
+    bool PassPreCut(boca::Event const& event) const override {
         auto particles = SortedByPt(event.GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
 //         std::cout << "pre cut " << particles.size() << std::endl;
-        return particles.size() == 1 ? 1 : 0;
+        return particles.size() == 1 ? true : false;
     }
 
 };

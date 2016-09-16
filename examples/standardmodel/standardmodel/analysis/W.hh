@@ -22,7 +22,8 @@ class W : public StandardModel<Tagger_>
 
 public:
 
-    W() {
+    W()
+    {
         this->PreCuts().PtLowerCut().Set(Id::W, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
 //         this->PreCuts().MassUpperCut().Set(Id::W, 200_GeV);
@@ -30,19 +31,22 @@ public:
         this->PreCuts().ConsiderBuildingBlock().Set(Id::W, false);
     }
 
-    static Decay WDecay() {
+    static Decay WDecay()
+    {
         return Decay::hadronic;
         return Decay::leptonic;
     }
 
 private:
 
-    std::string Name() const override {
+    std::string Name() const override
+    {
         return boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-bottom";
     }
 
 
-    void SetFiles(Tag tag, Stage stage)override {
+    void SetFiles(Tag tag, Stage stage)override
+    {
         switch (tag) {
         case Tag::signal :
             if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::ww);
@@ -63,11 +67,13 @@ private:
             break;
         }
     }
-    int PassPreCut(boca::Event const& event, Tag) const override {
-        return 1;
-       auto particles = SortedByPt(event.GenParticles());
-        if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;
-        return 0;
+
+    bool PassPreCut(boca::Event const &event) const override
+    {
+        return true;
+        auto particles = SortedByPt(event.GenParticles());
+        if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return true;
+        return false;
     }
 
 };

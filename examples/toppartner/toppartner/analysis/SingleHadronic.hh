@@ -57,11 +57,11 @@ protected:
 private:
 //         TopPartnerHadronicTagger partner_tagger;
 
-    int PassPreCut(boca::Event const& , Tag) const override {
+    bool PassPreCut(boca::Event const&) const override {
         INFO0;
 //       if(tag == Tag::signal){
 //        std::vector<Jet> partner = partner_tagger.Particles(event);
-//         if(partner.empty()) return 0;
+//         if(partner.empty()) return false;
 //       }
 //       static int counter = 0;
 //       ++counter;
@@ -71,8 +71,8 @@ private:
 //      this->PrintGeneratorLevel(event);
 
 //        std::vector<Jet> jets = SortedByPt(event.Jets());
-//         if (jets.size() < 3) return 0;
-//         if (jets.at(2).Pt() < this->JetPreCut()) return 0;
+//         if (jets.size() < 3) return false;
+//         if (jets.at(2).Pt() < this->JetPreCut()) return false;
 //
 //
 //        std::vector<Jet> particles = event.GenParticles();
@@ -82,12 +82,12 @@ private:
 //        std::vector<Jet>vectors = CopyIfParticles(particles, Id::Z, Id::W);
 //        std::vector<Jet> partner = CopyIfParticle(particles, Id::top_partner);
 //         if (tag == Tag::signal && partner.size() != 1) {
-//             return 0;
+//             return false;
 //         }
 //         if (tops.size() < 2 || (higgs.empty() && vectors.empty())) {
-//             return 0;
+//             return false;
 //         }
-        return 1;
+        return true;
     }
 
 };

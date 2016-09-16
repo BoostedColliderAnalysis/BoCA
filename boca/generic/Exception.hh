@@ -8,7 +8,7 @@ namespace boca
 
 /**
  * @ingroup Generic
- * @defgroup Exceptions
+ * @defgroup Exceptions Exceptions
  * @brief Customized subclasses of std::exception or std::runtime_error
  * @{
  */

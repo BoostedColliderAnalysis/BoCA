@@ -60,14 +60,14 @@ private:
 
     }
 
-    int PassPreCut(boca::Event const& , Tag) const override {
-          return 1;
+    bool PassPreCut(boca::Event const&) const override {
+          return true;
 //        std::vector<Jet> jets = SortedByPt(event.Jets());
-//         if (jets.empty()) return 0;
-//         if (jets.front().Pt() < this->LowerPtCut()) return 0;
+//         if (jets.empty()) return false;
+//         if (jets.front().Pt() < this->LowerPtCut()) return false;
 //        std::vector<Jet> particles = SortedByPt(event.GenParticles());
-//         if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;
-        return 0;
+//         if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return true;
+        return false;
     }
 
 };

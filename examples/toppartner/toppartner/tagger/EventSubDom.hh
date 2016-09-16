@@ -19,7 +19,7 @@ namespace tagger
  * @brief Prepares multivariant analysis
  *
  */
-class EventSubDom : public standardmodel::tagger::Event<SignatureSubDom, Duodecuplet552, branch::Event>
+class EventSubDom : public standardmodel::tagger::Event<SignatureSubDom, Duodecuplet552, boca::branch::Event>
 {
 
 public:

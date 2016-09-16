@@ -303,9 +303,9 @@ long Base::EventNumberMax(Stage stage) const
     }
 }
 
-int Base::PassPreCut(Event const&, Tag) const
+bool Base::PassPreCut(Event const&) const
 {
-    return 1;
+    return true;
 }
 
 void Base::AnalysisLoop(Stage stage)

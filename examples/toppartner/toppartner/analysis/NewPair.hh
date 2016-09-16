@@ -49,9 +49,9 @@ protected:
 
 private:
 
-    int PassPreCut(boca::Event const&, Tag) const override {
+    bool PassPreCut(boca::Event const&) const override {
         INFO0;
-        return 1;
+        return true;
     }
 
 };

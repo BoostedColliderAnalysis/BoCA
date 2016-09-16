@@ -76,20 +76,20 @@ private:
         return 10;
     }
 
-    int PassPreCut(boca::Event const& event, Tag) const override {
-      //         if(this->template TaggerIs<tagger::WLeptonic>()) return 0;
+    bool PassPreCut(boca::Event const& event) const override {
+      //         if(this->template TaggerIs<tagger::WLeptonic>()) return false;
       //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->()).semi_leptonic = false;
        std::vector<Lepton> leptons = SortedByPt(event.Leptons());
-        if (leptons.size() < 2) return 0;
-//         if (leptons.at(1).Pt() < 40) return 0;
+        if (leptons.size() < 2) return false;
+//         if (leptons.at(1).Pt() < 40) return false;
 //        std::vector<Jet> jets = event.Jets();
 //        std::vector<Jet>gen_particles = event.GenParticles();
 //        std::vector<Jet> higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
 //         if (higgs.empty()) {
 //         ERROR(NoHiggs(), higgs.size());
-//             return 1;
+//             return true;
 //         }
-//         if(higgs.front().Pt() < 200) return 0;
+//         if(higgs.front().Pt() < 200) return false;
 //         static int pre_cut=0;
 //         ++pre_cut;
 //         ERROR(pre_cut);
@@ -101,7 +101,7 @@ private:
 //         higgs = RemoveIfSingleMother(higgs);
 //         ERROR(SingleHiggs(), higgs.size());
 //         return higgs.size();
-        return 1;
+        return true;
     }
 
 

@@ -67,16 +67,16 @@ private:
         }
     }
 
-    int PassPreCut(boca::Event const& event, Tag) const override {
+    bool PassPreCut(boca::Event const& event) const override {
 //         Debug("muons: ", event.Muons().size());
         auto particles = SortedByPt(event.GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
-        if (particles.size() != 1) return 0;
-        return 1;
+        if (particles.size() != 1) return false;
+        return true;
         auto jets = event.Jets();
         jets = RemoveIfOutsidePtWindow(jets, this->LowerPtCut(), this->UpperPtCut());
-        return jets.size();
+        return jets.size() > 0  ? true : false;
     }
 
 };

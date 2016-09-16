@@ -1,8 +1,13 @@
 #pragma once
 
+#include <boost/range/algorithm/count_if.hpp>
+
 #include "boca/analysis/Analysis.hh"
 
-namespace tthh {
+namespace tthh
+{
+
+using namespace boca::units;
 
 template<typename Tagger_>
 class Analysis : public boca::Analysis<Tagger_>
@@ -32,6 +37,15 @@ public:
     std::string Name() const override
     {
         return "SimpleAnalysis";
+    }
+
+    bool PassPreCut(boca::Event const &event) const override
+    {
+        auto jets = event.Jets();
+        auto number_hard_jets = boost::range::count_if(jets, [](boca::Jet const & jet) {
+            return jet.Pt() > 50_GeV;
+        });
+        return number_hard_jets >= 2  ?  true : false;
     }
 
 };

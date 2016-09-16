@@ -5,8 +5,8 @@ namespace boca
 
 /**
  * @ingroup Generic
- * @defgroup Iterator
- * @brief Iterators
+ * @defgroup Iterator Iterator
+ * @brief Enum based iterators
  * @{
  */
 

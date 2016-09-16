@@ -57,7 +57,7 @@ int Singlet::Charge() const
     return Info().Charge();
 }
 
-Vector2<AngleSquare> Singlet::Pull() const
+Vector2<AngleSquare> Singlet::PullVector() const
 {
     INFO0;
     return pull_.Get([this]() -> Vector2<AngleSquare> {
@@ -76,11 +76,11 @@ AngleSquareMomentum Singlet::DipolaritySum(const Line2< Angle > &line) const
     });
 }
 
-Angle Singlet::Pull(const Vector2< Angle > &reference) const
+Angle Singlet::PullAngle(const Vector2< Angle > &reference) const
 {
-    if (reference.Mag2() <= 0. * rad2 || Pull().Mag2() <= 0. * rad2 * rad2) return Pi();
+    if (reference.Mag2() <= 0. * rad2 || PullVector().Mag2() <= 0. * rad2 * rad2) return Pi();
     auto range = Range<double>{-1, 1};
-    return acos(range.Constrain(reference * Pull() / reference.Mag() / Pull().Mag()));
+    return acos(range.Constrain(reference * PullVector() / reference.Mag() / PullVector().Mag()));
 }
 
 const Singlet &Singlet::ConstituentJet() const

@@ -86,7 +86,7 @@ public:
     Vector2<Angle> DeltaTo(PseudoJet const &jet) const;
     /**
     * @brief Vector of rapidity \f$y\f$ and azimuth \f$\phi\f$
-    * @param wrap_phi use the given \f$[-\pi,\pi]\f$ or wrap it by \f$2 \pif$
+    * @param wrap_phi use the given \f$[-\pi,\pi]\f$ or wrap it by \f$2 \pi\f$
     */
     Vector2<Angle> Angles(bool wrap_phi = false) const;
     /**

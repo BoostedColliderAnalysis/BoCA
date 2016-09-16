@@ -67,8 +67,8 @@ private:
     void Thread(analysis::Data<Tagger_> data) {
         data.ReadEvents(PreCuts(), [&](Stage stage) {
             return EventNumberMax(stage);
-        }, [&](Event const & event, Tag tag) {
-            return PassPreCut(event, tag);
+        }, [&](Event const & event) {
+            return PassPreCut(event);
         });
     }
 

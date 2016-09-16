@@ -25,7 +25,7 @@ public:
         core_sum_ = core_sum;
     }
 
-    void ReadEvents(PreCuts const& pre_cuts, std::function<long(Stage)> const& event_number_max, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
+    void ReadEvents(PreCuts const& pre_cuts, std::function<long(Stage)> const& event_number_max, std::function<bool(boca::Event const&)> const& pass_pre_cut) {
         while (KeepGoing(event_number_max)) ReadEvent(pre_cuts, pass_pre_cut);
     }
 
@@ -37,7 +37,7 @@ private:
         return entry;
     }
 
-    void ReadEvent(PreCuts const& pre_cuts, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
+    void ReadEvent(PreCuts const& pre_cuts, std::function<bool(boca::Event const&)> const& pass_pre_cut) {
         if (!ReadEntry()) return;
         switch (Settings::Source()) {
         case Source::snowmass :
@@ -48,15 +48,15 @@ private:
         }
     }
 
-    void ReadDelphesEvent(PreCuts const& pre_cuts, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
+    void ReadDelphesEvent(PreCuts const& pre_cuts, std::function<bool(boca::Event const&)> const& pass_pre_cut) {
         auto event = TreeReader().DelphesEvent();
-        if (pass_pre_cut(event, Files().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
+        if (pass_pre_cut(event)) return SaveEntry(Switch(event, pre_cuts));
         Increment(0);
     }
 
-    void ReadExRootEvent(PreCuts const& pre_cuts, std::function<int(boca::Event const&, Tag)> const& pass_pre_cut) {
+    void ReadExRootEvent(PreCuts const& pre_cuts, std::function<bool(boca::Event const&)> const& pass_pre_cut) {
         auto event = TreeReader().ExRootEvent();
-        if (pass_pre_cut(event, Files().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
+        if (pass_pre_cut(event)) return SaveEntry(Switch(event, pre_cuts));
         Increment(0);
     }
 

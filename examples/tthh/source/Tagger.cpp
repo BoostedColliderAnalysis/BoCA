@@ -9,8 +9,6 @@ int Tagger::Train(boca::Event const &event, boca::PreCuts const &, boca::Tag tag
     return SaveEntries({observables});
 }
 
-//     using boca::Tagger::Multiplets;
-
 std::vector<Observables> Tagger::Multiplets(boca::Event const &event, boca::PreCuts const &, TMVA::Reader const &reader)
 {
     Observables observables(event);
@@ -22,5 +20,12 @@ std::string Tagger::Name() const
 {
     return "tthh";
 }
+
+TMVA::Types::EMVA Tagger::Mva() const
+{
+    return TMVA::Types::EMVA::kCuts;
+    return TMVA::Types::EMVA::kBDT;
+}
+
 
 }

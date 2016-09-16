@@ -122,15 +122,15 @@ public:
 
 private:
 
-    int PassPreCut(boca::Event const&, Tag) const override {
+    bool PassPreCut(boca::Event const&) const override {
 //         std::vector<Particle> Particles = event.GenParticles();
 //
 //         std::vector<Particle> Tops = CopyIfParticle(Particles, Id::top);
 //         std::vector<Particle> Bottoms = CopyIfParticle(Particles, Id::bottom);
 //
-//         if (event.MissingEt().Pt() < this->MissingEt()) return 0;
+//         if (event.MissingEt().Pt() < this->MissingEt()) return false;
 //         std::vector<Lepton> leptons = SortedByPt(event.Leptons());
-//         if (Leptons.size() < 2) return 0;
+//         if (Leptons.size() < 2) return false;
 //         int positive_lepton = 0;
 //         int negative_lepton = 0;
 //         for (auto const & lepton : Leptons) {
@@ -138,12 +138,12 @@ private:
 //             if (lepton.Pt() > this->LeptonPt() && lepton.Info().Charge() < 0) ++negative_lepton;
 //         }
 //
-//         if (positive_lepton < 2 && negative_lepton < 2) return 0;
-//         if ((positive_lepton + negative_lepton) > 2) return 0;
+//         if (positive_lepton < 2 && negative_lepton < 2) return false;
+//         if ((positive_lepton + negative_lepton) > 2) return false;
 //
 //         std::vector<Jet> jets = event.Jets();
-//         if (jets.size() < 4) return 0;
-        return 1;
+//         if (jets.size() < 4) return false;
+        return true;
     }
 
 };

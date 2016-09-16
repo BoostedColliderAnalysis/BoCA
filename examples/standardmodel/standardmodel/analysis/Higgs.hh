@@ -59,13 +59,13 @@ private:
         }
     }
 
-    int PassPreCut(boca::Event const& , Tag) const override {
-          return 1;
+    bool PassPreCut(boca::Event const&) const override {
+          return true;
 //        std::vector<Jet> jets = SortedByPt(event.Jets());
-//         if (jets.size() < 2) return 0;
+//         if (jets.size() < 2) return false;
 //         if ((jets.at(0).Pt() > this->LowerPtCut() && jets.at(0).Pt() < this->UpperPtCut()) &&
-//           (jets.at(1).Pt() > this->LowerPtCut() && jets.at(1).Pt() < this->UpperPtCut())) return 1;
-        return 0;
+//           (jets.at(1).Pt() > this->LowerPtCut() && jets.at(1).Pt() < this->UpperPtCut())) return true;
+        return false;
     }
 
 };

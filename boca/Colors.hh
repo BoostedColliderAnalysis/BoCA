@@ -11,7 +11,7 @@ namespace boca
 
 /**
  * @ingroup Boca
- * @defgroup Colors
+ * @defgroup Colors Colors
  * @brief Color definitions for plotting
  * @{
  */

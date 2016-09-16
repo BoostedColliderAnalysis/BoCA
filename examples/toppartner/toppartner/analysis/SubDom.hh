@@ -27,7 +27,7 @@ protected:
         return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-first";
     }
 
-    void SetFiles(Tag tag, Stage)override {
+    void SetFiles(Tag tag, Stage) override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::TTh);
@@ -43,10 +43,10 @@ protected:
 
 private:
 
-    int PassPreCut(boca::Event const&, Tag) const override {
-//         if (event.Jets().size() < 5) return 0;
-//         if (event.Leptons().empty()) return 0;
-        return 1;
+    bool PassPreCut(boca::Event const&) const override {
+//         if (event.Jets().size() < 5) return false;
+//         if (event.Leptons().empty()) return false;
+        return true;
     }
 
 };

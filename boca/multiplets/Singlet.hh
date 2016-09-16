@@ -77,7 +77,7 @@ public:
 
     Singlet const& ConstituentJet() const;
 
-    Vector2<AngleSquare> Pull() const;
+    Vector2<AngleSquare> PullVector() const;
 
     template<typename Multiplet_>
     using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value >::type;
@@ -111,11 +111,11 @@ public:
     using PseudoJet::DeltaTo;
 
     template<typename Multiplet_>
-    Angle Pull(Multiplet_ const& multiplet) const {
-        return Pull(DeltaTo(multiplet));
+    Angle PullTo(Multiplet_ const& multiplet) const {
+        return PullAngle(DeltaTo(multiplet));
     }
 
-    Angle Pull(Vector2<Angle> const& reference) const;
+    Angle PullAngle(Vector2<Angle> const& reference) const;
 
     AngleSquareMomentum DipolaritySum(Line2<Angle> const& line) const;
 

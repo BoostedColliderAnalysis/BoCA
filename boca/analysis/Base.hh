@@ -94,7 +94,7 @@ protected:
 
     void RunTrainer();
 
-    virtual int PassPreCut(Event const&, Tag tag) const;
+    virtual bool PassPreCut(Event const&) const;
 
     virtual long TrainNumberMax() const;
 
