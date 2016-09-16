@@ -1,4 +1,5 @@
 add_subdirectory(standardmodel)
+add_example(cut)
 add_example(simple)
 add_example(heavyhiggs)
 add_example(higgscpv)

@@ -3,6 +3,7 @@
 #
 set(tagger_sources
 Base.cpp
+Dummy.cpp
 Global.cpp
 )
 create_library(Tagger tagger_sources)

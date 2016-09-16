@@ -11,17 +11,17 @@ namespace tagger
 int Global::Train(Event const& event, PreCuts const& , Tag tag)
 {
     INFO0;
-    auto global_observables = GlobalObservables{event};
-    global_observables.SetTag(tag);
-    return SaveEntries({global_observables});
+    auto global = boca::Global{event};
+    global.SetTag(tag);
+    return SaveEntries({global});
 }
 
-std::vector<GlobalObservables> Global::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader)
+std::vector<boca::Global> Global::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader)
 {
     INFO0;
-    auto global_observables = GlobalObservables{event};
-    global_observables.SetBdt(Bdt(global_observables, reader));
-    return {global_observables};
+    auto global = boca::Global{event};
+    global.SetBdt(Bdt(global, reader));
+    return {global};
 }
 
 std::string Global::Name() const

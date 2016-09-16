@@ -2,7 +2,7 @@
 
 #include "boca/multivariant/Reader.hh"
 #include "boca/branch/Global.hh"
-#include "boca/multiplets/GlobalObservables.hh"
+#include "boca/multiplets/Global.hh"
 #include "standardmodel/tagger/Bottom.hh"
 
 namespace standardmodel
@@ -16,7 +16,7 @@ namespace tagger
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class Global : public boca::Tagger<boca::GlobalObservables, boca::branch::Global>
+class Global : public boca::Tagger<boca::Global, boca::branch::Global>
 {
 
 public:
@@ -25,7 +25,7 @@ public:
 
     using Tagger::Multiplets;
 
-    std::vector<boca::GlobalObservables> Multiplets(boca::Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
+    std::vector<boca::Global> Multiplets(boca::Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

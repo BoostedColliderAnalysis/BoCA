@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/multiplets/GlobalObservables.hh"
+#include "boca/multiplets/Global.hh"
 #include "toppartner/tagger/CompleteSingleHadronic.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
@@ -33,7 +33,7 @@ std::vector<EventMultiplet<Decuplet532>> CompleteSingleHadronic::Multiplets(boca
 std::vector<EventMultiplet<Decuplet532>> CompleteSingleHadronic::Decuplets(boca::Event const& event, std::function<EventMultiplet<Decuplet532>(boca::EventMultiplet<Decuplet532>&)> const& function)
 {
     INFO0;
-    boca::GlobalObservables global_observables(event, bottom_reader_.Jets(event));
+    boca::Global global(event, bottom_reader_.Jets(event));
     auto triplets = top_reader_.Multiplets(event);
     auto quintets = partner_reader_.Multiplets(event);
     std::vector<EventMultiplet<Decuplet532>> decuplets;
@@ -46,7 +46,7 @@ std::vector<EventMultiplet<Decuplet532>> CompleteSingleHadronic::Decuplets(boca:
                 Decuplet532 decuplet(quintet, triplet, doublet);
                 if (decuplet.Overlap()) continue;
                 decuplet.SetVetoBdt(veto.Bdt());
-                EventMultiplet<Decuplet532> event(decuplet, global_observables);
+                EventMultiplet<Decuplet532> event(decuplet, global);
                 decuplets.emplace_back(function(event));
             }
         }

@@ -44,10 +44,10 @@ public:
 protected:
 
     std::vector<EventMultiplet<Multiplet_>> Events(boca::Event const& event, std::function<EventMultiplet<Multiplet_>(boca::EventMultiplet<Multiplet_> &)> const& function) {
-        auto global_observables = global_reader_.Multiplets(event).front();
+        auto global = global_reader_.Multiplets(event).front();
         std::vector<EventMultiplet<Multiplet_>> events;
         for (auto const & signature : signature_reader_.Multiplets(event)) {
-            EventMultiplet<Multiplet_> event_multiplet(signature, global_observables);
+            EventMultiplet<Multiplet_> event_multiplet(signature, global);
             events.emplace_back(function(event_multiplet));
         }
         return events;
