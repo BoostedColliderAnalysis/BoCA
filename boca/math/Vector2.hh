@@ -51,8 +51,8 @@ public:
 
     /**
     * @name Constructor
+    * @{
     */
-    //@{
 
     /**
     * @brief Default constructor
@@ -92,8 +92,8 @@ public:
 
     /**
     * @name Accessors and Getters
+    * @{
     */
-    //@{
 
     /**
     * @brief Getter for X
@@ -197,8 +197,8 @@ public:
 
     /**
      * @name Products
+     * @{
      */
-    //@{
 
     /**
     * @brief Dot product
@@ -230,8 +230,8 @@ public:
 
     /**
     * @name Operators
+    * @{
     */
-    //@{
 
     /**
     * @brief Assignment operator including casting
@@ -381,8 +381,8 @@ public:
 
     /**
      * @name Iterators
+     * @{
      */
-    //@{
 
     /**
      * @brief Const begin

@@ -38,16 +38,19 @@ public:
 
     /**
     * @name Angle related accessors
+    * @{
     */
-    //@{
+
     /**
     * @brief Rapidity \f$y\f$
     */
     Angle Rap() const;
+
     /**
     * @brief Azimuth \f$\phi\f$
     */
     Angle Phi() const;
+
     /**
     * @brief \f$\Delta \phi\f$ to a jet constrained to \f$[-\pi,\pi]\f$
     */
@@ -57,6 +60,7 @@ public:
         return Jet().DeltaPhiTo(multiplet.Jet());
     }
     Angle DeltaPhiTo(PseudoJet const &jet) const;
+
     /**
     * @brief \f$\Delta y\f$ to a jet
     */
@@ -66,6 +70,7 @@ public:
         return Jet().DeltaRapTo(multiplet.Jet());
     }
     Angle DeltaRapTo(PseudoJet const &jet) const;
+
     /**
     * @brief \f$\Delta R\f$ to a jet
     */
@@ -75,6 +80,7 @@ public:
         return Jet().DeltaRTo(multiplet.Jet());
     }
     Angle DeltaRTo(PseudoJet const &jet) const;
+
     /**
     * @brief Angular distance to a jet
     */
@@ -84,11 +90,13 @@ public:
         return Jet().DeltaTo(multiplet.Jet());
     }
     Vector2<Angle> DeltaTo(PseudoJet const &jet) const;
+
     /**
     * @brief Vector of rapidity \f$y\f$ and azimuth \f$\phi\f$
     * @param wrap_phi use the given \f$[-\pi,\pi]\f$ or wrap it by \f$2 \pi\f$
     */
     Vector2<Angle> Angles(bool wrap_phi = false) const;
+
     /**
     * @brief Vector of rapidity \f$y\f$ and azimuth \f$\phi\f$ with minimal distance to jet
     */
@@ -99,22 +107,27 @@ public:
     }
     Vector2<Angle> AnglesMinTo(PseudoJet const& jet) const;
     //@}
+
     /**
     * @name SubStructure
+    * @{
     */
-    //@{
+
     /**
     * @brief Jet of all constituents
     */
     boca::Singlet ConstituentJet() const;
+
     /**
     * @brief Weather the jet as constituetns
     */
     bool HasConstituents() const;
+
     /**
     * @brief All constituents
     */
     std::vector<boca::Jet> Constituents() const;
+
     /**
     * @brief Sub-jettiness
     */

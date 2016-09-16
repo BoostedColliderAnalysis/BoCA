@@ -23,15 +23,18 @@ class TwoBody : public Multiplet
 {
 
 public:
+
     /**
     * @name Constructors
+    * @{
     */
-    //@{
+
     /**
     * @brief Default constructor
     *
     */
     TwoBody() {};
+
     /**
     * @brief Constructor accepting two different Multiplets
     */
@@ -44,12 +47,14 @@ public:
         else if (multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_2.Bdt());
     }
     //@}
+
     /**
     * @name Enforce Multiplet from other Objects
     *
     * this ensures strong type safety
+    * @{
     */
-    //@{
+
     /**
     * @brief Enforce Multiplet from a single other Multiplet
     */
@@ -60,6 +65,7 @@ public:
         multiplet_2_.Enforce(multiplet.Multiplet2());
         SetBdt(multiplet.Bdt());
     }
+
     /**
     * @brief Enforce a Multiplet from a Jet
     */
@@ -67,6 +73,7 @@ public:
     {
         Enforce(jet, jet.Bdt());
     }
+
     /**
     * @brief Enforce a Multiplet from a vector of jets
     */
@@ -79,6 +86,7 @@ public:
         SetBdt(jets.at(0).Bdt(), jets.at(1).Bdt());
         if (jets.size() > 2) std::cout << "to many jets to enforce a multiplet" << std::endl;
     }
+
     /**
     * @brief Enforce a Multiplet from a jet and a seperate bdt
     */
@@ -92,6 +100,7 @@ public:
         multiplet_2_.Enforce(jets.at(1), bdt);
         SetBdt(bdt);
     }
+
     /**
     * @brief Enforce a Multiplet from a jet and a seperate bdt
     */
@@ -103,6 +112,7 @@ public:
         SetBdt(bdt);
     }
     //@}
+
     /**
     * @brief Setter for two Multiplets
     */
@@ -111,10 +121,12 @@ public:
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
     }
+
     /**
     * @name Global accessors
+    * @{
     */
-    //@{
+
     /**
     * @brief Accessor for event shapes
     */
@@ -124,6 +136,7 @@ public:
             return boca::EventShapes(Jets());
         });
     }
+
     /**
     * @brief Accessor for jets
     */
@@ -131,6 +144,7 @@ public:
     {
         return Combine(Multiplet1().Jets(), Multiplet2().Jets());
     }
+
     /**
     * @brief Accessor for lorentz vectors
     */
@@ -139,10 +153,12 @@ public:
         return DeltaR() > Settings::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>> {Jet().Vector()};
     }
     //@}
+
     /**
     * @name Acessors to the Multiplets
+    * @{
     */
-    //@{
+
     /**
     * @brief Accessor to the first multiplet
     */
@@ -150,6 +166,7 @@ public:
     {
         return multiplet_1_;
     }
+
     /**
     * @brief Const accessor to the first multiplet
     */
@@ -157,6 +174,7 @@ public:
     {
         return multiplet_1_;
     }
+
     /**
     * @brief Accessor to the second multiplet
     */
@@ -164,6 +182,7 @@ public:
     {
         return multiplet_2_;
     }
+
     /**
     * @brief Const accessor to the second multiplet
     */
@@ -172,10 +191,12 @@ public:
         return multiplet_2_;
     }
     //@}
+
     /**
     * @name Calculate overlap between multiplets
+    * @{
     */
-    //@{
+
     /**
     * @brief Overlap with another multiplet
     */
@@ -184,6 +205,7 @@ public:
     {
         return multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_);
     }
+
     /**
     * @brief Overlap with a singlet
     */
@@ -191,6 +213,7 @@ public:
     {
         return multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet);
     }
+
     /**
     * @brief Overlap with a jet
     */
@@ -198,6 +221,7 @@ public:
     {
         return multiplet_1_.Overlap(jet) || multiplet_2_.Overlap(jet);
     }
+
     /**
     * @brief Overlap within a multiplet
     */
@@ -206,10 +230,12 @@ public:
         return multiplet_1_.Overlap(multiplet_2_);
     }
     //@}
+
     /**
     * @name Energy related accessors
+    * @{
     */
-    //@{
+
     /**
     * @brief Transverse momentum \f$\Delta p_T\f$
     */
@@ -217,6 +243,7 @@ public:
     {
         return Multiplet2().Pt() - Multiplet1().Pt();
     }
+
     /**
     * @brief Scalar sum of transverse momenta \f$H_T = \sum_i \left|p_{Ti}\right|\f$
     */
@@ -224,6 +251,7 @@ public:
     {
         return Multiplet1().Ht() + Multiplet2().Ht();
     }
+
     /**
     * @brief Mass difference
     */
@@ -231,6 +259,7 @@ public:
     {
         return Multiplet2().Mass() - Multiplet1().Mass();
     }
+
     /**
     * @brief Difference in the scalar sum of transverse moenta
     */
@@ -238,6 +267,7 @@ public:
     {
         return Multiplet2().Ht() - Multiplet1().Ht();
     }
+
     /**
     * @brief Mass difference to a particle with Id
     */
@@ -246,10 +276,12 @@ public:
         return boost::units::abs(Mass() - MassOf(id));
     }
     //@}
+
     /**
     * @name Angle related accessors
+    * @{
     */
-    //@{
+
     /**
     * @brief Difference rapidity \f$\Delta y\f$
     */
@@ -257,6 +289,7 @@ public:
     {
         return Multiplet1().DeltaRapTo(Multiplet2());
     }
+
     /**
     * @brief Difference in azimuth \f$\Delta \phi\f$
     */
@@ -264,6 +297,7 @@ public:
     {
         return Multiplet1().DeltaPhiTo(Multiplet2());
     }
+
     /**
     * @brief Difference in angular distance \f$\Delta R = \sqrt{(\Delta y)^2 + (\Delta \phi)^2}\f$
     */
@@ -271,6 +305,7 @@ public:
     {
         return Multiplet1().DeltaRTo(Multiplet2());
     }
+
     /**
     * @brief Line in agular space from the second component to the first
     */
@@ -279,10 +314,12 @@ public:
         return {Multiplet2().Angles(), Multiplet1().AnglesMinTo(Multiplet2())};
     }
     //@}
+
     /**
     * @name Sub-structure
+    * @{
     */
-    //@{
+
     /**
     * @brief Pull towards another multiplet
     */
@@ -291,6 +328,7 @@ public:
     {
         return ConstituentJet().PullAngle(DeltaTo(multiplet));
     }
+
     /**
     * @brief Pull from the first component to the second
     */
@@ -298,6 +336,7 @@ public:
     {
         return Multiplet1().PullTo(Multiplet2());
     }
+
     /**
     * @brief Pull from the second component to the first
     */
@@ -305,6 +344,7 @@ public:
     {
         return Multiplet2().PullTo(Multiplet1());
     }
+
     /**
     * @brief Dipolarity according to \f$\mathcal D = \frac{1}{R_{12}^2 p_{TJ}} \sum_{i\in J}p_{Ti}R_i^2\f$
     */
@@ -314,22 +354,26 @@ public:
         return ConstituentJet().DipolaritySum(AngleLine()) / Pt() / sqr(DeltaR());
     }
     //@}
+
     /**
     * @name Selectors for subcomponents
+    * @{
     */
-    //@{
+
     /**
     * @brief Harder subcomponent
     */
     boca::Jet HarderComponent() const {
         return Multiplet1().Pt() > Multiplet2().Pt() ? Multiplet1().Jet() : Multiplet2().Jet();
     }
+
     /**
     * @brief Softer subcomponent
     */
     boca::Jet SofterComponent() const {
         return Multiplet1().Pt() < Multiplet2().Pt() ? Multiplet1().Jet() : Multiplet2().Jet();
     }
+
     /**
     * @brief Subcomponent with the better mass of an object with Id
     */
@@ -341,6 +385,7 @@ public:
         return Multiplet1().MassDifferenceTo(id) > Multiplet2().MassDifferenceTo(id) ? Multiplet1().Jet() : Multiplet2().Jet();
     }
     //@}
+
     /**
     * @brief Particle likeliness \f$\rho = \frac{2 m}{p_T \Delta R}\f$
     *
@@ -351,6 +396,7 @@ public:
     {
         return Pt() > Settings::MinCellPt() && DeltaR() > Settings::MinCellResolution() ? static_cast<double>(Mass() / Pt() / DeltaR() * 2_rad) : 0;
     }
+
     /**
     * @brief Charge
     */

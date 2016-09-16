@@ -61,8 +61,8 @@ public:
 
     /**
      * @name Constructor
+     * @{
      */
-    //@{
 
     /**
      * @brief Default constructor
@@ -113,8 +113,8 @@ public:
 
     /**
      * @name Setter
+     * @{
      */
-    //@{
 
     /**
      * @brief Set Pt, Eta and Phi
@@ -188,8 +188,8 @@ public:
 
     /**
      * @name Accessors and Getters
+     * @{
      */
-    //@{
 
     /**
      * @brief X getter
