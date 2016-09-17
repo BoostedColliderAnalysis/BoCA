@@ -197,7 +197,7 @@ Jet MuXboostedBTagging::Result(std::vector<Lepton> const &muons,  Jet const &jet
         min_x = std::min(min_x, x_core);
     }
 
-    auto result = static_cast<Jet>(jet + p4_neutrino_correction);
+    auto result = jet + p4_neutrino_correction;
     CHECK(result.Pt() > 0_eV, result.Pt());
     CHECK(!(result.Pt() != result.Pt()), result.Pt())
     CHECK(!(core.Pt() != core.Pt()), core.Pt())

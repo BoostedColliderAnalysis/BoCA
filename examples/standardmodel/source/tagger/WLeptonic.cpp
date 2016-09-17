@@ -120,7 +120,9 @@ std::vector<Doublet> WLeptonic::ReconstructNeutrino(Doublet const& doublet) cons
     auto radicant = lepton_pz_square * (sqr(linear_term) -  lepton_square * missing_et_square);
     if (radicant < 0. * GeV6) {
         INFO("Imaginary root", "move missing et towards lepton");
-        return ReconstructNeutrino(Doublet(lepton, Lepton(missing_et + 0.1 * (lepton - missing_et), missing_et.Info())));
+        Lepton reco = missing_et + 0.1 * (lepton - missing_et);
+        reco.Info() = missing_et.Info();
+        return ReconstructNeutrino(Doublet(lepton, reco));
     }
     CHECK(radicant != 0. * GeV6, "Radicant exactly zero", "implement this case!");
     auto sqrt = boost::units::sqrt(radicant);

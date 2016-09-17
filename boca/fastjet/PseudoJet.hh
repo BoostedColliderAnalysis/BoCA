@@ -3,6 +3,8 @@
  */
 #pragma once
 
+#include <boost/operators.hpp>
+
 #include "fastjet/PseudoJet.hh"
 #include "boca/math/LorentzVector.hh"
 
@@ -19,7 +21,9 @@ class LorentzVector;
 * @brief Wrapper for fastjet::PseudoJet adding BoCA related functions
 *
 */
-class PseudoJet : public fastjet::PseudoJet
+class PseudoJet : private fastjet::PseudoJet
+            , public boost::less_than_comparable<PseudoJet>
+            , public boost::equality_comparable<PseudoJet>
 {
 
 public:
@@ -28,23 +32,31 @@ public:
     * @name Constructors
     * @{
     */
-    using fastjet::PseudoJet::PseudoJet;
 
     /**
     * @brief Default Constructor
     */
     PseudoJet();
 
+    PseudoJet(const boca::Momentum& x, const boca::Momentum& y, const boca::Momentum& z, const boca::Energy& e);
+
     /**
     * @brief Constructor accepting root TLorentzVector
     */
-    PseudoJet(TLorentzVector const& vector);
+    PseudoJet(fastjet::PseudoJet const &pseudo_jet);
+
+    /**
+    * @brief Constructor accepting root TLorentzVector
+    */
+    PseudoJet(TLorentzVector const &vector);
 
     /**
     * @brief Constructor accepting momentum lorentz vector
     */
-    PseudoJet(LorentzVector<Momentum> const& vector);
+    PseudoJet(LorentzVector<Momentum> const &vector);
     //@}
+
+    void Reset(PseudoJet const& pseudo_jet);
 
     /**
     * @brief Rescale the jet momentum
@@ -68,15 +80,24 @@ public:
     */
     boca::Vector3<Momentum> Vector3() const;
 
+    /**
+    * @brief Fastjet PseudoJet
+    */
+    fastjet::PseudoJet& FastJet();
+
+    fastjet::PseudoJet const& FastJet() const;
+
     //@}
 
     /**
     * @name Accesor for UserInfo
     * @{
     */
-    virtual UserInfoBase const& Info() const;
+    virtual UserInfoBase const &Info() const;
 
-    virtual UserInfoBase& Info();
+    virtual UserInfoBase &Info();
+
+    bool HasInfo();
 
     //@}
 
@@ -94,6 +115,12 @@ public:
     * @brief Energy
     */
     boca::Energy Energy() const;
+
+    /**
+    * @brief Energy
+    */
+    boca::Energy E() const;
+
 
     /**
     * @brief Mass
@@ -149,22 +176,22 @@ public:
     /**
     * @brief \f$\Delta \phi\f$ to a jet constrained to \f$[-\pi,\pi]\f$
     */
-    Angle DeltaPhiTo(PseudoJet const& jet) const;
+    Angle DeltaPhiTo(PseudoJet const &jet) const;
 
     /**
     * @brief \f$\Delta y\f$ to a jet
     */
-    Angle DeltaRapTo(PseudoJet const& jet) const;
+    Angle DeltaRapTo(PseudoJet const &jet) const;
 
     /**
     * @brief \f$\Delta R\f$ to a jet
     */
-    Angle DeltaRTo(PseudoJet const& jet) const;
+    Angle DeltaRTo(PseudoJet const &jet) const;
 
     /**
     * @brief Angular distance to a jet
     */
-    Vector2<Angle> DeltaTo(PseudoJet const& jet) const;
+    Vector2<Angle> DeltaTo(PseudoJet const &jet) const;
 
     /**
     * @brief Vector of rapidity \f$y\f$ and azimuth \f$\phi\f$
@@ -175,12 +202,24 @@ public:
     /**
     * @brief Vector of rapidity \f$y\f$ and azimuth \f$\phi\f$ with minimal distance to jet
     */
-    Vector2<Angle> AnglesMinTo(PseudoJet const& jet) const;
+    Vector2<Angle> AnglesMinTo(PseudoJet const &jet) const;
     //@}
 
-    bool operator<(PseudoJet const& jet) const {
-        return Pt() < jet.Pt();
-    }
+    /**
+    * @name Operators
+    * @{
+    */
+
+    /**
+    * @brief Less than comparable
+    */
+    bool operator<(PseudoJet const &jet) const;
+
+    /**
+    * @brief Equality comparable
+    */
+    bool operator==(const PseudoJet &pseudo_jet) const;
+    //@}
 
 };
 

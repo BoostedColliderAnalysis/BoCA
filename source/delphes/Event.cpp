@@ -161,7 +161,7 @@ boost::optional<Jet> Event::StructuredJet(::delphes::Jet const& delphes_jet, Jet
     if (constituents.empty()) return boost::none;
     auto jet = Join(constituents);
     jet.SetDelphesTags(delphes_jet);
-    DEBUG(jet.Mass(), jet.Rap(), jet.Phi(), jet.has_user_info());
+    DEBUG(jet.Mass(), jet.Rap(), jet.Phi());
     return jet;
 }
 

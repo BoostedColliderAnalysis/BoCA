@@ -10,6 +10,8 @@
 namespace simple
 {
 
+using namespace boca::units;
+
 class Branch :  public boca::branch::Bdt
 {
 
@@ -32,12 +34,12 @@ public:
         boca::branch::Bdt::Fill(multiplet);
         jet_number = multiplet.JetNumber();
         bottom_number = multiplet.BottomNumber();
-        missing_et = multiplet.MissingEt() / boca::GeV;
-        scalar_ht = multiplet.ScalarHt() / boca::GeV;
-        jet_1_pt = multiplet.JetPt(0) / boca::GeV;
-        jet_2_pt = multiplet.JetPt(1) / boca::GeV;
-        jet_3_pt = multiplet.JetPt(2) / boca::GeV;
-        jet_4_pt = multiplet.JetPt(3) / boca::GeV;
+        missing_et = multiplet.MissingEt() / GeV;
+        scalar_ht = multiplet.ScalarHt() / GeV;
+        jet_1_pt = multiplet.JetPt(0) / GeV;
+        jet_2_pt = multiplet.JetPt(1) / GeV;
+        jet_3_pt = multiplet.JetPt(2) / GeV;
+        jet_4_pt = multiplet.JetPt(3) / GeV;
     }
 
     boca::Observables Variables() override;

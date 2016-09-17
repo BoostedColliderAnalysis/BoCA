@@ -67,12 +67,12 @@ void Debug(bool final)
 
 void LogVariable(std::string const& variable, Particle const& jet)
 {
-    std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.py()) << Column(ValueLength(), jet.pz()) << Column(ValueLength(), jet.e());
+    std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.Px()) << Column(ValueLength(), jet.Py()) << Column(ValueLength(), jet.Pz()) << Column(ValueLength(), jet.E());
 }
 
 void LogVariable(std::string const& variable, Jet const& jet)
 {
-  std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.py()) << Column(ValueLength(), jet.pz()) << Column(ValueLength(), jet.e());
+  std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.Px()) << Column(ValueLength(), jet.Py()) << Column(ValueLength(), jet.Pz()) << Column(ValueLength(), jet.E());
 }
 
 

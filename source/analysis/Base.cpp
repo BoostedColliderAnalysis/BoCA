@@ -313,6 +313,12 @@ void Base::AnalysisLoop(Stage stage)
     for (auto const & tag : std::array<Tag, 2>{{Tag::signal, Tag::background}}) TagLoop( {stage, tag});
 }
 
+
+std::string Base::Name() const
+{
+    return "BoCA-Analysis";
+}
+
 }
 
 }

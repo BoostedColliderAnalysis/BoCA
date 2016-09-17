@@ -87,7 +87,7 @@ std::vector<Triplet> TopHadronicHep::Triplets(boca::Event const& event, PreCuts 
     INFO(jets.size());
     auto triplets = std::vector<Triplet>{};
     for (auto const & jet : jets) {
-        auto tagger = hep::TopTagger{cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV};
+        auto tagger = hep::TopTagger{cluster_sequence.Get(), jet.FastJet(), MassOf(Id::top) / GeV, MassOf(Id::W) / GeV};
         tagger.set_top_range((MassOf(Id::top) - top_mass_window_) / GeV, (MassOf(Id::top) + top_mass_window_) / GeV);
         tagger.run_tagger();
         if (tagger.top_subjets().size() < 3) continue;

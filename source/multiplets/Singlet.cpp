@@ -61,7 +61,7 @@ Vector2<AngleSquare> Singlet::PullVector() const
 {
     INFO0;
     return pull_.Get([this]() -> Vector2<AngleSquare> {
-        if (Pt() <= 0_eV || !has_constituents()) return {};
+        if (Pt() <= 0_eV || !HasConsitutents()) return {};
         return boost::accumulate(Constituents(), Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum> &sum , boca::Jet const & constituent) {
             return sum + DeltaTo(constituent) * constituent.Pt() * DeltaRTo(constituent);
         }) / Pt();
@@ -70,7 +70,7 @@ Vector2<AngleSquare> Singlet::PullVector() const
 
 AngleSquareMomentum Singlet::DipolaritySum(const Line2< Angle > &line) const
 {
-    if (!has_constituents()) return 0;
+    if (!HasConsitutents()) return 0;
     return boost::accumulate(Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
         return sum + constituent.Pt() * sqr(line.MinDistanceTo(constituent));
     });
@@ -90,13 +90,13 @@ const Singlet &Singlet::ConstituentJet() const
 
 void Singlet::Enforce(boca::Jet const &jet)
 {
-    reset(jet);
+    Reset(jet);
     ResetInfo(jet.Info());
 }
 
 void Singlet::Enforce(boca::Jet const &jet, double bdt)
 {
-    reset(jet);
+    Reset(jet);
     ResetInfo(jet.Info());
     SetBdt(bdt);
 }

@@ -95,7 +95,7 @@ Vector2< Angle > Multiplet::AnglesMinTo(PseudoJet const& jet) const
 
 bool Multiplet::HasConstituents() const
 {
-    return ConstituentJet().has_constituents();
+    return ConstituentJet().HasConsitutents();
 }
 
 }

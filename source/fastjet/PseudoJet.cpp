@@ -17,6 +17,18 @@ PseudoJet::PseudoJet() :
     INFO0;
 }
 
+PseudoJet::PseudoJet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy const& e) :
+   fastjet:: PseudoJet(x / GeV, y / GeV, z / GeV, e / GeV)
+{
+    INFO0;
+}
+
+PseudoJet::PseudoJet(fastjet::PseudoJet const& pseudo_jet) :
+    fastjet::PseudoJet(pseudo_jet.px(), pseudo_jet.py(), pseudo_jet.pz(), pseudo_jet.e())
+{
+    INFO(pseudo_jet.px(), px(), pseudo_jet.py(), py());
+}
+
 PseudoJet::PseudoJet(TLorentzVector const& vector) :
     fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E())
 {
@@ -56,6 +68,16 @@ Vector3< Momentum > PseudoJet::Vector3() const
     return Vector().Vector();
 }
 
+fastjet::PseudoJet& PseudoJet::FastJet()
+{
+    return static_cast<fastjet::PseudoJet&>(*this);
+}
+
+fastjet::PseudoJet const& PseudoJet::FastJet() const
+{
+    return static_cast<fastjet::PseudoJet const&>(*this);
+}
+
 Momentum PseudoJet::Pt() const
 {
     return pt() * GeV;
@@ -67,6 +89,11 @@ Mass PseudoJet::Mass() const
 }
 
 Energy PseudoJet::Energy() const
+{
+    return e() * GeV;
+}
+
+Energy PseudoJet::E() const
 {
     return e() * GeV;
 }
@@ -143,6 +170,28 @@ Vector2<Angle> PseudoJet::AnglesMinTo(PseudoJet const& jet) const
     auto angles_1 = Angles(false);
     auto angles_2 = Angles(true);
     return angles - angles_1 < angles - angles_2  ?  angles_1 : angles_2;
+}
+
+bool PseudoJet::operator<(const boca::PseudoJet &jet) const
+{
+    return Pt() < jet.Pt();
+}
+
+bool PseudoJet::operator==(boca::PseudoJet const& pseudo_jet) const
+{
+    return FastJet() == pseudo_jet.FastJet();
+}
+
+
+bool PseudoJet::HasInfo()
+{
+    return FastJet().has_user_info();
+}
+
+
+void PseudoJet::Reset(const boca::PseudoJet &pseudo_jet)
+{
+    reset(pseudo_jet.FastJet());
 }
 
 }

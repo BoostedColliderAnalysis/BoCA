@@ -89,7 +89,7 @@ std::vector<boca::Jet> Bottom::Multiplets(boca::Event const& event, PreCuts cons
 boca::Jet Bottom::Multiplet(boca::Jet& jet, TMVA::Reader const& reader)
 {
     INFO0;
-    DEBUG(jet.Mass(), jet.Rap(), jet.Phi(), jet.has_user_info());
+    DEBUG(jet.Mass(), jet.Rap(), jet.Phi(), jet.HasInfo());
     jet.Info().SetBdt(Bdt(jet, reader));
     return jet;
 }
