@@ -22,8 +22,8 @@ class LorentzVector;
 *
 */
 class PseudoJet : private fastjet::PseudoJet
-            , public boost::less_than_comparable<PseudoJet>
-            , public boost::equality_comparable<PseudoJet>
+    , public boost::less_than_comparable<PseudoJet>
+    , public boost::equality_comparable<PseudoJet>
 {
 
 public:
@@ -38,7 +38,7 @@ public:
     */
     PseudoJet();
 
-    PseudoJet(const boca::Momentum& x, const boca::Momentum& y, const boca::Momentum& z, const boca::Energy& e);
+    PseudoJet(const boca::Momentum &x, const boca::Momentum &y, const boca::Momentum &z, const boca::Energy &e);
 
     /**
     * @brief Constructor accepting root TLorentzVector
@@ -56,7 +56,7 @@ public:
     PseudoJet(LorentzVector<Momentum> const &vector);
     //@}
 
-    void Reset(PseudoJet const& pseudo_jet);
+    void Reset(PseudoJet const &pseudo_jet);
 
     /**
     * @brief Rescale the jet momentum
@@ -83,9 +83,9 @@ public:
     /**
     * @brief Fastjet PseudoJet
     */
-    fastjet::PseudoJet& FastJet();
+    fastjet::PseudoJet &FastJet();
 
-    fastjet::PseudoJet const& FastJet() const;
+    fastjet::PseudoJet const &FastJet() const;
 
     //@}
 

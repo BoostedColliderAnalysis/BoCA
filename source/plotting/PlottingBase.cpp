@@ -51,10 +51,10 @@ void PlottingBase::TaggingEfficiency() const
     results.CutEfficiencies();
     latex::File latex_file(Tagger().ExportFolderName());
     latex_file.AddGraphic(PlotHistograms(results));
-    latex_file.AddGraphic(PlotAcceptanceGraph(results));
     latex_file.AddGraphic(PlotEfficiencyGraph(results));
+    latex_file.AddGraphic(PlotAcceptanceGraph(results));
+    latex_file.AddTable(PreCutEfficiencyTable(results));
     latex_file.AddTable(CutEfficiencyTable(results));
-    latex_file.AddTable(TruthLevelCutTable(results));
 }
 
 void PlottingBase::OptimalCuts() const
@@ -453,7 +453,7 @@ latex::Table PlottingBase::CutEfficiencyTable(Results const& results) const
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(CutEfficiencyRow(result, Position(results.Signals(), result), Tag::signal));
     for (auto const & result : results.Backgrounds()) table.AddRow(CutEfficiencyRow(result, Position(results.Backgrounds(), result), Tag::background));
-    table.AddCaption("Tagging rates and fake rates");
+    table.AddCaption("Tagging- and fake-rates");
     return table;
 }
 
@@ -465,19 +465,19 @@ latex::Row PlottingBase::CutEfficiencyRow(Result const& result, int , Tag) const
     return row;
 }
 
-latex::Table PlottingBase::TruthLevelCutTable(Results const& results) const
+latex::Table PlottingBase::PreCutEfficiencyTable(Results const& results) const
 {
     INFO0;
     auto table = latex::Table{"rll"};
     table.AddRow("Sample", "Efficiency");
     table.AddLine();
-    for (auto const & result : results.Signals()) table.AddRow(TruthLevelCutRow(result, Tag::signal));
-    for (auto const & result : results.Backgrounds()) table.AddRow(TruthLevelCutRow(result, Tag::background));
-    table.AddCaption("Truth level cut efficiency");
+    for (auto const & result : results.Signals()) table.AddRow(PreCutEfficiencyRow(result, Tag::signal));
+    for (auto const & result : results.Backgrounds()) table.AddRow(PreCutEfficiencyRow(result, Tag::background));
+    table.AddCaption("Pre-cut efficiency");
     return table;
 }
 
-latex::Row PlottingBase::TruthLevelCutRow(Result const& result, Tag) const
+latex::Row PlottingBase::PreCutEfficiencyRow(Result const& result, Tag) const
 {
     INFO0;
     auto row = latex::Row{result.Info().LatexName().str(latex::Medium::latex)};
