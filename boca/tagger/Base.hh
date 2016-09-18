@@ -113,10 +113,6 @@ public:
 
     void ClearTreeNames();
 
-    std::string ReaderName() const;
-
-    std::string ReaderName(std::string const& name) const;
-
     virtual TClass& Class() const = 0;
 
 protected:
@@ -143,6 +139,14 @@ protected:
 
 private:
 
+    std::string ReaderName() const;
+
+    std::string ReaderName(std::string const& name) const;
+
+    std::string TrainerName() const;
+
+    std::string TrainerName(std::string const& name) const;
+
     std::string SignalFileName(Stage stage) const;
 
     std::string BackgroundFileName(Stage stage) const;
@@ -161,7 +165,7 @@ private:
 
     std::string SignalName(std::string const& name) const;
 
-    std::string TrainerName() const;
+    std::string MvaFileName() const;
 
     std::string ExportName() const;
 

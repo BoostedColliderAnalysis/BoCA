@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "boca/io/TreeReader.hh"
 #include "boca/analysis/Files.hh"
 
 namespace boca
@@ -20,7 +21,7 @@ public:
         files_(files),
         reader_(files.Reader()),
         tagger_(files.Tagger()),
-        tree_reader_(Files().Import().Paths(), Files().Import().TreeName()) {
+        tree_reader_(Files().Import().Paths(), Files().Import().GeneratorTreeName()) {
         event_number_ = FirstEntry(object_sum_max, core_number);
         core_sum_ = core_sum;
     }

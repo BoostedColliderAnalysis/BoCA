@@ -7,7 +7,8 @@
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Types.hh"
 #include "boca/Settings.hh"
-// #define INFORMATION
+
+#define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
 /** \class MuXboostedBTagging
@@ -106,6 +107,7 @@ Jet MuXboostedBTagging::Process(Jet const &jet, std::vector<Lepton> const &delph
 
 std::vector<Lepton> MuXboostedBTagging::Muons(std::vector<Lepton> const &delphes_muons, Jet const &jet) const
 {
+    INFO0;
     auto muons = std::vector<Lepton> {};
     for (auto const &muon : delphes_muons) if (Close<Lepton>(jet, Settings::JetConeSize())(muon)) muons.emplace_back(muon);
     boost::sort(muons, [](Jet const & one, Jet const & two) {
@@ -116,6 +118,7 @@ std::vector<Lepton> MuXboostedBTagging::Muons(std::vector<Lepton> const &delphes
 
 std::vector<Jet> MuXboostedBTagging::CoreCandidates(std::vector<Lepton> const &muons, Jet const &jet) const
 {
+    INFO0;
     auto recluster_input = muons;
     for (auto const &consituent : jet.Constituents()) {
         if (consituent.Info().ContainsDetectorPart(DetectorPart::tower) && consituent.Pt() < min_tower_pt_ratio_ * jet.Pt()) continue; // Don't use
@@ -141,6 +144,7 @@ std::vector<Jet> MuXboostedBTagging::CoreCandidates(std::vector<Lepton> const &m
 
 Jet MuXboostedBTagging::Core(std::vector<Jet> const &core_candidates,  std::vector<Lepton> const &muons) const
 {
+    INFO0;
     auto hardest_muon = *boost::range::max_element(muons, [](Lepton const & muon_1, Lepton const & muon_2) {
         return muon_1.Pt() > muon_2.Pt();
     });
@@ -155,13 +159,13 @@ Jet MuXboostedBTagging::Core(std::vector<Jet> const &core_candidates,  std::vect
         auto y = core_candidate.Vector3().Tan2(hardest_muon.Vector3());
 
         // The core has the mass closest to fSubjetMassHypothesis
-        auto radiant = 1. - ((g - y) + g * y);
-        if (radiant < 0) continue;
-        auto denom = 1. + y + sqrt(radiant);
+        auto radicant = 1. - ((g - y) + g * y);
+        if (radicant < 0) continue;
+        auto denom = 1. + y + sqrt(radicant);
         if (denom == 0) continue;
-        auto radiant2 = sqr(MassOf(Id::Dpm)) + (4. * hardest_muon.Energy() * core_candidate.Energy() * (g + y)) / denom;
-        if (radiant2 < 0_eV * eV) continue;
-        auto delta_mass = abs(sqrt(radiant2) - MassOf(Id::B0));
+        auto radicant2 = sqr(MassOf(Id::Dpm)) + (4. * hardest_muon.Energy() * core_candidate.Energy() * (g + y)) / denom;
+        if (radicant2 < 0_eV * eV) continue;
+        auto delta_mass = abs(sqrt(radicant2) - MassOf(Id::B0));
 
         if (delta_mass > min_delta_mass) continue;
         min_delta_mass = delta_mass;
@@ -177,6 +181,7 @@ Jet MuXboostedBTagging::Core(std::vector<Jet> const &core_candidates,  std::vect
 
 Jet MuXboostedBTagging::Result(std::vector<Lepton> const &muons,  Jet const &jet, Jet &core) const
 {
+    INFO0;
     // Keep track of the smallest x for any muon
     auto min_x = std::numeric_limits<double>::max(); // Large enough, simple significand
     // Iterate through each muon, add it to the core, and calculate the resulting boost invariant
@@ -210,12 +215,14 @@ Jet MuXboostedBTagging::Result(std::vector<Lepton> const &muons,  Jet const &jet
 
 Mass MuXboostedBTagging::MaxSubJetMass() const
 {
+    INFO0;
     return 12_GeV;
 }
 
 
 double MuXboostedBTagging::XMax() const
 {
+    INFO0;
     return 3;
 }
 

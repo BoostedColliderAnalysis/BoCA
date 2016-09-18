@@ -48,7 +48,7 @@ public:
         case boca::Collider::lhc:
             switch (process) {
             case Process::Htt:
-                switch (Int(this->Mass())) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 500 : return 0.911648_fb;
                 case 700 : return 0.346647_fb;
                 case 750 : return 0.307192_fb;
@@ -56,10 +56,10 @@ public:
                 case 1000 : return 0.10028_fb;
                 case 1500 : return 0.0168305_fb;
                 case 2000 : return 0.00345315_fb;
-                    DEFAULT(Int(this->Mass()), fb)
+                    DEFAULT(static_cast<int>(Mass() / GeV), fb)
                 }
             case Process::Htwb:
-                switch (Int(this->Mass())) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 500 : return 0.471031_fb;
                 case 700 : return 0.216664_fb;
                 case 750 : return 0.188463_fb;
@@ -67,7 +67,7 @@ public:
                 case 1000 : return 0.0758434_fb;
                 case 1500 : return 0.0159789_fb;
                 case 2000 : return 0.00384621_fb;
-                    DEFAULT(Int(this->Mass()), fb)
+                    DEFAULT(static_cast<int>(Mass() / GeV), fb)
                 }
 //             case Process::ttwwbb : return 2.126_fb;
 //             case Process::ttwbb : return 0.13588_fb;
@@ -79,7 +79,7 @@ public:
         case boca::Collider::future:
             switch (process) {
             case Process::Htt:
-                switch (Int(this->Mass())) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 500 : return 152.154_fb;
                 case 700 : return 79.3982_fb;
                 case 800 : return 60.9656_fb;
@@ -93,10 +93,10 @@ public:
                 case 7000 : return 0.026579_fb;
                 case 8000 : return 0.0132781_fb;
                 case 10000 : return 0.00380676_fb;
-                    DEFAULT(Int(this->Mass()), fb)
+                    DEFAULT(static_cast<int>(Mass() / GeV), fb)
                 }
             case Process::Htwb:
-                switch (Int(this->Mass())) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 500 : return 117.041_fb;
                 case 700 : return 79.5743_fb;
                 case 800 : return 66.4861_fb;
@@ -110,7 +110,7 @@ public:
                 case 7000 : return 0.256938_fb;
                 case 8000 : return 0.148312_fb;
                 case 10000 : return 0.0539546_fb;
-                    DEFAULT(Int(this->Mass()), fb)
+                    DEFAULT(static_cast<int>(Mass() / GeV), fb)
                 }
             case Process::ttwwbb : return 396_fb;
             case Process::ttwbb : return 1.3204_fb;

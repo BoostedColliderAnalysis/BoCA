@@ -39,21 +39,6 @@ std::string Name(Energy const& energy)
     return boost::range::remove_erase_if(string, isspace);
 }
 
-int Int(Momentum const& energy)
-{
-    return energy / GeV;
-}
-
-double to_double(Energy const& energy)
-{
-    return energy / GeV;
-}
-
-Energy to_energy(double energy)
-{
-    return energy * GeV;
-}
-
 }
 
 }

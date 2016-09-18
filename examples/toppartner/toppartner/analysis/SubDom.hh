@@ -24,7 +24,7 @@ class SubDom : public TopPartner<Tagger_>
 protected:
 
     std::string Name() const override {
-        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-first";
+        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-test";
     }
 
     void SetFiles(Phase const& phase) override {

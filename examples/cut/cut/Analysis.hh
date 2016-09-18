@@ -33,12 +33,6 @@ public:
         }
     }
 
-    //  Usually it is assumed that you call the program from the folder contanining the signal and background files
-    //  if this is not the case you have to add the relative path to the working path
-    std::string FilePath() const override {
-        return this->WorkingPath() + "./";
-    }
-
     // define how many events are supposed to beeing used
     long TrainNumberMax() const override
     {

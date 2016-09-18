@@ -65,11 +65,6 @@ using Mass = Energy;
  */
 using Momentum = Energy;
 std::string Name(Energy const& energy);
-// int to_int(Energy energy);
-
-int Int(Momentum const& energy);
-double to_double(Energy const& energy);
-Energy to_energy(double energy);
 
 Momentum const at_rest = 0. * ElectronVolt;
 Mass const massless = 0. * ElectronVolt;

@@ -11,7 +11,7 @@
 namespace boca
 {
 
-class File;
+class FileInfo;
 
 namespace branch
 {
@@ -27,7 +27,7 @@ public:
 
     Info();
 
-    Info(File const& file);
+    Info(FileInfo const& file);
 
     boca::Crosssection Crosssection() const;
 

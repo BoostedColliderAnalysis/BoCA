@@ -24,7 +24,7 @@ PseudoJet::PseudoJet(Momentum const& x, Momentum const& y, Momentum const& z, bo
 }
 
 PseudoJet::PseudoJet(fastjet::PseudoJet const& pseudo_jet) :
-    fastjet::PseudoJet(pseudo_jet.px(), pseudo_jet.py(), pseudo_jet.pz(), pseudo_jet.e())
+    fastjet::PseudoJet(pseudo_jet)
 {
     INFO(pseudo_jet.px(), px(), pseudo_jet.py(), py());
 }

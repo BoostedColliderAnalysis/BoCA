@@ -165,13 +165,13 @@ private:
         }
     }
 
-    std::string FilePath() const override {
-        return this->WorkingPath() + "../";
-    }
+//     std::string FilePath() const override {
+//         return this->WorkingPath() + "../";
+//     }
 
-    boca::File File(Process process) const {
-        auto file = boca::File({FileName(process)}, {Name(process), LatexName(process)});
-        file.RelativePath() = "../";
+    boca::FileInfo File(Process process) const {
+        auto file = boca::FileInfo({FileName(process)}, {Name(process), LatexName(process)});
+        file.SetPath("../");
         return file;
     }
 

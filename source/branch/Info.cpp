@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/branch/Info.hh"
-#include "boca/File.hh"
+#include "boca/FileInfo.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
@@ -21,11 +21,11 @@ Info::Info()
     event_number = 0;
 }
 
-Info::Info(File const& file)
+Info::Info(FileInfo const& file)
 {
     INFO0;
-    SetCrosssection(file.Crosssection());
-    SetCrosssectionError(file.CrosssectionError());
+    SetCrosssection(file.Crosssection().Value());
+    SetCrosssectionError(file.Crosssection().Error());
     SetMass(file.Mass());
     SetNames(file.Names());
     event_number = 0;

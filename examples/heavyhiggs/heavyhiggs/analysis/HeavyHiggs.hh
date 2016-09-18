@@ -118,7 +118,7 @@ public:
     Momentum PreCut() const {
         switch (Collider()) {
         case boca::Collider::lhc :
-            switch (Int(Mass())) {
+            switch (static_cast<int>(Mass() / GeV)) {
             case 400 : return at_rest;
             case 500 : return at_rest;
             case 1000 : return 250_GeV;
@@ -128,7 +128,7 @@ public:
                 return at_rest;
             }
         case boca::Collider::future :
-            switch (Int(Mass())) {
+            switch (static_cast<int>(Mass() / GeV)) {
             case 400 : return at_rest;
             case 500 : return at_rest;
             case 1000 : return 300_GeV;
@@ -220,15 +220,15 @@ public:
         case Process::Hbb :
             switch (this->Collider()) {
             case boca::Collider::lhc:
-                switch (Int(Mass())) {
+                switch (static_cast<int>(Mass() / GeV)) {
 //                 case 500 : return 100_fb; // FIXME this is the wrong value
                 case 500 : return 25.52_fb;
                 case 1000 : return 1.278_fb;
                 case 2000 : return 0.02190_fb;
-                    DEFAULT(Int(Mass()), fb);
+                    DEFAULT(static_cast<int>(Mass() / GeV), fb);
                 }
             case boca::Collider::future:
-                switch (Int(Mass())) {
+                switch (static_cast<int>(Mass() / GeV)) {
                 case 500 : return 973.5_fb;
                 case 1000 : return 123.0_fb;
                 case 1500 : return 28.62_fb;
@@ -243,17 +243,17 @@ public:
                 case 12000 : return 0.001221_fb;
                 case 15000 : return 0.0002650_fb;
                 case 20000 : return 0.00002821_fb;
-                    DEFAULT(Int(Mass()), fb);
+                    DEFAULT(static_cast<int>(Mass() / GeV), fb);
                 }
                 DEFAULT(to_int(this->Collider()), fb);
             }
         case Process::tt :
             switch (this->Collider()) {
             case boca::Collider::lhc:
-                switch (Int(PreCut())) {
+                switch (static_cast<int>(PreCut() / GeV)) {
                 case 0 : return 97.54 * 2 * 1000_fb;
                 case 250 : return 5.698 * 2 * 1000_fb;
-                    DEFAULT(Int(PreCut()), fb);
+                    DEFAULT(static_cast<int>(PreCut() / GeV), fb);
                 }
                 DEFAULT(Name(Collider()), fb);
             }
@@ -271,11 +271,7 @@ public:
     }
 
     virtual void NewFile(Tag tag, Process process) {
-        boca::analysis::Base::NewFile(tag, FileNames(process, tag), this->Crosssection(process), LatexName(process));
-    }
-
-    virtual void NewFile(Tag tag, boca::Crosssection const& crosssection, Process process) {
-        boca::analysis::Base::NewFile(tag, FileNames(process, tag), crosssection, Names(heavyhiggs::Name(process), LatexName(process)), Mass());
+        boca::analysis::Base::AddFile(tag, {FileNames(process, tag), LatexName(process), this->Crosssection(process)});
     }
 
     std::vector<std::string> FileNames(Process process, Tag tag) const {

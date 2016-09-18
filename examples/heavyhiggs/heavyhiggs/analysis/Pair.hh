@@ -121,50 +121,38 @@ private:
     }
 
 
-    std::string NameString(Process process) const {
-        return heavyhiggs::Name(ProductionChannel()) + heavyhiggs::Name(process) + "_" + boca::Name(Collider());
-    }
+//     std::string NameString(Process process) const {
+//         return heavyhiggs::Name(ProductionChannel()) + heavyhiggs::Name(process) + "_" + boca::Name(Collider());
+//     }
 
     std::string NameString(Process process, Production production) const {
         return heavyhiggs::Name(production) + heavyhiggs::Name(process) + "_" + boca::Name(Collider());
     }
 
-    File BackgroundFile(Process process, Production production) const {
-        return BackgroundFile(process, BackgroundFileNumber(), production);
-    }
+//     FileInfo BackgroundFile(Process process, Production production) const {
+//         return BackgroundFile(process, BackgroundFileNumber(), production);
+//     }
+//
+//     FileInfo BackgroundFile(Process process) const {
+//         return BackgroundFile(process, BackgroundFileNumber());
+//     }
+//
+//     FileInfo BackgroundFile(Process process, int) const {
+//         std::vector<std::string> names;
+//         names.emplace_back(NameString(process));
+//         return FileInfo(names , BackgroundCrosssection(process));
+//     }
+//
+//     FileInfo BackgroundFile(Process process, int, Production production) const {
+//         std::vector<std::string> names;
+//         names.emplace_back(NameString(process, production));
+//         return FileInfo(names , BackgroundCrosssection(process));
+//     }
 
-    File BackgroundFile(Process process) const {
-        return BackgroundFile(process, BackgroundFileNumber());
-    }
 
-    File BackgroundFile(Process process, int) const {
-        std::vector<std::string> names;
-        names.emplace_back(NameString(process));
-        return File(names , BackgroundCrosssection(process));
-    }
-
-    File BackgroundFile(Process process, int, Production production) const {
-        std::vector<std::string> names;
-        names.emplace_back(NameString(process, production));
-        return File(names , BackgroundCrosssection(process));
-    }
-
-
-    std:: string SignalName(Process process) {
-        return  NameString(process) + "_" + boca::units::Name(Mass());
-    }
-
-    std::string TreeName(Process process) const {
-        return NameString(process) + "-run_01";
-    }
-
-    std::string TreeName(Process process, Production production) const {
-        return NameString(process, production) + "-run_01";
-    }
-
-    std:: string SignalTreeName(Process process) {
-        return  NameString(process) + "_" + boca::units::Name(Mass()) + "-run_01";
-    }
+//     std:: string SignalName(Process process) {
+//         return  NameString(process) + "_" + boca::units::Name(Mass());
+//     }
 
     Crosssection BackgroundCrosssection(Process) const {
         return pb;

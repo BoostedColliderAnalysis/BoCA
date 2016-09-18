@@ -86,9 +86,9 @@ protected:
 
     long TrainNumberMax() const override {
         INFO0;
+        return 100;
         return 1000;
         return 10000;
-        return 100;
         return 10;
         return 5000;
     }
@@ -201,13 +201,13 @@ protected:
         return name;
     }
 
-    void NewFile(Tag tag, Process process) {
-        INFO0;
-        this->NewFile(tag, this->FileName(process), this->Crosssection(process), Names(toppartner::Name(process), LatexName(process)), Mass());
-    }
+//     void NewFile(Tag tag, Process process) {
+//         INFO0;
+//         this->NewFile(tag, this->FileName(process), this->Crosssection(process), Names(toppartner::Name(process), LatexName(process)), Mass());
+//     }
 
-    boca::File File(Process process) {
-        auto file = boca::File({this->FileName(process)}, Names(toppartner::Name(process), LatexName(process)), this->Crosssection(process), Mass());
+    boca::FileInfo File(Process process) {
+        auto file = boca::FileInfo({this->FileName(process)}, Names(toppartner::Name(process), LatexName(process)), this->Crosssection(process), Mass());
         return file;
     }
 

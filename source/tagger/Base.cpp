@@ -13,18 +13,17 @@
 #include "boca/tagger/Base.hh"
 #include "boca/Filter.hh"
 #include "boca/Settings.hh"
+
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {
 
+// using namespace std::string_literals;
+
 namespace tagger
 {
-
-// std::mutex Base::mutex_;
-
-// std::string Base::analysis_name_;
 
 // small memory leak, but better than static variable Initialization hell
 std::string& AnalysisName_()
@@ -73,13 +72,13 @@ std::vector<Jet> Base::SubJets(Jet const& jet, int sub_jet_number) const
     return cluster_sequence.ExclusiveJetsUpTo(sub_jet_number);
 }
 
-void Base::AddTreeName(std::string const& tree_name, Tag tag)
+void Base::AddTreeName(std::string const& name, Tag tag)
 {
     INFO0;
     switch (tag) {
-    case Tag::signal : signal_tree_names_.emplace_back(tree_name);
+    case Tag::signal : signal_tree_names_.emplace_back(name);
         break;
-    case Tag::background : background_tree_names_.emplace_back(tree_name);
+    case Tag::background : background_tree_names_.emplace_back(name);
         break;
     }
 }
@@ -102,16 +101,16 @@ std::string Base::BranchName(Phase const& phase) const
     return Name(phase.Stage());
 }
 
-std::string Base::TrainerName() const
+std::string Base::MvaFileName() const
 {
     INFO0;
-    return "Mva" + Name();
+    return Name() + "Tmva";
 }
 
 std::string Base::FactoryFileName() const
 {
     INFO0;
-    return PathName(TrainerName());
+    return PathName(MvaFileName());
 }
 
 std::string Base::ExportFileName(Phase const& phase) const
@@ -131,50 +130,70 @@ std::string Base::ExportName() const
     INFO0;
     return AnalysisName() + "-" + Name();
 }
+
 std::string Base::ExportFileName() const
 {
     INFO0;
     return PathName(ExportName());
 }
+
 std::string Base::ExportFolderName() const
 {
     INFO0;
     return AnalysisName() + "/" + ExportName();
 }
+
 std::string Base::FolderName() const
 {
     INFO0;
     return AnalysisName() + "/" + Name();
 }
+
 std::string Base::ReaderName() const
 {
     INFO0;
     return ReaderName(Name());
 }
+
 std::string Base::ReaderName(std::string const& name) const
 {
     INFO(name);
     return name + "Reader";
 }
+
+std::string Base::TrainerName() const
+{
+    INFO0;
+    return TrainerName(Name());
+}
+
+std::string Base::TrainerName(std::string const& name) const
+{
+    INFO(name);
+    return name + "Trainer";
+}
+
 std::string Base::Name(Stage stage) const
 {
     INFO0;
     switch (stage) {
-    case Stage::trainer : return Name();
+    case Stage::trainer : return TrainerName();
     case Stage::reader : return ReaderName();
         DEFAULT(boca::Name(stage), "");
     }
 }
+
 std::string Base::Name(Phase const& phase) const
 {
     INFO0;
     auto name = Base::Name(phase.Stage());
     switch (phase.Tag()) {
-    case Tag::signal : return name;
+    case Tag::signal : return SignalName(name);
     case Tag::background : return BackgroundName(name);
         DEFAULT(boca::Name(phase.Tag()), "");
     }
 }
+
 std::string Base::Name(Stage stage, Tag tag) const
 {
     INFO0;
@@ -204,38 +223,45 @@ std::string Base::FileName(Phase const& phase) const
 std::string Base::SignalFileName(Stage stage) const
 {
     INFO0;
-    auto name = SignalName();
+//     auto name = SignalName();
+    auto name = Name();
     switch (stage) {
-    case Stage::trainer : break;
+    case Stage::trainer : name = TrainerName(name);
+        break;
     case Stage::reader : name = ReaderName(name);
         break;
         DEFAULT(boca::Name(stage), "");
     }
-    return PathName(name);
+    return PathName(SignalName(name));
 }
+
 std::string Base::BackgroundFileName(Stage stage) const
 {
     INFO0;
-    auto name = BackgroundName();
+//     auto name = BackgroundName();
+    auto name = Name();
     switch (stage) {
-    case Stage::trainer : // TrainerName(name);
+    case Stage::trainer : name = TrainerName(name);
         break;
     case Stage::reader : name = ReaderName(name);
         break;
     }
-    return PathName(name);
+    return PathName(BackgroundName(name));
 }
+
 std::string Base::AnalysisName() const
 {
 //     analysis_name_ = boost::filesystem::current_path().filename().string();
 //     ERROR(analysis_name_, analysis::_name_);
     return !AnalysisName_().empty() ? AnalysisName_() : analysis::_name_;
 }
+
 std::vector<Observable> const& Base::Variables() const
 {
     INFO0;
     return variables_;
 }
+
 std::vector<Observable> const& Base::Spectators() const
 {
     INFO0;
@@ -305,28 +331,33 @@ std::string Base::WeightBranchName() const
     INFO0;
     return "Info";
 }
+
 std::string Base::BackgroundName() const
 {
     INFO0;
     return BackgroundName(Name());
 }
+
 std::string Base::SignalName() const
 {
     INFO0;
     return SignalName(Name());
 }
+
 std::string Base::SignalName(std::string const& name) const
 {
     INFO0;
+    return name + "Signal";
     return name;
-    return name + "SG";
 }
+
 std::string Base::BackgroundName(std::string const& name) const
 {
     INFO0;
+    return name + "Background";
     return "Not" + name;
-    return name + "BG";
 }
+
 void Base::NewBranch(TreeWriter& tree_writer, Stage stage)
 {
     INFO(Name(stage));
@@ -339,6 +370,7 @@ void Base::AddVariable(Observable& observable)
     observable.SetBranchName(BranchName(Stage::trainer));
     variables_.emplace_back(observable);
 }
+
 void Base::AddSpectator(Observable& observable)
 {
     INFO0;
@@ -375,6 +407,7 @@ std::string Base::PathName(std::string const& file_name, std::string const& suff
     INFO(file_name, suffix);
     return AnalysisName() + "/" + file_name + suffix;
 }
+
 Filter Base::Filter() const
 {
     return {};
