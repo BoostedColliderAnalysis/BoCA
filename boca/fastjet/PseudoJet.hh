@@ -22,8 +22,7 @@ class LorentzVector;
 *
 */
 class PseudoJet : private fastjet::PseudoJet
-    , public boost::less_than_comparable<PseudoJet>
-    , public boost::equality_comparable<PseudoJet>
+    , public boost::totally_ordered<PseudoJet>
 {
 
 public:

@@ -9,4 +9,7 @@
 #define ARGUMENTS(arg1, arg2, arg, ...) arg
 #define OBSERVABLE_CHOOSE(...) ARGUMENTS(__VA_ARGS__, OBSERVABLE_2, OBSERVABLE_1, )
 
+/**
+* @brief create an Observable object from a given variable
+*/
 #define OBSERVABLE(...) OBSERVABLE_CHOOSE(__VA_ARGS__)(__VA_ARGS__)

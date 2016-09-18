@@ -23,11 +23,11 @@ public:
     {
         switch (phase.Tag()) {
         case boca::Tag::signal :
-            // put your signal file here
+            // add a signal file by passing its file and process name
             this->AddSignal("hh_14TeV-500GeV", "h");
             break;
         case boca::Tag::background :
-            // put your background file here
+            // add a background file by passing its file and process name
             this->AddBackground("bb_14TeV-500GeV", "bb");
             break;
         }
@@ -49,6 +49,7 @@ public:
     bool PassPreCut(boca::Event const& event) const override{
         // The event class contains all relevant physical objects
         auto jets = event.Jets();
+        //  this cut is obviously not enough
         if (jets.size() < 2) return false;
         return true;
     }

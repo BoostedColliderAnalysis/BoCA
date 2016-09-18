@@ -10,7 +10,7 @@
  */
 
 int main(){
-  // Create an obeject of the cut based analysis
+  // Create an object of the cut based analysis
   cut::Analysis analysis;
   // Run the analysis and create efficiency plots
   analysis.Run(boca::Output::efficiency);

@@ -13,19 +13,14 @@ namespace boca
 * @brief Jet
 */
 class Jet : public PseudoJet
-            , public boost::addable<Jet>
-            , public boost::subtractable<Jet>
-            , public boost::multipliable<Jet, double>
-            , public boost::dividable<Jet, double>
-            , public boost::addable<Jet,  Particle>
-            , public boost::subtractable<Jet,  Particle>
+            , public boost::additive<Jet>
+            , public boost::additive<Jet,  Particle>
+            , public boost::multiplicative<Jet, double>
 {
 
 public:
 
     Jet();
-
-//     Jet(double x, double y, double z, double e);
 
     Jet(const boca::Momentum& x, const boca::Momentum& y, const boca::Momentum& z, const boca::Energy& e);
 
@@ -58,8 +53,6 @@ public:
     Jet(exroot::Photon const& photon);
 
     Jet(exroot::Tau const& tau);
-
-//     Jet(double const momentum[4]);
 
     JetInfo const& Info() const;
 

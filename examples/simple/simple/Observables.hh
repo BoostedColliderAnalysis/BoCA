@@ -1,86 +1,61 @@
-/**
- * Copyright (C) 2015-2016 Jan Hajer
- */
 #pragma once
 
-#include "boca/multiplets/Singlet.hh"
-
-namespace boca
-{
-class Event;
-}
+// include the Identification base class
+#include "boca/multiplets/Identification.hh"
+// include the Event class
+#include "boca/Event.hh"
 
 namespace simple
 {
 
+
+/**
+* @brief Simple collection of Observables
+*/
+// Each Observable is calculated by a function of this class
+// Additionally the Tag and the BDT response has to be saved, which is done in the Identification base class
 class Observables : public boca::Identification
 {
 
 public:
 
-    Observables();
-
+    // The constructor takes the complete event
     Observables(boca::Event const &event);
 
-    Observables(boca::Event const &event, std::vector<boca::Jet> const &jets);
-
-    void SetEvent(boca::Event const &event, std::vector<boca::Jet> const &jets);
-
-    void SetEvent(boca::Event const &event);
-
+    // The number of leptons
     int LeptonNumber() const;
 
+    // The number of jets
     int JetNumber() const;
 
+    // The number of bottom jets
     int BottomNumber() const;
 
+    // The sclar sum of the transvers momenta
     boca::Momentum ScalarHt() const;
 
-    boca::Momentum LeptonHt() const;
+    // The transverse momentum of the n'th jet
+    boca::Momentum JetPt(unsigned number) const;
 
-    boca::Momentum JetHt() const;
+    // The transverse momentum of the n'th lepton
+    boca::Momentum LeptonPt(unsigned number) const;
 
-    boca::Momentum Ht() const;
-
-    boca::Mass Mass() const;
-
-    boca::Angle DeltaRTo(boca::PseudoJet const &jet) const;
-
-    int Charge() const;
-
-    boca::Momentum JetPt(std::size_t number) const;
-
-    boca::Momentum LeptonPt(std::size_t number) const;
-
+    // The missing transvser energy
     boca::Energy MissingEt() const;
-
-    std::vector<boca::Jet> Jets() const;
-
-    void SetJets(std::vector<boca::Jet> const &jets);
-
-    void SetLeptons(std::vector<boca::Lepton> const &leptons);
-
-    boca::Singlet ConstituentJet() const;
-
-    boca::Jet Jet() const;
-
-    std::vector<boca::Jet> Constituents() const;
-
-    std::vector<boca::LorentzVector<boca::Momentum>> LorentzVectors() const;
 
 private:
 
+    // storage for the jets
     std::vector<boca::Jet> jets_;
 
+    // storage for the leptons
     std::vector<boca::Lepton> leptons_;
 
+    // storage for the scalar ht
     boca::Momentum scalar_ht_;
 
+    // storage for the missing et
     boca::Energy missing_et_;
-
-    boca::Mutable<boca::Jet> jet_;
-
-    boca::Mutable<boca::Singlet> constituent_jet_;
 
 };
 
