@@ -1,4 +1,4 @@
-#include "higgscpv/AnalysisHiggsCpv.hh"
+#include "higgscpv/Analysis.hh"
 
 #include "higgscpv/tagger/EventT.hh"
 #include "higgscpv/tagger/EventLeptonT.hh"

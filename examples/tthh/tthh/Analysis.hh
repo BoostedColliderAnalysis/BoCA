@@ -15,16 +15,16 @@ class Analysis : public boca::Analysis<Tagger_>
 
 public:
 
-    void SetFiles(boca::Tag tag, boca::Stage) override
+    void SetFiles(boca::Phase const& phase) override
     {
-        switch (tag) {
+        switch (phase.Tag()) {
         case boca::Tag::signal :
             // put your signal file here
-            boca::analysis::Base::NewFile(tag, "hh_14TeV-500GeV", "h");
+            this->AddSignal("hh_14TeV-500GeV", "h");
             break;
         case boca::Tag::background :
             // put your background file here
-            boca::analysis::Base::NewFile(tag, "bb_14TeV-500GeV", "bb");
+            this->AddBackground("bb_14TeV-500GeV", "bb");
             break;
         }
     }

@@ -19,6 +19,12 @@ Names::Names(std::string const& name)
     name_ = name;
 }
 
+Names::Names(latex::String const& latex_name)
+{
+    INFO0;
+    Set(latex_name.str(latex::Medium::plain), latex_name);
+}
+
 Names::Names(std::string const& name, latex::String const& latex_name)
 {
     INFO0;

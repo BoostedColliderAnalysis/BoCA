@@ -41,7 +41,7 @@ private:
     void TagLoop(Phase phase) override {
         FileWriter file_writer(Tagger().ExportFileName(phase));
         ClearFiles();
-        SetFiles(phase.Tag(), phase.Stage());
+        SetFiles(phase);
         for (auto & file : this->Files(phase.Tag())) FileLoop( {phase, file, file_writer, tagger_});
     }
 

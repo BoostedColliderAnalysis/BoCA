@@ -35,17 +35,17 @@ class Pair : public boca::Analysis<Tagger_>
 
 public:
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::bb, Production::VBF);
+            this->AddSignal(Process::bb, Production::VBF);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::bb, Production::DYP);
-            this->NewFile(tag, Process::cc, Production::DYP);
-            this->NewFile(tag, Process::cc, Production::VBF);
-            this->NewFile(tag, Process::jj, Production::DYP);
-            this->NewFile(tag, Process::jj, Production::VBF);
+            this->AddBackground(Process::bb, Production::DYP);
+            this->AddBackground(Process::cc, Production::DYP);
+            this->AddBackground(Process::cc, Production::VBF);
+            this->AddBackground(Process::jj, Production::DYP);
+            this->AddBackground(Process::jj, Production::VBF);
             break;
         }
     }
@@ -108,8 +108,16 @@ private:
         return 10000_GeV;
     }
 
+    void AddSignal(Process process, Production production) {
+        boca::analysis::Base::AddSignal(NameString(process, production));
+    }
+
+    void AddBackground(Process process, Production production) {
+        boca::analysis::Base::AddBackground(NameString(process, production));
+    }
+
     void NewFile(Tag tag, Process process, Production production) {
-        boca::analysis::Base::NewFile(tag, NameString(process, production));
+        this->NewFile(tag, NameString(process, production));
     }
 
 

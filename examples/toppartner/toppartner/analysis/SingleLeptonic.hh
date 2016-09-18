@@ -32,19 +32,19 @@ protected:
         return "Single-Leptonic-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-higgs";
     }
 
-    void SetFiles(Tag tag, Stage)override {
+    void SetFiles(Phase const& phase) override {
         INFO0;
-        switch (tag) {
+        switch (phase.Tag()) {
         case Tag::signal :
-            if (this->template TaggerIs<tagger::VetoTopPartnerHadronic>() || this->template TaggerIs<tagger::TopPartnerHadronicNeutral>()) this->NewFile(tag, Process::TT);
-            else this->NewFile(tag, Process::TthLep);
+            if (this->template TaggerIs<tagger::VetoTopPartnerHadronic>() || this->template TaggerIs<tagger::TopPartnerHadronicNeutral>()) this->AddSignal(Process::TT);
+            else this->AddSignal(Process::TthLep);
             break;
         case Tag::background :
-            if (this->template TaggerIs<tagger::VetoTopPartnerHadronic>() || this->template TaggerIs<tagger::TopPartnerHadronicNeutral>()) this->NewFile(tag, Process::TthLep);
-            else if (!this->template TaggerIs<tagger::TopPartnerLeptonicNeutral>()) this->NewFile(tag, Process::TT);
+            if (this->template TaggerIs<tagger::VetoTopPartnerHadronic>() || this->template TaggerIs<tagger::TopPartnerHadronicNeutral>()) this->AddBackground(Process::TthLep);
+            else if (!this->template TaggerIs<tagger::TopPartnerLeptonicNeutral>()) this->AddBackground(Process::TT);
             if (!this->template TaggerIs<tagger::VetoTopPartnerHadronic>() || this->template TaggerIs<tagger::TopPartnerHadronicNeutral>()) {
-                this->NewFile(tag, Process::ttBB);
-                this->NewFile(tag, Process::ttBjj);
+                this->AddBackground(Process::ttBB);
+                this->AddBackground(Process::ttBjj);
             }
             break;
         }

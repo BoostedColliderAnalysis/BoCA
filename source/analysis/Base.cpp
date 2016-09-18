@@ -77,8 +77,8 @@ void Base::PrepareFiles(Stage stage)
 {
     INFO0;
     ClearFiles();
-    SetFiles(Tag::signal, stage);
-    SetFiles(Tag::background, stage);
+    SetFiles({stage, Tag::signal});
+    SetFiles({stage,  Tag::background});
 }
 
 long Base::TrainNumberMax() const
@@ -133,6 +133,38 @@ void Base::NewFile(Tag tag, std::string const& name, latex::String const& latex_
     INFO0;
     files_.emplace_back(File( {name}, latex_name));
     Tagger().AddTreeName(TreeName(name), tag);
+}
+
+void Base::AddSignal(std::string const& file_name, latex::String const& latex_name, Crosssection const& crosssection)
+{
+    INFO0;
+    AddSignal(boca::File({file_name}, latex_name,  crosssection));
+}
+
+void Base::AddBackground(std::string const& file_name, latex::String const& latex_name, Crosssection const& crosssection)
+{
+    INFO0;
+    AddBackground(boca::File({{file_name}, latex_name,  crosssection}));
+}
+
+void Base::AddSignal(boca::File const& file)
+{
+    INFO0;
+    AddFile(Tag::signal, file);
+}
+
+void Base::AddBackground(boca::File const& file) {
+    INFO0;
+    AddFile(Tag::background, file);
+}
+
+void Base::AddFile(Tag tag, boca::File const& file) {
+    INFO0;
+    auto copy = file;
+    copy.SetPath(FilePath());
+    copy.SetSuffix(FileSuffix());
+    files_.emplace_back(copy);
+    Tagger().AddTreeName(TreeName(copy.Name()), tag);
 }
 
 File Base::File(std::vector<std::string> const& names, Names const& latex_name, Crosssection const& crosssection, Mass const& mass) const

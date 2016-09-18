@@ -21,7 +21,7 @@ public:
 
     Graphic(std::string const& name, String const& caption = "", double width = 0.5);
 
-    Graphic(const std::vector< std::string >& names, const String& caption, double width = 0.5);
+    Graphic(std::vector<std::string> const& names, const String& caption, double width = 0.5);
 
     void Initialize();
 
@@ -29,7 +29,7 @@ public:
 
     void AddCaption(const String& caption);
 
-    void AddGraphic(const std::vector< std::string >& names, const String& caption, double width = 0.5);
+    void AddGraphic(std::vector<std::string> const& names, const String& caption, double width = 0.5);
 
     std::string str() const;
 

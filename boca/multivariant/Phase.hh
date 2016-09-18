@@ -22,24 +22,24 @@ public:
     Phase(boca::Stage stage, boca::Tag tag);
 
     /**
-    * @brief The Tag of the multivariant tagging process
-    *
-    * either signal or background
-    */
-    boca::Tag Tag() const;
-
-    /**
     * @brief The stage of the multivariant tagging process
     *
     * either reading or tagging stage
     */
     boca::Stage Stage() const;
 
+    /**
+    * @brief The Tag of the multivariant tagging process
+    *
+    * either signal or background
+    */
+    boca::Tag Tag() const;
+
 private:
 
-    boca::Tag tag_;
-
     boca::Stage stage_;
+
+    boca::Tag tag_;
 
 };
 

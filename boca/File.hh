@@ -5,10 +5,13 @@
 
 #include "boca/Names.hh"
 #include "boca/physics/Units.hh"
+#include "boca/physics/Number.hh"
 #include "boca/io/TreeReader.hh"
 
 namespace boca
 {
+
+using namespace std::string_literals;
 
 /**
  * @brief Input file infos
@@ -21,9 +24,19 @@ class File
 
 public:
 
-    File(const std::vector< std::string >& processes, const std::string& base_path, const std::string& file_suffix, latex::String const& latex_name, const boca::Crosssection& crosssection = pb, boca::Mass const& mass = 0_eV);
+//     File(std::vector<std::string> const& file_names);
+//
+//     File(std::vector<std::string> const& file_names, boca::Names const& names);
+//
+//     File(std::vector<std::string> const& file_names, boca::Names const& names, boca::Crosssection crosssection);
+//
+//     File(std::vector<std::string> const& file_names, boca::Names const& names, Number<boca::Crosssection> crosssection);
 
-    File(const std::vector< std::string >& processes, const std::string& base_path, const std::string& file_suffix, const boca::Names& nice_name, const boca::Crosssection& crosssection = pb, boca::Mass const& mass = 0_eV);
+    File(std::vector<std::string> const& file_names = {}, boca::Names const& names = ""s, Number<boca::Crosssection> crosssection = 0_pb,  boca::Mass const& mass = 0_eV);
+
+    File(std::vector<std::string> const& file_names, const std::string& base_path, const std::string& file_suffix, latex::String const& latex_name, const boca::Crosssection& crosssection = pb, boca::Mass const& mass = 0_eV);
+
+    File(std::vector<std::string> const& file_names, const std::string& base_path, const std::string& file_suffix, const boca::Names& nice_name, const boca::Crosssection& crosssection = pb, boca::Mass const& mass = 0_eV);
 
     std::string Title() const;
 
@@ -41,13 +54,19 @@ public:
 
     std::string Name() const;
 
-    boca::Names Names()const;
+    boca::Names Names() const;
 
     std::vector<std::string> Paths() const;
 
-protected:
+    std::string RelativePath();
 
-    std::string MadGraphFilePath() const;
+    void SetPath(std::string const& path) {
+        base_path_ = path;
+    }
+
+    void SetSuffix(std::string const& suffix) {
+        file_suffix_ = suffix;
+    }
 
 private:
 
@@ -63,11 +82,11 @@ private:
 //       return @MadGraphPath@;
     }
 
-    std::vector<std::string> process_folders_;
+    std::vector<std::string> file_names_;
 
-    boca::Crosssection crosssection_ = pb;
+    boca::Names names_;
 
-    boca::Crosssection crosssection_error_ = 0_b;
+    Number<boca::Crosssection> crosssection_;
 
     boca::Mass mass_ = massless;
 
@@ -75,7 +94,7 @@ private:
 
     std::string base_path_ = "$HOME/Development/MadGraph/";
 
-    boca::Names names_;
+    std::string relative_path_;
 
     boca::Source source_ = boca::Source::delphes;
 

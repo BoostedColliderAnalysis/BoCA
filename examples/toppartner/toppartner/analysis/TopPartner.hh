@@ -203,7 +203,22 @@ protected:
 
     void NewFile(Tag tag, Process process) {
         INFO0;
-        boca::analysis::Base::NewFile(tag, this->FileName(process), this->Crosssection(process), Names(toppartner::Name(process), LatexName(process)), Mass());
+        this->NewFile(tag, this->FileName(process), this->Crosssection(process), Names(toppartner::Name(process), LatexName(process)), Mass());
+    }
+
+    boca::File File(Process process) {
+        auto file = boca::File({this->FileName(process)}, Names(toppartner::Name(process), LatexName(process)), this->Crosssection(process), Mass());
+        return file;
+    }
+
+    void AddSignal(Process process) {
+        INFO0;
+        boca::analysis::Base::AddSignal(File(process));
+    }
+
+    void AddBackground(Process process) {
+        INFO0;
+        boca::analysis::Base::AddBackground(File(process));
     }
 
 };

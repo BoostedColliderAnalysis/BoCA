@@ -45,25 +45,25 @@ private:
     }
 
 
-    void SetFiles(Tag tag, Stage stage)override
+    void SetFiles(Phase const& phase) override
     {
-        switch (tag) {
+        switch (phase.Tag()) {
         case Tag::signal :
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::ww);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::ww);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::bb);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_lep);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::hh);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::zz);
-            this->NewFile(tag, Process::qq);
-            this->NewFile(tag, Process::gg);
-            this->NewFile(tag, Process::cc);
-            if (this->template TaggerIs<tagger::WHadronic>() && stage == Stage::reader) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh_bb);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
+            this->AddBackground(Process::zz);
+            this->AddBackground(Process::qq);
+            this->AddBackground(Process::gg);
+            this->AddBackground(Process::cc);
+            if (this->template TaggerIs<tagger::WHadronic>() && phase.Stage() == Stage::reader) this->AddBackground(Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::hh_bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_lep);
             break;
         }
     }

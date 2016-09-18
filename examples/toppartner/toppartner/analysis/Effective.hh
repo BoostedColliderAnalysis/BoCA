@@ -27,17 +27,17 @@ protected:
         return "Naturalness-Effective-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
     }
 
-    void SetFiles(Tag tag, Stage) override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::TThh);
+            this->AddSignal(Process::TThh);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::ttWWWW);
-            this->NewFile(tag, Process::ttWWWB);
-            this->NewFile(tag, Process::ttWWBB);
-            this->NewFile(tag, Process::ttWBBB);
-            this->NewFile(tag, Process::ttBBBB);
+            this->AddBackground(Process::ttWWWW);
+            this->AddBackground(Process::ttWWWB);
+            this->AddBackground(Process::ttWWBB);
+            this->AddBackground(Process::ttWBBB);
+            this->AddBackground(Process::ttBBBB);
             break;
         }
     }

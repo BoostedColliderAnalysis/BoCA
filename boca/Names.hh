@@ -13,6 +13,7 @@ class Names
 public:
     Names();
     Names(std::string const& name);
+    Names(latex::String const& latex_name);
     Names(std::string const& name, latex::String const& latex_name);
     std::string Name()const;
     latex::String LatexName()const;

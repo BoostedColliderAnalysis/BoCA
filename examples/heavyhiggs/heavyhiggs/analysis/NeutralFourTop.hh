@@ -27,18 +27,18 @@ public:
         return  "NeutralFourTop-" + boca::Name(this->Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-bg";
     }
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::Htt);
-            this->NewFile(tag, Process::Htwb);
+            this->AddSignal(Process::Htt);
+            this->AddSignal(Process::Htwb);
             break;
         case Tag::background :
-            if (this->template TaggerIs<tagger::JetPair>()) this->NewFile(tag, Process::Htt);
-            if (this->template TaggerIs<tagger::JetPair>()) this->NewFile(tag, Process::Htwb);
-            this->NewFile(tag, Process::tttt);
-            this->NewFile(tag, Process::tttwb);
-            this->NewFile(tag, Process::ttwbb);
+            if (this->template TaggerIs<tagger::JetPair>()) this->AddBackground(Process::Htt);
+            if (this->template TaggerIs<tagger::JetPair>()) this->AddBackground(Process::Htwb);
+            this->AddBackground(Process::tttt);
+            this->AddBackground(Process::tttwb);
+            this->AddBackground(Process::ttwbb);
             break;
         }
     }

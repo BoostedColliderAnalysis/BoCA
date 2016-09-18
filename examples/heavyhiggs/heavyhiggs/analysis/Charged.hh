@@ -23,13 +23,13 @@ class Charged : public HeavyHiggs<Tagger_>
 
 public:
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::Htb);
+            this->AddSignal(Process::Htb);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::tt);
+            this->AddBackground(Process::tt);
             break;
         }
     }

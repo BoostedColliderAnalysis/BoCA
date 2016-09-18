@@ -26,15 +26,15 @@ class Pair : public TopPartner<Tagger_>
         return "Naturalness-Pair-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
     }
 
-    void SetFiles(Tag tag, Stage)override {
+    void SetFiles(Phase const& phase) override {
         INFO0;
-        switch (tag) {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::TT);
+            this->AddSignal(Process::TT);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::ttBjj);
-            this->NewFile(tag, Process::ttBB);
+            this->AddBackground(Process::ttBjj);
+            this->AddBackground(Process::ttBB);
             break;
         }
     }

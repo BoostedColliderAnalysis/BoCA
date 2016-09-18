@@ -19,16 +19,16 @@ public:
 
     // Set files for signal and background
     // it is assumed that all files are in the same folder
-    void SetFiles(boca::Tag tag, boca::Stage) override
+    void SetFiles(boca::Phase const& phase) override
     {
-        switch (tag) {
+        switch (phase.Tag()) {
         case boca::Tag::signal :
             // put your signal file here
-            this->NewFile(tag, "hh_14TeV-500GeV", "h");
+            this->AddSignal("hh_14TeV-500GeV", "h");
             break;
         case boca::Tag::background :
             // put your background file here
-            this->NewFile(tag, "bb_14TeV-500GeV", "bb");
+            this->AddBackground("bb_14TeV-500GeV", "bb");
             break;
         }
     }

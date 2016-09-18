@@ -27,16 +27,16 @@ protected:
         return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-first";
     }
 
-    void SetFiles(Tag tag, Stage) override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::TTh);
+            this->AddSignal(Process::TTh);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::ttWWW);
-            this->NewFile(tag, Process::ttWWB);
-            this->NewFile(tag, Process::ttWBB);
-            this->NewFile(tag, Process::ttBBB);
+            this->AddBackground(Process::ttWWW);
+            this->AddBackground(Process::ttWWB);
+            this->AddBackground(Process::ttWBB);
+            this->AddBackground(Process::ttBBB);
             break;
         }
     }

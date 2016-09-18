@@ -102,8 +102,13 @@ protected:
             return at_rest;
         }
     }
-    void NewFile(Tag tag, Process process) {
-        boca::analysis::Base::NewFile(tag, FileName(process), LatexName(process));
+
+    void AddSignal(Process process) {
+        boca::analysis::Base::AddSignal(File(process));
+    }
+
+    void AddBackground(Process process) {
+        boca::analysis::Base::AddBackground(File(process));
     }
 
     Momentum LowerQuarkCut() const {
@@ -162,6 +167,12 @@ private:
 
     std::string FilePath() const override {
         return this->WorkingPath() + "../";
+    }
+
+    boca::File File(Process process) const {
+        auto file = boca::File({FileName(process)}, {Name(process), LatexName(process)});
+        file.RelativePath() = "../";
+        return file;
     }
 
 };

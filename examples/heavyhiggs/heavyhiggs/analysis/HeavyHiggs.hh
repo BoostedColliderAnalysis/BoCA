@@ -262,6 +262,13 @@ public:
         }
     }
 
+    void AddSignal(Process process) {
+        NewFile(Tag::signal, process);
+    }
+
+    void AddBackground(Process process) {
+        NewFile(Tag::background,  process);
+    }
 
     virtual void NewFile(Tag tag, Process process) {
         boca::analysis::Base::NewFile(tag, FileNames(process, tag), this->Crosssection(process), LatexName(process));

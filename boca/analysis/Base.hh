@@ -84,7 +84,7 @@ protected:
 
     virtual void RunEfficiency() = 0;
 
-    virtual void SetFiles(Tag tag, Stage) = 0;
+    virtual void SetFiles(Phase const& phase) = 0;
 
     virtual tagger::Base const& Tagger() const = 0;
 
@@ -114,21 +114,31 @@ protected:
 
     void NewFile(Tag tag, std::vector<std::string> const& names, latex::String const& latex_name = "");
 
-    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, const boca::Names& latex_name, boca::Mass const& mass = massless);
+    void NewFile(boca::Tag tag, std::vector<std::string> const& names, boca::Crosssection const& crosssection, const boca::Names& latex_name, boca::Mass const& mass = massless);
 
-    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, latex::String const& latex_name = "", boca::Mass const& mass = massless);
+    void NewFile(boca::Tag tag, std::vector<std::string> const& names, boca::Crosssection const& crosssection, latex::String const& latex_name = "", boca::Mass const& mass = massless);
 
-    boca::File File(const std::vector< std::string >& names, const boca::Crosssection& crosssection, latex::String const& latex_name, boca::Mass const& mass) const;
+    boca::File File(std::vector<std::string> const& names, boca::Crosssection const& crosssection, latex::String const& latex_name, boca::Mass const& mass) const;
 
     boca::File File(std::vector<std::string> const& names, latex::String const& latex_name = "") const;
 
-    boca::File File(const std::vector< std::string >& names, const boca::Names& latex_name, const boca::Crosssection& crosssection, boca::Mass const& mass) const;
+    boca::File File(std::vector<std::string> const& names, const boca::Names& latex_name, boca::Crosssection const& crosssection, boca::Mass const& mass) const;
 
-    void NewFile(Tag tag, std::string const& names, latex::String const& latex_name = "");
+    void NewFile(Tag tag, std::string const& name, latex::String const& latex_name = "");
 
-    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, latex::String const& latex_name = "", boca::Mass const& mass = massless);
+    void NewFile(Tag tag, const std::string& name, boca::Crosssection const& crosssection, latex::String const& latex_name = "", boca::Mass const& mass = massless);
 
-    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, const boca::Names& latex_name, boca::Mass const& mass);
+    void NewFile(Tag tag, const std::string& name, boca::Crosssection const& crosssection, const boca::Names& latex_name, boca::Mass const& mass);
+
+    void AddSignal(std::string const& file_name, latex::String const& latex_name = "",  boca::Crosssection const& crosssection = 0_b);
+//
+    void AddBackground(std::string const& file_name, latex::String const& latex_name = "",  boca::Crosssection const& crosssection = 0_b);
+
+    void AddFile(Tag tag, boca::File const& file);
+
+    void AddSignal(boca::File const& file);
+
+    void AddBackground(boca::File const& file);
 
     std::string TreeName(std::string const& name) const;
 
@@ -151,7 +161,6 @@ private:
      *
      */
     void AnalysisLoop(Stage stage);
-
 
     std::string FileSuffix() const;
 

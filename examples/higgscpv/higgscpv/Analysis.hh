@@ -28,7 +28,8 @@ class Analysis : public boca::Analysis<Tagger_>
 
 public:
 
-    Analysis() {
+    Analysis()
+    {
         Settings::SetCollider(Collider::lhc);
 //         this->PreCuts().PtLowerCut().Set(Id::higgs,200);
         //         this->PreCuts().MassLowerCut().Set(Id::higgs,105);
@@ -44,22 +45,24 @@ protected:
 
 private:
 
-    std::string Name() const override {
+    std::string Name() const override
+    {
         return  "CPV-after-tahoe";
     }
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag) {
-        case Tag::signal :
-	    //             this->NewFile(tag, "gg-tth", 0.0098);
-          this->NewFile(tag, "pp-tth", 0.02267_pb, "tth");
-	  //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.02071);
-	  //             this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.008937);
-	  //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-0.5", 0.01193);
-	  break;
+    void SetFiles(Phase const &phase) override
+    {
+        switch (phase.Tag()) {
+    case Tag::signal :
+        // this->AddSignal("gg-tth", 0.0098);
+        this->AddSignal("pp-tth", "tth", 0.02267_pb);
+            //  this->AddSignal("pp-ttx0-bbbbllnunu-1", 0.02071);
+            //  this->AddSignal("pp-ttx0-bbbbllnunu-1", 0.008937);
+            //  this->AddSignal("pp-ttx0-bbbbllnunu-0.5", 0.01193);
+            break;
         case Tag::background :
-	  this->NewFile(tag, "pp-ttbb", 0.1266_pb, "ttbb");
-	  //             this->NewFile(tag, "pp-ttbb-bbbbllnunu", 3.457);
+            this->AddBackground("pp-ttbb", "ttbb", 0.1266_pb);
+            // this->AddBackground("pp-ttbb-bbbbllnunu", 3.457);
             break;
         }
     }
@@ -68,7 +71,8 @@ private:
      * @brief Maximal number of Entries to analyse
      *
      */
-    long TrainNumberMax() const override {
+    long TrainNumberMax() const override
+    {
         return 1000;
         return 5000;
         return 10000;
@@ -76,10 +80,11 @@ private:
         return 10;
     }
 
-    bool PassPreCut(boca::Event const& event) const override {
-      //         if(this->template TaggerIs<tagger::WLeptonic>()) return false;
-      //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->()).semi_leptonic = false;
-       std::vector<Lepton> leptons = SortedByPt(event.Leptons());
+    bool PassPreCut(boca::Event const &event) const override
+    {
+        //         if(this->template TaggerIs<tagger::WLeptonic>()) return false;
+        //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->()).semi_leptonic = false;
+        std::vector<Lepton> leptons = SortedByPt(event.Leptons());
         if (leptons.size() < 2) return false;
 //         if (leptons.at(1).Pt() < 40) return false;
 //        std::vector<Jet> jets = event.Jets();

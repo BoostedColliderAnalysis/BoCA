@@ -13,24 +13,52 @@
 namespace boca
 {
 
-File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, latex::String const& latex_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
+// File::File(std::vector<std::string> const& file_names) :
+//     file_names_(file_names)
+// {}
+//
+// File::File(std::vector<std::string> const& file_names, boca::Names const &names) :
+//     file_names_(file_names) ,
+//     names_(names)
+// {}
+//
+// File::File(std::vector<std::string> const& file_names, boca::Names const &names, boca::Crosssection crosssection) :
+//     file_names_(file_names) ,
+//     names_(names),
+//     crosssection_(crosssection)
+// {}
+
+// File::File(std::vector<std::string> const& file_names, boca::Names const &names, Number<boca::Crosssection> crosssection) :
+//     file_names_(file_names) ,
+//     names_(names),
+//     crosssection_(crosssection)
+// {}
+
+File::File(std::vector<std::string> const& file_names, boca::Names const &names, Number<boca::Crosssection> crosssection,  boca::Mass const& mass) :
+    file_names_(file_names) ,
+    names_(names),
+    crosssection_(crosssection),
+    mass_(mass)
+{}
+
+File::File(std::vector<std::string> const &file_names, std::string const &base_path, std::string const &file_suffix, latex::String const &latex_name, boca::Crosssection const &crosssection, boca::Mass const &mass)
 {
     INFO0;
-    process_folders_ = processes;
+    file_names_ = file_names;
     base_path_ = base_path;
     file_suffix_ = file_suffix;
-    crosssection_ = crosssection;
+    crosssection_.Value() = crosssection;
     names_.Set(latex_name.str(latex::Medium::latex), latex_name); // FIXME dont do that
     mass_ = mass;
 }
 
-File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, boca::Names const& latex_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
+File::File(std::vector<std::string> const &file_names, std::string const &base_path, std::string const &file_suffix, boca::Names const &latex_name, boca::Crosssection const &crosssection, boca::Mass const &mass)
 {
     INFO0;
-    process_folders_ = processes;
+    file_names_ = file_names;
     base_path_ = base_path;
     file_suffix_ = file_suffix;
-    crosssection_ = crosssection;
+    crosssection_.Value() = crosssection;
     names_ = latex_name;
     mass_ = mass;
 }
@@ -66,13 +94,7 @@ std::string File::TreeName() const
 std::string File::Title() const
 {
     INFO0;
-    return process_folders_.front() + "-" + RunFolder();
-}
-
-std::string File::MadGraphFilePath() const
-{
-    INFO0;
-    return base_path_ + process_folders_.front() + "/events/" + RunFolder() + "/";
+    return file_names_.front() + "-" + RunFolder();
 }
 
 std::string File::TagName() const
@@ -90,7 +112,7 @@ std::string File::RunFolder() const
 std::vector<std::string> File::Paths() const
 {
     INFO0;
-    return Transform(process_folders_, [&](std::string const & process_folder) {
+    return Transform(file_names_, [&](std::string const & process_folder) {
         return base_path_ + process_folder + file_suffix_;
     });
 }
@@ -98,13 +120,13 @@ std::vector<std::string> File::Paths() const
 boca::Crosssection File::Crosssection() const
 {
     INFO0;
-    return crosssection_;
+    return crosssection_.Value();
 }
 
 boca::Crosssection File::CrosssectionError() const
 {
     INFO0;
-    return crosssection_error_;
+    return crosssection_.Error();
 }
 
 boca::Mass File::Mass() const
@@ -129,5 +151,11 @@ Names File::Names() const
     return names_;
 }
 
+
+
+std::string File::RelativePath()
+{
+    return relative_path_;
+}
 
 }

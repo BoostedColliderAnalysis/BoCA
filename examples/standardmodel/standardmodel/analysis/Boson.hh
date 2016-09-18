@@ -37,24 +37,24 @@ private:
         return  boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-large";
     }
 
-    void SetFiles(Tag tag, Stage stage) override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::hh_bb);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::zz);
-//             if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::ww);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
+            this->AddSignal(Process::hh_bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::zz);
+//             if (!this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::ww);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::bb);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_lep);
             break;
         case Tag::background :
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            this->NewFile(tag, Process::gg);
-            this->NewFile(tag, Process::cc);
-            this->NewFile(tag, Process::qq);
-            if(stage == Stage::reader) this->NewFile(tag, Process::ww);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_lep);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::bb);
+            this->AddBackground(Process::gg);
+            this->AddBackground(Process::cc);
+            this->AddBackground(Process::qq);
+            if(phase.Stage() == Stage::reader) this->AddBackground(Process::ww);
             break;
         }
 

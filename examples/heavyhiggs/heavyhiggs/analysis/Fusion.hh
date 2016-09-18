@@ -20,14 +20,14 @@ class Fusion : public HeavyHiggs<Tagger_> {
 
 public:
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag)
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag())
         {
         case Tag::signal :
-            this->NewFile(tag, Process::H0);
+            this->AddSignal(Process::H0);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::tt);
+            this->AddBackground(Process::tt);
             break;
         }
     }
