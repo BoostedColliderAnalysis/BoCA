@@ -18,6 +18,7 @@ class Analysis : public boca::Analysis<Tagger_>
 {
 
 public:
+    // override some functions of the base class
 
     // Set Files used in the analysis
     void SetFiles(boca::Phase const& phase) override
