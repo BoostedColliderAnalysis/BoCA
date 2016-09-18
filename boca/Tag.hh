@@ -7,11 +7,18 @@
 
 namespace boca {
 
+/**
+* @brief The Tag distinguishes between signal and background events
+*
+*/
 enum class Tag {
-    background = 0,
-    signal = 1
+    background = 0, ///< Background
+    signal = 1 ///< Signal
 };
 
+/**
+* @brief Name of Tag
+*/
 std::string Name(Tag tag);
 
 }
