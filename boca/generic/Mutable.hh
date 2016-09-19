@@ -4,6 +4,8 @@
 
 #include "boca/generic/Debug.hh"
 
+#include <array>
+
 namespace boca
 {
 
