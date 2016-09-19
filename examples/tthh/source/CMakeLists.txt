@@ -6,4 +6,4 @@ Observables.cpp
 )
 create_library(tthh tthhFiles)
 
-create_executable(tthhAnalysis MainSimple.cpp)
+create_executable(tthhAnalysis Maintthh.cpp)
