@@ -70,7 +70,7 @@ double Mt2::get_mt2()
     return mt2_b * scale;
 }
 
-void Mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
+void Mt2::set_momenta(double *pa0, double *pb0, double *pmiss0)
 {
     solved = false; //reset solved tag when momenta are changed.
     momenta_set = true;
@@ -92,7 +92,8 @@ void Mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
     Ebsq = mbsq + pbx * pbx + pby * pby;
     Eb = std::sqrt(Ebsq);
 
-    pmissx = pmiss0[1]; pmissy = pmiss0[2];
+    pmissx = pmiss0[1];
+    pmissy = pmiss0[2];
     pmissxsq = pmissx * pmissx;
     pmissysq = pmissy * pmissy;
 
@@ -101,11 +102,21 @@ void Mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
         auto temp = pax;
         pax = pbx;
         pbx = temp;
-        temp = pay; pay = pby; pby = temp;
-        temp = Ea; Ea = Eb; Eb = temp;
-        temp = Easq; Easq = Ebsq; Ebsq = temp;
-        temp = masq; masq = mbsq; mbsq = temp;
-        temp = ma; ma = mb; mb = temp;
+        temp = pay;
+        pay = pby;
+        pby = temp;
+        temp = Ea;
+        Ea = Eb;
+        Eb = temp;
+        temp = Easq;
+        Easq = Ebsq;
+        Ebsq = temp;
+        temp = masq;
+        masq = mbsq;
+        mbsq = temp;
+        temp = ma;
+        ma = mb;
+        mb = temp;
     }
     //normalize max{Ea, Eb} to 100
     if (Ea > Eb) scale = Ea / 100.;
@@ -118,9 +129,12 @@ void Mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
     mb = mb / scale;
     masq = masq / scalesq;
     mbsq = mbsq / scalesq;
-    pax = pax / scale; pay = pay / scale;
-    pbx = pbx / scale; pby = pby / scale;
-    Ea = Ea / scale; Eb = Eb / scale;
+    pax = pax / scale;
+    pay = pay / scale;
+    pbx = pbx / scale;
+    pby = pby / scale;
+    Ea = Ea / scale;
+    Eb = Eb / scale;
 
     Easq = Easq / scalesq;
     Ebsq = Ebsq / scalesq;
@@ -145,9 +159,9 @@ void Mt2::set_mn(double mn0)
 
 void Mt2::print()
 {
-    std::cout << " pax = " << pax* scale << "; pay = " << pay* scale << "; ma = " << ma* scale << ";" << std::endl;
-    std::cout << " pbx = " << pbx* scale << "; pby = " << pby* scale << "; mb = " << mb* scale << ";" << std::endl;
-    std::cout << " pmissx = " << pmissx* scale << "; pmissy = " << pmissy* scale << ";" << std::endl;
+    std::cout << " pax = " << pax *scale << "; pay = " << pay *scale << "; ma = " << ma *scale << ";" << std::endl;
+    std::cout << " pbx = " << pbx *scale << "; pby = " << pby *scale << "; mb = " << mb *scale << ";" << std::endl;
+    std::cout << " pmissx = " << pmissx *scale << "; pmissy = " << pmissy *scale << ";" << std::endl;
     std::cout << " mn = " << mn_unscale << ";" << std::endl;
 }
 
@@ -212,7 +226,7 @@ void Mt2::mt2_massless()
     auto nsols_high = nsols_massless(Deltasq_high);
 
     if (nsols_high == nsols_low) {
-        auto foundhigh= 0;
+        auto foundhigh = 0;
         auto minmass = mn ;
         auto maxmass = std::sqrt(mnsq + Deltasq_high);
         for (auto mass = minmass + SCANSTEP; mass < maxmass; mass += SCANSTEP) {
@@ -418,7 +432,7 @@ void Mt2::mt2_bisect()
     return;
 }
 
-int Mt2::find_high(double& Deltasq_high)
+int Mt2::find_high(double &Deltasq_high)
 {
     auto x0 = (c1 * d1 - b1 * e1) / (b1 * b1 - a1 * c1);
     auto y0 = (a1 * e1 - b1 * d1) / (b1 * b1 - a1 * c1);
@@ -451,7 +465,7 @@ int Mt2::find_high(double& Deltasq_high)
     return 0;
 }
 
-int Mt2::scan_high(double& Deltasq_high)
+int Mt2::scan_high(double &Deltasq_high)
 {
     auto foundhigh = 0 ;
     auto tempmass = mn + ma;
@@ -468,7 +482,8 @@ int Mt2::scan_high(double& Deltasq_high)
     return foundhigh;
 }
 
-int Mt2::nsols(double Dsq){
+int Mt2::nsols(double Dsq)
+{
     auto delta = (Dsq - masq) / (2 * Easq);
     //calculate coefficients for the two quadratic equations
     d1 = d11 * delta;
@@ -481,30 +496,30 @@ int Mt2::nsols(double Dsq){
     //obtain the coefficients for the 4th order equation
     //devided by Ea^n to make the variable dimensionless
     auto A4 = -4 * a2 * b1 * b2 * c1 + 4 * a1 * b2 * b2 * c1 + a2 * a2 * c1 * c1 +
-                     4 * a2 * b1 * b1 * c2 - 4 * a1 * b1 * b2 * c2 - 2 * a1 * a2 * c1 * c2 +
-                     a1 * a1 * c2 * c2;
+              4 * a2 * b1 * b1 * c2 - 4 * a1 * b1 * b2 * c2 - 2 * a1 * a2 * c1 * c2 +
+              a1 * a1 * c2 * c2;
 
     auto A3 = (-4 * a2 * b2 * c1 * d1 + 8 * a2 * b1 * c2 * d1 - 4 * a1 * b2 * c2 * d1 - 4 * a2 * b1 * c1 * d2 +
-                      8 * a1 * b2 * c1 * d2 - 4 * a1 * b1 * c2 * d2 - 8 * a2 * b1 * b2 * e1 + 8 * a1 * b2 * b2 * e1 +
-                      4 * a2 * a2 * c1 * e1 - 4 * a1 * a2 * c2 * e1 + 8 * a2 * b1 * b1 * e2 - 8 * a1 * b1 * b2 * e2 -
-                      4 * a1 * a2 * c1 * e2 + 4 * a1 * a1 * c2 * e2) / Ea;
+               8 * a1 * b2 * c1 * d2 - 4 * a1 * b1 * c2 * d2 - 8 * a2 * b1 * b2 * e1 + 8 * a1 * b2 * b2 * e1 +
+               4 * a2 * a2 * c1 * e1 - 4 * a1 * a2 * c2 * e1 + 8 * a2 * b1 * b1 * e2 - 8 * a1 * b1 * b2 * e2 -
+               4 * a1 * a2 * c1 * e2 + 4 * a1 * a1 * c2 * e2) / Ea;
 
 
     auto A2 = (4 * a2 * c2 * d1 * d1 - 4 * a2 * c1 * d1 * d2 - 4 * a1 * c2 * d1 * d2 + 4 * a1 * c1 * d2 * d2 -
-                      8 * a2 * b2 * d1 * e1 - 8 * a2 * b1 * d2 * e1 + 16 * a1 * b2 * d2 * e1 +
-                      4 * a2 * a2 * e1 * e1 + 16 * a2 * b1 * d1 * e2 - 8 * a1 * b2 * d1 * e2 -
-                      8 * a1 * b1 * d2 * e2 - 8 * a1 * a2 * e1 * e2 + 4 * a1 * a1 * e2 * e2 - 4 * a2 * b1 * b2 * f1 +
-                      4 * a1 * b2 * b2 * f1 + 2 * a2 * a2 * c1 * f1 - 2 * a1 * a2 * c2 * f1 +
-                      4 * a2 * b1 * b1 * f2 - 4 * a1 * b1 * b2 * f2 - 2 * a1 * a2 * c1 * f2 + 2 * a1 * a1 * c2 * f2) / Easq;
+               8 * a2 * b2 * d1 * e1 - 8 * a2 * b1 * d2 * e1 + 16 * a1 * b2 * d2 * e1 +
+               4 * a2 * a2 * e1 * e1 + 16 * a2 * b1 * d1 * e2 - 8 * a1 * b2 * d1 * e2 -
+               8 * a1 * b1 * d2 * e2 - 8 * a1 * a2 * e1 * e2 + 4 * a1 * a1 * e2 * e2 - 4 * a2 * b1 * b2 * f1 +
+               4 * a1 * b2 * b2 * f1 + 2 * a2 * a2 * c1 * f1 - 2 * a1 * a2 * c2 * f1 +
+               4 * a2 * b1 * b1 * f2 - 4 * a1 * b1 * b2 * f2 - 2 * a1 * a2 * c1 * f2 + 2 * a1 * a1 * c2 * f2) / Easq;
 
     auto A1 = (-8 * a2 * d1 * d2 * e1 + 8 * a1 * d2 * d2 * e1 + 8 * a2 * d1 * d1 * e2 - 8 * a1 * d1 * d2 * e2 -
-                      4 * a2 * b2 * d1 * f1 - 4 * a2 * b1 * d2 * f1 + 8 * a1 * b2 * d2 * f1 + 4 * a2 * a2 * e1 * f1 -
-                      4 * a1 * a2 * e2 * f1 + 8 * a2 * b1 * d1 * f2 - 4 * a1 * b2 * d1 * f2 - 4 * a1 * b1 * d2 * f2 -
-                      4 * a1 * a2 * e1 * f2 + 4 * a1 * a1 * e2 * f2) / (Easq * Ea);
+               4 * a2 * b2 * d1 * f1 - 4 * a2 * b1 * d2 * f1 + 8 * a1 * b2 * d2 * f1 + 4 * a2 * a2 * e1 * f1 -
+               4 * a1 * a2 * e2 * f1 + 8 * a2 * b1 * d1 * f2 - 4 * a1 * b2 * d1 * f2 - 4 * a1 * b1 * d2 * f2 -
+               4 * a1 * a2 * e1 * f2 + 4 * a1 * a1 * e2 * f2) / (Easq * Ea);
 
     auto A0 = (-4 * a2 * d1 * d2 * f1 + 4 * a1 * d2 * d2 * f1 + a2 * a2 * f1 * f1 +
-                      4 * a2 * d1 * d1 * f2 - 4 * a1 * d1 * d2 * f2 - 2 * a1 * a2 * f1 * f2 +
-                      a1 * a1 * f2 * f2) / (Easq * Easq);
+               4 * a2 * d1 * d1 * f2 - 4 * a1 * d1 * d2 * f2 - 2 * a1 * a2 * f1 * f2 +
+               a1 * a1 * f2 * f2) / (Easq * Easq);
 
     auto A3sq = A3 * A3;
 

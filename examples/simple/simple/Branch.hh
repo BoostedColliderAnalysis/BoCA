@@ -2,6 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
+// include the Units header
+#include "boca/physics/Units.hh"
 // include Branch base
 #include "boca/branch/Bdt.hh"
 // include Observables
@@ -10,6 +12,9 @@
 
 namespace simple
 {
+
+// use the namespace for units
+using namespace boca::units;
 
 // define the branch for saving the root file
 // inherits from the BDT branch base class
@@ -32,7 +37,22 @@ public:
     float jet_4_pt;
 
     // define how the branches are going to be filled from the Observables
-    void Fill(Observables const &observables);
+    template<typename Multiplet_>
+    void Fill(Multiplet_ const &multiplet)
+    {
+        // store the BDT value in the BDT member
+        boca::branch::Bdt::Fill(multiplet);
+        //  store the other multiplet in their fields
+        jet_number = multiplet.JetNumber();
+        bottom_number = multiplet.BottomNumber();
+        // note that the Branch only takes plain numbers
+        missing_et = multiplet.MissingEt() / GeV;
+        scalar_ht = multiplet.ScalarHt() / GeV;
+        jet_1_pt = multiplet.JetPt(0) / GeV;
+        jet_2_pt = multiplet.JetPt(1) / GeV;
+        jet_3_pt = multiplet.JetPt(2) / GeV;
+        jet_4_pt = multiplet.JetPt(3) / GeV;
+    }
 
     // return the Variables for TMVA
     boca::Observables Variables() override;
