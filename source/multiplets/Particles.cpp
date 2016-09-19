@@ -234,6 +234,15 @@ std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std
     return mothers;
 }
 
+std::vector<Particle> RemoveIfDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters)
+{
+    auto mothers = particles;
+    return boost::range::remove_erase_if(mothers, [&daughters](Particle const & particle) {
+        for (auto const & daughter : daughters) if (particle.Info().Family().Member(Relative::particle).Position() == daughter.Info().Family().Member(Relative::mother).Position()) return true;
+        return false;
+    });
+}
+
 std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& grand_daughters)
 {
     auto grand_mothers = std::vector<Particle>{};

@@ -1,4 +1,4 @@
-#include "tthh/Tagger.hh"
+#include "tthh/tagger/Global.hh"
 
 //#define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
@@ -6,8 +6,10 @@
 namespace tthh {
 
 using namespace boca::units;
-    
-int Tagger::Train(boca::Event const &event, boca::PreCuts const &, boca::Tag tag)
+
+namespace tagger {
+
+int Global::Train(boca::Event const &event, boca::PreCuts const &, boca::Tag tag)
 {
     Observables observables(event);
     observables.SetTag(tag);
@@ -25,23 +27,24 @@ int Tagger::Train(boca::Event const &event, boca::PreCuts const &, boca::Tag tag
     return SaveEntries({observables});
 }
 
-std::vector<Observables> Tagger::Multiplets(boca::Event const &event, boca::PreCuts const &, TMVA::Reader const &reader)
+std::vector<Observables> Global::Multiplets(boca::Event const &event, boca::PreCuts const &, TMVA::Reader const &reader)
 {
     Observables observables(event);
     observables.SetBdt(Bdt(observables, reader));
     return {observables};
 }
 
-std::string Tagger::Name() const
+std::string Global::Name() const
 {
     return "tthh";
 }
 
-TMVA::Types::EMVA Tagger::Mva() const
+TMVA::Types::EMVA Global::Mva() const
 {
     return TMVA::Types::EMVA::kCuts;
     return TMVA::Types::EMVA::kBDT;
 }
 
+}
 
 }

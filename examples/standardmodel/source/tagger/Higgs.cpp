@@ -4,14 +4,16 @@
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/tools/Filter.hh"
 
-#include "boca/multiplets/Doublet.hh"
-#include "boca/Event.hh"
-#include "boca/multiplets/Particles.hh"
-#include "boca/fastjet/ClusterSequence.hh"
 #include "boca/generic/Types.hh"
-#include "standardmodel/tagger/Higgs.hh"
-#include "boca/MomentumRange.hh"
 #include "boca/generic/Exception.hh"
+#include "boca/fastjet/ClusterSequence.hh"
+#include "boca/multiplets/Doublet.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/Event.hh"
+#include "boca/MomentumRange.hh"
+
+#include "standardmodel/tagger/Higgs.hh"
+
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace standardmodel

@@ -41,6 +41,8 @@ public:
 
     latex::String LatexName() const override;
 
+    void DoNeutrinoReconstruction(bool do_it);
+
 private:
 
     std::vector<Doublet> Doublets(boca::Event const &event, std::function<boost::optional<Doublet>(Doublet &)> const &function) const;
@@ -51,9 +53,11 @@ private:
 
     bool Problematic(Doublet const &doublet, PreCuts const &pre_cuts) const;
 
-    std::vector<Doublet> ReconstructNeutrino(Doublet const &doublet) const;
+    std::vector<Doublet> ReconstructNeutrino(Lepton const& lepton,  MissingEt const& missing_et) const;
 
     Mass w_mass_window_;
+
+    bool reconstruct_neutrino_;
 
 };
 

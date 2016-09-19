@@ -16,13 +16,13 @@ namespace tagger
 namespace
 {
 
-Lepton FakeLepton(boca::Jet const& jet)
+Lepton FakeLepton(boca::Jet const &jet)
 {
     INFO0;
     return jet * (Settings::LeptonMinPt() / jet.Pt());
 }
 
-std::vector<Lepton> Leptons(boca::Event const& event)
+std::vector<Lepton> Leptons(boca::Event const &event)
 {
     INFO0;
     auto do_fake_leptons = true;
@@ -41,7 +41,7 @@ WLeptonic::WLeptonic()
     w_mass_window_ = 20_GeV;
 }
 
-int WLeptonic::Train(boca::Event const& event, boca::PreCuts const& pre_cuts, Tag tag)
+int WLeptonic::Train(boca::Event const &event, boca::PreCuts const &pre_cuts, Tag tag)
 {
     INFO0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) -> boost::optional<Doublet> {
@@ -51,7 +51,7 @@ int WLeptonic::Train(boca::Event const& event, boca::PreCuts const& pre_cuts, Ta
     }), Particles(event), tag);
 }
 
-bool WLeptonic::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const
+bool WLeptonic::Problematic(Doublet const &doublet, PreCuts const &pre_cuts, Tag tag) const
 {
     INFO0;
     if (Problematic(doublet, pre_cuts)) return true;
@@ -60,26 +60,27 @@ bool WLeptonic::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag
         if (pre_cuts.OutSideMassWindow(doublet, w_mass_window_, Id::W)) return true;
         if (pre_cuts.NotParticleRho(doublet)) return true;
         break;
-    case Tag::background : break;
+    case Tag::background :
+        break;
     }
     return false;
 }
 
-bool WLeptonic::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
+bool WLeptonic::Problematic(Doublet const &doublet, PreCuts const &pre_cuts) const
 {
     INFO0;
     if (pre_cuts.ApplyCuts(Id::W, doublet)) return true;
     return false;
 }
 
-std::vector<Particle> WLeptonic::Particles(boca::Event const& event) const
+std::vector<Particle> WLeptonic::Particles(boca::Event const &event) const
 {
     INFO0;
     auto particles = event.GenParticles();
     return CopyIfDaughter(CopyIfParticle(particles, Id::W), CopyIfMother(CopyIfLepton(particles), Id::W));
 }
 
-std::vector<Doublet> WLeptonic::Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader)
+std::vector<Doublet> WLeptonic::Multiplets(boca::Event const &event, PreCuts const &pre_cuts, TMVA::Reader const &reader)
 {
     INFO0;
     return Doublets(event, [&](Doublet & doublet) -> boost::optional<Doublet> {
@@ -89,49 +90,48 @@ std::vector<Doublet> WLeptonic::Multiplets(boca::Event const& event, PreCuts con
     });
 }
 
-std::vector<Doublet> WLeptonic::Doublets(boca::Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
+std::vector<Doublet> WLeptonic::Doublets(boca::Event const &event, std::function<boost::optional<Doublet>(Doublet &)> const &function) const
 {
     INFO0;
 //     std::vector<Lepton> leptons = SortedByPt(event.Leptons());
     auto leptons = Leptons(event);
     auto missing_et = event.MissingEt();
-    auto doublets = std::vector<Doublet>{};
-    for (auto const & lepton : leptons) {
-        auto pre_doublet = Doublet{lepton, missing_et};
-        auto post_doublets = ReconstructNeutrino(pre_doublet);
-        for (auto & doublet : post_doublets) if (auto optional = function(doublet)) doublets.emplace_back(*optional);
+    auto doublets = std::vector<Doublet> {};
+    for (auto const &lepton : leptons) {
+        if (reconstruct_neutrino_) {
+            auto reconstructed = ReconstructNeutrino(lepton, missing_et);
+            for (auto &doublet : reconstructed) if (auto optional = function(doublet)) doublets.emplace_back(*optional);
+        } else {
+            Doublet doublet;
+            doublet.Enforce(lepton);
+            doublets.emplace_back(doublet);
+        }
     }
     return doublets;
 }
 
-using EnergyCubed = typename boost::units::multiply_typeof_helper< Energy, EnergySquare>::type;
-using EnergySixth = typename boost::units::multiply_typeof_helper< EnergyCubed, EnergyCubed>::type;
-static const EnergySixth GeV6 = boost::units::pow<6>(GeV);
-
-std::vector<Doublet> WLeptonic::ReconstructNeutrino(Doublet const& doublet) const
+std::vector<Doublet> WLeptonic::ReconstructNeutrino(Lepton const &lepton,  MissingEt const &missing_et) const
 {
     INFO0;
-    auto lepton = doublet.Singlet1();
-    auto missing_et = doublet.Singlet2();
     auto linear_term = (sqr(MassOf(Id::W)) - lepton.MassSquare()) / 2. + missing_et.Px() * lepton.Px() + missing_et.Py() * lepton.Py();
     auto lepton_pz_square = sqr(lepton.Pz());
     auto lepton_square = sqr(lepton.Energy()) - lepton_pz_square;
     auto missing_et_square = sqr(missing_et.Px()) + sqr(missing_et.Py());
     auto radicant = lepton_pz_square * (sqr(linear_term) -  lepton_square * missing_et_square);
-    if (radicant < 0. * GeV6) {
+    if (radicant < 0_eV * eV * eV2 * eV2) {
         INFO("Imaginary root", "move missing et towards lepton");
         Lepton reco = missing_et + 0.1 * (lepton - missing_et);
         reco.Info() = missing_et.Info();
-        return ReconstructNeutrino(Doublet(lepton, reco));
+        return ReconstructNeutrino(lepton, reco);
     }
-    CHECK(radicant != 0. * GeV6, "Radicant exactly zero", "implement this case!");
+    CHECK(radicant != 0_eV * eV * eV2 * eV2, "Radicant exactly zero", "implement this case!");
     auto sqrt = boost::units::sqrt(radicant);
     auto neutrino_1_e = (lepton.Energy() * linear_term - sqrt) / lepton_square;
     auto neutrino_1_pz = (lepton_pz_square * linear_term - lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
-    auto neutrino_1 = Lepton{missing_et.Px(), missing_et.Py(), neutrino_1_pz, neutrino_1_e};
+    auto neutrino_1 = Lepton {missing_et.Px(), missing_et.Py(), neutrino_1_pz, neutrino_1_e};
     auto neutrino_2_e = (lepton.Energy() * linear_term + sqrt) / lepton_square;
     auto neutrino_2_pz = (lepton_pz_square * linear_term + lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
-    auto neutrino_2 = Lepton{missing_et.Px(), missing_et.Py(), neutrino_2_pz, neutrino_2_e};
+    auto neutrino_2 = Lepton {missing_et.Px(), missing_et.Py(), neutrino_2_pz, neutrino_2_e};
     return {Doublet(lepton, neutrino_1), Doublet(lepton, neutrino_2)};
 }
 
@@ -143,6 +143,11 @@ std::string WLeptonic::Name() const
 latex::String WLeptonic::LatexName() const
 {
     return {"W_{l}", true};
+}
+
+void WLeptonic::DoNeutrinoReconstruction(bool do_it)
+{
+    reconstruct_neutrino_ =  do_it;
 }
 
 }

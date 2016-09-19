@@ -8,7 +8,6 @@
 #include "boca/branch/Bdt.hh"
 // include Observables
 #include "boca/Observables.hh"
-#include "simple/Observables.hh"
 
 namespace simple
 {

@@ -13,12 +13,14 @@
 */
 namespace tthh {
 
-class Branch :  public boca::branch::Bdt
+namespace branch {
+
+class Global :  public boca::branch::Bdt
 {
 
 public:
 
-    Branch();
+    Global();
 
     float jet_number;
     float bottom_number;
@@ -54,7 +56,9 @@ public:
     boca::Observables Spectators() override;
 
 private:
-    ClassDef(Branch, 1)
+    ClassDef(Global, 1)
 };
+
+}
 
 }

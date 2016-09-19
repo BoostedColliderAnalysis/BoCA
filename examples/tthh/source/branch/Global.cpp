@@ -3,11 +3,13 @@
  */;
 #include "boca/OBSERVABLE_MACROS.hh"
 
-#include "tthh/Branch.hh"
+#include "tthh/branch/Global.hh"
 
 namespace tthh {
 
-Branch::Branch()
+namespace branch{
+
+Global::Global()
 {
     jet_number = static_cast<int>(InitialValue());
     bottom_number = static_cast<int>(InitialValue());
@@ -22,14 +24,16 @@ Branch::Branch()
     photon12_mass = InitialValue();
 }
 
-boca::Observables Branch::Variables()
+boca::Observables Global::Variables()
 {
     return boca::branch::Bdt::Variables() + OBSERVABLE(bottom_number, "#b") + OBSERVABLE(jet_number, "#j") + OBSERVABLE(missing_et, "E_{T}^{miss}") + OBSERVABLE(scalar_ht, "H_{T}^{scalar}") + OBSERVABLE(jet_1_pt, "p_{T}(j_{1})") + OBSERVABLE(jet_2_pt, "p_{T}(j_{2})") + OBSERVABLE(jet_3_pt, "p_{T}(j_{3})") + OBSERVABLE(jet_4_pt, "p_{T}(j_{4})") + OBSERVABLE(photon_1_pt, "p_{T}(#gamma_{1})") + OBSERVABLE(photon_2_pt, "p_{T}(#gamma_{2})") + OBSERVABLE(photon12_mass, "m_{#gamma#gamma}");
 }
 
-boca::Observables Branch::Spectators()
+boca::Observables Global::Spectators()
 {
     return boca::branch::Bdt::Spectators();
+}
+
 }
 
 }
