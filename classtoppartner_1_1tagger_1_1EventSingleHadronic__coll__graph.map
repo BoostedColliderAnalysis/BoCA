@@ -1,0 +1,5 @@
+<map id="toppartner::tagger::EventSingleHadronic" name="toppartner::tagger::EventSingleHadronic">
+<area shape="rect" id="node2" href="$classstandardmodel_1_1tagger_1_1Event.html" title="standardmodel::tagger\l::Event\&lt; SignatureSingleHadronic,\l Decuplet532, branch::Event \&gt;" alt="" coords="427,5,649,61"/>
+<area shape="rect" id="node3" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Decuplet532 \&gt;, branch::\lEvent \&gt;" alt="" coords="185,5,379,61"/>
+<area shape="rect" id="node4" href="$classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="5,20,137,47"/>
+</map>

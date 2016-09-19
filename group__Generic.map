@@ -1,0 +1,8 @@
+<map id="Generic" name="Generic">
+<area shape="rect" id="node1" href="$group__Exceptions.html" title="Customized subclasses of std::exception or std::runtime_error. " alt="" coords="225,5,312,32"/>
+<area shape="rect" id="node2" href="$group__Flag.html" title="Enables the usage of strongly typed enumerators as flags. " alt="" coords="245,56,292,83"/>
+<area shape="rect" id="node3" href="$group__Vector.html" title="Functions used for Container (mainly std::vector) manipulation. " alt="" coords="239,107,299,133"/>
+<area shape="rect" id="node4" href="$group__Debug.html" title="Debugging and error reporting functions and macros. " alt="" coords="239,157,299,184"/>
+<area shape="rect" id="node5" href="$group__Iterator.html" title="Enum based iterators. " alt="" coords="237,208,300,235"/>
+<area shape="rect" id="node6" href="$group__Boca.html" title="Boosted Collider Analysis. " alt="" coords="5,107,63,133"/>
+</map>

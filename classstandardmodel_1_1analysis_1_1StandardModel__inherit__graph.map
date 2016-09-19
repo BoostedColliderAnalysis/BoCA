@@ -1,0 +1,10 @@
+<map id="standardmodel::analysis::StandardModel&lt; Tagger_ &gt;" name="standardmodel::analysis::StandardModel&lt; Tagger_ &gt;">
+<area shape="rect" id="node4" href="$classstandardmodel_1_1analysis_1_1Boson.html" title="Higgs tagger analysis. " alt="" coords="660,5,823,47"/>
+<area shape="rect" id="node5" href="$classstandardmodel_1_1analysis_1_1Bottom.html" title="Bottom Tagger Analysis. " alt="" coords="660,71,823,112"/>
+<area shape="rect" id="node6" href="$classstandardmodel_1_1analysis_1_1Higgs.html" title="Higgs tagger analysis. " alt="" coords="660,136,823,177"/>
+<area shape="rect" id="node7" href="$classstandardmodel_1_1analysis_1_1Top.html" title="Top Tagger ananlysis. " alt="" coords="660,201,823,243"/>
+<area shape="rect" id="node8" href="$classstandardmodel_1_1analysis_1_1W.html" title="HAnalysis subclass defining the W Tagger ananlysis. " alt="" coords="660,267,823,308"/>
+<area shape="rect" id="node9" href="$classstandardmodel_1_1analysis_1_1Z.html" title="Z tagger ananlysis. " alt="" coords="660,332,823,373"/>
+<area shape="rect" id="node2" href="$classboca_1_1Analysis.html" title="provides main analysis loops and logic. " alt="" coords="197,177,376,203"/>
+<area shape="rect" id="node3" href="$classboca_1_1analysis_1_1Base.html" title="Base for all analyses. " alt="" coords="5,177,149,203"/>
+</map>

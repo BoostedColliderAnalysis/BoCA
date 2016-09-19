@@ -1,9 +1,0 @@
-<map id="boca::heavyhiggs::CutTagger" name="boca::heavyhiggs::CutTagger">
-<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; CutPlet, HeavyHiggsCutBranch \&gt;" alt="" coords="1120,54,1352,95"/>
-<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="499,5,597,32"/>
-<area shape="rect" id="node9" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="733,47,885,103"/>
-<area shape="rect" id="node4" href="$d6/d20/classboca_1_1heavyhiggs_1_1HeavyHiggsCutBranch.html" title="boca::heavyhiggs::HeavyHiggs\lCutBranch" alt="" coords="707,126,911,167"/>
-<area shape="rect" id="node5" href="$d1/dc0/classboca_1_1CutBranch.html" title="boca::CutBranch" alt="" coords="488,133,608,160"/>
-<area shape="rect" id="node6" href="$dd/dfc/classboca_1_1ResultBranch.html" title="boca::ResultBranch" alt="" coords="301,133,439,160"/>
-<area shape="rect" id="node7" href="$dc/d87/classboca_1_1BaseBranch.html" title="Basic tree branches. " alt="" coords="123,133,252,160"/>
-</map>

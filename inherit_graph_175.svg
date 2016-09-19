@@ -16,7 +16,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="d3/d76/classboca_1_1TreeReaderArray.html" target="_top" xlink:title="boca::TreeReaderArray">
+<g id="a_node2"><a xlink:href="classboca_1_1TreeReaderArray.html" target="_top" xlink:title="boca::TreeReaderArray">
 <polygon fill="white" stroke="black" points="155,-0.5 155,-19.5 273,-19.5 273,-0.5 155,-0.5"/>
 <text text-anchor="middle" x="214" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TreeReaderArray</text>
 </a>

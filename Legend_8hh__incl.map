@@ -1,0 +1,18 @@
+<map id="boca/plotting/Legend.hh" name="boca/plotting/Legend.hh">
+<area shape="rect" id="node3" href="$Rectangle_8hh.html" title="boca/physics/Rectangle.hh" alt="" coords="1185,80,1365,107"/>
+<area shape="rect" id="node44" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="2245,244,2383,271"/>
+<area shape="rect" id="node46" href="$Orientation_8hh.html" title="boca/plotting/Orientation.hh" alt="" coords="2003,244,2185,271"/>
+<area shape="rect" id="node8" href="$Vector2_8hh.html" title="boca/math/Vector2.hh" alt="" coords="1287,162,1437,189"/>
+<area shape="rect" id="node39" href="$Range_8hh.html" title="boca/physics/Range.hh" alt="" coords="1525,162,1684,189"/>
+<area shape="rect" id="node10" href="$Debug_8hh.html" title="boca/generic/Debug.hh" alt="" coords="1397,244,1553,271"/>
+<area shape="rect" id="node17" href="$Iterator_8hh.html" title="boca/generic/Iterator.hh" alt="" coords="1037,244,1196,271"/>
+<area shape="rect" id="node21" href="$GradedContainer_8hh.html" title="boca/math/GradedContainer.hh" alt="" coords="810,244,1013,271"/>
+<area shape="rect" id="node22" href="$Units_8hh.html" title="boca/physics/Units.hh" alt="" coords="1221,244,1373,271"/>
+<area shape="rect" id="node18" href="$EnumIterator_8hh.html" title="boca/generic/EnumIterator.hh" alt="" coords="792,326,985,353"/>
+<area shape="rect" id="node24" href="$Prefixes_8hh.html" title="boca/physics/Prefixes.hh" alt="" coords="599,326,768,353"/>
+<area shape="rect" id="node29" href="$Si_8hh.html" title="boca/physics/Si.hh" alt="" coords="90,415,223,442"/>
+<area shape="rect" id="node33" href="$Barn_8hh.html" title="boca/physics/Barn.hh" alt="" coords="945,415,1093,442"/>
+<area shape="rect" id="node37" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="1118,415,1310,442"/>
+<area shape="rect" id="node41" href="$Math_8hh.html" title="boca/math/Math.hh" alt="" coords="1775,244,1909,271"/>
+<area shape="rect" id="node47" href="$Flag_8hh.html" title="boca/generic/Flag.hh" alt="" coords="2023,326,2165,353"/>
+</map>

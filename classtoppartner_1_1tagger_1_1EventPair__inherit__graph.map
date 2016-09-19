@@ -1,0 +1,5 @@
+<map id="toppartner::tagger::EventPair" name="toppartner::tagger::EventPair">
+<area shape="rect" id="node2" href="$classstandardmodel_1_1tagger_1_1Event.html" title="standardmodel::tagger\l::Event\&lt; TopPartnerPair,\l Decuplet55, boca::branch\l::Event \&gt;" alt="" coords="15,184,190,255"/>
+<area shape="rect" id="node3" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Decuplet55 \&gt;, boca::branch\l::Event \&gt;" alt="" coords="5,80,200,136"/>
+<area shape="rect" id="node4" href="$classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="37,5,169,32"/>
+</map>

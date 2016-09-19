@@ -1,0 +1,5 @@
+<map id="Event" name="Event">
+<area shape="rect" id="node3" href="$classHepMCEvent.html" title="HepMCEvent" alt="" coords="5,155,107,181"/>
+<area shape="rect" id="node4" href="$classLHCOEvent.html" title="LHCOEvent" alt="" coords="131,155,224,181"/>
+<area shape="rect" id="node5" href="$classLHEFEvent.html" title="LHEFEvent" alt="" coords="248,155,339,181"/>
+</map>

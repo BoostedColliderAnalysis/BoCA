@@ -1,5 +1,0 @@
-<map id="boca::standardmodel::branch::LeptonVeto" name="boca::standardmodel::branch::LeptonVeto">
-<area shape="rect" id="node2" href="$d0/d97/classboca_1_1standardmodel_1_1branch_1_1Higgs.html" title="Higgs tagger tree branch " alt="" coords="212,5,355,47"/>
-<area shape="rect" id="node3" href="$dd/d7a/classboca_1_1standardmodel_1_1branch_1_1TopHadronic.html" title="Top hadronic tagger tree branch. " alt="" coords="208,71,359,112"/>
-<area shape="rect" id="node4" href="$da/d75/classboca_1_1standardmodel_1_1branch_1_1TopHadronicHep.html" title="HEPTopTagger tree branch " alt="" coords="196,136,371,177"/>
-</map>

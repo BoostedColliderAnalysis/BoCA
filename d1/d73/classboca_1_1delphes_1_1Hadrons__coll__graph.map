@@ -1,5 +1,0 @@
-<map id="boca::delphes::Hadrons" name="boca::delphes::Hadrons">
-<area shape="rect" id="node2" href="$d4/d20/classboca_1_1Hadrons.html" title="Base class for jets. " alt="" coords="32,171,139,197"/>
-<area shape="rect" id="node3" href="$d3/d84/classboca_1_1FourVector.html" title="converts Clones to LorentzVectors and Jets " alt="" coords="24,95,147,121"/>
-<area shape="rect" id="node4" href="$d6/dde/classboca_1_1TreeReader.html" title="boca::TreeReader" alt="" coords="22,5,149,32"/>
-</map>

@@ -1,0 +1,4 @@
+<map id="boca::Singlet" name="boca::Singlet">
+<area shape="rect" id="node2" href="$classboca_1_1Jet.html" title="Jet. " alt="" coords="397,115,473,141"/>
+<area shape="rect" id="node3" href="$classboca_1_1PseudoJet.html" title="Wrapper for fastjet::PseudoJet adding BoCA related functions. " alt="" coords="215,35,335,61"/>
+</map>

@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['info',['INFO',['../d3/dcd/DEBUG__MACROS_8hh.html#aedf01192151e10a6620567952711ff69',1,'DEBUG_MACROS.hh']]],
-  ['info0',['INFO0',['../d3/dcd/DEBUG__MACROS_8hh.html#aae79d096074f81fa3317cccec7c91247',1,'DEBUG_MACROS.hh']]],
-  ['information',['INFORMATION',['../da/d5e/SingleHadronic_8hh.html#a41fa3612202db2d335c330fb061e0054',1,'SingleHadronic.hh']]]
+  ['observable',['OBSERVABLE',['../OBSERVABLE__MACROS_8hh.html#a264b87370326ff60e0b62d82a2394c11',1,'OBSERVABLE_MACROS.hh']]],
+  ['observable_5f1',['OBSERVABLE_1',['../OBSERVABLE__MACROS_8hh.html#ad0a9feca09c472e7130dccd3e5af4757',1,'OBSERVABLE_MACROS.hh']]],
+  ['observable_5f2',['OBSERVABLE_2',['../OBSERVABLE__MACROS_8hh.html#abe4cda96086e6dd8624d25440919a8a6',1,'OBSERVABLE_MACROS.hh']]],
+  ['observable_5fchoose',['OBSERVABLE_CHOOSE',['../OBSERVABLE__MACROS_8hh.html#ae73db6f4d0993144fdbadb20931f22a6',1,'OBSERVABLE_MACROS.hh']]]
 ];

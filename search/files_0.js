@@ -1,20 +1,9 @@
 var searchData=
 [
-  ['analysis_2ehh',['Analysis.hh',['../d4/d12/boca_2analysis_2Analysis_8hh.html',1,'']]],
-  ['analysis_2ehh',['Analysis.hh',['../d3/d0c/examples_2simple_2include_2Analysis_8hh.html',1,'']]],
-  ['analysisbase_2ecpp',['AnalysisBase.cpp',['../d1/de1/AnalysisBase_8cpp.html',1,'']]],
-  ['analysisbase_2ehh',['AnalysisBase.hh',['../d1/dcf/AnalysisBase_8hh.html',1,'']]],
-  ['analysisboson_2ehh',['AnalysisBoson.hh',['../d4/d6b/AnalysisBoson_8hh.html',1,'']]],
-  ['analysisbottom_2ehh',['AnalysisBottom.hh',['../d6/dbe/AnalysisBottom_8hh.html',1,'']]],
-  ['analysisheavyhiggs_2ecpp',['AnalysisHeavyHiggs.cpp',['../da/dd2/AnalysisHeavyHiggs_8cpp.html',1,'']]],
-  ['analysishiggs_2ehh',['AnalysisHiggs.hh',['../d7/db6/AnalysisHiggs_8hh.html',1,'']]],
-  ['analysishiggscpv_2ehh',['AnalysisHiggsCpv.hh',['../dc/d70/AnalysisHiggsCpv_8hh.html',1,'']]],
-  ['analysispair_2ecpp',['AnalysisPair.cpp',['../d5/d34/AnalysisPair_8cpp.html',1,'']]],
-  ['analysisstandardmodel_2ecpp',['AnalysisStandardModel.cpp',['../df/d46/AnalysisStandardModel_8cpp.html',1,'']]],
-  ['analysisstandardmodel_2ehh',['AnalysisStandardModel.hh',['../df/d04/AnalysisStandardModel_8hh.html',1,'']]],
-  ['analysistop_2ecpp',['AnalysisTop.cpp',['../d7/d95/AnalysisTop_8cpp.html',1,'']]],
-  ['analysistop_2ehh',['AnalysisTop.hh',['../d0/dda/AnalysisTop_8hh.html',1,'']]],
-  ['analysisw_2ehh',['AnalysisW.hh',['../da/dd8/AnalysisW_8hh.html',1,'']]],
-  ['analysisz_2ehh',['AnalysisZ.hh',['../d0/d88/AnalysisZ_8hh.html',1,'']]],
-  ['authors_2emd',['Authors.md',['../d1/dc6/Authors_8md.html',1,'']]]
+  ['analysis_2ehh',['Analysis.hh',['../boca_2analysis_2Analysis_8hh.html',1,'']]],
+  ['analysis_2ehh',['Analysis.hh',['../examples_2cut_2cut_2Analysis_8hh.html',1,'']]],
+  ['analysis_2ehh',['Analysis.hh',['../examples_2tthh_2tthh_2Analysis_8hh.html',1,'']]],
+  ['analysis_2ehh',['Analysis.hh',['../examples_2simple_2simple_2Analysis_8hh.html',1,'']]],
+  ['analysis_2ehh',['Analysis.hh',['../examples_2higgscpv_2higgscpv_2Analysis_8hh.html',1,'']]],
+  ['authors_2emd',['Authors.md',['../Authors_8md.html',1,'']]]
 ];

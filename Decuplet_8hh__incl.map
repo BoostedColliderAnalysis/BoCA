@@ -1,0 +1,36 @@
+<map id="examples/toppartner/toppartner/multiplets/Decuplet.hh" name="examples/toppartner/toppartner/multiplets/Decuplet.hh">
+<area shape="rect" id="node2" href="$boca_2multiplets_2Octet_8hh.html" title="boca/multiplets/Octet.hh" alt="" coords="1527,117,1691,143"/>
+<area shape="rect" id="node50" href="$Septet_8hh.html" title="toppartner/multiplets\l/Septet.hh" alt="" coords="1342,109,1482,151"/>
+<area shape="rect" id="node3" href="$Sextet_8hh.html" title="boca/multiplets/Sextet.hh" alt="" coords="1524,199,1695,225"/>
+<area shape="rect" id="node47" href="$Quintet_8hh.html" title="boca/multiplets/Quintet.hh" alt="" coords="1325,199,1499,225"/>
+<area shape="rect" id="node48" href="$Quartet_8hh.html" title="boca/multiplets/Quartet.hh" alt="" coords="1719,199,1894,225"/>
+<area shape="rect" id="node49" href="$multiplets_2ThreeBody_8hh.html" title="boca/multiplets/ThreeBody.hh" alt="" coords="1713,273,1908,300"/>
+<area shape="rect" id="node4" href="$Triplet_8hh.html" title="boca/multiplets/Triplet.hh" alt="" coords="1521,273,1689,300"/>
+<area shape="rect" id="node5" href="$Doublet_8hh.html" title="boca/multiplets/Doublet.hh" alt="" coords="1517,348,1694,375"/>
+<area shape="rect" id="node6" href="$multiplets_2TwoBody_8hh.html" title="boca/multiplets/TwoBody.hh" alt="" coords="1595,423,1781,449"/>
+<area shape="rect" id="node8" href="$Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="766,505,922,531"/>
+<area shape="rect" id="node25" href="$ClusterSequence_8hh.html" title="boca/fastjet/ClusterSequence.hh" alt="" coords="1879,505,2091,531"/>
+<area shape="rect" id="node29" href="$Multiplet_8hh.html" title="boca/multiplets/Multiplet.hh" alt="" coords="1597,505,1779,531"/>
+<area shape="rect" id="node41" href="$Sort_8hh.html" title="boca/multiplets/Sort.hh" alt="" coords="2374,505,2530,531"/>
+<area shape="rect" id="node16" href="$Settings_8hh.html" title="boca/Settings.hh" alt="" coords="541,594,661,621"/>
+<area shape="rect" id="node17" href="$InfoRecombiner_8hh.html" title="boca/fastjet/InfoRecombiner.hh" alt="" coords="377,676,581,703"/>
+<area shape="rect" id="node19" href="$Range_8hh.html" title="boca/physics/Range.hh" alt="" coords="726,758,885,785"/>
+<area shape="rect" id="node22" href="$Souce_8hh.html" title="boca/io/Souce.hh" alt="" coords="1285,676,1408,703"/>
+<area shape="rect" id="node24" href="$Font_8hh.html" title="boca/plotting/Font.hh" alt="" coords="656,676,800,703"/>
+<area shape="rect" id="node26" href="$Jet_8hh.html" title="boca/multiplets/Jet.hh" alt="" coords="1827,676,1978,703"/>
+<area shape="rect" id="node27" href="$PseudoJet_8hh.html" title="boca/fastjet/PseudoJet.hh" alt="" coords="1510,840,1685,867"/>
+<area shape="rect" id="node28" href="$JetInfo_8hh.html" title="boca/multiplets/JetInfo.hh" alt="" coords="1666,758,1838,785"/>
+<area shape="rect" id="node30" href="$Singlet_8hh.html" title="boca/multiplets/Singlet.hh" alt="" coords="2098,594,2270,621"/>
+<area shape="rect" id="node33" href="$multiplets_2Particle_8hh.html" title="boca/multiplets/Particle.hh" alt="" coords="1085,676,1261,703"/>
+<area shape="rect" id="node35" href="$ClosestLepton_8hh.html" title="boca/multiplets/ClosestLepton.hh" alt="" coords="1807,594,2023,621"/>
+<area shape="rect" id="node36" href="$SubJettiness_8hh.html" title="boca/fastjet/SubJettiness.hh" alt="" coords="1594,594,1782,621"/>
+<area shape="rect" id="node38" href="$EventShapes_8hh.html" title="boca/EventShapes.hh" alt="" coords="1419,594,1570,621"/>
+<area shape="rect" id="node31" href="$Mutable_8hh.html" title="boca/generic/Mutable.hh" alt="" coords="2206,676,2370,703"/>
+<area shape="rect" id="node32" href="$Line2_8hh.html" title="boca/math/Line2.hh" alt="" coords="2045,676,2181,703"/>
+<area shape="rect" id="node34" href="$ParticleInfo_8hh.html" title="boca/multiplets/Particle\lInfo.hh" alt="" coords="1103,751,1262,792"/>
+<area shape="rect" id="node37" href="$NSubJettiness_8hh.html" title="boca/fastjet/NSubJettiness.hh" alt="" coords="1605,676,1803,703"/>
+<area shape="rect" id="node39" href="$Matrix3_8hh.html" title="boca/math/Matrix3.hh" alt="" coords="1433,676,1581,703"/>
+<area shape="rect" id="node40" href="$HemisphereMasses_8hh.html" title="boca/HemisphereMasses.hh" alt="" coords="857,676,1045,703"/>
+<area shape="rect" id="node44" href="$Id_8hh.html" title="boca/physics/Id.hh" alt="" coords="2469,594,2601,621"/>
+<area shape="rect" id="node46" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="2549,676,2741,703"/>
+</map>

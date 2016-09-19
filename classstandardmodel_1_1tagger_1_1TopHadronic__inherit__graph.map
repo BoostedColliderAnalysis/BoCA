@@ -1,0 +1,5 @@
+<map id="standardmodel::tagger::TopHadronic" name="standardmodel::tagger::TopHadronic">
+<area shape="rect" id="node4" href="$classtoppartner_1_1tagger_1_1TopPartnerHadronicCharged.html" title="Top partner to bottom and W BDT tagger. " alt="" coords="5,259,200,300"/>
+<area shape="rect" id="node2" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopHadronic \&gt;" alt="" coords="23,80,182,121"/>
+<area shape="rect" id="node3" href="$classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="37,5,169,32"/>
+</map>

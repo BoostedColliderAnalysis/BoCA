@@ -16,7 +16,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="da/dc6/structboca_1_1units_1_1electronvolt_1_1EnergyBaseDimension.html" target="_top" xlink:title="boca::units::electronvolt\l::EnergyBaseDimension">
+<g id="a_node2"><a xlink:href="structboca_1_1units_1_1electronvolt_1_1EnergyBaseDimension.html" target="_top" xlink:title="boca::units::electronvolt\l::EnergyBaseDimension">
 <polygon fill="white" stroke="black" points="123,-0.5 123,-30.5 245,-30.5 245,-0.5 123,-0.5"/>
 <text text-anchor="start" x="131" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::units::electronvolt</text>
 <text text-anchor="middle" x="184" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">::EnergyBaseDimension</text>

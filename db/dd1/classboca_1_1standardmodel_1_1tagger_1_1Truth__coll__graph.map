@@ -1,9 +1,0 @@
-<map id="boca::standardmodel::tagger::Truth" name="boca::standardmodel::tagger::Truth">
-<area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; TruthVariables,\l branch::Truth \&gt;" alt="" coords="981,75,1180,117"/>
-<area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="391,69,523,96"/>
-<area shape="rect" id="node9" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="627,17,785,58"/>
-<area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="127,69,253,96"/>
-<area shape="rect" id="node5" href="$dd/d22/classboca_1_1standardmodel_1_1branch_1_1Truth.html" title="Truth tagger tree branch " alt="" coords="635,134,777,175"/>
-<area shape="rect" id="node6" href="$d3/d39/classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="385,141,528,168"/>
-<area shape="rect" id="node7" href="$df/d34/classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="123,141,257,168"/>
-</map>

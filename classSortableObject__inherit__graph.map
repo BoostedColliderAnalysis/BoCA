@@ -1,0 +1,11 @@
+<map id="SortableObject" name="SortableObject">
+<area shape="rect" id="node3" href="$classCandidate.html" title="Candidate" alt="" coords="5,155,87,181"/>
+<area shape="rect" id="node4" href="$classElectron.html" title="Electron" alt="" coords="111,155,181,181"/>
+<area shape="rect" id="node5" href="$classGenParticle.html" title="GenParticle" alt="" coords="206,155,297,181"/>
+<area shape="rect" id="node6" href="$classHectorHit.html" title="HectorHit" alt="" coords="321,155,400,181"/>
+<area shape="rect" id="node7" href="$classJet.html" title="Jet" alt="" coords="425,155,465,181"/>
+<area shape="rect" id="node8" href="$classMuon.html" title="Muon" alt="" coords="489,155,544,181"/>
+<area shape="rect" id="node9" href="$classPhoton.html" title="Photon" alt="" coords="568,155,631,181"/>
+<area shape="rect" id="node10" href="$classTower.html" title="Tower" alt="" coords="655,155,714,181"/>
+<area shape="rect" id="node11" href="$classTrack.html" title="Track" alt="" coords="739,155,793,181"/>
+</map>

@@ -1,5 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$d2/d05/classboca_1_1Empty.html" title="boca::Empty" alt="" coords="136,5,232,32"/>
-<area shape="rect" id="node3" href="$d6/d14/classboca_1_1Isolated.html" title="boca::Isolated" alt="" coords="132,56,236,83"/>
-<area shape="rect" id="node4" href="$dc/d24/classboca_1_1Overlap.html" title="boca::Overlap" alt="" coords="133,107,235,133"/>
+<area shape="rect" id="node1" href="$classboca_1_1Constituent.html" title="boca::Constituent" alt="" coords="5,5,131,32"/>
 </map>

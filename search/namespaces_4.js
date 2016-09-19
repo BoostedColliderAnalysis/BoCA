@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['qjets',['qjets',['../de/d40/namespaceqjets.html',1,'']]]
+  ['contrib',['contrib',['../namespacefastjet_1_1contrib.html',1,'fastjet']]],
+  ['fastjet',['fastjet',['../namespacefastjet.html',1,'']]]
 ];

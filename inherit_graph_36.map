@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d2/d1a/classboca_1_1Iterator.html" title="boca::Iterator\&lt; Container\l_, Value_, Enum_ \&gt;" alt="" coords="5,5,172,47"/>
+<area shape="rect" id="node2" href="$structboca_1_1IsMatrix2.html" title="boca::IsMatrix2\&lt; typename \&gt;" alt="" coords="137,5,330,32"/>
+<area shape="rect" id="node3" href="$structboca_1_1IsMatrix3.html" title="boca::IsMatrix3\&lt; typename \&gt;" alt="" coords="137,56,330,83"/>
+<area shape="rect" id="node4" href="$structboca_1_1IsVector2.html" title="boca::IsVector2\&lt; typename \&gt;" alt="" coords="136,107,331,133"/>
+<area shape="rect" id="node5" href="$structboca_1_1IsVector3.html" title="boca::IsVector3\&lt; typename \&gt;" alt="" coords="136,157,331,184"/>
+<area shape="rect" id="node6" href="$structboca_1_1LorentzVectorBase_1_1IsQuantity.html" title="boca::LorentzVectorBase\l\&lt; Value_ \&gt;::IsQuantity\l\&lt; typename \&gt;" alt="" coords="149,208,318,264"/>
+<area shape="rect" id="node7" href="$structboca_1_1PreCuts_1_1IsVector.html" title="boca::PreCuts::IsVector\l\&lt; typename \&gt;" alt="" coords="152,287,315,329"/>
+<area shape="rect" id="node8" href="$structboca_1_1units_1_1IsQuantity.html" title="boca::units::IsQuantity\l\&lt; typename \&gt;" alt="" coords="156,353,311,394"/>
 </map>

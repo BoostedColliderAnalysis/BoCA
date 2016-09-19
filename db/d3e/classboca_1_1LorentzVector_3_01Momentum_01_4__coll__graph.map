@@ -1,7 +1,0 @@
-<map id="boca::LorentzVector&lt; Momentum &gt;" name="boca::LorentzVector&lt; Momentum &gt;">
-<area shape="rect" id="node2" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="boca::LorentzVectorBase\l\&lt; Momentum \&gt;" alt="" coords="131,419,300,460"/>
-<area shape="rect" id="node3" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Momentum \&gt;" alt="" coords="201,264,393,291"/>
-<area shape="rect" id="node4" href="$d3/da2/classboca_1_1Vector3.html" title="Copy of root::TVector3 in order to get rid of TObject. " alt="" coords="166,124,326,151"/>
-<area shape="rect" id="node7" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; Value_ \&gt;" alt="" coords="92,213,259,240"/>
-<area shape="rect" id="node6" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="48,315,217,356"/>
-</map>

@@ -26,8 +26,8 @@
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="doxy-boot.js"></script>
     </head>
     <body>
@@ -57,6 +57,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -98,10 +99,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><p>This code performs staged BDT analyses using root files as in- and output format.</p>
 <h2>Dependencies</h2>
 <ul>
-<li><a href="https://root.cern.ch/"><code>ROOT</code></a> version &gt;= 6 and compiled with <a href="http://tmva.sourceforge.net/"><code>TMVA</code></a> and <a href="https://root.cern.ch/mathmore-library"><code>MathMore</code></a></li>
+<li><a href="https://root.cern.ch/"><code>ROOT</code></a> version &gt;= 6.05.02 and compiled with <a href="http://tmva.sourceforge.net/"><code>TMVA</code></a> and <a href="https://root.cern.ch/mathmore-library"><code>MathMore</code></a></li>
 <li><a href="http://fastjet.fr/"><code>fastjet</code></a></li>
-<li><a href="https://fastjet.hepforge.org/contrib/"><code>fastjet contrib</code></a> (must be compiled with <code>CXXFLAGS=-fPIC</code>)</li>
-<li><a href="http://www.boost.org/"><code>Boost</code></a> (<a href="http://www.boost.org/doc/libs/release/libs/optional/"><code>Optional</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/range/"><code>Range</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/units/"><code>Units</code></a>)</li>
+<li><a href="https://fastjet.hepforge.org/contrib/"><code>fastjet contrib</code></a> (must be compiled with <a href="https://en.wikipedia.org/wiki/Position-independent_code"><code>CXXFLAGS=-fPIC</code></a>)</li>
+<li><a href="http://www.boost.org/"><code>Boost</code></a> (<a href="http://www.boost.org/doc/libs/release/libs/optional/"><code>Optional</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/range/"><code>Range</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/units/"><code>Units</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/utility/operators.htm"><code>Operators</code></a>)</li>
 </ul>
 <p>The BoCA code makes heavy use of modern C++ features. The limiting factor for the minimal supportet compiler version is given by the use of return type deduction. Therefore the compiler version must be</p><ul>
 <li>GCC version &gt;= 4.9</li>
@@ -114,8 +115,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;make</div></div><!-- fragment --><ul>
 <li>for quicker compilation (install ccache and ninja-build)</li>
 </ul>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake -G Ninja ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;ninja</div></div><!-- fragment --><h2>Usage</h2>
-<p>Each analysis needs a dedicated <code>Analysis</code> class, a set of <code>Tagger</code> classess and a <code><a class="el" href="df/d0a/main_8cpp.html">main.cpp</a></code> file. The <code>Analysis</code> class contains the global information of the analysis, such as file names, path names, variables names etc. Every <code>Tagger</code> class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated <code>Tagger</code>. The <code><a class="el" href="df/d0a/main_8cpp.html">main.cpp</a></code> defines the order in which each <code>Tagger</code> is passed to the <code>Analysis</code>.</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake -G Ninja ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;ninja</div></div><!-- fragment --><ul>
+<li>for mac (still install ccache)</li>
+</ul>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake -G Xcode ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;xcodebuild</div></div><!-- fragment --><ul>
+<li>if you have trouble installing 'ROOT' &gt;= 6 with 'GCC' &gt;= 5 you can use</li>
+</ul>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON ..</div></div><!-- fragment --><h2>Usage</h2>
+<p>Each analysis needs a dedicated <code>Analysis</code> class, a set of <code>Tagger</code> classess and a <code><a class="el" href="main_8cpp.html">main.cpp</a></code> file. The <code>Analysis</code> class contains the global information of the analysis, such as file names, path names, variables names etc. Every <code>Tagger</code> class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated <code>Tagger</code>. The <code><a class="el" href="main_8cpp.html">main.cpp</a></code> defines the order in which each <code>Tagger</code> is passed to the <code>Analysis</code>.</p>
 <h2>Source code documentation</h2>
 <p>The source code documentation including all classes and functions can be found <a href="http://boostedcollideranalysis.github.io/BoCA">here</a>.</p>
 <h2>Standard model</h2>
@@ -145,13 +152,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>use standard library when possible</li>
 <li>avoid heap allocation <code>new</code></li>
 <li>prefer references <code>&amp;</code> over pointers <code>*</code></li>
-<li>Classes and functions are written in CamelCase</li>
+<li>Classes and Functions are written in CamelCase</li>
 <li>variables are written small_with_underscore</li>
 <li>member_variables_ and TemplateParamter_ end on an underscore </li>
 </ul>
 </div></div><!-- contents -->
-<!-- HTML footer for doxygen 1.8.9.1-->
-<!-- start footer part -->
-<!-- <hr class="footer"/> -->
+</div>
+</div>
+</div>
+</div>
+</div>
 </body>
 </html>

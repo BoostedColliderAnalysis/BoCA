@@ -1,6 +1,0 @@
-<map id="boca::standardmodel::tagger::TopLeptonic" name="boca::standardmodel::tagger::TopLeptonic">
-<area shape="rect" id="node5" href="$d6/d2c/classtoppartner_1_1tagger_1_1TopPartnerLeptonicCharged.html" title="Top partner to bottom and W BDT tagger. " alt="" coords="5,381,197,423"/>
-<area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopLeptonic \&gt;" alt="" coords="23,200,179,241"/>
-<area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="51,5,183,32"/>
-<area shape="rect" id="node4" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="118,81,277,123"/>
-</map>

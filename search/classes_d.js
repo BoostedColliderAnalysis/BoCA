@@ -1,16 +1,17 @@
 var searchData=
 [
-  ['observable',['Observable',['../d5/d91/classboca_1_1Observable.html',1,'boca']]],
-  ['observables',['Observables',['../d5/da8/classsimple_1_1Observables.html',1,'simple']]],
-  ['observables',['Observables',['../dc/d30/classboca_1_1Observables.html',1,'boca']]],
-  ['octet',['Octet',['../d7/d5c/classhiggscpv_1_1branch_1_1Octet.html',1,'higgscpv::branch']]],
-  ['octet332',['Octet332',['../d4/ded/classboca_1_1Octet332.html',1,'boca']]],
-  ['octet44',['Octet44',['../dd/d6c/classboca_1_1Octet44.html',1,'boca']]],
-  ['octet53',['Octet53',['../dd/de7/classboca_1_1Octet53.html',1,'boca']]],
-  ['octet62',['Octet62',['../d6/d57/classboca_1_1Octet62.html',1,'boca']]],
-  ['octetcharged',['OctetCharged',['../d2/dc8/classheavyhiggs_1_1branch_1_1OctetCharged.html',1,'heavyhiggs::branch']]],
-  ['octetneutral',['OctetNeutral',['../d1/d27/classheavyhiggs_1_1branch_1_1OctetNeutral.html',1,'heavyhiggs::branch']]],
-  ['optional',['Optional',['../de/d4f/classboca_1_1latex_1_1Optional.html',1,'boca::latex']]],
-  ['options',['Options',['../d7/d93/classboca_1_1Options.html',1,'boca']]],
-  ['overlap',['Overlap',['../dc/d24/classboca_1_1Overlap.html',1,'boca']]]
+  ['observable',['Observable',['../classboca_1_1Observable.html',1,'boca']]],
+  ['observables',['Observables',['../classtthh_1_1Observables.html',1,'tthh']]],
+  ['observables',['Observables',['../classsimple_1_1Observables.html',1,'simple']]],
+  ['observables',['Observables',['../classboca_1_1Observables.html',1,'boca']]],
+  ['octet',['Octet',['../classhiggscpv_1_1branch_1_1Octet.html',1,'higgscpv::branch']]],
+  ['octet332',['Octet332',['../classboca_1_1Octet332.html',1,'boca']]],
+  ['octet44',['Octet44',['../classboca_1_1Octet44.html',1,'boca']]],
+  ['octet53',['Octet53',['../classboca_1_1Octet53.html',1,'boca']]],
+  ['octet62',['Octet62',['../classboca_1_1Octet62.html',1,'boca']]],
+  ['octetcharged',['OctetCharged',['../classheavyhiggs_1_1branch_1_1OctetCharged.html',1,'heavyhiggs::branch']]],
+  ['octetneutral',['OctetNeutral',['../classheavyhiggs_1_1branch_1_1OctetNeutral.html',1,'heavyhiggs::branch']]],
+  ['optional',['Optional',['../classboca_1_1latex_1_1Optional.html',1,'boca::latex']]],
+  ['options',['Options',['../classboca_1_1Options.html',1,'boca']]],
+  ['overlap',['Overlap',['../classboca_1_1Overlap.html',1,'boca']]]
 ];

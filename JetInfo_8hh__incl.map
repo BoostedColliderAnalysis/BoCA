@@ -1,0 +1,25 @@
+<map id="boca/multiplets/JetInfo.hh" name="boca/multiplets/JetInfo.hh">
+<area shape="rect" id="node2" href="$PseudoJet_8hh.html" title="fastjet/PseudoJet.hh" alt="" coords="254,229,397,256"/>
+<area shape="rect" id="node43" href="$Constituent_8hh.html" title="boca/Constituent.hh" alt="" coords="499,80,637,107"/>
+<area shape="rect" id="node47" href="$Identification_8hh.html" title="boca/multiplets/Identification.hh" alt="" coords="749,155,955,181"/>
+<area shape="rect" id="node4" href="$LorentzVector_8hh.html" title="boca/math/LorentzVector.hh" alt="" coords="427,304,613,331"/>
+<area shape="rect" id="node5" href="$delphes_2Forward_8hh.html" title="boca/delphes/Forward.hh" alt="" coords="661,379,829,405"/>
+<area shape="rect" id="node7" href="$exroot_2Forward_8hh.html" title="boca/exroot/Forward.hh" alt="" coords="226,379,385,405"/>
+<area shape="rect" id="node9" href="$LorentzVectorBase_8hh.html" title="boca/math/LorentzVectorBase.hh" alt="" coords="412,379,628,405"/>
+<area shape="rect" id="node6" href="$delphes_2TypeDef_8hh.html" title="boca/delphes/TypeDef.hh" alt="" coords="669,453,840,480"/>
+<area shape="rect" id="node8" href="$exroot_2TypeDef_8hh.html" title="boca/exroot/TypeDef.hh" alt="" coords="223,453,385,480"/>
+<area shape="rect" id="node11" href="$Vector3_8hh.html" title="boca/math/Vector3.hh" alt="" coords="410,453,561,480"/>
+<area shape="rect" id="node13" href="$Vector2_8hh.html" title="boca/math/Vector2.hh" alt="" coords="410,528,561,555"/>
+<area shape="rect" id="node14" href="$Debug_8hh.html" title="boca/generic/Debug.hh" alt="" coords="274,603,430,629"/>
+<area shape="rect" id="node21" href="$Iterator_8hh.html" title="boca/generic/Iterator.hh" alt="" coords="454,603,613,629"/>
+<area shape="rect" id="node25" href="$GradedContainer_8hh.html" title="boca/math/GradedContainer.hh" alt="" coords="637,603,840,629"/>
+<area shape="rect" id="node26" href="$Units_8hh.html" title="boca/physics/Units.hh" alt="" coords="985,603,1137,629"/>
+<area shape="rect" id="node22" href="$EnumIterator_8hh.html" title="boca/generic/EnumIterator.hh" alt="" coords="581,685,774,711"/>
+<area shape="rect" id="node28" href="$Prefixes_8hh.html" title="boca/physics/Prefixes.hh" alt="" coords="1170,685,1339,711"/>
+<area shape="rect" id="node33" href="$Si_8hh.html" title="boca/physics/Si.hh" alt="" coords="1421,774,1555,801"/>
+<area shape="rect" id="node37" href="$Barn_8hh.html" title="boca/physics/Barn.hh" alt="" coords="862,774,1010,801"/>
+<area shape="rect" id="node41" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="1035,774,1227,801"/>
+<area shape="rect" id="node44" href="$Family_8hh.html" title="boca/physics/Family.hh" alt="" coords="488,155,648,181"/>
+<area shape="rect" id="node46" href="$Member_8hh.html" title="boca/physics/Member.hh" alt="" coords="445,229,613,256"/>
+<area shape="rect" id="node48" href="$Tag_8hh.html" title="boca/Tag.hh" alt="" coords="829,304,923,331"/>
+</map>

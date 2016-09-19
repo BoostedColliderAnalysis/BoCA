@@ -1,0 +1,21 @@
+<map id="boca::branch::Multi" name="boca::branch::Multi">
+<area shape="rect" id="node8" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsLeptonic.html" title="Higgs tagger root tree structure. " alt="" coords="1273,5,1436,47"/>
+<area shape="rect" id="node9" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsSemi.html" title="Charged Higgs semi tagger root tree structure. " alt="" coords="1283,71,1426,112"/>
+<area shape="rect" id="node10" href="$classheavyhiggs_1_1branch_1_1HeavyHiggsSemi.html" title="Higgs tagger root tree structure. " alt="" coords="1287,136,1422,177"/>
+<area shape="rect" id="node11" href="$classheavyhiggs_1_1branch_1_1OctetCharged.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1287,201,1422,243"/>
+<area shape="rect" id="node12" href="$classheavyhiggs_1_1branch_1_1OctetNeutral.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1287,267,1422,308"/>
+<area shape="rect" id="node13" href="$classhiggscpv_1_1branch_1_1Octet.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1274,333,1435,359"/>
+<area shape="rect" id="node14" href="$classhiggscpv_1_1branch_1_1SignatureLepton.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1263,384,1447,425"/>
+<area shape="rect" id="node15" href="$classhiggscpv_1_1branch_1_1SignatureLeptonic.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1263,449,1447,491"/>
+<area shape="rect" id="node16" href="$classhiggscpv_1_1branch_1_1TopLeptonicTwoBody.html" title="Higgs tagger root tree structure. " alt="" coords="1255,515,1455,556"/>
+<area shape="rect" id="node17" href="$classstandardmodel_1_1branch_1_1TopHadronic.html" title="Top hadronic tagger tree branch. " alt="" coords="1277,580,1432,621"/>
+<area shape="rect" id="node18" href="$classstandardmodel_1_1branch_1_1TopHadronicHep.html" title="HEPTopTagger tree branch " alt="" coords="1277,645,1432,687"/>
+<area shape="rect" id="node19" href="$classtoppartner_1_1branch_1_1HiggsTwoBody.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1291,711,1418,752"/>
+<area shape="rect" id="node20" href="$classtoppartner_1_1branch_1_1TopPartnerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1287,776,1422,817"/>
+<area shape="rect" id="node21" href="$classtoppartner_1_1branch_1_1VetoTopPartnerBranch.html" title="toppartner::branch\l::VetoTopPartnerBranch" alt="" coords="1273,841,1436,883"/>
+<area shape="rect" id="node2" href="$classboca_1_1branch_1_1TwoBody.html" title="Two body tree branch. " alt="" coords="865,425,1025,451"/>
+<area shape="rect" id="node3" href="$classboca_1_1branch_1_1Particle.html" title="Particle tree branch " alt="" coords="668,425,817,451"/>
+<area shape="rect" id="node4" href="$classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="495,425,620,451"/>
+<area shape="rect" id="node5" href="$classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="304,425,447,451"/>
+<area shape="rect" id="node6" href="$classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="121,425,256,451"/>
+</map>

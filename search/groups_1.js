@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['delphes',['Delphes',['../dc/db4/group__Delphes.html',1,'']]]
+  ['colors',['Colors',['../group__Colors.html',1,'']]]
 ];

@@ -1,6 +1,0 @@
-<map id="toppartner::tagger::TopPartnerHadronicCharged" name="toppartner::tagger::TopPartnerHadronicCharged">
-<area shape="rect" id="node2" href="$da/d57/classboca_1_1standardmodel_1_1tagger_1_1TopHadronic.html" title="BDT tagger for hadronically decaying top quarks. " alt="" coords="29,291,177,332"/>
-<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; Triplet,\l branch::TopHadronic \&gt;" alt="" coords="23,200,182,241"/>
-<area shape="rect" id="node4" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="53,5,185,32"/>
-<area shape="rect" id="node5" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="119,81,278,123"/>
-</map>

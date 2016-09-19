@@ -1,0 +1,31 @@
+<map id="examples/standardmodel/standardmodel/tagger/WLeptonic.hh" name="examples/standardmodel/standardmodel/tagger/WLeptonic.hh">
+<area shape="rect" id="node2" href="$Doublet_8hh.html" title="boca/multiplets/Doublet.hh" alt="" coords="2268,117,2445,143"/>
+<area shape="rect" id="node31" href="$boca_2tagger_2Tagger_8hh.html" title="boca/tagger/Tagger.hh" alt="" coords="2931,117,3083,143"/>
+<area shape="rect" id="node48" href="$branch_2WLeptonic_8hh.html" title="standardmodel/branch\l/WLeptonic.hh" alt="" coords="3397,109,3548,151"/>
+<area shape="rect" id="node3" href="$multiplets_2TwoBody_8hh.html" title="boca/multiplets/TwoBody.hh" alt="" coords="1108,199,1295,225"/>
+<area shape="rect" id="node5" href="$Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="1644,281,1800,307"/>
+<area shape="rect" id="node16" href="$ClusterSequence_8hh.html" title="boca/fastjet/ClusterSequence.hh" alt="" coords="76,281,288,307"/>
+<area shape="rect" id="node18" href="$Multiplet_8hh.html" title="boca/multiplets/Multiplet.hh" alt="" coords="675,281,856,307"/>
+<area shape="rect" id="node24" href="$Sort_8hh.html" title="boca/multiplets/Sort.hh" alt="" coords="2590,281,2746,307"/>
+<area shape="rect" id="node13" href="$Settings_8hh.html" title="boca/Settings.hh" alt="" coords="1054,370,1174,397"/>
+<area shape="rect" id="node14" href="$Range_8hh.html" title="boca/physics/Range.hh" alt="" coords="2350,459,2509,486"/>
+<area shape="rect" id="node17" href="$Jet_8hh.html" title="boca/multiplets/Jet.hh" alt="" coords="257,459,408,486"/>
+<area shape="rect" id="node19" href="$Singlet_8hh.html" title="boca/multiplets/Singlet.hh" alt="" coords="28,370,200,397"/>
+<area shape="rect" id="node20" href="$multiplets_2Particle_8hh.html" title="boca/multiplets/Particle.hh" alt="" coords="678,370,854,397"/>
+<area shape="rect" id="node21" href="$ClosestLepton_8hh.html" title="boca/multiplets/ClosestLepton.hh" alt="" coords="224,370,440,397"/>
+<area shape="rect" id="node22" href="$SubJettiness_8hh.html" title="boca/fastjet/SubJettiness.hh" alt="" coords="465,370,653,397"/>
+<area shape="rect" id="node23" href="$EventShapes_8hh.html" title="boca/EventShapes.hh" alt="" coords="878,370,1029,397"/>
+<area shape="rect" id="node27" href="$Id_8hh.html" title="boca/physics/Id.hh" alt="" coords="2930,370,3062,397"/>
+<area shape="rect" id="node30" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="2874,459,3066,486"/>
+<area shape="rect" id="node32" href="$Types_8hh.html" title="boca/generic/Types.hh" alt="" coords="2930,199,3084,225"/>
+<area shape="rect" id="node34" href="$TreeBranch_8hh.html" title="boca/io/TreeBranch.hh" alt="" coords="2476,199,2629,225"/>
+<area shape="rect" id="node36" href="$tagger_2Base_8hh.html" title="boca/tagger/Base.hh" alt="" coords="3410,199,3553,225"/>
+<area shape="rect" id="node40" href="$PreCuts_8hh.html" title="boca/PreCuts.hh" alt="" coords="2316,199,2436,225"/>
+<area shape="rect" id="node43" href="$Filter_8hh.html" title="boca/Filter.hh" alt="" coords="3138,281,3239,307"/>
+<area shape="rect" id="node44" href="$Debug_8hh.html" title="boca/generic/Debug.hh" alt="" coords="3312,370,3468,397"/>
+<area shape="rect" id="node38" href="$Observable_8hh.html" title="boca/Observable.hh" alt="" coords="3654,281,3792,307"/>
+<area shape="rect" id="node39" href="$Phase_8hh.html" title="boca/multivariant/Phase.hh" alt="" coords="3314,281,3494,307"/>
+<area shape="rect" id="node41" href="$PreCut_8hh.html" title="boca/PreCut.hh" alt="" coords="2770,281,2884,307"/>
+<area shape="rect" id="node49" href="$branch_2TwoBody_8hh.html" title="boca/branch/TwoBody.hh" alt="" coords="3732,199,3903,225"/>
+<area shape="rect" id="node50" href="$branch_2Particle_8hh.html" title="boca/branch/Particle.hh" alt="" coords="3817,281,3976,307"/>
+</map>

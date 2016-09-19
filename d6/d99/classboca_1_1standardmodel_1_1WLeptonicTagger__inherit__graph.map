@@ -1,5 +1,0 @@
-<map id="boca::standardmodel::WLeptonicTagger" name="boca::standardmodel::WLeptonicTagger">
-<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, WSemiBranch \&gt;" alt="" coords="5,200,188,241"/>
-<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="62,5,161,32"/>
-<area shape="rect" id="node4" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="113,81,265,137"/>
-</map>

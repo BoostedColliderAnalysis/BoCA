@@ -1,0 +1,33 @@
+<map id="boca/tagger/Dummy.hh" name="boca/tagger/Dummy.hh">
+<area shape="rect" id="node2" href="$boca_2tagger_2Tagger_8hh.html" title="boca/tagger/Tagger.hh" alt="" coords="733,80,885,107"/>
+<area shape="rect" id="node40" href="$boca_2branch_2Global_8hh.html" title="boca/branch/Global.hh" alt="" coords="2435,80,2587,107"/>
+<area shape="rect" id="node46" href="$boca_2multiplets_2Global_8hh.html" title="boca/multiplets/Global.hh" alt="" coords="2027,80,2196,107"/>
+<area shape="rect" id="node3" href="$Types_8hh.html" title="boca/generic/Types.hh" alt="" coords="251,155,406,181"/>
+<area shape="rect" id="node6" href="$Sort_8hh.html" title="boca/multiplets/Sort.hh" alt="" coords="1267,229,1423,256"/>
+<area shape="rect" id="node12" href="$TreeBranch_8hh.html" title="boca/io/TreeBranch.hh" alt="" coords="73,155,227,181"/>
+<area shape="rect" id="node14" href="$tagger_2Base_8hh.html" title="boca/tagger/Base.hh" alt="" coords="681,155,824,181"/>
+<area shape="rect" id="node21" href="$PreCuts_8hh.html" title="boca/PreCuts.hh" alt="" coords="1297,155,1417,181"/>
+<area shape="rect" id="node35" href="$Filter_8hh.html" title="boca/Filter.hh" alt="" coords="815,229,917,256"/>
+<area shape="rect" id="node36" href="$Debug_8hh.html" title="boca/generic/Debug.hh" alt="" coords="617,311,773,338"/>
+<area shape="rect" id="node9" href="$Id_8hh.html" title="boca/physics/Id.hh" alt="" coords="920,311,1052,338"/>
+<area shape="rect" id="node11" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="1282,483,1474,509"/>
+<area shape="rect" id="node16" href="$Observable_8hh.html" title="boca/Observable.hh" alt="" coords="1571,401,1710,427"/>
+<area shape="rect" id="node18" href="$Phase_8hh.html" title="boca/multivariant/Phase.hh" alt="" coords="424,229,604,256"/>
+<area shape="rect" id="node17" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="1583,483,1698,509"/>
+<area shape="rect" id="node19" href="$Tag_8hh.html" title="boca/Tag.hh" alt="" coords="245,311,340,338"/>
+<area shape="rect" id="node20" href="$Stage_8hh.html" title="boca/multivariant/Stage.hh" alt="" coords="364,311,541,338"/>
+<area shape="rect" id="node22" href="$Range_8hh.html" title="boca/physics/Range.hh" alt="" coords="1533,229,1692,256"/>
+<area shape="rect" id="node28" href="$PreCut_8hh.html" title="boca/PreCut.hh" alt="" coords="1129,229,1243,256"/>
+<area shape="rect" id="node30" href="$Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="1863,229,2019,256"/>
+<area shape="rect" id="node25" href="$Units_8hh.html" title="boca/physics/Units.hh" alt="" coords="1637,311,1789,338"/>
+<area shape="rect" id="node27" href="$Math_8hh.html" title="boca/math/Math.hh" alt="" coords="1248,311,1383,338"/>
+<area shape="rect" id="node26" href="$Prefixes_8hh.html" title="boca/physics/Prefixes.hh" alt="" coords="1735,401,1904,427"/>
+<area shape="rect" id="node41" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="2444,155,2579,181"/>
+<area shape="rect" id="node44" href="$GlobalBase_8hh.html" title="boca/branch/GlobalBase.hh" alt="" coords="2612,229,2795,256"/>
+<area shape="rect" id="node42" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="2435,229,2588,256"/>
+<area shape="rect" id="node43" href="$boca_2Observables_8hh.html" title="boca/Observables.hh" alt="" coords="2496,311,2641,338"/>
+<area shape="rect" id="node47" href="$Singlet_8hh.html" title="boca/multiplets/Singlet.hh" alt="" coords="2025,155,2197,181"/>
+<area shape="rect" id="node48" href="$Mutable_8hh.html" title="boca/generic/Mutable.hh" alt="" coords="941,229,1105,256"/>
+<area shape="rect" id="node49" href="$Line2_8hh.html" title="boca/math/Line2.hh" alt="" coords="2043,229,2179,256"/>
+<area shape="rect" id="node50" href="$Jet_8hh.html" title="boca/multiplets/Jet.hh" alt="" coords="2204,229,2355,256"/>
+</map>

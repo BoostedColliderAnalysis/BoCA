@@ -1,9 +1,0 @@
-<map id="boca::tagger::Event&lt; Signature_, Multiplet_, Branch_ &gt;" name="boca::tagger::Event&lt; Signature_, Multiplet_, Branch_ &gt;">
-<area shape="rect" id="node2" href="$da/d42/classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Multiplet_ \&gt;, Branch_ \&gt;" alt="" coords="869,71,1063,113"/>
-<area shape="rect" id="node3" href="$d8/d02/classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="259,84,391,111"/>
-<area shape="rect" id="node6" href="$da/d42/classboca_1_1Tagger.html" title="Tagger base class using Branch template " alt="" coords="495,53,654,94"/>
-<area shape="rect" id="node4" href="$db/db3/classboca_1_1TreeBranch.html" title="boca::TreeBranch" alt="" coords="5,84,131,111"/>
-<area shape="rect" id="node7" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; tagger\l::boca::tagger::Global \&gt;" alt="" coords="887,147,1045,189"/>
-<area shape="rect" id="node8" href="$de/d69/classboca_1_1Reader.html" title="read results of multivariant analysis wrapper for TMVA::Reader " alt="" coords="489,191,660,217"/>
-<area shape="rect" id="node10" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; Signature_ \&gt;" alt="" coords="873,213,1059,240"/>
-</map>

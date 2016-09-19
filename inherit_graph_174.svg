@@ -11,7 +11,7 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 99,-24 99,4 -4,4"/>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="d6/dde/classboca_1_1TreeReader.html" target="_top" xlink:title="boca::TreeReader">
+<g id="a_node1"><a xlink:href="classboca_1_1TreeReader.html" target="_top" xlink:title="boca::TreeReader">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 95,-19.5 95,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="47.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TreeReader</text>
 </a>

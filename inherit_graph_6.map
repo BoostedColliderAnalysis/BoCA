@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d2/dc6/classboca_1_1ClosestLepton.html" title="boca::ClosestLepton" alt="" coords="5,5,148,32"/>
+<area shape="rect" id="node1" href="$classboca_1_1Canvas.html" title="boca::Canvas" alt="" coords="5,81,108,108"/>
+<area shape="rect" id="node2" href="$classboca_1_1Graphs.html" title="boca::Graphs" alt="" coords="181,5,281,32"/>
+<area shape="rect" id="node3" href="$classboca_1_1Histogram2Dim.html" title="boca::Histogram2Dim" alt="" coords="156,56,305,83"/>
+<area shape="rect" id="node4" href="$classboca_1_1Histograms.html" title="boca::Histograms" alt="" coords="168,107,293,133"/>
+<area shape="rect" id="node5" href="$classboca_1_1Profile.html" title="boca::Profile" alt="" coords="183,157,278,184"/>
 </map>

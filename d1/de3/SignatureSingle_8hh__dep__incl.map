@@ -1,9 +1,0 @@
-<map id="examples/toppartner/include/branch/SignatureSingle.hh" name="examples/toppartner/include/branch/SignatureSingle.hh">
-<area shape="rect" id="node2" href="$d0/d36/SignatureSingleLeptonic_8hh.html" title="examples/toppartner\l/include/tagger/SignatureSingle\lLeptonic.hh" alt="" coords="275,95,477,151"/>
-<area shape="rect" id="node8" href="$d7/d81/SignatureSingle_8cpp.html" title="examples/toppartner\l/source/branch/SignatureSingle.cpp" alt="" coords="502,102,730,143"/>
-<area shape="rect" id="node3" href="$d8/d77/EventSingleLeptonic_8hh.html" title="examples/toppartner\l/include/tagger/EventSingle\lLeptonic.hh" alt="" coords="179,199,360,255"/>
-<area shape="rect" id="node7" href="$dc/dfa/SignatureSingleLeptonic_8cpp.html" title="examples/toppartner\l/source/tagger/SignatureSingle\lLeptonic.cpp" alt="" coords="384,199,584,255"/>
-<area shape="rect" id="node4" href="$d9/d64/SingleLeptonic_8hh.html" title="examples/toppartner\l/include/analysis/SingleLeptonic.hh" alt="" coords="5,310,232,351"/>
-<area shape="rect" id="node5" href="$db/d39/MainSingleLeptonic_8cpp.html" title="examples/toppartner\l/source/MainSingleLeptonic.cpp" alt="" coords="90,407,297,448"/>
-<area shape="rect" id="node6" href="$d6/d2d/EventSingleLeptonic_8cpp.html" title="examples/toppartner\l/source/tagger/EventSingle\lLeptonic.cpp" alt="" coords="307,303,485,359"/>
-</map>

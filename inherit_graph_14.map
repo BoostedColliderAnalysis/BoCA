@@ -1,5 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$da/df7/classboca_1_1Event.html" title="Base class for the event Topology. " alt="" coords="5,31,97,57"/>
-<area shape="rect" id="node2" href="$db/d0c/classboca_1_1delphes_1_1Event.html" title="Delphes events. " alt="" coords="145,5,291,32"/>
-<area shape="rect" id="node3" href="$d1/df7/classboca_1_1exroot_1_1Event.html" title="pgs and parton events " alt="" coords="150,56,286,83"/>
+<area shape="rect" id="node1" title="STL class. " alt="" coords="5,81,109,108"/>
+<area shape="rect" id="node2" href="$classboca_1_1Empty.html" title="Empty multiplets " alt="" coords="171,5,267,32"/>
+<area shape="rect" id="node3" href="$classboca_1_1Isolated.html" title="Isolated objects " alt="" coords="167,56,271,83"/>
+<area shape="rect" id="node4" href="$classboca_1_1Overlap.html" title="Overlap between structures " alt="" coords="168,107,271,133"/>
+<area shape="rect" id="node5" title="STL class. " alt="" coords="157,157,281,184"/>
+<area shape="rect" id="node6" href="$classboca_1_1Problematic.html" title="Generic problematic cases. " alt="" coords="329,157,456,184"/>
 </map>

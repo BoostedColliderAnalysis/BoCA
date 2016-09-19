@@ -1,0 +1,16 @@
+<map id="examples/standardmodel/standardmodel/branch/ZHadronic.hh" name="examples/standardmodel/standardmodel/branch/ZHadronic.hh">
+<area shape="rect" id="node2" href="$branch_2TwoBody_8hh.html" title="boca/branch/TwoBody.hh" alt="" coords="1208,109,1379,136"/>
+<area shape="rect" id="node30" href="$BottomBase_8hh.html" title="standardmodel/branch\l/BottomBase.hh" alt="" coords="1341,333,1491,375"/>
+<area shape="rect" id="node3" href="$branch_2Particle_8hh.html" title="boca/branch/Particle.hh" alt="" coords="1214,184,1373,211"/>
+<area shape="rect" id="node4" href="$Prefixes_8hh.html" title="boca/physics/Prefixes.hh" alt="" coords="995,423,1165,449"/>
+<area shape="rect" id="node20" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="1489,259,1623,285"/>
+<area shape="rect" id="node9" href="$Si_8hh.html" title="boca/physics/Si.hh" alt="" coords="668,505,801,531"/>
+<area shape="rect" id="node13" href="$Barn_8hh.html" title="boca/physics/Barn.hh" alt="" coords="267,505,415,531"/>
+<area shape="rect" id="node18" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="452,505,644,531"/>
+<area shape="rect" id="node21" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="1515,341,1669,367"/>
+<area shape="rect" id="node22" href="$branch_2Base_8hh.html" title="boca/branch/Base.hh" alt="" coords="1653,423,1798,449"/>
+<area shape="rect" id="node24" href="$boca_2Observables_8hh.html" title="boca/Observables.hh" alt="" coords="1431,423,1577,449"/>
+<area shape="rect" id="node25" href="$Observable_8hh.html" title="boca/Observable.hh" alt="" coords="1523,505,1661,531"/>
+<area shape="rect" id="node26" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="1433,594,1548,621"/>
+<area shape="rect" id="node27" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="73,676,212,703"/>
+</map>
