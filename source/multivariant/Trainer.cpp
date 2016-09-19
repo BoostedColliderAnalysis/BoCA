@@ -126,6 +126,7 @@ std::vector<double> Trainer::BookMethod()
 {
     INFO0;
     auto* method = Factory().BookMethod(Tagger().Mva(), Tagger().MethodName(), MethodOptions());
+    return {};
     if (!method) return {};
     TMVA::Event::SetIsTraining(true);
     auto importance = std::vector<double> {};

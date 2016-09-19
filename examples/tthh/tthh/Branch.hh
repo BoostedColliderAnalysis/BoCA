@@ -28,6 +28,9 @@ public:
     float jet_2_pt;
     float jet_3_pt;
     float jet_4_pt;
+    float photon_1_pt;
+    float photon_2_pt;
+    float photon12_mass;
 
     template<typename Multiplet>
     void Fill(Multiplet const &multiplet)
@@ -41,6 +44,9 @@ public:
         jet_2_pt = multiplet.JetPt(1) / boca::GeV;
         jet_3_pt = multiplet.JetPt(2) / boca::GeV;
         jet_4_pt = multiplet.JetPt(3) / boca::GeV;
+        photon_1_pt = multiplet.PhotonPt(0) / boca::GeV;
+        photon_2_pt = multiplet.PhotonPt(1) / boca::GeV;
+        photon12_mass = multiplet.PhotonPM() / boca::GeV;
     }
 
     boca::Observables Variables() override;

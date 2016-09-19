@@ -15,6 +15,8 @@
 
 #include "boca/math/Vector3.hh"
 
+#include <random>
+
 namespace boca
 {
 

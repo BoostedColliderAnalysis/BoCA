@@ -564,22 +564,22 @@ public:
         return vector.x_ != x_ || vector.y_ != y_ || vector.z_ != z_;
     }
 
-    bool operator<(Vector3 const& vector)
+    bool operator<(Vector3<Value> const& vector) const
     {
        return Mag2() < vector.Mag2();
     }
 
-    bool operator>(Vector3 const& vector)
+    bool operator>(Vector3 const& vector) const
     {
         return vector < *this;
     }
 
-    bool operator<=(Vector3 const& vector)
+    bool operator<=(Vector3 const& vector) const
     {
         return !(*this > vector);
     }
 
-    bool operator>=(Vector3 const& vector)
+    bool operator>=(Vector3 const& vector) const
     {
         return !(*this < vector);
     }
