@@ -24,7 +24,7 @@ class Effective : public TopPartner<Tagger_>
 protected:
 
     std::string Name() const override {
-        return "Naturalness-Effective-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
+        return "Naturalness-Effective-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-test";
     }
 
     void SetFiles(Phase const& phase) override {

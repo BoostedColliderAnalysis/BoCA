@@ -4,7 +4,7 @@ This code performs staged BDT analyses using root files as in- and output format
 
 ## Dependencies
 
-* [`ROOT`](https://root.cern.ch/) version >= 6 and compiled with [`TMVA`](http://tmva.sourceforge.net/) and [`MathMore`](https://root.cern.ch/mathmore-library)
+* [`ROOT`](https://root.cern.ch/) version >= 6.05.02 and compiled with [`TMVA`](http://tmva.sourceforge.net/) and [`MathMore`](https://root.cern.ch/mathmore-library)
 * [`fastjet`](http://fastjet.fr/)
 * [`fastjet contrib`](https://fastjet.hepforge.org/contrib/) (must be compiled with [`CXXFLAGS=-fPIC`](https://en.wikipedia.org/wiki/Position-independent_code))
 * [`Boost`](http://www.boost.org/) ([`Optional`](http://www.boost.org/doc/libs/release/libs/optional/), [`Range`](http://www.boost.org/doc/libs/release/libs/range/), [`Units`](http://www.boost.org/doc/libs/release/libs/units/), [`Operators`](http://www.boost.org/doc/libs/release/libs/utility/operators.htm))
@@ -42,6 +42,12 @@ mkdir build
 cd build
 cmake -G Xcode ..
 xcodebuild
+~~~~
+
+* if you have trouble installing 'ROOT' >= 6 with 'GCC' >= 5 you can use
+
+~~~~
+cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON ..
 ~~~~
 
 ## Usage
