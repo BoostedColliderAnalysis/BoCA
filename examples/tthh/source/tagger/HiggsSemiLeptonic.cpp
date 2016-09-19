@@ -29,9 +29,11 @@ HiggsSemiLeptonic::HiggsSemiLeptonic()
 int HiggsSemiLeptonic::Train(boca::Event const &event, PreCuts const &pre_cuts, Tag tag)
 {
     INFO0;
-    return SaveEntries(Quartets(event, [&](Quartet22 & quartet) {
-        return SetTag(quartet, pre_cuts, tag);
-    }), Particles(event), tag, Id::higgs);
+    return SaveEntries(Quartets(event, [&](Quartet22 & quartet) -> boost::optional<Quartet22> {
+        if (Problematic(quartet, pre_cuts, tag)) return boost::none;
+        quartet.SetTag(tag);
+        return quartet;
+    }), Particles(event), tag);
 }
 
 std::vector<Quartet22> HiggsSemiLeptonic::Quartets(boca::Event const &event, std::function<boost::optional<Quartet22>(Quartet22 &)> const &function)
@@ -53,15 +55,10 @@ std::vector<Particle> HiggsSemiLeptonic::Particles(boca::Event const &event) con
     auto higgs = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs});
     higgs = RemoveIfDaughter(higgs, higgs);
     ERROR(higgs.size());
+    auto bottom = CopyIfParticle(event.GenParticles(), Id::bottom);
+    higgs = RemoveIfDaughter(higgs, bottom);
+    ERROR(higgs.size());
     return higgs;
-}
-
-boost::optional<Quartet22> HiggsSemiLeptonic::SetTag(Quartet22 &quartet, PreCuts const &pre_cuts, Tag tag)
-{
-    INFO0;
-    if (Problematic(quartet, pre_cuts, tag)) return boost::none;
-    quartet.SetTag(tag);
-    return quartet;
 }
 
 bool HiggsSemiLeptonic::Problematic(Quartet22 const &quartet, PreCuts const &pre_cuts, Tag tag) const
@@ -87,17 +84,11 @@ bool HiggsSemiLeptonic::Problematic(Quartet22 const &quartet, PreCuts const &pre
 std::vector<Quartet22> HiggsSemiLeptonic::Multiplets(boca::Event const &event, PreCuts const &pre_cuts, TMVA::Reader const &reader)
 {
     INFO0;
-    return Quartets(event, [&](Quartet22 & quartet) {
-        return Multiplet(quartet, pre_cuts, reader);
+    return Quartets(event, [&](Quartet22 & quartet) -> boost::optional<Quartet22> {
+        if (Problematic(quartet, pre_cuts)) return boost::none;
+        quartet.SetBdt(Bdt(quartet, reader));
+        return quartet;
     });
-}
-
-boost::optional<Quartet22> HiggsSemiLeptonic::Multiplet(Quartet22 &quartet, PreCuts const &pre_cuts, TMVA::Reader const &reader)
-{
-    INFO0;
-    if (Problematic(quartet, pre_cuts)) return boost::none;
-    quartet.SetBdt(Bdt(quartet, reader));
-    return quartet;
 }
 
 std::string HiggsSemiLeptonic::Name() const

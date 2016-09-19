@@ -33,10 +33,10 @@ public:
     void Fill(Multiplet const& multiplet) {
         Multi::Fill(multiplet);
         PairBdt = multiplet.Doublet().Bdt();
-        HiggsBdt = multiplet.Sextet().Bdt();
-        HardTopPt = multiplet.Sextet().HarderComponent().Pt() / GeV;
-        SoftTopPt = multiplet.Sextet().SofterComponent().Pt() / GeV;
-        HiggsMass = multiplet.Sextet().Mass() / GeV;
+        HiggsBdt = multiplet.Sextet33().Bdt();
+        HardTopPt = multiplet.Sextet33().HarderComponent().Pt() / GeV;
+        SoftTopPt = multiplet.Sextet33().SofterComponent().Pt() / GeV;
+        HiggsMass = multiplet.Sextet33().Mass() / GeV;
         PairRap = multiplet.Doublet().DeltaRap() / rad;
     }
 

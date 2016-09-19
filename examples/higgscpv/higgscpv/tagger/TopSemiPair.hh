@@ -16,14 +16,14 @@ namespace tagger
  * @brief JetPair BDT tagger
  *
  */
-class TopSemiPair : public Tagger<Sextet, branch::TripletTwoBody>
+class TopSemiPair : public Tagger<Sextet33, branch::TripletTwoBody>
 {
 
 public:
 
     int Train(boca::Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Sextet> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
+    std::vector<Sextet33> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

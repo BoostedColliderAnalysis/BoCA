@@ -20,7 +20,7 @@ namespace tagger
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class HeavyHiggsSemi : public Tagger<Sextet, branch::HeavyHiggsSemi>
+class HeavyHiggsSemi : public Tagger<Sextet33, branch::HeavyHiggsSemi>
 {
 
 public:
@@ -29,7 +29,7 @@ public:
 
     using Tagger::Multiplets;
 
-    std::vector<Sextet> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
+    std::vector<Sextet33> Multiplets(boca::Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

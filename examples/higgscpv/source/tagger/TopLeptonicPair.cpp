@@ -34,7 +34,7 @@ int TopLeptonicPair::Train(boca::Event const& event, boca::PreCuts const&, Tag t
         quartet.Doublet1().SetBdt(triplet_1.Bdt());
         quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
-        //             Insert(sextets, wimp_mass.Sextet(quartet, event.MissingEt(), neutrinos, tag));
+        //             Insert(sextets, wimp_mass.Sextet33(quartet, event.MissingEt(), neutrinos, tag));
         return wimp_mass.Fake(quartet);
     });
 
@@ -45,12 +45,12 @@ int TopLeptonicPair::Train(boca::Event const& event, boca::PreCuts const&, Tag t
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet> TopLeptonicPair::Truth(boca::Event const& event, std::vector<Sextet> sextets, Tag tag) const
+std::vector<Sextet33> TopLeptonicPair::Truth(boca::Event const& event, std::vector<Sextet33> sextets, Tag tag) const
 {
     switch (tag) {
     case Tag::signal : {
         auto tops = CopyIfParticle(event.GenParticles(), Id::top);
-        std::vector<Sextet> final_sextets;
+        std::vector<Sextet33> final_sextets;
         for (auto const & sextet : sextets) {
             auto truth_level = false;
             for (auto const & top : tops) {
@@ -66,7 +66,7 @@ std::vector<Sextet> TopLeptonicPair::Truth(boca::Event const& event, std::vector
     }
 }
 
-std::vector<Sextet> TopLeptonicPair::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
+std::vector<Sextet33> TopLeptonicPair::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     auto triplets = top_leptonic_reader_.Multiplets(event);
     INFO(triplets.size());
@@ -76,8 +76,8 @@ std::vector<Sextet> TopLeptonicPair::Multiplets(boca::Event const& event, boca::
         quartet.Doublet1().SetBdt(triplet_1.Bdt());
         quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
-//             for (auto sextet : wimp_mass.Sextets(quartet, event.MissingEt())) {
-        Sextet sextet = wimp_mass.Fake(quartet);
+//             for (auto sextet : wimp_mass.Sextet33s(quartet, event.MissingEt())) {
+        Sextet33 sextet = wimp_mass.Fake(quartet);
         sextet.SetBdt(Bdt(sextet, reader));
         return sextet;
 //             }

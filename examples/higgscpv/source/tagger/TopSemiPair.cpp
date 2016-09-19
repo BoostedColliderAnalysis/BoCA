@@ -38,10 +38,10 @@ int TopSemiPair::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
         final_triplets_leptonic = triplets_leptonic;
         break;
     }
-    std::vector<Sextet> sextets;
+    std::vector<Sextet33> sextets;
     for (auto const & triplet_hadronic : final_triplets_hadronic)
         for (auto const & triplet_leptonic : final_triplets_leptonic) {
-            Sextet sextet(triplet_hadronic, triplet_leptonic);
+            Sextet33 sextet(triplet_hadronic, triplet_leptonic);
             if (sextet.Overlap()) continue;
             sextets.emplace_back(sextet);
         }
@@ -53,14 +53,14 @@ int TopSemiPair::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet> TopSemiPair::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<Sextet33> TopSemiPair::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     auto triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     auto triplets_hadronic = top_hadronic_reader_.Multiplets(event);
-    std::vector<Sextet>  sextets;
+    std::vector<Sextet33>  sextets;
     for (auto const & triplet_hadronic : triplets_hadronic)
         for (auto const & triplet_leptonic : triplets_leptonic)  {
-            Sextet sextet(triplet_hadronic, triplet_leptonic);
+            Sextet33 sextet(triplet_hadronic, triplet_leptonic);
             if (sextet.Overlap()) continue;
             sextet.SetBdt(Bdt(sextet, reader));
             sextets.emplace_back(sextet);

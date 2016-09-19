@@ -3,17 +3,17 @@
  */
 #pragma once
 
-#include "boca/multiplets/Triplet.hh"
+#include "boca/multiplets/Quartet.hh"
 
 namespace boca
 {
 
 /**
  * @ingroup Multiplets
- * @brief A %Sextet consisting of two Triplet%s
+ * @brief A Sextet consisting of two Triplet%s
  *
  */
-class Sextet : public TwoBody<Triplet, Triplet>
+class Sextet33 : public TwoBody<Triplet, Triplet>
 {
 
 public:
@@ -27,6 +27,28 @@ public:
     Triplet & Triplet1();
 
     Triplet & Triplet2();
+
+};
+
+/**
+ * @ingroup Multiplets
+ * @brief A Sextet consisting of a Quartet and a Doublet
+ *
+ */
+class Sextet42 : public TwoBody<Quartet22, boca::Doublet>
+{
+
+public:
+
+    using TwoBody<Quartet22, boca::Doublet>::TwoBody;
+
+    Quartet22 const& Quaret() const;
+
+    boca::Doublet const& Doublet() const;
+
+    Quartet22 & Quaret();
+
+    boca::Doublet & Doublet();
 
 };
 

@@ -15,14 +15,14 @@ namespace boca
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class Octet62 : public TwoBody<::boca::Sextet, ::boca::Doublet>
+class Octet62 : public TwoBody<::boca::Sextet33, ::boca::Doublet>
 {
 
 public:
 
-    using TwoBody<::boca::Sextet, ::boca::Doublet>::TwoBody;
+    using TwoBody<::boca::Sextet33, ::boca::Doublet>::TwoBody;
 
-    const boca::Sextet& Sextet() const;
+    const boca::Sextet33& Sextet33() const;
 
     boca::Doublet const& Doublet() const;
 

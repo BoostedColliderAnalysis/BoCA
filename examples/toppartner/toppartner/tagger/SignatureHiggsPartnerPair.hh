@@ -5,12 +5,13 @@
 
 #include <functional>
 
+#include "boca/multiplets/Duodecuplet.hh"
+
 #include "standardmodel/tagger/Higgs.hh"
 
 #include "toppartner/branch/SignatureSingleHadronic.hh"
 #include "toppartner/tagger/TopPartnerHadronicNeutral.hh"
 #include "toppartner/tagger/TopPartnerLeptonicNeutral.hh"
-#include "toppartner/multiplets/Duodecuplet.hh"
 
 namespace toppartner
 {

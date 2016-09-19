@@ -20,14 +20,14 @@ int HeavyHiggsLeptonic::Train(boca::Event const& event, PreCuts const&, Tag tag)
     auto particles = event.GenParticles();
     auto neutrinos = CopyIfNeutrino(particles);
     INFO(triplets.size());
-    std::vector<Sextet> sextets;
+    std::vector<Sextet33> sextets;
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {
             Quartet22 quartet(Doublet(triplet_1.Singlet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet(), triplet_2.Doublet().Jet()));
             if (quartet.Overlap()) continue;
-            std::vector<Sextet> Presextets;
+            std::vector<Sextet33> Presextets;
             WimpMass wimp_mass;
-            Presextets = wimp_mass.Sextet(quartet, missing_et, neutrinos, tag);
+            Presextets = wimp_mass.Sextet33(quartet, missing_et, neutrinos, tag);
             for (auto const& sextet : Presextets) {
                 sextets.emplace_back(sextet);
             }
@@ -38,20 +38,20 @@ int HeavyHiggsLeptonic::Train(boca::Event const& event, PreCuts const&, Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet>  HeavyHiggsLeptonic::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<Sextet33>  HeavyHiggsLeptonic::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     auto triplets = top_leptonic_reader_.Multiplets(event);
     auto missing_et = event.MissingEt();
-    std::vector<Sextet> sextets;
+    std::vector<Sextet33> sextets;
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {
             Quartet22 quartet(Doublet(triplet_1.Singlet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet(), triplet_2.Doublet().Jet()));
             if (quartet.Overlap())
                 continue;
-            std::vector<Sextet> pre_sextets;
+            std::vector<Sextet33> pre_sextets;
             WimpMass wimp_mass;
-            pre_sextets = wimp_mass.Sextets(quartet, missing_et);
+            pre_sextets = wimp_mass.Sextet33s(quartet, missing_et);
             for (auto& sextet : pre_sextets) {
                 sextet.SetBdt(Bdt(sextet, reader));
                 sextets.emplace_back(sextet);

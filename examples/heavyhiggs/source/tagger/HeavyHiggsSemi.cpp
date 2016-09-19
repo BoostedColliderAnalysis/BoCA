@@ -17,10 +17,10 @@ int HeavyHiggsSemi::Train(boca::Event const& event, PreCuts const&, Tag tag)
     auto higgs_boson = HiggsParticle(event, tag);
     auto triplets_hadronic = FinalTriplet(event, tag, Decay::hadronic);
     auto triplets_leptonic = FinalTriplet(event, tag, Decay::leptonic);
-    std::vector<Sextet> sextets;
+    std::vector<Sextet33> sextets;
     for (auto const & triplet_leptonic : triplets_leptonic)
         for (auto const & triplet_hadronic : triplets_hadronic) {
-            Sextet sextet(triplet_leptonic, triplet_hadronic);
+            Sextet33 sextet(triplet_leptonic, triplet_hadronic);
             if (sextet.Overlap()) continue;
             sextet.SetTag(tag);
             sextets.emplace_back(sextet);
@@ -28,14 +28,14 @@ int HeavyHiggsSemi::Train(boca::Event const& event, PreCuts const&, Tag tag)
     return SaveEntries(sextets, higgs_boson, tag);
 }
 
-std::vector<Sextet>  HeavyHiggsSemi::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
+std::vector<Sextet33>  HeavyHiggsSemi::Multiplets(boca::Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     auto triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     auto triplets_hadronic = top_hadronic_reader_.Multiplets(event);
-    std::vector<Sextet> sextets;
+    std::vector<Sextet33> sextets;
     for (auto const & triplet_leptonic : triplets_leptonic)
         for (auto const & triplet_hadronic : triplets_hadronic) {
-            Sextet sextet(triplet_leptonic, triplet_hadronic);
+            Sextet33 sextet(triplet_leptonic, triplet_hadronic);
             if (sextet.Overlap())
                 continue;
             sextet.SetBdt(Bdt(sextet, reader));

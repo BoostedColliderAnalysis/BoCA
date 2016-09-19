@@ -5,7 +5,7 @@
 
 namespace boca {
 
-const Sextet& Octet62::Sextet() const
+const Sextet33& Octet62::Sextet33() const
 {
     return Multiplet1();
 }

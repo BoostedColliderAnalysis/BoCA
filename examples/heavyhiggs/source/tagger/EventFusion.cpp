@@ -36,22 +36,22 @@ int EventFusion::Train(boca::Event const& event, PreCuts const& , Tag tag)
         std::sort(sextets.begin(), sextets.end());
         sextets.erase(sextets.begin() + 1, sextets.end());
     }
-    EventMultiplet<Sextet> sextet_event(sextets.front(), event, jets);
+    EventMultiplet<Sextet33> sextet_event(sextets.front(), event, jets);
     sextet_event.SetTag(tag);
-    std::vector<EventMultiplet<Sextet>> sextet_events;
+    std::vector<EventMultiplet<Sextet33>> sextet_events;
     sextet_events.emplace_back(sextet_event);
     return SaveEntries(sextet_events);
 }
 
-std::vector<EventMultiplet<Sextet>> EventFusion::Multiplets(boca::Event const& event, PreCuts const& , TMVA::Reader const& reader)
+std::vector<EventMultiplet<Sextet33>> EventFusion::Multiplets(boca::Event const& event, PreCuts const& , TMVA::Reader const& reader)
 {
     INFO0;
     auto sextets = heavy_higgs_semi_reader_.Multiplets(event);
     auto jets = bottom_reader_.Jets(event);
     auto leptons = event.Leptons();
-    std::vector<EventMultiplet<Sextet>> sextet_events;
+    std::vector<EventMultiplet<Sextet33>> sextet_events;
     for (auto const & sextet : sextets) {
-        EventMultiplet<Sextet> multiplet_event(sextet, event, jets);
+        EventMultiplet<Sextet33> multiplet_event(sextet, event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         sextet_events.emplace_back(multiplet_event);
     }
