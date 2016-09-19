@@ -112,9 +112,9 @@ private:
 
     latex::Row CutEfficiencyRow(Result const& result, int, Tag) const;
 
-    latex::Table TruthLevelCutTable(Results const& results) const;
+    latex::Table PreCutEfficiencyTable(Results const& results) const;
 
-    latex::Row TruthLevelCutRow(Result const& result, Tag) const;
+    latex::Row PreCutEfficiencyRow(Result const& result, Tag) const;
 
     latex::Graphic PlotEfficiencyGraph(Results const& results) const;
 

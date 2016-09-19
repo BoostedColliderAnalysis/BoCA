@@ -30,7 +30,7 @@ public:
 
     std::vector<Lepton> Muons() const override;
 
-    std::vector<Lepton> Photons() const override;
+    std::vector<Photon> Photons() const override;
 
     std::vector<Jet> Jets() const override;
 

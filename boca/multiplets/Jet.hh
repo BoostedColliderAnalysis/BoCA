@@ -9,16 +9,22 @@
 namespace boca
 {
 
+/**
+* @brief Jet
+*/
 class Jet : public PseudoJet
+            , public boost::additive<Jet>
+            , public boost::additive<Jet,  Particle>
+            , public boost::multiplicative<Jet, double>
 {
 
 public:
 
     Jet();
 
-    Jet(double x, double y, double z, double e);
-
     Jet(const boca::Momentum& x, const boca::Momentum& y, const boca::Momentum& z, const boca::Energy& e);
+
+    Jet(PseudoJet const& jet);
 
     Jet(fastjet::PseudoJet const& jet);
 
@@ -48,19 +54,58 @@ public:
 
     Jet(exroot::Tau const& tau);
 
-    Jet(double const momentum[4]);
-
     JetInfo const& Info() const;
 
     JetInfo& Info();
 
     void SetDelphesTags(::delphes::Jet const& delphes_jet);
 
+    bool HasConsitutents() const;
+
     std::vector<Jet> Constituents() const;
 
     double Bdt() const;
 
     void SetInfo(JetInfo const& info = JetInfo());
+
+    /**
+    * @name Operators
+    * @{
+    */
+
+    /**
+    * @brief add the other jet's momentum to this jet
+    */
+    Jet& operator+=(Jet const& jet);
+
+    /**
+    * @brief subtract the other jet's momentum from this jet
+    */
+    Jet& operator-=(Jet const& jet);
+
+    /**
+    * @brief multiply the jet's momentum by the coefficient
+    */
+    Jet& operator*=(double scalar);
+
+    /**
+    * @brief divide the jet's momentum by the coefficient
+    */
+    Jet& operator/=(double scalar);
+
+    /**
+    * @brief add the other jet's momentum to this jet
+    */
+    Jet& operator+=(Particle const& particle);
+
+    /**
+    * @brief subtract the other jet's momentum from this jet
+    */
+    Jet& operator-=(Particle const& particle);
+
+    //@}
+
+    bool HasJetInfo() const;
 
 protected:
 
@@ -71,6 +116,8 @@ private:
 };
 
 using Lepton = Jet;
+
+using Photon = Jet;
 
 using MissingEt = Jet;
 

@@ -37,4 +37,11 @@ std::string Tagger::Name() const
     return "tthh";
 }
 
+TMVA::Types::EMVA Tagger::Mva() const
+{
+    return TMVA::Types::EMVA::kCuts;
+    return TMVA::Types::EMVA::kBDT;
+}
+
+
 }

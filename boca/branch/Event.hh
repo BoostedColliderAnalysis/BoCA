@@ -23,7 +23,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         Bdt::Fill(multiplet);
-        GlobalBase::Fill(multiplet.GlobalObservables());
+        GlobalBase::Fill(multiplet.Global());
         signature_bdt = multiplet.Signature().Bdt();
     }
     Observables Variables();

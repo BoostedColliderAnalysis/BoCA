@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/multiplets/GlobalObservables.hh"
+#include "boca/multiplets/Global.hh"
 #include "boca/multiplets/TwoBody.hh"
 
 namespace boca
@@ -14,26 +14,26 @@ namespace boca
  *
  */
 template <typename Multiplet_>
-class EventMultiplet : public boca::TwoBody<Multiplet_, boca::GlobalObservables>
+class EventMultiplet : public boca::TwoBody<Multiplet_, boca::Global>
 {
 
 public:
 
-    using TwoBody<Multiplet_, boca::GlobalObservables>::TwoBody;
+    using TwoBody<Multiplet_, boca::Global>::TwoBody;
 
     EventMultiplet(Multiplet_ const& multiplet_, Event const& event) :
-        TwoBody<Multiplet_, boca::GlobalObservables>::TwoBody(multiplet_, boca::GlobalObservables(event)) {};
+        TwoBody<Multiplet_, boca::Global>::TwoBody(multiplet_, boca::Global(event)) {};
 
 
     EventMultiplet(Multiplet_ const& multiplet_, Event const& event, std::vector<Jet> const& jets) :
-        TwoBody<Multiplet_, boca::GlobalObservables>::TwoBody(multiplet_, boca::GlobalObservables(event, jets)) {};
+        TwoBody<Multiplet_, boca::Global>::TwoBody(multiplet_, boca::Global(event, jets)) {};
 
     Multiplet_ const& Signature() const {
-        return boca::TwoBody<Multiplet_, boca::GlobalObservables>::Multiplet1();
+        return boca::TwoBody<Multiplet_, boca::Global>::Multiplet1();
     }
 
-    boca::GlobalObservables const& GlobalObservables() const {
-        return boca::TwoBody<Multiplet_, boca::GlobalObservables>::Multiplet2();
+    boca::Global const& Global() const {
+        return boca::TwoBody<Multiplet_, boca::Global>::Multiplet2();
     }
 };
 

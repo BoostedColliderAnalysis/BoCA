@@ -44,8 +44,8 @@ std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& 
         auto errors_1 = std::vector<Mass>{};
         auto errors_2 = std::vector<Mass>{};
         for (auto const & neutrino : neutrinos) {
-            errors_1.emplace_back(Particle(neutrino + neutrino_1).Mass());
-            errors_2.emplace_back(Particle(neutrino + neutrino_2).Mass());
+            errors_1.emplace_back((neutrino + neutrino_1).Mass());
+            errors_2.emplace_back((neutrino + neutrino_2).Mass());
         }
         auto error = std::numeric_limits<Mass>::max();
         for (auto const & error_1 : errors_1)

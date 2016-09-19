@@ -1,20 +1,12 @@
-// @(#)root/physics:$Id$
-// Author: Pasha Murat   12/02/99
-// Jan Hajer 2015  make the class templated and compatible with boost units
-
-/*************************************************************************
- * Copyright(C) 1995-2000, Rene Brun and Fons Rademakers.               *
- * All rights reserved.                                                  *
- *                                                                       *
- * For the licensing terms see $ROOTSYS/LICENSE.                         *
- * For the list of contributors see $ROOTSYS/README/CREDITS.             *
- *************************************************************************/
-
 #pragma once
+
+#include <boost/operators.hpp>
 
 #include "boca/generic/Debug.hh"
 #include "boca/generic/Iterator.hh"
+
 #include "boca/math/GradedContainer.hh"
+
 #include "boca/physics/Units.hh"
 
 namespace boca
@@ -32,188 +24,229 @@ std::string Name(Dim2 dimension);
 std::vector<Dim2> Dimensions2();
 
 /**
- * @brief Copy of root::TVector2 in order to get rid of TObject
+ * @brief Two dimensional Vector
  *
+ * heavily inspired and mostly compatible to root::TVector2
  */
-template<typename Value>
-class Vector2
+template<typename Value_>
+class Vector2 : public boost::less_than_comparable<Vector2<Value_>>
+            , public boost::equality_comparable<Vector2<Value_>>
+            , public boost::addable<Vector2<Value_>>
+            , public boost::subtractable<Vector2<Value_>>
 {
+
+    template<typename Value_2>
+    using ValueProduct = ValueProduct<Value_, Value_2>;
+
+//     template<typename Value_2>
+//     using ValueQuotient = ValueQuotient<Value_, Value_2>;
+
+    template<typename Value_2>
+    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value_, Value_2>::value >::type;
+
+//     template<typename Value_2>
+//     using OnlyIfQuantity = typename std::enable_if < IsQuantity<Value_2>::value>::type;
+
 public:
 
-    template<typename Value_2>
-    using ValueProduct = ValueProduct<Value, Value_2>;
+    /**
+    * @name Constructor
+    * @{
+    */
 
-    template<typename Value_2>
-    using ValueQuotient = ValueQuotient<Value, Value_2>;
+    /**
+    * @brief Default constructor
+    */
+    Vector2() :
+        x_(0) ,
+        y_(0)
+    {}
 
-    template<typename Value_2>
-    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value, Value_2>::value >::type;
+    /**
+    * @brief Constructor from two scalars
+    */
+    Vector2(Value_ x, Value_ y) :
+        x_(x) ,
+        y_(y)
+    {}
 
-    template<typename Value_2>
-    using OnlyIfQuantity = typename std::enable_if < IsQuantity<Value_2>::value>::type;
+    /**
+    * @brief Constructor from a two-vector
+    */
+    template<typename Value_2/*, typename = OnlyIfQuantity<Value_2>*/>
+    Vector2(Vector2<Value_2> const &vector) :
+        x_(vector.X()),
+        y_(vector.Y())
+    {}
+    //@}
 
-    /// Constructor
-    Vector2()
+    /**
+    * @brief Setter for the magnitude and angle
+    */
+    void SetMagPhi(Value_ magnitude, Angle const &phi)
     {
-        x_ = 0;
-        y_ = 0;
+        auto absolute = abs(magnitude);
+        x_ = absolute * cos(phi);
+        y_ = absolute * sin(phi);
     }
 
-    /// Constructor
-    Vector2(Value x, Value y)
-    {
-        x_ = x;
-        y_ = y;
-    }
+    /**
+    * @name Accessors and Getters
+    * @{
+    */
 
-    /// Constructor
-    template<typename Value_2, typename = OnlyIfQuantity<Value_2>>
-    Vector2(Vector2<Value_2> const &vector)
-    {
-        x_ = Value(vector.X());
-        y_ = Value(vector.Y());
-    }
-
-    /// Set vector
-    void Set(Vector2 const &vector)
-    {
-        x_ = vector.X();
-        y_ = vector.Y();
-    }
-
-    /// Set x and y
-    void Set(Value x, Value y)
-    {
-        x_ = x ;
-        y_ = y ;
-    }
-
-    /// Set x
-    void SetX(Value x)
-    {
-        x_ = x;
-    }
-
-    /// Set y
-    void SetY(Value y)
-    {
-        y_ = y;
-    }
-
-    /// Set vector using mag and phi
-    void SetMagPhi(Value magnitude, Angle const &phi)
-    {
-        auto absolute = abs(magnitude, IsQuantity<Value>());
-        x_ = absolute * boost::units::cos(phi);
-        y_ = absolute * boost::units::sin(phi);
-    }
-
-    Value const &X() const
+    /**
+    * @brief Getter for X
+    */
+    Value_ X() const
     {
         return x_;
     }
 
-    Value const &Y() const
+    /**
+    * @brief Getter for Y
+    */
+    Value_ Y() const
     {
         return y_;
     }
 
-    Value &X()
+    /**
+    * @brief Accessor for X
+    */
+    Value_ &X()
     {
         return x_;
     }
 
-    Value &Y()
+    /**
+    * @brief Accessor for Y
+    */
+    Value_ &Y()
     {
         return y_;
     }
+    //@}
 
-    ValueProduct<Value> Mod2() const
+    /**
+    * @brief Magnitude square \f$x^2 + y^2\f$
+    */
+    auto Mag2() const
     {
         return sqr(x_) + sqr(y_);
     }
 
-    /// return modulo of this vector
-    Value Mod() const
+    /**
+    * @brief Magnitude \f$\sqrt{x^2 + y^2}\f$
+    */
+    Value_ Mag() const
     {
-        return sqrt(Mod2());
+        return sqrt(Mag2());
     }
 
-/// return vector phi defined in [-pi, pi]
+    /**
+    * @brief azimuth defined in \f$[-\pi, \pi]\f$
+    */
     Angle Phi() const
     {
         return atan2(-y_, -x_);
     }
 
+    /**
+    * @brief Difference of azimuth defined in \f$[-\pi, \pi]\f$
+    */
     template<typename Value_2>
     Angle DeltaPhi(Vector2<Value_2> const &vector) const
     {
-        return RestrictPhi(Phi() - vector.Phi());
+        return Restrict(Phi() - vector.Phi());
     }
 
-    /// unit vector in the direction of *this
-    /// return module normalized to 1
+    /**
+     * @brief Unit vector in the direction of *this
+     */
     Vector2<double> Unit() const
     {
-        return Mod2() ? *this / Mod() : Vector2<double>();
+        return Mag2() ? *this / Mag() : Vector2<double>();
     }
 
-    Vector2<double> Ort() const
-    {
-        return Unit();
-    }
-
-    /// projection of *this to the direction of Vector2 vector `v'
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    /**
+     * @brief Projection onto the direction of vector
+     */
+    template <typename Value_2>
     Vector2 Proj(Vector2<Value_2> const &vector) const
     {
-        return vector * (*this * vector / vector.Mod2());
+        return vector * (*this * vector / vector.Mag2());
     }
 
-    // component of *this normal to `v'
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    /**
+     * @brief Component normal to the vector
+     */
+    template <typename Value_2>
     Vector2 Norm(Vector2<Value_2> const &vector) const
     {
         return *this - Proj(vector);
     }
 
-    // rotates 2-vector by phi radians
+    /**
+     * @brief rotates 2-vector by phi radians
+     */
     Vector2 Rotate(Angle const &phi) const
     {
-        return {x_ *boost::units::cos(phi) - y_ *boost::units::sin(phi), x_ *boost::units::sin(phi) + y_ *boost::units::cos(phi)};
+        return {x_ * cos(phi) - y_ * sin(phi), x_ * sin(phi) + y_ * cos(phi)};
     }
 
-    // Scalar product
+    /**
+     * @name Products
+     * @{
+     */
+
+    /**
+    * @brief Dot product
+    */
     template <typename Value_2>
     ValueProduct<Value_2> Dot(Vector2<Value_2> const &vector) const
     {
         return x_ * vector.X() + y_ * vector.Y();
     }
 
-    // scale with scalar
+    /**
+    * @brief Scale with scalar
+    */
     template <typename Value_2>
     Vector2 <ValueProduct<Value_2>> Scale(Value_2 const &scalar) const
     {
         return {X() *scalar, Y() *scalar};
     }
 
-    // signed area
+    /**
+    * @brief Signed area
+    */
     template <typename Value_2>
     ValueProduct<Value_2> SignedArea(Vector2<Value_2> const &vector) const
     {
         return X() * vector.Y() - Y() * vector.X();
     }
+    //@}
 
-    // assignment operator including casting
-    template <typename Value_2, typename = OnlyIfQuantity<Value_2>>
+    /**
+    * @name Operators
+    * @{
+    */
+
+    /**
+    * @brief Assignment operator including casting
+    */
+    template <typename Value_2/*, typename = OnlyIfQuantity<Value_2>*/>
     Vector2 &operator=(Vector2<Value_2> const &vector)
     {
-        x_ = Value(vector.X());
-        y_ = Value(vector.Y());
+        x_ = Value_(vector.X());
+        y_ = Value_(vector.Y());
         return *this;
     }
 
-    /// vector sum
+    /**
+    * @brief Sum of two vectors
+    */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     Vector2 &operator+=(Vector2<Value_2> const &vector)
     {
@@ -222,7 +255,9 @@ public:
         return *this;
     }
 
-    /// vector difference
+    /**
+    * @brief Difference of two vectors
+    */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     Vector2 &operator-=(Vector2<Value_2> const &vector)
     {
@@ -231,7 +266,9 @@ public:
         return *this;
     }
 
-    /// product with scalar
+    /**
+     * @brief Product with scalar
+     */
     template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
     Vector2 &operator*=(Value_2 scalar)
     {
@@ -240,7 +277,9 @@ public:
         return *this;
     }
 
-    /// division by scalar
+    /**
+     * @brief Division by scalar
+     */
     template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
     Vector2 &operator/=(Value_2 scalar)
     {
@@ -249,71 +288,52 @@ public:
         return *this;
     }
 
-    /// vector sum
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    friend Vector2<Value> operator+(Vector2 const &vector_1, Vector2<Value_2> const &vector_2)
-    {
-        return {vector_1.X() + vector_2.X(), vector_1.Y() + vector_2.Y()};
-    }
-
-    /// vector difference
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    friend Vector2 operator-(Vector2 const &vector_1, Vector2<Value_2> const &vector_2)
-    {
-        return {vector_1.X() - vector_2.X(), vector_1.Y() - vector_2.Y()};
-    }
-
+    /**
+     * @brief Coefficient of wedge product
+     */
     template<typename Value_2>
     friend ValueProduct<Value_2> operator^(Vector2 const &vector_1, Vector2<Value_2> const &vector_2)
     {
         return vector_1.SignedArea(vector_2);
     }
 
+    /**
+     * @brief Division by scalar
+     */
     template <typename Value_2>
     friend auto operator/(Vector2 const &vector, Value_2 const &scalar)
     {
         return vector.Scale(1. / scalar);
     }
 
-    // Unary minus
+    /**
+     * @brief Unary minus
+     */
     Vector2 operator-() const
     {
         return { -x_, -y_};
     }
 
-    // Comparisons
+    /**
+     * @brief Less than comparison
+     */
+    bool operator<(Vector2 const &vector) const
+    {
+        return Mag2() < vector.Mag2();
+    }
+
+    /**
+     * @brief Equal comparison
+     */
     bool operator==(Vector2 const &vector) const
     {
         return vector.x_ == x_ && vector.y_ == y_;
     }
 
-    bool operator!=(Vector2 const &vector) const
-    {
-        return vector.x_ != x_ || vector.y_ != y_ ;
-    }
-
-    bool operator<(Vector2 const& vector)
-    {
-       return Mod2() < vector.Mod2();
-    }
-
-    bool operator>(Vector2 const& vector)
-    {
-        return vector < *this;
-    }
-
-    bool operator<=(Vector2 const& vector)
-    {
-        return !(*this > vector);
-    }
-
-    bool operator>=(Vector2 const& vector)
-    {
-        return !(*this < vector);
-    }
-
-    // Get components by index
-    Value operator()(Dim2 dimension) const
+    /**
+     * @brief Components by index
+     */
+    Value_ operator()(Dim2 dimension) const
     {
         //dereferencing operator const
         switch (dimension) {
@@ -327,85 +347,122 @@ public:
         }
     }
 
-    Value operator[](Dim2 dimension) const
+    /**
+     * @brief Components by index
+     */
+    Value_ operator[](Dim2 dimension) const
     {
         return operator()(dimension);
     }
 
-    // Set components by index.
-    Value &operator()(Dim2 dimension)
+    /**
+     * @brief Components by index
+     */
+    Value_ &operator()(Dim2 dimension)
     {
-        //dereferencing operator
         switch (dimension) {
-        case Dim2::x :
-            return x_;
-        case Dim2::y :
-            return y_;
+        case Dim2::x : return x_;
+        case Dim2::y : return y_;
         default :
             Debug("Bad index returning x_", Name(dimension));
         }
         return x_;
     }
 
-    Value &operator[](Dim2 dimension)
+    /**
+     * @brief Components by index
+     */
+    Value_ &operator[](Dim2 dimension)
     {
         return operator()(dimension);
     }
 
-    ConstIterator<boca::Vector2, Value, Dim2> begin() const
+    //@}
+
+    /**
+     * @name Iterators
+     * @{
+     */
+
+    /**
+     * @brief Const begin
+     */
+    ConstIterator<boca::Vector2, Value_, Dim2> begin() const
     {
         return {this, Dim2::x};
     }
 
-    ConstIterator<boca::Vector2, Value, Dim2> end() const
+    /**
+     * @brief Const end
+     */
+    ConstIterator<boca::Vector2, Value_, Dim2> end() const
     {
         return {this, Dim2::last};
     }
 
-    Iterator<boca::Vector2, Value, Dim2> begin()
+    /**
+     * @brief Begin
+     */
+    Iterator<boca::Vector2, Value_, Dim2> begin()
     {
-        return {this, Dim2::x}; //0
+        return {this, Dim2::x};
     }
 
-    Iterator<boca::Vector2, Value, Dim2> end()
+    /**
+     * @brief End
+     */
+    Iterator<boca::Vector2, Value_, Dim2> end()
     {
-        return {this, Dim2::last}; //0
+        return {this, Dim2::last};
     }
+    //@}
 
 private:
 
-    Value x_;
+    Value_ x_;
 
-    Value y_;
+    Value_ y_;
 };
 
 template <typename>
 struct IsVector2 : std::false_type {};
 
-template <typename Value>
-struct IsVector2<Vector2<Value>> : std::true_type {};
+template <typename Value_>
+struct IsVector2<Vector2<Value_>> : std::true_type {};
 
-template<typename Value>
-using OnlyIfNotVector2 = typename std::enable_if < !IsVector2<Value>::value >::type;
+template<typename Value_>
+using OnlyIfNotVector2 = typename std::enable_if < !IsVector2<Value_>::value >::type;
 
-template <class Value, class Value_2>
-auto operator*(Vector2<Value> const &vector_1, const Vector2<Value_2> &vector_2)
+/**
+ * @brief Dot product
+ */
+template <class Value_, class Value_2>
+auto operator*(Vector2<Value_> const &vector_1, const Vector2<Value_2> &vector_2)
 {
     return vector_1.Dot(vector_2);
 }
 
-template < class Value, class Value_2, typename = OnlyIfNotVector2<Value_2> >
-auto operator*(Vector2<Value> const &vector, Value_2 const &scalar)
+/**
+ * @brief Scalar from the right
+ */
+template < class Value_, class Value_2, typename = OnlyIfNotVector2<Value_2> >
+auto operator*(Vector2<Value_> const &vector, Value_2 const &scalar)
 {
     return vector.Scale(scalar);
 }
 
-template < class Value, class Value_2, typename = OnlyIfNotVector2<Value> >
-auto operator*(Value const &scalar, Vector2<Value_2> const &vector)
+/**
+ * @brief Scalar from the left
+ */
+template < class Value_, class Value_2, typename = OnlyIfNotVector2<Value_> >
+auto operator*(Value_ const &scalar, Vector2<Value_2> const &vector)
 {
     return vector.Scale(scalar);
 }
 
+/**
+ * @brief Two vector with associated number
+ */
 template<typename Value_>
 using GradedVector2 = GradedContainer<Vector2, Value_>;
 

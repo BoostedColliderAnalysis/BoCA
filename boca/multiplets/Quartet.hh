@@ -11,7 +11,7 @@ namespace boca
 
 /**
 * @ingroup Multiplets
-* @defgroup Quartet
+* @defgroup Quartet Quartet
 * @brief Quartets consisting of four Singlet%s
 * @{
 */

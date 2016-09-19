@@ -127,7 +127,7 @@ int JetPair::Train(boca::Event const& event, const PreCuts&, Tag tag)
     for (auto jet1 = bottom_jets.begin(); jet1 != bottom_jets.end(); ++jet1)
         for (auto jet2 = jet1 + 1; jet2 != bottom_jets.end(); ++jet2) {
             auto doublet = Doublet{};
-            if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet = Doublet(*jet1, *jet2);
+            if (abs((*jet1).Rap()) > abs((*jet2).Rap())) doublet = Doublet(*jet1, *jet2);
             else doublet = Doublet(*jet2, *jet1);
             if (tag == Tag::background && !higgs.empty() && bottoms.size() == 2 && CheckIfBadBottom(doublet, bottoms)) continue;
             if (doublet.Overlap())continue;
@@ -200,7 +200,7 @@ std::vector<Doublet> JetPair::Multiplets(boca::Event const& event, const PreCuts
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1)
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             auto doublet = Doublet{};
-            if (std::abs((*jet_1).rap()) > std::abs((*jet_2).rap())) doublet = Doublet(*jet_1, *jet_2);
+            if (abs((*jet_1).Rap()) > abs((*jet_2).Rap())) doublet = Doublet(*jet_1, *jet_2);
             else doublet = Doublet(*jet_2, *jet_1);
             if (doublet.Overlap())continue;
             if (doublet.Jets().size() != jets.size() - 2) ERROR("to many jets in the rest jet vector");

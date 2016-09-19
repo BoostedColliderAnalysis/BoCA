@@ -10,53 +10,95 @@ class HemisphereMasses
 {
 
 public:
-    void SetMasses(Range<double> const& masses);
-    void SetBroadenings(Range<double> const& broadenings);
+
     /**
-     * Jet mass related event shapes
+     * @name Constructors
+     *@{
      */
-    //@{
+
     /**
-     * The high hemishpere mass squared divided by the visible energy squared
+    * @brief Default constructor
+    */
+    HemisphereMasses();
+
+    /**
+    * @brief Constructor accepting ranges for the mass and jet broadenings
+    */
+    HemisphereMasses(Range<double> const& masses, Range<double> const& broadenings);
+    //@}
+
+    /**
+     * @name Setter
+     * @{
+     */
+
+    /**
+    * @brief Set masses
+    */
+    void SetMasses(Range<double> const& masses);
+
+    /**
+    * @brief Set jet broadenings
+    */
+    void SetBroadenings(Range<double> const& broadenings);
+    //@}
+
+    /**
+     * @name Jet mass related event shapes
+     * @{
+     */
+
+    /**
+     * @brief The high hemishpere mass squared divided by the visible energy squared
      */
     double MHigh2() const;
+
     /**
-     * The low hemishpere mass squared divided by the visible energy squared
+     * @brief The low hemishpere mass squared divided by the visible energy squared
      */
     double MLow2() const;
+
     /**
-     * The difference between the hemishpere masses squared divided by the visible energy squared
+     * @brief The difference between the hemishpere masses squared divided by the visible energy squared
      */
     double MDiff2() const;
     //@}
+
     /**
-     * Jet broadening related event shapes
+     * @name Jet broadening related event shapes
      */
     //@{
+
     /**
-     * The wide jet broadening
+     * @brief The wide jet broadening
      */
     double BMax() const;
+
     /**
-     * The narrow jet broadening
+     * @brief The narrow jet broadening
      */
     double BMin() const;
+
     /**
-     * The sum of the jet broadenings
+     * @brief The sum of the jet broadenings
      */
     double BSum() const;
+
     /**
-     * The difference of the jet broadenings
+     * @brief The difference of the jet broadenings
      */
     double BDiff() const;
     //@}
+
 private:
+
     /**
-     * hemisphere masses
+     * @brief hemisphere masses
      */
     Range<double> masses_;
+
     /**
-     * The jet broadenings
+     * @brief The jet broadenings
      */
     Range<double> broadenings_;
 

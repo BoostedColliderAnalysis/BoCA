@@ -70,8 +70,6 @@ private:
 
     float InValue();
 
-//     ClassDef(BottomBase, 1)
-
 };
 
 }

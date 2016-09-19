@@ -10,7 +10,7 @@ namespace boca
 
 /**
  * @ingroup Generic
- * @defgroup Flag
+ * @defgroup Flag Flag
  * @brief Enables the usage of strongly typed enumerators as flags
  * @{
  */

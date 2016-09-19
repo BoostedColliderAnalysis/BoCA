@@ -20,14 +20,14 @@ class Fusion : public HeavyHiggs<Tagger_> {
 
 public:
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag)
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag())
         {
         case Tag::signal :
-            this->NewFile(tag, Process::H0);
+            this->AddSignal(Process::H0);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::tt);
+            this->AddBackground(Process::tt);
             break;
         }
     }
@@ -126,24 +126,24 @@ private:
         }
     }
 
-    int PassPreCut(boca::Event const& event, Tag) const final
+    bool PassPreCut(boca::Event const& event) const final
     {
        auto particles = event.GenParticles();
         particles = CopyIfParticle(particles, Id::top);
         if (particles.size() != 2) {
 //             ERROR("Not enough top quarks", Particles.size());
-            return 0;
+            return false;
         } else {
-          if (particles.at(0).Pt() < this->PreCut()) return 0;
-          if (particles.at(1).Pt() < this->PreCut()) return 0;
+          if (particles.at(0).Pt() < this->PreCut()) return false;
+          if (particles.at(1).Pt() < this->PreCut()) return false;
         }
-        if (event.MissingEt().Pt() < this->MissingEt()) return 0;
+        if (event.MissingEt().Pt() < this->MissingEt()) return false;
        auto leptons = SortedByPt(event.Leptons());
-       if (leptons.empty()) return 0;
-       if (leptons.front().Pt() < this->LeptonPt()) return 0;
+       if (leptons.empty()) return false;
+       if (leptons.front().Pt() < this->LeptonPt()) return false;
        auto jets = event.Jets();
-        if (jets.size() < 4) return 0;
-        return 1;
+        if (jets.size() < 4) return false;
+        return true;
     }
 
 };

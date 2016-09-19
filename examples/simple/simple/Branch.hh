@@ -2,21 +2,26 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
-
-#include "boca/physics/Prefixes.hh"
+// include Branch base
 #include "boca/branch/Bdt.hh"
+// include Observables
 #include "boca/Observables.hh"
+#include "simple/Observables.hh"
 
 namespace simple
 {
 
+// define the branch for saving the root file
+// inherits from the BDT branch base class
 class Branch :  public boca::branch::Bdt
 {
 
 public:
 
+    //  Constructor
     Branch();
 
+    // All observables must be saved as floats
     float jet_number;
     float bottom_number;
     float missing_et;
@@ -26,23 +31,11 @@ public:
     float jet_3_pt;
     float jet_4_pt;
 
-    template<typename Multiplet>
-    void Fill(Multiplet const &multiplet)
-    {
-        boca::branch::Bdt::Fill(multiplet);
-        jet_number = multiplet.JetNumber();
-        bottom_number = multiplet.BottomNumber();
-        missing_et = multiplet.MissingEt() / boca::GeV;
-        scalar_ht = multiplet.ScalarHt() / boca::GeV;
-        jet_1_pt = multiplet.JetPt(0) / boca::GeV;
-        jet_2_pt = multiplet.JetPt(1) / boca::GeV;
-        jet_3_pt = multiplet.JetPt(2) / boca::GeV;
-        jet_4_pt = multiplet.JetPt(3) / boca::GeV;
-    }
+    // define how the branches are going to be filled from the Observables
+    void Fill(Observables const &observables);
 
+    // return the Variables for TMVA
     boca::Observables Variables() override;
-
-    boca::Observables Spectators() override;
 
 private:
     ClassDef(Branch, 1)

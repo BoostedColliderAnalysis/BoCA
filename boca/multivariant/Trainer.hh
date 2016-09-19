@@ -77,17 +77,15 @@ private:
 
     TMVA::Factory& Factory();
 
+    TMVA::Factory & DataLoader();
+
+//     TMVA::DataLoader data_loader_;
+
     tagger::Base& tagger_;
 
     TFile output_;
 
     TMVA::Factory factory_;
-
-//     TMVA::DataLoader data_loader_;
-
-    TMVA::Factory & DataLoader(){
-      return factory_;
-    }
 
     std::map<Tag, TFile> input_;
 

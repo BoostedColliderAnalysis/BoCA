@@ -62,23 +62,23 @@ LorentzVector< Momentum >::LorentzVector(const exroot::Muon& muon)
 {
     LorentzVectorByMass(muon, MassOf(Id::muon));
 }
-Momentum const& LorentzVector< Momentum >::Px() const
+Momentum LorentzVector< Momentum >::Px() const
 {
     return X();
 }
-Momentum const& LorentzVector< Momentum >::Py() const
+Momentum LorentzVector< Momentum >::Py() const
 {
     return Y();
 }
-Momentum const& LorentzVector< Momentum >::Pz() const
+Momentum LorentzVector< Momentum >::Pz() const
 {
     return Z();
 }
-Energy const& LorentzVector< Momentum >::E() const
+Energy LorentzVector< Momentum >::E() const
 {
     return T();
 }
-Energy const& LorentzVector< Momentum >::Energy() const
+Energy LorentzVector< Momentum >::Energy() const
 {
     return T();
 }

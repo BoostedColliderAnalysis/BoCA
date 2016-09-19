@@ -57,30 +57,30 @@ int Singlet::Charge() const
     return Info().Charge();
 }
 
-Vector2<AngleSquare> Singlet::Pull() const
+Vector2<AngleSquare> Singlet::PullVector() const
 {
     INFO0;
     return pull_.Get([this]() -> Vector2<AngleSquare> {
-        if (Pt() <= 0_eV || !has_constituents()) return {};
+        if (Pt() <= 0_eV || !HasConsitutents()) return {};
         return boost::accumulate(Constituents(), Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum> &sum , boca::Jet const & constituent) {
             return sum + DeltaTo(constituent) * constituent.Pt() * DeltaRTo(constituent);
         }) / Pt();
     });
 }
 
-AngleSquareMomentum Singlet::Dipolarity(const Line2< Angle > &line) const
+AngleSquareMomentum Singlet::DipolaritySum(const Line2< Angle > &line) const
 {
-    if (!has_constituents()) return 0;
+    if (!HasConsitutents()) return 0;
     return boost::accumulate(Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
-        return sum + constituent.Pt() * sqr(line.Distance(constituent));
+        return sum + constituent.Pt() * sqr(line.MinDistanceTo(constituent));
     });
 }
 
-Angle Singlet::Pull(const Vector2< Angle > &reference) const
+Angle Singlet::PullAngle(const Vector2< Angle > &reference) const
 {
-    if (reference.Mod2() <= 0. * rad2 || Pull().Mod2() <= 0. * rad2 * rad2) return Pi();
+    if (reference.Mag2() <= 0. * rad2 || PullVector().Mag2() <= 0. * rad2 * rad2) return Pi();
     auto range = Range<double>{-1, 1};
-    return acos(range.Constrain(reference * Pull() / reference.Mod() / Pull().Mod()));
+    return acos(range.Constrain(reference * PullVector() / reference.Mag() / PullVector().Mag()));
 }
 
 const Singlet &Singlet::ConstituentJet() const
@@ -90,13 +90,13 @@ const Singlet &Singlet::ConstituentJet() const
 
 void Singlet::Enforce(boca::Jet const &jet)
 {
-    reset(jet);
+    Reset(jet);
     ResetInfo(jet.Info());
 }
 
 void Singlet::Enforce(boca::Jet const &jet, double bdt)
 {
-    reset(jet);
+    Reset(jet);
     ResetInfo(jet.Info());
     SetBdt(bdt);
 }

@@ -13,11 +13,14 @@ namespace boca
 using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
 
 /**
- * @brief Thin wrapper to make Jet behave like a Multiplet.
+ * @brief Wrapper for a Jet in order to make it behave like a Multiplet.
  *
  */
 class Singlet : public boca::Jet
 {
+
+  template<typename Multiplet_>
+  using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value >::type;
 
 public:
 
@@ -27,38 +30,105 @@ public:
 
     void Enforce(boca::Jet const& jet, double bdt);
 
+    Singlet const& ConstituentJet() const;
+
     boca::Jet Jet() const;
 
     std::vector<boca::Jet> Jets() const;
 
+    std::vector<boca::LorentzVector<Momentum>> LorentzVectors() const;
+
     bool Overlap(boca::Jet const& jet) const;
 
+    /**
+     * @name B-tagging related variables
+     * @{
+     */
+
+    /**
+     * @brief Logarithm of radial distance of maximal displaced track
+     */
     double MaxDisplacement() const;
 
+    /**
+     * @brief Logarithm of radial distance of the mean of all displaced tracks
+     */
     double MeanDisplacement() const;
 
+    /**
+     * @brief Logarithm of radial distance of the sum all all displaced tracks
+     */
     double SumDisplacement() const;
 
+    /**
+     * @brief Jet radius
+     */
     Angle Radius() const;
 
+    /**
+     * @brief Jet spread
+     */
     double Spread() const;
 
+    /**
+     * @brief Radius of jet consisting only of displaced tracks
+     */
     Angle VertexRadius() const;
 
+    /**
+     * @brief Spread of displaced tracks
+     */
     double VertexSpread() const;
 
+    /**
+     * @brief Energy fraction of displaced tracks over the whole jet
+     */
     double EnergyFraction() const;
+    //@}
 
+    /**
+     * @name Tau tagging related variables
+     * @{
+     */
+
+    /**
+     * @brief Electromagnetic radius
+     */
     Angle EmRadius() const;
 
+    /**
+     * @brief Track radius
+     */
     Angle TrackRadius() const;
 
+    /**
+     * @brief Core energy fraction
+     */
     double CoreEnergyFraction() const;
 
+    /**
+     * @brief Flight path
+     */
     double FlightPath() const;
 
+    /**
+     * @brief Trt Ht fraction
+     */
     double TrtHtFraction() const;
 
+    /**
+     * @brief Energy ratio
+     */
+    double EnergyRatio() const;
+
+    /**
+     * @brief Momentum ratio
+     */
+    double MomentumRatio() const;
+
+    /**
+     * @brief Ht
+     */
     Momentum Ht() const;
 
     void SetBdt(double bdt);
@@ -70,17 +140,6 @@ public:
     boca::Tag Tag() const;
 
     int Charge() const;
-
-    double EnergyRatio() const;
-
-    double MomentumRatio() const;
-
-    Singlet const& ConstituentJet() const;
-
-    Vector2<AngleSquare> Pull() const;
-
-    template<typename Multiplet_>
-    using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value >::type;
 
     template <typename Multiplet_, typename = NotJet<Multiplet_>>
     Angle DeltaPhiTo(Multiplet_ const& jet) const {
@@ -111,15 +170,31 @@ public:
     using PseudoJet::DeltaTo;
 
     template<typename Multiplet_>
-    Angle Pull(Multiplet_ const& multiplet) const {
-        return Pull(DeltaTo(multiplet));
+    Angle PullTo(Multiplet_ const& multiplet) const {
+        return PullAngle(DeltaTo(multiplet));
     }
 
-    Angle Pull(Vector2<Angle> const& reference) const;
 
-    AngleSquareMomentum Dipolarity(Line2<Angle> const& line) const;
+    /**
+     * @name Sub-structure variables
+     * @{
+     */
 
-    std::vector<boca::LorentzVector<Momentum>> LorentzVectors() const;
+    /**
+     * @brief Pull angle towards the reference angel
+     */
+    Angle PullAngle(Vector2<Angle> const& reference) const;
+
+    /**
+     * @brief Pull vector
+     */
+    Vector2<AngleSquare> PullVector() const;
+
+    /**
+     * @brief Sum for Dipolarity calculation
+     */
+    AngleSquareMomentum DipolaritySum(Line2<Angle> const& line) const;
+    //@}
 
 private:
 

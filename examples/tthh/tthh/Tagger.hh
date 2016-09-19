@@ -20,6 +20,8 @@ public:
 
     std::string Name() const override;
 
+    TMVA::Types::EMVA Mva() const override;
+
 };
 
 }

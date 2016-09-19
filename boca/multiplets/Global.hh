@@ -10,16 +10,16 @@ namespace boca
 
 class Event;
 
-class GlobalObservables : public Identification
+class Global : public Identification
 {
 
 public:
 
-    GlobalObservables();
+    Global();
 
-    GlobalObservables(Event const& event);
+    Global(Event const& event);
 
-    GlobalObservables(Event const& event, std::vector<boca::Jet> const& jets);
+    Global(Event const& event, std::vector<boca::Jet> const& jets);
 
     void SetEvent(Event const& event, std::vector<boca::Jet> const& jets);
 

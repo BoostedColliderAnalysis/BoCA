@@ -16,26 +16,6 @@ namespace boca
 namespace units
 {
 
-double to_double(Length const& length)
-{
-    return length / mm;
-}
-
-Length to_length(double length)
-{
-    return length * mm;
-}
-
-double to_double(Angle const& angle)
-{
-    return angle / rad;
-}
-
-Angle to_angle(double angle)
-{
-    return static_cast<double>(angle) * rad;
-}
-
 Angle Pi()
 {
     return boost::math::constants::pi<double>() * rad;
@@ -46,7 +26,7 @@ Angle TwoPi()
     return 2. * Pi();
 }
 
-Angle RestrictPhi(Angle phi)
+Angle Restrict(Angle phi)
 {
     if (std::isnan(phi.value())) {
         ERROR("function called with NaN");

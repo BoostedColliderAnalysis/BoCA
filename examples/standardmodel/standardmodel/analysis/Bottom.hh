@@ -27,7 +27,8 @@ class Bottom : public StandardModel<Tagger_>
 
 public:
 
-    Bottom() {
+    Bottom()
+    {
         this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
         this->PreCuts().TrackerMaxEta().Set(Id::bottom, Settings::TrackerEtaMax());
@@ -36,7 +37,8 @@ public:
 
 private:
 
-    std::string Name() const override {
+    std::string Name() const override
+    {
         return  boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-revised";
 //       return  Name(production_channel()) + "_" + boca::Name(this->Collider()) + "_" + boca::units::Name(this->LowerPtCut()) + "-large-new";
     }
@@ -47,36 +49,38 @@ private:
 //         //         return Production::Associated;
 //     }
 
-    void SetFiles(Tag tag, Stage stage)override {
-        switch (tag) {
+    void SetFiles(Phase const &phase) override
+    {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::bb);
+            this->AddSignal(Process::bb);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::cc);
-            this->NewFile(tag, Process::qq);
-            this->NewFile(tag, Process::gg);
-            if (stage == Stage::reader) {
-                this->NewFile(tag, Process::tt_had);
-                this->NewFile(tag, Process::tt_lep);
-//             this->NewFile(tag, Process::hh_bb);
+            this->AddBackground(Process::cc);
+            this->AddBackground(Process::qq);
+            this->AddBackground(Process::gg);
+            if (phase.Stage() == Stage::reader) {
+                this->AddBackground(Process::tt_had);
+                this->AddBackground(Process::tt_lep);
+//             this->AddBackground(Process::hh_bb);
             }
-            this->NewFile(tag, Process::ww);
-            this->NewFile(tag, Process::zz);
+            this->AddBackground(Process::ww);
+            this->AddBackground(Process::zz);
             break;
         }
     }
 
-    int PassPreCut(boca::Event const& event, Tag) const override {
+    bool PassPreCut(boca::Event const &event) const override
+    {
 //         Debug("muons: ", event.Muons().size());
         auto particles = SortedByPt(event.GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
-        if (particles.size() != 1) return 0;
-        return 1;
+        if (particles.size() != 1) return false;
+        return true;
         auto jets = event.Jets();
         jets = RemoveIfOutsidePtWindow(jets, this->LowerPtCut(), this->UpperPtCut());
-        return jets.size();
+        return jets.size() > 0  ? true : false;
     }
 
 };

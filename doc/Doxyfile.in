@@ -1,62 +1,95 @@
-PROJECT_NAME = "@PROJECT_NAME@"
-PROJECT_BRIEF= "Boosted Collider Analysis"
-PROJECT_NUMBER = "@PROJECT_VERSION@"
-OUTPUT_DIRECTORY = "@DOXYFILE_OUTPUT_DIR@"
-CREATE_SUBDIRS = YES
-EXTRACT_ALL = YES
-EXTRACT_PRIVATE = YES
-EXTRACT_STATIC = YES
-EXTRACT_LOCAL_CLASSES = YES
-LAYOUT_FILE =
-QUIET = YES
-WARNINGS = YES
-WARN_IF_UNDOCUMENTED = NO
-WARN_IF_DOC_ERROR = YES
-WARN_NO_PARAMDOC = NO
-INPUT = @DOXYFILE_SOURCE_DIRS@
-#USE_MDFILE_AS_MAINPAGE = Readme.md
-RECURSIVE = YES
-EXCLUDE = @DOXYFILE_EXCLUDE_DIR@
-EXAMPLE_PATH = "@CMAKE_CURRENT_SOURCE_DIR@/examples/"
-IMAGE_PATH = "@CMAKE_CURRENT_SOURCE_DIR@/doc/images/"
-SOURCE_BROWSER =
-INLINE_SOURCES = NO
-STRIP_CODE_COMMENTS = YES
-ALPHABETICAL_INDEX = YES
-GENERATE_HTML = YES
-HTML_OUTPUT = "@DOXYFILE_HTML_DIR@"
-HTML_DYNAMIC_SECTIONS = NO # hides graphs
-GENERATE_TREEVIEW =
-GENERATE_LATEX = @DOXYFILE_GENERATE_LATEX@
-LATEX_OUTPUT = "@DOXYFILE_LATEX_DIR@"
-LATEX_CMD_NAME = "@LATEX_COMPILER@"
-MAKEINDEX_CMD_NAME = "@MAKEINDEX_COMPILER@"
-USE_PDFLATEX = @DOXYFILE_PDFLATEX@
-CLASS_DIAGRAMS = YES
-HAVE_DOT = @DOXYFILE_DOT@
-CLASS_GRAPH = YES
-COLLABORATION_GRAPH = YES
-GROUP_GRAPHS = YES
-UML_LOOK = NO
-TEMPLATE_RELATIONS = YES
-INCLUDE_GRAPH = YES
-INCLUDED_BY_GRAPH = YES
-CALL_GRAPH = NO
-CALLER_GRAPH = NO
-GRAPHICAL_HIERARCHY = YES
-DIRECTORY_GRAPH =
-DOT_IMAGE_FORMAT = svg
-DOT_PATH = "@DOXYGEN_DOT_PATH@"
-DOTFILE_DIRS =
-DOT_MULTI_TARGETS = NO
-DOT_CLEANUP = YES
-SEARCHENGINE = YES # create search field
-USE_MATHJAX = YES # formulas a set without latex
-MATHJAX_RELPATH = https://cdn.mathjax.org/mathjax/latest
+#Project related configuration options
+
+PROJECT_NAME = "@PROJECT_NAME@" # Name of the project
+PROJECT_BRIEF= "Boosted Collider Analysis" # Description of the project
+PROJECT_NUMBER = "@PROJECT_VERSION@" # version of the project
+
+OUTPUT_DIRECTORY = "@DOXYFILE_OUTPUT_DIR@" # path for documentation
+CREATE_SUBDIRS = NO # store documentatinon in random sub dirs
+
 ALIASES += "license=@par License:\n"
+
+BUILTIN_STL_SUPPORT = YES # enable support for stl
+DISTRIBUTE_GROUP_DOC = YES # reuse documentation of one group member for others
+GROUP_NESTED_COMPOUNDS = NO # add also nested classes to the same group as mother class
+INLINE_GROUPED_CLASSES = NO # do not generate seperate pages for classes included via \ingroup
+
+#Build related configuration options
+
+EXTRACT_ALL = YES # extract undocumented entities
+EXTRACT_PRIVATE = NO # extract private members
+EXTRACT_STATIC = NO # extract static members
+EXTRACT_LOCAL_CLASSES = NO # extract local classes
+
+LAYOUT_FILE = # replace default DoxygenLayout.xml
+
+#Configuration options related to warning and progress messages
+
+QUIET = YES # debug info
+WARNINGS = YES # warnings
+WARN_IF_UNDOCUMENTED = NO # warn if undocumented
+WARN_IF_DOC_ERROR = YES # warn if error
+WARN_NO_PARAMDOC = NO # warn if paramter are undocumented
+
+#Configuration options related to the input files
+
+INPUT = @DOXYFILE_SOURCE_DIRS@ # input files
+EXCLUDE = @DOXYFILE_EXCLUDE_DIR@ # exclude folders
 EXCLUDE_SYMBOLS = #fastjet TMVA TMatrixT
-IMAGE_PATH = doc/images
+RECURSIVE = YES # search recursivly for files
+EXAMPLE_PATH = "@CMAKE_CURRENT_SOURCE_DIR@/examples/" # path to examples
+IMAGE_PATH = "@CMAKE_CURRENT_SOURCE_DIR@/doc/images/" # path to images
+USE_MDFILE_AS_MAINPAGE = Readme.md # Markdown as Mainpage
+
+#Configuration options related to source browsing
+
+SOURCE_BROWSER = NO # document source files
+INLINE_SOURCES = NO # show source in header documentation
+STRIP_CODE_COMMENTS = YES # remove comments from code
+
+#Configuration options related to the alphabetical class index
+
+ALPHABETICAL_INDEX = YES # create an index
+
+#Configuration options related to the HTML output
+
+GENERATE_HTML = YES # create html documentation
+HTML_OUTPUT = "@DOXYFILE_HTML_DIR@" # path to html documentation
 HTML_FOOTER = doc/footer.html
 HTML_HEADER = doc/header.html
 HTML_EXTRA_STYLESHEET=doc/customdoxygen.css
 HTML_EXTRA_FILES=doc/doxy-boot.js
+HTML_DYNAMIC_SECTIONS = NO # hides graphs
+GENERATE_TREEVIEW = NO # tree view sidebar
+USE_MATHJAX = YES # formulas a set without latex
+MATHJAX_RELPATH = https://cdn.mathjax.org/mathjax/latest # path to mathjax # note the https
+SEARCHENGINE = YES # create search field
+
+#Configuration options related to the LaTeX output
+
+GENERATE_LATEX = @DOXYFILE_GENERATE_LATEX@ # create latex documentation
+LATEX_OUTPUT = "@DOXYFILE_LATEX_DIR@" # path to latex documentation
+LATEX_CMD_NAME = "@LATEX_COMPILER@" # latex compiler
+MAKEINDEX_CMD_NAME = "@MAKEINDEX_COMPILER@" # makeindex command
+USE_PDFLATEX = @DOXYFILE_PDFLATEX@ # use pdflatex
+
+#Configuration options related to the dot tool
+
+CLASS_DIAGRAMS = YES # class diagram for inheritence classes
+HAVE_DOT = @DOXYFILE_DOT@ # dot is present
+CLASS_GRAPH = YES # graph all all classes
+COLLABORATION_GRAPH = YES # collaboration graph for all classes
+GROUP_GRAPHS = YES # graph for all groups
+UML_LOOK = NO # mimic uml look
+#TEMPLATE_RELATIONS = NO # show all template instances
+INCLUDE_GRAPH = YES # show all includes of a file
+INCLUDED_BY_GRAPH = YES # show all includes by files
+CALL_GRAPH = NO # show graphs for all functions
+CALLER_GRAPH = NO # show caller graphs for all function
+GRAPHICAL_HIERARCHY = YES # show a graphical hierachy for all classes
+DIRECTORY_GRAPH = YES # show dependecy of directories
+DOT_IMAGE_FORMAT = svg # dot image format
+DOT_PATH = "@DOXYGEN_DOT_PATH@" # path to dot executable
+DOTFILE_DIRS = # path to pregenerated dot files
+DOT_MULTI_TARGETS = NO # run multiple graphs at once
+DOT_CLEANUP = YES # remove intermediate dot files

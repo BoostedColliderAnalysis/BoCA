@@ -24,29 +24,29 @@ class SubDom : public TopPartner<Tagger_>
 protected:
 
     std::string Name() const override {
-        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
+        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-test";
     }
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::TThh);
+            this->AddSignal(Process::TTh);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::ttWWW);
-            this->NewFile(tag, Process::ttWWB);
-            this->NewFile(tag, Process::ttWBB);
-            this->NewFile(tag, Process::ttBBB);
+            this->AddBackground(Process::ttWWW);
+            this->AddBackground(Process::ttWWB);
+            this->AddBackground(Process::ttWBB);
+            this->AddBackground(Process::ttBBB);
             break;
         }
     }
 
 private:
 
-    int PassPreCut(boca::Event const&, Tag) const override {
-//         if (event.Jets().size() < 5) return 0;
-//         if (event.Leptons().empty()) return 0;
-        return 1;
+    bool PassPreCut(boca::Event const&) const override {
+//         if (event.Jets().size() < 5) return false;
+//         if (event.Leptons().empty()) return false;
+        return true;
     }
 
 };

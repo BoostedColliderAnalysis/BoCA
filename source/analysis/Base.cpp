@@ -3,10 +3,11 @@
  */
 
 #include <sys/stat.h>
+#include <fstream>
 
 #include "boca/generic/Types.hh"
 #include "boca/io/Io.hh"
-#include "boca/File.hh"
+#include "boca/FileInfo.hh"
 #include "boca/analysis/Base.hh"
 #include "boca/Event.hh"
 #include "boca/multivariant/Trainer.hh"
@@ -67,7 +68,7 @@ void Base::Initialize()
 }
 
 
-std::vector<File> Base::Files(Tag tag)
+std::vector<FileInfo> Base::Files(Tag tag)
 {
     ERROR(boca::Name(tag));
     return files_;
@@ -77,8 +78,8 @@ void Base::PrepareFiles(Stage stage)
 {
     INFO0;
     ClearFiles();
-    SetFiles(Tag::signal, stage);
-    SetFiles(Tag::background, stage);
+    SetFiles({stage, Tag::signal});
+    SetFiles({stage,  Tag::background});
 }
 
 long Base::TrainNumberMax() const
@@ -93,73 +94,40 @@ long Base::ReadNumberMax() const
     return TrainNumberMax();
 }
 
-void Base::NewFile(Tag tag, const std::vector<std::string>& names, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass)
+void Base::AddSignal(std::string const& file_name, latex::String const& latex_name, Crosssection const& crosssection, boca::Mass const& mass, std::string const& path)
 {
     INFO0;
-    files_.emplace_back(File(names, crosssection, latex_name, mass));
-    Tagger().AddTreeName(TreeName(names.front()), tag);
+    auto file_info = boca::FileInfo{{file_name}, latex_name, crosssection, mass};
+    file_info.SetPath(path);
+    AddSignal(file_info);
 }
 
-void Base::NewFile(Tag tag, std::vector<std::string> const& names, latex::String const& latex_name)
+void Base::AddBackground(std::string const& file_name, latex::String const& latex_name, Crosssection const& crosssection, boca::Mass const& mass, std::string const& path)
 {
     INFO0;
-    files_.emplace_back(File(names, latex_name));
-    Tagger().AddTreeName(TreeName(names.front()), tag);
+    auto file_info = boca::FileInfo{{file_name}, latex_name, crosssection, mass};
+    file_info.SetPath(path);
+    AddBackground(file_info);
 }
 
-void Base::NewFile(Tag tag, std::vector<std::string> const& names, Crosssection const& crosssection, Names const& latex_name, Mass const& mass)
+void Base::AddSignal(boca::FileInfo const& file)
 {
     INFO0;
-    files_.emplace_back(File(names, latex_name, crosssection, mass));
-    Tagger().AddTreeName(TreeName(names.front()), tag);
+    AddFile(Tag::signal, file);
 }
 
-void Base::NewFile(Tag tag, std::string const& name, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass)
-{
+void Base::AddBackground(boca::FileInfo const& file) {
     INFO0;
-    files_.emplace_back(File( {name}, crosssection, latex_name, mass));
-    Tagger().AddTreeName(TreeName(name), tag);
+    AddFile(Tag::background, file);
 }
 
-void Base::NewFile(Tag tag, std::string const& name, Crosssection const& crosssection, Names const& latex_name, Mass const& mass)
-{
+void Base::AddFile(Tag tag, boca::FileInfo const& file) {
     INFO0;
-    files_.emplace_back(File( {name}, latex_name, crosssection, mass));
-    Tagger().AddTreeName(TreeName(name), tag);
+    files_.emplace_back(file);
+    Tagger().AddTreeName(file.TaggerTreeName(), tag);
 }
 
-void Base::NewFile(Tag tag, std::string const& name, latex::String const& latex_name)
-{
-    INFO0;
-    files_.emplace_back(File( {name}, latex_name));
-    Tagger().AddTreeName(TreeName(name), tag);
-}
-
-File Base::File(std::vector<std::string> const& names, Names const& latex_name, Crosssection const& crosssection, Mass const& mass) const
-{
-    INFO0;
-    return boca::File(names, FilePath(), FileSuffix(), latex_name, crosssection, mass);
-}
-
-File Base::File(std::vector<std::string> const& names, latex::String const& latex_name) const
-{
-    INFO0;
-    return boca::File(names, FilePath(), FileSuffix(), latex_name);
-}
-
-File Base::File(std::vector<std::string> const& names, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass) const
-{
-    INFO0;
-    return boca::File(names, FilePath(), FileSuffix(), latex_name, crosssection, mass);
-}
-
-std::string Base::TreeName(std::string const& name) const
-{
-    INFO0;
-    return name + "-run_01";
-}
-
-boca::PreCuts const& Base::PreCuts() const
+boca::PreCuts Base::PreCuts() const
 {
     INFO0;
     return pre_cuts_;
@@ -169,18 +137,6 @@ boca::PreCuts& Base::PreCuts()
 {
     INFO0;
     return pre_cuts_;
-}
-
-std::string Base::FileSuffix() const
-{
-    INFO0;
-    return ".root";
-}
-
-std::string Base::FilePath() const
-{
-    INFO0;
-    return WorkingPath();
 }
 
 int Base::BackgroundFileNumber() const
@@ -246,15 +202,6 @@ void Base::RunTrainer()
     std::cout.rdbuf(cout);
 }
 
-std::string Base::WorkingPath() const
-{
-    INFO0;
-    return "./";
-//     std::string path = boost::filesystem::current_path().string() + "/";
-//     ERROR(path);
-//     return path;
-}
-
 void Base::Run(Output output)
 {
     INFO(boca::Name(output));
@@ -303,14 +250,20 @@ long Base::EventNumberMax(Stage stage) const
     }
 }
 
-int Base::PassPreCut(Event const&, Tag) const
+bool Base::PassPreCut(Event const&) const
 {
-    return 1;
+    return true;
 }
 
 void Base::AnalysisLoop(Stage stage)
 {
     for (auto const & tag : std::array<Tag, 2>{{Tag::signal, Tag::background}}) TagLoop( {stage, tag});
+}
+
+
+std::string Base::Name() const
+{
+    return "BoCA-Analysis";
 }
 
 }

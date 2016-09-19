@@ -22,7 +22,8 @@ class W : public StandardModel<Tagger_>
 
 public:
 
-    W() {
+    W()
+    {
         this->PreCuts().PtLowerCut().Set(Id::W, this->LowerPtCut());
         this->PreCuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
 //         this->PreCuts().MassUpperCut().Set(Id::W, 200_GeV);
@@ -30,44 +31,49 @@ public:
         this->PreCuts().ConsiderBuildingBlock().Set(Id::W, false);
     }
 
-    static Decay WDecay() {
+    static Decay WDecay()
+    {
         return Decay::hadronic;
         return Decay::leptonic;
     }
 
 private:
 
-    std::string Name() const override {
+    std::string Name() const override
+    {
         return boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-bottom";
     }
 
 
-    void SetFiles(Tag tag, Stage stage)override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override
+    {
+        switch (phase.Tag()) {
         case Tag::signal :
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::ww);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::ww);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::bb);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_lep);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::hh);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::zz);
-            this->NewFile(tag, Process::qq);
-            this->NewFile(tag, Process::gg);
-            this->NewFile(tag, Process::cc);
-            if (this->template TaggerIs<tagger::WHadronic>() && stage == Stage::reader) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh_bb);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
+            this->AddBackground(Process::zz);
+            this->AddBackground(Process::qq);
+            this->AddBackground(Process::gg);
+            this->AddBackground(Process::cc);
+            if (this->template TaggerIs<tagger::WHadronic>() && phase.Stage() == Stage::reader) this->AddBackground(Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::hh_bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_lep);
             break;
         }
     }
-    int PassPreCut(boca::Event const& event, Tag) const override {
-        return 1;
-       auto particles = SortedByPt(event.GenParticles());
-        if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;
-        return 0;
+
+    bool PassPreCut(boca::Event const &event) const override
+    {
+        return true;
+        auto particles = SortedByPt(event.GenParticles());
+        if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return true;
+        return false;
     }
 
 };

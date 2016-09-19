@@ -49,9 +49,9 @@ double Identification::InitialValue()
     return branch::Base::InitialValue();
 }
 
-bool Identification::operator<(Identification const& multiplet) const
+bool Identification::operator<(Identification const& identification) const
 {
-    return Bdt() > multiplet.Bdt();
+    return Bdt() > identification.Bdt();
 }
 
 }

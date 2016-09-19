@@ -37,33 +37,34 @@ private:
     }
 
 
-    void SetFiles(Tag tag, Stage stage)override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::zz);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::zz);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::bb);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_lep);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::hh);
             break;
         case Tag::background :
-            if(stage == Stage::reader)
-          this->NewFile(tag, Process::ww);
-            this->NewFile(tag, Process::qq);
-            this->NewFile(tag, Process::gg);
-            this->NewFile(tag, Process::cc);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh_bb);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
+            if(phase.Stage() == Stage::reader)
+          this->AddBackground(Process::ww);
+            this->AddBackground(Process::qq);
+            this->AddBackground(Process::gg);
+            this->AddBackground(Process::cc);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::hh_bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_lep);
             break;
         }
     }
-    int PassPreCut(boca::Event const& , Tag) const override {
-        return 1;
+
+    bool PassPreCut(boca::Event const&) const override {
+        return true;
 //        std::vector<Jet> particles = SortedByPt(event.GenParticles());
-//         if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;
-//         return 0;
+//         if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return true;
+//         return false;
     }
 
 };

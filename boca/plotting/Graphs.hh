@@ -26,9 +26,9 @@ public:
 
     void SetLegend(Orientation orientation, latex::String const& title = latex::String());
 
-    void SetXAxis(const boca::latex::String& title, const boca::Range< double >& range = Range<double>());
+    void SetXAxis(const boca::latex::String& title, boca::Range<double> const& range = Range<double>());
 
-    void SetYAxis(const boca::latex::String& title, const boca::Range< double >& range = Range<double>());
+    void SetYAxis(const boca::latex::String& title, boca::Range<double> const& range = Range<double>());
 
     void AddLine(double x_value, latex::String const& title = latex::String());
 

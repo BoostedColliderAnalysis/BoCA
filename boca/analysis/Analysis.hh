@@ -41,7 +41,7 @@ private:
     void TagLoop(Phase phase) override {
         FileWriter file_writer(Tagger().ExportFileName(phase));
         ClearFiles();
-        SetFiles(phase.Tag(), phase.Stage());
+        SetFiles(phase);
         for (auto & file : this->Files(phase.Tag())) FileLoop( {phase, file, file_writer, tagger_});
     }
 
@@ -67,8 +67,8 @@ private:
     void Thread(analysis::Data<Tagger_> data) {
         data.ReadEvents(PreCuts(), [&](Stage stage) {
             return EventNumberMax(stage);
-        }, [&](Event const & event, Tag tag) {
-            return PassPreCut(event, tag);
+        }, [&](Event const & event) {
+            return PassPreCut(event);
         });
     }
 

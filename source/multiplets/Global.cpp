@@ -4,7 +4,7 @@
 #include <boost/range/numeric.hpp>
 #include <boost/range/algorithm/count_if.hpp>
 
-#include "boca/multiplets/GlobalObservables.hh"
+#include "boca/multiplets/Global.hh"
 #include "boca/Event.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/generic/Vector.hh"
@@ -13,19 +13,19 @@
 namespace boca
 {
 
-GlobalObservables::GlobalObservables() {}
+Global::Global() {}
 
-GlobalObservables::GlobalObservables(Event const& event)
+Global::Global(Event const& event)
 {
     SetEvent(event);
 }
 
-GlobalObservables::GlobalObservables(Event const& event, const std::vector<boca::Jet>& jets)
+Global::Global(Event const& event, const std::vector<boca::Jet>& jets)
 {
     SetEvent(event, jets);
 }
 
-void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<boca::Jet>& jets)
+void Global::SetEvent(boca::Event const& event, const std::vector<boca::Jet>& jets)
 {
     SetJets(jets);
     SetLeptons(event.Leptons());
@@ -33,7 +33,7 @@ void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<boc
     missing_et_ = event.MissingEt().Pt();
 }
 
-void GlobalObservables::SetEvent(boca::Event const& event)
+void Global::SetEvent(boca::Event const& event)
 {
     SetJets(event.Jets());
     SetLeptons(event.Leptons());
@@ -41,19 +41,19 @@ void GlobalObservables::SetEvent(boca::Event const& event)
     missing_et_ = event.MissingEt().Pt();
 }
 
-int GlobalObservables::LeptonNumber() const
+int Global::LeptonNumber() const
 {
     INFO0;
     return leptons_.size();
 }
 
-int GlobalObservables::JetNumber() const
+int Global::JetNumber() const
 {
     INFO0;
     return Jets().size();
 }
 
-int GlobalObservables::BottomNumber() const
+int Global::BottomNumber() const
 {
     INFO0;
     return boost::range::count_if(Jets(), [](boca::Jet const & jet) {
@@ -61,13 +61,13 @@ int GlobalObservables::BottomNumber() const
     });
 }
 
-Momentum GlobalObservables::ScalarHt() const
+Momentum Global::ScalarHt() const
 {
     INFO0;
     return scalar_ht_;
 }
 
-Momentum GlobalObservables::LeptonHt() const
+Momentum Global::LeptonHt() const
 {
     INFO0;
     return boost::accumulate(leptons_, 0_eV, [](Momentum const& ht, boca::Jet const & lepton) {
@@ -75,7 +75,7 @@ Momentum GlobalObservables::LeptonHt() const
     });
 }
 
-Momentum GlobalObservables::JetHt() const
+Momentum Global::JetHt() const
 {
     INFO0;
     return boost::accumulate(jets_, 0_eV, [](Momentum const& ht, boca::Jet const & jet) {
@@ -83,60 +83,60 @@ Momentum GlobalObservables::JetHt() const
     });
 }
 
-Energy GlobalObservables::MissingEt() const
+Energy Global::MissingEt() const
 {
     INFO0;
     return missing_et_;
 }
 
-std::vector<Jet> GlobalObservables::Jets() const
+std::vector<Jet> Global::Jets() const
 {
     INFO0;
     return jets_;
 }
 
-void GlobalObservables::SetJets(std::vector<boca::Jet> const& jets)
+void Global::SetJets(std::vector<boca::Jet> const& jets)
 {
     INFO0;
     jets_ = SortedByPt(jets);
 }
 
-void GlobalObservables::SetLeptons(std::vector<Lepton> const& leptons)
+void Global::SetLeptons(std::vector<Lepton> const& leptons)
 {
     INFO0;
     leptons_ = SortedByPt(leptons);
 }
 
-Momentum GlobalObservables::JetPt(std::size_t number) const
+Momentum Global::JetPt(std::size_t number) const
 {
     return jets_.size() > number ? jets_.at(number).Pt() : at_rest;
 }
 
-Momentum GlobalObservables::LeptonPt(std::size_t number) const
+Momentum Global::LeptonPt(std::size_t number) const
 {
     return leptons_.size() > number ? leptons_.at(number).Pt() : at_rest;
 }
 
-Momentum GlobalObservables::Ht() const
+Momentum Global::Ht() const
 {
     return ScalarHt();
 }
 
-int GlobalObservables::Charge() const
+int Global::Charge() const
 {
     return boost::accumulate(Jets(), 0, [](int sum, boca::Jet const & jet) {
         return sum + jet.Info().Charge();
     });
 }
 
-Jet GlobalObservables::Jet() const
+Jet Global::Jet() const
 {
     return jet_.Get([this]() {
         return Join(Jets());
     });
 }
 
-Singlet GlobalObservables::ConstituentJet() const
+Singlet Global::ConstituentJet() const
 {
     return constituent_jet_.Get([this]() {
       return Join(boost::accumulate(Jets(), std::vector<boca::Jet>{}, [](std::vector<boca::Jet>& sum, boca::Jet const & jet) {
@@ -145,20 +145,20 @@ Singlet GlobalObservables::ConstituentJet() const
     });
 }
 
-Mass GlobalObservables::Mass() const
+Mass Global::Mass() const
 {
     return Jet().Mass();
 }
-Angle GlobalObservables::DeltaRTo(const PseudoJet& jet) const
+Angle Global::DeltaRTo(PseudoJet const& jet) const
 {
     return Jet().DeltaRTo(jet);
 }
 
-std::vector< Jet > GlobalObservables::Constituents() const
+std::vector< Jet > Global::Constituents() const
 {
     return ConstituentJet().Constituents();
 }
-std::vector< LorentzVector< Momentum > > GlobalObservables::LorentzVectors() const
+std::vector< LorentzVector< Momentum > > Global::LorentzVectors() const
 {
     return {};
 }

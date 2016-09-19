@@ -52,26 +52,61 @@ class Event
 
 public:
 
+    /**
+    * @brief Constructor
+    */
     Event(boca::TreeReader const& tree_reader);
 
+    /**
+    * @brief Generator level Particles
+    */
     std::vector<Particle> GenParticles() const;
 
+    /**
+    * @brief All decayed particles
+    */
     std::vector<Particle> Particles() const;
 
+    /**
+    * @brief Electrons and muons
+    */
     virtual std::vector<Lepton> Leptons() const;
 
+    /**
+    * @brief Electrons
+    */
     virtual std::vector<Lepton> Electrons() const = 0;
 
+    /**
+    * @brief Muons
+    */
     virtual std::vector<Lepton> Muons() const = 0;
 
-    virtual std::vector<Lepton> Photons() const = 0;
+    /**
+    * @brief Photons
+    */
+    virtual std::vector<Photon> Photons() const = 0;
 
+    /**
+    * @brief Jets
+    */
     virtual std::vector<Jet> Jets() const = 0;
 
+    /**
+    * @brief Scalar sum of transverse momenta \f$H_T=\sum_ip_{Ti}\f$
+    *
+    * @return boca::units::Momentum
+    */
     virtual Momentum ScalarHt() const;
 
+    /**
+    * @brief Missing transverse enenergy
+    */
     virtual boca::MissingEt MissingEt() const;
 
+    /**
+    * @brief EFlow jets
+    */
     virtual std::vector<Jet> EFlow(JetDetail jet_detail) const;
 
 protected:

@@ -38,34 +38,34 @@ private:
         return boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-jet-1";
     }
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::hh_bb);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
+            this->AddSignal(Process::hh_bb);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::bb);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_lep);
             break;
         case Tag::background :
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
-            this->NewFile(tag, Process::zz);
-            this->NewFile(tag, Process::gg);
-            this->NewFile(tag, Process::cc);
-            this->NewFile(tag, Process::qq);
-            this->NewFile(tag, Process::ww);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::bb);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_lep);
+            this->AddBackground(Process::zz);
+            this->AddBackground(Process::gg);
+            this->AddBackground(Process::cc);
+            this->AddBackground(Process::qq);
+            this->AddBackground(Process::ww);
             break;
         }
     }
 
-    int PassPreCut(boca::Event const& , Tag) const override {
-          return 1;
+    bool PassPreCut(boca::Event const&) const override {
+          return true;
 //        std::vector<Jet> jets = SortedByPt(event.Jets());
-//         if (jets.size() < 2) return 0;
+//         if (jets.size() < 2) return false;
 //         if ((jets.at(0).Pt() > this->LowerPtCut() && jets.at(0).Pt() < this->UpperPtCut()) &&
-//           (jets.at(1).Pt() > this->LowerPtCut() && jets.at(1).Pt() < this->UpperPtCut())) return 1;
-        return 0;
+//           (jets.at(1).Pt() > this->LowerPtCut() && jets.at(1).Pt() < this->UpperPtCut())) return true;
+        return false;
     }
 
 };

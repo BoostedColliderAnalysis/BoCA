@@ -35,20 +35,20 @@ protected:
         return "Single-Hadronic-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-latex";
     }
 
-    void SetFiles(Tag tag, Stage)override {
+    void SetFiles(Phase const& phase) override {
         INFO0;
-        switch (tag) {
+        switch (phase.Tag()) {
         case Tag::signal :
-            if (this->template TaggerIs<tagger::VetoTopPartnerLeptonic>() || this->template TaggerIs<tagger::TopPartnerLeptonicNeutral>()) this->NewFile(tag, Process::TT);
-            else this->NewFile(tag, Process::TthHad);
+            if (this->template TaggerIs<tagger::VetoTopPartnerLeptonic>() || this->template TaggerIs<tagger::TopPartnerLeptonicNeutral>()) this->AddSignal(Process::TT);
+            else this->AddSignal(Process::TthHad);
             break;
         case Tag::background :
-            if (this->template TaggerIs<tagger::VetoTopPartnerLeptonic>() || this->template TaggerIs<tagger::TopPartnerLeptonicNeutral>()) this->NewFile(tag, Process::TthHad);
+            if (this->template TaggerIs<tagger::VetoTopPartnerLeptonic>() || this->template TaggerIs<tagger::TopPartnerLeptonicNeutral>()) this->AddBackground(Process::TthHad);
             else if (!this->template TaggerIs<tagger::TopPartnerHadronic>()) {
-                this->NewFile(tag, Process::TT);
+                this->AddBackground(Process::TT);
 //             if (!this->template TaggerIs<VetoTopPartnerLeptonic>() || !this->template TaggerIs<TopPartnerLeptonicNeutral>()) {
-                this->NewFile(tag, Process::ttBB);
-                this->NewFile(tag, Process::ttBjj);
+                this->AddBackground(Process::ttBB);
+                this->AddBackground(Process::ttBjj);
             }
             break;
         }
@@ -57,11 +57,11 @@ protected:
 private:
 //         TopPartnerHadronicTagger partner_tagger;
 
-    int PassPreCut(boca::Event const& , Tag) const override {
+    bool PassPreCut(boca::Event const&) const override {
         INFO0;
 //       if(tag == Tag::signal){
 //        std::vector<Jet> partner = partner_tagger.Particles(event);
-//         if(partner.empty()) return 0;
+//         if(partner.empty()) return false;
 //       }
 //       static int counter = 0;
 //       ++counter;
@@ -71,8 +71,8 @@ private:
 //      this->PrintGeneratorLevel(event);
 
 //        std::vector<Jet> jets = SortedByPt(event.Jets());
-//         if (jets.size() < 3) return 0;
-//         if (jets.at(2).Pt() < this->JetPreCut()) return 0;
+//         if (jets.size() < 3) return false;
+//         if (jets.at(2).Pt() < this->JetPreCut()) return false;
 //
 //
 //        std::vector<Jet> particles = event.GenParticles();
@@ -82,12 +82,12 @@ private:
 //        std::vector<Jet>vectors = CopyIfParticles(particles, Id::Z, Id::W);
 //        std::vector<Jet> partner = CopyIfParticle(particles, Id::top_partner);
 //         if (tag == Tag::signal && partner.size() != 1) {
-//             return 0;
+//             return false;
 //         }
 //         if (tops.size() < 2 || (higgs.empty() && vectors.empty())) {
-//             return 0;
+//             return false;
 //         }
-        return 1;
+        return true;
     }
 
 };

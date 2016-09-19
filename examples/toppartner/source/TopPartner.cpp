@@ -19,6 +19,7 @@ std::string Name(Process process)
     case Process::ttWBB : return "ttWBB";
     case Process::ttBBB : return "ttBBB";
     case Process::TThh : return "TThh";
+    case Process::ttWWWW : return "ttWWWW";
     case Process::ttWWWB : return "ttWWWB";
     case Process::ttWWBB : return "ttWWBB";
     case Process::ttWBBB : return "ttWBBB";

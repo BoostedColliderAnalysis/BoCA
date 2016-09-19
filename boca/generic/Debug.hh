@@ -18,7 +18,7 @@ class Particle;
 
 /**
  * @ingroup Generic
- * @defgroup Debug
+ * @defgroup Debug Debug
  * @brief Debugging and error reporting functions and macros
  * @{
  */

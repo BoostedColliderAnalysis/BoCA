@@ -28,7 +28,7 @@ public:
     static double InitialValue();
 
     /// largest bdt in front
-    bool operator<(Identification const& multiplet) const;
+    bool operator<(Identification const& identification) const;
 
 private:
 

@@ -31,230 +31,287 @@ std::string Name(Dim3 dimension);
 std::vector<Dim3> Dimensions3();
 
 /**
- * @brief Copy of root::TVector3 in order to get rid of TObject
+ * @brief Three dimensionial vector
  *
  */
-template<class Value>
-class Vector3
+template<class Value_>
+class Vector3 : public boost::less_than_comparable<Vector3<Value_>>
+            , public boost::equality_comparable<Vector3<Value_>>
+            , public boost::addable<Vector3<Value_>>
+            , public boost::subtractable<Vector3<Value_>>
 {
+
+    template<typename Value_2_>
+    using ValueProduct = ValueProduct<Value_, Value_2_>;
+
+    using ValueSquare = boca::ValueSquare<Value_>;
+
+    template<typename Value_2_, typename Value_3>
+    using ValueCubed = boca::ValueProduct<ValueProduct<Value_2_>, Value_3>;
+
+    template<typename Value_2_>
+    using ValueQuotient = ValueQuotient<Value_, Value_2_>;
+
+    using ValueInverse = boost::units::divide_typeof_helper<double, Value_>;
+
+    template<typename Value_2_>
+    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2_>::value || std::is_same<Value_, Value_2_>::value >::type;
 
 public:
 
-    template<typename Value_2>
-    using ValueProduct = ValueProduct<Value, Value_2>;
+    /**
+     * @name Constructor
+     * @{
+     */
 
-    using ValueSquare = boca::ValueSquare<Value>;
+    /**
+     * @brief Default constructor
+     */
+    Vector3() :
+        x_(0),
+        y_(0),
+        z_(0)
+    {}
 
-    template<typename Value_2, typename Value_3>
-    using ValueCubed = boca::ValueProduct<ValueProduct<Value_2>, Value_3>;
+    /**
+     * @brief Constructor accepting three scalars
+     */
+    Vector3(Value_ x, Value_ y, Value_ z) :
+        x_(x),
+        y_(y),
+        z_(z)
+    {};
 
-    template<typename Value_2>
-    using ValueQuotient = ValueQuotient<Value, Value_2>;
-
-    using ValueInverse = boost::units::divide_typeof_helper<double, Value>;
-
-    template<typename Value_2>
-    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value, Value_2>::value >::type;
-
-    // Constructor
-    Vector3() : x_(Value(0)), y_(Value(0)), z_(Value(0)) {}
-
-    // Constructor
-    Vector3(Value x, Value y, Value z) : x_(x), y_(y), z_(z) {};
-
-    // Constructor
-    Vector3(Value value, Dim3 dim) {
-        x_ = dim == Dim3::x ? value : Value(0);
-        y_ = dim == Dim3::y ? value : Value(0);
-        z_ = dim == Dim3::z ? value : Value(0);
+    /**
+     * @brief Constructor one scalar and its direction
+     */
+    Vector3(Value_ value, Dim3 dim) {
+        x_ = dim == Dim3::x ? value : Value_(0);
+        y_ = dim == Dim3::y ? value : Value_(0);
+        z_ = dim == Dim3::z ? value : Value_(0);
     }
 
-    // Constructor
-    template<typename Value_2>
-    Vector3(Vector3<Value_2> const& vector) {
-        x_ = Value(vector.X());
-        y_ = Value(vector.Y());
-        z_ = Value(vector.Z());
-    }
+    /**
+     * @brief Constructor accepting a three vector
+     */
+    template<typename Value_2_>
+    Vector3(Vector3<Value_2_> const& vector) :
+        x_(vector.X()),
+        y_(vector.Y()),
+        z_(vector.Z())
+    {}
 
-    // Constructor
-    Vector3(TVector3 const& vector) {
-//         std::cout << "must be double" << std::endl;
-//         std::cout << "vector not initiliazed" << std::endl;
-        x_ = vector.X();
-        y_ = vector.Y();
-        z_ = vector.Z();
-    }
+    /**
+     * @brief Constructor accepting a root::TVector3
+     */
+    Vector3(TVector3 const& vector) :
+        x_(vector.X()),
+        y_(vector.Y()),
+        z_(vector.Z())
+    {}
+    //@}
 
-    void SetX(Value x) {
-        x_ = x;
-    }
+    /**
+     * @name Setter
+     * @{
+     */
 
-    void SetY(Value y) {
-        y_ = y;
-    }
-
-    void SetZ(Value z) {
-        z_ = z;
-    }
-
-    void SetXYZ(Value x, Value y, Value z) {
-        x_ = x;
-        y_ = y;
-        z_ = z;
-    }
-
-    //set Pt, Eta and Phi
-    void SetPtEtaPhi(Value pt, boca::Angle const& eta, boca::Angle const& phi) {
+    /**
+     * @brief Set Pt, Eta and Phi
+     */
+    void SetPtEtaPhi(Value_ pt, boca::Angle const& eta, boca::Angle const& phi) {
         auto apt = abs(pt);
-        SetXYZ(apt * boost::units::cos(phi), apt * boost::units::sin(phi), apt / boost::units::tan(2.0 * boost::units::atan(units::exp(-eta))));
+        x_ = apt * cos(phi);
+        y_ = apt * sin(phi);
+        z_ = apt / tan(2.0 * atan(units::exp(-eta)));
     }
 
-    //set Pt, Theta and Phi
-    void SetPtThetaPhi(Value pt, boca::Angle const& theta, boca::Angle const& phi) {
-        x_ = pt * boost::units::cos(phi);
-        y_ = pt * boost::units::sin(phi);
-        auto tanTheta = boost::units::tan(theta);
-        z_ = tanTheta ? pt / tanTheta : Value(0);
+    /**
+     * @brief Set Pt, Theta and Phi
+     */
+    void SetPtThetaPhi(Value_ pt, boca::Angle const& theta, boca::Angle const& phi) {
+        x_ = pt * cos(phi);
+        y_ = pt * sin(phi);
+        auto tanTheta = tan(theta);
+        z_ = tanTheta ? pt / tanTheta : Value_(0);
     }
 
-    // Set phi keeping mag and theta constant(BaBar).
+    /**
+     * @brief Set phi keeping the magnitue and theta constant
+     */
     void SetPhi(boca::Angle const& phi) {
         auto perp = Perp();
-        SetX(perp * boost::units::cos(phi));
-        SetY(perp * boost::units::sin(phi));
+        x_ = perp * cos(phi);
+        y_ = perp * sin(phi);
     }
 
-    // Set theta keeping mag and phi constant(BaBar).
+    /**
+     * @brief Set theta keeping mag and phi constant
+     */
     void SetTheta(boca::Angle const& theta) {
         auto magnitude = Mag();
         auto phi = Phi();
-        SetX(magnitude * boost::units::sin(theta) * boost::units::cos(phi));
-        SetY(magnitude * boost::units::sin(theta) * boost::units::sin(phi));
-        SetZ(magnitude * boost::units::cos(theta));
+        x_ = magnitude * sin(theta) * cos(phi);
+        y_ = magnitude * sin(theta) * sin(phi);
+        z_ = magnitude * cos(theta);
     }
 
-    // Set magnitude keeping theta and phi constant(BaBar).
-    void SetMag(Value magnitude) {
+    /**
+     * @brief Set the magnitude keeping theta and phi constant
+     */
+    void SetMag(Value_ magnitude) {
         auto old = Mag();
-        if (old == 0) {
-            // Warning("SetMag","zero vector can't be stretched");
-        } else {
-            auto factor = magnitude / old;
-            SetX(x_ * factor);
-            SetY(y_ * factor);
-            SetZ(z_ * factor);
-        }
+        if (old == Value_(0)) Debug("SetMag","zero vector can't be stretched");
+        else *this *= magnitude / old;
     }
 
-    void SetMagThetaPhi(Value mag, boca::Angle const& theta, boca::Angle const& phi) {
-        //setter with mag, theta, phi
+    /**
+     * @brief Set mag, theta, phi
+     */
+    void SetMagThetaPhi(Value_ mag, boca::Angle const& theta, boca::Angle const& phi) {
         auto amag = abs(mag);
-        x_ = amag * boost::units::sin(theta) * boost::units::cos(phi);
-        y_ = amag * boost::units::sin(theta) * boost::units::sin(phi);
-        z_ = amag * boost::units::cos(theta);
+        x_ = amag * sin(theta) * cos(phi);
+        y_ = amag * sin(theta) * sin(phi);
+        z_ = amag * cos(theta);
     }
 
-    // Set the transverse component keeping phi and z constant.
-    void SetPerp(Value perp) {
+    /**
+     * @brief Set the transverse component keeping phi and z constant.
+     */
+    void SetPerp(Value_ perp) {
         auto old = Perp();
-        if (old != 0) {
-            x_ *= perp / old;
-            y_ *= perp / old;
-        }
+        if (old == Value_(0)) return;
+        x_ *= perp / old;
+        y_ *= perp / old;
     }
+    //@}
 
-    // The components in cartesian coordinate system.
-    Value const& X() const {
+    /**
+     * @name Accessors and Getters
+     * @{
+     */
+
+    /**
+     * @brief X getter
+     */
+    Value_ X() const {
         return x_;
     }
 
-    Value const& Y() const {
+    /**
+     * @brief Y getter
+     */
+    Value_ Y() const {
         return y_;
     }
 
-    Value const& Z() const {
+    /**
+     * @brief Z getter
+     */
+    Value_ Z() const {
         return z_;
     }
 
-    Value& X() {
+    /**
+     * @brief X accessor
+     */
+    Value_& X() {
         return x_;
     }
 
-    Value& Y() {
+    /**
+     * @brief Y accessor
+     */
+    Value_& Y() {
         return y_;
     }
 
-    Value& Z() {
+    /**
+     * @brief Z accessor
+     */
+    Value_& Z() {
         return z_;
     }
+    //@}
 
-// The azimuth angle. returns phi from -pi to pi
+    /**
+     * @brief The azimuth angle \f$\phi\f$ restricted to \f$[-\pi,\pi]\f$
+     */
     boca::Angle Phi() const {
-        return x_ == 0 && y_ == 0 ? 0_rad : atan2(y_, x_);
+        return x_ == Value_(0) && y_ == Value_(0) ? 0_rad : atan2(y_, x_);
     }
 
-// The polar angle.
+    /**
+     * @brief The polar angle \f$\theta\f$
+     */
     boca::Angle Theta() const {
-        return x_ == 0 && y_ == 0 && z_ == 0 ? 0_rad : atan2(Perp(), z_);
+        return x_ == Value_(0) && y_ == Value_(0) && z_ == Value_(0) ? 0_rad : atan2(Perp(), z_);
     }
 
-// Cosine of the polar angle.
+    /**
+     * @brief Cosine of the polar angle.
+     */
     double CosTheta() const {
         auto ptot = Mag();
-        return ptot == 0 ? 1 : z_ / ptot;
+        return ptot == Value_(0) ? 1 : z_ / ptot;
     }
 
-// The magnitude squared(rho^2 in spherical coordinate system).
+    /**
+     * @brief The magnitude squared \f$x^2 + y^2 + z^2\f$
+     */
     ValueSquare Mag2() const {
         return sqr(x_) + sqr(y_) + sqr(z_);
     }
 
-// The magnitude(rho in spherical coordinate system).
-    Value Mag() const {
-        // return the magnitude(rho in spherical coordinate system)
+    /**
+     * @brief The magnitude \f$sqrt{x^2 + y^2 + z^2}\f$
+     */
+    Value_ Mag() const {
         return sqrt(Mag2());
     }
 
-// The transverse component squared(R^2 in cylindrical coordinate system).
+    /**
+     * @brief The transverse component squared \f$x^2 + y^2\f$
+     */
     ValueSquare Perp2() const {
         return sqr(x_) + sqr(y_);
     }
 
-// The transverse component(R in cylindrical coordinate system).
-    Value Perp() const {
-        //return the transverse component(R in cylindrical coordinate system)
+    /**
+     * @brief The transverse component \f$sqrt{x^2 + y^2}\f$
+     */
+    Value_ Perp() const {
         return sqrt(Perp2());
     }
 
     // The transverse component w.r.t. given axis squared.
-    template <typename Value_2>
-    ValueSquare Perp2(Vector3<Value_2> const& vector) const {
+    template <typename Value_2_>
+    ValueSquare Perp2(Vector3<Value_2_> const& vector) const {
         auto other_mag2 = vector.Mag2();
         auto mixing = Dot(vector);
         auto this_mag_2 = Mag2();
-        if (other_mag2 > boca::ValueSquare<Value_2>(0)) this_mag_2 -= sqr(mixing) / other_mag2;
+        if (other_mag2 > boca::ValueSquare<Value_2_>(0)) this_mag_2 -= sqr(mixing) / other_mag2;
         if (this_mag_2 < ValueSquare(0)) this_mag_2 = ValueSquare(0);
         return this_mag_2;
     }
 
     // The transverse component w.r.t. given axis.
-    template <typename Value_2>
-    Value Perp(Vector3<Value_2> const& vector) const {
+    template <typename Value_2_>
+    Value_ Perp(Vector3<Value_2_> const& vector) const {
         //return the transverse component(R in cylindrical coordinate system)
         return sqrt(Perp2(vector));
     }
 
-    template <typename Value_2>
-    boca::Angle DeltaPhi(Vector3<Value_2> const& vector) const {
-        return RestrictPhi(Phi() - vector.Phi());
+    template <typename Value_2_>
+    boca::Angle DeltaPhi(Vector3<Value_2_> const& vector) const {
+        return Restrict(Phi() - vector.Phi());
     }
 
-    template <typename Value_2>
-    boca::Angle DeltaR(Vector3<Value_2> const& vector) const {
+    template <typename Value_2_>
+    boca::Angle DeltaR(Vector3<Value_2_> const& vector) const {
         //return deltaR with respect to v
         auto deta = Eta() - vector.Eta();
-        auto dphi = RestrictPhi(Phi() - vector.Phi());
+        auto dphi = Restrict(Phi() - vector.Phi());
         return sqrt(sqr(deta) + sqr(dphi));
     }
 
@@ -266,35 +323,35 @@ public:
 //     Vector3<double> Unit() const {
 //         // return unit vector parallel to this.
 //         ValueSquare tot2 = Mag2();
-//         ValueInverse tot = tot2 > ValueSquare(0) ? 1. / sqrt(tot2) : 1. / Value(1.);
+//         ValueInverse tot = tot2 > ValueSquare(0) ? 1. / sqrt(tot2) : 1. / Value_(1.);
 //         return {x_ * tot, y_ * tot, z_ * tot};
 //     }
 
 
     Vector3<double> Unit() const {
-        return Unit(IsQuantity<Value>());
+        return Unit(IsQuantity<Value_>());
     }
 
     Vector3<double> Unit(std::true_type) const {
         auto tot2 = Mag2();
         if (tot2 == ValueSquare(0)) return {x_.value(), y_.value(), z_.value()};
-        auto tot = 1. / boost::units::sqrt(tot2);
+        auto tot = 1. / sqrt(tot2);
         return {x_ * tot, y_ * tot, z_ * tot};
     }
 
     Vector3<double> Unit(std::false_type) const {
         auto tot2 = Mag2();
-        auto tot = tot2 > Value(0) ? 1. / std::sqrt(tot2) : 1.;
+        auto tot = tot2 > Value_(0) ? 1. / std::sqrt(tot2) : 1.;
         return {x_ * tot, y_ * tot, z_ * tot};
     }
 
 // Vector orthogonal to this(Geant4).
     Vector3 Orthogonal() const {
-        auto x = x_ < Value(0) ? -x_ : x_;
-        auto y = y_ < Value(0) ? -y_ : y_;
-        auto z = z_ < Value(0) ? -z_ : z_;
-        if (x < y) return x < z ? Vector3(Value(0), z_, -y_) : Vector3(y_, -x_, Value(0));
-        else return y < z ? Vector3(-z_, Value(0), x_) : Vector3(y_, -x_, Value(0));
+        auto x = x_ < Value_(0) ? -x_ : x_;
+        auto y = y_ < Value_(0) ? -y_ : y_;
+        auto z = z_ < Value_(0) ? -z_ : z_;
+        if (x < y) return x < z ? Vector3(Value_(0), z_, -y_) : Vector3(y_, -x_, Value_(0));
+        else return y < z ? Vector3(-z_, Value_(0), x_) : Vector3(y_, -x_, Value_(0));
     }
 
     using Value4 = typename boost::units::multiply_typeof_helper<ValueSquare, ValueSquare>::type;
@@ -320,13 +377,13 @@ public:
     }
 
     // Find the tan(theta)**2 between two PseudoJets by calculating (p3>_1 x p3>_2)**2 / (p3>_1 . p3>_2)**2
-    double Tan2(Vector3 const& vector){
-      // This is more accurate than an alternate form (one.one*two.two-(one.two)**2)/(one.two)**2
-      // because the cancellation in the numerator (cross-product) is handled component-by-component, rather than all at once.
-      auto numerator = sqr(X() * vector.Y() - Y() * vector.X());
-      numerator += sqr(X() * vector.Z() - Z() * vector.X());
-      numerator += sqr(Y() * vector.Z() - Z() * vector.Y());
-      return numerator / sqr(Dot(vector));
+    double Tan2(Vector3 const& vector) {
+        // This is more accurate than an alternate form (one.one*two.two-(one.two)**2)/(one.two)**2
+        // because the cancellation in the numerator (cross-product) is handled component-by-component, rather than all at once.
+        auto numerator = sqr(X() * vector.Y() - Y() * vector.X());
+        numerator += sqr(X() * vector.Z() - Z() * vector.X());
+        numerator += sqr(Y() * vector.Z() - Z() * vector.Y());
+        return numerator / sqr(Dot(vector));
     }
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
@@ -336,7 +393,7 @@ public:
         // guard against Pt=0
         auto cosTheta = CosTheta();
         if (sqr(cosTheta) < 1) return -0.5 * units::log((1 - cosTheta) / (1 + cosTheta));
-        if (z_ == 0) return 0_rad;
+        if (z_ == Value_(0)) return 0_rad;
         // Warning("PseudoRapidity","transvers momentum = 0! return +/- 10e10");
         if (z_ > 0) return 10e10_rad;
         else return -10e10_rad;
@@ -349,8 +406,8 @@ public:
 // Rotates the Hep3Vector around the x-axis.
     void RotateX(boca::Angle const& angle) {
         //rotate vector around X
-        auto s = boost::units::sin(angle);
-        auto c = boost::units::cos(angle);
+        auto s = sin(angle);
+        auto c = cos(angle);
         auto y = y_;
         y_ = c * y - s * z_;
         z_ = s * y + c * z_;
@@ -359,8 +416,8 @@ public:
 // Rotates the Hep3Vector around the y-axis.
     void RotateY(boca::Angle const& angle) {
         //rotate vector around Y
-        auto s = boost::units::sin(angle);
-        auto c = boost::units::cos(angle);
+        auto s = sin(angle);
+        auto c = cos(angle);
         auto z = z_;
         z_ = c * z - s * x_;
         x_ = s * z + c * x_;
@@ -369,8 +426,8 @@ public:
 // Rotates the Hep3Vector around the z-axis.
     void RotateZ(boca::Angle const& angle) {
         //rotate vector around Z
-        auto s = boost::units::sin(angle);
-        auto c = boost::units::cos(angle);
+        auto s = sin(angle);
+        auto c = cos(angle);
         auto z = z_;
         auto x = x_;
         x_ = c * x - s * y_;
@@ -392,7 +449,7 @@ public:
             x_ = (x * z * px - y * py + x * sqrt * pz) / sqrt;
             y_ = (y * z * px + x * py + y * sqrt * pz) / sqrt;
             z_ = (z * z * px - px + z * sqrt * pz) / sqrt;
-        } else if (z < Value(0)) {
+        } else if (z < Value_(0)) {
             x_ = -x_; // phi=0 teta=pi
             z_ = -z_;
         } else {};
@@ -417,7 +474,7 @@ public:
 //     }
     // Transformation with a Rotation matrix.
 
-    Vector2<Value> XYvector() const {
+    Vector2<Value_> XYvector() const {
         return {x_, y_};
     }
 
@@ -426,32 +483,32 @@ public:
     }
 
     // Scale with scalar
-    template <typename Value_2>
-    Vector3<ValueProduct<Value_2>> Scale(Value_2 const& scalar) const {
+    template <typename Value_2_>
+    Vector3<ValueProduct<Value_2_>> Scale(Value_2_ const& scalar) const {
         return {x_ * scalar, y_ * scalar, z_ * scalar};
     }
 
     // Scalar product.
-    template <typename Value_2>
-    ValueProduct<Value_2> Dot(Vector3<Value_2> const& vector) const {
+    template <typename Value_2_>
+    ValueProduct<Value_2_> Dot(Vector3<Value_2_> const& vector) const {
         return x_ * vector.X() + y_ * vector.Y() + z_ * vector.Z();
     }
 
     // Cross product
-    template <typename Value_2>
-    Vector3<ValueProduct<Value_2>> Cross(Vector3<Value_2> const& vector) const {
+    template <typename Value_2_>
+    Vector3<ValueProduct<Value_2_>> Cross(Vector3<Value_2_> const& vector) const {
         return {y_ * vector.Z() - vector.Y()* z_, z_ * vector.X() - vector.Z()* x_, x_ * vector.Y() - vector.X()* y_};
     }
 
     // Triple product
-    template <typename Value_2, typename Value_3>
-    ValueCubed<Value_2, Value_3> Triple(Vector3<Value_2> const& vector_1, Vector3<Value_3> const& vector_2) const {
+    template <typename Value_2_, typename Value_3>
+    ValueCubed<Value_2_, Value_3> Triple(Vector3<Value_2_> const& vector_1, Vector3<Value_3> const& vector_2) const {
         return Cross(vector_1) * vector_2;
     }
 
     // Addition.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Vector3& operator+=(Vector3<Value_2> const& vector) {
+    template <typename Value_2_, typename = OnlyIfNotOrSameQuantity<Value_2_>>
+    Vector3& operator+=(Vector3<Value_2_> const& vector) {
         x_ += vector.x_;
         y_ += vector.y_;
         z_ += vector.z_;
@@ -459,8 +516,8 @@ public:
     }
 
     // Subtraction
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Vector3& operator-=(Vector3<Value_2> const& vector) {
+    template <typename Value_2_, typename = OnlyIfNotOrSameQuantity<Value_2_>>
+    Vector3& operator-=(Vector3<Value_2_> const& vector) {
         x_ -= vector.x_;
         y_ -= vector.y_;
         z_ -= vector.z_;
@@ -468,8 +525,8 @@ public:
     }
 
     // Scaling with real numbers
-    template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
-    Vector3& operator*=(Value_2 scalar) {
+    template < typename Value_2_, typename = OnlyIfNotQuantity<Value_2_> >
+    Vector3& operator*=(Value_2_ scalar) {
         x_ *= scalar;
         y_ *= scalar;
         z_ *= scalar;
@@ -477,81 +534,77 @@ public:
     }
 
     /// division by scalar
-    template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
-    Vector3& operator/=(Value_2 scalar) {
+    template < typename Value_2_, typename = OnlyIfNotQuantity<Value_2_> >
+    Vector3& operator/=(Value_2_ scalar) {
         x_ /= scalar;
         y_ /= scalar;
         z_ /= scalar;
         return *this;
     }
 
-    // Addition of 3-vectors.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    friend Vector3 operator+(Vector3 const& vector_1, Vector3<Value_2> const& vector_2) {
-        return {vector_1.X() + vector_2.X(), vector_1.Y() + vector_2.Y(), vector_1.Z() + vector_2.Z()};
-    }
-
-    // Subtraction of 3-vectors.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    friend Vector3 operator-(Vector3 const& vector_1, Vector3<Value_2> const& vector_2) {
-        return {vector_1.X() - vector_2.X(), vector_1.Y() - vector_2.Y(), vector_1.Z() - vector_2.Z()};
-    }
-
-    template <typename Value_2>
-    friend Vector3<ValueProduct<Value_2>> operator^(Vector3 const& vector_1, Vector3<Value_2> const& vector_2) {
+    template <typename Value_2_>
+    friend Vector3<ValueProduct<Value_2_>> operator^(Vector3 const& vector_1, Vector3<Value_2_> const& vector_2) {
         return vector_1.Cross(vector_2);
     }
 
-    template <typename Value_2>
-    friend Vector3 <ValueQuotient<Value_2>> operator/(Vector3 const& vector, Value_2 const& scalar) {
+    template <typename Value_2_>
+    friend Vector3 <ValueQuotient<Value_2_>> operator/(Vector3 const& vector, Value_2_ const& scalar) {
         return vector.Scale(1. / scalar);
     }
 
     // Get components by index
-    Value const& operator()(Dim3 dimension) const {
+    Value_ const& operator()(Dim3 dimension) const {
         //dereferencing operator const
         switch (dimension) {
-        case Dim3::x : return x_;
-        case Dim3::y : return y_;
-        case Dim3::z : return z_;
-        default : std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
+        case Dim3::x :
+            return x_;
+        case Dim3::y :
+            return y_;
+        case Dim3::z :
+            return z_;
+        default :
+            std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
         }
         return x_;
     }
 
     // Set components by index.
-    Value& operator()(Dim3 dimension) {
+    Value_& operator()(Dim3 dimension) {
         //dereferencing operator
         switch (dimension) {
-        case Dim3::x : return x_;
-        case Dim3::y : return y_;
-        case Dim3::z : return z_;
-        default : std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
+        case Dim3::x :
+            return x_;
+        case Dim3::y :
+            return y_;
+        case Dim3::z :
+            return z_;
+        default :
+            std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
         }
         return x_;
     }
 
-    Value const& operator[](Dim3 dimension) const {
+    Value_ const& operator[](Dim3 dimension) const {
         return operator()(dimension);
     }
 
-    Value& operator[](Dim3 dimension) {
+    Value_& operator[](Dim3 dimension) {
         return operator()(dimension);
     }
 
-    ConstIterator<boca::Vector3, Value, Dim3> begin() const {
+    ConstIterator<boca::Vector3, Value_, Dim3> begin() const {
         return {this, Dim3::x};
     }
 
-    ConstIterator<boca::Vector3, Value, Dim3> end() const {
+    ConstIterator<boca::Vector3, Value_, Dim3> end() const {
         return {this, Dim3::last};
     }
 
-    Iterator<boca::Vector3, Value, Dim3> begin() {
+    Iterator<boca::Vector3, Value_, Dim3> begin() {
         return {this, Dim3::x};
     }
 
-    Iterator<boca::Vector3, Value, Dim3> end() {
+    Iterator<boca::Vector3, Value_, Dim3> end() {
         return {this, Dim3::last};
     }
 
@@ -591,11 +644,11 @@ public:
 
 private:
 
-    Value x_;
+    Value_ x_;
 
-    Value y_;
+    Value_ y_;
 
-    Value z_;
+    Value_ z_;
 
 };
 
@@ -609,27 +662,27 @@ template<typename Value>
 using OnlyIfNotVector3 = typename std::enable_if < !IsVector3<Value>::value >::type;
 
 // Scalar product of 3-vectors.
-template <class Value, class Value_2>
-ValueProduct<Value, Value_2> operator*(Vector3<Value> const& vector_1, Vector3<Value_2> const& vector_2)
+template <class Value, class Value_2_>
+ValueProduct<Value, Value_2_> operator*(Vector3<Value> const& vector_1, Vector3<Value_2_> const& vector_2)
 {
     return vector_1.Dot(vector_2);
 }
 
 // Scaling of 3-vectors with a real number
-template < class Value, class Value_2, typename = OnlyIfNotVector3<Value_2> >
-Vector3 <ValueProduct<Value, Value_2>> operator*(Vector3<Value> const& vector, Value_2 scalar)
+template < class Value, class Value_2_, typename = OnlyIfNotVector3<Value_2_> >
+Vector3 <ValueProduct<Value, Value_2_>> operator*(Vector3<Value> const& vector, Value_2_ scalar)
 {
     return vector.Scale(scalar);
 }
 
-template < class Value, class Value_2, typename = OnlyIfNotVector3<Value_2> >
-Vector3 <ValueProduct<Value, Value_2>> operator*(Value_2 scalar, Vector3<Value> const& vector)
+template < class Value, class Value_2_, typename = OnlyIfNotVector3<Value_2_> >
+Vector3 <ValueProduct<Value, Value_2_>> operator*(Value_2_ scalar, Vector3<Value> const& vector)
 {
     return vector.Scale(scalar);
 }
 
-template <class Value_1, class Value_2, class Value_3>
-auto Triple(Vector3<Value_1> const& vector_1, Vector3<Value_2> const& vector_2, Vector3<Value_3> const& vector_3)
+template <class Value_1, class Value_2_, class Value_3>
+auto Triple(Vector3<Value_1> const& vector_1, Vector3<Value_2_> const& vector_2, Vector3<Value_3> const& vector_3)
 {
     return vector_1.Triple(vector_2, vector_3);
 }

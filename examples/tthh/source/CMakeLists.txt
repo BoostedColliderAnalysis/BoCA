@@ -4,4 +4,4 @@ set(tthhFiles Tagger.cpp Observables.cpp)
 
 create_library(tthh tthhFiles)
 
-create_executable(tthhAnalysis MainCut.cpp)
+create_executable(tthhAnalysis MainSimple.cpp)

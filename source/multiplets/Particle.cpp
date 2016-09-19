@@ -20,11 +20,11 @@ Particle::Particle(fastjet::PseudoJet const& particle) :
     PseudoJet(particle)
 {}
 
-Particle::Particle(double x, double y, double z, double e) :
-    PseudoJet(x, y, z, e)
-{
-    SetInfo();
-}
+// Particle::Particle(double x, double y, double z, double e) :
+//     PseudoJet(x, y, z, e)
+// {
+//     SetInfo();
+// }
 
 Particle::Particle(TLorentzVector const& vector, Family const& family) :
     PseudoJet(vector)
@@ -46,26 +46,26 @@ Particle::Particle(exroot::LHEFParticle const& particle, int id) :
 
 ParticleInfo const& Particle::Info() const
 {
-    if (!has_user_info<ParticleInfo>()) {
+    if (!HasParticleInfo()) {
         ERROR("No particle info");
         const_cast<Particle&>(*this).SetInfo();
     }
-    return user_info<ParticleInfo>();
+    return FastJet().user_info<ParticleInfo>();
 }
 
 ParticleInfo& Particle::Info()
 {
-    if (!has_user_info<ParticleInfo>()) {
+    if (!HasParticleInfo()) {
         ERROR("No particle info");
         SetInfo();
     }
-    return static_cast<ParticleInfo&>(*user_info_shared_ptr().get());
+    return static_cast<ParticleInfo&>(*FastJet().user_info_shared_ptr().get());
 }
 
 void Particle::SetInfo(ParticleInfo const& info)
 {
-    if (has_user_info()) ERROR("Particle has already a user info, which gets overwritten: data loss and memory leak");
-    set_user_info(new ParticleInfo(info));
+    if (HasInfo()) ERROR("Particle has already a user info, which gets overwritten: data loss and memory leak");
+    FastJet().set_user_info(new ParticleInfo(info));
 }
 
 std::vector< Particle > ParticleVector(std::vector< fastjet::PseudoJet > const& pseudo_jets)
@@ -74,6 +74,36 @@ std::vector< Particle > ParticleVector(std::vector< fastjet::PseudoJet > const& 
     return Transform(pseudo_jets, [](fastjet::PseudoJet const & pseudo_jet) -> Particle {
         return pseudo_jet;
     });
+}
+
+bool Particle::HasParticleInfo() const
+{
+    return FastJet().has_user_info<ParticleInfo>();
+}
+
+
+boca::Particle& Particle::operator+=(boca::Particle const& pseudo_jet)
+{
+    FastJet() += pseudo_jet.FastJet();
+    return *this;
+}
+
+boca::Particle& Particle::operator-=(boca::Particle const& pseudo_jet)
+{
+    FastJet() -= pseudo_jet.FastJet();
+    return *this;
+}
+
+boca::Particle& Particle::operator*=(double scalar)
+{
+    FastJet() *= scalar;
+    return *this;
+}
+
+boca::Particle& Particle::operator/=(double scalar)
+{
+    FastJet() /= scalar;
+    return *this;
 }
 
 }

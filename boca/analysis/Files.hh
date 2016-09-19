@@ -8,7 +8,7 @@
 #include "boca/io/FileWriter.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/branch/Info.hh"
-#include "boca/File.hh"
+#include "boca/FileInfo.hh"
 #include "boca/generic/Debug.hh"
 
 namespace boca
@@ -23,14 +23,14 @@ class Files
 
 public:
 
-    Files(boca::Phase& phase, boca::File& file, boca::FileWriter& file_writer, Tagger_& tagger) :
+    Files(boca::Phase& phase, boca::FileInfo & file, boca::FileWriter& file_writer, Tagger_& tagger) :
         tagger_(tagger),
         reader_(phase.Stage()),
         import_file_(file),
         phase_(phase),
         object_sum_(0),
         event_sum_(0) {
-        tree_writer_ = &file_writer.NewTree(Import().Title());
+        tree_writer_ = &file_writer.NewTree(Import().TaggerTreeName());
         switch (Phase().Stage()) {
         case Stage::trainer : tagger_.NewBranch(TreeWriter(), Phase().Stage());
             break;
@@ -41,7 +41,7 @@ public:
     }
 
     ~Files() {
-        std::cout << "PreCut ratio: " << RoundToDigits(static_cast<double>(object_sum_.load()) / event_sum_.load()) << std::endl;
+        Debug("PreCut ratio", RoundToDigits(static_cast<double>(object_sum_.load()) / event_sum_.load()));
         if (object_sum_.load()) TreeWriter().Write();
     }
 
@@ -75,7 +75,7 @@ public:
         return phase_;
     }
 
-    boca::File Import() const {
+    boca::FileInfo Import() const {
         return import_file_;
     }
 
@@ -97,7 +97,7 @@ private:
 
     boca::TreeWriter* tree_writer_;
 
-    File& import_file_;
+    FileInfo & import_file_;
 
     boca::Phase phase_;
 

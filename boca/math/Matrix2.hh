@@ -1,6 +1,7 @@
 #pragma once
 
 #include "boost/range/algorithm/sort.hpp"
+
 #include "boca/generic/Types.hh"
 #include "boca/generic/Mutable.hh"
 #include "boca/math/Vector2.hh"
@@ -258,19 +259,19 @@ public:
         return operator()(i);
     }
 
-    ConstIterator2<boca::Matrix2, Vector2, Value_, Dim2> begin() const {
+    ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin() const {
         return {this, Dim2::x};
     }
 
-    ConstIterator2<boca::Matrix2, Vector2, Value_, Dim2> end() const {
+    ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> end() const {
         return {this, Dim2::last};
     }
 
-    Iterator2<boca::Matrix2, Vector2, Value_, Dim2> begin() {
+    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin() {
         return {this, Dim2::x};
     }
 
-    Iterator2<boca::Matrix2, Vector2, Value_, Dim2> end() {
+    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> end() {
         return {this, Dim2::last};
     }
 

@@ -16,7 +16,8 @@
 #include "boca/multivariant/Trainer.hh"
 #include "boca/branch/Info.hh"
 #include "boca/tagger/Base.hh"
-// #define DEBUGGING
+
+#define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
@@ -70,7 +71,7 @@ long Trainer::AddAllTrees()
 
 long Trainer::AddTrees(Tag tag)
 {
-    INFO0;
+    INFO(Name(tag));
     input_.emplace(std::piecewise_construct, std::forward_as_tuple(tag), std::forward_as_tuple(Tagger().FileName(Stage::trainer, tag).c_str()));
     return boost::accumulate(Tagger().TreeNames(tag), 0, [&](long sum, std::string const & tree_name) {
         return sum + AddTree(tree_name, tag);
@@ -93,7 +94,7 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 
 double Trainer::Weight(std::string const& tree_name, Tag tag)
 {
-    INFO(Tagger().WeightBranchName());
+    INFO(Tagger().WeightBranchName(), Name(tag));
     auto tree_reader = TreeReader {{Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger};
     auto& array = tree_reader.Array<branch::Info>(Tagger().WeightBranchName());
     tree_reader.ReadEntry(0);
@@ -102,7 +103,7 @@ double Trainer::Weight(std::string const& tree_name, Tag tag)
 
 long Trainer::Entries(std::string const& tree_name, Tag tag)
 {
-    INFO0;
+    INFO(tree_name, Name(tag));
     auto tree_reader = TreeReader {{Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger};
     auto& array = tree_reader.Array(Tagger().BranchName(Stage::trainer), Tagger().Class());
     auto entries = 0;
@@ -112,7 +113,7 @@ long Trainer::Entries(std::string const& tree_name, Tag tag)
 
 void Trainer::PrepareTrainingAndTestTree(long event_number)
 {
-    INFO0;
+    INFO(event_number);
     auto options = Options {};
 //     options.Add("SplitMode", "Block");
     options.Add("nTrain_Background", event_number);
@@ -201,6 +202,11 @@ TMVA::Factory& Trainer::Factory()
 }
 
 TMVA::Factory const& Trainer::Factory() const
+{
+    return factory_;
+}
+
+TMVA::Factory &Trainer::DataLoader()
 {
     return factory_;
 }

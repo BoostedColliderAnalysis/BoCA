@@ -6,11 +6,12 @@
 #include "boca/multivariant/Stage.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Names.hh"
+#include "boca/Tag.hh"
 
 namespace boca
 {
 class Phase;
-class File;
+class FileInfo;
 class Event;
 namespace tagger{
 class Base;
@@ -84,17 +85,17 @@ protected:
 
     virtual void RunEfficiency() = 0;
 
-    virtual void SetFiles(Tag tag, Stage) = 0;
+    virtual void SetFiles(Phase const& phase) = 0;
 
     virtual tagger::Base const& Tagger() const = 0;
 
-    virtual std::string Name() const = 0;
+    virtual std::string Name() const;
 
     void RunTagger(Stage stage);
 
     void RunTrainer();
 
-    virtual int PassPreCut(Event const&, Tag tag) const;
+    virtual bool PassPreCut(Event const&) const;
 
     virtual long TrainNumberMax() const;
 
@@ -102,43 +103,29 @@ protected:
 
     virtual long EventNumberMax(Stage stage) const;
 
-    virtual std::string FilePath() const;
-
     void ClearFiles();
 
-    std::vector<boca::File> Files(Tag tag);
+    std::vector<boca::FileInfo> Files(Tag tag);
 
     void PrepareFiles(Stage stage);
 
     virtual int BackgroundFileNumber() const;
 
-    void NewFile(Tag tag, std::vector<std::string> const& names, latex::String const& latex_name = "");
+    void AddSignal(std::string const& file_name, latex::String const& latex_name = "",  boca::Crosssection const& crosssection = 0_b, boca::Mass const& mass = 0_eV, std::string const& path = "");
+//
+    void AddBackground(std::string const& file_name, latex::String const& latex_name = "",  boca::Crosssection const& crosssection = 0_b, boca::Mass const& mass = 0_eV, std::string const& path = "");
 
-    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, const boca::Names& latex_name, boca::Mass const& mass = massless);
+    void AddFile(Tag tag, boca::FileInfo const& file);
 
-    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, latex::String const& latex_name = "", boca::Mass const& mass = massless);
+    void AddSignal(boca::FileInfo const& file);
 
-    boca::File File(const std::vector< std::string >& names, const boca::Crosssection& crosssection, latex::String const& latex_name, boca::Mass const& mass) const;
+    void AddBackground(boca::FileInfo const& file);
 
-    boca::File File(std::vector<std::string> const& names, latex::String const& latex_name = "") const;
-
-    boca::File File(const std::vector< std::string >& names, const boca::Names& latex_name, const boca::Crosssection& crosssection, boca::Mass const& mass) const;
-
-    void NewFile(Tag tag, std::string const& names, latex::String const& latex_name = "");
-
-    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, latex::String const& latex_name = "", boca::Mass const& mass = massless);
-
-    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, const boca::Names& latex_name, boca::Mass const& mass);
-
-    std::string TreeName(std::string const& name) const;
-
-    boca::PreCuts const& PreCuts() const;
+    boca::PreCuts PreCuts() const;
 
     boca::PreCuts& PreCuts();
 
     void PrintGeneratorLevel(Event const& event, bool signature = false) const;
-
-    std::string WorkingPath() const;
 
 private:
 
@@ -152,12 +139,9 @@ private:
      */
     void AnalysisLoop(Stage stage);
 
-
-    std::string FileSuffix() const;
-
     boca::PreCuts pre_cuts_;
 
-    std::vector<boca::File> files_;
+    std::vector<boca::FileInfo> files_;
 
 };
 

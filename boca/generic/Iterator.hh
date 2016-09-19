@@ -5,70 +5,10 @@ namespace boca
 
 /**
  * @ingroup Generic
- * @defgroup Iterator
- * @brief Iterators
+ * @defgroup Iterator Iterator
+ * @brief Enum based iterators
  * @{
  */
-
-/**
-* @brief %Iterator
-*/
-template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
-class Iterator2
-{
-public:
-    Iterator2(Container_<Value_>* container, Enum_ position) :
-        position_(position),
-        container_(container)
-    {}
-
-    bool operator!= (Iterator2 const& iterator) const {
-        return position_ != iterator.position_;
-    }
-
-    SubContainer_<Value_>& operator*() {
-        return (*container_)(*position_);
-    }
-
-    Iterator2 const& operator++ () {
-        ++position_;
-        return *this;
-    }
-
-private:
-    EnumIterator<Enum_> position_;
-    Container_<Value_>* container_;
-};
-
-/**
-* @brief const iterator
-*/
-template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
-class ConstIterator2
-{
-public:
-    ConstIterator2(Container_<Value_> const* container, Enum_ position) :
-        position_(position),
-        container_(container)
-    {}
-
-    bool operator!= (ConstIterator2 const& iterator) const {
-        return position_ != iterator.position_;
-    }
-
-    SubContainer_<Value_> operator*() const {
-        return (*container_)(*position_);
-    }
-
-    ConstIterator2 const& operator++ () {
-        ++position_;
-        return *this;
-    }
-
-private:
-    EnumIterator<Enum_> position_;
-    Container_<Value_> const* container_;
-};
 
 /**
 * @brief %Iterator
@@ -128,6 +68,66 @@ public:
 private:
     EnumIterator<Enum_> position_;
     Container_<Value_> const* container_;
+};
+
+/**
+ * @brief %Iterator
+ */
+template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
+class SubIterator
+{
+public:
+  SubIterator(Container_<Value_>* container, Enum_ position) :
+  position_(position),
+  container_(container)
+  {}
+
+  bool operator!= (SubIterator const& iterator) const {
+    return position_ != iterator.position_;
+  }
+
+  SubContainer_<Value_>& operator*() {
+    return (*container_)(*position_);
+  }
+
+  SubIterator const& operator++ () {
+    ++position_;
+    return *this;
+  }
+
+private:
+  EnumIterator<Enum_> position_;
+  Container_<Value_>* container_;
+};
+
+/**
+ * @brief Const sub-iterator
+ */
+template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
+class ConstSubIterator
+{
+public:
+  ConstSubIterator(Container_<Value_> const* container, Enum_ position) :
+  position_(position),
+  container_(container)
+  {}
+
+  bool operator!= (ConstSubIterator const& iterator) const {
+    return position_ != iterator.position_;
+  }
+
+  SubContainer_<Value_> operator*() const {
+    return (*container_)(*position_);
+  }
+
+  ConstSubIterator const& operator++ () {
+    ++position_;
+    return *this;
+  }
+
+private:
+  EnumIterator<Enum_> position_;
+  Container_<Value_> const* container_;
 };
 
 }

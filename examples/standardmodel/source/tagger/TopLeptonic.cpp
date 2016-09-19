@@ -98,7 +98,7 @@ std::vector<Triplet> TopLeptonic::Triplets(boca::Event const& event, std::functi
             doublets.emplace_back(doublet);
         }
     auto triplets = Pairs(doublets, jets, [&](Doublet const & doublet, boca::Jet const & jet) {
-        DEBUG(doublet.Rap(), jet.rap());
+        DEBUG(doublet.Rap(), jet.Rap());
         auto triplet = Triplet{doublet, jet};
         CHECK(triplet.Mass() == triplet.Mass(), triplet.Mass());
         return function(triplet);

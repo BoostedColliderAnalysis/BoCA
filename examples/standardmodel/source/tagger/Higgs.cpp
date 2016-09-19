@@ -127,7 +127,7 @@ boost::optional<Doublet> Higgs::MassDrop(Doublet const& doublet)
     auto exclusive_jets = cluster_sequence.ExclusiveJets(1);
     if (exclusive_jets.empty()) return boost::none;
     auto mass_drop_tagger = fastjet::MassDropTagger{0.667, 0.09};
-    auto mass_drop_jet = mass_drop_tagger(exclusive_jets.front());
+    auto mass_drop_jet = mass_drop_tagger(exclusive_jets.front().FastJet());
     if (mass_drop_jet == 0) return boost::none;
 
     auto radius = boca::Jet(mass_drop_jet.pieces().at(0)).DeltaRTo(mass_drop_jet.pieces().at(1));

@@ -30,7 +30,7 @@ int Bottom::Train(boca::Event const& event, PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
     auto jets = Jets(event, pre_cuts, [&](boca::Jet & jet) {
-        jet = muon_b_tagging_.Process(jet, event.Muons());
+//         jet = muon_b_tagging_.Process(jet, event.Muons());
         if (Problematic(jet, pre_cuts, tag)) throw boca::Problematic();
         jet.Info().SetTag(tag);
         return jet;
@@ -64,7 +64,7 @@ std::vector<boca::Jet> Bottom::Jets(boca::Event const& event, PreCuts const& pre
 
 std::vector<boca::Jet> Bottom::Multiplets(std::vector<boca::Jet> jets, std::function<boca::Jet(boca::Jet&)> const& function, unsigned sub_jet_number) const
 {
-    INFO0;
+    INFO(jets.size(), sub_jet_number);
     if (sub_jet_number > 1) jets = SubJets(jets, sub_jet_number);
     auto final_jets = std::vector<boca::Jet>{};
     for (auto & jet : jets) try {
@@ -80,7 +80,7 @@ std::vector<boca::Jet> Bottom::Multiplets(boca::Event const& event, PreCuts cons
 {
     INFO0;
     return Jets(event, pre_cuts, [&](boca::Jet & jet) {
-        jet = muon_b_tagging_.Process(jet, event.Muons());
+//         jet = muon_b_tagging_.Process(jet, event.Muons());
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
     });
@@ -89,7 +89,7 @@ std::vector<boca::Jet> Bottom::Multiplets(boca::Event const& event, PreCuts cons
 boca::Jet Bottom::Multiplet(boca::Jet& jet, TMVA::Reader const& reader)
 {
     INFO0;
-    DEBUG(jet.Mass(), jet.Rap(), jet.Phi(), jet.has_user_info());
+    DEBUG(jet.Mass(), jet.Rap(), jet.Phi(), jet.HasInfo());
     jet.Info().SetBdt(Bdt(jet, reader));
     return jet;
 }
@@ -118,7 +118,7 @@ bool Bottom::Problematic(boca::Jet const& jet, PreCuts const& pre_cuts) const
 
 std::vector<boca::Jet> Bottom::SubJets(std::vector<boca::Jet> const& jets, int sub_jet_number) const
 {
-    INFO0;
+    INFO(jets.size(), sub_jet_number);
     auto subjets = std::vector<boca::Jet>{};
     for (auto const & jet : jets) Insert(subjets, boca::tagger::Base::SubJets(jet, sub_jet_number));
     return subjets;
@@ -128,7 +128,7 @@ std::vector<boca::Jet> Bottom::Jets(boca::Event const& event, boca::PreCuts cons
 {
     INFO0;
     return Multiplets(event.Jets(), [&](boca::Jet & jet) {
-        jet = muon_b_tagging_.Process(jet, event.Muons());
+//         jet = muon_b_tagging_.Process(jet, event.Muons());
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
     });

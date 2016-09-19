@@ -57,35 +57,35 @@ private:
       return boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-" + boca::Name(TopDecay()) + (TopDecay() == Decay::hadronic ? "-" + standardmodel::Name(TopTagger()) : "") + "";
     }
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            if (TopDecay() == Decay::hadronic || this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh);
-            if (this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            if (TopDecay() == Decay::leptonic || this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
-            if (this->template TaggerIs<tagger::WHadronic>() || this->template TaggerIs<tagger::WLeptonic>()) this->NewFile(tag, Process::ww);
+            if (TopDecay() == Decay::hadronic || this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_had);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::hh);
+            if (this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::bb);
+            if (TopDecay() == Decay::leptonic || this->template TaggerIs<tagger::Bottom>()) this->AddSignal(Process::tt_lep);
+            if (this->template TaggerIs<tagger::WHadronic>() || this->template TaggerIs<tagger::WLeptonic>()) this->AddSignal(Process::ww);
             break;
         case Tag::background :
-            if (TopDecay() == Decay::leptonic && !this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::hh);
-            if (!this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::bb);
-            this->NewFile(tag, Process::cc);
-            this->NewFile(tag, Process::gg);
-            if (!this->template TaggerIs<tagger::WLeptonic>()) this->NewFile(tag, Process::qq);
-            if ((TopDecay() == Decay::hadronic) && !this->template TaggerIs<tagger::Bottom>()) this->NewFile(tag, Process::tt_lep);
-            this->NewFile(tag, Process::zz);
-            if (!this->template TaggerIs<tagger::WHadronic>() && !this->template TaggerIs<tagger::WLeptonic>()) this->NewFile(tag, Process::ww);
+            if (TopDecay() == Decay::leptonic && !this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_had);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::hh);
+            if (!this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::bb);
+            this->AddBackground(Process::cc);
+            this->AddBackground(Process::gg);
+            if (!this->template TaggerIs<tagger::WLeptonic>()) this->AddBackground(Process::qq);
+            if ((TopDecay() == Decay::hadronic) && !this->template TaggerIs<tagger::Bottom>()) this->AddBackground(Process::tt_lep);
+            this->AddBackground(Process::zz);
+            if (!this->template TaggerIs<tagger::WHadronic>() && !this->template TaggerIs<tagger::WLeptonic>()) this->AddBackground(Process::ww);
             break;
         }
     }
 
-    int PassPreCut(boca::Event const& event, Tag) const override {
+    bool PassPreCut(boca::Event const& event) const override {
         auto particles = SortedByPt(event.GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
 //         std::cout << "pre cut " << particles.size() << std::endl;
-        return particles.size() == 1 ? 1 : 0;
+        return particles.size() == 1 ? true : false;
     }
 
 };

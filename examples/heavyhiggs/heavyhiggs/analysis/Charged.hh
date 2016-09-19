@@ -23,13 +23,13 @@ class Charged : public HeavyHiggs<Tagger_>
 
 public:
 
-    void SetFiles(Tag tag, Stage)override {
-        switch (tag) {
+    void SetFiles(Phase const& phase) override {
+        switch (phase.Tag()) {
         case Tag::signal :
-            this->NewFile(tag, Process::Htb);
+            this->AddSignal(Process::Htb);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::tt);
+            this->AddBackground(Process::tt);
             break;
         }
     }
@@ -79,7 +79,7 @@ private:
         }
     }
 
-    int PassPreCut(boca::Event const& event, Tag) const override {
+    bool PassPreCut(boca::Event const& event) const override {
 //         INFO("pass pre cut");
         auto particles = event.GenParticles();
         auto quarks = SortedByPt(CopyIf5Quark(particles));
@@ -88,21 +88,22 @@ private:
             //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == tagger::Bottom || Tagger == HBottomReader))
             //       if (PreCut() > 0)
 //             ERROR("Not enough bottom quarks", Quarks.size());
-            return 0;
-        } else if (quarks.front().Pt() < this->PreCut()) return 0;
+            return false;
+        } else if (quarks.front().Pt() < this->PreCut()) return false;
         auto TopQuarks = SortedByPt(CopyIfParticle(particles, Id::top));
         if (TopQuarks.size() != 2) {
 //             ERROR("Not enough top quarks", TopQuarks.size());
-            return 0;
-        } else if (TopQuarks.front().Pt() < this->PreCut()) return 0;
-        if (event.MissingEt().Pt() < this->MissingEt()) return 0;
+            return false;
+        } else if (TopQuarks.front().Pt() < this->PreCut()) return false;
+        if (event.MissingEt().Pt() < this->MissingEt()) return false;
         auto leptons = SortedByPt(event.Leptons());
-        if (leptons.empty()) return 0;
-        if (leptons.front().Pt() < this->LeptonPt()) return 0;
+        if (leptons.empty()) return false;
+        if (leptons.front().Pt() < this->LeptonPt()) return false;
         auto jets = event.Jets();
-        if (jets.size() < 4) return 0;
-        return 1;
+        if (jets.size() < 4) return false;
+        return true;
     }
+
     int BackgroundFileNumber() const override {
         switch (this->Collider()) {
         case boca::Collider::lhc :

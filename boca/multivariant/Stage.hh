@@ -8,12 +8,19 @@
 namespace boca
 {
 
+/**
+* @brief The stage of the multivariant tagging process
+*
+*/
 enum class Stage
 {
-    trainer,
-    reader
+    trainer,                                                ///< Training stage
+    reader                                                  ///< Reading stage
 };
 
+/**
+* @brief Name of the multivariant tagging stage
+*/
 std::string Name(Stage stage);
 
 }

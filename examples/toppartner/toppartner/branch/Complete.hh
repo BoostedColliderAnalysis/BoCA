@@ -21,7 +21,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         SignatureSingleHadronicBranch::Fill(multiplet.Signature());
-        GlobalBase::Fill(multiplet.GlobalObservables());
+        GlobalBase::Fill(multiplet.Global());
     }
     boca::Observables Variables();
     boca::Observables Spectators();

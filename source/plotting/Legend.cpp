@@ -97,14 +97,14 @@ Vector2<double> Position(Orientation orientation, double width, double height)
     auto margin = TextHeight() / 2;
     if (is(orientation, Orientation::outside)) {
         INFO("Outside");
-        min.SetX(-margin + x_shift - x_offset);
-        min.SetY(-margin + y_shift - y_offset);
+        min.X() = -margin + x_shift - x_offset;
+        min.Y() = -margin + y_shift - y_offset;
     } else {
         INFO("Inside");
         auto x_unit = 1. - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2. * margin;
         auto y_unit = 1. - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2. * margin;
-        min.SetX(gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset);
-        min.SetY(gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset);
+        min.X() = gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset;
+        min.Y() = gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset;
     }
     INFO(min.X(), min.Y());
     return min;
