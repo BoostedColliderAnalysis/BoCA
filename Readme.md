@@ -44,7 +44,7 @@ cmake -G Xcode ..
 xcodebuild
 ~~~~
 
-* if you have trouble installing 'ROOT' >= 6 with 'GCC' >= 5 you can use
+* if you have trouble installing `ROOT` >= 6 with `GCC` >= 5 you can use
 
 ~~~~
 cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON ..

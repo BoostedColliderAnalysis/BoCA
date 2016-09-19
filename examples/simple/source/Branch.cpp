@@ -1,9 +1,18 @@
-#include "boca/OBSERVABLE_MACROS.hh"
-
+/**
+ * Copyright (C) 2015-2016 Jan Hajer
+ */
+// include the Units header
+#include "boca/physics/Units.hh"
+// include the Branch header
 #include "simple/Branch.hh"
+// include macros to create Observables
+#include "boca/OBSERVABLE_MACROS.hh"
 
 namespace simple
 {
+
+// use the namespace for units
+using namespace boca::units;
 
 // initiatialize all observables with an unphysical value
 // note that only integer variables must be initiatialized as integer

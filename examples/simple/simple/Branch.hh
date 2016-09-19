@@ -2,9 +2,6 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
-
-// include the Units header
-#include "boca/physics/Units.hh"
 // include Branch base
 #include "boca/branch/Bdt.hh"
 // include Observables
@@ -13,9 +10,6 @@
 
 namespace simple
 {
-
-// use the namespace for units
-using namespace boca::units;
 
 // define the branch for saving the root file
 // inherits from the BDT branch base class
