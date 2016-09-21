@@ -1,7 +1,6 @@
 var searchData=
 [
   ['readme',['Readme',['../index.html',1,'']]],
-  ['readme',['Readme',['../md_boca_math_Readme.html',1,'']]],
   ['r',['R',['../classqjets_1_1QJetsPlugin.html#af96b05c60f313fd92a8d180b718a7807',1,'qjets::QJetsPlugin']]],
   ['radius',['radius',['../classstandardmodel_1_1branch_1_1BottomBase.html#adeaf93b79cd421ddc2170eec12ce0a86',1,'standardmodel::branch::BottomBase::radius()'],['../classboca_1_1Singlet.html#afed366880186fd4806c67509fcc8af6b',1,'boca::Singlet::Radius()']]],
   ['range',['Range',['../classboca_1_1Range.html',1,'boca']]],
