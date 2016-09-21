@@ -23,7 +23,7 @@ var searchData=
   ['quark2pt',['Quark2Pt',['../classboca_1_1TruthVariables.html#a7d35756295ac25a4a70b226405306f6d',1,'boca::TruthVariables']]],
   ['quark_5f1_5fpt',['quark_1_pt',['../classstandardmodel_1_1branch_1_1Truth.html#a5291a9f6cff77b05b3c60c152327f40b',1,'standardmodel::branch::Truth']]],
   ['quark_5f2_5fpt',['quark_2_pt',['../classstandardmodel_1_1branch_1_1Truth.html#a269533a8774b9fb843d3b0ae03a7f3cf',1,'standardmodel::branch::Truth']]],
-  ['quartet',['Quartet',['../classtoppartner_1_1Nonet.html#a95d36d7dc0c1524c7282b41810dc64c0',1,'toppartner::Nonet::Quartet()'],['../classtoppartner_1_1Quattuordecuplet104.html#a6213d47dab61c53e45256ce02e2ea472',1,'toppartner::Quattuordecuplet104::Quartet()'],['../classtoppartner_1_1Quattuordecuplet554.html#aedbe402cf16c1156452b02adb27ec83b',1,'toppartner::Quattuordecuplet554::Quartet()'],['../group__Quartet.html',1,'(Global Namespace)']]],
+  ['quartet',['Quartet',['../classboca_1_1Sextet42.html#a0069e37443840ea8cee6b99e1538f7e3',1,'boca::Sextet42::Quartet() const '],['../classboca_1_1Sextet42.html#a4b15ba02a3bc202c7e919d642fe15ca0',1,'boca::Sextet42::Quartet()'],['../classtoppartner_1_1Nonet.html#a95d36d7dc0c1524c7282b41810dc64c0',1,'toppartner::Nonet::Quartet()'],['../classtoppartner_1_1Quattuordecuplet104.html#a6213d47dab61c53e45256ce02e2ea472',1,'toppartner::Quattuordecuplet104::Quartet()'],['../classtoppartner_1_1Quattuordecuplet554.html#aedbe402cf16c1156452b02adb27ec83b',1,'toppartner::Quattuordecuplet554::Quartet()'],['../group__Quartet.html',1,'(Global Namespace)']]],
   ['quartet_2ecpp',['Quartet.cpp',['../Quartet_8cpp.html',1,'']]],
   ['quartet_2ehh',['Quartet.hh',['../Quartet_8hh.html',1,'']]],
   ['quartet1',['Quartet1',['../classboca_1_1Octet44.html#a817fbeda54b6f3a0c766471cde33b470',1,'boca::Octet44']]],
@@ -43,7 +43,7 @@ var searchData=
   ['quintet_2ehh',['Quintet.hh',['../Quintet_8hh.html',1,'']]],
   ['quintet1',['Quintet1',['../classtoppartner_1_1Decuplet55.html#abc5a59f79e5b2bd773792c42c32a8a22',1,'toppartner::Decuplet55']]],
   ['quintet2',['Quintet2',['../classtoppartner_1_1Decuplet55.html#a01a54b11bc07ddd5cbbb26e4f7fc4fdd',1,'toppartner::Decuplet55']]],
-  ['quintet_5f1',['Quintet_1',['../classtoppartner_1_1Duodecuplet552.html#a4cd8a6152147eed026a029d48d7eae01',1,'toppartner::Duodecuplet552::Quintet_1()'],['../classtoppartner_1_1Quattuordecuplet554.html#a68f7348fd9b997d2fecf43992bce1921',1,'toppartner::Quattuordecuplet554::Quintet_1()']]],
-  ['quintet_5f2',['Quintet_2',['../classtoppartner_1_1Duodecuplet552.html#a35cb9cebf08babafd8928dfb0d9d2217',1,'toppartner::Duodecuplet552::Quintet_2()'],['../classtoppartner_1_1Quattuordecuplet554.html#a376158612661b6f934dcddd371ceec72',1,'toppartner::Quattuordecuplet554::Quintet_2()']]],
+  ['quintet_5f1',['Quintet_1',['../classboca_1_1Duodecuplet552.html#a8913f99c0ee78f0d641429c381e4bd6d',1,'boca::Duodecuplet552::Quintet_1()'],['../classtoppartner_1_1Quattuordecuplet554.html#a68f7348fd9b997d2fecf43992bce1921',1,'toppartner::Quattuordecuplet554::Quintet_1()']]],
+  ['quintet_5f2',['Quintet_2',['../classboca_1_1Duodecuplet552.html#aeec631ae61cafb8c65f9e7f4f3f9881c',1,'boca::Duodecuplet552::Quintet_2()'],['../classtoppartner_1_1Quattuordecuplet554.html#a376158612661b6f934dcddd371ceec72',1,'toppartner::Quattuordecuplet554::Quintet_2()']]],
   ['quintets',['Quintets',['../classtoppartner_1_1tagger_1_1TopPartnerHadronicNeutral.html#a81bbcbe5dcc191995708e1216d6fc11e',1,'toppartner::tagger::TopPartnerHadronicNeutral::Quintets()'],['../classtoppartner_1_1tagger_1_1TopPartnerLeptonicNeutral.html#a3b40baebaa0afc30499ae1460c6600e4',1,'toppartner::tagger::TopPartnerLeptonicNeutral::Quintets()']]]
 ];

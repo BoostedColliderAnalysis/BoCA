@@ -1,12 +1,11 @@
 var searchData=
 [
   ['u',['U',['../classhep_1_1FWM.html#a5e836a57f667c900cc4affeb256f7d05',1,'hep::FWM']]],
-  ['unboosted',['unboosted',['../namespaceboca.html#a834d86ec55dbe65b1454178398ca1997aea79aa48b0b44a89b91d9859004bb136',1,'boca']]],
   ['underlying',['Underlying',['../group__Flag.html#gaaaefdb34457270510f983773f4c7a931',1,'boca']]],
   ['unfiltered_5fmass',['unfiltered_mass',['../classhep_1_1TopTagger2.html#a4861a56982229c2876cd8b45981b32df',1,'hep::TopTagger2::unfiltered_mass()'],['../classhep_1_1TopTaggerFixedR.html#a96a17ca8c450bd4fea98724fdcc99f84',1,'hep::TopTaggerFixedR::unfiltered_mass()']]],
-  ['uniform',['uniform',['../namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3aa489ffed938ef1b9e86889bc413501ee',1,'boca']]],
+  ['uniform',['uniform',['../group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3aa489ffed938ef1b9e86889bc413501ee',1,'boca']]],
   ['unit',['Unit',['../classboca_1_1latex_1_1Unit.html',1,'boca::latex']]],
-  ['unit',['Unit',['../classboca_1_1latex_1_1Unit.html#a02458bc8b63bf04bc8ab77bf0770961d',1,'boca::latex::Unit::Unit(std::string const &amp;unit)'],['../classboca_1_1latex_1_1Unit.html#a922a9ad746446796f23459bd4e95a609',1,'boca::latex::Unit::Unit(std::string const &amp;unit, Value_ value)'],['../classboca_1_1Vector2.html#a6e918c0239946a743fd9070808644591',1,'boca::Vector2::Unit()'],['../classboca_1_1Vector3.html#ad2a8cb2ccca96f4eee5f0f7d2dfb8a10',1,'boca::Vector3::Unit() const '],['../classboca_1_1Vector3.html#a39c8407873d7213c61dfd16f7e0d06ee',1,'boca::Vector3::Unit(std::true_type) const '],['../classboca_1_1Vector3.html#ae76ac64f1d6cc147772a4b891546c0c5',1,'boca::Vector3::Unit(std::false_type) const '],['../classboca_1_1Observable.html#a8bbc3a586aa0ff0e9adac7d6072a8403',1,'boca::Observable::Unit()']]],
+  ['unit',['Unit',['../classboca_1_1latex_1_1Unit.html#a02458bc8b63bf04bc8ab77bf0770961d',1,'boca::latex::Unit::Unit(std::string const &amp;unit)'],['../classboca_1_1latex_1_1Unit.html#a922a9ad746446796f23459bd4e95a609',1,'boca::latex::Unit::Unit(std::string const &amp;unit, Value_ value)'],['../classboca_1_1Vector2.html#a6e918c0239946a743fd9070808644591',1,'boca::Vector2::Unit()'],['../classboca_1_1Vector3.html#ad2a8cb2ccca96f4eee5f0f7d2dfb8a10',1,'boca::Vector3::Unit()'],['../classboca_1_1Observable.html#a8bbc3a586aa0ff0e9adac7d6072a8403',1,'boca::Observable::Unit()']]],
   ['units_2ehh',['Units.hh',['../Units_8hh.html',1,'']]],
   ['unorderedpairs',['UnorderedPairs',['../group__Vector.html#ga6eea43d8dbe641c00a8a4238a8a6a0cd',1,'boca']]],
   ['unsigned',['Unsigned',['../namespaceboca.html#a0a5213e2e502dc9a4f4efaceeef4833a',1,'boca']]],
@@ -19,6 +18,6 @@ var searchData=
   ['upperptcut',['UpperPtCut',['../classstandardmodel_1_1analysis_1_1StandardModel.html#adfb3cb15db89c79e8c551397dc46cde2',1,'standardmodel::analysis::StandardModel']]],
   ['upperquarkcut',['UpperQuarkCut',['../classstandardmodel_1_1analysis_1_1StandardModel.html#a0e5164ffadb6d479a1c80822baef6d3d',1,'standardmodel::analysis::StandardModel']]],
   ['uppertriangle',['UpperTriangle',['../classboca_1_1Matrix3.html#a564a5128596f684e98f220b1df0bc761',1,'boca::Matrix3']]],
-  ['usepackage',['UsePackage',['../classboca_1_1latex_1_1UsePackage.html#afe07aa6a99a5c4040dad90db3ac65662',1,'boca::latex::UsePackage']]],
-  ['usepackage',['UsePackage',['../classboca_1_1latex_1_1UsePackage.html',1,'boca::latex']]]
+  ['usepackage',['UsePackage',['../classboca_1_1latex_1_1UsePackage.html',1,'boca::latex']]],
+  ['usepackage',['UsePackage',['../classboca_1_1latex_1_1UsePackage.html#afe07aa6a99a5c4040dad90db3ac65662',1,'boca::latex::UsePackage']]]
 ];

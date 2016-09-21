@@ -12,8 +12,8 @@ var searchData=
   ['bdt_2ehh',['Bdt.hh',['../Bdt_8hh.html',1,'']]],
   ['boca_2edox',['Boca.dox',['../Boca_8dox.html',1,'']]],
   ['boson_2ecpp',['Boson.cpp',['../Boson_8cpp.html',1,'']]],
-  ['boson_2ehh',['Boson.hh',['../analysis_2Boson_8hh.html',1,'']]],
   ['boson_2ehh',['Boson.hh',['../tagger_2Boson_8hh.html',1,'']]],
+  ['boson_2ehh',['Boson.hh',['../analysis_2Boson_8hh.html',1,'']]],
   ['bottom_2ecpp',['Bottom.cpp',['../branch_2Bottom_8cpp.html',1,'']]],
   ['bottom_2ecpp',['Bottom.cpp',['../tagger_2Bottom_8cpp.html',1,'']]],
   ['bottom_2ehh',['Bottom.hh',['../branch_2Bottom_8hh.html',1,'']]],
@@ -21,10 +21,8 @@ var searchData=
   ['bottom_2ehh',['Bottom.hh',['../tagger_2Bottom_8hh.html',1,'']]],
   ['bottombase_2ecpp',['BottomBase.cpp',['../BottomBase_8cpp.html',1,'']]],
   ['bottombase_2ehh',['BottomBase.hh',['../BottomBase_8hh.html',1,'']]],
-  ['branch_2ecpp',['Branch.cpp',['../simple_2source_2Branch_8cpp.html',1,'']]],
-  ['branch_2ecpp',['Branch.cpp',['../tthh_2source_2Branch_8cpp.html',1,'']]],
-  ['branch_2ehh',['Branch.hh',['../simple_2simple_2Branch_8hh.html',1,'']]],
-  ['branch_2ehh',['Branch.hh',['../tthh_2tthh_2Branch_8hh.html',1,'']]],
+  ['branch_2ecpp',['Branch.cpp',['../Branch_8cpp.html',1,'']]],
+  ['branch_2ehh',['Branch.hh',['../Branch_8hh.html',1,'']]],
   ['browser_2ecpp',['Browser.cpp',['../Browser_8cpp.html',1,'']]],
   ['browser_2ehh',['Browser.hh',['../Browser_8hh.html',1,'']]]
 ];

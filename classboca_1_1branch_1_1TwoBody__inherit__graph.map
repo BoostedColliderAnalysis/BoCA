@@ -11,10 +11,11 @@
 <area shape="rect" id="node30" href="$classstandardmodel_1_1branch_1_1WHadronic.html" title="W hadronic tagger tree branch. " alt="" coords="1082,999,1237,1040"/>
 <area shape="rect" id="node31" href="$classstandardmodel_1_1branch_1_1WLeptonic.html" title="W leptonic tagger tree branch. " alt="" coords="1082,1064,1237,1105"/>
 <area shape="rect" id="node32" href="$classstandardmodel_1_1branch_1_1ZHadronic.html" title="Z hadronic tagger tree branch. " alt="" coords="1082,1129,1237,1171"/>
-<area shape="rect" id="node2" href="$classboca_1_1branch_1_1Particle.html" title="Particle tree branch " alt="" coords="668,778,817,805"/>
-<area shape="rect" id="node3" href="$classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="495,778,620,805"/>
-<area shape="rect" id="node4" href="$classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="304,778,447,805"/>
-<area shape="rect" id="node5" href="$classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="121,778,256,805"/>
+<area shape="rect" id="node33" href="$classtthh_1_1branch_1_1Higgs.html" title="Higgs tagger tree branch " alt="" coords="1093,1195,1226,1222"/>
+<area shape="rect" id="node2" href="$classboca_1_1branch_1_1Particle.html" title="Particle tree branch " alt="" coords="668,810,817,837"/>
+<area shape="rect" id="node3" href="$classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="495,810,620,837"/>
+<area shape="rect" id="node4" href="$classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="304,810,447,837"/>
+<area shape="rect" id="node5" href="$classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="121,810,256,837"/>
 <area shape="rect" id="node8" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsLeptonic.html" title="Higgs tagger root tree structure. " alt="" coords="1312,5,1475,47"/>
 <area shape="rect" id="node9" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsSemi.html" title="Charged Higgs semi tagger root tree structure. " alt="" coords="1322,71,1465,112"/>
 <area shape="rect" id="node10" href="$classheavyhiggs_1_1branch_1_1HeavyHiggsSemi.html" title="Higgs tagger root tree structure. " alt="" coords="1326,136,1461,177"/>

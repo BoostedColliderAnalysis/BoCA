@@ -9,5 +9,6 @@ var searchData=
   ['documentclass',['DocumentClass',['../classboca_1_1latex_1_1DocumentClass.html',1,'boca::latex']]],
   ['doublet',['Doublet',['../classboca_1_1Doublet.html',1,'boca']]],
   ['dummy',['Dummy',['../classboca_1_1tagger_1_1Dummy.html',1,'boca::tagger']]],
-  ['duodecuplet552',['Duodecuplet552',['../classtoppartner_1_1Duodecuplet552.html',1,'toppartner']]]
+  ['duodecuplet552',['Duodecuplet552',['../classboca_1_1Duodecuplet552.html',1,'boca']]],
+  ['duodecuplet633',['Duodecuplet633',['../classboca_1_1Duodecuplet633.html',1,'boca']]]
 ];

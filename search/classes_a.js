@@ -5,7 +5,7 @@ var searchData=
   ['lhcoevent',['LHCOEvent',['../classLHCOEvent.html',1,'']]],
   ['lhefevent',['LHEFEvent',['../classLHEFEvent.html',1,'']]],
   ['lhefweight',['LHEFWeight',['../classLHEFWeight.html',1,'']]],
-  ['line2',['Line2',['../classboca_1_1Line2.html',1,'boca']]],
+  ['line',['Line',['../classboca_1_1Line.html',1,'boca']]],
   ['lorentzmatrix',['LorentzMatrix',['../classboca_1_1LorentzMatrix.html',1,'boca']]],
   ['lorentzvector',['LorentzVector',['../classboca_1_1LorentzVector.html',1,'boca']]],
   ['lorentzvector_3c_20boca_3a_3amomentum_20_3e',['LorentzVector&lt; boca::Momentum &gt;',['../classboca_1_1LorentzVector.html',1,'boca']]],

@@ -30,11 +30,11 @@
 <area shape="rect" id="node21" href="$Pair_8cpp.html" title="examples/heavyhiggs\l/source/analysis/Pair.cpp" alt="" coords="1597,512,1767,553"/>
 <area shape="rect" id="node22" href="$heavyhiggs_2source_2MainPair_8cpp.html" title="examples/heavyhiggs\l/source/MainPair.cpp" alt="" coords="1791,512,1939,553"/>
 <area shape="rect" id="node25" href="$main_8cpp.html" title="examples/higgscpv/source\l/main.cpp" alt="" coords="1691,415,1868,457"/>
-<area shape="rect" id="node27" href="$simple_2source_2MainSimple_8cpp.html" title="examples/simple/source\l/MainSimple.cpp" alt="" coords="1893,415,2055,457"/>
+<area shape="rect" id="node27" href="$MainSimple_8cpp.html" title="examples/simple/source\l/MainSimple.cpp" alt="" coords="1893,415,2055,457"/>
 <area shape="rect" id="node29" href="$StandardModel_8cpp.html" title="examples/standardmodel\l/source/analysis/StandardModel.cpp" alt="" coords="2080,415,2313,457"/>
 <area shape="rect" id="node30" href="$analysis_2Boson_8hh.html" title="examples/standardmodel\l/standardmodel/analysis\l/Boson.hh" alt="" coords="2337,408,2504,464"/>
 <area shape="rect" id="node32" href="$analysis_2Bottom_8hh.html" title="examples/standardmodel\l/standardmodel/analysis\l/Bottom.hh" alt="" coords="2528,408,2695,464"/>
-<area shape="rect" id="node34" href="$analysis_2Higgs_8hh.html" title="examples/standardmodel\l/standardmodel/analysis\l/Higgs.hh" alt="" coords="2719,408,2885,464"/>
+<area shape="rect" id="node34" href="$standardmodel_2standardmodel_2analysis_2Higgs_8hh.html" title="examples/standardmodel\l/standardmodel/analysis\l/Higgs.hh" alt="" coords="2719,408,2885,464"/>
 <area shape="rect" id="node35" href="$Top_8hh.html" title="examples/standardmodel\l/standardmodel/analysis\l/Top.hh" alt="" coords="2909,408,3076,464"/>
 <area shape="rect" id="node36" href="$W_8hh.html" title="examples/standardmodel\l/standardmodel/analysis/W.hh" alt="" coords="3100,415,3299,457"/>
 <area shape="rect" id="node37" href="$Z_8hh.html" title="examples/standardmodel\l/standardmodel/analysis/Z.hh" alt="" coords="3323,415,3516,457"/>
@@ -47,5 +47,5 @@
 <area shape="rect" id="node43" href="$SingleHadronic_8hh.html" title="examples/toppartner\l/toppartner/analysis\l/SingleHadronic.hh" alt="" coords="4215,408,4355,464"/>
 <area shape="rect" id="node44" href="$SingleLeptonic_8hh.html" title="examples/toppartner\l/toppartner/analysis\l/SingleLeptonic.hh" alt="" coords="4379,408,4519,464"/>
 <area shape="rect" id="node45" href="$SubDom_8hh.html" title="examples/toppartner\l/toppartner/analysis\l/SubDom.hh" alt="" coords="4543,408,4683,464"/>
-<area shape="rect" id="node47" href="$tthh_2source_2MainSimple_8cpp.html" title="examples/tthh/source\l/MainSimple.cpp" alt="" coords="4707,415,4854,457"/>
+<area shape="rect" id="node47" href="$Maintthh_8cpp.html" title="examples/tthh/source\l/Maintthh.cpp" alt="" coords="4707,415,4854,457"/>
 </map>

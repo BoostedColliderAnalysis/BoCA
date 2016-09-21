@@ -16,10 +16,10 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt;::boca\l::Sextet,::boca::Doublet \&gt;">
-<polygon fill="white" stroke="black" points="47.5,-57.5 47.5,-87.5 177.5,-87.5 177.5,-57.5 47.5,-57.5"/>
-<text text-anchor="start" x="55.5" y="-75.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt;::boca</text>
-<text text-anchor="middle" x="112.5" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">::Sextet,::boca::Doublet &gt;</text>
+<g id="a_node2"><a xlink:href="classboca_1_1TwoBody.html" target="_top" xlink:title="boca::TwoBody\&lt;::boca\l::Sextet33,::boca::Doublet \&gt;">
+<polygon fill="white" stroke="black" points="42.5,-57.5 42.5,-87.5 182.5,-87.5 182.5,-57.5 42.5,-57.5"/>
+<text text-anchor="start" x="50.5" y="-75.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::TwoBody&lt;::boca</text>
+<text text-anchor="middle" x="112.5" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">::Sextet33,::boca::Doublet &gt;</text>
 </a>
 </g>
 </g>

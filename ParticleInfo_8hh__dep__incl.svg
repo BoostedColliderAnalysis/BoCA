@@ -526,7 +526,7 @@
 </g>
 <!-- Node31 -->
 <g id="node31" class="node"><title>Node31</title>
-<g id="a_node31"><a xlink:href="tagger_2Higgs_8cpp.html" target="_top" xlink:title="examples/standardmodel\l/source/tagger/Higgs.cpp">
+<g id="a_node31"><a xlink:href="standardmodel_2source_2tagger_2Higgs_8cpp.html" target="_top" xlink:title="examples/standardmodel\l/source/tagger/Higgs.cpp">
 <polygon fill="white" stroke="black" points="2533.5,-6 2533.5,-36 2659.5,-36 2659.5,-6 2533.5,-6"/>
 <text text-anchor="start" x="2541.5" y="-24" font-family="Helvetica,sans-Serif" font-size="10.00">examples/standardmodel</text>
 <text text-anchor="middle" x="2596.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">/source/tagger/Higgs.cpp</text>

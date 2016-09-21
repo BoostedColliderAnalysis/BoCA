@@ -1,9 +1,10 @@
 <map id="examples/standardmodel/standardmodel/tagger/Event.hh" name="examples/standardmodel/standardmodel/tagger/Event.hh">
 <area shape="rect" id="node2" href="$EventEffective_8hh.html" title="examples/toppartner\l/toppartner/tagger/EventEffective.hh" alt="" coords="290,117,522,158"/>
 <area shape="rect" id="node6" href="$EventPair_8hh.html" title="examples/toppartner\l/toppartner/tagger/EventPair.hh" alt="" coords="815,117,1018,158"/>
-<area shape="rect" id="node9" href="$EventSingleHadronic_8hh.html" title="examples/toppartner\l/toppartner/tagger/EventSingle\lHadronic.hh" alt="" coords="1077,109,1276,165"/>
+<area shape="rect" id="node9" href="$EventSingleHadronic_8hh.html" title="examples/toppartner\l/toppartner/tagger/EventSingle\lHadronic.hh" alt="" coords="1112,109,1311,165"/>
 <area shape="rect" id="node13" href="$EventSingleLeptonic_8hh.html" title="examples/toppartner\l/toppartner/tagger/EventSingle\lLeptonic.hh" alt="" coords="1432,109,1631,165"/>
 <area shape="rect" id="node17" href="$EventSubDom_8hh.html" title="examples/toppartner\l/toppartner/tagger/EventSub\lDom.hh" alt="" coords="1868,109,2053,165"/>
+<area shape="rect" id="node20" href="$examples_2tthh_2tthh_2tagger_2Event_8hh.html" title="examples/tthh/tthh\l/tagger/Event.hh" alt="" coords="2322,117,2453,158"/>
 <area shape="rect" id="node3" href="$MainEffective_8cpp.html" title="examples/toppartner\l/source/MainEffective.cpp" alt="" coords="5,221,180,262"/>
 <area shape="rect" id="node4" href="$MainPairHiggs_8cpp.html" title="examples/toppartner\l/source/MainPairHiggs.cpp" alt="" coords="205,221,383,262"/>
 <area shape="rect" id="node5" href="$EventEffective_8cpp.html" title="examples/toppartner\l/source/tagger/EventEffective.cpp" alt="" coords="408,221,628,262"/>
@@ -17,4 +18,6 @@
 <area shape="rect" id="node16" href="$SingleLeptonic_8hh.html" title="examples/toppartner\l/toppartner/analysis\l/SingleLeptonic.hh" alt="" coords="1709,213,1849,269"/>
 <area shape="rect" id="node18" href="$MainSubDom_8cpp.html" title="examples/toppartner\l/source/MainSubDom.cpp" alt="" coords="1874,221,2047,262"/>
 <area shape="rect" id="node19" href="$EventSubDom_8cpp.html" title="examples/toppartner\l/source/tagger/EventSubDom.cpp" alt="" coords="2071,221,2290,262"/>
+<area shape="rect" id="node21" href="$Maintthh_8cpp.html" title="examples/tthh/source\l/Maintthh.cpp" alt="" coords="2314,221,2461,262"/>
+<area shape="rect" id="node22" href="$examples_2tthh_2source_2tagger_2Event_8cpp.html" title="examples/tthh/source\l/tagger/Event.cpp" alt="" coords="2485,221,2631,262"/>
 </map>

@@ -1,8 +1,10 @@
 <map id="boca/MomentumRange.hh" name="boca/MomentumRange.hh">
 <area shape="rect" id="node2" href="$Boson_8cpp.html" title="examples/standardmodel\l/source/tagger/Boson.cpp" alt="" coords="5,80,176,121"/>
-<area shape="rect" id="node3" href="$tagger_2Higgs_8cpp.html" title="examples/standardmodel\l/source/tagger/Higgs.cpp" alt="" coords="200,80,368,121"/>
+<area shape="rect" id="node3" href="$standardmodel_2source_2tagger_2Higgs_8cpp.html" title="examples/standardmodel\l/source/tagger/Higgs.cpp" alt="" coords="200,80,368,121"/>
 <area shape="rect" id="node4" href="$tagger_2TopHadronic_8cpp.html" title="examples/standardmodel\l/source/tagger/TopHadronic.cpp" alt="" coords="392,80,600,121"/>
 <area shape="rect" id="node5" href="$tagger_2WHadronic_8cpp.html" title="examples/standardmodel\l/source/tagger/WHadronic.cpp" alt="" coords="625,80,823,121"/>
 <area shape="rect" id="node6" href="$tagger_2ZHadronic_8cpp.html" title="examples/standardmodel\l/source/tagger/ZHadronic.cpp" alt="" coords="848,80,1043,121"/>
-<area shape="rect" id="node7" href="$MomentumRange_8cpp.html" title="source/MomentumRange.cpp" alt="" coords="1067,87,1261,114"/>
+<area shape="rect" id="node7" href="$HiggsSemiLeptonic_8cpp.html" title="examples/tthh/source\l/tagger/HiggsSemiLeptonic.cpp" alt="" coords="1067,80,1271,121"/>
+<area shape="rect" id="node8" href="$HiggsToHiggs_8cpp.html" title="examples/tthh/source\l/tagger/HiggsToHiggs.cpp" alt="" coords="1295,80,1470,121"/>
+<area shape="rect" id="node9" href="$MomentumRange_8cpp.html" title="source/MomentumRange.cpp" alt="" coords="1494,87,1687,114"/>
 </map>

@@ -99,14 +99,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><p>This code performs staged BDT analyses using root files as in- and output format.</p>
 <h2>Dependencies</h2>
 <ul>
-<li><a href="https://root.cern.ch/"><code>ROOT</code></a> version &gt;= 6.05.02 and compiled with <a href="http://tmva.sourceforge.net/"><code>TMVA</code></a> and <a href="https://root.cern.ch/mathmore-library"><code>MathMore</code></a></li>
+<li><a href="https://root.cern.ch/"><code>ROOT</code></a> version ≥ 6.05.02 and compiled with <a href="http://tmva.sourceforge.net/"><code>TMVA</code></a> and <a href="https://root.cern.ch/mathmore-library"><code>MathMore</code></a></li>
 <li><a href="http://fastjet.fr/"><code>fastjet</code></a></li>
 <li><a href="https://fastjet.hepforge.org/contrib/"><code>fastjet contrib</code></a> (must be compiled with <a href="https://en.wikipedia.org/wiki/Position-independent_code"><code>CXXFLAGS=-fPIC</code></a>)</li>
 <li><a href="http://www.boost.org/"><code>Boost</code></a> (<a href="http://www.boost.org/doc/libs/release/libs/optional/"><code>Optional</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/range/"><code>Range</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/units/"><code>Units</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/utility/operators.htm"><code>Operators</code></a>)</li>
 </ul>
 <p>The BoCA code makes heavy use of modern C++ features. The limiting factor for the minimal supportet compiler version is given by the use of return type deduction. Therefore the compiler version must be</p><ul>
-<li>GCC version &gt;= 4.9</li>
-<li>Clang version &gt;= 3.3</li>
+<li>GCC version ≥ 4.9</li>
+<li>Clang version ≥ 3.3</li>
 </ul>
 <h2>Installation</h2>
 <ul>
@@ -119,9 +119,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>for mac (still install ccache)</li>
 </ul>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake -G Xcode ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;xcodebuild</div></div><!-- fragment --><ul>
-<li>if you have trouble installing <code>ROOT</code> &gt;= 6 with <code>GCC</code> &gt;= 5 you can use</li>
+<li>if you have trouble installing <code>ROOT</code> ≥ 6 with <code>GCC</code> ≥ 5 you can configure it with</li>
 </ul>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON ..</div></div><!-- fragment --><h2>Usage</h2>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja..</div></div><!-- fragment --><h2>Usage</h2>
 <p>Each analysis needs a dedicated <code>Analysis</code> class, a set of <code>Tagger</code> classess and a <code><a class="el" href="main_8cpp.html">main.cpp</a></code> file. The <code>Analysis</code> class contains the global information of the analysis, such as file names, path names, variables names etc. Every <code>Tagger</code> class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated <code>Tagger</code>. The <code><a class="el" href="main_8cpp.html">main.cpp</a></code> defines the order in which each <code>Tagger</code> is passed to the <code>Analysis</code>.</p>
 <h2>Source code documentation</h2>
 <p>The source code documentation including all classes and functions can be found <a href="http://boostedcollideranalysis.github.io/BoCA">here</a>.</p>

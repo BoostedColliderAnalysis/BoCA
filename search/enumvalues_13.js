@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['t',['t',['../namespaceboca.html#a980f066568ac81fde9dd96b4831ca863ae358efa489f58062f10dd7316b65649e',1,'boca']]],
+  ['t',['t',['../group__Math.html#gga980f066568ac81fde9dd96b4831ca863ae358efa489f58062f10dd7316b65649e',1,'boca']]],
   ['tagger',['tagger',['../namespaceboca.html#aaa86deff66f9bd5a11ab2e0a502bcb1bade44f5a9230164a555101e1faaa80cbe',1,'boca']]],
   ['tau',['tau',['../namespaceboca.html#a6e19067719655f83c22852f2fcb5857fa4580c2740ab6d9222ef06d7c6865583e',1,'boca::tau()'],['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a4580c2740ab6d9222ef06d7c6865583e',1,'boca::tau()']]],
   ['tau_5fneutrino',['tau_neutrino',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a094b0f0d8a28f7558c1acc7a32259d97',1,'boca']]],
@@ -29,11 +29,11 @@ var searchData=
   ['tttb',['tttb',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82a47c9af4c0d17d8440d23432770237230',1,'heavyhiggs']]],
   ['tttt',['tttt',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82a32bf0e6fcff51e53bd74e70ba1d622b2',1,'heavyhiggs']]],
   ['tttwb',['tttwb',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82a396132cff5d34830a54ca4055442b6eb',1,'heavyhiggs']]],
-  ['ttwbb',['ttwbb',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82af03d32394cd29eba4360a23b9a7abfb0',1,'heavyhiggs::ttwbb()'],['../namespacetoppartner.html#abb038fd5fec7880cdaf923c07661ce88a2adf748a8df920c89591cb8d96648d0c',1,'toppartner::ttWBB()']]],
+  ['ttwbb',['ttWBB',['../namespacetoppartner.html#abb038fd5fec7880cdaf923c07661ce88a2adf748a8df920c89591cb8d96648d0c',1,'toppartner::ttWBB()'],['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82af03d32394cd29eba4360a23b9a7abfb0',1,'heavyhiggs::ttwbb()']]],
   ['ttwbbb',['ttWBBB',['../namespacetoppartner.html#abb038fd5fec7880cdaf923c07661ce88a4b018f4c27bf9f4eb31d85ce6a027e93',1,'toppartner']]],
   ['ttwcc',['ttwcc',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82aa7dbac453f0af72c58a1351d02732a74',1,'heavyhiggs']]],
   ['ttwwb',['ttWWB',['../namespacetoppartner.html#abb038fd5fec7880cdaf923c07661ce88ae08ede708c940ed95ba0ad465d921e84',1,'toppartner']]],
-  ['ttwwbb',['ttWWBB',['../namespacetoppartner.html#abb038fd5fec7880cdaf923c07661ce88a462177f5a1da442055a409dbe3a913f6',1,'toppartner::ttWWBB()'],['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82ae498061db100a7777210ddb9dca9d407',1,'heavyhiggs::ttwwbb()']]],
+  ['ttwwbb',['ttwwbb',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82ae498061db100a7777210ddb9dca9d407',1,'heavyhiggs::ttwwbb()'],['../namespacetoppartner.html#abb038fd5fec7880cdaf923c07661ce88a462177f5a1da442055a409dbe3a913f6',1,'toppartner::ttWWBB()']]],
   ['ttwww',['ttWWW',['../namespacetoppartner.html#abb038fd5fec7880cdaf923c07661ce88a194b4001bb17a08ce7b2fd0746143d58',1,'toppartner']]],
   ['ttwwwb',['ttWWWB',['../namespacetoppartner.html#abb038fd5fec7880cdaf923c07661ce88aa63aa4312c1b2f641e2454de4c08f91b',1,'toppartner']]],
   ['ttwwww',['ttWWWW',['../namespacetoppartner.html#abb038fd5fec7880cdaf923c07661ce88af294d337ddf03e69dfcc83f104d45821',1,'toppartner']]],

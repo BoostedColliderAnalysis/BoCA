@@ -4,7 +4,7 @@ var searchData=
   ['delphes',['delphes',['../namespaceboca.html#aaa86deff66f9bd5a11ab2e0a502bcb1bacd57ad09a51955439456b7f9c2f16832',1,'boca']]],
   ['delta',['Delta',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7adb1f4ab5845def61a83d5df13e0c2397',1,'boca']]],
   ['delta_5f2',['Delta_2',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a2d885b9cfffddab764358cc836644d85',1,'boca']]],
-  ['diagonal',['diagonal',['../namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3aa0e17e2709a0404ae3d7de03b8ea9093',1,'boca']]],
+  ['diagonal',['diagonal',['../group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3aa0e17e2709a0404ae3d7de03b8ea9093',1,'boca']]],
   ['discovery',['discovery',['../namespaceboca.html#a2706590b1d44fa27521c45fecd7ac225a54818b05d116eadc7f67517a3a6e4b33',1,'boca']]],
   ['down',['down',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a74e8333ad11685ff3bdae589c8f6e34d',1,'boca']]],
   ['down_5fdown_5f1',['down_down_1',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a7955d93c36434446502961e60b121bda',1,'boca']]],

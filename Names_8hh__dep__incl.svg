@@ -481,7 +481,7 @@
 </g>
 <!-- Node28 -->
 <g id="node28" class="node"><title>Node28</title>
-<g id="a_node28"><a xlink:href="simple_2simple_2Branch_8hh.html" target="_top" xlink:title="examples/simple/simple\l/Branch.hh">
+<g id="a_node28"><a xlink:href="Branch_8hh.html" target="_top" xlink:title="examples/simple/simple\l/Branch.hh">
 <polygon fill="white" stroke="red" points="2089.5,-207 2089.5,-237 2211.5,-237 2211.5,-207 2089.5,-207"/>
 <text text-anchor="start" x="2097.5" y="-225" font-family="Helvetica,sans-Serif" font-size="10.00">examples/simple/simple</text>
 <text text-anchor="middle" x="2150.5" y="-214" font-family="Helvetica,sans-Serif" font-size="10.00">/Branch.hh</text>
@@ -525,10 +525,10 @@
 </g>
 <!-- Node31 -->
 <g id="node31" class="node"><title>Node31</title>
-<g id="a_node31"><a xlink:href="tthh_2tthh_2Branch_8hh.html" target="_top" xlink:title="examples/tthh/tthh\l/Branch.hh">
+<g id="a_node31"><a xlink:href="examples_2tthh_2tthh_2branch_2Global_8hh.html" target="_top" xlink:title="examples/tthh/tthh\l/branch/Global.hh">
 <polygon fill="white" stroke="red" points="1492.5,-207 1492.5,-237 1590.5,-237 1590.5,-207 1492.5,-207"/>
 <text text-anchor="start" x="1500.5" y="-225" font-family="Helvetica,sans-Serif" font-size="10.00">examples/tthh/tthh</text>
-<text text-anchor="middle" x="1541.5" y="-214" font-family="Helvetica,sans-Serif" font-size="10.00">/Branch.hh</text>
+<text text-anchor="middle" x="1541.5" y="-214" font-family="Helvetica,sans-Serif" font-size="10.00">/branch/Global.hh</text>
 </a>
 </g>
 </g>

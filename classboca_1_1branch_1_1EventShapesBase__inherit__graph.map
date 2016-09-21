@@ -1,7 +1,9 @@
 <map id="boca::branch::EventShapesBase" name="boca::branch::EventShapesBase">
-<area shape="rect" id="node2" href="$classboca_1_1branch_1_1Signature.html" title="Signature tree branch " alt="" coords="294,5,454,32"/>
-<area shape="rect" id="node3" href="$classtoppartner_1_1branch_1_1SignatureEffectiveBranch.html" title="toppartner::branch\l::SignatureEffectiveBranch" alt="" coords="285,57,463,98"/>
-<area shape="rect" id="node4" href="$classtoppartner_1_1branch_1_1SignatureSingleHadronicBranch.html" title="toppartner::branch\l::SignatureSingleHadronicBranch" alt="" coords="267,122,481,163"/>
-<area shape="rect" id="node6" href="$classtoppartner_1_1branch_1_1VetoTopPartnerBranch.html" title="toppartner::branch\l::VetoTopPartnerBranch" alt="" coords="293,187,455,229"/>
-<area shape="rect" id="node5" href="$classtoppartner_1_1branch_1_1Complete.html" title="Class for saving event informations to root. " alt="" coords="529,122,656,163"/>
+<area shape="rect" id="node2" href="$classboca_1_1branch_1_1Signature.html" title="Signature tree branch " alt="" coords="294,42,454,69"/>
+<area shape="rect" id="node5" href="$classtoppartner_1_1branch_1_1SignatureEffectiveBranch.html" title="toppartner::branch\l::SignatureEffectiveBranch" alt="" coords="285,93,463,135"/>
+<area shape="rect" id="node6" href="$classtoppartner_1_1branch_1_1SignatureSingleHadronicBranch.html" title="toppartner::branch\l::SignatureSingleHadronicBranch" alt="" coords="267,159,481,200"/>
+<area shape="rect" id="node8" href="$classtoppartner_1_1branch_1_1VetoTopPartnerBranch.html" title="toppartner::branch\l::VetoTopPartnerBranch" alt="" coords="293,224,455,265"/>
+<area shape="rect" id="node3" href="$classtoppartner_1_1branch_1_1SignatureSingle.html" title="toppartner::branch\l::SignatureSingle" alt="" coords="543,5,670,47"/>
+<area shape="rect" id="node4" href="$classtthh_1_1branch_1_1Signature.html" title="tthh::branch::Signature" alt="" coords="529,71,684,98"/>
+<area shape="rect" id="node7" href="$classtoppartner_1_1branch_1_1Complete.html" title="Class for saving event informations to root. " alt="" coords="543,159,670,200"/>
 </map>

@@ -1,0 +1,36 @@
+<map id="examples/tthh/tthh/tagger/HiggsToHiggs.hh" name="examples/tthh/tthh/tagger/HiggsToHiggs.hh">
+<area shape="rect" id="node2" href="$boca_2tagger_2Tagger_8hh.html" title="boca/tagger/Tagger.hh" alt="" coords="1133,355,1285,382"/>
+<area shape="rect" id="node30" href="$Sextet_8hh.html" title="boca/multiplets/Sextet.hh" alt="" coords="1372,95,1543,121"/>
+<area shape="rect" id="node35" href="$Reader_8hh.html" title="boca/multivariant/Reader.hh" alt="" coords="657,266,842,293"/>
+<area shape="rect" id="node42" href="$standardmodel_2standardmodel_2tagger_2Higgs_8hh.html" title="standardmodel/tagger\l/Higgs.hh" alt="" coords="847,169,993,211"/>
+<area shape="rect" id="node47" href="$tthh_2tthh_2branch_2Higgs_8hh.html" title="tthh/branch/Higgs.hh" alt="" coords="418,177,561,203"/>
+<area shape="rect" id="node48" href="$HiggsSemiLeptonic_8hh.html" title="tthh/tagger/HiggsSemiLeptonic.hh" alt="" coords="983,95,1201,121"/>
+<area shape="rect" id="node3" href="$Types_8hh.html" title="boca/generic/Types.hh" alt="" coords="1920,437,2075,464"/>
+<area shape="rect" id="node6" href="$Sort_8hh.html" title="boca/multiplets/Sort.hh" alt="" coords="602,437,758,464"/>
+<area shape="rect" id="node11" href="$TreeBranch_8hh.html" title="boca/io/TreeBranch.hh" alt="" coords="993,437,1146,464"/>
+<area shape="rect" id="node13" href="$tagger_2Base_8hh.html" title="boca/tagger/Base.hh" alt="" coords="1521,437,1663,464"/>
+<area shape="rect" id="node19" href="$PreCuts_8hh.html" title="boca/PreCuts.hh" alt="" coords="797,437,917,464"/>
+<area shape="rect" id="node25" href="$Filter_8hh.html" title="boca/Filter.hh" alt="" coords="1292,519,1393,546"/>
+<area shape="rect" id="node26" href="$Debug_8hh.html" title="boca/generic/Debug.hh" alt="" coords="786,519,942,546"/>
+<area shape="rect" id="node9" href="$Id_8hh.html" title="boca/physics/Id.hh" alt="" coords="943,609,1075,635"/>
+<area shape="rect" id="node15" href="$Observable_8hh.html" title="boca/Observable.hh" alt="" coords="1757,519,1896,546"/>
+<area shape="rect" id="node16" href="$Phase_8hh.html" title="boca/multivariant/Phase.hh" alt="" coords="1418,519,1598,546"/>
+<area shape="rect" id="node17" href="$Tag_8hh.html" title="boca/Tag.hh" alt="" coords="1667,609,1762,635"/>
+<area shape="rect" id="node18" href="$Stage_8hh.html" title="boca/multivariant/Stage.hh" alt="" coords="1466,609,1643,635"/>
+<area shape="rect" id="node20" href="$Range_8hh.html" title="boca/physics/Range.hh" alt="" coords="371,519,530,546"/>
+<area shape="rect" id="node22" href="$PreCut_8hh.html" title="boca/PreCut.hh" alt="" coords="966,519,1079,546"/>
+<area shape="rect" id="node24" href="$Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="606,519,762,546"/>
+<area shape="rect" id="node31" href="$Quartet_8hh.html" title="boca/multiplets/Quartet.hh" alt="" coords="1453,177,1627,203"/>
+<area shape="rect" id="node32" href="$Triplet_8hh.html" title="boca/multiplets/Triplet.hh" alt="" coords="1512,266,1680,293"/>
+<area shape="rect" id="node34" href="$multiplets_2ThreeBody_8hh.html" title="boca/multiplets/ThreeBody.hh" alt="" coords="1704,266,1899,293"/>
+<area shape="rect" id="node33" href="$Doublet_8hh.html" title="boca/multiplets/Doublet.hh" alt="" coords="1321,355,1498,382"/>
+<area shape="rect" id="node37" href="$Options_8hh.html" title="boca/generic/Options.hh" alt="" coords="45,437,208,464"/>
+<area shape="rect" id="node38" href="$TreeWriter_8hh.html" title="boca/io/TreeWriter.hh" alt="" coords="496,355,643,382"/>
+<area shape="rect" id="node41" href="$boca_2Event_8hh.html" title="boca/Event.hh" alt="" coords="909,355,1016,382"/>
+<area shape="rect" id="node43" href="$tagger_2Bottom_8hh.html" title="standardmodel/tagger\l/Bottom.hh" alt="" coords="968,259,1115,300"/>
+<area shape="rect" id="node44" href="$standardmodel_2standardmodel_2branch_2Higgs_8hh.html" title="standardmodel/branch\l/Higgs.hh" alt="" coords="383,259,534,300"/>
+<area shape="rect" id="node45" href="$branch_2TwoBody_8hh.html" title="boca/branch/TwoBody.hh" alt="" coords="75,355,245,382"/>
+<area shape="rect" id="node46" href="$BottomBase_8hh.html" title="standardmodel/branch\l/BottomBase.hh" alt="" coords="270,348,421,389"/>
+<area shape="rect" id="node49" href="$tagger_2WLeptonic_8hh.html" title="standardmodel/tagger\l/WLeptonic.hh" alt="" coords="1341,259,1488,300"/>
+<area shape="rect" id="node50" href="$tagger_2WHadronic_8hh.html" title="standardmodel/tagger\l/WHadronic.hh" alt="" coords="1019,169,1165,211"/>
+</map>

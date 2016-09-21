@@ -112,19 +112,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Matrix2.hh File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;boost/range/algorithm/sort.hpp&quot;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &quot;boost/range/algorithm/sort.hpp&quot;</code><br />
 <code>#include &quot;<a class="el" href="Types_8hh_source.html">boca/generic/Types.hh</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Mutable_8hh_source.html">boca/generic/Mutable.hh</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Vector2_8hh_source.html">boca/math/Vector2.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="GradedVector2_8hh_source.html">boca/math/GradedVector2.hh</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Matrix2.hh:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Matrix2_8hh__incl.svg" width="2107" height="470"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Matrix2_8hh__incl.svg" width="2002" height="544"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Matrix2_8hh__dep__incl.svg" width="3459" height="916"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Matrix2_8hh__dep__incl.svg" width="2771" height="1006"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="Matrix2_8hh_source.html">Go to the source code of this file.</a></p>
@@ -132,8 +133,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix2.html">boca::Matrix2&lt; Value_ &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix2_1_1Eigen__.html">boca::Matrix2&lt; Value_ &gt;::Eigen_</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Two dimensional matrix.  <a href="classboca_1_1Matrix2.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboca_1_1IsMatrix2.html">boca::IsMatrix2&lt; typename &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,41 +148,45 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:abf2beb0c8442cad095aca4b8075d7fb4"><td class="memTemplParams" colspan="2">template&lt;typename Value_2_ &gt; </td></tr>
+<tr class="memitem:abf2beb0c8442cad095aca4b8075d7fb4"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#abf2beb0c8442cad095aca4b8075d7fb4">boca::Array2</a> = std::array&lt; Value_2_, 2 &gt;</td></tr>
+<tr class="separator:abf2beb0c8442cad095aca4b8075d7fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab040f168276c792cf2b04dc78ba30c27"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
 <tr class="memitem:ab040f168276c792cf2b04dc78ba30c27"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#ab040f168276c792cf2b04dc78ba30c27">boca::OnlyIfNotMatrix2</a> = typename std::enable_if&lt; !IsMatrix2&lt; Value &gt;::value &gt;::type</td></tr>
 <tr class="separator:ab040f168276c792cf2b04dc78ba30c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ad433a34b6ce207eb69c6f0c54a6ed8c3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3">boca::Matrix</a> { <br />
-&#160;&#160;<a class="el" href="namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3a334c4a4c42fdb79d7ebc3e73b517e6f8">boca::Matrix::none</a>, 
-<a class="el" href="namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3aa0e17e2709a0404ae3d7de03b8ea9093">boca::Matrix::diagonal</a>, 
-<a class="el" href="namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3afeca3c730601be7fd57f1f0b668b4637">boca::Matrix::symmetric</a>, 
-<a class="el" href="namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3a0366e86a66ca1a36563359d3f6768ac7">boca::Matrix::antisymmetric</a>, 
+<tr class="memitem:gad433a34b6ce207eb69c6f0c54a6ed8c3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Math.html#gad433a34b6ce207eb69c6f0c54a6ed8c3">boca::Matrix</a> { <br />
+&#160;&#160;<a class="el" href="group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3a334c4a4c42fdb79d7ebc3e73b517e6f8">boca::Matrix::none</a>, 
+<a class="el" href="group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3aa0e17e2709a0404ae3d7de03b8ea9093">boca::Matrix::diagonal</a>, 
+<a class="el" href="group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3afeca3c730601be7fd57f1f0b668b4637">boca::Matrix::symmetric</a>, 
+<a class="el" href="group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3a0366e86a66ca1a36563359d3f6768ac7">boca::Matrix::antisymmetric</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3af1965a857bc285d26fe22023aa5ab50d">boca::Matrix::row</a>, 
-<a class="el" href="namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3a1afd32818d1c9525f82aff4c09efd254">boca::Matrix::column</a>, 
-<a class="el" href="namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3aa489ffed938ef1b9e86889bc413501ee">boca::Matrix::uniform</a>
+&#160;&#160;<a class="el" href="group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3af1965a857bc285d26fe22023aa5ab50d">boca::Matrix::row</a>, 
+<a class="el" href="group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3a1afd32818d1c9525f82aff4c09efd254">boca::Matrix::column</a>, 
+<a class="el" href="group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3aa489ffed938ef1b9e86889bc413501ee">boca::Matrix::uniform</a>
 <br />
- }</td></tr>
-<tr class="separator:ad433a34b6ce207eb69c6f0c54a6ed8c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+ }<tr class="memdesc:gad433a34b6ce207eb69c6f0c54a6ed8c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matrix types.  <a href="group__Math.html#gad433a34b6ce207eb69c6f0c54a6ed8c3">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:gad433a34b6ce207eb69c6f0c54a6ed8c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ad1ef7274bbabc1b5cb4739c9304ae946"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#ad1ef7274bbabc1b5cb4739c9304ae946">boca::Name</a> (Matrix matrix)</td></tr>
 <tr class="separator:ad1ef7274bbabc1b5cb4739c9304ae946"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7388c7e711ebcb931ca1c53cef87629"><td class="memTemplParams" colspan="2">template&lt;class Value_ , class Value_2_ , typename  = OnlyIfNotMatrix2&lt;Value_2_&gt;&gt; </td></tr>
-<tr class="memitem:af7388c7e711ebcb931ca1c53cef87629"><td class="memTemplItemLeft" align="right" valign="top">Matrix2&lt; ValueProduct&lt; Value_, Value_2_ &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#af7388c7e711ebcb931ca1c53cef87629">boca::operator*</a> (Matrix2&lt; Value_ &gt; const &amp;matrix, Value_2_ scalar)</td></tr>
-<tr class="separator:af7388c7e711ebcb931ca1c53cef87629"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af295261549824cd9a0065d21d1e8cb00"><td class="memTemplParams" colspan="2">template&lt;class Value_ , class Value_2_ , typename  = OnlyIfNotMatrix2&lt;Value_2_&gt;&gt; </td></tr>
-<tr class="memitem:af295261549824cd9a0065d21d1e8cb00"><td class="memTemplItemLeft" align="right" valign="top">Matrix2&lt; ValueProduct&lt; Value_, Value_2_ &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#af295261549824cd9a0065d21d1e8cb00">boca::operator*</a> (Value_2_ scalar, Matrix2&lt; Value_ &gt; const &amp;matrix)</td></tr>
-<tr class="separator:af295261549824cd9a0065d21d1e8cb00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef18e19d26746961b8ac238dafe9accf"><td class="memTemplParams" colspan="2">template&lt;class Value_ , class Value_2_ &gt; </td></tr>
-<tr class="memitem:aef18e19d26746961b8ac238dafe9accf"><td class="memTemplItemLeft" align="right" valign="top">Vector2&lt; ValueProduct&lt; Value_, Value_2_ &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#aef18e19d26746961b8ac238dafe9accf">boca::operator*</a> (Matrix2&lt; Value_ &gt; const &amp;matrix, Vector2&lt; Value_2_ &gt; const &amp;vector)</td></tr>
-<tr class="separator:aef18e19d26746961b8ac238dafe9accf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c1a0272416fc575c3c1699ffbcf0bac"><td class="memTemplParams" colspan="2">template&lt;class Value_ , class Value_2_ &gt; </td></tr>
-<tr class="memitem:a1c1a0272416fc575c3c1699ffbcf0bac"><td class="memTemplItemLeft" align="right" valign="top">Vector2&lt; ValueProduct&lt; Value_, Value_2_ &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a1c1a0272416fc575c3c1699ffbcf0bac">boca::operator*</a> (Vector2&lt; Value_2_ &gt; const &amp;vector, Matrix2&lt; Value_ &gt; const &amp;matrix)</td></tr>
-<tr class="separator:a1c1a0272416fc575c3c1699ffbcf0bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67bff0c084b48d6384b251997fbf8b48"><td class="memTemplParams" colspan="2">template&lt;class Value_ , class Value_2_ , typename  = OnlyIfNotMatrix2&lt;Value_2_&gt;&gt; </td></tr>
+<tr class="memitem:a67bff0c084b48d6384b251997fbf8b48"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a67bff0c084b48d6384b251997fbf8b48">boca::operator*</a> (Matrix2&lt; Value_ &gt; const &amp;matrix, Value_2_ scalar)</td></tr>
+<tr class="separator:a67bff0c084b48d6384b251997fbf8b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f82760a41826c0fb8ad6f41496d62c5"><td class="memTemplParams" colspan="2">template&lt;class Value_ , class Value_2_ , typename  = OnlyIfNotMatrix2&lt;Value_2_&gt;&gt; </td></tr>
+<tr class="memitem:a9f82760a41826c0fb8ad6f41496d62c5"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a9f82760a41826c0fb8ad6f41496d62c5">boca::operator*</a> (Value_2_ scalar, Matrix2&lt; Value_ &gt; const &amp;matrix)</td></tr>
+<tr class="separator:a9f82760a41826c0fb8ad6f41496d62c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10b9445d807a06af302cb32ed1e0014d"><td class="memTemplParams" colspan="2">template&lt;class Value_ , class Value_2_ &gt; </td></tr>
+<tr class="memitem:a10b9445d807a06af302cb32ed1e0014d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a10b9445d807a06af302cb32ed1e0014d">boca::operator*</a> (Matrix2&lt; Value_ &gt; const &amp;matrix, Vector2&lt; Value_2_ &gt; const &amp;vector)</td></tr>
+<tr class="separator:a10b9445d807a06af302cb32ed1e0014d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada35308ca46205316d194bf6aa164300"><td class="memTemplParams" colspan="2">template&lt;class Value_ , class Value_2_ &gt; </td></tr>
+<tr class="memitem:ada35308ca46205316d194bf6aa164300"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#ada35308ca46205316d194bf6aa164300">boca::operator*</a> (Vector2&lt; Value_2_ &gt; const &amp;vector, Matrix2&lt; Value_ &gt; const &amp;matrix)</td></tr>
+<tr class="separator:ada35308ca46205316d194bf6aa164300"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39202aca4fef66b7ae061f0202cfa2bb"><td class="memTemplParams" colspan="2">template&lt;typename Value_1_ , typename Value_2_ &gt; </td></tr>
 <tr class="memitem:a39202aca4fef66b7ae061f0202cfa2bb"><td class="memTemplItemLeft" align="right" valign="top">Matrix2&lt; ValueProduct&lt; Value_1_, Value_2_ &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a39202aca4fef66b7ae061f0202cfa2bb">boca::MatrixProduct</a> (Vector2&lt; Value_1_ &gt; const &amp;vector_1, Vector2&lt; Value_2_ &gt; const &amp;vector_2)</td></tr>
 <tr class="separator:a39202aca4fef66b7ae061f0202cfa2bb"><td class="memSeparator" colspan="2">&#160;</td></tr>

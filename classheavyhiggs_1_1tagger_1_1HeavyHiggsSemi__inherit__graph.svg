@@ -17,9 +17,9 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="classboca_1_1Tagger.html" target="_top" xlink:title="boca::Tagger\&lt; Sextet,\l branch::HeavyHiggsSemi \&gt;">
+<g id="a_node2"><a xlink:href="classboca_1_1Tagger.html" target="_top" xlink:title="boca::Tagger\&lt; Sextet33,\l branch::HeavyHiggsSemi \&gt;">
 <polygon fill="white" stroke="black" points="0,-67.5 0,-97.5 140,-97.5 140,-67.5 0,-67.5"/>
-<text text-anchor="start" x="8" y="-85.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Tagger&lt; Sextet,</text>
+<text text-anchor="start" x="8" y="-85.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Tagger&lt; Sextet33,</text>
 <text text-anchor="middle" x="70" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00"> branch::HeavyHiggsSemi &gt;</text>
 </a>
 </g>

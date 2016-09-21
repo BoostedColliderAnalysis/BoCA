@@ -106,7 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classboca_1_1PreCuts-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -116,19 +115,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="PreCuts_8hh_source.html">PreCuts.hh</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboca_1_1PreCuts_1_1IsVector.html">IsVector</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboca_1_1PreCuts_1_1IsVector_3_01std_1_1vector_3_01Value_01_4_01_4.html">IsVector&lt; std::vector&lt; Value &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a8cb9ba9ddd32f1e0adda92104247756b"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
-<tr class="memitem:a8cb9ba9ddd32f1e0adda92104247756b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1PreCuts.html#a8cb9ba9ddd32f1e0adda92104247756b">OnlyIfNotVector</a> = typename std::enable_if&lt; !<a class="el" href="structboca_1_1PreCuts_1_1IsVector.html">IsVector</a>&lt; Value &gt;::value &gt;::type</td></tr>
-<tr class="separator:a8cb9ba9ddd32f1e0adda92104247756b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a44b227ef554b0da71ecef6121b92af6c"><td class="memTemplParams" colspan="2">template&lt;typename Multiplet &gt; </td></tr>
@@ -164,9 +150,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a30b9f0f66b18eeeb9a185b10731dfd5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf72dc5392f7bf68aba273511c7eb58a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1PreCuts.html#aaf72dc5392f7bf68aba273511c7eb58a">SetSemiLeptonic</a> (bool semi_leptonic)</td></tr>
 <tr class="separator:aaf72dc5392f7bf68aba273511c7eb58a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8eb4e8c3f278501f4eb96acd63f5e079"><td class="memTemplParams" colspan="2">template&lt;typename Multiplet &gt; </td></tr>
-<tr class="memitem:a8eb4e8c3f278501f4eb96acd63f5e079"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1PreCuts.html#a8eb4e8c3f278501f4eb96acd63f5e079">NotParticleRho</a> (<a class="el" href="classboca_1_1Multiplet.html">Multiplet</a> const &amp;multiplet, <a class="el" href="classboca_1_1Range.html">Range</a>&lt; double &gt; range=<a class="el" href="classboca_1_1Range.html">Range</a>&lt; double &gt;(0.5, 2)) const </td></tr>
-<tr class="separator:a8eb4e8c3f278501f4eb96acd63f5e079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d4823261d980c966df6bf32179fae8b"><td class="memTemplParams" colspan="2">template&lt;typename Multiplet &gt; </td></tr>
+<tr class="memitem:a0d4823261d980c966df6bf32179fae8b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1PreCuts.html#a0d4823261d980c966df6bf32179fae8b">NotParticleRho</a> (<a class="el" href="classboca_1_1Multiplet.html">Multiplet</a> const &amp;multiplet, <a class="el" href="classboca_1_1Range.html">Range</a>&lt; double &gt; range={0.5, 2}) const </td></tr>
+<tr class="separator:a0d4823261d980c966df6bf32179fae8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6a3e19e4ceee299e646790e0a331f69"><td class="memTemplParams" colspan="2">template&lt;typename Multiplet &gt; </td></tr>
 <tr class="memitem:ad6a3e19e4ceee299e646790e0a331f69"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1PreCuts.html#ad6a3e19e4ceee299e646790e0a331f69">OutSideMassWindow</a> (<a class="el" href="classboca_1_1Multiplet.html">Multiplet</a> const &amp;multiplet, <a class="el" href="namespaceboca_1_1units.html#a71dafb35b8e5cd8f9e648869889ba3b6">Mass</a> const &amp;mass_window, <a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7">Id</a> id) const </td></tr>
 <tr class="separator:ad6a3e19e4ceee299e646790e0a331f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,22 +185,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl><dt><b>Examples: </b></dt><dd><a class="el" href="simple_2source_2MainSimple_8cpp-example.html#_a13">simple/source/MainSimple.cpp</a>.</dd>
-</dl></div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="a8cb9ba9ddd32f1e0adda92104247756b"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Value &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classboca_1_1PreCuts.html#a8cb9ba9ddd32f1e0adda92104247756b">boca::PreCuts::OnlyIfNotVector</a> =  typename std::enable_if &lt; !<a class="el" href="structboca_1_1PreCuts_1_1IsVector.html">IsVector</a>&lt;Value&gt;::value &gt;::type</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+</dl></div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ac98f5c345577c87f6199cdbdf5b6fd1d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -553,7 +524,7 @@ template&lt;typename Multiplet &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a8eb4e8c3f278501f4eb96acd63f5e079"></a>
+<a class="anchor" id="a0d4823261d980c966df6bf32179fae8b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -572,7 +543,7 @@ template&lt;typename Multiplet &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classboca_1_1Range.html">Range</a>&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>range</em> = <code><a class="el" href="classboca_1_1Range.html">Range</a>&lt;double&gt;(0.5,&#160;2)</code>&#160;</td>
+          <td class="paramname"><em>range</em> = <code>{0.5,&#160;2}</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

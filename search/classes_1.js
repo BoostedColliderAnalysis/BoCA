@@ -12,6 +12,5 @@ var searchData=
   ['bottom',['Bottom',['../classstandardmodel_1_1tagger_1_1Bottom.html',1,'standardmodel::tagger']]],
   ['bottombase',['BottomBase',['../classstandardmodel_1_1branch_1_1BottomBase.html',1,'standardmodel::branch']]],
   ['branch',['Branch',['../classsimple_1_1Branch.html',1,'simple']]],
-  ['branch',['Branch',['../classtthh_1_1Branch.html',1,'tthh']]],
   ['browser',['Browser',['../classboca_1_1Browser.html',1,'boca']]]
 ];

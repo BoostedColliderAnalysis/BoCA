@@ -11,5 +11,5 @@ var searchData=
   ['structure',['structure',['../namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44a07414f4e15ca943e6cde032dec85d92f',1,'boca']]],
   ['sum',['sum',['../namespaceboca.html#a2706590b1d44fa27521c45fecd7ac225a1d623b89683f9ce4e074de1676d12416',1,'boca']]],
   ['symbol',['symbol',['../namespaceboca.html#a06e62c80d66fc788b6a012351bcc4684a97bff26855a8bfa63e05d5477e794b24',1,'boca']]],
-  ['symmetric',['symmetric',['../namespaceboca.html#ad433a34b6ce207eb69c6f0c54a6ed8c3afeca3c730601be7fd57f1f0b668b4637',1,'boca']]]
+  ['symmetric',['symmetric',['../group__Math.html#ggad433a34b6ce207eb69c6f0c54a6ed8c3afeca3c730601be7fd57f1f0b668b4637',1,'boca']]]
 ];

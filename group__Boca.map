@@ -1,6 +1,7 @@
 <map id="BoCA" name="BoCA">
 <area shape="rect" id="node1" href="$group__Colors.html" title="Color definitions for plotting. " alt="" coords="120,5,180,32"/>
-<area shape="rect" id="node2" href="$group__Multiplets.html" title="Multiplets storing signatures. " alt="" coords="111,56,189,83"/>
-<area shape="rect" id="node4" href="$group__FastJet.html" title="Wrapper classes for FastJet classes. " alt="" coords="117,107,183,133"/>
-<area shape="rect" id="node5" href="$group__Generic.html" title="Reusable generic C++ libraries. " alt="" coords="117,157,183,184"/>
+<area shape="rect" id="node2" href="$group__Math.html" title="Math related classes. " alt="" coords="125,56,175,83"/>
+<area shape="rect" id="node3" href="$group__Multiplets.html" title="Multiplets storing signatures. " alt="" coords="111,107,189,133"/>
+<area shape="rect" id="node5" href="$group__FastJet.html" title="Wrapper classes for FastJet classes. " alt="" coords="117,157,183,184"/>
+<area shape="rect" id="node6" href="$group__Generic.html" title="Reusable generic C++ libraries. " alt="" coords="117,208,183,235"/>
 </map>

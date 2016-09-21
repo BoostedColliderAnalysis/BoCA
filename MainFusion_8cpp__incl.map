@@ -1,6 +1,6 @@
 <map id="examples/heavyhiggs/source/MainFusion.cpp" name="examples/heavyhiggs/source/MainFusion.cpp">
-<area shape="rect" id="node2" href="$Fusion_8hh.html" title="heavyhiggs/analysis\l/Fusion.hh" alt="" coords="761,169,901,211"/>
-<area shape="rect" id="node30" href="$tagger_2EventFusion_8hh.html" title="heavyhiggs/tagger/EventFusion.hh" alt="" coords="1181,95,1404,121"/>
+<area shape="rect" id="node2" href="$Fusion_8hh.html" title="heavyhiggs/analysis\l/Fusion.hh" alt="" coords="731,169,871,211"/>
+<area shape="rect" id="node30" href="$tagger_2EventFusion_8hh.html" title="heavyhiggs/tagger/EventFusion.hh" alt="" coords="1136,95,1359,121"/>
 <area shape="rect" id="node3" href="$HeavyHiggs_8hh.html" title="heavyhiggs/analysis\l/HeavyHiggs.hh" alt="" coords="404,259,544,300"/>
 <area shape="rect" id="node24" href="$Sort_8hh.html" title="boca/multiplets/Sort.hh" alt="" coords="1551,437,1707,464"/>
 <area shape="rect" id="node29" href="$Particles_8hh.html" title="boca/multiplets/Particles.hh" alt="" coords="1188,437,1371,464"/>
@@ -23,11 +23,11 @@
 <area shape="rect" id="node22" href="$Debug_8hh.html" title="boca/generic/Debug.hh" alt="" coords="5,519,161,546"/>
 <area shape="rect" id="node27" href="$Id_8hh.html" title="boca/physics/Id.hh" alt="" coords="1213,519,1345,546"/>
 <area shape="rect" id="node28" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="1183,609,1375,635"/>
-<area shape="rect" id="node31" href="$EventMultiplet_8hh.html" title="boca/multiplets/EventMultiplet.hh" alt="" coords="1392,177,1607,203"/>
-<area shape="rect" id="node39" href="$branch_2EventFusion_8hh.html" title="heavyhiggs/branch/EventFusion.hh" alt="" coords="974,177,1201,203"/>
-<area shape="rect" id="node43" href="$tagger_2HeavyHiggsSemi_8hh.html" title="heavyhiggs/tagger/HeavyHiggs\lSemi.hh" alt="" coords="2089,169,2293,211"/>
-<area shape="rect" id="node32" href="$boca_2multiplets_2Global_8hh.html" title="boca/multiplets/Global.hh" alt="" coords="1688,266,1857,293"/>
-<area shape="rect" id="node34" href="$multiplets_2TwoBody_8hh.html" title="boca/multiplets/TwoBody.hh" alt="" coords="1406,266,1593,293"/>
+<area shape="rect" id="node31" href="$EventMultiplet_8hh.html" title="boca/multiplets/EventMultiplet.hh" alt="" coords="1331,177,1545,203"/>
+<area shape="rect" id="node39" href="$branch_2EventFusion_8hh.html" title="heavyhiggs/branch/EventFusion.hh" alt="" coords="943,177,1170,203"/>
+<area shape="rect" id="node43" href="$tagger_2HeavyHiggsSemi_8hh.html" title="heavyhiggs/tagger/HeavyHiggs\lSemi.hh" alt="" coords="1947,169,2151,211"/>
+<area shape="rect" id="node32" href="$boca_2multiplets_2Global_8hh.html" title="boca/multiplets/Global.hh" alt="" coords="1556,266,1725,293"/>
+<area shape="rect" id="node34" href="$multiplets_2TwoBody_8hh.html" title="boca/multiplets/TwoBody.hh" alt="" coords="1345,266,1531,293"/>
 <area shape="rect" id="node33" href="$Singlet_8hh.html" title="boca/multiplets/Singlet.hh" alt="" coords="2051,437,2223,464"/>
 <area shape="rect" id="node36" href="$Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="1071,355,1227,382"/>
 <area shape="rect" id="node37" href="$ClusterSequence_8hh.html" title="boca/fastjet/ClusterSequence.hh" alt="" coords="1251,355,1463,382"/>
@@ -35,10 +35,10 @@
 <area shape="rect" id="node40" href="$boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="846,266,995,293"/>
 <area shape="rect" id="node41" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="860,355,995,382"/>
 <area shape="rect" id="node42" href="$GlobalBase_8hh.html" title="boca/branch/GlobalBase.hh" alt="" coords="653,355,836,382"/>
-<area shape="rect" id="node44" href="$tagger_2TopLeptonic_8hh.html" title="standardmodel/tagger\l/TopLeptonic.hh" alt="" coords="1917,259,2063,300"/>
-<area shape="rect" id="node48" href="$tagger_2TopHadronic_8hh.html" title="standardmodel/tagger\l/TopHadronic.hh" alt="" coords="2319,259,2466,300"/>
-<area shape="rect" id="node49" href="$Sextet_8hh.html" title="boca/multiplets/Sextet.hh" alt="" coords="2490,266,2661,293"/>
-<area shape="rect" id="node50" href="$branch_2HeavyHiggsSemi_8hh.html" title="heavyhiggs/branch/HeavyHiggs\lSemi.hh" alt="" coords="2088,259,2295,300"/>
+<area shape="rect" id="node44" href="$tagger_2TopLeptonic_8hh.html" title="standardmodel/tagger\l/TopLeptonic.hh" alt="" coords="2177,259,2323,300"/>
+<area shape="rect" id="node48" href="$tagger_2TopHadronic_8hh.html" title="standardmodel/tagger\l/TopHadronic.hh" alt="" coords="2353,259,2499,300"/>
+<area shape="rect" id="node49" href="$Sextet_8hh.html" title="boca/multiplets/Sextet.hh" alt="" coords="1750,266,1921,293"/>
+<area shape="rect" id="node50" href="$branch_2HeavyHiggsSemi_8hh.html" title="heavyhiggs/branch/HeavyHiggs\lSemi.hh" alt="" coords="1945,259,2152,300"/>
 <area shape="rect" id="node45" href="$Triplet_8hh.html" title="boca/multiplets/Triplet.hh" alt="" coords="2345,355,2513,382"/>
 <area shape="rect" id="node46" href="$Reader_8hh.html" title="boca/multivariant/Reader.hh" alt="" coords="1708,355,1893,382"/>
 <area shape="rect" id="node47" href="$tagger_2Bottom_8hh.html" title="standardmodel/tagger\l/Bottom.hh" alt="" coords="2174,348,2321,389"/>

@@ -5,7 +5,7 @@
 <area shape="rect" id="node5" href="$TopLeptonicPair_8cpp.html" title="examples/higgscpv/source\l/tagger/TopLeptonicPair.cpp" alt="" coords="633,87,819,129"/>
 <area shape="rect" id="node6" href="$Boson_8cpp.html" title="examples/standardmodel\l/source/tagger/Boson.cpp" alt="" coords="843,87,1014,129"/>
 <area shape="rect" id="node7" href="$tagger_2Bottom_8cpp.html" title="examples/standardmodel\l/source/tagger/Bottom.cpp" alt="" coords="1038,87,1214,129"/>
-<area shape="rect" id="node8" href="$tagger_2Higgs_8cpp.html" title="examples/standardmodel\l/source/tagger/Higgs.cpp" alt="" coords="1238,87,1406,129"/>
+<area shape="rect" id="node8" href="$standardmodel_2source_2tagger_2Higgs_8cpp.html" title="examples/standardmodel\l/source/tagger/Higgs.cpp" alt="" coords="1238,87,1406,129"/>
 <area shape="rect" id="node9" href="$tagger_2TopHadronic_8cpp.html" title="examples/standardmodel\l/source/tagger/TopHadronic.cpp" alt="" coords="1430,87,1638,129"/>
 <area shape="rect" id="node10" href="$tagger_2TopHadronicHep_8cpp.html" title="examples/standardmodel\l/source/tagger/TopHadronicHep.cpp" alt="" coords="1662,87,1894,129"/>
 <area shape="rect" id="node11" href="$TopHadronicHep2_8cpp.html" title="examples/standardmodel\l/source/tagger/TopHadronicHep2.cpp" alt="" coords="1919,87,2157,129"/>
@@ -27,7 +27,10 @@
 <area shape="rect" id="node27" href="$TopPartnerLeptonicNeutral_8cpp.html" title="examples/toppartner\l/source/tagger/TopPartnerLeptonic\lNeutral.cpp" alt="" coords="5693,80,5916,136"/>
 <area shape="rect" id="node28" href="$TopPartnerPair_8cpp.html" title="examples/toppartner\l/source/tagger/TopPartnerPair.cpp" alt="" coords="5941,87,6162,129"/>
 <area shape="rect" id="node29" href="$TruthLevel_8cpp.html" title="examples/toppartner\l/source/tagger/TruthLevel.cpp" alt="" coords="6186,87,6381,129"/>
-<area shape="rect" id="node30" href="$source_2delphes_2Event_8cpp.html" title="source/delphes/Event.cpp" alt="" coords="6405,95,6578,121"/>
-<area shape="rect" id="node31" href="$EventShapes_8cpp.html" title="source/EventShapes.cpp" alt="" coords="6602,95,6770,121"/>
-<area shape="rect" id="node32" href="$Exception_8cpp.html" title="source/generic/Exception.cpp" alt="" coords="6794,95,6989,121"/>
+<area shape="rect" id="node30" href="$HiggsSemiLeptonic_8cpp.html" title="examples/tthh/source\l/tagger/HiggsSemiLeptonic.cpp" alt="" coords="6405,87,6609,129"/>
+<area shape="rect" id="node31" href="$HiggsToHiggs_8cpp.html" title="examples/tthh/source\l/tagger/HiggsToHiggs.cpp" alt="" coords="6633,87,6808,129"/>
+<area shape="rect" id="node32" href="$examples_2tthh_2source_2tagger_2Signature_8cpp.html" title="examples/tthh/source\l/tagger/Signature.cpp" alt="" coords="6833,87,6979,129"/>
+<area shape="rect" id="node33" href="$source_2delphes_2Event_8cpp.html" title="source/delphes/Event.cpp" alt="" coords="7003,95,7177,121"/>
+<area shape="rect" id="node34" href="$EventShapes_8cpp.html" title="source/EventShapes.cpp" alt="" coords="7201,95,7369,121"/>
+<area shape="rect" id="node35" href="$Exception_8cpp.html" title="source/generic/Exception.cpp" alt="" coords="7393,95,7587,121"/>
 </map>
