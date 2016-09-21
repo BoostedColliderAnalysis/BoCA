@@ -1,15 +1,5 @@
-// @(#)root/physics:$Id$
-// Author: Peter Malzacher   19/06/99
-
-/*************************************************************************
- * Copyright (C) 1995-2000, Rene Brun and Fons Rademakers.               *
- * All rights reserved.                                                  *
- *                                                                       *
- * For the licensing terms see $ROOTSYS/LICENSE.                         *
- * For the list of contributors see $ROOTSYS/README/CREDITS.             *
- *************************************************************************/
-
 #pragma once
+
 #include "boca/Matrix3.hh"
 #include "boca/LorentzVector.hh"
 
@@ -343,7 +333,7 @@ public:
         return Transform(Matrix3<Value_>().Rotate(angle, axis));
     }
 
-protected:
+private:
 
     // The matrix elements.
     LorentzVector<Value_> x_;

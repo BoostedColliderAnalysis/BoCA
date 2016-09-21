@@ -52,6 +52,8 @@ cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=O
 
 ## Usage
 
+> Examples are listed [here](https://boostedcollideranalysis.github.io/BoCA/examples.html).
+
 Each analysis needs a dedicated `Analysis` class, a set of `Tagger` classess and a `main.cpp` file.
 The `Analysis` class contains the global information of the analysis, such as file names, path names, variables names etc.
 Every `Tagger` class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated `Tagger`.
