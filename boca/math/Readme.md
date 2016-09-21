@@ -1,8 +1,9 @@
+[//]: # (
 <!-- /** -->
   @defgroup Math Math
   @ingroup Boca
   @brief Math related classes
-<!--  */ -->
+<!--  */ )-->
 
 # Math
 
