@@ -56,6 +56,17 @@ Angle Restrict(Angle phi);
 */
 Angle Wrap(Angle phi);
 
+/**
+ * @brief Get a minimal value from phi
+ */
+template<typename Function_>
+auto Minimize(Angle phi, Function_ function) {
+  auto value_1 = function(phi);
+  phi = Wrap(phi);
+  auto value_2 = function(phi);
+  return std::min(value_1, value_2);
+}
+
 }
 
 using namespace units;

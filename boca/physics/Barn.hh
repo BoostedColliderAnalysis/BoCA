@@ -37,19 +37,11 @@ BOOST_UNITS_STATIC_CONSTANT(Barns, barn::Area);
  */
 using Crosssection = boost::units::quantity<barn::Area>;
 
-double to_double(Crosssection const& crosssection);
-
-Crosssection to_crosssection(double crosssection);
-
 /**
  * @brief Luminosity measured in 1 / barn
  *
  */
 using Luminosity = boost::units::quantity<barn::Luminosity>;
-
-double to_double(Luminosity luminosity);
-
-Luminosity to_luminosity(double luminosity);
 
 Crosssection min(std::vector<Crosssection> vector, bool truncate = false);
 
