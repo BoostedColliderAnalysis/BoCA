@@ -53,91 +53,79 @@ namespace wimpmass
 
 using namespace boca;
 
-Invisible22::Invisible22() {}
-
-Invisible22::Invisible22(LorentzVector< Momentum > const& missing) :
-    missing_(missing) {}
-
-Invisible22::Invisible22(Quartet22 const& quartet, LorentzVector< Momentum > const& missing) :
-    missing_(missing)
+Invisible22::Invisible22(boca::Mass const &heavy, boca::Mass const &light, boca::Mass const &invisible)
 {
-    Set(quartet);
+    SetMasses(heavy, light, invisible);
 }
 
-void Invisible22::SetMissingMomentum(LorentzVector< Momentum > const& missing)
+void Invisible22::SetMasses(boca::Mass const &heavy, boca::Mass const &light, boca::Mass const &invisible) {
+    heavy_square_ = sqr(heavy);
+    light_square_ = sqr(light);
+    invisible_square_ = sqr(invisible);
+}
+
+void Invisible22::SetMissingMomentum(LorentzVector< Momentum > const &missing)
 {
+    missing.Pz() = 0_GeV;
+    missing.E() = 0_GeV;
     missing_ = missing;
 }
 
-void Invisible22::Set(Quartet22 const& quartet)
+void Invisible22::Set(Quartet22 const &quartet)
 {
     SetFirstChain(quartet.Doublet1());
     SetSecondChain(quartet.Doublet2());
 }
 
-void Invisible22::SetFirstChain(const Doublet& doublet)
+void Invisible22::SetFirstChain(const Doublet &doublet)
 {
     p3_ = doublet.Singlet2().Vector();
     p5_ = doublet.Singlet1().Vector();
 }
 
-void Invisible22::SetSecondChain(const Doublet& doublet)
+void Invisible22::SetSecondChain(const Doublet &doublet)
 {
     p4_ = doublet.Singlet2().Vector();
     p6_ = doublet.Singlet1().Vector();
 }
 
-void Invisible22::SetFirstChain(LorentzVector< Momentum > const& first, LorentzVector< Momentum > const& second)
+void Invisible22::SetFirstChain(LorentzVector< Momentum > const &first, LorentzVector< Momentum > const &second)
 {
     p3_ = first;
     p5_ = second;
 }
 
-void Invisible22::SetSecondChain(LorentzVector< Momentum > const& first, LorentzVector< Momentum > const& second)
+void Invisible22::SetSecondChain(LorentzVector< Momentum > const &first, LorentzVector< Momentum > const &second)
 {
     p4_ = first;
     p6_ = second;
 }
 
-void Invisible22::solve22(event22& evt, double mn, double mx, double my, int& nsols, double p1[][4], double p2[][4])
+std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solve(LorentzVector< Momentum > const &first, LorentzVector< Momentum > const &second, LorentzVector< Momentum > const &third, LorentzVector< Momentum > const &fourth, LorentzVector< Momentum > const &missing)
 {
-    SetVector(evt.p3, p3_);
-    SetVector(evt.p4, p4_);
-    SetVector(evt.p5, p5_);
-    SetVector(evt.p6, p6_);
-    SetVector(evt.pmiss, missing_);
-    auto sols = Solve(my * GeV, mx * GeV, mn * GeV);
-    nsols = sols.size();
-    for (auto sol : IntegerRange(sols.size())) {
-        SetMomentum(p1[sol], sols[sol].first);
-        SetMomentum(p2[sol], sols[sol].second);
-    }
+    SetMissingMomentum(missing);
+    SetFirstChain(first,  second);
+    SetSecondChain(third,  fourth);
+    return Solve();
 }
 
-void Invisible22::SetVector(double momentum[4], LorentzVector<Momentum>& jet)
+std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solve(Doublet const &doublet_1, Doublet const &doublet_2, LorentzVector< Momentum > const &missing)
 {
-    jet.E() = momentum[0] * GeV;
-    jet.Px() = momentum[1] * GeV;
-    jet.Py() = momentum[2] * GeV;
-    jet.Pz() = momentum[3] * GeV;
+    SetMissingMomentum(missing);
+    SetFirstChain(doublet_1);
+    SetSecondChain(doublet_2);
+    return Solve();
 }
 
-void Invisible22::SetMomentum(double momentum[4], const LorentzVector<Momentum>& jet)
+std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solve(Quartet22 const &quartet, LorentzVector< Momentum > const &missing)
 {
-    momentum[0] = jet.E() / GeV;
-    momentum[1] = jet.Px() / GeV;
-    momentum[2] = jet.Py() / GeV;
-    momentum[3] = jet.Pz() / GeV;
+    SetMissingMomentum(missing);
+    Set(quartet);
+    return Solve();
 }
 
-std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solve(Mass const& heavy, Mass const& light, Mass const& invisible)
+std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solve()
 {
-    heavy_square_ = sqr(heavy);
-    light_square_ = sqr(light);
-    invisible_square_ = sqr(invisible);
-    missing_.Pz() = 0_GeV;
-    missing_.E() = 0_GeV;
-
     auto coefficients = Coefficients();
     if (coefficients.at(4) == 0.) {
         ERROR("Not a Quartic Equation");
@@ -146,14 +134,14 @@ std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisib
     auto polynomial = ROOT::Math::Polynomial {coefficients.size() - 1};
     polynomial.SetParameters(coefficients.data());
 
-    auto solutions = std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>>{};
-    for (auto const & root : polynomial.FindRealRoots()) if (auto solution = Solution(root * GeV)) solutions.emplace_back(*solution);
+    auto solutions = std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> {};
+    for (auto const &root : polynomial.FindRealRoots()) if (auto solution = Solution(root * GeV)) solutions.emplace_back(*solution);
     return solutions;
 }
 
 std::array< double, 5 > Invisible22::Coefficients()
 {
-    auto coefficients = std::array< double, 5 >{};
+    auto coefficients = std::array< double, 5 > {};
 
     auto factor_1 = VectorA().X() * MatrixB().X().X() - MatrixA().X().X() * VectorB().X();
     auto factor_2 = MatrixA().X().X() * ScalarB() - ScalarA() * MatrixB().X().X();
@@ -226,7 +214,7 @@ std::array< double, 5 > Invisible22::Coefficients()
 Matrix2<double> Invisible22::MatrixA()
 {
     return matrix_a_.Get([&]() {
-        auto matrix = Matrix2<double>{};
+        auto matrix = Matrix2<double> {};
         matrix.X().X() = sqr(CoefficientVector1().Vector()) - 1.;
         matrix.Y().Y() = sqr(CoefficientVector2().Vector());
         matrix.X().Y() = 2. * CoefficientVector1().Vector() * CoefficientVector2().Vector();
@@ -237,7 +225,7 @@ Matrix2<double> Invisible22::MatrixA()
 Matrix2<double> Invisible22::MatrixB()
 {
     return matrix_b_.Get([&]() {
-        auto matrix = Matrix2<double>{};
+        auto matrix = Matrix2<double> {};
         matrix.X().X() = CoefficientVector1().Euclidean(CoefficientVector1()) - 2. * CoefficientVector1().Z() * CoefficientVector1().T();
         matrix.Y().Y() = -1. + CoefficientVector2().Euclidean(CoefficientVector2()) - 2. * CoefficientVector2().Z() * CoefficientVector2().T();
         matrix.X().Y() = 2. * (CoefficientVector1().Euclidean(CoefficientVector2()) - CoefficientVector2().Z() * CoefficientVector1().T() - CoefficientVector1().Z() * CoefficientVector2().T());
@@ -248,7 +236,7 @@ Matrix2<double> Invisible22::MatrixB()
 Vector2< Momentum > Invisible22::VectorA()
 {
     return vector_a_.Get([&]() {
-        auto vector = Vector2<Momentum>{};
+        auto vector = Vector2<Momentum> {};
         vector.X() = 2. * CoefficientVector().Vector() * CoefficientVector1().Vector();
         vector.Y() = 2. * CoefficientVector().Vector() * CoefficientVector2().Vector();
         return vector;
@@ -258,7 +246,7 @@ Vector2< Momentum > Invisible22::VectorA()
 Vector2< Momentum > Invisible22::VectorB()
 {
     return vector_b_.Get([&]() {
-        auto vector = Vector2<Momentum>{};
+        auto vector = Vector2<Momentum> {};
         vector.X() = 2. * (CoefficientVector().Euclidean(CoefficientVector1()) - CoefficientVector1().Z() * CoefficientVector().T() - CoefficientVector().Z() * CoefficientVector1().T() + CoefficientVector1() * missing_);
         vector.Y() = 2. * (CoefficientVector().Euclidean(CoefficientVector2()) - CoefficientVector2().Z() * CoefficientVector().T() - CoefficientVector().Z() * CoefficientVector2().T() + CoefficientVector2() * missing_);
         return vector;
@@ -282,18 +270,18 @@ MomentumSquare Invisible22::ScalarB()
 LorentzVector< double > Invisible22::CoefficientVector1() const
 {
     return coefficient_vector_1_.Get([&]() {
-        auto matrix_35 = Matrix2<Momentum>{{p3_.Z(), p3_.E()}, {p5_.Z(), p5_.E()}};
-        auto matrix_345 = Matrix3<Momentum>{p3_.Vector(), p4_.Vector(), p5_.Vector()};
-        auto matrix_356 = Matrix3<Momentum>{p3_.Vector(), p5_.Vector(), p6_.Vector()};
-        auto matrix_346 = Matrix3<Momentum>{p3_.Vector(), p4_.Vector(), p6_.Vector()};
-        auto matrix_456 = Matrix3<Momentum>{p4_.Vector(), p5_.Vector(), p6_.Vector()};
+        auto matrix_35 = Matrix2<Momentum> {{p3_.Z(), p3_.E()}, {p5_.Z(), p5_.E()}};
+        auto matrix_345 = Matrix3<Momentum> {p3_.Vector(), p4_.Vector(), p5_.Vector()};
+        auto matrix_356 = Matrix3<Momentum> {p3_.Vector(), p5_.Vector(), p6_.Vector()};
+        auto matrix_346 = Matrix3<Momentum> {p3_.Vector(), p4_.Vector(), p6_.Vector()};
+        auto matrix_456 = Matrix3<Momentum> {p4_.Vector(), p5_.Vector(), p6_.Vector()};
         auto red_det_3 = matrix_456.ReducedDeterminant(Dim3::y, Dim3::z);
         auto red_det_4 = matrix_356.ReducedDeterminant(Dim3::z, Dim3::z);
         auto red_det_5 = matrix_346.ReducedDeterminant(Dim3::x, Dim3::z);
         auto red_det_6 = matrix_345.ReducedDeterminant(Dim3::y, Dim3::z);
         auto denominator = p5_.Pz() * red_det_5 + p3_.Pz() * red_det_3;
 
-        auto vector = LorentzVector<double>{};
+        auto vector = LorentzVector<double> {};
         vector.X() = matrix_35.Determinant() * matrix_456.Cofactor(Dim3::y, Dim3::x) / (p4_.Z() * red_det_4 + p6_.Z() * red_det_6);
         vector.Y() = matrix_35.Determinant() * matrix_456.Cofactor(Dim3::y, Dim3::y) / denominator;
         vector.Z() = (p5_.E() * red_det_5 + p3_.E() * red_det_3) / denominator;
@@ -305,18 +293,18 @@ LorentzVector< double > Invisible22::CoefficientVector1() const
 LorentzVector< double > Invisible22::CoefficientVector2() const
 {
     return coefficient_vector_2_.Get([&]() {
-        auto matrix_46 = Matrix2<Momentum>{{p4_.Z(), p4_.E()}, {p6_.Z(), p6_.E()}};
-        auto matrix_345 = Matrix3<Momentum>{p3_.Vector(), p4_.Vector(), p5_.Vector()};
-        auto matrix_356 = Matrix3<Momentum>{p3_.Vector(), p5_.Vector(), p6_.Vector()};
-        auto matrix_346 = Matrix3<Momentum>{p3_.Vector(), p4_.Vector(), p6_.Vector()};
-        auto matrix_456 = Matrix3<Momentum>{p4_.Vector(), p5_.Vector(), p6_.Vector()};
+        auto matrix_46 = Matrix2<Momentum> {{p4_.Z(), p4_.E()}, {p6_.Z(), p6_.E()}};
+        auto matrix_345 = Matrix3<Momentum> {p3_.Vector(), p4_.Vector(), p5_.Vector()};
+        auto matrix_356 = Matrix3<Momentum> {p3_.Vector(), p5_.Vector(), p6_.Vector()};
+        auto matrix_346 = Matrix3<Momentum> {p3_.Vector(), p4_.Vector(), p6_.Vector()};
+        auto matrix_456 = Matrix3<Momentum> {p4_.Vector(), p5_.Vector(), p6_.Vector()};
         auto red_det_3 = matrix_456.ReducedDeterminant(Dim3::y, Dim3::z);
         auto red_det_4 = matrix_356.ReducedDeterminant(Dim3::z, Dim3::z);
         auto red_det_5 = matrix_346.ReducedDeterminant(Dim3::x, Dim3::z);
         auto red_det_6 = matrix_345.ReducedDeterminant(Dim3::y, Dim3::z);
         auto denominator = p5_.Pz() * red_det_5 + p3_.Pz() * red_det_3;
 
-        auto vector = LorentzVector<double>{};
+        auto vector = LorentzVector<double> {};
         vector.X() = matrix_46.Determinant() * matrix_345.Cofactor(Dim3::y, Dim3::x) / (p4_.Z() * red_det_4 + p6_.Z() * red_det_6);
         vector.Y() = matrix_46.Determinant() * matrix_345.Cofactor(Dim3::y, Dim3::y) / denominator;
         vector.Z() = matrix_46.Determinant() * matrix_345.Cofactor(Dim3::y, Dim3::z) / denominator;
@@ -335,10 +323,10 @@ LorentzVector< Momentum > Invisible22::CoefficientVector() const
         auto mass_46 = heavy_square_ - light_square_ - sqr(p4_ + p6_) + sqr(p4_);
         auto mass_35 = heavy_square_ - light_square_ - sqr(p3_ + p5_) + sqr(p3_);
 
-        auto matrix_345 = Matrix3<Momentum>{p3_.Vector(), p4_.Vector(), p5_.Vector()};
-        auto matrix_356 = Matrix3<Momentum>{p3_.Vector(), p5_.Vector(), p6_.Vector()};
-        auto matrix_346 = Matrix3<Momentum>{p3_.Vector(), p4_.Vector(), p6_.Vector()};
-        auto matrix_456 = Matrix3<Momentum>{p4_.Vector(), p5_.Vector(), p6_.Vector()};
+        auto matrix_345 = Matrix3<Momentum> {p3_.Vector(), p4_.Vector(), p5_.Vector()};
+        auto matrix_356 = Matrix3<Momentum> {p3_.Vector(), p5_.Vector(), p6_.Vector()};
+        auto matrix_346 = Matrix3<Momentum> {p3_.Vector(), p4_.Vector(), p6_.Vector()};
+        auto matrix_456 = Matrix3<Momentum> {p4_.Vector(), p5_.Vector(), p6_.Vector()};
         auto red_det_3 = matrix_456.ReducedDeterminant(Dim3::y, Dim3::z);
         auto red_det_5 = matrix_346.ReducedDeterminant(Dim3::x, Dim3::z);
 
@@ -350,7 +338,7 @@ LorentzVector< Momentum > Invisible22::CoefficientVector() const
         auto factor_35 = p6_.Pz() * (mass_4 - missing4) - p4_.Pz() * (mass_46 - missing6);
         auto factor_46 = p5_.Pz() * mass_3 - p3_.Pz() * mass_35;
 
-        auto vector = LorentzVector<Momentum5>{};
+        auto vector = LorentzVector<Momentum5> {};
         vector.X() = factor_46 * matrix_456.Cofactor(Dim3::y, Dim3::x) + factor_35 * matrix_345.Cofactor(Dim3::y, Dim3::x);
         vector.Y() = factor_46 * matrix_456.Cofactor(Dim3::y, Dim3::y) + factor_35 * matrix_345.Cofactor(Dim3::y, Dim3::y);
         vector.Z() = factor_35 * matrix_345.Cofactor(Dim3::y, Dim3::z) - mass_3 * red_det_3 - mass_35 * red_det_5;
@@ -365,11 +353,11 @@ LorentzVector< Momentum > Invisible22::CoefficientVector() const
     });
 }
 
-boost::optional<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solution(Momentum const& root)
+boost::optional<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solution(Momentum const &root)
 {
-    auto vector_2 = LorentzVector<Momentum>{};
+    auto vector_2 = LorentzVector<Momentum> {};
     vector_2.E() = root;
-    auto vector_1 = LorentzVector<Momentum>{};
+    auto vector_1 = LorentzVector<Momentum> {};
     vector_1.E() = Energy1(vector_2.E());
     if (vector_1.E() <= 0_eV || vector_2.E() <= 0_eV) return boost::none;
     vector_1.Vector() = CoefficientVector1().Vector() * vector_1.E() + CoefficientVector2().Vector() * vector_2.E() + CoefficientVector().Vector();
@@ -378,7 +366,7 @@ boost::optional<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Inv
     return std::make_pair(vector_1, vector_2);
 }
 
-Energy Invisible22::Energy1(Energy const& energy_2)
+Energy Invisible22::Energy1(Energy const &energy_2)
 {
     // substitute p2.E() solution into general p1.E() solution in terms of p2.E()
     return (
@@ -394,6 +382,38 @@ Energy Invisible22::Energy1(Energy const& energy_2)
                + MatrixA().X().Y() * MatrixB().X().X() * energy_2
                - MatrixA().X().X() * MatrixB().X().Y() * energy_2
            );
+}
+
+void TestInvisible22::solve22(event22 &evt, double mn, double mx, double my, int &nsols, double p1[][4], double p2[][4])
+{
+    SetFirstChain(Vector(evt.p3), Vector(evt.p5));
+    SetSecondChain(Vector(evt.p4), Vector(evt.p6));
+    SetMissingMomentum(Vector(evt.pmiss));
+    SetMasses(my * GeV, mx * GeV, mn * GeV);
+    auto sols = Solve();
+    nsols = sols.size();
+    for (auto sol : IntegerRange(sols.size())) {
+        Momentum(p1[sol], sols[sol].first);
+        Momentum(p2[sol], sols[sol].second);
+    }
+}
+
+boca::LorentzVector<boca::Momentum> TestInvisible22::Vector(double momentum[4])
+{
+    boca::LorentzVector<boca::Momentum> vector;
+    vector.E() = momentum[0] * GeV;
+    vector.Px() = momentum[1] * GeV;
+    vector.Py() = momentum[2] * GeV;
+    vector.Pz() = momentum[3] * GeV;
+    return vector;
+}
+
+void TestInvisible22::Momentum(double momentum[4], const boca::LorentzVector<boca::Momentum>& vector)
+{
+    momentum[0] = vector.E() / GeV;
+    momentum[1] = vector.Px() / GeV;
+    momentum[2] = vector.Py() / GeV;
+    momentum[3] = vector.Pz() / GeV;
 }
 
 }

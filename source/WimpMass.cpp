@@ -10,19 +10,19 @@
 namespace boca
 {
 
-std::vector<boca::Sextet33> WimpMass::Sextet33s(std::vector<Quartet22> const& quartets, Jet const& missing_et)
+std::vector<boca::Sextet33> WimpMass::Sextets(std::vector<Quartet22> const& quartets, Jet const& missing_et)
 {
     auto sextets = std::vector<boca::Sextet33>{};
-    for (auto const & quartet : quartets) Insert(sextets, Sextet33s(quartet, missing_et));
+    for (auto const & quartet : quartets) Insert(sextets, Sextets(quartet, missing_et));
     return sextets;
 }
 
-std::vector<boca::Sextet33> WimpMass::Sextet33s(Quartet22 const& quartet, Jet const& missing_et)
+std::vector<boca::Sextet33> WimpMass::Sextets(Quartet22 const& quartet, Jet const& missing_et)
 {
     INFO0;
-    auto invisible = wimpmass::Invisible22{quartet, missing_et.Vector()};
+    auto invisible = wimpmass::Invisible22{MassOf(Id::top), MassOf(Id::W), MassOf(MultiId::neutrino)};
     auto sextets = std::vector<boca::Sextet33>{};
-    for (auto const & solution: invisible.Solve(MassOf(Id::top), MassOf(Id::W), MassOf(MultiId::neutrino))){
+    for (auto const & solution: invisible.Solve(quartet, missing_et.Vector())){
         auto sextet = boca::Sextet33{Triplet(Doublet(quartet.Doublet1().Singlet2(), solution.first), quartet.Doublet1().Singlet1()), Triplet(Doublet(quartet.Doublet2().Singlet2(), solution.second), quartet.Doublet2().Singlet1())};
         sextet.Triplet1().SetBdt(quartet.Doublet1().Bdt());
         sextet.Triplet2().SetBdt(quartet.Doublet2().Bdt());
@@ -34,11 +34,11 @@ std::vector<boca::Sextet33> WimpMass::Sextet33s(Quartet22 const& quartet, Jet co
     return sextets;
 }
 
-std::vector<boca::Sextet33> WimpMass::Sextet33(Quartet22 const& quartet, Jet const& missing_et, std::vector<Particle> const& neutrinos, Tag tag)
+std::vector<boca::Sextet33> WimpMass::Sextet(Quartet22 const& quartet, Jet const& missing_et, std::vector<Particle> const& neutrinos, Tag tag)
 {
     INFO0;
     auto map = std::map<Mass, boca::Sextet33>{};
-    for (auto const & sextet : Sextet33s(quartet, missing_et)) {
+    for (auto const & sextet : Sextets(quartet, missing_et)) {
         auto neutrino_1 = sextet.Triplet1().Doublet().Singlet2();
         auto neutrino_2 = sextet.Triplet2().Doublet().Singlet2();
         auto errors_1 = std::vector<Mass>{};

@@ -116,7 +116,7 @@ std::vector<Octet62> SignatureNeutral::CleanOctets(boca::Event const& event, std
     //   ERROR(bottoms.size());
     for (auto const & octet : octets) {
         switch (tag) {
-        case Tag::signal : for (const auto & higgs : higgses) if (!Close<boca::Jet>(higgs)(octet.Sextet33())) continue;
+        case Tag::signal : for (const auto & higgs : higgses) if (!Close<boca::Jet>(higgs)(octet.Sextet())) continue;
             break;
         case Tag::background  :
             //         ERROR("What are we doing here?");

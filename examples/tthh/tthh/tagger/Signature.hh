@@ -1,11 +1,12 @@
 #pragma once
 
-#include "boca/branch/ThreeBody.hh"
 #include "boca/multiplets/Duodecuplet.hh"
 
-#include "tthh/tagger/HiggsToHiggs.hh"
 #include "standardmodel/tagger/TopHadronic.hh"
 #include "standardmodel/tagger/TopLeptonic.hh"
+
+#include "tthh/tagger/HiggsToHiggs.hh"
+#include "tthh/branch/Signature.hh"
 
 namespace tthh
 {
@@ -17,7 +18,7 @@ namespace tagger
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class Signature : public Tagger<Duodecuplet633, boca::branch::ThreeBody>
+class Signature : public Tagger<Duodecuplet633, branch::Signature>
 {
 
 public:

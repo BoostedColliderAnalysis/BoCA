@@ -1,14 +1,3 @@
-// Author: Pasha Murat , Peter Malzacher  12/02/99
-// Jan Hajer 2015 (tempaltes and units)
-
-/*************************************************************************
- * Copyright(C) 1995-2000, Rene Brun and Fons Rademakers.               *
- * All rights reserved.                                                  *
- *                                                                       *
- * For the licensing terms see $ROOTSYS/LICENSE.                         *
- * For the list of contributors see $ROOTSYS/README/CREDITS.             *
- *************************************************************************/
-
 #pragma once
 
 #include "boca/delphes/Forward.hh"
@@ -21,147 +10,322 @@ class TLorentzVector;
 namespace boca
 {
 
+/**
+ * @ingroup Math
+ * @brief Lorentz vector
+ */
 template<typename Value>
 class LorentzVector : public LorentzVectorBase<Value>
 {
     using LorentzVectorBase<Value>::LorentzVectorBase;
 };
 
+/**
+ * @ingroup Math
+ * @brief Momentum Lorentz vector
+ */
 template<>
 class LorentzVector<Momentum> : public LorentzVectorBase<Momentum>
 {
+
 public:
+
+    /**
+     * @name Constructor
+     * @{
+     */
 
     using LorentzVectorBase<Momentum>::LorentzVectorBase;
 
+    /**
+     * @brief Default constructor
+     */
     LorentzVector();
 
-    LorentzVector(LorentzVectorBase<Momentum> const& lorentz_vector);
+//     LorentzVector(LorentzVectorBase<Momentum> const& lorentz_vector);
 
-    LorentzVector(TLorentzVector const& lorentzvector);
+    /**
+     * @brief Constructor accepting root::TLorentzVector
+     */
+    LorentzVector(TLorentzVector const &lorentzvector);
 
-    LorentzVector(exroot::Electron const& electron);
+    /**
+     * @brief Constructor accepting exroot::Electron
+     */
+    LorentzVector(exroot::Electron const &electron);
 
-    LorentzVector(exroot::GenJet const& jet);
+    /**
+     * @brief Constructor accepting exroot::GenJet
+     */
+    LorentzVector(exroot::GenJet const &jet);
 
-    LorentzVector(exroot::GenParticle const& particle);
+    /**
+     * @brief Constructor accepting exroot::GenParticle
+     */
+    LorentzVector(exroot::GenParticle const &particle);
 
-    LorentzVector(exroot::Jet const& jet);
+    /**
+     * @brief Constructor accepting exroot::Jet
+     */
+    LorentzVector(exroot::Jet const &jet);
 
-    LorentzVector(exroot::LHEFParticle const& particle);
+    /**
+     * @brief Constructor accepting exroot::LHEFParticle
+     */
+    LorentzVector(exroot::LHEFParticle const &particle);
 
-    LorentzVector(exroot::Muon const& muon);
+    /**
+     * @brief Constructor accepting exroot::Muon
+     */
+    LorentzVector(exroot::Muon const &muon);
 
-    LorentzVector(exroot::Photon const& photon);
+    /**
+     * @brief Constructor accepting exroot::Photon
+     */
+    LorentzVector(exroot::Photon const &photon);
 
-    LorentzVector(exroot::Tau const& tau);
+    /**
+     * @brief Constructor accepting exroot::Tau
+     */
+    LorentzVector(exroot::Tau const &tau);
 
+    //@}
+
+    /**
+     * @name Setter
+     * @{
+     */
+
+    /**
+     * @brief Setter for px py pz e
+     */
+    void SetPxPyPzE(const boca::Momentum &px, const boca::Momentum &py, const boca::Momentum &pz, const boca::Energy &energy);
+
+    /**
+     * @brief Setter for pt eta phi m
+     */
+    void SetPtEtaPhiM(Momentum const &pt, boca::Angle const &eta, boca::Angle const &phi, boca::Mass const &mass);
+
+
+    /**
+     * @brief Setter for pt eta phi e
+     */
+    void SetPtEtaPhiE(Momentum const &pt, boca::Angle const &eta, boca::Angle const &phi, boca::Energy const &energy);
+
+    /**
+     * @brief Setter for a exroot Particle
+     */
     template<typename Particle>
-    void LorentzVectorByEnergy(const Particle& particle) {
+    void LorentzVectorByEnergy(const Particle &particle)
+    {
         SetPtEtaPhiE(particle.PT * GeV, particle.Eta * rad, particle.Phi * rad, particle.E * GeV);
     }
 
+    /**
+     * @brief Setter for a exroot Particle and a mass
+     */
     template<typename Particle>
-    void LorentzVectorByMass(const Particle& particle, boca::Mass const& mass) {
+    void LorentzVectorByMass(const Particle &particle, boca::Mass const &mass)
+    {
         SetPtEtaPhiM(particle.PT * GeV, particle.Eta * rad, particle.Phi * rad, mass);
     }
 
+    /**
+     * @brief Setter for a exroot Particle
+     */
     template<typename Particle>
-    void LorentzVectorByMass(const Particle& particle) {
+    void LorentzVectorByMass(const Particle &particle)
+    {
         LorentzVectorByMass(particle, particle.Mass * GeV);
     }
 
+    /**
+     * @brief Setter for a exroot Particle
+     */
     template<typename Particle>
-    void LorentzVectorByM(const Particle& particle) {
+    void LorentzVectorByM(const Particle &particle)
+    {
         LorentzVectorByMass(particle, particle.M * GeV);
     }
-    // Get momentum and energy.
+
+    //@}
+
+    /**
+     * @name Accessor and Getter
+     * @{
+     */
+
+    /**
+    * @brief Px
+    */
     Momentum Px() const;
+
+    /**
+    * @brief Py
+    */
     Momentum Py() const;
+
+    /**
+    * @brief Pz
+    */
     Momentum Pz() const;
+
+    /**
+    * @brief Energy
+    */
     boca::Energy E() const;
+
+    /**
+    * @brief Energy
+    */
     boca::Energy Energy() const;
-    Momentum & Px() ;
-    Momentum & Py() ;
-    Momentum & Pz() ;
-    boca::Energy & E() ;
-    boca::Energy & Energy() ;
+
+    /**
+    * @brief Px
+    */
+    Momentum &Px() ;
+
+    /**
+    * @brief Py
+    */
+    Momentum &Py() ;
+
+    /**
+    * @brief Pz
+    */
+    Momentum &Pz() ;
+
+    /**
+    * @brief Energy
+    */
+    boca::Energy &E() ;
+
+    /**
+    * @brief Energy
+    */
+    boca::Energy &Energy() ;
+
+    //@}
+
+    /**
+     * @name Energy related variables
+     * @{
+     */
+
+    /**
+    * @brief Momentum
+    */
     Momentum P() const;
 
-    // Set momentum and energy.
-    void SetPx(const boca::Momentum& a);
-    void SetPy(Momentum const& a);
-    void SetPz(Momentum const& a);
-    void SetE(boca::Energy const& a);
-    // Transverse energy squared.
+    /**
+    * @brief Transverse energy squared.
+    */
     EnergySquare Et2() const;
 
-    // Transverse energy.
+    /**
+    * @brief Transverse energy.
+    */
     boca::Energy Et() const;
 
-    // Transverse energy w.r.t. given axis squared.
+    /**
+    * @brief Transverse energy w.r.t. given axis squared.
+    */
     template<typename Value,  typename = OnlyIfNotQuantity<Value>>
-    EnergySquare Et2(Vector3<Value> const& vector) const {
-        auto pt2 = vector_3_.Perp2(vector);
-        auto pv = vector_3_.Dot(vector.Unit());
-        return pt2 == 0. * GeV2 ? 0. * GeV2 : sqr(E()) * pt2 / (pt2 + sqr(pv));
+    EnergySquare Et2(Vector3<Value> const &vector) const
+    {
+        return ScalarT2(vector);
     }
 
-    // Transverse energy w.r.t. given axis.
+    /**
+    * @brief Transverse energy w.r.t. given axis.
+    */
     template<typename Value,  typename = OnlyIfNotQuantity<Value>>
-    boca::Energy Et(Vector3<Value> const& vector) const {
-        auto etet = Et2(vector);
-        return E() < 0_GeV ? -sqrt(etet) : sqrt(etet);
+    boca::Energy Et(Vector3<Value> const &vector) const
+    {
+        return ScalarT(vector);
     }
 
-    // Setters to provide the functionality(but a more meanigful name) of
-    void SetPxPyPzE(const boca::Momentum& px, const boca::Momentum& py, const boca::Momentum& pz, const boca::Energy& energy);
-
-    void SetPtEtaPhiM(Momentum const& pt, boca::Angle const& eta, boca::Angle const& phi, boca::Mass const& mass);
-
-    void SetPtEtaPhiE(Momentum const& pt, boca::Angle const& eta, boca::Angle const& phi, boca::Energy const& energy);
-
+    /**
+    * @brief Mass square
+    */
     MassSquare M2() const;
 
+    /**
+    * @brief Mass
+    */
     boca::Mass M() const;
+
+    /**
+    * @brief Mass
+    */
     boca::Mass Mass() const;
 
-    // Transverse mass squared.
+    /**
+    * @brief Transverse mass squared.
+    */
     MassSquare Mt2() const;
 
-    // Transverse mass.
+    /**
+    * @brief Transverse mass.
+    */
     boca::Mass Mt() const;
 
-    // Transverse component of the spatial vector(R in cylindrical system).
+    /**
+    * @brief Transverse component of the spatial vector(R in cylindrical system).
+    */
     Momentum Pt() const;
 
-    // Transverse component of the spatial vector w.r.t. given axis.
+    /**
+    * @brief Transverse component of the spatial vector w.r.t. given axis.
+    */
     template<typename Value,  typename = OnlyIfNotQuantity<Value>>
-    Momentum Pt(Vector3<Value> const& vector) const
+    Momentum Pt(Vector3<Value> const &vector) const
     {
-      return Perp(vector);
+        return Perp(vector);
     }
+
+    //@}
 };
 
+/**
+ * @ingroup Math
+ * @brief Length Lorentz vector
+ */
 template<>
 class LorentzVector<Length> : public LorentzVectorBase<Length>
 {
 public:
 
+    /**
+     * @name Constructor
+     * @{
+     */
+
     using LorentzVectorBase<Length>::LorentzVectorBase;
 
+    /**
+     * @brief Default constructor
+     */
     LorentzVector();
 
-    LorentzVector(::delphes::Track& track);
+    /**
+     * @brief Constructor accepting a delphes::Track
+     */
+    LorentzVector(::delphes::Track &track);
 
-    LorentzVector(::delphes::GenParticle& particle);
+    /**
+     * @brief Constructor accepting a delphes::GenParticle
+     */
+    LorentzVector(::delphes::GenParticle &particle);
 
-    void Smearing(const boca::Length& amount);
+    //@}
+
+    /**
+     * @brief Smearing of the for vector
+     */
+    void Smearing(const boca::Length &amount);
 
 };
-
-template<typename Value_>
-using GradedLorentzVector = GradedContainer<LorentzVector, Value_>;
 
 }
 

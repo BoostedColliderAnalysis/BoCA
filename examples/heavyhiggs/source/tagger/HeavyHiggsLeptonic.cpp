@@ -27,7 +27,7 @@ int HeavyHiggsLeptonic::Train(boca::Event const& event, PreCuts const&, Tag tag)
             if (quartet.Overlap()) continue;
             std::vector<Sextet33> Presextets;
             WimpMass wimp_mass;
-            Presextets = wimp_mass.Sextet33(quartet, missing_et, neutrinos, tag);
+            Presextets = wimp_mass.Sextet(quartet, missing_et, neutrinos, tag);
             for (auto const& sextet : Presextets) {
                 sextets.emplace_back(sextet);
             }
@@ -51,7 +51,7 @@ std::vector<Sextet33>  HeavyHiggsLeptonic::Multiplets(boca::Event const& event, 
                 continue;
             std::vector<Sextet33> pre_sextets;
             WimpMass wimp_mass;
-            pre_sextets = wimp_mass.Sextet33s(quartet, missing_et);
+            pre_sextets = wimp_mass.Sextets(quartet, missing_et);
             for (auto& sextet : pre_sextets) {
                 sextet.SetBdt(Bdt(sextet, reader));
                 sextets.emplace_back(sextet);

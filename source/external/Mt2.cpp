@@ -33,6 +33,7 @@
 
 #include <iostream>
 #include <cmath>
+
 #include "boca/external/Mt2.hh"
 
 namespace wimpmass
@@ -52,25 +53,37 @@ const double ZERO_MASS = 0.000; //give massless particles a small mass
 const double SCANSTEP = 0.1;
 }
 
-Mt2::Mt2()
+Mt2::Mt2(boca::Mass const& mass)
 {
-    solved = false;
-    momenta_set = false;
-    mt2_b = 0.;
-    scale = 1.;
+    if (mass != boca::massless) SetMass(mass.value());
 }
 
-double Mt2::get_mt2()
+double Mt2::Get(boca::Jet const& jet_1,  boca::Jet const& jet_2,  boca::MissingEt const& missing_et) {
+    double pa0[3],  pb0[3], pmiss0[3];
+    GetMomentum(jet_1, pa0);
+    GetMomentum(jet_2, pb0);
+    GetMomentum(missing_et, pmiss0);
+    SetMomenta(pa0, pb0, pmiss0);
+    return GetMt2();
+}
+
+void Mt2::GetMomentum(boca::Jet const& jet_1,  double *momentum) {
+    momentum[0] = jet_1.Mass().value();
+    momentum[1] = jet_1.Px().value();
+    momentum[2] = jet_1.Py().value();
+}
+
+double Mt2::GetMt2()
 {
     if (!momenta_set) {
         std::cout << " Please set momenta first!" << std::endl;
         return 0;
     }
-    if (!solved) mt2_bisect();
+    if (!solved) Bisect();
     return mt2_b * scale;
 }
 
-void Mt2::set_momenta(double *pa0, double *pb0, double *pmiss0)
+void Mt2::SetMomenta(double *pa0, double *pb0, double *pmiss0)
 {
     solved = false; //reset solved tag when momenta are changed.
     momenta_set = true;
@@ -149,7 +162,7 @@ void Mt2::set_momenta(double *pa0, double *pb0, double *pmiss0)
     else precision = 100.*RELATIVE_PRECISION;
 }
 
-void Mt2::set_mn(double mn0)
+void Mt2::SetMass(double mn0)
 {
     solved = false; //reset solved tag when mn is changed.
     mn_unscale = std::abs(mn0); //mass cannot be negative
@@ -157,7 +170,7 @@ void Mt2::set_mn(double mn0)
     mnsq = mn * mn;
 }
 
-void Mt2::print()
+void Mt2::Print()
 {
     std::cout << " pax = " << pax *scale << "; pay = " << pay *scale << "; ma = " << ma *scale << ";" << std::endl;
     std::cout << " pbx = " << pbx *scale << "; pby = " << pby *scale << "; mb = " << mb *scale << ";" << std::endl;
@@ -166,7 +179,7 @@ void Mt2::print()
 }
 
 //special case, the visible particle is massless
-void Mt2::mt2_massless()
+void Mt2::Massless()
 {
     //rotate so that pay = 0
     auto theta = atan(pay / pax);
@@ -313,14 +326,14 @@ int Mt2::nsols_massless(double Dsq)
     return nsol;
 }
 
-void Mt2::mt2_bisect()
+void Mt2::Bisect()
 {
     solved = true;
     std::cout.precision(11);
 
     //if masses are very small, use code for massless case.
     if (masq < MIN_MASS && mbsq < MIN_MASS) {
-        mt2_massless();
+        Massless();
         return;
     }
 

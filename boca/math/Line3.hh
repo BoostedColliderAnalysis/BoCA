@@ -4,16 +4,16 @@
 #pragma once
 
 #include "boca/math/Line.hh"
-#include "boca/math/Vector2.hh"
+#include "boca/math/Vector3.hh"
 
 namespace boca
 {
 
 /**
  * @ingroup Math
- * @brief Line between two points in two dimensional space
+ * @brief Line between two points in three dimensional space
  */
 template<typename Value_>
-using Line2 = Line<Vector2, Value_>;
+using Line3 = Line<Vector3, Value_>;
 
 }

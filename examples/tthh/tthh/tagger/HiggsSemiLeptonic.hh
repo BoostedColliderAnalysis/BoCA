@@ -6,9 +6,11 @@
 #include "boca/tagger/Tagger.hh"
 #include "boca/multiplets/Quartet.hh"
 #include "boca/multivariant/Reader.hh"
+
 #include "standardmodel/tagger/WLeptonic.hh"
 #include "standardmodel/tagger/WHadronic.hh"
-#include "standardmodel/branch/Higgs.hh"
+
+#include "tthh/branch/Higgs.hh"
 
 namespace tthh
 {
@@ -22,7 +24,7 @@ namespace tagger
  * @brief BDT tagger for higgs bosons decaying to jet pairs
  *
  */
-class HiggsSemiLeptonic : public Tagger<Quartet22, standardmodel::branch::Higgs>
+class HiggsSemiLeptonic : public Tagger<Quartet22, branch::Higgs>
 {
 
 public:

@@ -4,6 +4,11 @@
 
 #include "boca/analysis/Analysis.hh"
 
+/**
+* @brief Higgs coupling
+* @ingroup Examples
+*
+*/
 namespace tthh
 {
 

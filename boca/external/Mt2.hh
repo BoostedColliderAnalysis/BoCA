@@ -1,5 +1,8 @@
 #pragma once
 
+#include "boca/physics/Units.hh"
+#include "boca/multiplets/Jet.hh"
+
 /**
 * \ingroup External
 * @brief <a href="http://particle.physics.ucdavis.edu/hefti/projects/doku.php?id=wimpmass">Wimpmass</a> contains a few packages useful for determining the mass of the dark matter particle at the LHC.
@@ -11,20 +14,24 @@ class Mt2
 {
 public:
 
-    Mt2();
-    void mt2_bisect();
-    void mt2_massless();
-    void set_momenta ( double* pa0, double* pb0, double* pmiss0 );
-    void set_mn ( double mn );
-    double get_mt2();
-    void print();
-    int nevt;
+    Mt2(boca::Mass const& mass = boca::massless);
+    double Get(boca::Jet const& jet_1,  boca::Jet const& jet_2,  boca::MissingEt const& missing_et);
 
 private:
 
-    bool solved;
-    bool momenta_set;
-    double mt2_b;
+    void GetMomentum(boca::Jet const& jet_1,  double *momentum);
+    void Bisect();
+    void Massless();
+    void SetMomenta ( double* pa0, double* pb0, double* pmiss0 );
+    void SetMass ( double mn );
+    double GetMt2();
+    void Print();
+
+    int nevt;
+    bool solved = false;
+    bool momenta_set = false;
+    double mt2_b = 0.;
+    double scale = 1.;
 
     int nsols ( double Dsq );
     int nsols_massless ( double Dsq );
@@ -48,7 +55,6 @@ private:
     double a1, b1, c1, a2, b2, c2, d1, e1, f1, d2, e2, f2;
     double d11, e11, f12, f10, d21, d20, e21, e20, f22, f21, f20;
 
-    double scale;
     double precision;
 };
 

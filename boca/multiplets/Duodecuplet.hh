@@ -39,11 +39,11 @@ public:
         return Multiplet1();
     }
 
-    Triplet Triplet_1() const {
+    Triplet Triplet1() const {
         return Multiplet2();
     }
 
-    Triplet Triplet_2() const {
+    Triplet Triplet2() const {
         return Multiplet3();
     }
 

@@ -25,7 +25,7 @@ Triplet & Sextet33::Triplet2()
   return Multiplet2();
 }
 
-Quartet22 const& Sextet42::Quaret() const
+Quartet22 const& Sextet42::Quartet() const
 {
     return Multiplet1();
 }
@@ -35,7 +35,7 @@ boca::Doublet const& Sextet42::Doublet() const
     return Multiplet2();
 }
 
-Quartet22 & Sextet42::Quaret()
+Quartet22 & Sextet42::Quartet()
 {
   return Multiplet1();
 }

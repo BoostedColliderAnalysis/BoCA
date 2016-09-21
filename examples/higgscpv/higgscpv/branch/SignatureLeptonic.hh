@@ -32,18 +32,18 @@ namespace branch
       boca::branch::Multi::Fill(signature.Multiplet());
       //         BottomBdt = signature.Multiplet().BottomBdt();
       //         PairBottomBdt = signature.Multiplet().Doublet().BottomBdt();
-      HardTopPt = signature.Multiplet().Sextet33().HarderComponent().Pt() / GeV;
-      SoftTopPt = signature.Multiplet().Sextet33().SofterComponent().Pt() / GeV;
+      HardTopPt = signature.Multiplet().Sextet().HarderComponent().Pt() / GeV;
+      SoftTopPt = signature.Multiplet().Sextet().SofterComponent().Pt() / GeV;
       HiggsMass = signature.Multiplet().Doublet().Mass() / GeV;
-      PairRap = signature.Multiplet().Sextet33().DeltaRap() / rad;
+      PairRap = signature.Multiplet().Sextet().DeltaRap() / rad;
       Aplanarity = signature.EventShapes().Aplanarity();
       Sphericity = signature.EventShapes().Sphericity();
       //         BottomBdt = multiplet.BottomBdt();
       //         PairBottomBdt = multiplet.PairBottomBdt();
-      //         HardTopPt = multiplet.Sextet33().HarderComponent().Pt();
-      //         SoftTopPt = multiplet.Sextet33().SofterComponent().Pt();
+      //         HardTopPt = multiplet.Sextet().HarderComponent().Pt();
+      //         SoftTopPt = multiplet.Sextet().SofterComponent().Pt();
       //         HiggsMass = multiplet.Doublet().Mass() / GeV;
-      //         PairRap = multiplet.Sextet33().DeltaRap();
+      //         PairRap = multiplet.Sextet().DeltaRap();
     }
     Observables Variables();
 

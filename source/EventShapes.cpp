@@ -15,6 +15,8 @@
 
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Exception.hh"
+#include "boca/math/GradedMatrix3.hh"
+#include "boca/math/GradedLorentzVector.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/EventShapes.hh"
 
@@ -181,7 +183,7 @@ std::vector<Vector3<double>> EventShapes::SphericityEigenVectors() const
 double EventShapes::ScaledMomentum(LorentzVector<Momentum> const &lorentz_vector, Energy const &energy) const
 {
     INFO0;
-    return energy > 0_eV && lorentz_vector.Vector().Mag() > 0_eV ? std::log(energy / lorentz_vector.Vector().Mag()) : -1;
+    return energy > 0_eV && lorentz_vector.Rho() > 0_eV ? std::log(energy / lorentz_vector.Rho()) : -1;
 }
 
 Momentum EventShapes::Pt(LorentzVector<Momentum> const &lorentz_vector) const

@@ -34,7 +34,7 @@ int TopLeptonicPair::Train(boca::Event const& event, boca::PreCuts const&, Tag t
         quartet.Doublet1().SetBdt(triplet_1.Bdt());
         quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
-        //             Insert(sextets, wimp_mass.Sextet33(quartet, event.MissingEt(), neutrinos, tag));
+        //             Insert(sextets, wimp_mass.Sextet(quartet, event.MissingEt(), neutrinos, tag));
         return wimp_mass.Fake(quartet);
     });
 
@@ -76,7 +76,7 @@ std::vector<Sextet33> TopLeptonicPair::Multiplets(boca::Event const& event, boca
         quartet.Doublet1().SetBdt(triplet_1.Bdt());
         quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
-//             for (auto sextet : wimp_mass.Sextet33s(quartet, event.MissingEt())) {
+//             for (auto sextet : wimp_mass.Sextets(quartet, event.MissingEt())) {
         Sextet33 sextet = wimp_mass.Fake(quartet);
         sextet.SetBdt(Bdt(sextet, reader));
         return sextet;

@@ -23,17 +23,6 @@ private:
     ClassDef(SignatureEffectiveBranch, 1)
 };
 
-// class Event : public boca::branch::Event
-// {
-// public:
-//     template<typename Multiplet>
-//     void Fill(Multiplet const& multiplet) {
-//       boca::branch::Event::Fill(multiplet);
-//     }
-// private:
-//     ClassDef(boca::Event, 1)
-// };
-
 }
 
 }

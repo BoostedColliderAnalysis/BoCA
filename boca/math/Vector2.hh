@@ -12,6 +12,11 @@
 namespace boca
 {
 
+/**
+* @ingroup Math
+* @brief Two dimensions
+*
+*/
 enum class Dim2
 {
     x,
@@ -24,15 +29,12 @@ std::string Name(Dim2 dimension);
 std::vector<Dim2> Dimensions2();
 
 /**
+ * @ingroup Math
  * @brief Two dimensional Vector
- *
- * heavily inspired and mostly compatible to root::TVector2
  */
 template<typename Value_>
-class Vector2 : public boost::less_than_comparable<Vector2<Value_>>
-            , public boost::equality_comparable<Vector2<Value_>>
-            , public boost::addable<Vector2<Value_>>
-            , public boost::subtractable<Vector2<Value_>>
+class Vector2 : public boost::totally_ordered<Vector2<Value_>>
+            , public boost::additive<Vector2<Value_>>
 {
 
     template<typename Value_2>
@@ -69,6 +71,15 @@ public:
         x_(x) ,
         y_(y)
     {}
+
+    /**
+     * @brief Constructor one scalar and its direction
+     */
+    Vector2(Value_ value, Dim2 dim)
+    {
+        x_ = dim == Dim2::x ? value : Value_(0);
+        y_ = dim == Dim2::y ? value : Value_(0);
+    }
 
     /**
     * @brief Constructor from a two-vector
@@ -149,7 +160,7 @@ public:
     */
     Angle Phi() const
     {
-        return atan2(-y_, -x_);
+        return atan2(y_, x_);
     }
 
     /**
@@ -361,8 +372,10 @@ public:
     Value_ &operator()(Dim2 dimension)
     {
         switch (dimension) {
-        case Dim2::x : return x_;
-        case Dim2::y : return y_;
+        case Dim2::x :
+            return x_;
+        case Dim2::y :
+            return y_;
         default :
             Debug("Bad index returning x_", Name(dimension));
         }
@@ -459,12 +472,6 @@ auto operator*(Value_ const &scalar, Vector2<Value_2> const &vector)
 {
     return vector.Scale(scalar);
 }
-
-/**
- * @brief Two vector with associated number
- */
-template<typename Value_>
-using GradedVector2 = GradedContainer<Vector2, Value_>;
 
 }
 

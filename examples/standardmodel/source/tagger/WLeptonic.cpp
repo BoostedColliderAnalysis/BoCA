@@ -102,8 +102,7 @@ std::vector<Doublet> WLeptonic::Doublets(boca::Event const &event, std::function
             auto reconstructed = ReconstructNeutrino(lepton, missing_et);
             for (auto &doublet : reconstructed) if (auto optional = function(doublet)) doublets.emplace_back(*optional);
         } else {
-            Doublet doublet;
-            doublet.Enforce(lepton);
+            Doublet doublet(lepton, {});
             doublets.emplace_back(doublet);
         }
     }

@@ -190,7 +190,7 @@ boost::optional<Jet> Event::ConstituentTrack(TObject& object, JetDetail jet_deta
     INFO(object.ClassName(), Name(jet_detail));
     auto& track = static_cast<::delphes::Track&>(object);
 //     if (IsLepton(*track.Particle.GetObject(), jet_detail)) return boost::none;
-//     CHECK(LorentzVector<Length>(track).Vector().Mag() < Settings::TrackerDistanceMax(), LorentzVector<Length>(track).Vector().Mag(),LorentzVector<Length>(track).Vector().Perp() );
+//     CHECK(LorentzVector<Length>(track).Rho() < Settings::TrackerDistanceMax(), LorentzVector<Length>(track).Rho(),LorentzVector<Length>(track).Perp() );
     return Jet(track.P4(), Constituent(track.P4(), LorentzVector<Length>(track), Family(*track.Particle.GetObject()), DetectorPart::track, track.Charge));
 }
 

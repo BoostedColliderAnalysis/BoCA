@@ -22,7 +22,7 @@ public:
 
     using TwoBody<::boca::Sextet33, ::boca::Doublet>::TwoBody;
 
-    const boca::Sextet33& Sextet33() const;
+    const boca::Sextet33& Sextet() const;
 
     boca::Doublet const& Doublet() const;
 

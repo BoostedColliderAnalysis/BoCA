@@ -42,11 +42,11 @@ public:
 
     using TwoBody<Quartet22, boca::Doublet>::TwoBody;
 
-    Quartet22 const& Quaret() const;
+    Quartet22 const& Quartet() const;
 
     boca::Doublet const& Doublet() const;
 
-    Quartet22 & Quaret();
+    Quartet22 & Quartet();
 
     boca::Doublet & Doublet();
 

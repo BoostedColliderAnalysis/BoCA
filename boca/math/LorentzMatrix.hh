@@ -16,11 +16,13 @@
 namespace boca
 {
 
+/**
+ * @ingroup Math
+ * @brief Lorentz matrix
+ */
 template<typename Value_>
 class LorentzMatrix
 {
-
-public:
 
     template<typename Value_2_>
     using ValueProduct = ValueProduct<Value_, Value_2_>;
@@ -34,6 +36,8 @@ public:
     using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value_, Value_2>::value >::type;
     template<typename Value_2>
     using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value_2>::value >::type;
+
+public:
 
 
     // Default constructor

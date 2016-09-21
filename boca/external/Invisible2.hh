@@ -32,42 +32,38 @@ namespace wimpmass
 
 class Invisible22
 {
+
 public:
 
-    Invisible22();
+    Invisible22(boca::Mass const &heavy, boca::Mass const &light, boca::Mass const &invisible);
 
-    Invisible22(boca::Quartet22 const& quartet, boca::LorentzVector<boca::Momentum> const& missing);
+    std::vector<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solve(boca::LorentzVector<boca::Momentum> const &first, boca::LorentzVector<boca::Momentum> const &second, boca::LorentzVector<boca::Momentum> const &third, boca::LorentzVector<boca::Momentum> const &fourth, boca::LorentzVector<boca::Momentum> const &missing);
 
-    Invisible22(boca::LorentzVector<boca::Momentum> const& missing);
+    std::vector<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solve(boca::Doublet const &doublet_1, boca::Doublet const &doublet_2, boca::LorentzVector<boca::Momentum> const &missing);
 
-    void SetMissingMomentum(boca::LorentzVector<boca::Momentum> const& missing);
+    std::vector<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solve(boca::Quartet22 const &quartet, boca::LorentzVector<boca::Momentum> const &missing);
 
-    void Set(boca::Quartet22 const& quartet);
+protected:
 
-    void SetFirstChain(boca::Doublet const& doublet);
+    void SetMasses(boca::Mass const &heavy, boca::Mass const &light, boca::Mass const &invisible);
 
-    void SetSecondChain(boca::Doublet const& doublet);
+    std::vector<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solve();
 
-    void SetFirstChain(boca::LorentzVector<boca::Momentum> const& first, boca::LorentzVector<boca::Momentum> const& second);
+    void SetFirstChain(boca::LorentzVector<boca::Momentum> const &first, boca::LorentzVector<boca::Momentum> const &second);
 
-    void SetSecondChain(boca::LorentzVector<boca::Momentum> const& first, boca::LorentzVector<boca::Momentum> const& second);
+    void SetSecondChain(boca::LorentzVector<boca::Momentum> const &first, boca::LorentzVector<boca::Momentum> const &second);
 
-    std::vector<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solve(boca::Mass const& heavy, boca::Mass const& light, boca::Mass const& invisible);
-
-    struct event22 {
-        double p3[4], p4[4], p5[4], p6[4];
-        double pmiss[4];
-    };
-
-    void solve22(event22& evt, double mn, double mx, double my, int& nsols, double p1[][4], double p2[][4]);
+    void SetMissingMomentum(boca::LorentzVector<boca::Momentum> const &missing);
 
 private:
 
-    void SetMomentum(double momentum[4], boca::LorentzVector<boca::Momentum> const& jet);
+    void Set(boca::Quartet22 const &quartet);
 
-    void SetVector(double momentum[4], boca::LorentzVector<boca::Momentum>& jet);
+    void SetFirstChain(boca::Doublet const &doublet);
 
-    std::array<double,5> Coefficients();
+    void SetSecondChain(boca::Doublet const &doublet);
+
+    std::array<double, 5> Coefficients();
 
     boca::Matrix2<double> MatrixA();
 
@@ -87,9 +83,9 @@ private:
 
     boca::LorentzVector<boca::Momentum> CoefficientVector() const;
 
-    boost::optional<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solution(boca::Momentum const& root);
+    boost::optional<std::pair<boca::LorentzVector<boca::Momentum>, boca::LorentzVector<boca::Momentum>>> Solution(boca::Momentum const &root);
 
-    boca::Energy Energy1(boca::Energy const& energy_2);
+    boca::Energy Energy1(boca::Energy const &energy_2);
 
     boca::Mutable<boca::LorentzVector<boca::Momentum>> coefficient_vector_;
 
@@ -124,6 +120,21 @@ private:
     boca::MassSquare light_square_;
 
     boca::MassSquare invisible_square_;
+
+};
+
+class TestInvisible22 :  public Invisible22 {
+
+    struct event22 {
+        double p3[4], p4[4], p5[4], p6[4];
+        double pmiss[4];
+    };
+
+    void solve22(event22 &evt, double mn, double mx, double my, int &nsols, double p1[][4], double p2[][4]);
+
+    void Momentum(double momentum[4], boca::LorentzVector<boca::Momentum> const& vector);
+
+    boca::LorentzVector<boca::Momentum> Vector(double momentum[4]);
 
 };
 

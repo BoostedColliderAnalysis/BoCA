@@ -2,29 +2,27 @@
 
 #include "boca/branch/Signature.hh"
 
-namespace toppartner
+namespace tthh
 {
 
 namespace branch
 {
 
-class SignatureSingle : public boca::branch::Signature
+class Signature : public boca::branch::Signature
 {
 public:
-    SignatureSingle();
+    Signature();
     float veto_bdt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        Signature::Fill(multiplet);
+        boca::branch::Signature::Fill(multiplet);
         veto_bdt = multiplet.VetoBdt();
     }
     boca::Observables Variables();
 private:
-    ClassDef(SignatureSingle, 1)
+    ClassDef(Signature, 1)
 };
 
 }
-
-using SignatureSingleBranch = branch::SignatureSingle;
 
 }

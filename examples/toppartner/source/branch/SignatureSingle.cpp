@@ -17,7 +17,7 @@ SignatureSingle::SignatureSingle()
 
 boca::Observables SignatureSingle::Variables()
 {
-    return ThreeBody::Variables() + OBSERVABLE(veto_bdt, "BDT_{V}");
+    return Signature::Variables() + OBSERVABLE(veto_bdt, "BDT_{V}");
 }
 
 }

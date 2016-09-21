@@ -7,6 +7,7 @@ PROJECT_NUMBER = "@PROJECT_VERSION@" # version of the project
 OUTPUT_DIRECTORY = "@DOXYFILE_OUTPUT_DIR@" # path for documentation
 CREATE_SUBDIRS = NO # store documentatinon in random sub dirs
 
+INHERIT_DOCS = YES
 ALIASES += "license=@par License:\n"
 
 BUILTIN_STL_SUPPORT = YES # enable support for stl
@@ -39,7 +40,7 @@ EXCLUDE_SYMBOLS = #fastjet TMVA TMatrixT
 RECURSIVE = YES # search recursivly for files
 EXAMPLE_PATH = "@CMAKE_CURRENT_SOURCE_DIR@/examples/" # path to examples
 IMAGE_PATH = "@CMAKE_CURRENT_SOURCE_DIR@/doc/images/" # path to images
-USE_MDFILE_AS_MAINPAGE = Readme.md # Markdown as Mainpage
+USE_MDFILE_AS_MAINPAGE = "@CMAKE_CURRENT_SOURCE_DIR@/Readme.md" # Markdown as Mainpage
 
 #Configuration options related to source browsing
 
