@@ -59,7 +59,7 @@ public:
     /**
     * @brief Default constructor
     */
-    Vector2() :
+    constexpr Vector2() :
         x_(0) ,
         y_(0)
     {}
@@ -67,7 +67,7 @@ public:
     /**
     * @brief Constructor from two scalars
     */
-    Vector2(Value_ x, Value_ y) :
+    constexpr Vector2(Value_ x, Value_ y) :
         x_(x) ,
         y_(y)
     {}
@@ -75,7 +75,7 @@ public:
     /**
      * @brief Constructor one scalar and its direction
      */
-    Vector2(Value_ value, Dim2 dim)
+    constexpr Vector2(Value_ value, Dim2 dim)
     {
         x_ = dim == Dim2::x ? value : Value_(0);
         y_ = dim == Dim2::y ? value : Value_(0);
@@ -85,7 +85,7 @@ public:
     * @brief Constructor from a two-vector
     */
     template<typename Value_2/*, typename = OnlyIfQuantity<Value_2>*/>
-    Vector2(Vector2<Value_2> const &vector) :
+    constexpr Vector2(Vector2<Value_2> const &vector) :
         x_(vector.X()),
         y_(vector.Y())
     {}
@@ -94,7 +94,7 @@ public:
     /**
     * @brief Setter for the magnitude and angle
     */
-    void SetMagPhi(Value_ magnitude, Angle const &phi)
+    constexpr void SetMagPhi(Value_ magnitude, Angle const &phi)
     {
         auto absolute = abs(magnitude);
         x_ = absolute * cos(phi);
@@ -109,7 +109,7 @@ public:
     /**
     * @brief Getter for X
     */
-    Value_ X() const
+    constexpr Value_ X() const
     {
         return x_;
     }
@@ -117,7 +117,7 @@ public:
     /**
     * @brief Getter for Y
     */
-    Value_ Y() const
+    constexpr Value_ Y() const
     {
         return y_;
     }
@@ -125,7 +125,7 @@ public:
     /**
     * @brief Accessor for X
     */
-    Value_ &X()
+    constexpr Value_ &X()
     {
         return x_;
     }
@@ -133,7 +133,7 @@ public:
     /**
     * @brief Accessor for Y
     */
-    Value_ &Y()
+    constexpr Value_ &Y()
     {
         return y_;
     }
@@ -142,7 +142,7 @@ public:
     /**
     * @brief Magnitude square \f$x^2 + y^2\f$
     */
-    auto Mag2() const
+    constexpr auto Mag2() const
     {
         return sqr(x_) + sqr(y_);
     }
@@ -150,7 +150,7 @@ public:
     /**
     * @brief Magnitude \f$\sqrt{x^2 + y^2}\f$
     */
-    Value_ Mag() const
+    constexpr Value_ Mag() const
     {
         return sqrt(Mag2());
     }
@@ -158,7 +158,7 @@ public:
     /**
     * @brief azimuth defined in \f$[-\pi, \pi]\f$
     */
-    Angle Phi() const
+    constexpr Angle Phi() const
     {
         return atan2(y_, x_);
     }
