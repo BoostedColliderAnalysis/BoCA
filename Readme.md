@@ -78,24 +78,6 @@ If you use this code to publish analyses please cite:
 
 BoCa is licenced under the [GPL 3](doc/License.md).
 
-## Git commands
+## Developmnet
 
-* initial download of the project `git clone git@github.com:BoostedColliderAnalysis/BoCA.git`
-* downloading updates from the server `git pull`
-* save changes of specific files `git commit FILES`
-* save changes in to all files `git commit -a`
-* upload changes to server `git push`
-* change branches `git checkout BRANCH`
-* create new branch `git checkout -b NEWBRANCH`
-* merge branches `git merge BRANCH`
-* save unfinished work on stash `git stash`
-* get stash changes back `git stash pop`
-
-## Coding style
-
-* use standard library when possible
-* avoid heap allocation `new`
-* prefer references `&` over pointers `*`
-* Classes and Functions are written in CamelCase
-* variables are written small_with_underscore
-* member_variables_ and TemplateParamter_ end on an underscore
+[For developers](doc/Developmnet.md).

@@ -351,7 +351,10 @@ public:
     double Dipolarity() const
     {
         if (Pt() <= at_rest || DeltaR() <= 0_rad) return 0;
-        return ConstituentJet().DipolaritySum(AngleLine()) / Pt() / sqr(DeltaR());
+        auto sum = ConstituentJet().DipolaritySum(AngleLine());
+        auto dipolarity = sum / Pt() / sqr(DeltaR());
+        if(dipolarity > 100) std::cerr << "dipol:" << dipolarity << " sum: " <<  sum <<  " inv mom: " << 1. / Pt() << " inv deltar: " << 1. / sqr(DeltaR());
+        return dipolarity;
     }
     //@}
 

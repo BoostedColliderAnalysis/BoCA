@@ -21,7 +21,7 @@ WLeptonic::WLeptonic()
 
 Observables WLeptonic::Variables()
 {
-    return Result::Variables() + OBSERVABLE(pt, latex::String("p_T") + " [GeV]") + OBSERVABLE(ht) + OBSERVABLE(delta_pt) + OBSERVABLE(delta_rap) + OBSERVABLE(delta_phi) + OBSERVABLE(delta_r) + OBSERVABLE(rho) + OBSERVABLE(lepton_pt) + OBSERVABLE(neutrino_pt);
+    return Result::Variables() + OBSERVABLE(pt, latex::String("p_T") + " [GeV]") + OBSERVABLE(ht,  "H_{T}") + OBSERVABLE(delta_pt, "\\Delta p_{T}") + OBSERVABLE(delta_rap, "\\Delta y") + OBSERVABLE(delta_phi, "\\Delta \\phi") + OBSERVABLE(delta_r, "\\Delta R") + OBSERVABLE(rho, "\\rho") + OBSERVABLE(lepton_pt, "p_{T}(l)") + OBSERVABLE(neutrino_pt, "p_{T}(\\nu)");
 }
 
 }

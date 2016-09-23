@@ -52,8 +52,8 @@ std::vector<Particle> TopPartnerLeptonicNeutral::Particles(boca::Event const& ev
         id = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
     } else id = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
     auto top_partners = CopyIfExactParticle(particles, id);
-    if (tag == Tag::signal) CHECK(top_partners.size() == 1, top_partners.size())
-        return top_partners;
+    if (tag == Tag::signal) CHECK(top_partners.size() == 1, top_partners.size());
+    return top_partners;
 }
 
 std::string TopPartnerLeptonicNeutral::Name() const

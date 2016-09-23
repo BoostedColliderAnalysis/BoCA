@@ -34,14 +34,6 @@ public:
         return (point - Projection(point)).Mag(); // second implementation
         return Area(point) / Mag(); // first implementation
     }
-    template<typename Jet_>
-    Value_ MinDistanceTo(Jet_ const& jet) const {
-        auto phi = jet.Phi();
-        auto distance_1 = DistanceToSegment(Vector_<Value_>(jet.Rap(), phi));
-        phi = Wrap(phi);
-        auto distance_2 = DistanceToSegment(Vector_<Value_>(jet.Rap(), phi));
-        return std::min(distance_1, distance_2);
-    }
     Vector_<Value_> const& Point_1() const {
         return point_1_;
     }

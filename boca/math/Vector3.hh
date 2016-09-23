@@ -27,8 +27,8 @@ std::vector<Dim3> Dimensions3();
  * @brief Three dimensionial vector
  */
 template<class Value_>
-class Vector3 : public boost::totally_ordered<Vector3<Value_>>
-            , public boost::additive<Vector3<Value_>>
+class Vector3 : boost::totally_ordered<Vector3<Value_>>
+            , boost::additive<Vector3<Value_>>
 {
 
     template<typename Value_2_>
@@ -289,31 +289,30 @@ public:
     }
 
     /**
-     * @brief \f$\Delta\phi\f$ restricted to \f$[-\pi,\pi]\f$
+     * @brief \f$\Delta\phi\f$ to vector restricted to \f$[-\pi,\pi]\f$
      */
     template <typename Value_2_>
-    boca::Angle DeltaPhi(Vector3<Value_2_> const &vector) const
+    boca::Angle DeltaPhiTo(Vector3<Value_2_> const &vector) const
     {
         return Restrict(Phi() - vector.Phi());
     }
 
     /**
-     * @brief \f$\Delta R\f$
+     * @brief \f$\Delta\eta\f$ to vector
      */
     template <typename Value_2_>
-    boca::Angle DeltaR(Vector3<Value_2_> const &vector) const
+    boca::Angle DeltaEtaTo(Vector3<Value_2_> const &vector) const
     {
-        //return deltaR with respect to v
-        auto deta = Eta() - vector.Eta();
-        return sqrt(sqr(deta) + sqr(DeltaPhi(vector)));
+        return Eta() - vector.Eta();
     }
 
     /**
-     * @brief \f$\Delta R\f$
+     * @brief \f$\Delta R\f$ in \f$(\eta, \phi)\f$ to vector
      */
-    boca::Angle DrEtaPhi(Vector3 const &vector) const
+    template <typename Value_2_>
+    boca::Angle DeltaRTo(Vector3<Value_2_> const &vector) const
     {
-        return DeltaR(vector);
+        return sqrt(sqr(DeltaEtaTo(vector)) + sqr(DeltaPhiTo(vector)));
     }
 
     /**
@@ -337,7 +336,7 @@ public:
         auto test = atan2(Cross(vector).Mag(), Dot(vector));
 
         if (res != test) Debug("first", res, "second", test);
-        return boca::Angle(res);
+        return res;
     }
 
     /**
@@ -352,7 +351,7 @@ public:
     }
 
     /**
-     * @brief Pseudo-rapidity \f$-\ln(\tan(\theta/2))\f$
+     * @brief Pseudo-rapidity \f$-\ln(\tan(\frac{\theta}{2}))\f$
      */
     boca::Angle PseudoRapidity() const
     {

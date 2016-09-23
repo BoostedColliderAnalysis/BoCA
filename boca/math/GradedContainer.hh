@@ -10,7 +10,7 @@ namespace boca
  * @brief Container with associated scalar
  */
 template<template <typename> class Container_, typename Value_>
-class GradedContainer : public boost::totally_ordered<GradedContainer<Container_,  Value_>>
+class GradedContainer : boost::totally_ordered<GradedContainer<Container_,  Value_>>
 {
 public:
     GradedContainer() {}

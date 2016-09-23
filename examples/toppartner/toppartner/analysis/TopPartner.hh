@@ -73,11 +73,11 @@ protected:
     boca::Mass Mass() const {
         INFO0;
         return 1_TeV;
-        return 2_TeV;
-        return 1.5_TeV;
         return 500_GeV;
-        return 8_TeV;
+        return 2_TeV;
         return 4_TeV;
+        return 1.5_TeV;
+        return 8_TeV;
         return 6_TeV;
         return 10_TeV;
         return 1.5_TeV;
@@ -86,8 +86,8 @@ protected:
 
     long TrainNumberMax() const override {
         INFO0;
-        return 1000;
         return 100;
+        return 1000;
         return 10000;
         return 10;
         return 5000;
@@ -172,7 +172,10 @@ protected:
                 }
             case Process::TTh :
                 switch (static_cast<int>(Mass() / GeV)) {
-                case 1000 : return 0.001309 * 2_pb;
+                case 500 : return 0.7575 * 2_pb;
+                case 1000 : return 0.02097 * 2_pb;
+                case 2000 : return 0.0003506 * 2_pb;
+                case 4000 : return 3.457e-6 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBB : return 0.03206 * 2_pb;

@@ -36,7 +36,7 @@ using Array2 = std::array<Value_2_, 2>;
  * @brief Two dimensional matrix
  */
 template <typename Value_>
-class Matrix2 : public boost::totally_ordered<Matrix2<Value_>>
+class Matrix2 : boost::totally_ordered<Matrix2<Value_>>
 {
 
     template<typename Value_2_>

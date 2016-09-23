@@ -21,8 +21,8 @@ class LorentzVector;
 * @brief Wrapper for fastjet::PseudoJet adding BoCA related functions
 *
 */
-class PseudoJet : private fastjet::PseudoJet
-    , public boost::totally_ordered<PseudoJet>
+class PseudoJet : fastjet::PseudoJet
+    , boost::totally_ordered<PseudoJet>
 {
 
 public:

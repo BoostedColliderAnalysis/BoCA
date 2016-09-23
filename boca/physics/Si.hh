@@ -7,6 +7,8 @@
 #include <boost/units/systems/si/plane_angle.hpp>
 #include <boost/units/systems/si/length.hpp>
 
+#include <boost/units/cmath.hpp>
+
 namespace boca
 {
 
@@ -64,7 +66,7 @@ auto Minimize(Angle phi, Function_ function) {
   auto value_1 = function(phi);
   phi = Wrap(phi);
   auto value_2 = function(phi);
-  return std::min(value_1, value_2);
+  return value_1 < value_2  ? value_1 : value_2;
 }
 
 }

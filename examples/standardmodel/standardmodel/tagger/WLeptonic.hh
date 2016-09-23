@@ -29,8 +29,6 @@ class WLeptonic : public Tagger<boca::Doublet, branch::WLeptonic>
 
 public:
 
-    WLeptonic();
-
     int Train(boca::Event const &event, PreCuts const &, Tag tag) override;
 
     using Tagger::Multiplets;
@@ -55,9 +53,9 @@ private:
 
     std::vector<Doublet> ReconstructNeutrino(Lepton const& lepton,  MissingEt const& missing_et) const;
 
-    Mass w_mass_window_;
+    Mass w_mass_window_ = 20_GeV;
 
-    bool reconstruct_neutrino_;
+    bool reconstruct_neutrino_ = true;
 
 };
 

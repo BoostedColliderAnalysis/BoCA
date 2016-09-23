@@ -29,9 +29,9 @@ std::vector<LorentzDim> LorentzDimensions();
  * @brief Lorentz Vector
  */
 template<typename Value_>
-class LorentzVectorBase : public boost::totally_ordered<LorentzVectorBase<Value_>>
-            , public boost::additive<LorentzVectorBase<Value_>>
-            , private Vector3<Value_>
+class LorentzVectorBase : boost::totally_ordered<LorentzVectorBase<Value_>>
+            , boost::additive<LorentzVectorBase<Value_>>
+            , Vector3<Value_>
 {
 
     using ValueSquare = boca::ValueSquare<Value_>;
@@ -215,32 +215,40 @@ public:
      * @{
      */
 
+    using Vector3<Value_>::Phi;
+
     using Vector3<Value_>::Theta;
 
     using Vector3<Value_>::CosTheta;
 
-    using Vector3<Value_>::SinTheta;
-
     using Vector3<Value_>::SinTheta2;
 
-    using Vector3<Value_>::Phi;
+    using Vector3<Value_>::SinTheta;
 
-    using Vector3<Value_>::DeltaPhi;
+//     using Vector3<Value_>::Angle;
+//
+//     /**
+//       * @brief Angle wrt. another vector.
+//       */
+//     boca::Angle Angle(LorentzVectorBase const &vector) const
+//     {
+//         return Angle(vector.Vector());
+//     }
 
-    using Vector3<Value_>::DeltaR;
+    using Vector3<Value_>::Eta;
 
-    using Vector3<Value_>::Angle;
+    using Vector3<Value_>::PseudoRapidity;
 
     /**
-      * @brief Angle wrt. another vector.
-      */
-    boca::Angle Angle(LorentzVectorBase const &vector) const
+     * @brief Rapidity
+     */
+    boca::Angle Rap() const
     {
-        return Angle(vector.Vector());
+        return Rapidity();
     }
 
     /**
-     * @brief Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
+     * @brief Rapidity \f$y = 0.5 \ln\frac{t + z}{t - z}\f$
      */
     boca::Angle Rapidity() const
     {
@@ -265,17 +273,27 @@ public:
         return Z() > Value_(0) ? rap : -rap;
     }
 
-    using Vector3<Value_>::Eta;
+    using Vector3<Value_>::DeltaPhiTo;
+
+    using Vector3<Value_>::DeltaEtaTo;
 
     /**
-     * @brief Rapidity
+     * @brief \f$\Delta y\f$  to vector
      */
-    boca::Angle Rap() const
+    template <typename Value_2_>
+    boca::Angle DeltaRapTo(LorentzVectorBase<Value_2_> const &vector) const
     {
-        return Rapidity();
+        return Rap() - vector.Rap();
     }
 
-    using Vector3<Value_>::PseudoRapidity;
+    /**
+     * @brief \f$\Delta R\f$ in \f$(y, \phi)\f$ to vector
+     */
+    template <typename Value_2_>
+    boca::Angle DeltaRTo(LorentzVectorBase<Value_2_> const &vector) const
+    {
+        return sqrt(sqr(DeltaRapTo(vector)) + sqr(DeltaPhiTo(vector)));
+    }
 
     //@}
 
@@ -283,6 +301,10 @@ public:
      * @name Magnitudes
      * @{
      */
+
+    using Vector3<Value_>::Perp2;
+
+    using Vector3<Value_>::Perp;
 
     /**
      * @brief spacial radius
@@ -299,10 +321,6 @@ public:
     {
         return Vector().Mag();
     }
-
-    using Vector3<Value_>::Perp2;
-
-    using Vector3<Value_>::Perp;
 
     /**
      * @brief Invariant mass squared.
@@ -695,15 +713,6 @@ protected:
     Value_ scalar_;
 
 };
-
-// template <typename>
-// struct IsLorentzVectorBase : std::false_type {};
-//
-// template <typename Value>
-// struct IsLorentzVectorBase<LorentzVectorBase<Value>> : std::true_type {};
-
-// template<typename Value>
-// using OnlyIfNotLorentzVectorBase = typename std::enable_if < !IsLorentzVectorBase<Value>::value >::type;
 
 template<typename Value>
 using OnlyIfNotLorentzVectorBase = typename std::enable_if<std::is_base_of<LorentzVectorBase<Value>, Value>::value>::type;

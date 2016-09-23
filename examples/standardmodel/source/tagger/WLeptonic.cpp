@@ -35,12 +35,6 @@ std::vector<Lepton> Leptons(boca::Event const &event)
 
 }
 
-WLeptonic::WLeptonic()
-{
-    INFO0;
-    w_mass_window_ = 20_GeV;
-}
-
 int WLeptonic::Train(boca::Event const &event, boca::PreCuts const &pre_cuts, Tag tag)
 {
     INFO0;

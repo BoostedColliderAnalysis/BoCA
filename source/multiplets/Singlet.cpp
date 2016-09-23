@@ -62,7 +62,8 @@ Vector2<AngleSquare> Singlet::PullVector() const
     INFO0;
     return pull_.Get([this]() -> Vector2<AngleSquare> {
         if (Pt() <= 0_eV || !HasConsitutents()) return {};
-        return boost::accumulate(Constituents(), Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum> &sum , boca::Jet const & constituent) {
+        return boost::accumulate(Constituents(), Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum> &sum , boca::Jet const & constituent)
+        {
             return sum + DeltaTo(constituent) * constituent.Pt() * DeltaRTo(constituent);
         }) / Pt();
     });
@@ -72,14 +73,18 @@ AngleSquareMomentum Singlet::DipolaritySum(const Line2< Angle > &line) const
 {
     if (!HasConsitutents()) return 0;
     return boost::accumulate(Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
-        return sum + constituent.Pt() * sqr(line.MinDistanceTo(constituent));
+        auto phi = constituent.Phi();
+        auto rap = constituent.Rap();
+        return sum + constituent.Pt() * sqr(Minimize(phi, [&](Angle const & phi) -> Angle {
+            return line.DistanceToSegment(Vector2<Angle>(rap, phi));
+        }));
     });
 }
 
 Angle Singlet::PullAngle(const Vector2< Angle > &reference) const
 {
     if (reference.Mag2() <= 0. * rad2 || PullVector().Mag2() <= 0. * rad2 * rad2) return Pi();
-    auto range = Range<double>{-1, 1};
+    auto range = Range<double> { -1, 1};
     return acos(range.Constrain(reference * PullVector() / reference.Mag() / PullVector().Mag()));
 }
 

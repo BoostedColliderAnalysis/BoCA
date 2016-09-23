@@ -33,8 +33,8 @@ std::vector<Dim2> Dimensions2();
  * @brief Two dimensional Vector
  */
 template<typename Value_>
-class Vector2 : public boost::totally_ordered<Vector2<Value_>>
-            , public boost::additive<Vector2<Value_>>
+class Vector2 : boost::totally_ordered<Vector2<Value_>>
+            , boost::additive<Vector2<Value_>>
 {
 
     template<typename Value_2>
@@ -89,7 +89,13 @@ public:
         x_(vector.X()),
         y_(vector.Y())
     {}
+
     //@}
+
+    /**
+    * @name Setter
+    * @{
+    */
 
     /**
     * @brief Setter for the magnitude and angle
@@ -100,6 +106,8 @@ public:
         x_ = absolute * cos(phi);
         y_ = absolute * sin(phi);
     }
+
+    //@}
 
     /**
     * @name Accessors and Getters
@@ -137,7 +145,13 @@ public:
     {
         return y_;
     }
+
     //@}
+
+    /**
+    * @name Magnitudes
+    * @{
+    */
 
     /**
     * @brief Magnitude square \f$x^2 + y^2\f$
@@ -154,6 +168,13 @@ public:
     {
         return sqrt(Mag2());
     }
+
+    //@}
+
+    /**
+    * @name Angles
+    * @{
+    */
 
     /**
     * @brief azimuth defined in \f$[-\pi, \pi]\f$
@@ -172,12 +193,19 @@ public:
         return Restrict(Phi() - vector.Phi());
     }
 
+    //@}
+
+    /**
+    * @name Vectors
+    * @{
+    */
+
     /**
      * @brief Unit vector in the direction of *this
      */
     Vector2<double> Unit() const
     {
-        return Mag2() ? *this / Mag() : Vector2<double>();
+        return Mag2() ? *this / Mag() : Vector2<double>{};
     }
 
     /**
@@ -186,7 +214,8 @@ public:
     template <typename Value_2>
     Vector2 Proj(Vector2<Value_2> const &vector) const
     {
-        return vector * (*this * vector / vector.Mag2());
+        auto unit = vector.Unit();
+        return unit * (*this * unit);
     }
 
     /**
@@ -205,6 +234,8 @@ public:
     {
         return {x_ * cos(phi) - y_ * sin(phi), x_ * sin(phi) + y_ * cos(phi)};
     }
+
+    //@}
 
     /**
      * @name Products
