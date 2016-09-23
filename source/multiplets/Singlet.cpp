@@ -72,13 +72,15 @@ Vector2<AngleSquare> Singlet::PullVector() const
 AngleSquareMomentum Singlet::DipolaritySum(const Line2< Angle > &line) const
 {
     if (!HasConsitutents()) return 0;
-    return boost::accumulate(Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
+    auto dipol = boost::accumulate(Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
         auto phi = constituent.Phi();
         auto rap = constituent.Rap();
         return sum + constituent.Pt() * sqr(Minimize(phi, [&](Angle const & phi) -> Angle {
             return line.DistanceToSegment(Vector2<Angle>(rap, phi));
         }));
     });
+    CHECK(dipol > 10000_eV * rad2,  dipol, Constituents().size())
+    return dipol;
 }
 
 Angle Singlet::PullAngle(const Vector2< Angle > &reference) const

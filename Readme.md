@@ -80,4 +80,4 @@ BoCa is licenced under the [GPL 3](doc/License.md).
 
 ## Developmnet
 
-[For developers](doc/Developmnet.md).
+[For developers](doc/Development.md).

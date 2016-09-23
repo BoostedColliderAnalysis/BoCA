@@ -49,6 +49,8 @@ std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, 
 
 std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& particles, Id grand_grand_mother_id);
 
+std::vector<Particle> CopyIfAncestor(std::vector<Particle> const& particles, Id ancestor);
+
 std::vector<Particle> RemoveIfMother(std::vector<Particle> const& particles, Id mother_id);
 
 std::vector<Particle> RemoveIfMother(std::vector<Particle> const& particles, std::vector<Id> const& mother_ids);
@@ -70,6 +72,8 @@ std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std
 std::vector<Particle> RemoveIfDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters);
 
 std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters);
+
+std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position);
 
 std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2);
 

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "toppartner/analysis/TopPartner.hh"
+#include "boca/multiplets/Particles.hh"
 
 namespace toppartner{
 
@@ -24,7 +25,7 @@ class SubDom : public TopPartner<Tagger_>
 protected:
 
     std::string Name() const override {
-        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-valgrind";
+        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-sample";
     }
 
     void SetFiles(Phase const& phase) override {
@@ -43,8 +44,9 @@ protected:
 
 private:
 
-    bool PassPreCut(boca::Event const&) const override {
-//         if (event.Jets().size() < 5) return false;
+    bool PassPreCut(boca::Event const& event) const override {
+        if (CopyIfLepton(event.GenParticles()).empty()) return false;
+//         if (event.Leptons().empty()) return false;
 //         if (event.Leptons().empty()) return false;
         return true;
     }

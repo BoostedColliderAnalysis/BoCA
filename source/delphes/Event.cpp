@@ -9,6 +9,7 @@
 #include "boca/delphes/Classes.hh"
 #include "boca/delphes/Event.hh"
 #include "boca/multiplets/Sort.hh"
+#define FAMILY
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 
@@ -31,17 +32,28 @@ auto GetFamily(TTreeReaderArray<::delphes::GenParticle>& particles, boca::Family
     return family;
 }
 
-auto GetFamily(TTreeReaderArray<::delphes::GenParticle>& particles, Relative relative, int position)
+auto GetFamily(TTreeReaderArray<::delphes::GenParticle>& particles, int position)
 {
     boca::Family family;
-    return GetFamily(particles, family, relative, position);
+    return GetFamily(particles, family, Relative::particle, position);
 }
 
-#ifdef DEBUGGING
+#ifdef FAMILY
 template<typename Data>
 void PrintCell(Data data)
 {
     std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
+}
+
+void PrintHeader()
+{
+    PrintCell(Name(Relative::particle));
+    PrintCell(Name(Relative::mother));
+    PrintCell(Name(Relative::step_mother));
+    PrintCell(Name(Relative::particle));
+    PrintCell(Name(Relative::mother));
+    PrintCell(Name(Relative::step_mother));
+    std::cout << "\n";
 }
 
 void PrintCells(Particle const& particle)
@@ -64,11 +76,14 @@ std::vector<Particle> Event::Particles(Status min_status) const
     auto particles = std::vector<Particle>{};
     auto& gen_particles = TreeReader().Array<::delphes::GenParticle>(Branch::particle);
     auto position = 0;
+#ifdef FAMILY
+        PrintHeader();
+#endif
     for (auto const & particle : gen_particles) {
         if (particle.Status < to_int(min_status)) break;
-        particles.emplace_back(Particle(particle.P4(), GetFamily(gen_particles, Relative::particle, position)));
+        particles.emplace_back(Particle(particle.P4(), GetFamily(gen_particles, position)));
         ++position;
-#ifdef DEBUGGING
+#ifdef FAMILY
         PrintCells(particles.back());
 #endif
     }

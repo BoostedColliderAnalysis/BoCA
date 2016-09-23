@@ -5,6 +5,7 @@
 
 #include <map>
 #include "boca/physics/Member.hh"
+#include "boca/physics/Id.hh"
 
 namespace boca
 {
@@ -25,6 +26,7 @@ Relative Mother(Relative relative);
 
 Relative StepMother(Relative relative);
 
+std::vector<Relative> Relatives();
 
 class Family
 {
@@ -33,11 +35,13 @@ public:
 
     Family();
 
-    Family(boca::Member const& member, Relative relative);
+    Family(boca::Member const &member, Relative relative);
 
-    void SetMember(boca::Member const& member, Relative relative);
+    void SetMember(boca::Member const &member, Relative relative);
 
     boca::Member Member(Relative relative) const;
+
+    boost::optional<boca::Member> Member(Id id) const;
 
 private:
 

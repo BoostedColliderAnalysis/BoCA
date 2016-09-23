@@ -36,6 +36,12 @@ Relative StepMother(Relative relative)
     return relative == Relative::particle ? Relative::step_mother : Relative::none;
 }
 
+std::vector< boca::Relative, std::allocator< boca::Relative > > Relatives()
+{
+    return {Relative::particle, Relative::mother, Relative::step_mother, Relative::grand_mother, Relative::great_grand_mother};
+}
+
+
 Family::Family()
 {}
 
@@ -53,6 +59,12 @@ void Family::SetMember(boca::Member const& member, Relative relative)
 boca::Member Family::Member(Relative relative) const
 {
     return Has(relative) ? members_.at(relative) : boca::Member();
+}
+
+boost::optional<boca::Member> Family::Member(Id id) const
+{
+    for (auto const member :  members_) if (std::abs(member.second.Id()) == to_int(id)) return member.second;
+    return boost::none;
 }
 
 bool Family::Has(Relative relative) const
