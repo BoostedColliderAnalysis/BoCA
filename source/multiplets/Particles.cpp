@@ -309,5 +309,45 @@ std::vector< Particle > CopyIfDrellYan(const std::vector< Particle > &particles)
     return CopyIfPosition(particles, 6, 7);
 }
 
+namespace
+{
+
+  template<typename Data>
+  void PrintCell(Data data)
+  {
+    std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
+  }
+
+  void PrintHeader()
+  {
+    PrintCell(Name(Relative::particle));
+    PrintCell(Name(Relative::mother));
+    PrintCell(Name(Relative::step_mother));
+    PrintCell(Name(Relative::particle));
+    PrintCell(Name(Relative::mother));
+    PrintCell(Name(Relative::step_mother));
+    std::cout << "\n";
+  }
+
+  void PrintCells(Particle const& particle)
+  {
+    PrintCell(particle.Info().Family().Member(Relative::particle).Name());
+    PrintCell(particle.Info().Family().Member(Relative::mother).Name());
+    PrintCell(particle.Info().Family().Member(Relative::step_mother).Name());
+    PrintCell(particle.Info().Family().Member(Relative::particle).Position());
+    PrintCell(particle.Info().Family().Member(Relative::mother).Position());
+    PrintCell(particle.Info().Family().Member(Relative::step_mother).Position());
+    std::cout << "\n";
+  }
+
+}
+
+void PrintParticles(std::vector<Particle> const& particles)
+{
+  INFO0;
+  PrintHeader();
+  for (auto const & particle : particles) PrintCells(particles.back());
+}
+
 }
 

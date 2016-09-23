@@ -120,6 +120,15 @@ public:
     */
     boca::Energy E() const;
 
+    /**
+     * @brief Transverse energy square
+     */
+    boca::Energy Et2() const;
+
+    /**
+     * @brief transverse energy
+     */
+    boca::Energy Et() const;
 
     /**
     * @brief Mass

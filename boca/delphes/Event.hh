@@ -27,23 +27,25 @@ public:
 
     using boca::Event::Event;
 
-    std::vector<Jet> Jets() const override;
+protected:
 
-    Momentum ScalarHt() const override;
+    std::vector<Jet> GetJets() const override;
 
-    boca::MissingEt MissingEt() const override;
+    boca::MissingEt GetMissingEt() const override;
 
-    std::vector<Jet> EFlow(JetDetail jet_detail) const override;
+    Momentum GetScalarHt() const override;
 
-    std::vector<Lepton> Electrons() const override;
+    std::vector<Jet> GetEFlow(JetDetail jet_detail) const override;
 
-    std::vector<Lepton> Muons() const override;
+    std::vector<Lepton> GetElectrons() const override;
 
-    std::vector<Photon> Photons() const override;
+    std::vector<Lepton> GetMuons() const override;
+
+    std::vector<Photon> GetPhotons() const override;
+
+    std::vector<Particle> GetParticles(Status max_status) const override;
 
 private:
-
-    std::vector<Particle> Particles(Status max_status) const;
 
     std::vector<Jet> EFlowJets(JetDetail jet_detail) const;
 

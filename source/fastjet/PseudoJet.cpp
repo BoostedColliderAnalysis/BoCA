@@ -18,7 +18,7 @@ PseudoJet::PseudoJet() :
 }
 
 PseudoJet::PseudoJet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy const& e) :
-   fastjet:: PseudoJet(x / GeV, y / GeV, z / GeV, e / GeV)
+    fastjet:: PseudoJet(x / GeV, y / GeV, z / GeV, e / GeV)
 {
     INFO0;
 }
@@ -96,6 +96,16 @@ Energy PseudoJet::Energy() const
 Energy PseudoJet::E() const
 {
     return e() * GeV;
+}
+
+Energy PseudoJet::Et2() const
+{
+    return fastjet::PseudoJet::Et2() * GeV;
+}
+
+Energy PseudoJet::Et() const
+{
+    return fastjet::PseudoJet::Et() * GeV;
 }
 
 boca::MassSquare PseudoJet::MassSquare() const

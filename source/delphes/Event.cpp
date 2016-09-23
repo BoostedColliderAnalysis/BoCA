@@ -9,7 +9,6 @@
 #include "boca/delphes/Classes.hh"
 #include "boca/delphes/Event.hh"
 #include "boca/multiplets/Sort.hh"
-#define FAMILY
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 
@@ -38,100 +37,67 @@ auto GetFamily(TTreeReaderArray<::delphes::GenParticle>& particles, int position
     return GetFamily(particles, family, Relative::particle, position);
 }
 
-#ifdef FAMILY
-template<typename Data>
-void PrintCell(Data data)
-{
-    std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
 }
 
-void PrintHeader()
-{
-    PrintCell(Name(Relative::particle));
-    PrintCell(Name(Relative::mother));
-    PrintCell(Name(Relative::step_mother));
-    PrintCell(Name(Relative::particle));
-    PrintCell(Name(Relative::mother));
-    PrintCell(Name(Relative::step_mother));
-    std::cout << "\n";
-}
-
-void PrintCells(Particle const& particle)
-{
-    PrintCell(particle.Info().Family().Member(Relative::particle).Name());
-    PrintCell(particle.Info().Family().Member(Relative::mother).Name());
-    PrintCell(particle.Info().Family().Member(Relative::step_mother).Name());
-    PrintCell(particle.Info().Family().Member(Relative::particle).Position());
-    PrintCell(particle.Info().Family().Member(Relative::mother).Position());
-    PrintCell(particle.Info().Family().Member(Relative::step_mother).Position());
-    std::cout << "\n";
-}
-#endif
-
-}
-
-std::vector<Particle> Event::Particles(Status min_status) const
+std::vector<Particle> Event::GetParticles(Status min_status) const
 {
     INFO0;
-    auto particles = std::vector<Particle>{};
+    auto particles = std::vector<Particle> {};
     auto& gen_particles = TreeReader().Array<::delphes::GenParticle>(Branch::particle);
     auto position = 0;
-#ifdef FAMILY
-        PrintHeader();
-#endif
     for (auto const & particle : gen_particles) {
         if (particle.Status < to_int(min_status)) break;
         particles.emplace_back(Particle(particle.P4(), GetFamily(gen_particles, position)));
         ++position;
-#ifdef FAMILY
-        PrintCells(particles.back());
-#endif
     }
     return particles;
 }
 
-std::vector<Lepton> Event::Electrons() const
+std::vector<Lepton> Event::GetElectrons() const
 {
     INFO0;
-    auto electrons = std::vector<Lepton>{};
+    auto electrons = std::vector<Lepton> {};
     for (auto const & electron : TreeReader().Array<::delphes::Electron>(Branch::electron)) electrons.emplace_back(Lepton(electron.P4(), static_cast<int>(electron.Charge)));
     return electrons;
 }
 
-std::vector<Lepton> Event::Muons() const
+std::vector<Lepton> Event::GetMuons() const
 {
     INFO0;
-    auto muons = std::vector<Lepton>{};
+    auto muons = std::vector<Lepton> {};
     for (auto const & muon : TreeReader().Array<::delphes::Muon>(Branch::muon)) muons.emplace_back(Lepton(muon.P4(), static_cast<int>(muon.Charge)));
     return muons;
 }
 
-std::vector<Photon> Event::Photons() const
+std::vector<Photon> Event::GetPhotons() const
 {
     INFO0;
-    auto photons = std::vector<Photon>{};
+    auto photons = std::vector<Photon> {};
     for (auto const & muon : TreeReader().Array<::delphes::Photon>(Branch::photon)) photons.emplace_back(Photon(muon.P4()));
     return photons;
 }
 
-boca::MissingEt Event::MissingEt() const
+boca::MissingEt Event::GetMissingEt() const
 {
     INFO0;
     return TreeReader().Array<::delphes::MissingET>(Branch::missing_et).At(0).P4();
 }
 
-Momentum Event::ScalarHt() const
+Momentum Event::GetScalarHt() const
 {
     INFO0;
     return static_cast<double>(TreeReader().Array<::delphes::ScalarHT>(Branch::scalar_ht).At(0).HT) * GeV;
 }
 
-std::vector<Jet> Event::Jets() const
+std::vector<Jet> Event::GetJets() const
 {
     switch (Settings::JetType()) {
-    case JetType::jet : return DelphesJets(JetDetail::structure | JetDetail::isolation);
-    case JetType::gen_jet : return GenJets();
-    case JetType::e_flow_jet : return EFlowJets(JetDetail::structure | JetDetail::isolation);
+    case JetType::jet :
+        return DelphesJets(JetDetail::structure | JetDetail::isolation);
+    case JetType::gen_jet :
+        return GenJets();
+    case JetType::e_flow_jet :
+        return EFlowJets(JetDetail::structure | JetDetail::isolation);
         DEFAULT(Name(Settings::JetType()), {});
     }
 }
@@ -147,16 +113,18 @@ std::vector<Jet> Event::GenJets() const
 std::vector<Jet> Event::DelphesJets(JetDetail jet_detail) const
 {
     INFO0;
-    auto jets = std::vector<Jet>{};
+    auto jets = std::vector<Jet> {};
     for (auto const & jet : TreeReader().Array<::delphes::Jet>(Branch::jet)) {
         FlagSwitch(jet_detail, [&](JetDetail jet_detail_int) {
             switch (jet_detail_int) {
-            case JetDetail::plain: jets.emplace_back(jet.P4(), jet);
+            case JetDetail::plain:
+                jets.emplace_back(jet.P4(), jet);
                 break;
             case JetDetail::structure :
                 if (auto optional = StructuredJet(jet, jet_detail)) jets.emplace_back(*optional);
                 break;
-            case JetDetail::isolation : break;
+            case JetDetail::isolation :
+                break;
                 DEFAULT(Name(jet_detail_int));
             }
         });
@@ -167,7 +135,7 @@ std::vector<Jet> Event::DelphesJets(JetDetail jet_detail) const
 boost::optional<Jet> Event::StructuredJet(::delphes::Jet const& delphes_jet, JetDetail jet_detail) const
 {
     INFO(delphes_jet.Constituents.GetEntriesFast());
-    auto constituents = std::vector<Jet>{};
+    auto constituents = std::vector<Jet> {};
     for (auto constituent_number : IntegerRange(delphes_jet.Constituents.GetEntriesFast())) {
         if (!delphes_jet.Constituents.At(constituent_number)) continue;
         if (auto optional = ConstituentJet(*delphes_jet.Constituents.At(constituent_number), jet_detail)) constituents.emplace_back(*optional);
@@ -213,7 +181,7 @@ boost::optional<Jet> Event::ConstituentTower(TObject& object, JetDetail jet_deta
 {
     INFO0;
     auto& tower = static_cast<::delphes::Tower&>(object);
-    auto families = std::vector<boca::Family>{};
+    auto families = std::vector<boca::Family> {};
     for (auto particle_number : IntegerRange(tower.Particles.GetEntriesFast())) {
         auto& object = *tower.Particles.At(particle_number);
         if (IsLepton(object, jet_detail)) return boost::none;
@@ -242,7 +210,7 @@ std::vector<TObject*> Event::LeptonsObjects() const
 {
     INFO0;
     return lepton_objects_.Get([&]() {
-        auto leptons = std::vector<TObject*>{};
+        auto leptons = std::vector<TObject*> {};
         for (auto const & electron : TreeReader().Array<::delphes::Electron>(Branch::electron)) leptons.emplace_back(electron.Particle.GetObject());
         for (auto const & muon : TreeReader().Array<::delphes::Muon>(Branch::muon)) leptons.emplace_back(muon.Particle.GetObject());
         return leptons;
@@ -251,7 +219,7 @@ std::vector<TObject*> Event::LeptonsObjects() const
 
 boca::Family Event::Family(TObject& object) const
 {
-    auto family = boca::Family{};
+    auto family = boca::Family {};
     auto& particle = static_cast<::delphes::GenParticle&>(object);
     auto& particles = TreeReader().Array<::delphes::GenParticle>(Branch::particle);
     family.SetMember( {particle.PID}, Relative::particle);
@@ -264,14 +232,14 @@ boca::Family Event::Family(TObject& object) const
 std::vector<Jet> Event::EFlowJets(JetDetail jet_detail) const
 {
     INFO0;
-    auto cluster_sequence = ClusterSequence{EFlow(jet_detail), Settings::JetDefinition()};
+    auto cluster_sequence = ClusterSequence {EFlow(jet_detail), Settings::JetDefinition()};
     return cluster_sequence.InclusiveJets(Settings::JetMinPt());
 }
 
-std::vector<Jet> Event::EFlow(JetDetail jet_detail) const
+std::vector<Jet> Event::GetEFlow(JetDetail jet_detail) const
 {
     INFO0;
-    auto jets = std::vector<Jet>{};
+    auto jets = std::vector<Jet> {};
     if (TreeReader().Has(Branch::e_flow_track)) Insert(jets, EFlowTrack(jet_detail));
     if (TreeReader().Has(Branch::e_flow_photon)) Insert(jets, EFlowPhoton(jet_detail));
     if (TreeReader().Has(Branch::e_flow_neutral_hadron)) Insert(jets, EFlowHadron(jet_detail));
@@ -282,7 +250,7 @@ std::vector<Jet> Event::EFlow(JetDetail jet_detail) const
 std::vector<Jet> Event::EFlowTrack(JetDetail jet_detail) const
 {
     INFO0;
-    auto e_flow_jets = std::vector<Jet>{};
+    auto e_flow_jets = std::vector<Jet> {};
     for (auto & e_flow_track : TreeReader().Array<::delphes::Track>(Branch::e_flow_track)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (auto optional = ConstituentJet(e_flow_track, jet_detail)) e_flow_jets.emplace_back(*optional);
@@ -295,7 +263,7 @@ std::vector<Jet> Event::EFlowTrack(JetDetail jet_detail) const
 std::vector<Jet> Event::EFlowPhoton(JetDetail jet_detail) const
 {
     INFO0;
-    auto e_flow_jets = std::vector<Jet>{};
+    auto e_flow_jets = std::vector<Jet> {};
     for (auto & e_flow_photon : TreeReader().Array<::delphes::Tower>(Branch::e_flow_photon)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (auto optional = ConstituentJet(e_flow_photon, jet_detail)) e_flow_jets.emplace_back(*optional);
@@ -307,7 +275,7 @@ std::vector<Jet> Event::EFlowPhoton(JetDetail jet_detail) const
 std::vector<Jet> Event::EFlowHadron(JetDetail jet_detail) const
 {
     INFO0;
-    auto e_flow_jets = std::vector<Jet>{};
+    auto e_flow_jets = std::vector<Jet> {};
     for (auto & e_flow_hadron : TreeReader().Array<::delphes::Tower>(Branch::e_flow_neutral_hadron)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (auto optional = ConstituentJet(e_flow_hadron, jet_detail)) e_flow_jets.emplace_back(*optional);
@@ -319,7 +287,7 @@ std::vector<Jet> Event::EFlowHadron(JetDetail jet_detail) const
 std::vector<Jet> Event::EFlowMuon(JetDetail jet_detail) const
 {
     INFO0;
-    auto e_flow_jets = std::vector<Jet>{};
+    auto e_flow_jets = std::vector<Jet> {};
     for (auto & e_flow_muon : TreeReader().Array<::delphes::Muon>(Branch::e_flow_muon)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (auto optional = ConstituentJet(e_flow_muon, jet_detail)) e_flow_jets.emplace_back(*optional);

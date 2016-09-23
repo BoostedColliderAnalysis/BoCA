@@ -86,4 +86,6 @@ std::vector<Particle> CopyFirst(std::vector<Particle> particles, std::size_t num
  */
 std::vector<Particle> CopyIfDrellYan(std::vector<Particle> const& particles);
 
+void PrintParticles(std::vector<Particle> const& particles);
+
 }

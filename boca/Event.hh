@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "boca/generic/Mutable.hh"
 #include "boca/generic/Flag.hh"
 #include "boca/multiplets/Jet.hh"
 #include "boca/multiplets/Particle.hh"
@@ -35,10 +36,10 @@ std::string Name(Decay decay);
 
 enum class Status
 {
-  none = 0,
-  stable = 1,
-  unstable = 2,
-  generator = 3
+    none = 0,
+    stable = 1,
+    unstable = 2,
+    generator = 3
 };
 
 class TreeReader;
@@ -70,54 +71,84 @@ public:
     /**
     * @brief Electrons and muons
     */
-    virtual std::vector<Lepton> Leptons() const;
+    std::vector<Lepton> Leptons() const;
 
     /**
     * @brief Electrons
     */
-    virtual std::vector<Lepton> Electrons() const = 0;
+    std::vector<Lepton> Electrons() const;
 
     /**
     * @brief Muons
     */
-    virtual std::vector<Lepton> Muons() const = 0;
+    std::vector<Lepton> Muons() const;
 
     /**
     * @brief Photons
     */
-    virtual std::vector<Photon> Photons() const = 0;
+    std::vector<Photon> Photons() const;
 
     /**
     * @brief Jets
     */
-    virtual std::vector<Jet> Jets() const = 0;
+    std::vector<Jet> Jets() const;
+
+    /**
+    * @brief EFlow jets
+    */
+    std::vector<Jet> EFlow(JetDetail jet_detail) const;
+
+    /**
+    * @brief Missing transverse enenergy
+    */
+    boca::MissingEt MissingEt() const;
 
     /**
     * @brief Scalar sum of transverse momenta \f$H_T=\sum_ip_{Ti}\f$
     *
     * @return boca::units::Momentum
     */
-    virtual Momentum ScalarHt() const;
-
-    /**
-    * @brief Missing transverse enenergy
-    */
-    virtual boca::MissingEt MissingEt() const;
-
-    /**
-    * @brief EFlow jets
-    */
-    virtual std::vector<Jet> EFlow(JetDetail jet_detail) const;
+    Momentum ScalarHt() const;
 
 protected:
 
     boca::TreeReader const& TreeReader() const;
 
+    virtual std::vector<Particle> GetParticles(Status max_status) const = 0;
+
+    virtual std::vector<Lepton> GetElectrons() const = 0;
+
+    virtual std::vector<Lepton> GetMuons() const = 0;
+
+    virtual std::vector<Photon> GetPhotons() const = 0;
+
+    virtual std::vector<Jet> GetJets() const = 0;
+
+    virtual std::vector<Jet> GetEFlow(JetDetail jet_detail) const = 0;
+
+    virtual boca::MissingEt GetMissingEt() const = 0;
+
+    virtual Momentum GetScalarHt() const = 0;
+
 private:
 
-    virtual std::vector<Particle> Particles(Status max_status) const = 0;
-
     boca::TreeReader const* tree_reader_;
+
+    std::map<Status, Mutable<std::vector<Particle>>> particles_;
+
+    Mutable<std::vector<Lepton>> electrons_;
+
+    Mutable<std::vector<Lepton>> muons_;
+
+    Mutable<std::vector<Photon>> photons_;
+
+    Mutable<std::vector<Jet>> jets_;
+
+    Mutable<std::vector<Jet>> eflow_;
+
+    Mutable<boca::MissingEt> missing_et_;
+
+    Mutable<Momentum> scalar_ht_;
 
 };
 
