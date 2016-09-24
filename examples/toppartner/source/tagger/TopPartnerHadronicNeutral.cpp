@@ -14,10 +14,11 @@ namespace tagger
 int TopPartnerHadronicNeutral::Train(boca::Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
-    return SaveEntries(Quintets(event, [&](Quintet & quintet) {
+    auto particles = Particles(event);
+    return (particles.empty() && tag == Tag::signal) ?  0 : SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
-    }), Particles(event), tag);
+    }), particles, tag);
 }
 
 std::vector<Quintet> TopPartnerHadronicNeutral::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
@@ -32,7 +33,7 @@ std::vector<Quintet> TopPartnerHadronicNeutral::Multiplets(boca::Event const& ev
 std::vector<Quintet> TopPartnerHadronicNeutral::Quintets(boca::Event const& event, std::function<Quintet(Quintet&)> const& function)
 {
     INFO0;
-    return Pairs(top_reader_.Multiplets(event, 8), boson_reader_.Multiplets(event, 8), [&](Triplet const & triplet, Doublet const & doublet) {
+    return Pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
         if (quintet.Overlap()) throw Overlap();
         return function(quintet);
@@ -44,15 +45,15 @@ std::vector<Particle> TopPartnerHadronicNeutral::Particles(boca::Event const& ev
     INFO0;
     auto particles = event.GenParticles();
     auto quarks = CopyIfQuark(particles);
-    auto candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
-    int id;
-    if (candidate.empty()) {
-        candidate = CopyIfGrandMother(quarks, Id::top_partner);
-        candidate = CopyIfMother(candidate, Id::W);
-        if (candidate.empty()) return {};
-        id = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
-    } else id = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
-    return CopyIfExactParticle(particles, id);
+    auto candidates = CopyIfMother(quarks, Id::W);
+    candidates = CopyIfGrandMother(candidates, Id::top);
+    candidates = CopyIfGreatGrandMother(candidates, Id::top_partner);
+    if (candidates.empty()) return {};
+    auto position = 0;
+    if (auto member = candidates.front().Info().Family().Member(Id::top_partner)) position = (*member).Position();
+    else return {};
+    auto top_partners = CopyIfPosition(particles, position);
+    return top_partners;
 }
 
 std::string TopPartnerHadronicNeutral::Name() const

@@ -346,7 +346,7 @@ void PrintParticles(std::vector<Particle> const& particles)
 {
   INFO0;
   PrintHeader();
-  for (auto const & particle : particles) PrintCells(particles.back());
+  for (auto const & particle : particles) PrintCells(particle);
 }
 
 }

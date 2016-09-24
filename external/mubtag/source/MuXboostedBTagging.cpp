@@ -156,7 +156,7 @@ Jet MuXboostedBTagging::Core(std::vector<Jet> const &core_candidates,  std::vect
         auto g = sqr(MassOf(Id::Dpm) / core_candidate.Energy());
         // Make sure we still have sufficient boost after muon subtraction
         if (g * sqr(core_min_boost_) > 1.) continue;
-        auto y = core_candidate.Vector3().Tan2(hardest_muon.Vector3());
+        auto y = core_candidate.Spacial().Tan2(hardest_muon.Spacial());
 
         // The core has the mass closest to fSubjetMassHypothesis
         auto radicant = 1. - ((g - y) + g * y);
@@ -190,10 +190,10 @@ Jet MuXboostedBTagging::Result(std::vector<Lepton> const &muons,  Jet const &jet
         // Add back the muon and the neutrino
         core += 2 * muon;
         // Set a hard ceiling on subjet mass, for poor reconstruction
-        auto dot = muon.Vector3().Dot(core.Vector3());
+        auto dot = muon.Spacial().Dot(core.Spacial());
         auto min = std::min(core.Mass(), MaxSubJetMass());
         if (dot == 0_eV * eV || min == 0_eV) continue;
-        auto cross = muon.Vector3().Cross(core.Vector3()).Mag();
+        auto cross = muon.Spacial().Cross(core.Spacial()).Mag();
         auto x_core = static_cast<double>(core.Energy() * cross / dot / min);
         CHECK(x_core >= 0, x_core);
         if (x_core < 0) return jet;

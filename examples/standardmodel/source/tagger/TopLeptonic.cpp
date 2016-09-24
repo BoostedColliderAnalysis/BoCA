@@ -41,8 +41,10 @@ TopLeptonic::TopLeptonic(Id id) :
     w_leptonic_reader_(InitializeLeptonicReader())
 {
     INFO0;
-    if (id_ == Id::top)  top_mass_window_ = 80_GeV;
-    top_mass_shift_ = use_w_ ? 0_GeV : 40_GeV;
+    if (id_ == Id::top) {
+        top_mass_window_ = 80_GeV;
+        top_mass_shift_ = use_w_ ? 0_GeV : 40_GeV;
+    }
 }
 
 int TopLeptonic::Train(boca::Event const& event, boca::PreCuts const& pre_cuts, Tag tag)

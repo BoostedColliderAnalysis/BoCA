@@ -51,7 +51,7 @@ private:
 
     bool Problematic(Doublet const &doublet, PreCuts const &pre_cuts) const;
 
-    std::vector<Doublet> ReconstructNeutrino(Lepton const& lepton,  MissingEt const& missing_et) const;
+    std::vector<Doublet> ReconstructNeutrino(Lepton const& lepton, Vector2<Momentum> const& missing_et) const;
 
     Mass w_mass_window_ = 20_GeV;
 

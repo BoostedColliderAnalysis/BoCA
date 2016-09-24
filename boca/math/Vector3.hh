@@ -557,7 +557,7 @@ public:
     /**
     * @brief (x, y) vector
     */
-    Vector2<Value_> XYvector() const
+    Vector2<Value_> Transversal() const
     {
         return {x_, y_};
     }

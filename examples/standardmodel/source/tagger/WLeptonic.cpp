@@ -93,7 +93,7 @@ std::vector<Doublet> WLeptonic::Doublets(boca::Event const &event, std::function
     auto doublets = std::vector<Doublet> {};
     for (auto const &lepton : leptons) {
         if (reconstruct_neutrino_) {
-            auto reconstructed = ReconstructNeutrino(lepton, missing_et);
+            auto reconstructed = ReconstructNeutrino(lepton, missing_et.Transverse());
             for (auto &doublet : reconstructed) if (auto optional = function(doublet)) doublets.emplace_back(*optional);
         } else {
             Doublet doublet(lepton, {});
@@ -103,28 +103,26 @@ std::vector<Doublet> WLeptonic::Doublets(boca::Event const &event, std::function
     return doublets;
 }
 
-std::vector<Doublet> WLeptonic::ReconstructNeutrino(Lepton const &lepton,  MissingEt const &missing_et) const
+std::vector<Doublet> WLeptonic::ReconstructNeutrino(Lepton const &lepton, Vector2<Momentum> const &missing_et) const
 {
     INFO0;
-    auto linear_term = (sqr(MassOf(Id::W)) - lepton.MassSquare()) / 2. + missing_et.Px() * lepton.Px() + missing_et.Py() * lepton.Py();
+    auto linear_term = (sqr(MassOf(Id::W)) - lepton.MassSquare()) / 2. + missing_et * lepton.Transverse();
     auto lepton_pz_square = sqr(lepton.Pz());
     auto lepton_square = sqr(lepton.Energy()) - lepton_pz_square;
-    auto missing_et_square = sqr(missing_et.Px()) + sqr(missing_et.Py());
-    auto radicant = lepton_pz_square * (sqr(linear_term) -  lepton_square * missing_et_square);
+    auto radicant = lepton_pz_square * (sqr(linear_term) -  lepton_square * sqr(missing_et));
     if (radicant < 0_eV * eV * eV2 * eV2) {
         INFO("Imaginary root", "move missing et towards lepton");
-        Lepton reco = missing_et + 0.1 * (lepton - missing_et);
-        reco.Info() = missing_et.Info();
+        auto reco = missing_et + 0.1 * (lepton.Transverse() - missing_et);
         return ReconstructNeutrino(lepton, reco);
     }
     CHECK(radicant != 0_eV * eV * eV2 * eV2, "Radicant exactly zero", "implement this case!");
     auto sqrt = boost::units::sqrt(radicant);
     auto neutrino_1_e = (lepton.Energy() * linear_term - sqrt) / lepton_square;
     auto neutrino_1_pz = (lepton_pz_square * linear_term - lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
-    auto neutrino_1 = Lepton {missing_et.Px(), missing_et.Py(), neutrino_1_pz, neutrino_1_e};
+    auto neutrino_1 = Lepton {missing_et, neutrino_1_pz, neutrino_1_e};
     auto neutrino_2_e = (lepton.Energy() * linear_term + sqrt) / lepton_square;
     auto neutrino_2_pz = (lepton_pz_square * linear_term + lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
-    auto neutrino_2 = Lepton {missing_et.Px(), missing_et.Py(), neutrino_2_pz, neutrino_2_e};
+    auto neutrino_2 = Lepton {missing_et, neutrino_2_pz, neutrino_2_e};
     return {Doublet(lepton, neutrino_1), Doublet(lepton, neutrino_2)};
 }
 

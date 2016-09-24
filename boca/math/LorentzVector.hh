@@ -99,7 +99,7 @@ public:
     /**
      * @brief Setter for px py pz e
      */
-    void SetPxPyPzE(const boca::Momentum &px, const boca::Momentum &py, const boca::Momentum &pz, const boca::Energy &energy);
+    void SetPxPyPzE(Momentum const&px, Momentum const&py, Momentum const&pz, const boca::Energy &energy);
 
     /**
      * @brief Setter for pt eta phi m

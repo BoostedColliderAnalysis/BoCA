@@ -45,7 +45,7 @@ EventShapes::EventShapes(std::vector<Jet> const &jets)
 {
     INFO0;
     lorentz_vectors_ = Boost(Transform(jets, [](Jet const & jet) {
-        return jet.Vector();
+        return jet.LorentzVector();
     }));
 }
 
@@ -60,7 +60,7 @@ std::vector< Vector3< Momentum > > EventShapes::Vectors() const
     INFO0;
     return vectors_.Get([this]() {
         return Transform(LorentzVectors(), [](LorentzVector<Momentum> const & lorentz_vector) {
-            return lorentz_vector.Vector();
+            return lorentz_vector.Spacial();
         });
     });
 }
@@ -201,37 +201,37 @@ Angle EventShapes::Rapidity(LorentzVector<Momentum> const &lorentz_vector) const
 Momentum EventShapes::PtInT(LorentzVector<Momentum> const &lorentz_vector) const
 {
     INFO0;
-    return lorentz_vector.Vector() * Thrusts().at(1).Vector();
+    return lorentz_vector.Spacial() * Thrusts().at(1).Vector();
 }
 
 Momentum EventShapes::PtOutT(LorentzVector<Momentum> const &lorentz_vector) const
 {
     INFO0;
-    return lorentz_vector.Vector() * Thrusts().at(2).Vector();
+    return lorentz_vector.Spacial() * Thrusts().at(2).Vector();
 }
 
 Angle EventShapes::RapidityT(LorentzVector<Momentum> const &lorentz_vector) const
 {
     INFO0;
-    return lorentz_vector.T() > lorentz_vector.Vector() * Thrusts().at(0).Vector() ? lorentz_vector.Rapidity(Thrusts().at(0).Vector()) : 1e99_rad;
+    return lorentz_vector.T() > lorentz_vector.Spacial() * Thrusts().at(0).Vector() ? lorentz_vector.Rapidity(Thrusts().at(0).Vector()) : 1e99_rad;
 }
 
 Momentum EventShapes::PtInS(LorentzVector<Momentum> const &lorentz_vector) const
 {
     INFO0;
-    return lorentz_vector.Vector() * SphericalTensors().at(1).Vector();
+    return lorentz_vector.Spacial() * SphericalTensors().at(1).Vector();
 }
 
 Momentum EventShapes::PtOutS(LorentzVector<Momentum> const &lorentz_vector) const
 {
     INFO0;
-    return lorentz_vector.Vector() * SphericalTensors().at(2).Vector();
+    return lorentz_vector.Spacial() * SphericalTensors().at(2).Vector();
 }
 
 Angle EventShapes::RapidityS(LorentzVector<Momentum> const &lorentz_vector) const
 {
     INFO0;
-    return lorentz_vector.T() > lorentz_vector.Vector() * SphericalTensors().at(0).Vector() ? lorentz_vector.Rapidity(SphericalTensors().at(0).Vector()) : 1e99_rad;
+    return lorentz_vector.T() > lorentz_vector.Spacial() * SphericalTensors().at(0).Vector() ? lorentz_vector.Rapidity(SphericalTensors().at(0).Vector()) : 1e99_rad;
 }
 
 Array3<GradedVector3<double>> EventShapes::Thrusts() const
@@ -275,7 +275,7 @@ HemisphereMasses EventShapes::HemisphereMasses() const
         auto positive = GradedLorentzVector<Momentum> {};
         auto negative = GradedLorentzVector<Momentum> {};
         for (auto const &lorentz_vector : LorentzVectors()) {
-            if (lorentz_vector.Vector() * ThrustAxis() > 0_eV) positive += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
+            if (lorentz_vector.Spacial() * ThrustAxis() > 0_eV) positive += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
             else negative += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
         }
         auto hemisphere_masses = boca::HemisphereMasses {};

@@ -150,7 +150,7 @@ public:
     */
     std::vector<LorentzVector<Momentum>> LorentzVectors() const override
     {
-        return DeltaR() > Settings::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>> {Jet().Vector()};
+        return DeltaR() > Settings::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>> {Jet().LorentzVector()};
     }
     //@}
 

@@ -213,7 +213,7 @@ double Singlet::MomentumRatio() const
 
 std::vector<boca::LorentzVector<Momentum>> Singlet::LorentzVectors() const
 {
-    return {Vector()};
+    return {LorentzVector()};
 }
 
 }

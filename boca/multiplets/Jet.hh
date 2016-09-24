@@ -30,7 +30,17 @@ public:
 
     Jet(fastjet::PseudoJet const& jet, JetInfo const& info);
 
-    Jet(LorentzVector<Momentum> const& lorentz_vector);
+    /**
+    * @brief Constructor accepting aspacial momentum vector and the energy
+    */
+    Jet(boca::Vector3<boca::Momentum> const& spacial, const boca::Energy &e);
+
+    /**
+    * @brief Constructor accepting a transversal momentum vector, the longitudianl momentum and the energy
+    */
+    Jet(Vector2<boca::Momentum> const& transverse, Momentum const& z, boca::Energy const& e);
+
+    Jet(boca::LorentzVector<Momentum> const& lorentz_vector);
 
     Jet(TLorentzVector const& lorentz_vector);
 

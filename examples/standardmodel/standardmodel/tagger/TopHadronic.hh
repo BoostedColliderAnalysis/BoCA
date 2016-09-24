@@ -40,7 +40,7 @@ public:
 
     latex::String LatexName() const override;
 
-    std::vector<Particle> Particles(boca::Event const& event) const;
+    virtual std::vector<Particle> Particles(boca::Event const& event) const;
 
     using Function = std::function<boost::optional<Triplet>(Triplet&, std::vector<boca::Jet> const&)>;
 

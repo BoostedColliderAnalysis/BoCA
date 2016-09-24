@@ -48,7 +48,21 @@ Jet::Jet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy c
     SetInfo();
 }
 
-Jet::Jet(LorentzVector<Momentum> const& lorentz_vector) :
+Jet::Jet(boca::Vector3<Momentum> const& spacial, boca::Energy const& e) :
+    PseudoJet(spacial, e)
+{
+    DEBUG(spacial.X(), spacial.Y(), spacial.Z(), e);
+    SetInfo();
+}
+
+Jet::Jet(Vector2<Momentum> const& transversal, Momentum const& z, boca::Energy const& e) :
+    PseudoJet(transversal, z, e)
+{
+    DEBUG(transversal.X(), transversal.Y(), z, e);
+    SetInfo();
+}
+
+Jet::Jet(boca::LorentzVector<Momentum> const& lorentz_vector) :
     PseudoJet(lorentz_vector)
 {
     DEBUG0;
@@ -91,42 +105,42 @@ Jet::Jet(TLorentzVector const& lorentz_vector, int charge) :
 }
 
 Jet::Jet(const exroot::Electron& electron) :
-    PseudoJet(LorentzVector<Momentum>(electron))
+    PseudoJet(boca::LorentzVector<Momentum>(electron))
 {
     DEBUG0;
     SetInfo(static_cast<int>(electron.Charge));
 }
 
 Jet::Jet(const exroot::GenJet& gen_jet) :
-    PseudoJet(LorentzVector<Momentum>(gen_jet))
+    PseudoJet(boca::LorentzVector<Momentum>(gen_jet))
 {
     DEBUG0;
     SetInfo();
 }
 
 Jet::Jet(const exroot::Jet& jet) :
-    PseudoJet(LorentzVector<Momentum>(jet))
+    PseudoJet(boca::LorentzVector<Momentum>(jet))
 {
     DEBUG0;
     SetInfo();
 }
 
 Jet::Jet(const exroot::Muon& muon) :
-    PseudoJet(LorentzVector<Momentum>(muon))
+    PseudoJet(boca::LorentzVector<Momentum>(muon))
 {
     DEBUG0;
     SetInfo(static_cast<int>(muon.Charge));
 }
 
 Jet::Jet(const exroot::Photon& photon) :
-    PseudoJet(LorentzVector<Momentum>(photon))
+    PseudoJet(boca::LorentzVector<Momentum>(photon))
 {
     DEBUG0;
     SetInfo();
 }
 
 Jet::Jet(const exroot::Tau& tau) :
-    PseudoJet(LorentzVector<Momentum>(tau))
+    PseudoJet(boca::LorentzVector<Momentum>(tau))
 {
     DEBUG0;
     SetInfo();

@@ -21,7 +21,7 @@ std::vector<boca::Sextet33> WimpMass::Sextets(Quartet22 const& quartet, Jet cons
     INFO0;
     auto invisible = wimpmass::Invisible22{MassOf(Id::top), MassOf(Id::W), MassOf(MultiId::neutrino)};
     auto sextets = std::vector<boca::Sextet33>{};
-    for (auto const & solution: invisible.Solve(quartet, missing_et.Vector())){
+    for (auto const & solution: invisible.Solve(quartet, missing_et.LorentzVector())){
         auto sextet = boca::Sextet33{Triplet(Doublet(quartet.Doublet1().Singlet2(), solution.first), quartet.Doublet1().Singlet1()), Triplet(Doublet(quartet.Doublet2().Singlet2(), solution.second), quartet.Doublet2().Singlet1())};
         sextet.Triplet1().SetBdt(quartet.Doublet1().Bdt());
         sextet.Triplet2().SetBdt(quartet.Doublet2().Bdt());

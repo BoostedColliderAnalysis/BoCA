@@ -17,12 +17,6 @@ PseudoJet::PseudoJet() :
     INFO0;
 }
 
-PseudoJet::PseudoJet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy const& e) :
-    fastjet:: PseudoJet(x / GeV, y / GeV, z / GeV, e / GeV)
-{
-    INFO0;
-}
-
 PseudoJet::PseudoJet(fastjet::PseudoJet const& pseudo_jet) :
     fastjet::PseudoJet(pseudo_jet)
 {
@@ -35,8 +29,26 @@ PseudoJet::PseudoJet(TLorentzVector const& vector) :
     INFO(vector.Px(), px(), vector.Py(), py());
 }
 
-PseudoJet::PseudoJet(LorentzVector<Momentum> const& vector) :
+PseudoJet::PseudoJet(boca::LorentzVector<Momentum> const& vector) :
     fastjet::PseudoJet(vector.Px() / GeV, vector.Py() / GeV, vector.Pz() / GeV, vector.E() / GeV)
+{
+    INFO0;
+}
+
+PseudoJet::PseudoJet(boca::Vector3<Momentum> const& spacial, boca::Energy const& e) :
+    fastjet:: PseudoJet(spacial.X() / GeV, spacial.Y() / GeV, spacial.Z() / GeV, e / GeV)
+{
+    INFO0;
+}
+
+PseudoJet::PseudoJet(Vector2<Momentum> const& transverse, Momentum const& z, boca::Energy const& e) :
+    fastjet:: PseudoJet(transverse.X() / GeV, transverse.Y() / GeV, z / GeV, e / GeV)
+{
+    INFO0;
+}
+
+PseudoJet::PseudoJet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy const& e) :
+    fastjet:: PseudoJet(x / GeV, y / GeV, z / GeV, e / GeV)
 {
     INFO0;
 }
@@ -58,14 +70,14 @@ PseudoJet::UserInfoBase& PseudoJet::Info()
     return *new UserInfoBase;
 }
 
-LorentzVector< Momentum > PseudoJet::Vector() const
+boca::LorentzVector< Momentum > PseudoJet::LorentzVector() const
 {
     return {Px(), Py(), Pz(), Energy()};
 }
 
-Vector3< Momentum > PseudoJet::Vector3() const
+Vector3< Momentum > PseudoJet::Spacial() const
 {
-    return Vector().Vector();
+    return {Px(), Py(), Pz()};
 }
 
 fastjet::PseudoJet& PseudoJet::FastJet()
@@ -180,6 +192,11 @@ Vector2<Angle> PseudoJet::AnglesMinTo(PseudoJet const& jet) const
     auto angles_1 = Angles(false);
     auto angles_2 = Angles(true);
     return angles - angles_1 < angles - angles_2  ?  angles_1 : angles_2;
+}
+
+Vector2<Momentum> PseudoJet::Transverse() const
+{
+    return {Px(), Py()};
 }
 
 bool PseudoJet::operator<(const boca::PseudoJet &jet) const

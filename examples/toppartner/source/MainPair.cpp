@@ -16,8 +16,8 @@ int main()
     Run<standardmodel::tagger::Boson>();
     Run<standardmodel::tagger::TopHadronic>();
     Run<standardmodel::tagger::TopLeptonic>();
-    Run<toppartner::tagger::TopPartnerHadronicNeutral>();
-    Run<toppartner::tagger::TopPartnerLeptonicNeutral>();
+    Run<toppartner::tagger::TopPartnerHadronic>();
+    Run<toppartner::tagger::TopPartnerLeptonic>();
     Run<toppartner::tagger::TopPartnerPair>(boca::Output::significance);
     Run<standardmodel::tagger::Global>(boca::Output::significance);
     Run<toppartner::tagger::EventPair>(boca::Output::significance);

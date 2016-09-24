@@ -87,7 +87,7 @@ public:
     template<typename Value_2>
     LorentzVectorBase(LorentzVectorBase<Value_2> const &lorentz_vector)
     {
-        Vector3<Value_>(lorentz_vector.Vector());
+        Vector3<Value_>(lorentz_vector.Spacial());
         scalar_(lorentz_vector.Scalar());
     }
     //@}
@@ -106,7 +106,7 @@ public:
      */
     void SetRho(Value_ rho)
     {
-        Vector().SetMag(rho);
+        Spacial().SetMag(rho);
     }
 
     /**
@@ -114,7 +114,7 @@ public:
      */
     void SetXYZT(Value_ x, Value_ y, Value_ z, Value_ t)
     {
-        Vector() = {x, y, z};
+        Spacial() = {x, y, z};
         T() = t;
     }
 
@@ -123,7 +123,7 @@ public:
      */
     void SetVectMag(Vector3<Value_> const &spatial, Value_ magnitude)
     {
-        Vector() = spatial;
+        Spacial() = spatial;
         T() = magnitude >= Value_(0)  ?  sqrt(sqr(spatial) + sqr(magnitude)) : sqrt(std::max((sqr(spatial) - sqr(magnitude)), ValueSquare(0)));
     }
 
@@ -158,7 +158,7 @@ public:
     /**
      * @brief spatial component.
      */
-    Vector3<Value_> Vector() const
+    Vector3<Value_> Spacial() const
     {
         return *this;
     }
@@ -232,7 +232,7 @@ public:
 //       */
 //     boca::Angle Angle(LorentzVectorBase const &vector) const
 //     {
-//         return Angle(vector.Vector());
+//         return Angle(vector.Spacial());
 //     }
 
     using Vector3<Value_>::Eta;
@@ -265,7 +265,7 @@ public:
             std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
             return 0_rad;
         }
-        auto vdotu = Vector().Dot(vector) / std::sqrt(r);
+        auto vdotu = Spacial().Dot(vector) / std::sqrt(r);
         if (vdotu == Value_(0)) return 0_rad;
         if (T() <= Value_(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
         auto pt = sqrt(units::max(sqr(T() * std::numeric_limits<double>::epsilon()), Perp2(vector) + Mag2()));
@@ -311,7 +311,7 @@ public:
      */
     ValueSquare Rho2() const
     {
-        return Vector().Mag2();
+        return Spacial().Mag2();
     }
 
     /**
@@ -319,7 +319,7 @@ public:
      */
     Value_ Rho() const
     {
-        return Vector().Mag();
+        return Spacial().Mag();
     }
 
     /**
@@ -377,8 +377,8 @@ public:
     */
     template<typename Value,  typename = OnlyIfNotQuantity<Value>>
     EnergySquare ScalarT2(Vector3<Value> const& vector) const {
-        auto pt2 = Vector().Perp2(vector);
-        auto pv = Vector().Dot(vector.Unit());
+        auto pt2 = Spacial().Perp2(vector);
+        auto pv = Spacial().Dot(vector.Unit());
         return pt2 == ValueSquare(0) ? ValueSquare(0) : sqr(T()) * pt2 / (pt2 + sqr(pv));
     }
 
@@ -443,8 +443,10 @@ public:
             if (Rho() > Value_(0)) std::cout << "boostVector computed for LorentzVector with t=0 -- infinite result" << std::endl;
             return {};
         }
-        return Vector() / T();
+        return Spacial() / T();
     }
+
+    using Vector3<Value_>::Transversal;
 
     using Vector3<Value_>::EtaPhiVector;
 
@@ -466,9 +468,9 @@ public:
         auto mag_2 = boost.Mag2();
         auto gamma = 1. / std::sqrt(1. - mag_2);
         auto gamma2 = mag_2 > 0. ? (gamma - 1.) / mag_2 : 0.;
-        auto bp = boost * Vector();
+        auto bp = boost * Spacial();
         auto lorentz_vector = LorentzVectorBase<Value_> {};
-        lorentz_vector.Vector() = Vector() + gamma2 * bp * boost + gamma * boost * T();
+        lorentz_vector.Spacial() = Spacial() + gamma2 * bp * boost + gamma * boost * T();
         lorentz_vector.T() = gamma * (T() + bp);
         return lorentz_vector;
     }
@@ -487,9 +489,9 @@ public:
         //Boost this Lorentz vector
         auto mag_2 = boost.Mag2();
         auto gamma = 1. / std::sqrt(1. - mag_2);
-        auto bp = boost * Vector();
+        auto bp = boost * Spacial();
         auto gamma2 = mag_2 > 0. ? (gamma - 1.) / mag_2 : 0.;
-        Vector() = Vector() + gamma2 * bp * boost + gamma * boost * T();
+        Spacial() = Spacial() + gamma2 * bp * boost + gamma * boost * T();
         T() = gamma * (T() + bp);
     }
 
@@ -523,7 +525,7 @@ public:
     template <typename Value_2>
     ValueProduct<Value_2> Dot(LorentzVectorBase<Value_2> const &lorentz_vector) const
     {
-        return T() * lorentz_vector.T() - Vector().Dot(lorentz_vector.Vector());
+        return T() * lorentz_vector.T() - Spacial().Dot(lorentz_vector.Spacial());
     }
 
     /**
@@ -532,7 +534,7 @@ public:
     template <typename Value_2>
     ValueProduct<Value_2> Euclidean(LorentzVectorBase<Value_2> const &lorentz_vector) const
     {
-        return T() * lorentz_vector.T() + Vector().Dot(lorentz_vector.Vector());
+        return T() * lorentz_vector.T() + Spacial().Dot(lorentz_vector.Spacial());
     }
 
     //@}
@@ -555,7 +557,7 @@ public:
      */
     bool operator==(LorentzVectorBase const &lorentz_vector) const
     {
-        return Vector() == lorentz_vector.Vector() && T() == lorentz_vector.T();
+        return Spacial() == lorentz_vector.Spacial() && T() == lorentz_vector.T();
     }
 
     /**
@@ -564,7 +566,7 @@ public:
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     LorentzVectorBase &operator+=(LorentzVectorBase<Value_2> const &lorentz_vector)
     {
-        Vector() += lorentz_vector.Vector();
+        Spacial() += lorentz_vector.Spacial();
         scalar_ += lorentz_vector.T();
         return *this;
     }
@@ -576,7 +578,7 @@ public:
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     LorentzVectorBase &operator-=(LorentzVectorBase<Value_2> const &lorentz_vector)
     {
-        Vector() -= lorentz_vector.Vector();
+        Spacial() -= lorentz_vector.Spacial();
         scalar_ -= lorentz_vector.T();
         return *this;
     }
@@ -587,7 +589,7 @@ public:
     template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
     LorentzVectorBase &operator*=(Value_2 scalar)
     {
-        Vector() *= scalar;
+        Spacial() *= scalar;
         scalar_ *= scalar;
         return *this;
     }
@@ -598,7 +600,7 @@ public:
     template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
     LorentzVectorBase &operator/=(Value_2 scalar)
     {
-        Vector() /= scalar;
+        Spacial() /= scalar;
         scalar_ /= scalar;
         return *this;
     }
@@ -628,17 +630,17 @@ public:
         //dereferencing operatorconst
         switch (i) {
         case LorentzDim::x :
-            return Vector()(Dim3::x);
+            return Spacial()(Dim3::x);
         case LorentzDim::y :
-            return Vector()(Dim3::y);
+            return Spacial()(Dim3::y);
         case LorentzDim::z :
-            return Vector()(Dim3::z);
+            return Spacial()(Dim3::z);
         case LorentzDim::t :
             return scalar_;
         default:
             std::cout << "bad index(%d) returning 0 " << Name(i) << std::endl;
         }
-        return Vector()(Dim3::x);
+        return Spacial()(Dim3::x);
     }
 
     /**
@@ -657,11 +659,11 @@ public:
         //dereferencing operator
         switch (i) {
         case LorentzDim::x :
-            return Vector()(Dim3::x);
+            return Spacial()(Dim3::x);
         case LorentzDim::y :
-            return Vector()(Dim3::y);
+            return Spacial()(Dim3::y);
         case LorentzDim::z :
-            return Vector()(Dim3::z);
+            return Spacial()(Dim3::z);
         case LorentzDim::t :
             return scalar_;
         default:

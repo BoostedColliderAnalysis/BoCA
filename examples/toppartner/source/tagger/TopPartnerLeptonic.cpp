@@ -22,7 +22,6 @@ Quintet Map(Triplet const &triplet)
 int TopPartnerLeptonic::Train(boca::Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
-//     std::vector<boca::Jet> leptons{};
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
@@ -35,7 +34,6 @@ int TopPartnerLeptonic::Train(boca::Event const& event, PreCuts const&, Tag tag)
 std::vector<Quintet> TopPartnerLeptonic::Multiplets(boca::Event const &event, boca::PreCuts const &, TMVA::Reader const &reader)
 {
     INFO0;
-//     std::vector<boca::Jet> leptons{};
     return Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;

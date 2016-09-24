@@ -33,13 +33,13 @@ Particle::Particle(TLorentzVector const& vector, Family const& family) :
 }
 
 Particle::Particle(exroot::GenParticle const& particle, int id) :
-    PseudoJet(LorentzVector<Momentum>(particle))
+    PseudoJet(boca::LorentzVector<Momentum>(particle))
 {
     SetInfo(Family(id, Relative::particle));
 }
 
 Particle::Particle(exroot::LHEFParticle const& particle, int id) :
-    PseudoJet(LorentzVector<Momentum>(particle))
+    PseudoJet(boca::LorentzVector<Momentum>(particle))
 {
     SetInfo(Family(id, Relative::particle));
 }

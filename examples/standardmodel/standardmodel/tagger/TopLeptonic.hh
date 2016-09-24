@@ -32,7 +32,7 @@ public:
 
     std::vector<Triplet> Multiplets(boca::Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
-    std::vector<Particle> Particles(boca::Event const& event) const;
+    virtual std::vector<Particle> Particles(boca::Event const& event) const;
 
     std::string Name() const override;
 

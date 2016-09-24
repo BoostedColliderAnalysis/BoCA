@@ -1,7 +1,7 @@
 #pragma once
 
-#include "toppartner/tagger/TopPartnerHadronicNeutral.hh"
-#include "toppartner/tagger/TopPartnerLeptonicNeutral.hh"
+#include "toppartner/tagger/TopPartnerHadronic.hh"
+#include "toppartner/tagger/TopPartnerLeptonic.hh"
 #include "toppartner/multiplets/Decuplet.hh"
 
 namespace toppartner
@@ -31,9 +31,9 @@ private:
 
     std::vector<Decuplet55> Decuplets(boca::Event const& event, std::function<Decuplet55(Decuplet55&)> const& function);
 
-    Reader<TopPartnerHadronicNeutral> top_partner_hadronic_reader_;
+    Reader<TopPartnerHadronic> top_partner_hadronic_reader_;
 
-    Reader<TopPartnerLeptonicNeutral> top_partner_leptonic_reader_;
+    Reader<TopPartnerLeptonic> top_partner_leptonic_reader_;
 };
 
 }

@@ -37,8 +37,6 @@ public:
     */
     PseudoJet();
 
-    PseudoJet(const boca::Momentum &x, const boca::Momentum &y, const boca::Momentum &z, const boca::Energy &e);
-
     /**
     * @brief Constructor accepting root TLorentzVector
     */
@@ -52,7 +50,23 @@ public:
     /**
     * @brief Constructor accepting momentum lorentz vector
     */
-    PseudoJet(LorentzVector<Momentum> const &vector);
+    PseudoJet(boca::LorentzVector<Momentum> const &vector);
+
+    /**
+    * @brief Constructor accepting aspacial momentum vector and the energy
+    */
+    PseudoJet(boca::Vector3<boca::Momentum> const& spacial, const boca::Energy &e);
+
+    /**
+    * @brief Constructor accepting a transversal momentum vector, the longitudianl momentum and the energy
+    */
+    PseudoJet(Vector2<boca::Momentum> const& transverse, Momentum const& z, boca::Energy const& e);
+
+    /**
+    * @brief Constructor accepting four momenta
+    */
+    PseudoJet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy const& e);
+
     //@}
 
     void Reset(PseudoJet const &pseudo_jet);
@@ -65,19 +79,9 @@ public:
     void ScaleMomentum(double factor);
 
     /**
-    * @name Accesors for vectors
+    * @name Accesors for base class
     * @{
     */
-
-    /**
-    * @brief Momentum lorentz vector
-    */
-    LorentzVector< Momentum > Vector() const;
-
-    /**
-    * @brief Momentum three vector
-    */
-    boca::Vector3<Momentum> Vector3() const;
 
     /**
     * @brief Fastjet PseudoJet
@@ -164,6 +168,7 @@ public:
     * @brief the 3-vector modulus \f$\sqrt{p_x^2+p_y^2+p_z^2}\f$
     */
     Momentum ModP() const;
+
     //@}
 
     /**
@@ -196,6 +201,13 @@ public:
     */
     Angle DeltaRTo(PseudoJet const &jet) const;
 
+    //@}
+
+    /**
+    * @name Vectors
+    * @{
+    */
+
     /**
     * @brief Angular distance to a jet
     */
@@ -211,6 +223,22 @@ public:
     * @brief Vector of rapidity \f$y\f$ and azimuth \f$\phi\f$ with minimal distance to jet
     */
     Vector2<Angle> AnglesMinTo(PseudoJet const &jet) const;
+
+    /**
+    * @brief Momentum lorentz vector
+    */
+    boca::LorentzVector< Momentum > LorentzVector() const;
+
+    /**
+    * @brief Momentum three vector
+    */
+    boca::Vector3<Momentum> Spacial() const;
+
+    /**
+    * @brief Transverse momentum vector \f$(p_x,  p_y)\f$
+    */
+    Vector2<Momentum> Transverse() const;
+
     //@}
 
     /**
@@ -227,6 +255,7 @@ public:
     * @brief Equality comparable
     */
     bool operator==(const PseudoJet &pseudo_jet) const;
+
     //@}
 
 };
