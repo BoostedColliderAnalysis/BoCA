@@ -55,14 +55,14 @@ Event::Event(boca::TreeReader const& tree_reader) :
 
 std::vector<Particle> Event::GenParticles() const
 {
-    return particles_.at(Status::generator).Get([&]() {
+    return particles_[Status::generator].Get([&]() {
         return GetParticles(Status::generator);
     });
 }
 
 std::vector<Particle> Event::Particles() const
 {
-    return particles_.at(Status::stable).Get([&]() {
+    return particles_[Status::stable].Get([&]() {
         return GetParticles(Status::stable);
     });
 }

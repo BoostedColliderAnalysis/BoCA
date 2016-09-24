@@ -134,7 +134,7 @@ private:
 
     boca::TreeReader const* tree_reader_;
 
-    std::map<Status, Mutable<std::vector<Particle>>> particles_;
+    mutable std::map<Status, Mutable<std::vector<Particle>>> particles_;
 
     Mutable<std::vector<Lepton>> electrons_;
 
