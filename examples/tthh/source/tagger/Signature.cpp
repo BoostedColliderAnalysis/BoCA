@@ -1,4 +1,4 @@
-#include "boca/external/Mt2.hh"
+#include "wimpmass/Mt2.hh"
 #include "boca/generic/Exception.hh"
 
 #include "tthh/tagger/Signature.hh"

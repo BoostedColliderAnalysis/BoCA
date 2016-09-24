@@ -1,14 +1,11 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
-add_include_path(${PROJECT_SOURCE_DIR})
-
 add_subdirectory(generic)
 add_subdirectory(fastjet)
 add_subdirectory(latex)
 add_subdirectory(physics)
 add_subdirectory(math)
-add_subdirectory(external)
 add_subdirectory(exroot)
 add_subdirectory(io)
 add_subdirectory(delphes)

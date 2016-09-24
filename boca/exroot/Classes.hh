@@ -3,5 +3,5 @@
  */
 #pragma once
 
-#include "boca/exroot/ExRootClasses.h"
+#include "external/exroot/exroot/ExRootClasses.h"
 #include "boca/exroot/TypeDef.hh"

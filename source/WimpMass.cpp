@@ -1,8 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-
-#include "boca/external/Invisible2.hh"
+#include "external/wimpmass/wimpmass/Invisible2.hh"
 #include "boca/multiplets/Quartet.hh"
 #include "boca/WimpMass.hh"
 #include "boca/generic/DEBUG_MACROS.hh"

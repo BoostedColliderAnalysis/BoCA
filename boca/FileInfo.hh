@@ -5,7 +5,7 @@
 
 #include "boca/physics/Units.hh"
 #include "boca/physics/Number.hh"
-#include "boca/io/Souce.hh"
+#include "boca/io/Source.hh"
 #include "boca/Names.hh"
 
 namespace boca

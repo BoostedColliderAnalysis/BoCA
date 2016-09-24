@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/delphes/DelphesClasses.h"
+#include "external/delphes/delphes/DelphesClasses.h"
 #include "boca/delphes/TypeDef.hh"
 
 

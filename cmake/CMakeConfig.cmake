@@ -35,9 +35,9 @@ set(compile_features cxx_return_type_deduction cxx_user_literals)
 
 #define macros
 macro(print_message text)
-  if(${CMAKE_BUILD_TYPE} MATCHES DEBUG)
+#   if(${CMAKE_BUILD_TYPE} MATCHES DEBUG)
     message(${text})
-  endif()
+#   endif()
 endmacro()
 
 macro(add_include_path relative_directory)

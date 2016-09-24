@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/external/MuXboostedBTagging.hh"
+#include "mubtag/MuXboostedBTagging.hh"
 #include "boca/tagger/Tagger.hh"
 #include "boca/multiplets/Singlet.hh"
 

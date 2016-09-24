@@ -1,0 +1,6 @@
+add_subdirectory(delphes)
+add_subdirectory(exroot)
+add_subdirectory(qjets)
+add_subdirectory(hep)
+add_subdirectory(mubtag)
+add_subdirectory(wimpmass)

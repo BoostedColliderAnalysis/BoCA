@@ -5,7 +5,7 @@
 
 #include "boca/fastjet/InfoRecombiner.hh"
 #include "boca/physics/Range.hh"
-#include "boca/io/Souce.hh"
+#include "boca/io/Source.hh"
 #include "boca/plotting/Font.hh"
 
 namespace boca

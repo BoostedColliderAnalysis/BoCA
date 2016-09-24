@@ -73,6 +73,11 @@ if(DO_DOXYGEN)
   include(cmake/UseDoxygen.cmake)
 endif()
 
+add_include_path(${PROJECT_SOURCE_DIR})
+
+# external sources
+add_subdirectory(external)
+
 # BoCA sources
 add_subdirectory(source)
 

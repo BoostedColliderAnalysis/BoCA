@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/external/TopTagger2.hh"
+#include "hep/TopTagger2.hh"
 
 #include "boca/generic/Exception.hh"
 #include "boca/multiplets/Particles.hh"
