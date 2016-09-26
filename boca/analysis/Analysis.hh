@@ -32,39 +32,40 @@ class Analysis : public analysis::Base
 protected:
 
     template<typename Class_>
-    bool TaggerIs() const {
+    bool TaggerIs() const
+    {
         return typeid(Tagger_).hash_code() == typeid(Class_).hash_code();
     }
 
 private:
 
-    void TagLoop(Phase phase) override {
+    void TagLoop(Phase phase) override
+    {
         FileWriter file_writer(Tagger().ExportFileName(phase));
         ClearFiles();
         SetFiles(phase);
-        for (auto & file : this->Files(phase.Tag())) FileLoop( {phase, file, file_writer, tagger_});
+        for (auto &file : this->Files(phase.Tag())) FileLoop({phase, file, file_writer, tagger_});
     }
 
     /**
      * @brief Analysis performed on each file
      *
      */
-    void FileLoop(boca::analysis::Files<Tagger_> files) {
-        auto threading = true;
-        if (threading) {
-            auto threads = std::vector<std::thread>{};
-            // int cores = std::thread::hardware_concurrency();
-            auto cores = 1;
-//         for (auto core : IntegerRange(cores)) // FIXME why is this not the same as next line
-            for (auto core = 0; core < cores; ++core)
-                threads.emplace_back([&] {
-                Thread({files, TrainNumberMax(), cores, core});
-            });
-            for (auto & thread : threads) thread.join();
-        } else Thread( {files, TrainNumberMax(), 1, 0});
+    void FileLoop(boca::analysis::Files<Tagger_> files)
+    {
+        auto single  = true;
+        if (single) return Thread({files, TrainNumberMax(), 1, 1});
+        auto threads = std::vector<std::thread> {};
+        // int cores = std::thread::hardware_concurrency();
+        auto cores = 1;
+        for (auto core : IntegerRange(cores)) threads.emplace_back([&] {
+            Thread({files, TrainNumberMax(), cores, core + 1});
+        });
+        for (auto &thread : threads) thread.join();
     }
 
-    void Thread(analysis::Data<Tagger_> data) {
+    void Thread(analysis::Data<Tagger_> data)
+    {
         data.ReadEvents(PreCuts(), [&](Stage stage) {
             return EventNumberMax(stage);
         }, [&](Event const & event) {
@@ -72,23 +73,26 @@ private:
         });
     }
 
-    void RunSignificance() override {
+    void RunSignificance() override
+    {
         if (Exists(Tagger().ExportFileName())) return;
         PrepareFiles(Stage::reader);
-        auto plotting = Plotting<Tagger_>{Tagger()};
+        auto plotting = Plotting<Tagger_> {Tagger()};
         plotting.OptimalCuts();
     }
 
-    void RunEfficiency() override {
+    void RunEfficiency() override
+    {
         if (Exists(Tagger().ExportFileName())) return;
         PrepareFiles(Stage::reader);
-        auto plotting = Plotting<Tagger_>{Tagger()};
+        auto plotting = Plotting<Tagger_> {Tagger()};
         plotting.TaggingEfficiency();
     }
 
-    void RunPlots() override {
+    void RunPlots() override
+    {
         if (Exists(Tagger().ExportFolderName())) return;
-        auto plotting = Plotting<Tagger_>{Tagger()};
+        auto plotting = Plotting<Tagger_> {Tagger()};
         PrepareFiles(Stage::trainer);
         plotting.RunPlots(Stage::trainer);
         PrepareFiles(Stage::reader);
@@ -96,27 +100,31 @@ private:
         //     if (Exists(Tagger().ExportFileName())) std::remove(Tagger().ExportFileName().c_str());
     }
 
-    void RunPlotHist() override {
+    void RunPlotHist() override
+    {
         //   if (Exists(Tagger().ExportFolderName())) return;
-        auto plotting = Plotting<Tagger_>{Tagger()};
+        auto plotting = Plotting<Tagger_> {Tagger()};
         PrepareFiles(Stage::trainer);
         plotting.RunPlotHist();
     }
 
-    void RunCut() override {
+    void RunCut() override
+    {
         RunTagger(Stage::trainer);
         RunTrainer();
         RunTagger(Stage::reader);
         PrepareFiles(Stage::reader);
-        auto plotting = Plotting<Tagger_>{Tagger()};
+        auto plotting = Plotting<Tagger_> {Tagger()};
         plotting.OptimalCuts();
     }
 
-    Tagger_& Tagger() override {
+    Tagger_ &Tagger() override
+    {
         return tagger_;
     }
 
-    Tagger_ const& Tagger() const override {
+    Tagger_ const &Tagger() const override
+    {
         return tagger_;
     }
 

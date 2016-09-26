@@ -85,7 +85,6 @@ private:
 
     void Increment(int number) {
         EventNumber() += core_sum_;
-//         if (number > 0)
         Files().Increment(number);
     }
 

@@ -37,6 +37,7 @@ using Array2 = std::array<Value_2_, 2>;
  */
 template <typename Value_>
 class Matrix2 : boost::totally_ordered<Matrix2<Value_>>
+            , boost::additive<Matrix2<Value_>>
 {
 
     template<typename Value_2_>
@@ -372,7 +373,7 @@ public:
     */
     bool operator<(Matrix2 const &matrix) const
     {
-        return Determinant() < matrix.Determinant();
+        return abs(Determinant()) < abs(matrix.Determinant());
     }
 
     /**
@@ -395,15 +396,6 @@ public:
     }
 
     /**
-    * @brief Addition
-    */
-    template <typename Value_2>
-    auto operator+(Matrix2<Value_2> const &matrix)
-    {
-        return {x_ + matrix.x_,  y_ + matrix.y_};
-    }
-
-    /**
     * @brief Substraction
     */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
@@ -412,15 +404,6 @@ public:
         x_ -= matrix.x_;
         y_ -= matrix.y_;
         return *this;
-    }
-
-    /**
-    * @brief Substraction
-    */
-    template <typename Value_2>
-    auto operator-(Matrix2<Value_2> const &matrix)
-    {
-        return {x_ - matrix.x_,  y_ - matrix.y_};
     }
 
     /**
@@ -726,7 +709,7 @@ auto operator*(Matrix2<Value_> const &matrix, Vector2<Value_2_> const &vector)
 }
 
 template < class Value_, class Value_2_>
-auto operator*(Vector2<Value_2_> const &vector, Matrix2<Value_> const &matrix)
+Matrix2<ValueProduct<Value_, Value_2_>> operator*(Vector2<Value_2_> const &vector, Matrix2<Value_> const &matrix)
 {
     return {vector.X() *matrix.ColumnX(), vector.Y() *matrix.ColumnY()};
 }

@@ -6,10 +6,15 @@
 
 #include "toppartner/analysis/TopPartner.hh"
 #include "boca/multiplets/Particles.hh"
+#include "boca/Settings.hh"
 
-namespace toppartner{
+#include "toppartner/tagger/EventSubDom.hh"
 
-namespace analysis{
+namespace toppartner
+{
+
+namespace analysis
+{
 
 /**
  *
@@ -24,11 +29,13 @@ class SubDom : public TopPartner<Tagger_>
 
 protected:
 
-    std::string Name() const override {
-        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-sample";
+    std::string Name() const override
+    {
+        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-large";
     }
 
-    void SetFiles(Phase const& phase) override {
+    void SetFiles(Phase const &phase) override
+    {
         switch (phase.Tag()) {
         case Tag::signal :
             this->AddSignal(Process::TTh);
@@ -42,12 +49,21 @@ protected:
         }
     }
 
+    long ReadNumberMax() const override
+    {
+        INFO0;
+        if (this->template TaggerIs<tagger::SignatureSubDom>() || this->template TaggerIs<standardmodel::tagger::Global>() || this->template TaggerIs<toppartner::tagger::EventSubDom>()) return 100000;
+        return this->TrainNumberMax();
+    }
+
 private:
 
-    bool PassPreCut(boca::Event const& event) const override {
+    bool PassPreCut(boca::Event const &event) const override
+    {
         if (CopyIfLepton(event.GenParticles()).empty()) return false;
-//         if (event.Leptons().empty()) return false;
-//         if (event.Leptons().empty()) return false;
+        auto leptons = SortedByPt(event.Leptons());
+        if (leptons.empty()) return false;
+        if (leptons.front().Pt() < Settings::LeptonMinPt()) return false;
         return true;
     }
 

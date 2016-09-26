@@ -26,8 +26,6 @@ public:
     void Fill(Multiplet const& multiplet) {
         TwoBody::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        BottomPt = multiplet.Singlet().Pt() / GeV;
-        LeptonPt = multiplet.Doublet().Pt() / GeV; // FIXME what is with the case of W
     }
     Observables Variables();
     Observables Spectators();

@@ -72,12 +72,12 @@ protected:
 
     boca::Mass Mass() const {
         INFO0;
+        return 8_TeV;
         return 4_TeV;
         return 2_TeV;
         return 1_TeV;
         return 500_GeV;
         return 1.5_TeV;
-        return 8_TeV;
         return 6_TeV;
         return 10_TeV;
         return 1.5_TeV;
@@ -86,9 +86,9 @@ protected:
 
     long TrainNumberMax() const override {
         INFO0;
+        return 10000;
         return 1000;
         return 100;
-        return 10000;
         return 10;
         return 5000;
     }

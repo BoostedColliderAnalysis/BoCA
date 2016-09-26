@@ -19,6 +19,7 @@ using Array3 = std::array<Value_, 3>;
  */
 template <typename Value_>
 class Matrix3 : public boost::totally_ordered<Matrix3<Value_>>
+            , boost::additive<Matrix3<Value_>>
 {
 
     template<typename Value_2_>
@@ -45,7 +46,9 @@ public:
     */
     Matrix3() {}
 
-    // Diagonal Matrix
+    /**
+    * @brief Diagonal Matrix
+    */
     Matrix3(Value_ scalar, Matrix matrix = Matrix::diagonal)
     {
         switch (matrix) {
@@ -301,7 +304,8 @@ public:
     */
 
     /**
-    * @brief x
+    * @brief x-row
+    * @{
     */
     Vector3<Value_> X() const
     {
@@ -312,9 +316,11 @@ public:
     {
         return x_;
     }
+    //@}
 
     /**
-    * @brief y
+    * @brief y-row
+    * @{
     */
     Vector3<Value_> Y() const
     {
@@ -324,9 +330,11 @@ public:
     {
         return y_;
     }
+    //@}
 
     /**
-    * @brief z
+    * @brief z-row
+    * @{
     */
     Vector3<Value_> &Z()
     {
@@ -337,10 +345,13 @@ public:
     {
         return z_;
     }
+    //@}
 
     //@}
 
-// Returns true if the identity matrix(Geant4).
+    /**
+    * @brief Check if this is the identity matrix
+    */
     bool IsIdentity() const
     {
         return x_ == Vector3<Value_>(1, 0, 0) && y_ == Vector3<Value_>(0, 1, 0) && z_ == Vector3<Value_>(0, 0, 1);
@@ -354,28 +365,42 @@ public:
     /**
     * @brief x
     */
-// Returns the inverse.
+
+    /**
+    * @brief transposed matrix
+    */
     Matrix3 Transposed() const
     {
         return {ColumnX(), ColumnY(), ColumnZ()};
     }
 
-// Inverts the Rotation matrix.
+    /**
+    * @brief transpose this matrix
+    */
     Matrix3 &Transpose()
     {
         return *this = Transposed();
     }
 
+    /**
+    * @brief vector of the diagonal
+    */
     Vector3<Value_> Diagonal()
     {
         return {x_.X(), y_.Y(), z_.Z()};
     }
 
+    /**
+    * @brief vector of upper triangle
+    */
     Vector3<Value_> UpperTriangle()
     {
         return {x_.Y(), x_.Z(), y_.Z()};
     }
 
+    /**
+    * @brief vector of lower triangle
+    */
     Vector3<Value_> LowerTriangle()
     {
         return {y_.X(), z_.X(), z_.Y()};
@@ -388,13 +413,21 @@ public:
         return Matrix::none;
     }
 
+    /**
+    * @brief Inverse matrix
+    *
+    * return zero matrix if the determinant is zero
+    */
     Matrix3<ValueInverse> Inverse()
     {
+        auto det = Determinant();
+        if (det == ValueCubed(0)) {
+            std::cout << "Matrix is not invertible" << std::endl;
+            return {};
+        }
         auto x = ColumnX();
         auto y = ColumnY();
         auto z = ColumnZ();
-        auto det = Determinant();
-        if (det == ValueCubed(0)) std::cout << "Matrix is not invertible" << std::endl;
         return Matrix3<ValueSquare>(y ^ z, z ^ x, x ^ y) / det;
     }
 
@@ -549,8 +582,8 @@ public:
     Matrix3 &RotateX(Angle const &phi)
     {
         //rotate around x
-        auto cos = cos(phi);
-        auto sin = sin(phi);
+        auto cos = boost::units::cos(phi);
+        auto sin = boost::units::sin(phi);
         auto vector = y_;
         y_ = cos * vector - sin * z_;
         z_ = sin * vector + cos * z_;
@@ -561,8 +594,8 @@ public:
     Matrix3 &RotateY(Angle const &phi)
     {
         //rotate around y
-        auto cos = cos(phi);
-        auto sin = sin(phi);
+        auto cos = boost::units::cos(phi);
+        auto sin = boost::units::sin(phi);
         auto vector = z_;
         z_ = cos * vector - sin * x_;
         x_ = sin * vector + cos * x_;
@@ -573,8 +606,8 @@ public:
     Matrix3 &RotateZ(Angle const &phi)
     {
         //rotate around z
-        auto cos = cos(phi);
-        auto sin = sin(phi);
+        auto cos = boost::units::cos(phi);
+        auto sin = boost::units::sin(phi);
         auto vector = x_;
         x_ = cos * vector - sin * y_;
         y_ = sin * vector + cos * y_;
@@ -586,8 +619,8 @@ public:
     Matrix3 &Rotate(Angle const &phi, Vector3<Value_> const &axis)
     {
         if (phi == 0_rad)  return *this;
-        auto sin = sin(phi);
-        auto cos = cos(phi);
+        auto sin = boost::units::sin(phi);
+        auto cos = boost::units::cos(phi);
         auto vector = axis.Unit();
         Transform(Matrix3(cos) + Matrix3(vector, vector) * (1 - cos) - Matrix3(vector * sin));
         return *this;
@@ -784,17 +817,25 @@ public:
      * @{
      */
 
-
+    /**
+    * @brief x-column
+    */
     Vector3<Value_> ColumnX() const
     {
         return {x_.X(), y_.X(), z_.X()};
     }
 
+    /**
+    * @brief y-column
+    */
     Vector3<Value_> ColumnY() const
     {
         return {x_.Y(), y_.Y(), z_.Y()};
     }
 
+    /**
+    * @brief z-column
+    */
     Vector3<Value_> ColumnZ() const
     {
         return {x_.Z(), y_.Z(), z_.Z()};
@@ -807,20 +848,27 @@ public:
      * @{
      */
 
-    //multiplication operator
+    /**
+    * @brief Multiplication with a matrix
+    */
     template<typename Value_2_>
     Matrix3<ValueProduct<Value_2_>> Multiply(Matrix3<Value_2_> const &matrix) const
     {
         return {{x_ * matrix.ColumnX(), x_ * matrix.ColumnY(), x_ * matrix.ColumnZ()}, {y_ * matrix.ColumnX(), y_ * matrix.ColumnY(), y_ * matrix.ColumnZ()}, {z_ * matrix.ColumnX(), z_ * matrix.ColumnY(), z_ * matrix.ColumnZ()}};
     }
 
-    // Multiplication with a Vector3<Value_>.
+    /**
+    * @brief Multiplication with a Vector
+    */
     template<typename Value_2_>
     Vector3<ValueProduct<Value_2_>> Multiply(Vector3<Value_2_> const &vector) const
     {
         return {x_ * vector, y_ * vector, z_ * vector};
     }
 
+    /**
+    * @brief Scale by scalar
+    */
     template<typename Value_2_>
     Matrix3<ValueProduct<Value_2_>> Scaled(Value_2_ scalar) const
     {
@@ -834,17 +882,25 @@ public:
      * @{
      */
 
-    // Comparisons(Geant4).
+    /**
+    * @brief Less than comparison according to determinans
+    */
+    bool operator<(Matrix3 const &matrix) const
+    {
+        return abs(Determinant()) < abs(matrix.Determinant());
+    }
+
+    /**
+    * @brief Equality comnparison
+    */
     bool operator==(Matrix3 const &matrix) const
     {
         return x_ == matrix.x_ && y_ == matrix.y_ && z_ == matrix.z_;
     }
-    bool operator!=(Matrix3 const &matrix) const
-    {
-        return x_ != matrix.x_ || y_ != matrix.y_ || z_ != matrix.z_;
-    }
 
-    // Addition.
+    /**
+    * @brief Addition
+    */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     Matrix3 &operator+=(Matrix3<Value_2> const &matrix)
     {
@@ -853,18 +909,10 @@ public:
         z_ += matrix.z_;
         return *this;
     }
-    // Addition.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Matrix3 operator+(Matrix3<Value_2> const &matrix) const
-    {
-        auto sum = Matrix3<Value_> {};
-        sum.X() = x_ + matrix.x_;
-        sum.Y() = y_ + matrix.y_;
-        sum.Z() = z_ + matrix.z_;
-        return sum;
-    }
 
-    // Addition.
+    /**
+    * @brief Substraction
+    */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     Matrix3 &operator-=(Matrix3<Value_2> const &matrix)
     {
@@ -874,45 +922,57 @@ public:
         return *this;
     }
 
-    // Addition.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Matrix3 operator-(Matrix3<Value_2> const &matrix) const
-    {
-        auto diff = Matrix3<Value_> {};
-        diff.X() = x_ - matrix.x_;
-        diff.Y() = y_ - matrix.y_;
-        diff.Z() = z_ - matrix.z_;
-        return diff;
-    }
-
-    template<typename Value_2_>
-    Matrix3<ValueQuotient<Value_2_>> operator/(Value_2_ scalar) const
-    {
-        return Scaled(1. / scalar);
-    }
-
-    // Multiplication with a Vector3<Value_>.
-    template<typename Value_2_>
-    Vector3<ValueProduct<Value_2_>> operator*(Vector3<Value_2_> const &vector) const
-    {
-        return Multiply(vector);
-    }
-
-    //multiplication operator
-    template<typename Value_2_>
-    Matrix3<ValueProduct<Value_2_>> operator*(Matrix3<Value_2_> const &matrix) const
-    {
-        return Multiply(matrix);
-    }
-
-    // Matrix multiplication.
+    /**
+    * @brief Multiplication with a matrix
+    */
     template<typename Value_2_, typename = OnlyIfNotQuantity<Value_2_>>
     Matrix3 &operator*=(Matrix3<Value_2_> const &matrix)
     {
         return *this = Multiply(matrix);
     }
 
-    // Returns object of the helper class for C-style subscripting r[i][j]
+    /**
+    * @brief Multiplication with a matrix
+    */
+    template<typename Value_2_>
+    Matrix3<ValueProduct<Value_2_>> operator*(Matrix3<Value_2_> const &matrix) const
+    {
+        return Multiply(matrix);
+    }
+
+    /**
+    * @brief Multiplication with a Vector
+    */
+    template<typename Value_2_>
+    Vector3<ValueProduct<Value_2_>> operator*(Vector3<Value_2_> const &vector) const
+    {
+        return Multiply(vector);
+    }
+
+    /**
+    * @brief Division by scalar
+    */
+    template<typename Value_2_, typename = OnlyIfNotOrSameQuantity<Value_2_>>
+    Matrix3<ValueQuotient<Value_2_>> operator/=(Value_2_ scalar)
+    {
+        x_ /= scalar;
+        y_ /= scalar;
+        z_ /= scalar;
+        return *this;
+    }
+
+    /**
+    * @brief Division by scalar
+    */
+    template<typename Value_2_>
+    Matrix3<ValueQuotient<Value_2_>> operator/(Value_2_ scalar) const
+    {
+        return Scaled(1. / scalar);
+    }
+
+    /**
+    * @brief Components by index
+    */
     Vector3<Value_> const &operator()(Dim3 dim) const
     {
         switch (dim) {
@@ -928,7 +988,9 @@ public:
         }
     }
 
-    // Returns object of the helper class for C-style subscripting r[i][j]
+    /**
+    * @brief Components by index
+    */
     Vector3<Value_> &operator()(Dim3 dim)
     {
         switch (dim) {
@@ -944,21 +1006,33 @@ public:
         }
     }
 
+    /**
+    * @brief Components by index
+    */
     Value_ const &operator()(Dim3 i, Dim3 j) const
     {
         return operator()(i)(j);
     }
 
+    /**
+    * @brief Components by index
+    */
     Value_ &operator()(Dim3 i, Dim3 j)
     {
         return operator()(i)(j);
     }
 
+    /**
+    * @brief Components by index
+    */
     Vector3<Value_> const &operator[](Dim3 i) const
     {
         return operator()(i);
     }
 
+    /**
+    * @brief Components by index
+    */
     Vector3<Value_> &operator[](Dim3 i)
     {
         return operator()(i);
@@ -971,21 +1045,33 @@ public:
      * @{
      */
 
+    /**
+    * @brief Const begin
+    */
     ConstSubIterator<boca::Matrix3, Vector3, Value_, Dim3> begin() const
     {
         return {this, Dim3::x};
     }
 
+    /**
+    * @brief Const end
+    */
     ConstSubIterator<boca::Matrix3, Vector3, Value_, Dim3> end() const
     {
         return {this, Dim3::last};
     }
 
+    /**
+    * @brief Begin
+    */
     SubIterator<boca::Matrix3, Vector3, Value_, Dim3> begin()
     {
         return {this, Dim3::x};
     }
 
+    /**
+    * @brief End
+    */
     SubIterator<boca::Matrix3, Vector3, Value_, Dim3> end()
     {
         return {this, Dim3::last};
@@ -1156,7 +1242,6 @@ private:
 
     Mutable<Eigen_> eigen_;
 
-// The matrix rows
     Vector3<Value_> x_;
 
     Vector3<Value_> y_;
@@ -1193,7 +1278,7 @@ auto operator*(Matrix3<Value_> const &matrix, Vector3<Value_2_> const &vector)
 }
 
 template < class Value_, class Value_2_>
-auto operator*(Vector3<Value_2_> const &vector, Matrix3<Value_> const &matrix)
+Matrix3<ValueProduct<Value_,  Value_2_>> operator*(Vector3<Value_2_> const &vector, Matrix3<Value_> const &matrix)
 {
     return {vector.X() *matrix.ColumnX(), vector.Y() *matrix.ColumnY(), vector.Z() *matrix.ColumnZ()};
 }

@@ -4,7 +4,7 @@
 #include "boca/multiplets/Jet.hh"
 
 /**
-* \ingroup External
+* \ingroup Wimpmass
 * @brief <a href="http://particle.physics.ucdavis.edu/hefti/projects/doku.php?id=wimpmass">Wimpmass</a> contains a few packages useful for determining the mass of the dark matter particle at the LHC.
 */
 namespace wimpmass

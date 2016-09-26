@@ -23,7 +23,7 @@ class Pair : public TopPartner<Tagger_>
 
     std::string Name() const override {
         INFO0;
-        return "Naturalness-Pair-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-callgrind";
+        return "Naturalness-Pair-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-test";
     }
 
     void SetFiles(Phase const& phase) override {

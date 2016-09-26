@@ -179,7 +179,7 @@ public:
     /**
     * @brief azimuth defined in \f$[-\pi, \pi]\f$
     */
-    constexpr Angle Phi() const
+    Angle Phi() const
     {
         return atan2(y_, x_);
     }
@@ -203,7 +203,7 @@ public:
     /**
      * @brief Unit vector in the direction of *this
      */
-    Vector2<double> Unit() const
+    constexpr Vector2<double> Unit() const
     {
         return Mag2() ? *this / Mag() : Vector2<double>{};
     }
@@ -212,7 +212,7 @@ public:
      * @brief Projection onto the direction of vector
      */
     template <typename Value_2>
-    Vector2 Proj(Vector2<Value_2> const &vector) const
+    constexpr Vector2 Proj(Vector2<Value_2> const &vector) const
     {
         auto unit = vector.Unit();
         return unit * (*this * unit);
@@ -222,7 +222,7 @@ public:
      * @brief Component normal to the vector
      */
     template <typename Value_2>
-    Vector2 Norm(Vector2<Value_2> const &vector) const
+    constexpr Vector2 Norm(Vector2<Value_2> const &vector) const
     {
         return *this - Proj(vector);
     }
@@ -230,7 +230,7 @@ public:
     /**
      * @brief rotates 2-vector by phi radians
      */
-    Vector2 Rotate(Angle const &phi) const
+    constexpr Vector2 Rotate(Angle const &phi) const
     {
         return {x_ * cos(phi) - y_ * sin(phi), x_ * sin(phi) + y_ * cos(phi)};
     }
@@ -246,7 +246,7 @@ public:
     * @brief Dot product
     */
     template <typename Value_2>
-    ValueProduct<Value_2> Dot(Vector2<Value_2> const &vector) const
+    constexpr ValueProduct<Value_2> Dot(Vector2<Value_2> const &vector) const
     {
         return x_ * vector.X() + y_ * vector.Y();
     }
@@ -264,7 +264,7 @@ public:
     * @brief Signed area
     */
     template <typename Value_2>
-    ValueProduct<Value_2> SignedArea(Vector2<Value_2> const &vector) const
+    constexpr ValueProduct<Value_2> SignedArea(Vector2<Value_2> const &vector) const
     {
         return X() * vector.Y() - Y() * vector.X();
     }
@@ -279,7 +279,7 @@ public:
     * @brief Assignment operator including casting
     */
     template <typename Value_2/*, typename = OnlyIfQuantity<Value_2>*/>
-    Vector2 &operator=(Vector2<Value_2> const &vector)
+    constexpr Vector2 &operator=(Vector2<Value_2> const &vector)
     {
         x_ = Value_(vector.X());
         y_ = Value_(vector.Y());
@@ -290,7 +290,7 @@ public:
     * @brief Sum of two vectors
     */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Vector2 &operator+=(Vector2<Value_2> const &vector)
+    constexpr Vector2 &operator+=(Vector2<Value_2> const &vector)
     {
         x_ += vector.x_;
         y_ += vector.y_;
@@ -301,7 +301,7 @@ public:
     * @brief Difference of two vectors
     */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Vector2 &operator-=(Vector2<Value_2> const &vector)
+    constexpr Vector2 &operator-=(Vector2<Value_2> const &vector)
     {
         x_ -= vector.x_;
         y_ -= vector.y_;
@@ -312,7 +312,7 @@ public:
      * @brief Product with scalar
      */
     template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
-    Vector2 &operator*=(Value_2 scalar)
+    constexpr Vector2 &operator*=(Value_2 scalar)
     {
         x_ *= scalar;
         y_ *= scalar;
@@ -323,7 +323,7 @@ public:
      * @brief Division by scalar
      */
     template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
-    Vector2 &operator/=(Value_2 scalar)
+    constexpr Vector2 &operator/=(Value_2 scalar)
     {
         x_ /= scalar;
         y_ /= scalar;
@@ -334,7 +334,7 @@ public:
      * @brief Coefficient of wedge product
      */
     template<typename Value_2>
-    friend ValueProduct<Value_2> operator^(Vector2 const &vector_1, Vector2<Value_2> const &vector_2)
+    constexpr friend ValueProduct<Value_2> operator^(Vector2 const &vector_1, Vector2<Value_2> const &vector_2)
     {
         return vector_1.SignedArea(vector_2);
     }
@@ -343,7 +343,7 @@ public:
      * @brief Division by scalar
      */
     template <typename Value_2>
-    friend auto operator/(Vector2 const &vector, Value_2 const &scalar)
+    constexpr friend auto operator/(Vector2 const &vector, Value_2 const &scalar)
     {
         return vector.Scale(1. / scalar);
     }
@@ -351,7 +351,7 @@ public:
     /**
      * @brief Unary minus
      */
-    Vector2 operator-() const
+    constexpr Vector2 operator-() const
     {
         return { -x_, -y_};
     }
@@ -359,7 +359,7 @@ public:
     /**
      * @brief Less than comparison
      */
-    bool operator<(Vector2 const &vector) const
+    constexpr bool operator<(Vector2 const &vector) const
     {
         return Mag2() < vector.Mag2();
     }
@@ -367,7 +367,7 @@ public:
     /**
      * @brief Equal comparison
      */
-    bool operator==(Vector2 const &vector) const
+    constexpr bool operator==(Vector2 const &vector) const
     {
         return vector.x_ == x_ && vector.y_ == y_;
     }
@@ -375,7 +375,7 @@ public:
     /**
      * @brief Components by index
      */
-    Value_ operator()(Dim2 dimension) const
+    constexpr Value_ operator()(Dim2 dimension) const
     {
         //dereferencing operator const
         switch (dimension) {
@@ -392,7 +392,7 @@ public:
     /**
      * @brief Components by index
      */
-    Value_ operator[](Dim2 dimension) const
+    constexpr Value_ operator[](Dim2 dimension) const
     {
         return operator()(dimension);
     }
@@ -400,7 +400,7 @@ public:
     /**
      * @brief Components by index
      */
-    Value_ &operator()(Dim2 dimension)
+    constexpr Value_ &operator()(Dim2 dimension)
     {
         switch (dimension) {
         case Dim2::x :
@@ -416,7 +416,7 @@ public:
     /**
      * @brief Components by index
      */
-    Value_ &operator[](Dim2 dimension)
+    constexpr Value_ &operator[](Dim2 dimension)
     {
         return operator()(dimension);
     }
@@ -431,7 +431,7 @@ public:
     /**
      * @brief Const begin
      */
-    ConstIterator<boca::Vector2, Value_, Dim2> begin() const
+    constexpr ConstIterator<boca::Vector2, Value_, Dim2> begin() const
     {
         return {this, Dim2::x};
     }
@@ -439,7 +439,7 @@ public:
     /**
      * @brief Const end
      */
-    ConstIterator<boca::Vector2, Value_, Dim2> end() const
+    constexpr ConstIterator<boca::Vector2, Value_, Dim2> end() const
     {
         return {this, Dim2::last};
     }
@@ -447,7 +447,7 @@ public:
     /**
      * @brief Begin
      */
-    Iterator<boca::Vector2, Value_, Dim2> begin()
+    constexpr Iterator<boca::Vector2, Value_, Dim2> begin()
     {
         return {this, Dim2::x};
     }
@@ -455,7 +455,7 @@ public:
     /**
      * @brief End
      */
-    Iterator<boca::Vector2, Value_, Dim2> end()
+    constexpr Iterator<boca::Vector2, Value_, Dim2> end()
     {
         return {this, Dim2::last};
     }

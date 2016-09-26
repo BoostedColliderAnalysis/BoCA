@@ -183,7 +183,7 @@ Momentum Settings::HardLeptonMomentum()
 
 double Settings::IsolationFraction()
 {
-    return 0.3;
+    return 300_mU;
 }
 
 Momentum Settings::ForwardJetPt()

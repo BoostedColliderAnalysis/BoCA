@@ -54,7 +54,6 @@ public:
     }
     void Increment(int number) {
         object_sum_ += number;
-//         if (number > 0)
         ++event_sum_;
         if (debug_) Debug("event: ", event_sum_.load(), "object: ", object_sum_.load());
     }

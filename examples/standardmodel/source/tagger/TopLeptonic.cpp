@@ -37,7 +37,7 @@ std::vector<Lepton> Leptons(boca::Event const& event, std::vector<boca::Jet> con
 
 TopLeptonic::TopLeptonic(Id id) :
     id_(id),
-    use_w_(false),
+//     use_w_(false),
     w_leptonic_reader_(InitializeLeptonicReader())
 {
     INFO0;
