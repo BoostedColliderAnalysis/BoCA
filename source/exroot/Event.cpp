@@ -66,7 +66,7 @@ std::vector<Jet> Event::GetEFlow(JetDetail) const {
 
 boca::MissingEt Event::GetMissingEt() const {
     return boost::accumulate(Leptons(),Lepton {}, [](Lepton & sum, Lepton const& jet) {
-        return sum - Lepton(jet.Px(), jet.Py(), 0, 0);
+        return sum - Lepton(jet.Px(), jet.Py(), 0_eV, 0_eV);
     });
 }
 

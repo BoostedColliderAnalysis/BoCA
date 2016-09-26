@@ -31,9 +31,9 @@ public:
     Jet(fastjet::PseudoJet const& jet, JetInfo const& info);
 
     /**
-    * @brief Constructor accepting aspacial momentum vector and the energy
+    * @brief Constructor accepting aspatial momentum vector and the energy
     */
-    Jet(boca::Vector3<boca::Momentum> const& spacial, const boca::Energy &e);
+    Jet(boca::Vector3<boca::Momentum> const& spatial, const boca::Energy &e);
 
     /**
     * @brief Constructor accepting a transversal momentum vector, the longitudianl momentum and the energy

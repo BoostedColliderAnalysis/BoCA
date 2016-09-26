@@ -24,6 +24,17 @@ auto Log(Length const &length)
     return std::log10(length < nm ? Settings::TrackerDistanceMin() / cm : length / mm);
 }
 
+/**
+ * @brief Get a minimal value from phi
+ */
+template<typename Function_>
+auto Minimize(Angle phi, Function_ function) {
+  auto value_1 = function(phi);
+  phi = Wrap(phi);
+  auto value_2 = function(phi);
+  return value_1 < value_2  ? value_1 : value_2;
+}
+
 }
 
 bool Singlet::Overlap(boca::Jet const &jet) const
