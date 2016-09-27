@@ -353,8 +353,8 @@ public:
         if (Pt() <= Settings::MinCellPt() || DeltaR() <= Settings::MinCellResolution()) return 0;
         auto sum = ConstituentJet().DipolaritySum(AngleLine());
         auto dipolarity = sum / Pt() / sqr(DeltaR());
-        if(dipolarity > 100) std::cerr << "dipol: " << dipolarity << " sum: " <<  sum <<  " inv mom: " << 1. / Pt() << " inv deltar: " << 1. / sqr(DeltaR()) <<  "\n";
-        return dipolarity;
+        if(dipolarity > 100) std::cerr << "dipol: " << dipolarity << " sum: " <<  sum <<  " mom: " << Pt() << " deltar: " << DeltaR() <<  "\n";
+        return dipolarity < 0.000001  ?  -6 : std::log10(dipolarity);
     }
     //@}
 

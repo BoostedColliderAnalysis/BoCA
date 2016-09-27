@@ -87,10 +87,10 @@ AngleSquareMomentum Singlet::DipolaritySum(const Line2< Angle > &line) const
         auto phi = constituent.Phi();
         auto rap = constituent.Rap();
         return sum + constituent.Pt() * sqr(Minimize(phi, [&](Angle const & phi) -> Angle {
-            return line.DistanceToSegment(Vector2<Angle>(rap, phi));
+            return line.DistanceToSegment({rap, phi});
         }));
     });
-    CHECK(dipol > 10000_eV * rad2,  dipol, Constituents().size())
+    CHECK(dipol < 1_TeV * rad2,  dipol, Constituents().size())
     return dipol;
 }
 

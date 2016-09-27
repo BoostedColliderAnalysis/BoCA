@@ -102,7 +102,8 @@ Observables ThreeBody::Variables()
 
 Observables ThreeBody::Spectators()
 {
-    return Particle::Spectators() + OBSERVABLE(dipolarity_23, "D_{23}") + OBSERVABLE(dipolarity_13, "D_{13}") + OBSERVABLE(aplanarity, "#slashed{P}") + OBSERVABLE(sphericity, "S");
+    return Particle::Spectators();
+//       + OBSERVABLE(dipolarity_23, "D_{23}") + OBSERVABLE(dipolarity_13, "D_{13}") + OBSERVABLE(aplanarity, "#slashed{P}") + OBSERVABLE(sphericity, "S");
 }
 
 }
