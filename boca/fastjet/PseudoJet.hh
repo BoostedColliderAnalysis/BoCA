@@ -53,9 +53,9 @@ public:
     PseudoJet(boca::LorentzVector<Momentum> const &vector);
 
     /**
-    * @brief Constructor accepting aspacial momentum vector and the energy
+    * @brief Constructor accepting a spatial momentum vector and the energy
     */
-    PseudoJet(boca::Vector3<boca::Momentum> const& spacial, const boca::Energy &e);
+    PseudoJet(boca::Vector3<boca::Momentum> const& spatial, const boca::Energy &e);
 
     /**
     * @brief Constructor accepting a transversal momentum vector, the longitudianl momentum and the energy
@@ -232,7 +232,7 @@ public:
     /**
     * @brief Momentum three vector
     */
-    boca::Vector3<Momentum> Spacial() const;
+    boca::Vector3<Momentum> Spatial() const;
 
     /**
     * @brief Transverse momentum vector \f$(p_x,  p_y)\f$

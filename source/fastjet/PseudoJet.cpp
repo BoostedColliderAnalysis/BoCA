@@ -35,8 +35,8 @@ PseudoJet::PseudoJet(boca::LorentzVector<Momentum> const& vector) :
     INFO0;
 }
 
-PseudoJet::PseudoJet(boca::Vector3<Momentum> const& spacial, boca::Energy const& e) :
-    fastjet:: PseudoJet(spacial.X() / GeV, spacial.Y() / GeV, spacial.Z() / GeV, e / GeV)
+PseudoJet::PseudoJet(boca::Vector3<Momentum> const& spatial, boca::Energy const& e) :
+    fastjet:: PseudoJet(spatial.X() / GeV, spatial.Y() / GeV, spatial.Z() / GeV, e / GeV)
 {
     INFO0;
 }
@@ -75,7 +75,7 @@ boca::LorentzVector< Momentum > PseudoJet::LorentzVector() const
     return {Px(), Py(), Pz(), Energy()};
 }
 
-Vector3< Momentum > PseudoJet::Spacial() const
+Vector3< Momentum > PseudoJet::Spatial() const
 {
     return {Px(), Py(), Pz()};
 }

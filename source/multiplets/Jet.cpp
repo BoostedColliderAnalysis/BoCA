@@ -48,10 +48,10 @@ Jet::Jet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy c
     SetInfo();
 }
 
-Jet::Jet(boca::Vector3<Momentum> const& spacial, boca::Energy const& e) :
-    PseudoJet(spacial, e)
+Jet::Jet(boca::Vector3<Momentum> const& spatial, boca::Energy const& e) :
+    PseudoJet(spatial, e)
 {
-    DEBUG(spacial.X(), spacial.Y(), spacial.Z(), e);
+    DEBUG(spatial.X(), spatial.Y(), spatial.Z(), e);
     SetInfo();
 }
 
