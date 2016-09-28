@@ -177,7 +177,7 @@ public:
     */
 
     /**
-    * @brief azimuth defined in \f$[-\pi, \pi]\f$
+    * @brief The azimuth \f$\phi\f$ defined in \f$[-\pi, \pi]\f$
     */
     Angle Phi() const
     {
@@ -185,10 +185,10 @@ public:
     }
 
     /**
-    * @brief Difference of azimuth defined in \f$[-\pi, \pi]\f$
+    * @brief Difference of azimuth \f$\Delta\phi\f$ defined in \f$[-\pi, \pi]\f$
     */
     template<typename Value_2>
-    Angle DeltaPhi(Vector2<Value_2> const &vector) const
+    Angle DeltaPhiTo(Vector2<Value_2> const &vector) const
     {
         return Restrict(Phi() - vector.Phi());
     }
@@ -201,7 +201,7 @@ public:
     */
 
     /**
-     * @brief Unit vector in the direction of *this
+     * @brief Unit vector in the direction of this vector
      */
     constexpr Vector2<double> Unit() const
     {
@@ -228,9 +228,9 @@ public:
     }
 
     /**
-     * @brief rotates 2-vector by phi radians
+     * @brief Rotate this vector by \f$\phi\f$
      */
-    constexpr Vector2 Rotate(Angle const &phi) const
+    constexpr Vector2& Rotate(Angle const &phi) const
     {
         return {x_ * cos(phi) - y_ * sin(phi), x_ * sin(phi) + y_ * cos(phi)};
     }
@@ -243,7 +243,7 @@ public:
      */
 
     /**
-    * @brief Dot product
+    * @brief Dot product between two vectors
     */
     template <typename Value_2>
     constexpr ValueProduct<Value_2> Dot(Vector2<Value_2> const &vector) const
@@ -252,7 +252,7 @@ public:
     }
 
     /**
-    * @brief Scale with scalar
+    * @brief Scale this vector with a scalar
     */
     template <typename Value_2>
     Vector2 <ValueProduct<Value_2>> Scale(Value_2 const &scalar) const

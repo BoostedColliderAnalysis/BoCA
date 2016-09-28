@@ -13,8 +13,8 @@ namespace boca
 
 LorentzVector< Momentum >::LorentzVector()
 {
-    Scalar() = Momentum(0);
-    Vector() = {at_rest,  at_rest,  at_rest};
+    Scalar() = at_rest;
+    Spatial() = {at_rest,  at_rest,  at_rest};
 }
 
 // LorentzVector< Momentum >::LorentzVector(const LorentzVectorBase<Momentum>& lorentz_vector)
@@ -25,7 +25,7 @@ LorentzVector< Momentum >::LorentzVector()
 
 LorentzVector< Momentum >::LorentzVector(const TLorentzVector& lorentzvector)
 {
-    Vector() = Vector3<double>(lorentzvector.Vect()) * GeV;
+    Spatial() = Vector3<double>(lorentzvector.Vect()) * GeV;
     Scalar() = lorentzvector.T() * GeV;
 }
 
@@ -187,13 +187,13 @@ LorentzVector< Length >::LorentzVector()
 
 LorentzVector< Length >::LorentzVector(delphes::Track& track)
 {
-    Vector() = Vector3<Length>(static_cast<double>(track.X) * mm, static_cast<double>(track.Y) * mm, static_cast<double>(track.Z) * mm);
+    Spatial() = Vector3<Length>(static_cast<double>(track.X) * mm, static_cast<double>(track.Y) * mm, static_cast<double>(track.Z) * mm);
     Scalar() = static_cast<double>(track.T) * mm;
 }
 
 LorentzVector< Length >::LorentzVector(delphes::GenParticle& particle)
 {
-    Vector() = Vector3<Length>(static_cast<double>(particle.X) * mm, static_cast<double>(particle.Y) * mm, static_cast<double>(particle.Z) * mm);
+    Spatial() = Vector3<Length>(static_cast<double>(particle.X) * mm, static_cast<double>(particle.Y) * mm, static_cast<double>(particle.Z) * mm);
     Scalar() = static_cast<double>(particle.T) * mm;
 }
 

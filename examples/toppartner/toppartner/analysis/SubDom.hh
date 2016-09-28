@@ -52,8 +52,8 @@ protected:
     long ReadNumberMax() const override
     {
         INFO0;
-        if (this->template TaggerIs<tagger::SignatureSubDom>() || this->template TaggerIs<standardmodel::tagger::Global>() || this->template TaggerIs<toppartner::tagger::EventSubDom>()) return 100000;
         return this->TrainNumberMax();
+        if (this->template TaggerIs<tagger::SignatureSubDom>() || this->template TaggerIs<standardmodel::tagger::Global>() || this->template TaggerIs<toppartner::tagger::EventSubDom>()) return 100000;
     }
 
 private:

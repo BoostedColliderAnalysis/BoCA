@@ -85,12 +85,12 @@ AngleSquareMomentum Singlet::DipolaritySum(const Line2< Angle > &line) const
     if (!HasConsitutents()) return 0;
     auto dipol = boost::accumulate(Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
         auto phi = constituent.Phi();
-        auto rap = constituent.Rap();
+            auto rap = constituent.Rap();
         return sum + constituent.Pt() * sqr(Minimize(phi, [&](Angle const & phi) -> Angle {
             return line.DistanceToSegment({rap, phi});
         }));
     });
-    CHECK(dipol < 1_TeV * rad2,  dipol, Constituents().size())
+    CHECK(dipol < 100_TeV * rad2,  dipol, Constituents().size())
     return dipol;
 }
 

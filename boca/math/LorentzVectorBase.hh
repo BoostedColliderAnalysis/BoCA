@@ -63,29 +63,29 @@ public:
     /**
      * @brief Default constructor
      */
-    LorentzVectorBase() :
+    constexpr LorentzVectorBase() :
         Vector3<Value_>(),
         scalar_(Value_(0)) {}
 
     /**
-     * @brief Constructor giving the components x, y, z, t.
+     * @brief Constructor accepting the components x, y, z, t.
      */
-    LorentzVectorBase(Value_ x, Value_ y, Value_ z, Value_ t) :
+    constexpr LorentzVectorBase(Value_ x, Value_ y, Value_ z, Value_ t) :
         Vector3<Value_>(x, y, z),
         scalar_(t) {}
 
     /**
-     * @brief Constructor giving a 3-Vector and a time component.
+     * @brief Constructor accepting a 3-Vector and a scalar component.
      */
-    LorentzVectorBase(Vector3<Value_> const &vector3, Value_ const &t) :
+    constexpr LorentzVectorBase(Vector3<Value_> const &vector3, Value_ const &t) :
         Vector3<Value_>(vector3),
         scalar_(t) {}
 
     /**
-     * @brief copy constructor with casting
+     * @brief Copy constructor with casting
      */
     template<typename Value_2>
-    LorentzVectorBase(LorentzVectorBase<Value_2> const &lorentz_vector)
+    constexpr LorentzVectorBase(LorentzVectorBase<Value_2> const &lorentz_vector)
     {
         Vector3<Value_>(lorentz_vector.Spatial());
         scalar_(lorentz_vector.Scalar());
@@ -104,7 +104,7 @@ public:
     /**
      * @brief Set spatial magnitude
      */
-    void SetRho(Value_ rho)
+    constexpr void SetRho(Value_ rho)
     {
         Spatial().SetMag(rho);
     }
@@ -112,25 +112,25 @@ public:
     /**
      * @brief Set components
      */
-    void SetXYZT(Value_ x, Value_ y, Value_ z, Value_ t)
+    constexpr void SetXYZT(Value_ x, Value_ y, Value_ z, Value_ t)
     {
         Spatial() = {x, y, z};
-        T() = t;
+        Scalar() = t;
     }
 
     /**
-     * @brief Copy spatial coordinates, and set energy = sqrt(mass^2 + spatial^2)
+     * @brief Copy spatial coordinates, and set \f$e = \sqrt{ m^2 + \rho^2}\f$
      */
-    void SetVectMag(Vector3<Value_> const &spatial, Value_ magnitude)
+    constexpr void SetVectMag(Vector3<Value_> const &spatial, Value_ magnitude)
     {
         Spatial() = spatial;
-        T() = magnitude >= Value_(0)  ?  sqrt(sqr(spatial) + sqr(magnitude)) : sqrt(std::max((sqr(spatial) - sqr(magnitude)), ValueSquare(0)));
+        Scalar() = magnitude >= Value_(0)  ?  sqrt(sqr(spatial) + sqr(magnitude)) : sqrt(std::max((sqr(spatial) - sqr(magnitude)), ValueSquare(0)));
     }
 
     /**
      * @brief Set x,  y,  z and magnitude
      */
-    void SetXYZM(Value_ x, Value_ y, Value_ z, Value_ mass)
+    constexpr void SetXYZM(Value_ x, Value_ y, Value_ z, Value_ mass)
     {
         SetXYZM(x,  y,  z , mass);
     }
@@ -138,7 +138,7 @@ public:
     /**
      * @brief Set x,  y,  z and magnitude
      */
-    void SetVectM(Vector3<Value_> const &spatial, Value_ mass)
+    constexpr void SetVectM(Vector3<Value_> const &spatial, Value_ mass)
     {
         SetVectMag(spatial, mass);
     }
@@ -156,35 +156,19 @@ public:
      */
 
     /**
-     * @brief spatial component.
+     * @brief Getter for the spatial components
      */
-    Vector3<Value_> Spatial() const
+    constexpr Vector3<Value_> Spatial() const
     {
         return *this;
     }
 
     /**
-     * @brief spatial component.
+     * @brief Accessor for the spatial components
      */
-    Vector3<Value_> &Vector()
+    constexpr Vector3<Value_> &Spatial()
     {
         return *this;
-    }
-
-    /**
-     * @brief t
-     */
-    Value_ &Scalar()
-    {
-        return scalar_;
-    }
-
-    /**
-     * @brief t
-     */
-    Value_ Scalar() const
-    {
-        return scalar_;
     }
 
     using Vector3<Value_>::X;
@@ -194,24 +178,39 @@ public:
     using Vector3<Value_>::Z;
 
     /**
-     * @brief t
+     * @brief Accessor for the scalar
+     * @{
      */
-    Value_ T() const
+   constexpr  Value_ &Scalar()
     {
         return scalar_;
     }
 
-    /**
-     * @brief t
-     */
-    Value_ &T()
+    constexpr Value_ &T()
     {
         return scalar_;
     }
     //@}
 
     /**
-     * @name spatial vector components in spherical coordinate system.
+     * @brief Getter for the scalar component
+     * @{
+     */
+    constexpr Value_ Scalar() const
+    {
+        return scalar_;
+    }
+
+    constexpr Value_ T() const
+    {
+        return scalar_;
+    }
+    //@}
+
+    //@}
+
+    /**
+     * @name Angles
      * @{
      */
 
@@ -240,36 +239,33 @@ public:
     using Vector3<Value_>::PseudoRapidity;
 
     /**
-     * @brief Rapidity
-     */
-    boca::Angle Rap() const
-    {
-        return Rapidity();
-    }
-
-    /**
-     * @brief Rapidity \f$y = 0.5 \ln\frac{t + z}{t - z}\f$
+     * @brief Rapidity \f$y = \frac{1}{2} \ln\frac{t + z}{t - z}\f$
+     * @{
      */
     boca::Angle Rapidity() const
     {
         return 0.5 * units::log(static_cast<double>(Plus() / Minus()));
     }
 
+    boca::Angle Rap() const
+    {
+        return Rapidity();
+    }
+    //@}
+
     /**
      * @brief Rapidity with respect to another vector
      */
     boca::Angle Rapidity(Vector3<double> const &vector) const
     {
-        auto r = vector.Mag2();
-        if (r == 0) {
-            std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
-            return 0_rad;
-        }
-        auto vdotu = Spatial().Dot(vector) / std::sqrt(r);
+        auto mag_2 = vector.Mag2();
+        if (mag_2 == 0) return 0_rad;
+        auto vdotu = Spatial().Dot(vector) / sqrt(mag_2);
         if (vdotu == Value_(0)) return 0_rad;
-        if (T() <= Value_(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
-        auto pt = sqrt(units::max(sqr(T() * std::numeric_limits<double>::epsilon()), Perp2(vector) + Mag2()));
-        auto rap = units::log(((T() + abs(Z())) / pt).value());
+//         if (Scalar() <= Value_(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
+//         auto pt = sqrt(units::max(sqr(Scalar() * std::numeric_limits<double>::epsilon()), Perp2(vector) + Mag2()));
+        auto mt = sqrt(Perp2(vector) + Mag2());
+        auto rap = units::log(static_cast<double>((Scalar() + abs(Z())) / mt));
         return Z() > Value_(0) ? rap : -rap;
     }
 
@@ -278,7 +274,7 @@ public:
     using Vector3<Value_>::DeltaEtaTo;
 
     /**
-     * @brief \f$\Delta y\f$  to vector
+     * @brief Difference in Rapidity to a vector \f$\Delta y\f$
      */
     template <typename Value_2_>
     boca::Angle DeltaRapTo(LorentzVectorBase<Value_2_> const &vector) const
@@ -287,7 +283,7 @@ public:
     }
 
     /**
-     * @brief \f$\Delta R\f$ in \f$(y, \phi)\f$ to vector
+     * @brief Difference in agular space to a vector \f$\Delta R = \sqrt{ (\Delta y)^2 + (\Delta \phi)^2}\f$ to vector
      */
     template <typename Value_2_>
     boca::Angle DeltaRTo(LorentzVectorBase<Value_2_> const &vector) const
@@ -307,125 +303,127 @@ public:
     using Vector3<Value_>::Perp;
 
     /**
-     * @brief spatial radius
+     * @brief Square of the spatial radius  \f$\rho^2 = x^2 + y^2\f$
      */
-    ValueSquare Rho2() const
+    constexpr ValueSquare Rho2() const
     {
         return Spatial().Mag2();
     }
 
     /**
-     * @brief spatial radius
+     * @brief spatial radius \f$\rho = \sqrt{x^2 + y^2 + z^2}\f$
      */
-    Value_ Rho() const
+    constexpr Value_ Rho() const
     {
         return Spatial().Mag();
     }
 
     /**
-     * @brief Invariant mass squared.
+     * @brief Square of the magnitude \f$m^2 = t^2 - \rho^2\f$
      */
-    ValueSquare Mag2() const
+    constexpr ValueSquare Mag2() const
     {
-        return sqr(T()) - Rho2();
+        return sqr(Scalar()) - Rho2();
     }
 
     /**
-     * @brief Invariant mass. If mag2() is negative then -sqrt(-mag2()) is returned.
+     * @brief Magnitude \f$m = \sqrt{t^2 - \rho^2}\f$
+     *
+     * If the square of the magnitude is negative \f$-\sqrt{-m^2}\f$ is returned
      */
-    Value_ Mag() const
+    constexpr Value_ Mag() const
     {
         auto mag2 = Mag2();
         return mag2 < ValueSquare(0) ? -sqrt(-mag2) : sqrt(mag2);
     }
 
     /**
-    * @brief transvere magnitude square
+    * @brief Square of the transvere magnitude \f$m_T^2 = m^2 + x^2 + y^2\f$
     */
-    ValueSquare MagT2() const
+    constexpr ValueSquare MagT2() const
     {
-        return sqr(T()) - sqr(Z());
+        return sqr(Scalar()) - sqr(Z());
     }
 
     /**
-    * @brief transvere magnitude
+    * @brief Transvere magnitude \f$m_T = \sqrt{m^2 + x^2 + y^2}\f$
     */
-    Value_ MagT() const
+    constexpr Value_ MagT() const
     {
         auto mt2 = MagT2();
         return mt2 < ValueSquare(0) ? -sqrt(-mt2) : sqrt(mt2);
     }
 
     /**
-    * @brief transvere scalar square
+    * @brief transvere scalar square \f$e_T^2 = e^2 \frac{p_T^2}{\rho^2}\f$
     */
-    ValueSquare ScalarT2() const
+    constexpr ValueSquare ScalarT2() const
     {
-        return sqr(T()) * SinTheta2();
+        return sqr(Scalar()) * SinTheta2();
     }
 
     /**
-    * @brief transvere scalar square
+    * @brief transvere scalar square \f$e_T = e \frac{p_T}{\rho}\f$
     */
-    Value_ ScalarT() const
+    constexpr Value_ ScalarT() const
     {
-        return T() < Value_(0) ? -sqrt(ScalarT2()) : sqrt(ScalarT2());
+        return Scalar() < Value_(0) ? -sqrt(ScalarT2()) : sqrt(ScalarT2());
     }
 
     /**
-    * @brief Transverse scalar squared w.r.t. given axis
+    * @brief Transverse scalar squared towards a vector
     */
     template<typename Value,  typename = OnlyIfNotQuantity<Value>>
-    EnergySquare ScalarT2(Vector3<Value> const& vector) const {
+    constexpr ValueSquare ScalarT2(Vector3<Value> const &vector) const
+    {
         auto pt2 = Spatial().Perp2(vector);
         auto pv = Spatial().Dot(vector.Unit());
-        return pt2 == ValueSquare(0) ? ValueSquare(0) : sqr(T()) * pt2 / (pt2 + sqr(pv));
+        return pt2 == ValueSquare(0) ? ValueSquare(0) : sqr(Scalar()) * pt2 / (pt2 + sqr(pv));
     }
 
     /**
-    * @brief Transverse scalar w.r.t. given axis
+    * @brief Transverse scalar towards a vector
     */
     template<typename Value,  typename = OnlyIfNotQuantity<Value>>
-    boca::Energy ScalarT(Vector3<Value> const& vector) const {
-        return T() < Value_(0) ? -sqrt(Et2(vector)) : sqrt(Et2(vector));
+    constexpr Value_ ScalarT(Vector3<Value> const &vector) const
+    {
+        return Scalar() < Value_(0) ? -sqrt(Et2(vector)) : sqrt(Et2(vector));
     }
 
     /**
-     * @brief beta
+     * @brief Relative velocity \f$\beta = \frac{\rho}{t}\f$
      */
-    double Beta() const
+    constexpr double Beta() const
     {
         return Rho() / Scalar();
     }
 
     /**
-     * @brief gamma
+     * @brief Lorentz factor \f$\gamma = \frac{1}{\sqrt{1-\beta^2}}\f$
      */
-    double Gamma() const
+    constexpr double Gamma() const
     {
         return 1. / std::sqrt(1. - sqr(Beta()));
     }
 
     /**
-     * @brief t + z
+     * @brief Positive light cone component \f$p = t + z\f$
      *
-     * Related to the positive/negative light-cone component, which some define this way and others define as(t +/- z)/sqrt(2).
-     * Member functions Plus() and Minus() return the positive and negative light-cone components:
+     * Beware of alternative definition \f$p = \frac{t + z}{\sqrt 2}\f$
      */
-    Value_ Plus() const
+    constexpr Value_ Plus() const
     {
-        return T() + Z();
+        return Scalar() + Z();
     }
 
     /**
-     * @brief t - z
+     * @brief Negative light cone component \f$m = t - z\f$
      *
-     * The values returned are T{+,-}Z. It is known that some authors find it easier to define these components as(T{+,-}Z)/sqrt(2).
-     * Thus check what definition is used in the physics you're working in and adapt your code accordingly
+     * Beware of alternative definition \f$m = \frac{t - z}{\sqrt 2}\f$
      */
-    Value_ Minus() const
+    constexpr Value_ Minus() const
     {
-        return T() - Z();
+        return Scalar() - Z();
     }
     //@}
 
@@ -435,15 +433,11 @@ public:
      */
 
     /**
-     * @brief spatial components divided by the time component.
+     * @brief Spatial components divided by the time component
      */
-    Vector3<double> BoostVector() const
+    constexpr Vector3<double> BoostVector() const
     {
-        if (T() == Value_(0)) {
-            if (Rho() > Value_(0)) std::cout << "boostVector computed for LorentzVector with t=0 -- infinite result" << std::endl;
-            return {};
-        }
-        return Spatial() / T();
+        return Scalar() == Value_(0) ? Vector3<double>{} : Vector3<double>{Spatial() / Scalar()};
     }
 
     using Vector3<Value_>::Transversal;
@@ -451,28 +445,20 @@ public:
     using Vector3<Value_>::EtaPhiVector;
 
     /**
-     * Boost from reference frame into this vector's rest
-     * frame: \f$-\frac{\vec{x}}{t}\f$.
+     * Boost from reference frame into this vector's rest frame: \f$-\frac{\vec{x}}{t}\f$.
      */
-    Vector3<double> BoostIntoRestFrame() const
+    constexpr Vector3<double> BoostIntoRestFrame() const
     {
         return -BoostVector();
     }
 
     /**
-     * @brief Lorentz boost.
+     * @brief Boosted Lorentz vector
      */
-    LorentzVectorBase<Value_> Boosted(Vector3<double> const &boost) const
+    constexpr LorentzVectorBase<Value_> Boosted(Vector3<double> const &boost) const
     {
-        //Boost this Lorentz vector
-        auto mag_2 = boost.Mag2();
-        auto gamma = 1. / std::sqrt(1. - mag_2);
-        auto gamma2 = mag_2 > 0. ? (gamma - 1.) / mag_2 : 0.;
-        auto bp = boost * Spatial();
-        auto lorentz_vector = LorentzVectorBase<Value_> {};
-        lorentz_vector.Spatial() = Spatial() + gamma2 * bp * boost + gamma * boost * T();
-        lorentz_vector.T() = gamma * (T() + bp);
-        return lorentz_vector;
+        auto lorentz_vector = *this;
+        return lorentz_vector.Boost(boost);
     }
     //@}
 
@@ -482,17 +468,19 @@ public:
      */
 
     /**
-     * @brief Lorentz boost.
+     * @brief Boost this Lorentz vector
      */
-    void Boost(Vector3<double> const &boost)
+    constexpr LorentzVectorBase<Value_> &Boost(Vector3<double> const &boost)
     {
-        //Boost this Lorentz vector
         auto mag_2 = boost.Mag2();
-        auto gamma = 1. / std::sqrt(1. - mag_2);
+        auto gamma = 1 / sqrt(1 - mag_2);
+        auto gamma2 = mag_2 > 0 ? (gamma - 1) / mag_2 : 0;
         auto bp = boost * Spatial();
-        auto gamma2 = mag_2 > 0. ? (gamma - 1.) / mag_2 : 0.;
-        Spatial() = Spatial() + gamma2 * bp * boost + gamma * boost * T();
-        T() = gamma * (T() + bp);
+        auto scaled = gamma * Scalar();
+
+        Spatial() += boost * (gamma2 * bp + scaled);
+        Scalar() = scaled + gamma * bp;
+        return *this;
     }
 
     using Vector3<Value_>::RotateX;
@@ -514,27 +502,27 @@ public:
      * @brief Scale
      */
     template <typename Value_2>
-    LorentzVectorBase<ValueProduct<Value_2>> Scale(Value_2 const &scalar) const
+    constexpr LorentzVectorBase<ValueProduct<Value_2>> Scale(Value_2 const &scalar) const
     {
-        return {scalar * X(), scalar * Y(), scalar * Z(), scalar * T()};
+        return {Spatial() *scalar, Scalar() *scalar};
     }
 
     /**
-     * @brief Scalar product
+     * @brief Scalar dot product with a lorentz vector
      */
     template <typename Value_2>
-    ValueProduct<Value_2> Dot(LorentzVectorBase<Value_2> const &lorentz_vector) const
+    constexpr ValueProduct<Value_2> Dot(LorentzVectorBase<Value_2> const &lorentz_vector) const
     {
-        return T() * lorentz_vector.T() - Spatial().Dot(lorentz_vector.Spatial());
+        return Scalar() * lorentz_vector.Scalar() - Spatial().Dot(lorentz_vector.Spatial());
     }
 
     /**
-     * @brief Euclidean product
+     * @brief Euclidean product with a lorentz vector
      */
     template <typename Value_2>
-    ValueProduct<Value_2> Euclidean(LorentzVectorBase<Value_2> const &lorentz_vector) const
+    constexpr ValueProduct<Value_2> Euclidean(LorentzVectorBase<Value_2> const &lorentz_vector) const
     {
-        return T() * lorentz_vector.T() + Spatial().Dot(lorentz_vector.Spatial());
+        return Scalar() * lorentz_vector.Scalar() + Spatial().Dot(lorentz_vector.Spatial());
     }
 
     //@}
@@ -547,7 +535,7 @@ public:
     /**
      * @brief Less than comparison
      */
-    bool operator<(LorentzVectorBase const &lorentz_vector) const
+    constexpr bool operator<(LorentzVectorBase const &lorentz_vector) const
     {
         return Mag2() < lorentz_vector.Mag2();
     }
@@ -555,19 +543,19 @@ public:
     /**
      * @brief Equality comparison
      */
-    bool operator==(LorentzVectorBase const &lorentz_vector) const
+    constexpr bool operator==(LorentzVectorBase const &lorentz_vector) const
     {
-        return Spatial() == lorentz_vector.Spatial() && T() == lorentz_vector.T();
+        return Spatial() == lorentz_vector.Spatial() && Scalar() == lorentz_vector.Scalar();
     }
 
     /**
      * @brief Additions
      */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    LorentzVectorBase &operator+=(LorentzVectorBase<Value_2> const &lorentz_vector)
+    constexpr LorentzVectorBase &operator+=(LorentzVectorBase<Value_2> const &lorentz_vector)
     {
         Spatial() += lorentz_vector.Spatial();
-        scalar_ += lorentz_vector.T();
+        scalar_ += lorentz_vector.Scalar();
         return *this;
     }
 
@@ -576,10 +564,10 @@ public:
      */
 
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    LorentzVectorBase &operator-=(LorentzVectorBase<Value_2> const &lorentz_vector)
+    constexpr LorentzVectorBase &operator-=(LorentzVectorBase<Value_2> const &lorentz_vector)
     {
         Spatial() -= lorentz_vector.Spatial();
-        scalar_ -= lorentz_vector.T();
+        scalar_ -= lorentz_vector.Scalar();
         return *this;
     }
 
@@ -587,7 +575,7 @@ public:
      * @brief Product with scalar
      */
     template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
-    LorentzVectorBase &operator*=(Value_2 scalar)
+    constexpr LorentzVectorBase &operator*=(Value_2 scalar)
     {
         Spatial() *= scalar;
         scalar_ *= scalar;
@@ -598,7 +586,7 @@ public:
      * @brief Divison by scalar
      */
     template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
-    LorentzVectorBase &operator/=(Value_2 scalar)
+    constexpr LorentzVectorBase &operator/=(Value_2 scalar)
     {
         Spatial() /= scalar;
         scalar_ /= scalar;
@@ -609,23 +597,23 @@ public:
      * @brief Divison by scalar
      */
     template <typename Value_2>
-    LorentzVectorBase<ValueQuotient<Value_2>> operator/(Value_2 const &scalar) const
+    constexpr LorentzVectorBase<ValueQuotient<Value_2>> operator/(Value_2 const &scalar) const
     {
         return Scale(1. / scalar);
     }
 
     /**
-     * @brief Unary minus.
+     * @brief Unary minus
      */
-    LorentzVectorBase operator-() const
+    constexpr LorentzVectorBase operator-() const
     {
-        return { -X(), -Y(), -Z(), -T()};
+        return { -Spatial(), -Scalar()};
     }
 
     /**
      * @brief components by index.
      */
-    Value_ const &operator()(LorentzDim i) const
+    constexpr Value_ const &operator()(LorentzDim i) const
     {
         //dereferencing operatorconst
         switch (i) {
@@ -646,7 +634,7 @@ public:
     /**
      * @brief components by index.
      */
-    Value_ const &operator[](LorentzDim i) const
+    constexpr Value_ const &operator[](LorentzDim i) const
     {
         return (*this)(i);
     }
@@ -654,7 +642,7 @@ public:
     /**
      * @brief components by index.
      */
-    Value_ &operator()(LorentzDim i)
+    constexpr Value_ &operator()(LorentzDim i)
     {
         //dereferencing operator
         switch (i) {
@@ -675,7 +663,7 @@ public:
     /**
      * @brief components by index.
      */
-    Value_ &operator[](LorentzDim i)
+    constexpr Value_ &operator[](LorentzDim i)
     {
         return (*this)(i);
     }
@@ -687,22 +675,22 @@ public:
      * @{
      */
 
-    ConstIterator<Vector3, Value_, LorentzDim> begin() const
+    constexpr ConstIterator<Vector3, Value_, LorentzDim> begin() const
     {
         return {this, LorentzDim::x};
     }
 
-    ConstIterator<Vector3, Value_, LorentzDim> end() const
+    constexpr ConstIterator<Vector3, Value_, LorentzDim> end() const
     {
         return {this, LorentzDim::last};
     }
 
-    Iterator<Vector3, Value_, LorentzDim> begin()
+    constexpr Iterator<Vector3, Value_, LorentzDim> begin()
     {
         return {this, LorentzDim::x};
     }
 
-    Iterator<Vector3, Value_, LorentzDim> end()
+    constexpr Iterator<Vector3, Value_, LorentzDim> end()
     {
         return {this, LorentzDim::last};
     }
@@ -711,7 +699,9 @@ public:
 
 protected:
 
-    // time or energy of(x,y,z,t) or(px,py,pz,e)
+    /**
+    * @brief time or energy component
+    */
     Value_ scalar_;
 
 };
@@ -719,22 +709,29 @@ protected:
 template<typename Value>
 using OnlyIfNotLorentzVectorBase = typename std::enable_if<std::is_base_of<LorentzVectorBase<Value>, Value>::value>::type;
 
-// Scalar product of lorentzvectors.
+/**
+ * @brief Scalar product of lorentzvectors.
+ */
 template <class Value, class Value_2>
-auto operator*(LorentzVectorBase<Value> const &lorentz_vector_1, LorentzVectorBase<Value_2> const &lorentz_vector_2)
+constexpr auto operator*(LorentzVectorBase<Value> const &lorentz_vector_1, LorentzVectorBase<Value_2> const &lorentz_vector_2)
 {
     return lorentz_vector_1.Dot(lorentz_vector_2);
 }
 
-// Scaling of lorentzvectors with a real number
+/**
+ * @brief Scaling of lorentzvectors with a real number
+ */
 template < class Value, class Value_2, typename = OnlyIfNotLorentzVectorBase<Value_2> >
-auto operator*(LorentzVectorBase<Value> const &lorentz_vector, Value_2 scalar)
+constexpr auto operator*(LorentzVectorBase<Value> const &lorentz_vector, Value_2 scalar)
 {
     return lorentz_vector.Scale(scalar);
 }
 
+/**
+ * @brief Scaling of lorentzvectors with a real number
+ */
 template < class Value, class Value_2, typename = OnlyIfNotLorentzVectorBase<Value> >
-auto operator*(Value scalar, LorentzVectorBase<Value_2> const &lorentz_vector)
+constexpr auto operator*(Value scalar, LorentzVectorBase<Value_2> const &lorentz_vector)
 {
     return lorentz_vector.Scale(scalar);
 }

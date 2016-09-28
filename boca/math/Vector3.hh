@@ -75,7 +75,7 @@ public:
     {};
 
     /**
-     * @brief Constructor one scalar and its direction
+     * @brief Constructor accepting one scalar and its direction
      */
     constexpr Vector3(Value_ value, Dim3 dim)
     {
@@ -85,7 +85,7 @@ public:
     }
 
     /**
-     * @brief Constructor accepting a three vector
+     * @brief Constructor accepting a vector
      */
     template<typename Value_2_>
     constexpr Vector3(Vector3<Value_2_> const &vector) :
@@ -127,8 +127,8 @@ public:
     {
         x_ = pt * cos(phi);
         y_ = pt * sin(phi);
-        auto tanTheta = tan(theta);
-        z_ = tanTheta ? pt / tanTheta : Value_(0);
+        auto tan_theta = tan(theta);
+        z_ = tan_theta ? pt / tan_theta : Value_(0);
     }
 
     /**
@@ -192,7 +192,7 @@ public:
      */
 
     /**
-     * @brief X getter
+     * @brief Getter for X
      */
     constexpr Value_ X() const
     {
@@ -200,7 +200,7 @@ public:
     }
 
     /**
-     * @brief Y getter
+     * @brief Getter for Y
      */
     constexpr Value_ Y() const
     {
@@ -208,7 +208,7 @@ public:
     }
 
     /**
-     * @brief Z getter
+     * @brief Getter for Z
      */
     constexpr Value_ Z() const
     {
@@ -216,7 +216,7 @@ public:
     }
 
     /**
-     * @brief X accessor
+     * @brief Accessor for X
      */
     constexpr Value_ &X()
     {
@@ -224,7 +224,7 @@ public:
     }
 
     /**
-     * @brief Y accessor
+     * @brief Accessor for Y
      */
     constexpr Value_ &Y()
     {
@@ -232,7 +232,7 @@ public:
     }
 
     /**
-     * @brief Z accessor
+     * @brief Accessor for Z
      */
     constexpr Value_ &Z()
     {
@@ -262,7 +262,7 @@ public:
     }
 
     /**
-     * @brief Cosine of the polar angle
+     * @brief Cosine of the polar angle \f$\cos \theta\f$
      */
     double CosTheta() const
     {
@@ -271,7 +271,7 @@ public:
     }
 
     /**
-     * @brief Sine of the polar angle
+     * @brief Square of the sine of the polar angle \f$\sin^2 \theta\f$
      */
     double SinTheta2() const
     {
@@ -280,7 +280,7 @@ public:
     }
 
     /**
-     * @brief Sine of the polar angle
+     * @brief Sine of the polar angle \f$\sin \theta\f$
      */
     double SinTheta() const
     {
@@ -289,7 +289,7 @@ public:
     }
 
     /**
-     * @brief \f$\Delta\phi\f$ to vector restricted to \f$[-\pi,\pi]\f$
+     * @brief Difference to vector in azimuth \f$\Delta\phi\f$ restricted to \f$[-\pi,\pi]\f$
      */
     template <typename Value_2_>
     boca::Angle DeltaPhiTo(Vector3<Value_2_> const &vector) const
@@ -298,7 +298,7 @@ public:
     }
 
     /**
-     * @brief \f$\Delta\eta\f$ to vector
+     * @brief Difference to vector in PseudoRapidity \f$\Delta\eta\f$
      */
     template <typename Value_2_>
     boca::Angle DeltaEtaTo(Vector3<Value_2_> const &vector) const
@@ -307,7 +307,7 @@ public:
     }
 
     /**
-     * @brief \f$\Delta R\f$ in \f$(\eta, \phi)\f$ to vector
+     * @brief Difference to vector in \f$\Delta R = \sqrt{(\Delta \eta)^2 + (\Delta \phi)^2}\f$
      */
     template <typename Value_2_>
     boca::Angle DeltaRTo(Vector3<Value_2_> const &vector) const
@@ -316,63 +316,42 @@ public:
     }
 
     /**
-     * @brief The angle w.r.t. another 3-vector.
+     * @brief The angle to vector
      */
     boca::Angle Angle(Vector3 const &vector) const
     {
-        // return the angle w.r.t. another 3-vector
-        auto pmag2 = Mag2() * vector.Mag2();
-        if (pmag2 <= Value4(0)) return 0_rad;
-        auto arg = Dot(vector) / sqrt(pmag2);
-        if (arg > 1) arg = 1;
-        if (arg < -1) arg = -1;
-
-        auto res = acos(arg);
-
-        // TVector3 finds the angle by acos(one.two / sqrt(one.one*two.two))
-        // This has a relative error of 0.5*epsilon / angle**2 (where epsilon is machine epsilon)
-        // due to catastrophic cancellation
-        // This form is better (from my personal experiments)
-        auto test = atan2(Cross(vector).Mag(), Dot(vector));
-
-        if (res != test) Debug("first", res, "second", test);
-        return res;
+        return atan2(Cross(vector), Dot(vector));
     }
 
     /**
-     * @brief Find the \f$\tan(\theta)^2\f$ between two Vectors by calculating \f$\frac{(a \times b)^2}{(a \cdot b)^2}\f$
+     * @brief Square of the tangent of the polar angle \f$\tan(\theta)^2\f$ to a vector
+     *
+     * usign \f$\frac{(a \times b)^2}{(a \cdot b)^2}\f$
      */
     double Tan2(Vector3 const &vector)
     {
-        // This is more accurate than an alternate form (one.one*two.two-(one.two)**2)/(one.two)**2
-        // because the cancellation in the numerator (cross-product) is handled component-by-component, rather than all at once.
-        auto cross = Cross(vector);
-        return cross * cross / sqr(Dot(vector));
+        return sqr(Cross(vector)) / sqr(Dot(vector));
     }
 
     /**
-     * @brief Pseudo-rapidity \f$-\ln(\tan(\frac{\theta}{2}))\f$
+     * @brief Pseudorapidity \f$\eta = -\ln(\tan(\frac{\theta}{2}))\f$
+     * @{
      */
     boca::Angle PseudoRapidity() const
     {
-        //Value m = Mag();
-        //return 0.5*log((m+z_)/(m-z_) );
-        // guard against Pt=0
         auto cosTheta = CosTheta();
         if (sqr(cosTheta) < 1) return -0.5 * units::log((1 - cosTheta) / (1 + cosTheta));
-        if (z_ == Value_(0)) return 0_rad;
-        // Warning("PseudoRapidity","transvers momentum = 0! return +/- 10e10");
-        if (z_ > 0) return 10e10_rad;
+        if (Z() == Value_(0)) return 0_rad;
+        if (Z() > 0) return 10e10_rad;
         else return -10e10_rad;
     }
 
-    /**
-     * @brief Pseudo-rapidity \f$-\ln(\tan(\theta/2))\f$
-     */
     boca::Angle Eta() const
     {
         return PseudoRapidity();
     }
+    //@}
+
     //@}
 
     /**
@@ -381,7 +360,7 @@ public:
      */
 
     /**
-     * @brief The magnitude squared \f$x^2 + y^2 + z^2\f$
+     * @brief The magnitude squared \f$r^2 = x^2 + y^2 + z^2\f$
      */
     constexpr ValueSquare Mag2() const
     {
@@ -389,7 +368,7 @@ public:
     }
 
     /**
-     * @brief The magnitude \f$\sqrt{x^2 + y^2 + z^2}\f$
+     * @brief The magnitude \f$r = \sqrt{x^2 + y^2 + z^2}\f$
      */
     constexpr Value_ Mag() const
     {
@@ -397,7 +376,7 @@ public:
     }
 
     /**
-     * @brief The transverse component squared \f$x^2 + y^2\f$
+     * @brief The transverse component squared \f$\rho^2 = x^2 + y^2\f$
      */
     constexpr ValueSquare Perp2() const
     {
@@ -405,7 +384,7 @@ public:
     }
 
     /**
-     * @brief The transverse component \f$\sqrt{x^2 + y^2}\f$
+     * @brief The transverse component \f$\rho = \sqrt{x^2 + y^2}\f$
      */
     constexpr Value_ Perp() const
     {
@@ -413,7 +392,7 @@ public:
     }
 
     /**
-     * @brief The transverse component \f$x^2 + y^2\f$ w.r.t. given axis squared.
+     * @brief The transverse component \f$x^2 + y^2\f$ to a vector
      */
     template <typename Value_2_>
     constexpr ValueSquare Perp2(Vector3<Value_2_> const &vector) const
@@ -427,12 +406,11 @@ public:
     }
 
     /**
-     * @brief The transverse component \f$\sqrt{x^2 + y^2}\f$ w.r.t. given axis squared.
+     * @brief The transverse component \f$\sqrt{x^2 + y^2}\f$ to a vector
      */
     template <typename Value_2_>
     constexpr Value_ Perp(Vector3<Value_2_> const &vector) const
     {
-        //return the transverse component(R in cylindrical coordinate system)
         return sqrt(Perp2(vector));
     }
     //@}
@@ -538,12 +516,11 @@ public:
     {
         auto mag2 = Mag2();
         if (mag2 == ValueSquare(0)) return {};
-        auto num = 1. / sqrt(mag2);
-        return {x_ * num, y_ * num, z_ * num};
+        return *this / sqrt(mag2);
     }
 
     /**
-    * @brief Vector orthogonal to this(Geant4).
+    * @brief Vector orthogonal to this
     */
     constexpr Vector3 Orthogonal() const
     {
@@ -555,7 +532,7 @@ public:
     }
 
     /**
-    * @brief (x, y) vector
+    * @brief Transversal vector \f$(x, y)\f$
     */
     constexpr Vector2<Value_> Transversal() const
     {
@@ -563,7 +540,7 @@ public:
     }
 
     /**
-    * @brief (\f$\eta\f$, \f$\phi\f$) vector
+    * @brief Angluar vector (\f$\eta\f$, \f$\phi\f$)
     */
     constexpr Vector2<boca::Angle> EtaPhiVector() const
     {
@@ -577,7 +554,7 @@ public:
      */
 
     /**
-    * @brief Scale with scalar
+    * @brief Scale vector with a scalar
     */
     template <typename Value_2_>
     constexpr Vector3<ValueProduct<Value_2_>> Scale(Value_2_ const &scalar) const
@@ -586,7 +563,7 @@ public:
     }
 
     /**
-    * @brief Scalar product
+    * @brief Dot product between two vector
     */
     template <typename Value_2_>
     constexpr ValueProduct<Value_2_> Dot(Vector3<Value_2_> const &vector) const
@@ -595,7 +572,7 @@ public:
     }
 
     /**
-    * @brief Cross product
+    * @brief Cross product between two vector
     */
     template <typename Value_2_>
     constexpr Vector3<ValueProduct<Value_2_>> Cross(Vector3<Value_2_> const &vector) const
@@ -604,7 +581,7 @@ public:
     }
 
     /**
-    * @brief Triple product
+    * @brief Triple product between three vectors
     */
     template <typename Value_2_, typename Value_3>
     constexpr ValueCubed<Value_2_, Value_3> Triple(Vector3<Value_2_> const &vector_1, Vector3<Value_3> const &vector_2) const
@@ -825,26 +802,26 @@ using OnlyIfVector3 = typename std::enable_if < IsVector3<Value_>::value >::type
 
 // Scalar product of 3-vectors.
 template < class Value_, class Value_2_, typename = OnlyIfVector3<Value_>,  typename = OnlyIfVector3<Value_2_>  >
-auto operator*(Value_ const &vector_1, Value_2_ const &vector_2)
+constexpr auto operator*(Value_ const &vector_1, Value_2_ const &vector_2)
 {
     return vector_1.Dot(vector_2);
 }
 
 // Scaling of 3-vectors with a real number
 template < class Value_, class Value_2_, typename = OnlyIfVector3<Value_>,  typename = OnlyIfNotVector3<Value_2_>  >
-auto operator*(Value_ const &vector, Value_2_ scalar)
+constexpr auto operator*(Value_ const &vector, Value_2_ scalar)
 {
     return vector.Scale(scalar);
 }
 
 template < class Value_, class Value_2_, typename = OnlyIfVector3<Value_>,  typename = OnlyIfNotVector3<Value_2_>  >
-auto operator*(Value_2_ scalar, Value_ const &vector)
+constexpr auto operator*(Value_2_ scalar, Value_ const &vector)
 {
     return vector.Scale(scalar);
 }
 
 template <class Value_1, class Value_2_, class Value_3>
-auto Triple(Vector3<Value_1> const &vector_1, Vector3<Value_2_> const &vector_2, Vector3<Value_3> const &vector_3)
+constexpr auto Triple(Vector3<Value_1> const &vector_1, Vector3<Value_2_> const &vector_2, Vector3<Value_3> const &vector_3)
 {
     return vector_1.Triple(vector_2, vector_3);
 }
