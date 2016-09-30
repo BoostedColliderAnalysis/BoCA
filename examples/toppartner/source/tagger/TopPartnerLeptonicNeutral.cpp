@@ -41,6 +41,7 @@ std::vector<Quintet> TopPartnerLeptonicNeutral::Multiplets(boca::Event const &ev
 std::vector<Particle> TopPartnerLeptonicNeutral::Particles(boca::Event const &event, Tag tag) const
 {
     INFO0;
+    if (tag == Tag::background) return {};
     auto particles = event.GenParticles();
     auto leptons = CopyIfLepton(particles);
     auto candidates = CopyIfMother(leptons, Id::W);

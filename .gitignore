@@ -1,7 +1,6 @@
 # Folders
 
 /build
-/External
 
 # Compiled Object files
 *.slo
@@ -48,6 +47,7 @@
 *.sqlite
 
 # OS generated files
+.directory
 .DS_Store
 .DS_Store?
 ._*
@@ -55,6 +55,7 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
 
 # CMake
 

@@ -483,11 +483,7 @@ public:
         return *this;
     }
 
-    using Vector3<Value_>::RotateX;
-
-    using Vector3<Value_>::RotateY;
-
-    using Vector3<Value_>::RotateZ;
+    using Vector3<Value_>::Rotate;
 
     using Vector3<Value_>::RotateUz;
 

@@ -20,7 +20,14 @@ enum class Dim3
 
 std::string Name(Dim3 dimension);
 
+Dim3 Third(Dim3 dim_1,  Dim3 dim_2);
+
+Dim3 Next(Dim3 dim);
+
 std::vector<Dim3> Dimensions3();
+
+template<class Value_>
+class Matrix3;
 
 /**
  * @ingroup Math
@@ -421,87 +428,69 @@ public:
      */
 
     /**
-    * @brief Rotates the Vector around the x-axis.
+    * @brief Rotate by phi in (dim_1,  dim_2) plain
     */
-    constexpr void RotateX(boca::Angle const &angle)
+    constexpr void Rotate(boca::Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
     {
-        //rotate vector around X
-        auto s = sin(angle);
-        auto c = cos(angle);
-        auto y = y_;
-        y_ = c * y - s * z_;
-        z_ = s * y + c * z_;
+        if (phi == 0_rad)  return *this;
+        auto cos = boost::units::cos(phi);
+        auto sin = boost::units::sin(phi);
+        auto row = (*this)(dim_1);
+        (*this)(dim_1) = cos * row - sin * (*this)(dim_2);
+        (*this)(dim_2) = sin * row + cos * (*this)(dim_2);
+        return *this;
     }
 
     /**
-    * @brief Rotates the Vector around the y-axis.
+    * @brief Rotate by phi around axis dim
     */
-    constexpr void RotateY(boca::Angle const &angle)
+    constexpr void Rotate(boca::Angle const &phi, Dim3 dim)
     {
-        //rotate vector around Y
-        auto s = sin(angle);
-        auto c = cos(angle);
-        auto z = z_;
-        z_ = c * z - s * x_;
-        x_ = s * z + c * x_;
+        switch (dim) {
+        case Dim3::x :
+            return Rotate(phi, Dim3::y, Dim3::z);
+        case Dim3::y :
+            return Rotate(phi, Dim3::z, Dim3::x);
+        case Dim3::z :
+            return Rotate(phi, Dim3::x, Dim3::y);
+        default :
+            ;
+        }
     }
 
     /**
-    * @brief Rotates the Vector around the z-axis.
+    * @brief Rotates around the axis specified by another vector
     */
-    constexpr void RotateZ(boca::Angle const &angle)
-    {
-        //rotate vector around Z
-        auto s = sin(angle);
-        auto c = cos(angle);
-        auto z = z_;
-        auto x = x_;
-        x_ = c * x - s * y_;
-        y_ = s * x + c * y_;
-    }
+    template<typename Value_2_>
+    auto & Rotate(boca::Angle angle, Vector3<Value_2_> const &axis);
 
     /**
-    * @brief Rotates reference frame from Uz to newUz (unit vector)
+    * @brief Transformation with a Rotation matrix.
     */
-    constexpr void RotateUz(Vector3 const &vector)
+    template<typename Value_2_>
+    auto & Transform(Matrix3<Value_2_> const& matrix);
+
+    /**
+    * @brief Rotates reference frame from \f$U_z\f$ to \f$U_z^\prime\f$
+    */
+    template<typename Value_2_>
+    constexpr void RotateUz(Vector3<Value_2_> const &vector)
     {
-        // NewUzVector must be normalized !
-        auto x = vector.x_;
-        auto y = vector.y_;
-        auto z = vector.z_;
-        auto square = sqr(x) + sqr(y);
-        if (square) {
-            auto sqrt = std::sqrt(square);
-            auto px = x_;
-            auto py = y_;
-            auto pz = z_;
-            x_ = (x * z * px - y * py + x * sqrt * pz) / sqrt;
-            y_ = (y * z * px + x * py + y * sqrt * pz) / sqrt;
-            z_ = (z * z * px - px + z * sqrt * pz) / sqrt;
-        } else if (z < Value_(0)) {
+        auto unit = vector.Unit();
+        auto perp2 = unit.Perp();
+        if (perp2 > 0) {
+            auto perp = sqrt(perp2);
+            auto temp = unit * (unit.Z() * X() + perp * Z());
+            temp.X() -= unit.Y() * Y();
+            temp.Y() += unit.X() * Y();
+            temp.Z() -= - X();
+            *this = temp / perp;
+        } else if (unit.Z() < 0) {
             x_ = -x_; // phi=0 teta=pi
             z_ = -z_;
         } else {};
     }
 
-    // Rotates around the axis specified by another Hep3Vector.
-//     void Rotate(boca::Angle angle, const Vector3& axis) {
-//         //rotate vector
-//         Matrix3<Value_> trans;
-//         trans.Rotate(angle, axis);
-//         operator*=(trans);
-//     }
-
-//     Vector3& operator*=(const Matrix3<Value_>& m) {
-//         //multiplication operator
-//         return *this = m *(*this);
-//     }
-
-    // Transformation with a Rotation matrix.
-//     Vector3& Transform(const Matrix3<Value_>& m) {
-//         //transform this vector with a Rotation
-//         return *this = m *(*this);
-//     }
     //@}
 
     /**
@@ -646,6 +635,12 @@ public:
         z_ *= scalar;
         return *this;
     }
+
+    /**
+    * @brief Multiplication with a matrix
+    */
+    template<typename Value_2_>
+    auto &operator*=(Matrix3<Value_2_> const& matrix);
 
     /**
     * @brief division by scalar

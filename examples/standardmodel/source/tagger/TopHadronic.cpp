@@ -86,7 +86,7 @@ int TopHadronic::Train(boca::Event const& event, boca::PreCuts const& pre_cuts, 
 std::vector<Particle> TopHadronic::Particles(boca::Event const& event) const
 {
     INFO0;
-    auto particles = event.GenParticles();
+    auto particles = event.Particles();
     DEBUG(particles.size());
     auto quarks = CopyIfGrandMother(CopyIfQuark(particles), id_);
     DEBUG(quarks.size());

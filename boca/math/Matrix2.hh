@@ -61,12 +61,12 @@ public:
     /**
     * @brief Default constructor
     */
-    Matrix2() {}
+    constexpr Matrix2() {}
 
     /**
     * @brief Diagonal Matrix
     */
-    Matrix2(Value_ scalar, Matrix matrix = Matrix::diagonal)
+    constexpr Matrix2(Value_ scalar, Matrix matrix = Matrix::diagonal)
     {
         switch (matrix) {
         case Matrix::diagonal :
@@ -83,7 +83,7 @@ public:
     /**
     * @brief Constructor accepting two vectors
     */
-    Matrix2(Vector2<Value_> const &vector_1, Vector2<Value_> const &vector_2, Matrix matrix = Matrix::row)
+    constexpr Matrix2(Vector2<Value_> const &vector_1, Vector2<Value_> const &vector_2, Matrix matrix = Matrix::row)
     {
         switch (matrix) {
         case Matrix::row:
@@ -104,7 +104,7 @@ public:
     * @brief Constructor with type conversion
     */
     template<typename Value_2>
-    Matrix2(Matrix2<Value_2> const &matrix) : x_(matrix.X()), y_(matrix.Y()) {}
+    constexpr Matrix2(Matrix2<Value_2> const &matrix) : x_(matrix.X()), y_(matrix.Y()) {}
 
     //@}
 
@@ -116,7 +116,7 @@ public:
     /**
     * @brief Set equal to the identity rotation.
     */
-    Matrix2 &SetToIdentity()
+    constexpr Matrix2 &SetToIdentity()
     {
         return SetDiagonal(1);
     }
@@ -124,7 +124,7 @@ public:
     /**
     * @brief Set diagonal
     */
-    Matrix2 &SetDiagonal(Value_ value)
+    constexpr Matrix2 &SetDiagonal(Value_ value)
     {
         x_ = {value, Value_(0)};
         y_ = {Value_(0), value};
@@ -134,7 +134,7 @@ public:
     /**
     * @brief Set uniform
     */
-    Matrix2 &SetUniform(Value_ value)
+    constexpr Matrix2 &SetUniform(Value_ value)
     {
         x_ = {value, value};
         y_ = {value, value};
@@ -144,7 +144,7 @@ public:
     /**
     * @brief Set rows
     */
-    void SetRows(Vector2<Value_> const &x, Vector2<Value_> const &y)
+    constexpr void SetRows(Vector2<Value_> const &x, Vector2<Value_> const &y)
     {
         x_ = x;
         y_ = y;
@@ -153,12 +153,11 @@ public:
     /**
     * @brief Set columns
     */
-    void SetColumns(Vector2<Value_> const &x, Vector2<Value_> const &y)
+    constexpr void SetColumns(Vector2<Value_> const &x, Vector2<Value_> const &y)
     {
         x_ = {x.X(), y.X()};
         y_ = {x.Y(), y.Y()};
     }
-
 
     //@}
 
@@ -171,12 +170,12 @@ public:
     * @brief x
     * @{
     */
-    Vector2<Value_> X() const
+    constexpr Vector2<Value_> X() const
     {
         return x_;
     }
 
-    Vector2<Value_> &X()
+    constexpr Vector2<Value_> &X()
     {
         return x_;
     }
@@ -185,12 +184,12 @@ public:
     /**
     * @brief y
     */
-    Vector2<Value_> Y() const
+    constexpr Vector2<Value_> Y() const
     {
         return y_;
     }
 
-    Vector2<Value_> &Y()
+    constexpr Vector2<Value_> &Y()
     {
         return y_;
     }
@@ -222,12 +221,6 @@ public:
 
     //@}
 
-// Returns true if the identity matrix(Geant4).
-    bool IsIdentity() const
-    {
-        return x_ == Vector2<Value_>(1, 0) && y_ == Vector2<Value_>(0, 1);
-    }
-
     /**
     * @name Scalars
     * @{
@@ -236,7 +229,7 @@ public:
     /**
     * @brief Trace
     */
-    Value_ Trace()const
+    constexpr Value_ Trace()const
     {
         return x_.X() + y_.Y();
     }
@@ -244,7 +237,7 @@ public:
     /**
     * @brief Determinant
     */
-    ValueSquare Determinant()const
+    constexpr ValueSquare Determinant()const
     {
         return x_.X() * y_.Y() - x_.Y() * y_.X();
     }
@@ -252,7 +245,7 @@ public:
     /**
     * @brief Minor
     */
-    Value_ Minor(Dim2 delete_1, Dim2 delete_2) const
+    constexpr Value_ Minor(Dim2 delete_1, Dim2 delete_2) const
     {
         for (auto const &x : Dimensions2()) {
             if (x == delete_1) continue;
@@ -273,7 +266,7 @@ public:
     /**
     * @brief x column
     */
-    Vector2<Value_> ColumnX() const
+    constexpr Vector2<Value_> ColumnX() const
     {
         return {x_.X(), y_.X()};
     }
@@ -281,7 +274,7 @@ public:
     /**
     * @brief y column
     */
-    Vector2<Value_> ColumnY() const
+    constexpr Vector2<Value_> ColumnY() const
     {
         return {x_.Y(), y_.Y()};
     }
@@ -296,7 +289,7 @@ public:
     /**
     * @brief transposed
     */
-    Matrix2 Transposed() const
+    constexpr Matrix2 Transposed() const
     {
         return {ColumnX(), ColumnY()};
     }
@@ -304,7 +297,7 @@ public:
     /**
     * @brief transpose this matrix
     */
-    Matrix2 &Transpose()
+    constexpr Matrix2 &Transpose()
     {
         return *this = Transposed();
     }
@@ -312,11 +305,24 @@ public:
     /**
     * @brief inverse of this matrix
     */
-    Matrix2<ValueInverse> Inverse()
+    constexpr Matrix2<ValueInverse> Inverse()
     {
         auto det = Determinant();
         if (det == ValueSquare(0)) std::cout << "Matrix is not invertible" << std::endl;
         return (Matrix2(Trace()) - *this) / det;
+    }
+
+    /**
+    * @brief Rotation
+    */
+    constexpr Matrix2 &Rotate(Angle const &phi)
+    {
+        auto cos = boost::units::cos(phi);
+        auto sin = boost::units::sin(phi);
+        auto vector = x_;
+        x_ = cos * vector - sin * y_;
+        y_ = sin * vector + cos * y_;
+        return *this;
     }
 
     //@}
@@ -330,7 +336,7 @@ public:
     * @brief scale with a scalar
     */
     template<typename Value_2_>
-    Matrix2<ValueProduct<Value_2_>> Scaled(Value_2_ scalar) const
+    constexpr Matrix2<ValueProduct<Value_2_>> Scaled(Value_2_ scalar) const
     {
         return {x_ * scalar, y_ * scalar};
     }
@@ -339,7 +345,7 @@ public:
     * @brief multiply with a matrix
     */
     template<typename Value_2_>
-    Matrix2<ValueProduct<Value_2_>> Multiply(Matrix2<Value_2_> const &matrix) const
+    constexpr Matrix2<ValueProduct<Value_2_>> Multiply(Matrix2<Value_2_> const &matrix) const
     {
         return {Vector2<ValueProduct<Value_2_>>(x_ * matrix.ColumnX(), x_ * matrix.ColumnY()), Vector2<ValueProduct<Value_2_>>(y_ * matrix.ColumnX(), y_ * matrix.ColumnY())};
     }
@@ -348,7 +354,7 @@ public:
     * @brief multiply with a vector
     */
     template<typename Value_2_>
-    Vector2<ValueProduct<Value_2_>> Multiply(Vector2<Value_2_> const &vector) const
+    constexpr Vector2<ValueProduct<Value_2_>> Multiply(Vector2<Value_2_> const &vector) const
     {
         return {x_ * vector, y_ * vector};
     }
@@ -356,7 +362,7 @@ public:
     /**
     * @brief Square
     */
-    Matrix2<ValueSquare> Square() const
+    constexpr Matrix2<ValueSquare> Square() const
     {
         return sqr(*this);
     }
@@ -371,7 +377,7 @@ public:
     /**
     * @brief Less than comparison according to determinans
     */
-    bool operator<(Matrix2 const &matrix) const
+    constexpr bool operator<(Matrix2 const &matrix) const
     {
         return abs(Determinant()) < abs(matrix.Determinant());
     }
@@ -379,7 +385,7 @@ public:
     /**
     * @brief Equality comnparison
     */
-    bool operator==(Matrix2 const &matrix) const
+    constexpr bool operator==(Matrix2 const &matrix) const
     {
         return x_ == matrix.x_ && y_ == matrix.y_;
     }
@@ -388,7 +394,7 @@ public:
     * @brief Addition
     */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Matrix2 &operator+=(Matrix2<Value_2> const &matrix)
+    constexpr Matrix2 &operator+=(Matrix2<Value_2> const &matrix)
     {
         x_ += matrix.x_;
         y_ += matrix.y_;
@@ -399,7 +405,7 @@ public:
     * @brief Substraction
     */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    Matrix2 &operator-=(Matrix2<Value_2> const &matrix)
+    constexpr Matrix2 &operator-=(Matrix2<Value_2> const &matrix)
     {
         x_ -= matrix.x_;
         y_ -= matrix.y_;
@@ -410,7 +416,7 @@ public:
     * @brief Division by scalar
     */
     template<typename Value_2_, typename = OnlyIfNotOrSameQuantity<Value_2_>>
-    Matrix2<ValueQuotient<Value_2_>> operator/=(Value_2_ scalar)
+    constexpr Matrix2<ValueQuotient<Value_2_>> operator/=(Value_2_ scalar)
     {
         x_ /= scalar;
         y_ /= scalar;
@@ -421,7 +427,7 @@ public:
     * @brief Division by scalar
     */
     template<typename Value_2_>
-    Matrix2<ValueQuotient<Value_2_>> operator/(Value_2_ scalar)
+    constexpr Matrix2<ValueQuotient<Value_2_>> operator/(Value_2_ scalar)
     {
         return Scaled(1. / scalar);
     }
@@ -430,7 +436,7 @@ public:
     * @brief Multiplication with a matrix
     */
     template<typename Value_2_, typename = OnlyIfNotQuantity<Value_2_>>
-    Matrix2 &operator*=(Matrix2<Value_2_> const &matrix)
+    constexpr Matrix2 &operator*=(Matrix2<Value_2_> const &matrix)
     {
         return *this = Multiply(matrix);
     }
@@ -439,7 +445,7 @@ public:
     * @brief Multiplication with a matrix
     */
     template<typename Value_2_>
-    Matrix2<ValueProduct<Value_2_>> operator*(Matrix2<Value_2_> const &matrix) const
+    constexpr Matrix2<ValueProduct<Value_2_>> operator*(Matrix2<Value_2_> const &matrix) const
     {
         return Multiply(matrix);
     }
@@ -448,7 +454,7 @@ public:
     * @brief Multiplication with a Vector
     */
     template<typename Value_2_>
-    Vector2<ValueProduct<Value_2_>> operator*(Vector2<Value_2_> const &vector) const
+    constexpr Vector2<ValueProduct<Value_2_>> operator*(Vector2<Value_2_> const &vector) const
     {
         return Multiply(vector);
     }
@@ -456,7 +462,7 @@ public:
     /**
     * @brief rows
     */
-    Vector2<Value_> const &operator()(Dim2 dim) const
+    constexpr Vector2<Value_> const &operator()(Dim2 dim) const
     {
         switch (dim) {
         case Dim2::x :
@@ -472,7 +478,7 @@ public:
     /**
     * @brief rows
     */
-    Vector2<Value_> &operator()(Dim2 dim)
+    constexpr Vector2<Value_> &operator()(Dim2 dim)
     {
         switch (dim) {
         case Dim2::x :
@@ -488,7 +494,7 @@ public:
     /**
     * @brief rows
     */
-    Value_ const &operator()(Dim2 i, Dim2 j) const
+    constexpr Value_ const &operator()(Dim2 i, Dim2 j) const
     {
         return operator()(i)(j);
     }
@@ -496,7 +502,7 @@ public:
     /**
     * @brief rows
     */
-    Value_ &operator()(Dim2 i, Dim2 j)
+    constexpr Value_ &operator()(Dim2 i, Dim2 j)
     {
         return operator()(i)(j);
     }
@@ -504,7 +510,7 @@ public:
     /**
     * @brief rows
     */
-    Vector2<Value_> const &operator[](Dim2 i) const
+    constexpr Vector2<Value_> const &operator[](Dim2 i) const
     {
         return operator()(i);
     }
@@ -512,7 +518,7 @@ public:
     /**
     * @brief rows
     */
-    Vector2<Value_> &operator[](Dim2 i)
+    constexpr Vector2<Value_> &operator[](Dim2 i)
     {
         return operator()(i);
     }
@@ -527,7 +533,7 @@ public:
     /**
     * @brief begin
     */
-    ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin() const
+    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin() const
     {
         return {this, Dim2::x};
     }
@@ -535,7 +541,7 @@ public:
     /**
     * @brief end
     */
-    ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> end() const
+    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> end() const
     {
         return {this, Dim2::last};
     }
@@ -543,7 +549,7 @@ public:
     /**
     * @brief const begin
     */
-    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin()
+    constexpr SubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin()
     {
         return {this, Dim2::x};
     }
@@ -551,7 +557,7 @@ public:
     /**
     * @brief const end
     */
-    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> end()
+    constexpr SubIterator<boca::Matrix2, Vector2, Value_, Dim2> end()
     {
         return {this, Dim2::last};
     }
@@ -566,7 +572,7 @@ public:
     /**
     * @brief Eigen values
     */
-    Array2<Value_> EigenValues() const
+    constexpr Array2<Value_> EigenValues() const
     {
         return Eigen().Values();
     }
@@ -574,7 +580,7 @@ public:
     /**
     * @brief Eigen vectors
     */
-    Array2<Vector2<Value_>> EigenVectors() const
+    constexpr Array2<Vector2<Value_>> EigenVectors() const
     {
         return Eigen().Vectors();
     }
@@ -582,7 +588,7 @@ public:
     /**
     * @brief Eigen system
     */
-    Array2<GradedVector2<Value_>> EigenSystem() const
+    constexpr Array2<GradedVector2<Value_>> EigenSystem() const
     {
         return Eigen().System();
     }
@@ -593,9 +599,12 @@ private:
 
     class Eigen_
     {
+
     public:
-        Eigen_() {}
-        Eigen_(Matrix2<Value_> const &matrix)
+
+        constexpr Eigen_() {}
+
+        constexpr Eigen_(Matrix2<Value_> const &matrix)
         {
             trace_ = matrix.Trace();
             auto radicant = sqr(trace_) - 4 * matrix.Determinant();
@@ -603,7 +612,8 @@ private:
             sqrt_ = sqrt(radicant) / 2;
             matrix_ = &matrix;
         }
-        Array2<Value_> Values() const
+
+        constexpr Array2<Value_> Values() const
         {
             return values_.Get([&]() {
                 Array2<Value_> values;
@@ -616,7 +626,8 @@ private:
                 return values;
             });
         }
-        Array2<Vector2<Value_>> Vectors() const
+
+        constexpr Array2<Vector2<Value_>> Vectors() const
         {
             return vectors_.Get([&]() {
                 auto vectors = Array2<Vector2<Value_>> {};
@@ -624,7 +635,8 @@ private:
                 return vectors;
             });
         }
-        Array2<GradedVector2<Value_>> System() const
+
+        constexpr Array2<GradedVector2<Value_>> System() const
         {
             auto system = Array2<GradedVector2<Value_>> {};
             for (auto index : IntegerRange(system.size())) system.at(index) = {Vectors().at(index), Values().at(index)};
@@ -633,17 +645,17 @@ private:
 
     private:
 
-        Value_ Sqrt() const
+        constexpr Value_ Sqrt() const
         {
             return sqrt_;
         }
 
-        Value_ Trace() const
+        constexpr Value_ Trace() const
         {
             return trace_;
         }
 
-        Value_ Value(int i) const
+        constexpr Value_ Value(int i) const
         {
             switch (i) {
             case 0 :
@@ -653,22 +665,28 @@ private:
             }
         }
 
-        Vector2<Value_> Vector(int index) const
+        constexpr Vector2<Value_> Vector(int index) const
         {
             auto matrix = *matrix_ - Matrix2<Value_>(Values().at(index));
             return Vector2<Value_>(matrix.X().Y(), -matrix.X().X()).Unit();
         }
+
         Value_ sqrt_;
+
         Value_ trace_;
+
         bool complex_ = false;
+
         Mutable<Array2<Value_>> values_;
+
         Mutable<Array2<Vector2<Value_>>> vectors_;
+
         Matrix2<Value_> const *matrix_;
     };
 
     Mutable<Eigen_> eigen_;
 
-    Eigen_ const &Eigen() const
+    constexpr Eigen_ const &Eigen() const
     {
         return eigen_.Get([&]() {
             return Eigen_(*this);
@@ -691,31 +709,31 @@ template<typename Value>
 using OnlyIfNotMatrix2 = typename std::enable_if < !IsMatrix2<Value>::value >::type;
 
 template < class Value_, class Value_2_, typename = OnlyIfNotMatrix2<Value_2_> >
-auto operator*(Matrix2<Value_> const &matrix, Value_2_ scalar)
+constexpr auto operator*(Matrix2<Value_> const &matrix, Value_2_ scalar)
 {
     return matrix.Scale(scalar);
 }
 
 template < class Value_, class Value_2_, typename = OnlyIfNotMatrix2<Value_2_> >
-auto operator*(Value_2_ scalar, Matrix2<Value_> const &matrix)
+constexpr auto operator*(Value_2_ scalar, Matrix2<Value_> const &matrix)
 {
     return matrix.Scale(scalar);
 }
 
 template < class Value_, class Value_2_>
-auto operator*(Matrix2<Value_> const &matrix, Vector2<Value_2_> const &vector)
+constexpr auto operator*(Matrix2<Value_> const &matrix, Vector2<Value_2_> const &vector)
 {
     return matrix.Multiply(vector);
 }
 
 template < class Value_, class Value_2_>
-Matrix2<ValueProduct<Value_, Value_2_>> operator*(Vector2<Value_2_> const &vector, Matrix2<Value_> const &matrix)
+constexpr Matrix2<ValueProduct<Value_, Value_2_>> operator*(Vector2<Value_2_> const &vector, Matrix2<Value_> const &matrix)
 {
     return {vector.X() *matrix.ColumnX(), vector.Y() *matrix.ColumnY()};
 }
 
 template<typename Value_1_, typename Value_2_>
-Matrix2<ValueProduct<Value_1_, Value_2_>> MatrixProduct(Vector2<Value_1_> const &vector_1, Vector2<Value_2_> const &vector_2)
+constexpr Matrix2<ValueProduct<Value_1_, Value_2_>> MatrixProduct(Vector2<Value_1_> const &vector_1, Vector2<Value_2_> const &vector_2)
 {
     return {vector_1.X() *vector_2, vector_1.Y() *vector_2};
 }

@@ -13,12 +13,19 @@ namespace boca
 template<typename Enum_>
 class EnumIterator
 {
+
 public:
+
     using size_type = std::size_t;
+
     using difference_type = std::ptrdiff_t;
+
     using value_type = Enum_;
+
     using reference = Enum_;
+
     using pointer = Enum_* ;
+
     using iterator_category = std::random_access_iterator_tag;
 
     constexpr EnumIterator() : enum_() {}
@@ -29,51 +36,51 @@ public:
 
     ~EnumIterator() {}
 
-    void Set(Enum_ value) {
+    constexpr void Set(Enum_ value) {
         enum_ = value;
     }
 
-    EnumIterator& operator=(EnumIterator const& rhs) {
+    constexpr EnumIterator& operator=(EnumIterator const& rhs) {
         enum_ = rhs.enum_;
         return *this;
     }
 
-    EnumIterator& operator++() {
+    constexpr EnumIterator& operator++() {
         Add(1);
         return *this;
     }
 
-    EnumIterator operator++(int) {
+    constexpr EnumIterator operator++(int) {
         EnumIterator iterator(*this);
         ++*this;
         return iterator;
     }
 
-    EnumIterator& operator+=(size_type size) {
+    constexpr EnumIterator& operator+=(size_type size) {
         Add(size);
         return *this;
     }
 
-    friend EnumIterator operator+(EnumIterator const& it, size_type size) {
+    constexpr friend EnumIterator operator+(EnumIterator const& it, size_type size) {
         return it.Add(size);
     }
 
-    friend EnumIterator operator+(size_type size, EnumIterator const& it) {
+    constexpr friend EnumIterator operator+(size_type size, EnumIterator const& it) {
         return it.Add(size);
     }
 
-    EnumIterator& operator--() {
+   constexpr  EnumIterator& operator--() {
         Substract(1);
         return *this;
     }
 
-    EnumIterator operator--(int) {
+    constexpr EnumIterator operator--(int) {
         EnumIterator iterator(*this);
         --*this;
         return iterator;
     }
 
-    EnumIterator& operator-=(size_type size) {
+    constexpr EnumIterator& operator-=(size_type size) {
         Add(size);
         return *this;
     }
@@ -122,7 +129,7 @@ public:
         return lhs.enum_ >= rhs.enum_;
     }
 
-    friend void swap(EnumIterator const& lhs, EnumIterator const& rhs) {
+    constexpr friend void swap(EnumIterator const& lhs, EnumIterator const& rhs) {
         std::swap(lhs.enum_, rhs.enum_);
     }
 
