@@ -8,7 +8,7 @@ namespace boca
 
 /**
  * @ingroup Math
- * @brief Graded three two matrix
+ * @brief Graded two dimensional matrix
  */
 template<typename Value_>
 using GradedMatrix2 = GradedMatrix<Matrix2, Value_>;

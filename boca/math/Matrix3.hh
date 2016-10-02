@@ -487,7 +487,7 @@ public:
     }
 
     /**
-    * @brief Trace \f$A_{x, x} + A_{y, y} + A_{z, z}\f$
+    * @brief Trace \f$\text{tr} A = A_{x, x} + A_{y, y} + A_{z, z}\f$
     */
     constexpr auto Trace()const
     {
@@ -495,7 +495,7 @@ public:
     }
 
     /**
-    * @brief Trace of the product of two matrices
+    * @brief Trace of the product of two matrices \f$\text{tr}(A B)\f$
     */
     template<typename Value_2_>
     constexpr auto ProductTrace(Matrix3<Value_2_> const &matrix) const
@@ -538,7 +538,7 @@ public:
     }
 
     /**
-    * @brief Reduced determinant  \f$\det_{i, j} = \det - A_{i, j} C_{i, j}\f$
+    * @brief Reduced determinant \f$\det_{i, j} A = \det A - A_{i, j} C_{i, j}\f$
     */
     constexpr auto ReducedDeterminant(Dim3 dim_1, Dim3 dim_2) const
     {

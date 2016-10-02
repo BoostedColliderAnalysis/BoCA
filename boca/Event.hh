@@ -3,6 +3,8 @@
  */
 #pragma once
 
+#include <map>
+
 #include "boca/generic/Mutable.hh"
 #include "boca/generic/Flag.hh"
 #include "boca/multiplets/Jet.hh"
@@ -105,8 +107,6 @@ public:
 
     /**
     * @brief Scalar sum of transverse momenta \f$H_T=\sum_ip_{Ti}\f$
-    *
-    * @return boca::units::Momentum
     */
     Momentum ScalarHt() const;
 

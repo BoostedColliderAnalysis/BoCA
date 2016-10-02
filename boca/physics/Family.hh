@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include <map>
+// #include <map>
 #include "boca/physics/Member.hh"
 #include "boca/physics/Id.hh"
 
@@ -45,9 +45,9 @@ public:
 
 private:
 
-    bool Has(Relative relative) const;
+//     bool Has(Relative relative) const;
 
-    std::map<Relative, boca::Member> members_;
+    std::vector<std::pair<Relative, boca::Member>> members_;
 
 };
 

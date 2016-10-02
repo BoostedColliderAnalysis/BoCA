@@ -41,7 +41,7 @@
 #include "TRefArray.h"
 #include "TLorentzVector.h"
 
-#include "external/delphes/delphes/SortableObject.h"
+#include "SortableObject.h"
 
 class DelphesFactory;
 

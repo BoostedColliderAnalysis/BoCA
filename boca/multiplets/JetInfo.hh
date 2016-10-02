@@ -6,6 +6,7 @@
 #include "fastjet/PseudoJet.hh"
 
 #include "boca/Constituent.hh"
+#include "boca/generic/Mutable.hh"
 #include "boca/multiplets/Identification.hh"
 
 namespace boca
@@ -21,7 +22,7 @@ class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase
 {
 
 public:
-  
+
     JetInfo();
 
     JetInfo(double bdt);
@@ -44,7 +45,7 @@ public:
 
     void AddConstituents(std::vector<Constituent> const& constituents);
 
-    void AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents);
+//     void AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents);
 
     Mass VertexMass() const;
 
@@ -120,7 +121,7 @@ private:
 
     std::vector<Constituent> constituents_;
 
-    std::vector<Constituent> displaced_constituents_;
+    Mutable<std::vector<Constituent>> displaced_constituents_;
 
     bool b_tag_ = 0;
 

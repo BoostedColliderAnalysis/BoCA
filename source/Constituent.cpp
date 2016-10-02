@@ -3,6 +3,7 @@
  */
 #include "boca/generic/Types.hh"
 #include "boca/Constituent.hh"
+#include "boca/Settings.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
@@ -21,6 +22,10 @@ std::string Name(DetectorPart detector_part)
     }
 }
 
+bool Constituent::IsInTracker() const
+{
+    return tracker_;
+}
 
 Constituent::Constituent()
 {
@@ -33,6 +38,7 @@ Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> c
     momentum_ = momentum;
     position_ = position;
     Smearing(); // Delphes does not smear the position vector
+    SetTracker();
 }
 
 Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, boca::Family const& family, boca::DetectorPart detector_part, int charge)
@@ -41,6 +47,7 @@ Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> c
     momentum_ = momentum;
     position_ = position;
     Smearing(); // Delphes does not smear the position vector
+    SetTracker();
     detector_part_ = detector_part;
     charge_ = charge;
     families_.emplace_back(family);
@@ -144,5 +151,10 @@ std::vector< Family > Constituent::Families() const
     return families_;
 }
 
+void Constituent::SetTracker()
+{
+    DEBUG(Position().Perp());
+    tracker_ = Settings::TrackerRange().Inside(Position().Perp()) && abs(Momentum().Rapidity()) < Settings::TrackerEtaMax();
+}
 
 }

@@ -130,12 +130,12 @@ public:
     /**
      * @brief Set Pt, Theta and Phi
      */
-    constexpr void SetPtThetaPhi(Value_ pt, boca::Angle const &theta, boca::Angle const &phi)
+    void SetPtThetaPhi(Value_ pt, boca::Angle const &theta, boca::Angle const &phi)
     {
         x_ = pt * cos(phi);
         y_ = pt * sin(phi);
         auto tan_theta = tan(theta);
-        z_ = tan_theta ? pt / tan_theta : Value_(0);
+        z_ = tan_theta > 0 ? pt / tan_theta : Value_(0);
     }
 
     /**
@@ -430,7 +430,7 @@ public:
     /**
     * @brief Rotate by phi in (dim_1,  dim_2) plain
     */
-    constexpr void Rotate(boca::Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
+    void Rotate(boca::Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
     {
         if (phi == 0_rad)  return *this;
         auto cos = boost::units::cos(phi);
@@ -531,7 +531,7 @@ public:
     /**
     * @brief Angluar vector (\f$\eta\f$, \f$\phi\f$)
     */
-    constexpr Vector2<boca::Angle> EtaPhiVector() const
+    Vector2<boca::Angle> EtaPhiVector() const
     {
         return {Eta(), Phi()};
     }

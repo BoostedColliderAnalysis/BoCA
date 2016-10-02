@@ -54,11 +54,15 @@ public:
 
     void Smearing();
 
+    bool IsInTracker() const;
+
     Constituent operator+(Constituent const& constituent);
 
     std::vector<boca::Family> Families() const;
 
 private:
+
+    void SetTracker();
 
     boca::DetectorPart detector_part_ = boca::DetectorPart::none;
 
@@ -67,6 +71,8 @@ private:
     LorentzVector<boca::Momentum> momentum_;
 
     int charge_ = 0;
+
+    bool tracker_;
 
     std::vector<boca::Family> families_;
 };

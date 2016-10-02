@@ -14,10 +14,10 @@ namespace boca
  * @ingroup Math
  * @brief Lorentz vector
  */
-template<typename Value>
-class LorentzVector : public LorentzVectorBase<Value>
+template<typename Value_>
+class LorentzVector : public LorentzVectorBase<Value_>
 {
-    using LorentzVectorBase<Value>::LorentzVectorBase;
+    using LorentzVectorBase<Value_>::LorentzVectorBase;
 };
 
 /**

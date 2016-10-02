@@ -31,7 +31,7 @@ protected:
 
     std::string Name() const override
     {
-        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-large";
+        return "Naturalness-SubDom-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-large-2";
     }
 
     void SetFiles(Phase const &phase) override

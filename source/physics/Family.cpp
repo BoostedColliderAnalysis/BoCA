@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+#include <boost/range/algorithm/find_if.hpp>
+
 #include "boca/physics/Family.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 #include "boca/generic/Types.hh"
@@ -52,13 +54,18 @@ Family::Family(boca::Member const& member, Relative relative)
 
 void Family::SetMember(boca::Member const& member, Relative relative)
 {
-    CHECK(!Has(relative), "Family member overwritten");
-    members_.emplace(relative, member);
+//     CHECK(!Has(relative), "Family member overwritten");
+    members_.emplace_back(std::make_pair(relative, member));
 }
 
 boca::Member Family::Member(Relative relative) const
 {
-    return Has(relative) ? members_.at(relative) : boca::Member();
+    auto mem = boost::range::find_if(members_, [&](std::pair<Relative, boca::Member> const& pair) {
+        return pair.first == relative;
+    });
+    if (mem == members_.end()) return {};
+    else return (*mem).second;
+//     return Has(relative) ? members_.at(relative) : boca::Member();
 }
 
 boost::optional<boca::Member> Family::Member(Id id) const
@@ -67,9 +74,9 @@ boost::optional<boca::Member> Family::Member(Id id) const
     return boost::none;
 }
 
-bool Family::Has(Relative relative) const
-{
-    return members_.find(relative) != members_.end();
-}
+// bool Family::Has(Relative relative) const
+// {
+//     return members_.find(relative) != members_.end();
+// }
 
 }

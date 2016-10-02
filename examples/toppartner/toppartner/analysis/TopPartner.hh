@@ -86,8 +86,8 @@ protected:
 
     long TrainNumberMax() const override {
         INFO0;
-        return 1000;
         return 10000;
+        return 1000;
         return 100;
         return 10;
         return 5000;

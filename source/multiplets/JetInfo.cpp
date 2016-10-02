@@ -19,25 +19,6 @@
 namespace boca
 {
 
-namespace {
-
-bool VertexResultion(Constituent const& constituent)
-{
-    DEBUG(constituent.Position().Perp());
-    return Settings::TrackerRange().Inside(constituent.Position().Perp()) && abs(constituent.Momentum().Rapidity()) < Settings::TrackerEtaMax();
-}
-
-std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> const& constituents)
-{
-    DEBUG(constituents.size());
-    return CopyIf(constituents, [&](Constituent const& constituent) {
-        return VertexResultion(constituent);
-    });
-
-}
-
-}
-
 JetInfo::JetInfo()
 {
     DEBUG0;
@@ -49,7 +30,7 @@ JetInfo::JetInfo(double bdt)
     SetBdt(bdt);
 }
 
-void JetInfo::SetDelphesTags(::delphes::Jet const& jet)
+void JetInfo::SetDelphesTags(::delphes::Jet const &jet)
 {
     DEBUG0;
     SetBTag(jet.BTag);
@@ -57,7 +38,7 @@ void JetInfo::SetDelphesTags(::delphes::Jet const& jet)
     SetCharge(jet.Charge);
 }
 
-JetInfo::JetInfo(::delphes::Jet const& jet)
+JetInfo::JetInfo(::delphes::Jet const &jet)
 {
     DEBUG0;
     SetDelphesTags(jet);
@@ -69,46 +50,48 @@ JetInfo::JetInfo(int charge)
     SetCharge(charge);
 }
 
-JetInfo::JetInfo(Constituent const& constituent)
+JetInfo::JetInfo(Constituent const &constituent)
 {
     DEBUG0;
     SetConstituent(constituent);
 }
 
-JetInfo::JetInfo(Constituent const& constituent, int charge)
+JetInfo::JetInfo(Constituent const &constituent, int charge)
 {
     DEBUG0;
     SetConstituent(constituent);
     SetCharge(charge);
 }
 
-JetInfo::JetInfo(std::vector<Constituent> const& constituents)
+JetInfo::JetInfo(std::vector<Constituent> const &constituents)
 {
     DEBUG0;
     SetConstituents(constituents);
 }
 
-JetInfo::JetInfo(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents)
-{
-    DEBUG0;
-    SetConstituents(constituents);
-    displaced_constituents_ = displaced_constituents;
-}
+// JetInfo::JetInfo(std::vector<Constituent> const &constituents, std::vector<Constituent> const &displaced_constituents)
+// {
+//     DEBUG0;
+//     SetConstituents(constituents);
+//     displaced_constituents_ = displaced_constituents;
+// }
 
-JetInfo JetInfo::operator+(JetInfo const& jet_info)
+JetInfo JetInfo::operator+(JetInfo const &jet_info)
 {
     DEBUG0;
-    auto result = JetInfo {Combine(this->Constituents(), jet_info.Constituents()), Combine(this->DisplacedConstituents(), jet_info.DisplacedConstituents())};
+//     auto result = JetInfo {Combine(this->Constituents(), jet_info.Constituents()), Combine(this->DisplacedConstituents(), jet_info.DisplacedConstituents())};
+    auto result = JetInfo {Combine(this->Constituents(), jet_info.Constituents())};
     result.SetBTag(this->BTag() + jet_info.BTag());
     result.SetTauTag(this->TauTag() + jet_info.TauTag());
     result.SetCharge(this->Charge() + jet_info.Charge());
     return result;
 }
 
-JetInfo& JetInfo::operator+=(JetInfo const& jet_info)
+JetInfo &JetInfo::operator+=(JetInfo const &jet_info)
 {
     DEBUG0;
-    this->AddConstituents(jet_info.Constituents(), jet_info.DisplacedConstituents());
+//     this->AddConstituents(jet_info.Constituents(), jet_info.DisplacedConstituents());
+    this->AddConstituents(jet_info.Constituents());
     this->b_tag_ += jet_info.BTag();
     this->tau_tag_ += jet_info.TauTag();
     this->charge_ += jet_info.Charge();
@@ -116,40 +99,40 @@ JetInfo& JetInfo::operator+=(JetInfo const& jet_info)
 }
 
 
-void JetInfo::SetConstituent(Constituent const& constituent)
+void JetInfo::SetConstituent(Constituent const &constituent)
 {
     DEBUG0;
     constituents_.emplace_back(constituent);
-    if (VertexResultion(constituent)) displaced_constituents_.emplace_back(constituent);
+//     if (VertexResultion(constituent)) displaced_constituents_.emplace_back(constituent);
 }
 
-void JetInfo::SetConstituents(std::vector<Constituent> const& constituents)
+void JetInfo::SetConstituents(std::vector<Constituent> const &constituents)
 {
     DEBUG0;
     constituents_ = constituents;
-    displaced_constituents_ = ApplyVertexResolution(constituents);
+//     displaced_constituents_ = ApplyVertexResolution(constituents);
 }
 
-void JetInfo::AddConstituent(Constituent const& constituent)
+void JetInfo::AddConstituent(Constituent const &constituent)
 {
     DEBUG0;
     constituents_.emplace_back(constituent);
-    if (VertexResultion(constituent)) displaced_constituents_.emplace_back(constituent);
+//     if (VertexResultion(constituent)) displaced_constituents_.emplace_back(constituent);
 }
 
-void JetInfo::AddConstituents(std::vector<Constituent> const& constituents)
+void JetInfo::AddConstituents(std::vector<Constituent> const &constituents)
 {
     DEBUG0;
     Insert(constituents_, constituents);
-    Insert(displaced_constituents_, ApplyVertexResolution(constituents));
+//     Insert(displaced_constituents_, ApplyVertexResolution(constituents));
 }
 
-void JetInfo::AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents)
-{
-    DEBUG0;
-    Insert(constituents_, constituents);
-    Insert(displaced_constituents_, displaced_constituents);
-}
+// void JetInfo::AddConstituents(std::vector<Constituent> const &constituents, std::vector<Constituent> const &displaced_constituents)
+// {
+//     DEBUG0;
+//     Insert(constituents_, constituents);
+// //     Insert(displaced_constituents_, displaced_constituents);
+// }
 
 std::vector<Constituent> JetInfo::Constituents() const
 {
@@ -160,19 +143,23 @@ std::vector<Constituent> JetInfo::Constituents() const
 std::vector<Constituent> JetInfo::DisplacedConstituents() const
 {
     DEBUG0;
-    return displaced_constituents_;
+    return displaced_constituents_.Get([&]() {
+        return CopyIf(Constituents(), [](Constituent const & constituent) {
+            return constituent.IsInTracker();
+        });
+    });
 }
 
 int JetInfo::VertexNumber() const
 {
     DEBUG0;
-    return displaced_constituents_.size();
+    return DisplacedConstituents().size();
 }
 
 boca::Singlet JetInfo::VertexJet() const
 {
     DEBUG0;
-    return Join(Transform(displaced_constituents_, [](Constituent const & consituent) -> Jet {
+    return Join(Transform(DisplacedConstituents(), [](Constituent const & consituent) -> Jet {
         return consituent.Momentum();
     }));
 }
@@ -180,7 +167,7 @@ boca::Singlet JetInfo::VertexJet() const
 Length JetInfo::SumDisplacement() const
 {
     DEBUG0;
-    return displaced_constituents_.empty() ? 0_m : boost::accumulate(displaced_constituents_, 0_m, [](Length const & result, Constituent const & constituent) {
+    return DisplacedConstituents().empty() ? 0_m : boost::accumulate(DisplacedConstituents(), 0_m, [](Length const & result, Constituent const & constituent) {
         return result + constituent.Position().Perp();
     });
 }
@@ -188,13 +175,13 @@ Length JetInfo::SumDisplacement() const
 Length JetInfo::MeanDisplacement() const
 {
     DEBUG0;
-    return displaced_constituents_.empty() ? 0_m  : SumDisplacement() / static_cast<double>(displaced_constituents_.size());
+    return DisplacedConstituents().empty() ? 0_m  : SumDisplacement() / static_cast<double>(DisplacedConstituents().size());
 }
 
 Length JetInfo::MaxDisplacement() const
 {
     DEBUG0;
-    return displaced_constituents_.empty() ? 0_m : boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
+    return DisplacedConstituents().empty() ? 0_m : boost::max_element(DisplacedConstituents(), [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return constituent_1.Position().Perp() < constituent_2.Position().Perp();
     })->Position().Perp();
 }
@@ -202,7 +189,7 @@ Length JetInfo::MaxDisplacement() const
 Mass JetInfo::VertexMass() const
 {
     DEBUG0;
-    auto vertex_mass = boost::accumulate(displaced_constituents_, LorentzVector<Momentum>(), [](LorentzVector<Momentum> const & momentum, Constituent const & constituent) {
+    auto vertex_mass = boost::accumulate(DisplacedConstituents(), LorentzVector<Momentum>(), [](LorentzVector<Momentum> const & momentum, Constituent const & constituent) {
         return momentum + constituent.Momentum();
     }).Mass();
     DEBUG(vertex_mass);
@@ -212,27 +199,29 @@ Mass JetInfo::VertexMass() const
 Energy JetInfo::VertexEnergy() const
 {
     DEBUG0;
-    return boost::accumulate(displaced_constituents_, Constituent()).Momentum().E();
+    return boost::accumulate(DisplacedConstituents(), 0_eV, [](Energy const& sum, Constituent const & constituent) {
+        return sum + constituent.Momentum().E();
+    });
 }
 
-Angle JetInfo::ElectroMagneticRadius(Jet const& jet) const
+Angle JetInfo::ElectroMagneticRadius(Jet const &jet) const
 {
     DEBUG0;
     auto energy = 0_eV;
     auto weight = 0_eV * rad;
-    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) {
+    for (auto const &constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.DeltaRTo(constituent.Momentum());
         }
     return energy == 0_eV ? 0_rad : Angle(weight / energy);
 }
 
-Angle JetInfo::TrackRadius(Jet const& jet) const
+Angle JetInfo::TrackRadius(Jet const &jet) const
 {
     DEBUG0;
     auto energy = 0_eV;
     auto weight = 0_eV * rad;
-    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::track) {
+    for (auto const &constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::track) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.DeltaRTo(constituent.Momentum());
         }
@@ -243,7 +232,7 @@ double JetInfo::LeadingTrackMomentumFraction() const
 {
     DEBUG0;
     auto constituents = Constituents();
-    constituents = boost::range::remove_erase_if(constituents, [](Constituent const& constituent) {
+    constituents = boost::range::remove_erase_if(constituents, [](Constituent const & constituent) {
         return constituent.DetectorPart() != DetectorPart::track;
     });
     std::sort(constituents.begin(), constituents.end(), [](Constituent const & constituent_1, Constituent const & constituent_2) {
@@ -255,12 +244,12 @@ double JetInfo::LeadingTrackMomentumFraction() const
     return constituents.front().Momentum().Pt() / sum;
 }
 
-double JetInfo::CoreEnergyFraction(Jet const& jet) const
+double JetInfo::CoreEnergyFraction(Jet const &jet) const
 {
     DEBUG0;
     auto energy = 0_eV;
     auto core_energy = 0_eV;
-    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) {
+    for (auto const &constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) {
             energy += constituent.Momentum().Et();
             if (jet.DeltaRTo(constituent.Momentum()) < 0.2_rad) core_energy += constituent.Momentum().Et();
         }
@@ -272,7 +261,7 @@ double JetInfo::ElectroMagneticFraction() const
     DEBUG0;
     auto em_energy = 0_eV;
     auto energy = 0_eV;
-    for (auto const & constituent : Constituents()) {
+    for (auto const &constituent : Constituents()) {
         energy += constituent.Momentum().Et();
         if (constituent.DetectorPart() == DetectorPart::photon) em_energy += constituent.Momentum().Et();
     }
@@ -283,7 +272,7 @@ Mass JetInfo::ClusterMass() const
 {
     DEBUG0;
     LorentzVector<Momentum> jet;
-    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) jet += constituent.Momentum();
+    for (auto const &constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) jet += constituent.Momentum();
     return jet.Mass();
 }
 
@@ -291,7 +280,7 @@ Mass JetInfo::TrackMass() const
 {
     DEBUG0;
     LorentzVector<Momentum> jet;
-    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::track) jet += constituent.Momentum();
+    for (auto const &constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::track) jet += constituent.Momentum();
     return jet.Mass();
 }
 
@@ -361,13 +350,13 @@ void JetInfo::SetSubStructure(bool sub_structure)
 std::vector< Family > JetInfo::Families() const
 {
     auto families = std::vector<Family> {};
-    for (const auto & constituent : Constituents()) Insert(families, constituent.Families());
+    for (const auto &constituent : Constituents()) Insert(families, constituent.Families());
     return families;
 }
 
 bool JetInfo::ContainsDetectorPart(DetectorPart detector_part) const
 {
-    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == detector_part) return true;
+    for (auto const &constituent : Constituents()) if (constituent.DetectorPart() == detector_part) return true;
     return false;
 }
 
@@ -388,7 +377,7 @@ double JetInfo::MomentumRatio() const
 
 bool JetInfo::InMuonChamber() const
 {
-    for (auto const & constituent : Constituents()) {
+    for (auto const &constituent : Constituents()) {
         ERROR(Name(constituent.DetectorPart()), constituent.Position().Perp(), constituent.Position().Z());
         if (constituent.DetectorPart() == DetectorPart::track && (constituent.Position().Perp() > 2_m || abs(constituent.Position().Z()) > 2_m)) return true;
     }
