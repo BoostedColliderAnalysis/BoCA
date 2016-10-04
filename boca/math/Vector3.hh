@@ -193,18 +193,18 @@ public:
 
     constexpr void SetPerpEtaPhi(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi)
     {
-        auto const aperp = abs(perp);
-        x_ = aperp * cos(phi);
-        y_ = aperp * sin(phi);
-        z_ = aperp * units::sinh(eta);
+        SetUniform(abs(perp));
+        x_ *= cos(phi);
+        y_ *= sin(phi);
+        z_ *= units::sinh(eta);
     }
 
     constexpr void SetPerpEtaPhi(Value_ const &perp, Vector2<boca::Angle> const& eta_phi_vector)
     {
-        auto const aperp = abs(perp);
-        x_ = aperp * cos(eta_phi_vector.Y());
-        y_ = aperp * sin(eta_phi_vector.Y());
-        z_ = aperp * units::sinh(eta_phi_vector.X());
+        SetUniform(abs(perp));
+        x_ *= cos(eta_phi_vector.Y());
+        y_ *= sin(eta_phi_vector.Y());
+        z_ *= units::sinh(eta_phi_vector.X());
     }
 
     /**
