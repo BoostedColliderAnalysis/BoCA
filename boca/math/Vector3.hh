@@ -119,12 +119,13 @@ public:
     /**
      * @brief Set Pt, Eta and Phi
      */
-    constexpr void SetPtEtaPhi(Value_ pt, boca::Angle const &eta, boca::Angle const &phi)
+    void SetPtEtaPhi(Value_ pt, boca::Angle const &eta, boca::Angle const &phi)
     {
-        auto apt = abs(pt);
+        auto const apt = abs(pt);
         x_ = apt * cos(phi);
         y_ = apt * sin(phi);
-        z_ = apt / tan(2.0 * atan(units::exp(-eta)));
+        auto const tan_eta = tan(2.0 * atan(units::exp(-eta)));
+        z_ = tan_eta == 0 ? Value_(0) : apt / tan_eta;
     }
 
     /**
@@ -134,8 +135,8 @@ public:
     {
         x_ = pt * cos(phi);
         y_ = pt * sin(phi);
-        auto tan_theta = tan(theta);
-        z_ = tan_theta > 0 ? pt / tan_theta : Value_(0);
+        auto const tan_theta = tan(theta);
+        z_ = tan_theta == 0 ? Value_(0) : pt / tan_theta;
     }
 
     /**
@@ -143,7 +144,7 @@ public:
      */
     constexpr void SetPhi(boca::Angle const &phi)
     {
-        auto perp = Perp();
+        auto const perp = Perp();
         x_ = perp * cos(phi);
         y_ = perp * sin(phi);
     }
@@ -153,8 +154,8 @@ public:
      */
     constexpr void SetTheta(boca::Angle const &theta)
     {
-        auto magnitude = Mag();
-        auto phi = Phi();
+        auto const magnitude = Mag();
+        auto const phi = Phi();
         x_ = magnitude * sin(theta) * cos(phi);
         y_ = magnitude * sin(theta) * sin(phi);
         z_ = magnitude * cos(theta);
@@ -165,9 +166,8 @@ public:
      */
     constexpr void SetMag(Value_ magnitude)
     {
-        auto old = Mag();
-        if (old == Value_(0)) Debug("SetMag", "zero vector can't be stretched");
-        else *this *= magnitude / old;
+        auto const old = Mag();
+        *this *= old == Value_(0) ? 0. : magnitude / old;
     }
 
     /**
@@ -175,10 +175,26 @@ public:
      */
     constexpr void SetMagThetaPhi(Value_ mag, boca::Angle const &theta, boca::Angle const &phi)
     {
-        auto amag = abs(mag);
+        auto const amag = abs(mag);
         x_ = amag * sin(theta) * cos(phi);
         y_ = amag * sin(theta) * sin(phi);
         z_ = amag * cos(theta);
+    }
+
+    constexpr void SetPerpEtaPhi(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi)
+    {
+        auto const aperp = abs(perp);
+        x_ = aperp * cos(phi);
+        y_ = aperp * sin(phi);
+        z_ = aperp * units::sinh(eta);
+    }
+
+    constexpr void SetPerpEtaPhi(Value_ const &perp, Vector2<boca::Angle> const& eta_phi_vector)
+    {
+        auto const aperp = abs(perp);
+        x_ = aperp * cos(eta_phi_vector.Y());
+        y_ = aperp * sin(eta_phi_vector.Y());
+        z_ = aperp * units::sinh(eta_phi_vector.X());
     }
 
     /**
@@ -186,7 +202,7 @@ public:
      */
     constexpr void SetPerp(Value_ perp)
     {
-        auto old = Perp();
+        auto const old = Perp();
         if (old == Value_(0)) return;
         x_ *= perp / old;
         y_ *= perp / old;
@@ -273,7 +289,7 @@ public:
      */
     double CosTheta() const
     {
-        auto mag = Mag();
+        auto const mag = Mag();
         return mag == Value_(0) ? 1 : z_ / mag;
     }
 
@@ -282,7 +298,7 @@ public:
      */
     double SinTheta2() const
     {
-        auto mag2 = Mag2();
+        auto const mag2 = Mag2();
         return mag2 == ValueSquare(0) ? 0. : static_cast<double>(Perp2() / mag2);
     }
 
@@ -291,7 +307,7 @@ public:
      */
     double SinTheta() const
     {
-        auto mag = Mag();
+        auto const mag = Mag();
         return mag == Value_(0) ? 0 : Perp() / mag;
     }
 
@@ -346,7 +362,7 @@ public:
      */
     boca::Angle PseudoRapidity() const
     {
-        auto cosTheta = CosTheta();
+        auto const cosTheta = CosTheta();
         if (sqr(cosTheta) < 1) return -0.5 * units::log((1 - cosTheta) / (1 + cosTheta));
         if (Z() == Value_(0)) return 0_rad;
         if (Z() > 0) return 10e10_rad;
@@ -404,8 +420,8 @@ public:
     template <typename Value_2_>
     constexpr ValueSquare Perp2(Vector3<Value_2_> const &vector) const
     {
-        auto other_mag2 = vector.Mag2();
-        auto mixing = Dot(vector);
+        auto const other_mag2 = vector.Mag2();
+        auto const mixing = Dot(vector);
         auto this_mag_2 = Mag2();
         if (other_mag2 > boca::ValueSquare<Value_2_>(0)) this_mag_2 -= sqr(mixing) / other_mag2;
         if (this_mag_2 < ValueSquare(0)) this_mag_2 = ValueSquare(0);
@@ -433,9 +449,9 @@ public:
     void Rotate(boca::Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
     {
         if (phi == 0_rad)  return *this;
-        auto cos = boost::units::cos(phi);
-        auto sin = boost::units::sin(phi);
-        auto row = (*this)(dim_1);
+        auto const cos = boost::units::cos(phi);
+        auto const sin = boost::units::sin(phi);
+        auto const row = (*this)(dim_1);
         (*this)(dim_1) = cos * row - sin * (*this)(dim_2);
         (*this)(dim_2) = sin * row + cos * (*this)(dim_2);
         return *this;
@@ -476,10 +492,10 @@ public:
     template<typename Value_2_>
     constexpr void RotateUz(Vector3<Value_2_> const &vector)
     {
-        auto unit = vector.Unit();
-        auto perp2 = unit.Perp();
+        auto const unit = vector.Unit();
+        auto const perp2 = unit.Perp();
         if (perp2 > 0) {
-            auto perp = sqrt(perp2);
+            auto const perp = sqrt(perp2);
             auto temp = unit * (unit.Z() * X() + perp * Z());
             temp.X() -= unit.Y() * Y();
             temp.Y() += unit.X() * Y();
@@ -503,7 +519,7 @@ public:
     */
     constexpr Vector3<double> Unit() const
     {
-        auto mag2 = Mag2();
+        auto const mag2 = Mag2();
         if (mag2 == ValueSquare(0)) return {};
         return *this / sqrt(mag2);
     }
@@ -513,9 +529,9 @@ public:
     */
     constexpr Vector3 Orthogonal() const
     {
-        auto x = x_ < Value_(0) ? -x_ : x_;
-        auto y = y_ < Value_(0) ? -y_ : y_;
-        auto z = z_ < Value_(0) ? -z_ : z_;
+        auto const x = x_ < Value_(0) ? -x_ : x_;
+        auto const y = y_ < Value_(0) ? -y_ : y_;
+        auto const z = z_ < Value_(0) ? -z_ : z_;
         if (x < y) return x < z ? Vector3(Value_(0), z_, -y_) : Vector3(y_, -x_, Value_(0));
         else return y < z ? Vector3(-z_, Value_(0), x_) : Vector3(y_, -x_, Value_(0));
     }

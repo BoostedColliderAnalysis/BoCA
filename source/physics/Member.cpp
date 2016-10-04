@@ -67,16 +67,10 @@ int Member::EmptyPosition()
     return -1;
 }
 
-bool Member::operator==(Member const& member)
+bool Member::operator==(Member const& member) const
 {
     CHECK(Position() != EmptyPosition(), Position());
     return Position() == member.Position();
-}
-
-bool Member::operator!=(Member const& member)
-{
-    CHECK(Position() != EmptyPosition(), Position());
-    return Position() != member.Position();
 }
 
 }

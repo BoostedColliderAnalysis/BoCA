@@ -18,7 +18,9 @@ class Singlet;
  * @brief Jet infos subclassed from Fastjet
  *
  */
-class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase
+class JetInfo: public Identification,
+    public fastjet::PseudoJet::UserInfoBase,
+    boost::additive<JetInfo>
 {
 
 public:
@@ -27,25 +29,21 @@ public:
 
     JetInfo(double bdt);
 
-    JetInfo(::delphes::Jet const& jet);
+    JetInfo(::delphes::Jet const &jet);
 
     JetInfo(int charge);
 
-    JetInfo(Constituent const& constituent);
+    JetInfo(Constituent const &constituent);
 
-    JetInfo(Constituent const& constituent, int charge);
+    JetInfo(Constituent const &constituent, int charge);
 
-    JetInfo(std::vector<Constituent> const& constituents);
+    JetInfo(std::vector<Constituent> const &constituents);
 
-    JetInfo operator+(JetInfo const&jet_info);
+    JetInfo &operator+=(JetInfo const &jet_info);
 
-    JetInfo& operator+=(JetInfo const&jet_info);
+    void AddConstituent(Constituent const &constituent);
 
-    void AddConstituent(Constituent const& constituent);
-
-    void AddConstituents(std::vector<Constituent> const& constituents);
-
-//     void AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents);
+    void AddConstituents(std::vector<Constituent> const &constituents);
 
     Mass VertexMass() const;
 
@@ -61,13 +59,13 @@ public:
 
     Energy VertexEnergy() const;
 
-    Angle ElectroMagneticRadius(boca::Jet const& jet) const;
+    Angle ElectroMagneticRadius(boca::Jet const &jet) const;
 
-    Angle TrackRadius(boca::Jet const& jet) const;
+    Angle TrackRadius(boca::Jet const &jet) const;
 
     double LeadingTrackMomentumFraction() const;
 
-    double CoreEnergyFraction(boca::Jet const& jet) const;
+    double CoreEnergyFraction(boca::Jet const &jet) const;
 
     double ElectroMagneticFraction() const;
 
@@ -81,9 +79,9 @@ public:
 
     int Charge() const;
 
-    void SetDelphesTags(::delphes::Jet const& jet);
+    void SetDelphesTags(::delphes::Jet const &jet);
 
-    void SetConstituents(std::vector<Constituent> const& constituents);
+    void SetConstituents(std::vector<Constituent> const &constituents);
 
     bool SubStructure() const;
 
@@ -107,9 +105,9 @@ public:
 
 private:
 
-    JetInfo(std::vector<Constituent> const& constituents, std::vector<Constituent> const& dispalced_constituents);
+    JetInfo(std::vector<Constituent> const &constituents, std::vector<Constituent> const &dispalced_constituents);
 
-    void SetConstituent(Constituent const& constituent);
+    void SetConstituent(Constituent const &constituent);
 
     void SetTauTag(bool tau_tag);
 

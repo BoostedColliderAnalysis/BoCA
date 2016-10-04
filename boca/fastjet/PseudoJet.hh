@@ -187,17 +187,17 @@ public:
     Angle Phi() const;
 
     /**
-    * @brief \f$\Delta \phi\f$ to a jet constrained to \f$[-\pi,\pi]\f$
+    * @brief Difference \f$\Delta \phi\f$ to a jet constrained to \f$[-\pi,\pi]\f$
     */
     Angle DeltaPhiTo(PseudoJet const &jet) const;
 
     /**
-    * @brief \f$\Delta y\f$ to a jet
+    * @brief Difference \f$\Delta y\f$ to a jet
     */
     Angle DeltaRapTo(PseudoJet const &jet) const;
 
     /**
-    * @brief \f$\Delta R\f$ to a jet
+    * @brief Difference \f$\Delta R\f$ to a jet
     */
     Angle DeltaRTo(PseudoJet const &jet) const;
 

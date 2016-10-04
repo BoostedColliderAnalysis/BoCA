@@ -13,7 +13,7 @@ namespace boca
  *
  */
 
-class Member
+class Member : boost::equality_comparable<Member>
 {
 
 public:
@@ -40,9 +40,7 @@ public:
 
     static int EmptyPosition();
 
-    bool operator==(Member const& member);
-
-    bool operator!=(Member const& member);
+    bool operator==(Member const& member) const;
 
 private:
 

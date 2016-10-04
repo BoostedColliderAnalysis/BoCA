@@ -17,9 +17,9 @@ namespace boca
  */
 enum class JetType
 {
-    jet, //< usual Delphse Jet
-    gen_jet, //<  Delphes GenJet
-    e_flow_jet //< Jet formed from the eflow Variables according to the parameter set in Settings
+    jet, ///< usual Delphse Jet
+    gen_jet, ///<  Delphes GenJet
+    e_flow_jet ///< Jet formed from the eflow Variables according to the parameter set in Settings
 };
 
 std::string Name(JetType jet_type);
@@ -30,8 +30,8 @@ std::string Name(JetType jet_type);
  */
 enum class Collider
 {
-    lhc, //< default LHC detector
-    future //<  default detector for a 100TeV collider
+    lhc, ///< default LHC detector
+    future ///<  default detector for a 100TeV collider
 };
 
 std::string Name(Collider collider);
@@ -98,6 +98,8 @@ public:
     static boca::Source Source();
 
     static bool Isolation();
+
+    static bool SubStructure();
 
 private:
 

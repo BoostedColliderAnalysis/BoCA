@@ -96,16 +96,21 @@ public:
      * @{
      */
 
+
     /**
      * @brief Setter for px py pz e
      */
-    void SetPxPyPzE(Momentum const&px, Momentum const&py, Momentum const&pz, const boca::Energy &energy);
+    void SetVectE(Vector3<Momentum> const& vector, const boca::Energy &energy);
+
+    /**
+     * @brief Set spatial vector and magnitude
+     */
+    void SetVectM(Vector3<Momentum> const &spatial, boca::Mass const& mass);
 
     /**
      * @brief Setter for pt eta phi m
      */
     void SetPtEtaPhiM(Momentum const &pt, boca::Angle const &eta, boca::Angle const &phi, boca::Mass const &mass);
-
 
     /**
      * @brief Setter for pt eta phi e

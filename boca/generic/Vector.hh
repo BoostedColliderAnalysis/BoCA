@@ -246,8 +246,9 @@ std::vector<Element_> Combine(std::vector<Element_> const &vector_1, std::vector
 template <typename Element_>
 void Insert(std::vector<Element_> &vector_1, std::vector<Element_> const &vector_2)
 {
+    if (vector_2.empty()) return;
     vector_1.reserve(vector_1.size() + vector_2.size());
-    if (!vector_2.empty()) vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
+    vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
 }
 
 /**

@@ -69,24 +69,6 @@ JetInfo::JetInfo(std::vector<Constituent> const &constituents)
     SetConstituents(constituents);
 }
 
-// JetInfo::JetInfo(std::vector<Constituent> const &constituents, std::vector<Constituent> const &displaced_constituents)
-// {
-//     DEBUG0;
-//     SetConstituents(constituents);
-//     displaced_constituents_ = displaced_constituents;
-// }
-
-JetInfo JetInfo::operator+(JetInfo const &jet_info)
-{
-    DEBUG0;
-//     auto result = JetInfo {Combine(this->Constituents(), jet_info.Constituents()), Combine(this->DisplacedConstituents(), jet_info.DisplacedConstituents())};
-    auto result = JetInfo {Combine(this->Constituents(), jet_info.Constituents())};
-    result.SetBTag(this->BTag() + jet_info.BTag());
-    result.SetTauTag(this->TauTag() + jet_info.TauTag());
-    result.SetCharge(this->Charge() + jet_info.Charge());
-    return result;
-}
-
 JetInfo &JetInfo::operator+=(JetInfo const &jet_info)
 {
     DEBUG0;
@@ -199,7 +181,7 @@ Mass JetInfo::VertexMass() const
 Energy JetInfo::VertexEnergy() const
 {
     DEBUG0;
-    return boost::accumulate(DisplacedConstituents(), 0_eV, [](Energy const& sum, Constituent const & constituent) {
+    return boost::accumulate(DisplacedConstituents(), 0_eV, [](Energy const & sum, Constituent const & constituent) {
         return sum + constituent.Momentum().E();
     });
 }

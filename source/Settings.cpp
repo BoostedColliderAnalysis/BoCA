@@ -183,7 +183,7 @@ Momentum Settings::HardLeptonMomentum()
 
 double Settings::IsolationFraction()
 {
-    return 300_mU;
+    return 300_mU; // aka 30%
 }
 
 Momentum Settings::ForwardJetPt()
@@ -213,6 +213,12 @@ boca::Source Settings::Source()
 }
 
 bool Settings::Isolation()
+{
+    return true;
+    return false;
+}
+
+bool Settings::SubStructure()
 {
     return true;
     return false;

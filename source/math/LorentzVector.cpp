@@ -69,16 +69,24 @@ LorentzVector< Momentum >::LorentzVector(const exroot::Muon& muon)
     LorentzVectorByMass(muon, MassOf(Id::muon));
 }
 
+void LorentzVector< Momentum >::SetVectE(Vector3<boca::Momentum> const& vector, boca::Energy const& energy)
+{
+    SetVectT(vector, energy);
+}
+
 void LorentzVector< Momentum >::SetPtEtaPhiM(boca::Momentum const& pt, boca::Angle const& eta, boca::Angle const& phi, boca::Mass const& mass)
 {
-    auto apt = abs(pt);
-    SetXYZM(apt * cos(phi), apt * sin(phi), apt * units::sinh(eta) , mass);
+    SetPerpEtaPhiMag(pt, eta, phi, mass);
 }
 
 void LorentzVector< Momentum >::SetPtEtaPhiE(boca::Momentum const& pt, boca::Angle const& eta, boca::Angle const& phi, boca::Energy const& energy)
 {
-    auto apt = abs(pt);
-    SetXYZT(apt * cos(phi), apt * sin(phi), apt * units::sinh(eta) , energy);
+    SetPerpEtaPhiT(pt, eta, phi, energy);
+}
+
+void LorentzVector<Momentum>::SetVectM(const boca::Vector3<boca::Momentum> &spatial, const boca::Mass &mass)
+{
+    SetVectMag(spatial, mass);
 }
 
 Momentum LorentzVector< Momentum >::Px() const
@@ -170,11 +178,6 @@ Mass LorentzVector< Momentum >::Mt() const
     return MagT();
 }
 
-void LorentzVector< Momentum >::SetPxPyPzE(boca::Momentum const& px, boca::Momentum const& py, boca::Momentum const& pz, boca::Energy const& energy)
-{
-    SetXYZT(px, py, pz, energy);
-}
-
 Momentum LorentzVector< Momentum >::Pt() const
 {
     return Perp();
@@ -207,7 +210,6 @@ void LorentzVector< Length >::Smearing(Length const& amount)
     X() += normal_distribution(generator) * m;
     Y() += normal_distribution(generator) * m;
     Z() += normal_distribution(generator) * m;
-
 }
 
 }

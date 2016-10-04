@@ -102,7 +102,7 @@ public:
     */
     constexpr void SetMagPhi(Value_ magnitude, Angle const &phi)
     {
-        auto absolute = abs(magnitude);
+        auto const absolute = abs(magnitude);
         x_ = absolute * cos(phi);
         y_ = absolute * sin(phi);
     }
@@ -214,7 +214,7 @@ public:
     template <typename Value_2>
     constexpr Vector2 Proj(Vector2<Value_2> const &vector) const
     {
-        auto unit = vector.Unit();
+        auto const unit = vector.Unit();
         return unit * (*this * unit);
     }
 

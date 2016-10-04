@@ -12,12 +12,18 @@ namespace boca
 std::string Name(DetectorPart detector_part)
 {
     switch (detector_part) {
-    case DetectorPart::none : return "None";
-    case DetectorPart::gen_particle : return "gen_particle";
-    case DetectorPart::track : return "track";
-    case DetectorPart::photon : return "photon";
-    case DetectorPart::tower : return "tower";
-    case DetectorPart::muon : return "muon";
+    case DetectorPart::none :
+        return "None";
+    case DetectorPart::gen_particle :
+        return "gen_particle";
+    case DetectorPart::track :
+        return "track";
+    case DetectorPart::photon :
+        return "photon";
+    case DetectorPart::tower :
+        return "tower";
+    case DetectorPart::muon :
+        return "muon";
         DEFAULT(to_int(detector_part), "");
     }
 }
@@ -32,7 +38,7 @@ Constituent::Constituent()
     DEBUG0;
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position)
+Constituent::Constituent(TLorentzVector const &momentum, LorentzVector<Length> const &position)
 {
     DEBUG0;
     momentum_ = momentum;
@@ -41,7 +47,7 @@ Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> c
     SetTracker();
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, boca::Family const& family, boca::DetectorPart detector_part, int charge)
+Constituent::Constituent(TLorentzVector const &momentum, LorentzVector<Length> const &position, boca::Family const &family, boca::DetectorPart detector_part, int charge)
 {
     DEBUG0;
     momentum_ = momentum;
@@ -53,13 +59,13 @@ Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> c
     families_.emplace_back(family);
 }
 
-Constituent::Constituent(TLorentzVector const& momentum)
+Constituent::Constituent(TLorentzVector const &momentum)
 {
     DEBUG0;
     momentum_ = momentum;
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, boca::Family const& family, boca::DetectorPart detector_part, int charge)
+Constituent::Constituent(TLorentzVector const &momentum, boca::Family const &family, boca::DetectorPart detector_part, int charge)
 {
     DEBUG0;
     momentum_ = momentum;
@@ -68,7 +74,7 @@ Constituent::Constituent(TLorentzVector const& momentum, boca::Family const& fam
     families_.emplace_back(family);
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, std::vector<boca::Family> const& families, boca::DetectorPart detector_part)
+Constituent::Constituent(TLorentzVector const &momentum, std::vector<boca::Family> const &families, boca::DetectorPart detector_part)
 {
     DEBUG0;
     momentum_ = momentum;
@@ -76,42 +82,45 @@ Constituent::Constituent(TLorentzVector const& momentum, std::vector<boca::Famil
     families_ = families;
 }
 
-void Constituent::SetMomentum(TLorentzVector const& momentum)
+void Constituent::SetMomentum(TLorentzVector const &momentum)
 {
     DEBUG0;
     momentum_ = momentum;
 }
 
-LorentzVector<Length> const& Constituent::Position() const
+LorentzVector<Length> const &Constituent::Position() const
 {
     DEBUG0;
     return position_;
 }
 
-LorentzVector<Momentum> const& Constituent::Momentum() const
+LorentzVector<Momentum> const &Constituent::Momentum() const
 {
     DEBUG0;
     return momentum_;
 }
 
-LorentzVector<Length>& Constituent::Position()
+LorentzVector<Length> &Constituent::Position()
 {
     DEBUG0;
     return position_;
 }
 
-LorentzVector<Momentum>& Constituent::Momentum()
+LorentzVector<Momentum> &Constituent::Momentum()
 {
     DEBUG0;
     return momentum_;
 }
 
-Constituent Constituent::operator+(Constituent const& constituent)
+Constituent &Constituent::operator+=(Constituent const &constituent)
 {
     DEBUG0;
     position_ += constituent.position_;
     momentum_ += constituent.momentum_;
     charge_ += constituent.charge_;
+    tracker_ &= constituent.tracker_;
+    detector_part_ = boca::DetectorPart::none;
+    families_.clear();
     return *this;
 }
 

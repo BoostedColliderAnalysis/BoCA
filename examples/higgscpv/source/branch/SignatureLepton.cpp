@@ -1,4 +1,5 @@
 #include "higgscpv/branch/SignatureLepton.hh"
+#include "boca/Settings.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace higgscpv
@@ -44,7 +45,8 @@ SignatureLepton::SignatureLepton()
 
 Observables SignatureLepton::Variables()
 {
-    return boca::branch::Multi::Variables() + OBSERVABLE(Mass12) + OBSERVABLE(Mass23) + OBSERVABLE(Mass13) + OBSERVABLE(Pt12) + OBSERVABLE(Pt23) + OBSERVABLE(Pt13) + OBSERVABLE(DeltaPt23) + OBSERVABLE(DeltaPt13) + OBSERVABLE(Ht12) + OBSERVABLE(Ht23) + OBSERVABLE(Ht13) + OBSERVABLE(Rho23) + OBSERVABLE(Rho13) + OBSERVABLE(DeltaRap23) + OBSERVABLE(DeltaRap13) + OBSERVABLE(DeltaPhi23) + OBSERVABLE(DeltaPhi13) + OBSERVABLE(DeltaR23) + OBSERVABLE(DeltaR13) + OBSERVABLE(DeltaM23) + OBSERVABLE(DeltaM13) + OBSERVABLE(DeltaHt23) + OBSERVABLE(DeltaHt13) + OBSERVABLE(Pull23) + OBSERVABLE(Pull13) + OBSERVABLE(DeltaPull13) +/* OBSERVABLE(Dipolarity23) + OBSERVABLE(Dipolarity13) +*/ OBSERVABLE(Aplanarity) + OBSERVABLE(Sphericity);
+    auto substructure = boca::Settings::SubStructure() ? OBSERVABLE(Pull23) + OBSERVABLE(Pull13) + OBSERVABLE(DeltaPull13) /*+ OBSERVABLE(Dipolarity23) + OBSERVABLE(Dipolarity13)*/ : boca::Observables{};
+    return boca::branch::Multi::Variables() + OBSERVABLE(Mass12) + OBSERVABLE(Mass23) + OBSERVABLE(Mass13) + OBSERVABLE(Pt12) + OBSERVABLE(Pt23) + OBSERVABLE(Pt13) + OBSERVABLE(DeltaPt23) + OBSERVABLE(DeltaPt13) + OBSERVABLE(Ht12) + OBSERVABLE(Ht23) + OBSERVABLE(Ht13) + OBSERVABLE(Rho23) + OBSERVABLE(Rho13) + OBSERVABLE(DeltaRap23) + OBSERVABLE(DeltaRap13) + OBSERVABLE(DeltaPhi23) + OBSERVABLE(DeltaPhi13) + OBSERVABLE(DeltaR23) + OBSERVABLE(DeltaR13) + OBSERVABLE(DeltaM23) + OBSERVABLE(DeltaM13) + OBSERVABLE(DeltaHt23) + OBSERVABLE(DeltaHt13) + OBSERVABLE(Aplanarity) + OBSERVABLE(Sphericity) + substructure;
 }
 
 }

@@ -114,8 +114,8 @@ private:
             case 8000 : return 0.008651760976852958 * fb;
             case 10000 : return 0.0018198636858628185 * fb;
             case 12000 : return 0.0004674423191995998 * fb;
-            case 15000 : return 0.000046 * fb; //<this is just wrong get the right numbers
-            case 20000 : return 0.0000046 * fb; //<this is just wrong get the right numbers
+            case 15000 : return 0.000046 * fb; ///<this is just wrong get the right numbers
+            case 20000 : return 0.0000046 * fb; ///<this is just wrong get the right numbers
             default:
 //                 ERROR("unhandled case");
                 return pb;

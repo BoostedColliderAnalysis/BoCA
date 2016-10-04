@@ -18,7 +18,7 @@ enum class DetectorPart {
 
 std::string Name(DetectorPart detector_part);
 
-class Constituent {
+class Constituent : boost::addable<Constituent>{
 
 public:
 
@@ -56,15 +56,15 @@ public:
 
     bool IsInTracker() const;
 
-    Constituent operator+(Constituent const& constituent);
-
     std::vector<boca::Family> Families() const;
+
+    Constituent &operator+=(Constituent const& constituent);
 
 private:
 
     void SetTracker();
 
-    boca::DetectorPart detector_part_ = boca::DetectorPart::none;
+    std::vector<boca::Family> families_;
 
     LorentzVector<Length> position_;
 
@@ -72,9 +72,9 @@ private:
 
     int charge_ = 0;
 
-    bool tracker_;
+    boca::DetectorPart detector_part_ = boca::DetectorPart::none;
 
-    std::vector<boca::Family> families_;
+    bool tracker_;
 };
 
 }

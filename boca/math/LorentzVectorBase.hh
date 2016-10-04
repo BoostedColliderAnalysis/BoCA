@@ -97,9 +97,22 @@ public:
      * @{
      */
 
+    /**
+     * @brief Set components
+     */
+    constexpr void SetVectT(Vector3<Value_> const &spatial, Value_ t)
+    {
+        Spatial() = spatial;
+        Scalar() = t;
+    }
+
     using Vector3<Value_>::SetTheta;
 
     using Vector3<Value_>::SetPhi;
+
+    using Vector3<Value_>::SetPerp;
+
+    using Vector3<Value_>::SetPerpEtaPhi;
 
     /**
      * @brief Set spatial magnitude
@@ -110,12 +123,11 @@ public:
     }
 
     /**
-     * @brief Set components
+     * @brief Set Nergy according to spatial component and magnitude \f$e = \sqrt{ m^2 + \rho^2}\f$
      */
-    constexpr void SetXYZT(Value_ x, Value_ y, Value_ z, Value_ t)
+    constexpr void SetMag(Value_ magnitude)
     {
-        Spatial() = {x, y, z};
-        Scalar() = t;
+        Scalar() = magnitude >= Value_(0)  ?  sqrt(sqr(Spatial()) + sqr(magnitude)) : sqrt(std::max((sqr(Spatial()) - sqr(magnitude)), ValueSquare(0)));
     }
 
     /**
@@ -124,29 +136,26 @@ public:
     constexpr void SetVectMag(Vector3<Value_> const &spatial, Value_ magnitude)
     {
         Spatial() = spatial;
-        Scalar() = magnitude >= Value_(0)  ?  sqrt(sqr(spatial) + sqr(magnitude)) : sqrt(std::max((sqr(spatial) - sqr(magnitude)), ValueSquare(0)));
+        SetMag(magnitude);
     }
 
     /**
-     * @brief Set x,  y,  z and magnitude
+     * @brief Set perp,  \f$\eta\f$, \f$\phi\f$ and magnitude
      */
-    constexpr void SetXYZM(Value_ x, Value_ y, Value_ z, Value_ mass)
+    constexpr void SetPerpEtaPhiMag(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi, Value_ const &mag)
     {
-        SetXYZM(x,  y,  z , mass);
+        SetPerpEtaPhi(perp, eta,  phi);
+        SetMag(mag);
     }
 
     /**
-     * @brief Set x,  y,  z and magnitude
+     * @brief Set perp,  \f$\eta\f$, \f$\phif$ and time
      */
-    constexpr void SetVectM(Vector3<Value_> const &spatial, Value_ mass)
+    constexpr void SetPerpEtaPhiT(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi, Value_ const &t)
     {
-        SetVectMag(spatial, mass);
+        SetPerpEtaPhi(perp, eta, phi);
+        scalar_ = t;
     }
-
-    /**
-     * @brief Set the transverse component of the spatial vector.
-     */
-    using Vector3<Value_>::SetPerp;
 
     //@}
 
@@ -181,7 +190,7 @@ public:
      * @brief Accessor for the scalar
      * @{
      */
-   constexpr  Value_ &Scalar()
+    constexpr  Value_ &Scalar()
     {
         return scalar_;
     }
@@ -258,14 +267,14 @@ public:
      */
     boca::Angle Rapidity(Vector3<double> const &vector) const
     {
-        auto mag_2 = vector.Mag2();
+        auto const mag_2 = vector.Mag2();
         if (mag_2 == 0) return 0_rad;
-        auto vdotu = Spatial().Dot(vector) / sqrt(mag_2);
+        auto const vdotu = Spatial().Dot(vector) / sqrt(mag_2);
         if (vdotu == Value_(0)) return 0_rad;
 //         if (Scalar() <= Value_(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
 //         auto pt = sqrt(units::max(sqr(Scalar() * std::numeric_limits<double>::epsilon()), Perp2(vector) + Mag2()));
-        auto mt = sqrt(Perp2(vector) + Mag2());
-        auto rap = units::log(static_cast<double>((Scalar() + abs(Z())) / mt));
+        auto const mt = sqrt(Perp2(vector) + Mag2());
+        auto const rap = units::log(static_cast<double>((Scalar() + abs(Z())) / mt));
         return Z() > Value_(0) ? rap : -rap;
     }
 
@@ -333,7 +342,7 @@ public:
      */
     constexpr Value_ Mag() const
     {
-        auto mag2 = Mag2();
+        auto const mag2 = Mag2();
         return mag2 < ValueSquare(0) ? -sqrt(-mag2) : sqrt(mag2);
     }
 
@@ -350,7 +359,7 @@ public:
     */
     constexpr Value_ MagT() const
     {
-        auto mt2 = MagT2();
+        auto const mt2 = MagT2();
         return mt2 < ValueSquare(0) ? -sqrt(-mt2) : sqrt(mt2);
     }
 
@@ -376,9 +385,8 @@ public:
     template<typename Value,  typename = OnlyIfNotQuantity<Value>>
     constexpr ValueSquare ScalarT2(Vector3<Value> const &vector) const
     {
-        auto pt2 = Spatial().Perp2(vector);
-        auto pv = Spatial().Dot(vector.Unit());
-        return pt2 == ValueSquare(0) ? ValueSquare(0) : sqr(Scalar()) * pt2 / (pt2 + sqr(pv));
+        auto const pt2 = Spatial().Perp2(vector);
+        return pt2 == ValueSquare(0) ? ValueSquare(0) : sqr(Scalar()) * pt2 / (pt2 + sqr(Spatial().Dot(vector.Unit())));
     }
 
     /**
@@ -437,7 +445,8 @@ public:
      */
     constexpr Vector3<double> BoostVector() const
     {
-        return Scalar() == Value_(0) ? Vector3<double>{} : Vector3<double>{Spatial() / Scalar()};
+        return Scalar() == Value_(0) ? Vector3<double> {} :
+               Vector3<double> {Spatial() / Scalar()};
     }
 
     using Vector3<Value_>::Transversal;
@@ -457,7 +466,7 @@ public:
      */
     constexpr LorentzVectorBase<Value_> Boosted(Vector3<double> const &boost) const
     {
-        auto lorentz_vector = *this;
+        auto const lorentz_vector = *this;
         return lorentz_vector.Boost(boost);
     }
     //@}
@@ -472,11 +481,11 @@ public:
      */
     constexpr LorentzVectorBase<Value_> &Boost(Vector3<double> const &boost)
     {
-        auto mag_2 = boost.Mag2();
-        auto gamma = 1 / sqrt(1 - mag_2);
-        auto gamma2 = mag_2 > 0 ? (gamma - 1) / mag_2 : 0;
-        auto bp = boost * Spatial();
-        auto scaled = gamma * Scalar();
+        auto const mag_2 = boost.Mag2();
+        auto const gamma = 1 / sqrt(1 - mag_2);
+        auto const gamma2 = mag_2 > 0 ? (gamma - 1) / mag_2 : 0;
+        auto const bp = boost * Spatial();
+        auto const scaled = gamma * Scalar();
 
         Spatial() += boost * (gamma2 * bp + scaled);
         Scalar() = scaled + gamma * bp;

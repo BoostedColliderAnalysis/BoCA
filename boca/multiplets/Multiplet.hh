@@ -52,7 +52,7 @@ public:
     Angle Phi() const;
 
     /**
-    * @brief \f$\Delta \phi\f$ to a jet constrained to \f$[-\pi,\pi]\f$
+    * @brief Difference \f$\Delta \phi\f$ to a jet constrained to \f$[-\pi,\pi]\f$
     */
     template <typename Multiplet_, typename = NotJet<Multiplet_>>
     Angle DeltaPhiTo(Multiplet_ const &multiplet) const
@@ -62,7 +62,7 @@ public:
     Angle DeltaPhiTo(PseudoJet const &jet) const;
 
     /**
-    * @brief \f$\Delta y\f$ to a jet
+    * @brief Difference \f$\Delta y\f$ to a jet
     */
     template <typename Multiplet_, typename = NotJet<Multiplet_>>
     Angle DeltaRapTo(Multiplet_ const &multiplet) const
@@ -72,7 +72,7 @@ public:
     Angle DeltaRapTo(PseudoJet const &jet) const;
 
     /**
-    * @brief \f$\Delta R\f$ to a jet
+    * @brief Distance \f$\Delta R\f$ to a jet
     */
     template <typename Multiplet_, typename = NotJet<Multiplet_>>
     Angle DeltaRTo(Multiplet_ const &multiplet) const
