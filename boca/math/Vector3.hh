@@ -117,15 +117,24 @@ public:
      */
 
     /**
+     * @brief Set x, y, z according to value
+     */
+    constexpr void SetUniform(Value_ value)
+    {
+        x_ = value;
+        y_ = value;
+        z_ = value;
+    }
+
+    /**
      * @brief Set Pt, Eta and Phi
      */
-    void SetPtEtaPhi(Value_ pt, boca::Angle const &eta, boca::Angle const &phi)
+    constexpr void SetPtEtaPhi(Value_ pt, boca::Angle const &eta, boca::Angle const &phi)
     {
-        auto const apt = abs(pt);
-        x_ = apt * cos(phi);
-        y_ = apt * sin(phi);
-        auto const tan_eta = tan(2.0 * atan(units::exp(-eta)));
-        z_ = tan_eta == 0 ? Value_(0) : apt / tan_eta;
+        SetUniform(abs(pt));
+        x_ *= cos(phi);
+        y_ *= sin(phi);
+        z_ *= eta == 0_rad ? 0 : 1 / tan(2.0 * atan(units::exp(-eta)));
     }
 
     /**
@@ -133,10 +142,11 @@ public:
      */
     void SetPtThetaPhi(Value_ pt, boca::Angle const &theta, boca::Angle const &phi)
     {
-        x_ = pt * cos(phi);
-        y_ = pt * sin(phi);
+        SetUniform(pt);
+        x_ *= cos(phi);
+        y_ *= sin(phi);
         auto const tan_theta = tan(theta);
-        z_ = tan_theta == 0 ? Value_(0) : pt / tan_theta;
+        z_ *= tan_theta == 0 ? 1 / tan_theta : Value_(0);
     }
 
     /**
@@ -154,11 +164,11 @@ public:
      */
     constexpr void SetTheta(boca::Angle const &theta)
     {
-        auto const magnitude = Mag();
         auto const phi = Phi();
-        x_ = magnitude * sin(theta) * cos(phi);
-        y_ = magnitude * sin(theta) * sin(phi);
-        z_ = magnitude * cos(theta);
+        SetUniform(Mag());
+        x_ *= sin(theta) * cos(phi);
+        y_ *= sin(theta) * sin(phi);
+        z_ *= cos(theta);
     }
 
     /**
@@ -175,10 +185,10 @@ public:
      */
     constexpr void SetMagThetaPhi(Value_ mag, boca::Angle const &theta, boca::Angle const &phi)
     {
-        auto const amag = abs(mag);
-        x_ = amag * sin(theta) * cos(phi);
-        y_ = amag * sin(theta) * sin(phi);
-        z_ = amag * cos(theta);
+        SetUniform(abs(mag));
+        x_ *= sin(theta) * cos(phi);
+        y_ *= sin(theta) * sin(phi);
+        z_ *= cos(theta);
     }
 
     constexpr void SetPerpEtaPhi(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi)
@@ -421,9 +431,8 @@ public:
     constexpr ValueSquare Perp2(Vector3<Value_2_> const &vector) const
     {
         auto const other_mag2 = vector.Mag2();
-        auto const mixing = Dot(vector);
         auto this_mag_2 = Mag2();
-        if (other_mag2 > boca::ValueSquare<Value_2_>(0)) this_mag_2 -= sqr(mixing) / other_mag2;
+        if (other_mag2 > boca::ValueSquare<Value_2_>(0)) this_mag_2 -= sqr(Dot(vector)) / other_mag2;
         if (this_mag_2 < ValueSquare(0)) this_mag_2 = ValueSquare(0);
         return this_mag_2;
     }

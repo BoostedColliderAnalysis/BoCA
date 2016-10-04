@@ -98,13 +98,22 @@ public:
     */
 
     /**
+     * @brief Set both both entries according to the value
+     */
+    constexpr void SetUniform(Value_ value)
+    {
+        x_ = value;
+        y_ = value;
+    }
+
+    /**
     * @brief Setter for the magnitude and angle
     */
     constexpr void SetMagPhi(Value_ magnitude, Angle const &phi)
     {
-        auto const absolute = abs(magnitude);
-        x_ = absolute * cos(phi);
-        y_ = absolute * sin(phi);
+        SetUniform(abs(magnitude));
+        x_ *= cos(phi);
+        y_ *= sin(phi);
     }
 
     //@}
@@ -205,7 +214,7 @@ public:
      */
     constexpr Vector2<double> Unit() const
     {
-        return Mag2() ? *this / Mag() : Vector2<double>{};
+        return Mag2() ? *this / Mag() : Vector2<double> {};
     }
 
     /**
