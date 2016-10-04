@@ -307,9 +307,8 @@ public:
     */
     constexpr Matrix2<ValueInverse> Inverse()
     {
-        auto det = Determinant();
-        if (det == ValueSquare(0)) std::cout << "Matrix is not invertible" << std::endl;
-        return (Matrix2(Trace()) - *this) / det;
+        auto const det = Determinant();
+        return det == ValueSquare(0) ? Matrix2<ValueInverse>{} : (Matrix2(Trace()) - *this) / det;
     }
 
     /**
@@ -317,9 +316,9 @@ public:
     */
     constexpr Matrix2 &Rotate(Angle const &phi)
     {
-        auto cos = boost::units::cos(phi);
-        auto sin = boost::units::sin(phi);
-        auto vector = x_;
+        auto const cos = boost::units::cos(phi);
+        auto const sin = boost::units::sin(phi);
+        auto const vector = x_;
         x_ = cos * vector - sin * y_;
         y_ = sin * vector + cos * y_;
         return *this;
@@ -607,7 +606,7 @@ private:
         constexpr Eigen_(Matrix2<Value_> const &matrix)
         {
             trace_ = matrix.Trace();
-            auto radicant = sqr(trace_) - 4 * matrix.Determinant();
+            auto const radicant = sqr(trace_) - 4 * matrix.Determinant();
             complex_ = radicant < 0;
             sqrt_ = sqrt(radicant) / 2;
             matrix_ = &matrix;
@@ -622,7 +621,7 @@ private:
                     std::cerr << "Eigensystem has no real Eigenvalues!\n";
                     return values;
                 }
-                for (auto index : IntegerRange(values.size())) values.at(index) = Value(index);
+                for (auto const index : IntegerRange(values.size())) values.at(index) = Value(index);
                 return values;
             });
         }
@@ -631,7 +630,7 @@ private:
         {
             return vectors_.Get([&]() {
                 auto vectors = Array2<Vector2<Value_>> {};
-                for (auto index : IntegerRange(vectors.size())) vectors.at(index) = Vector(index);
+                for (auto const index : IntegerRange(vectors.size())) vectors.at(index) = Vector(index);
                 return vectors;
             });
         }
@@ -639,7 +638,7 @@ private:
         constexpr Array2<GradedVector2<Value_>> System() const
         {
             auto system = Array2<GradedVector2<Value_>> {};
-            for (auto index : IntegerRange(system.size())) system.at(index) = {Vectors().at(index), Values().at(index)};
+            for (auto const index : IntegerRange(system.size())) system.at(index) = {Vectors().at(index), Values().at(index)};
             return system;
         }
 
@@ -667,7 +666,7 @@ private:
 
         constexpr Vector2<Value_> Vector(int index) const
         {
-            auto matrix = *matrix_ - Matrix2<Value_>(Values().at(index));
+            auto const matrix = *matrix_ - Matrix2<Value_>(Values().at(index));
             return Vector2<Value_>(matrix.X().Y(), -matrix.X().X()).Unit();
         }
 

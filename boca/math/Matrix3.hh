@@ -137,7 +137,7 @@ public:
     */
     constexpr Matrix3(TQuaternion const &quaternion)
     {
-        auto mag2 = quaternion.QMag2();
+        auto const mag2 = quaternion.QMag2();
         if (mag2 <= 0) *this = Matrix3(1.);
         else {
             *this = 2 * (Matrix3(sqr(quaternion.fRealPart)) + Matrix3(Vector3<double>(quaternion.fVectorPart), Vector3<double>(quaternion.fVectorPart)) - Matrix3(Vector3<double>(quaternion.fVectorPart * quaternion.fRealPart)));
@@ -636,14 +636,11 @@ public:
     */
     constexpr Matrix3<ValueInverse> Inverse()
     {
-        auto det = Determinant();
-        if (det == ValueCubed(0)) {
-            std::cout << "Matrix is not invertible" << std::endl;
-            return {};
-        }
-        auto x = ColumnX();
-        auto y = ColumnY();
-        auto z = ColumnZ();
+        auto const det = Determinant();
+        if (det == ValueCubed(0)) return {};
+        auto const x = ColumnX();
+        auto const y = ColumnY();
+        auto const z = ColumnZ();
         return Matrix3<ValueSquare>(y ^ z, z ^ x, x ^ y) / det;
     }
 
@@ -691,9 +688,9 @@ public:
     constexpr Matrix3 &Rotate(Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
     {
         if (phi == 0_rad)  return *this;
-        auto cos = boost::units::cos(phi);
-        auto sin = boost::units::sin(phi);
-        auto row = (*this)(dim_1);
+        auto const cos = boost::units::cos(phi);
+        auto const sin = boost::units::sin(phi);
+        auto const row = (*this)(dim_1);
         (*this)(dim_1) = cos * row - sin * (*this)(dim_2);
         (*this)(dim_2) = sin * row + cos * (*this)(dim_2);
         return *this;
@@ -722,9 +719,9 @@ public:
     constexpr Matrix3 &Rotate(Angle const &phi, Vector3<Value_> const &axis)
     {
         if (phi == 0_rad)  return *this;
-        auto sin = boost::units::sin(phi);
-        auto cos = boost::units::cos(phi);
-        auto unit = axis.Unit();
+        auto const sin = boost::units::sin(phi);
+        auto const cos = boost::units::cos(phi);
+        auto const unit = axis.Unit();
         return Transform(Matrix3(cos) + Matrix3(unit, unit) * (1 - cos) - Matrix3(unit * sin));
     }
 
@@ -733,8 +730,8 @@ public:
     */
     constexpr Matrix3 &RotateAxes(Vector3<Value_> const &vector_x, Vector3<Value_> const &vector_y, Vector3<Value_> const &vector_z)
     {
-        auto epsilon = 0.001;
-        auto cross = vector_x.Cross(vector_y);
+        auto const epsilon = 0.001;
+        auto const cross = vector_x.Cross(vector_y);
         if (std::abs(vector_z.X() - cross.X()) > epsilon || std::abs(vector_z.Y() - cross.Y()) > epsilon || std::abs(vector_z.Z() - cross.Z()) > epsilon || std::abs(vector_x.Mag2() - 1) > epsilon || std::abs(vector_y.Mag2() - 1) > epsilon || std::abs(vector_z.Mag2() - 1) > epsilon || std::abs(vector_x.Dot(vector_y)) > epsilon || std::abs(vector_y.Dot(vector_z)) > epsilon || std::abs(vector_z.Dot(vector_x)) > epsilon) {
             std::cout << "RotateAxes bad axis vectors" << std::endl;
             return *this;
@@ -758,8 +755,8 @@ public:
     */
     std::pair<Vector3<Value_>, Angle> AngleAxis() const
     {
-        auto cosa  = 0.5 * (x_.X() + y_.Y() + z_.Z() - 1);
-        auto cosa1 = 1 - cosa;
+        auto const cosa  = 0.5 * (x_.X() + y_.Y() + z_.Z() - 1);
+        auto const cosa1 = 1 - cosa;
         if (cosa1 <= Value_(0)) return std::make_pair<Vector3<Value_>, Angle>({0, 0, 1},  0_rad);
         auto x = x_.X() > cosa ? sqrt((x_.X() - cosa) / cosa1) : 0;
         auto y = y_.Y() > cosa ? sqrt((y_.Y() - cosa) / cosa1) : 0;
@@ -1104,7 +1101,7 @@ private:
 
         constexpr Depressed_(Characteristic_ const &c)
         {
-            auto quadratic = c.Qudratic() / 3;
+            auto const quadratic = c.Qudratic() / 3;
             linear_ = c.Linear() - sqr(quadratic) * 3;
             constant_ = 2. * cube(quadratic) - quadratic * c.Linear() + c.Constant();
         }
@@ -1151,7 +1148,7 @@ private:
                     std::cerr << "Eigensystem has no real Eigenvalues!\n";
                     return values;
                 }
-                for (auto index : IntegerRange(values.size())) values.at(index) = Value(index);
+                for (auto const index : IntegerRange(values.size())) values.at(index) = Value(index);
                 return boost::range::sort(values, [](Value_ i, Value_ j) {
                     return abs(i) > abs(j);
                 });
@@ -1162,7 +1159,7 @@ private:
         {
             return vectors_.Get([&]() {
                 auto vectors = Array3<Vector3<Value_>> {};
-                for (auto index : IntegerRange(vectors.size())) vectors.at(index) = Vector(index);
+                for (auto const index : IntegerRange(vectors.size())) vectors.at(index) = Vector(index);
                 return vectors;
             });
         }
@@ -1170,7 +1167,7 @@ private:
         constexpr Array3<GradedVector3<Value_>> System() const
         {
             auto system = Array3<GradedVector3<Value_>> {};
-            for (auto index : IntegerRange(system.size())) system.at(index) = {Vectors().at(index), Values().at(index)};
+            for (auto const index : IntegerRange(system.size())) system.at(index) = {Vectors().at(index), Values().at(index)};
             return system;
         }
 
@@ -1193,7 +1190,7 @@ private:
 
         constexpr Vector3<Value_> Vector(int index) const
         {
-            auto matrix = *matrix_ - Matrix3<Value_>(Values().at(index));
+            auto const matrix = *matrix_ - Matrix3<Value_>(Values().at(index));
             return Vector3<Value_>(matrix.Cofactor(Dim3::x, Dim3::x), matrix.Cofactor(Dim3::x, Dim3::y), matrix.Cofactor(Dim3::x, Dim3::z)).Unit();
         }
 
@@ -1236,21 +1233,21 @@ private:
             std::cout << "Phi() |z_.Z()| > 1 " << std::endl;
             s2 = 0;
         }
-        auto sinTheta = std::sqrt(s2);
+        auto const sinTheta = std::sqrt(s2);
         if (sinTheta != Value_(0)) {
-            auto cscTheta = 1 / sinTheta;
-            auto cosAbsPhi =  z_.Y() * cscTheta;
+            auto const cscTheta = 1 / sinTheta;
+            auto const cosAbsPhi =  z_.Y() * cscTheta;
             if (std::abs(cosAbsPhi) > 1) {         // NaN-proofing
                 std::cout << "Phi() finds | cos phi | > 1" << std::endl;
                 cosAbsPhi = 1;
             }
-            auto absPhi = acos(cosAbsPhi);
+            auto const absPhi = acos(cosAbsPhi);
             if (z_.X() > 0) return absPhi;
             if (z_.X() < 0) return -absPhi;
             if (z_.Y() > 0) return 0_rad;
             return Pi();
         } else {              // sinTheta == Value(0) so |Fzz| = 1
-            auto absPhi = .5 * acos(x_.X());
+            auto const absPhi = .5 * acos(x_.X());
             if (x_.Y() > 0) return -absPhi;
             if (x_.Y() < 0) return absPhi;
             if (x_.X() > 0) return 0_rad;
@@ -1268,15 +1265,15 @@ private:
             std::cout << "Psi() |z_.Z()| > 1 " << std::endl;
             s2 = 0;
         }
-        auto sinTheta = std::sqrt(s2);
+        auto const sinTheta = std::sqrt(s2);
         if (sinTheta != 0) {
-            auto cscTheta = 1 / sinTheta;
-            auto cosAbsPsi =  - y_.Z() * cscTheta;
+            auto const cscTheta = 1 / sinTheta;
+            auto const cosAbsPsi =  - y_.Z() * cscTheta;
             if (std::abs(cosAbsPsi) > 1) {         // NaN-proofing
                 std::cout << "Psi() | cos psi | > 1 " << std::endl;
                 cosAbsPsi = 1;
             }
-            auto absPsi = boca::acos(cosAbsPsi);
+            auto const absPsi = boca::acos(cosAbsPsi);
             if (x_.Z() > 0) return absPsi;
             if (x_.Z() < 0) return -absPsi;
             return (y_.Z() < 0) ? 0_rad : Pi();
@@ -1287,7 +1284,7 @@ private:
                 std::cout << "Psi() | x_.X() | > 1 " << std::endl;
                 absPsi = 1;
             }
-            auto absPsi2 = .5 * acos(absPsi);
+            auto const absPsi2 = .5 * acos(absPsi);
             if (y_.X() > 0) return absPsi2;
             if (y_.X() < 0) return -absPsi2;
             return (x_.X() > 0) ? 0_rad : Pi() / 2.;
@@ -1299,8 +1296,7 @@ private:
     */
     constexpr Matrix3<double> MakeBasis(Vector3<Value_> const &plane, Vector3<Value_> const &axis) const
     {
-
-        auto mag_z = axis.Mag();
+        auto const mag_z = axis.Mag();
         if (mag_z == Value_(0)) {
             if (plane.Mag() != Value_(0)) return MakeBasis(axis, plane);
             return {};
@@ -1314,7 +1310,7 @@ private:
         } else matrix.X() = plane;
 
         matrix.Y() = matrix.Z().Cross(matrix.X()) / mag_x;
-        auto mag_y = matrix.Y().Mag();
+        auto const mag_y = matrix.Y().Mag();
         matrix.Y() = mag_y == Value_(0) ? matrix.Z().Orthogonal() : matrix.Y() / mag_y;
         matrix.X() = matrix.Y().Cross(matrix.Z());
         return matrix;

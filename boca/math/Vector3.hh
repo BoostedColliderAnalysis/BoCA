@@ -372,8 +372,8 @@ public:
      */
     boca::Angle PseudoRapidity() const
     {
-        auto const cosTheta = CosTheta();
-        if (sqr(cosTheta) < 1) return -0.5 * units::log((1 - cosTheta) / (1 + cosTheta));
+        auto const cos_theta = CosTheta();
+        if (sqr(cos_theta) < 1) return -0.5 * units::log((1 - cos_theta) / (1 + cos_theta));
         if (Z() == Value_(0)) return 0_rad;
         if (Z() > 0) return 10e10_rad;
         else return -10e10_rad;

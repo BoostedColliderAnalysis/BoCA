@@ -268,12 +268,13 @@ public:
     boca::Angle Rapidity(Vector3<double> const &vector) const
     {
         auto const mag_2 = vector.Mag2();
-        if (mag_2 == 0) return 0_rad;
+        if (mag_2 <= 0) return 0_rad;
         auto const vdotu = Spatial().Dot(vector) / sqrt(mag_2);
         if (vdotu == Value_(0)) return 0_rad;
 //         if (Scalar() <= Value_(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
 //         auto pt = sqrt(units::max(sqr(Scalar() * std::numeric_limits<double>::epsilon()), Perp2(vector) + Mag2()));
         auto const mt = sqrt(Perp2(vector) + Mag2());
+        if (mt == Value_(0)) return 0_rad;
         auto const rap = units::log(static_cast<double>((Scalar() + abs(Z())) / mt));
         return Z() > Value_(0) ? rap : -rap;
     }
@@ -466,7 +467,7 @@ public:
      */
     constexpr LorentzVectorBase<Value_> Boosted(Vector3<double> const &boost) const
     {
-        auto const lorentz_vector = *this;
+        auto lorentz_vector = *this;
         return lorentz_vector.Boost(boost);
     }
     //@}
@@ -509,7 +510,7 @@ public:
     template <typename Value_2>
     constexpr LorentzVectorBase<ValueProduct<Value_2>> Scale(Value_2 const &scalar) const
     {
-        return {Spatial() *scalar, Scalar() *scalar};
+        return {Spatial() * scalar, Scalar() * scalar};
     }
 
     /**
@@ -583,7 +584,7 @@ public:
     constexpr LorentzVectorBase &operator*=(Value_2 scalar)
     {
         Spatial() *= scalar;
-        scalar_ *= scalar;
+        Scalar() *= scalar;
         return *this;
     }
 
@@ -594,7 +595,7 @@ public:
     constexpr LorentzVectorBase &operator/=(Value_2 scalar)
     {
         Spatial() /= scalar;
-        scalar_ /= scalar;
+        Scalar() /= scalar;
         return *this;
     }
 
