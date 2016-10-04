@@ -8,6 +8,10 @@
 #include <boost/units/quantity.hpp>
 #include <boost/units/systems/si/energy.hpp>
 
+#if BOOST_UNITS_HAS_BOOST_TYPEOF
+#include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
+#endif
+
 namespace boca
 {
 
@@ -24,7 +28,6 @@ namespace electronvolt
 struct EnergyBaseDimension : boost::units::base_dimension<EnergyBaseDimension, 1> {};
 
 #if BOOST_UNITS_HAS_BOOST_TYPEOF
-#include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
 BOOST_TYPEOF_REGISTER_TYPE(boca::energy_base_dimension)
 #endif
 
@@ -35,7 +38,6 @@ struct EnergyBaseUnit : public boost::units::base_unit<EnergyBaseUnit, EnergyDim
 };
 
 #if BOOST_UNITS_HAS_BOOST_TYPEOF
-#include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
 BOOST_TYPEOF_REGISTER_TYPE(boca::energy_base_unit)
 #endif
 

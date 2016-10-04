@@ -28,7 +28,7 @@ public:
 
 protected:
 
-    std::vector<Particle> GetParticles(Status max_status) const;
+    std::vector<Particle> GetParticles(Status max_status) const override;
 
     std::vector<Lepton> GetElectrons() const override;
 

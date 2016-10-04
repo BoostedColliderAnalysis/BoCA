@@ -132,8 +132,8 @@ public:
     constexpr void SetPtEtaPhi(Value_ pt, boca::Angle const &eta, boca::Angle const &phi)
     {
         SetUniform(abs(pt));
-        x_ *= cos(phi);
-        y_ *= sin(phi);
+        x_ *= boost::units::cos(phi);
+        y_ *= boost::units::sin(phi);
         z_ *= eta == 0_rad ? 0 : 1 / tan(2.0 * atan(units::exp(-eta)));
     }
 
@@ -143,8 +143,8 @@ public:
     void SetPtThetaPhi(Value_ pt, boca::Angle const &theta, boca::Angle const &phi)
     {
         SetUniform(pt);
-        x_ *= cos(phi);
-        y_ *= sin(phi);
+        x_ *= boost::units::cos(phi);
+        y_ *= boost::units::sin(phi);
         auto const tan_theta = tan(theta);
         z_ *= tan_theta == 0 ? 1 / tan_theta : Value_(0);
     }
@@ -155,8 +155,8 @@ public:
     constexpr void SetPhi(boca::Angle const &phi)
     {
         auto const perp = Perp();
-        x_ = perp * cos(phi);
-        y_ = perp * sin(phi);
+        x_ = perp * boost::units::cos(phi);
+        y_ = perp * boost::units::sin(phi);
     }
 
     /**
@@ -166,9 +166,9 @@ public:
     {
         auto const phi = Phi();
         SetUniform(Mag());
-        x_ *= sin(theta) * cos(phi);
-        y_ *= sin(theta) * sin(phi);
-        z_ *= cos(theta);
+        x_ *= boost::units::sin(theta) * boost::units::cos(phi);
+        y_ *= boost::units::sin(theta) * boost::units::sin(phi);
+        z_ *= boost::units::cos(theta);
     }
 
     /**
@@ -186,24 +186,24 @@ public:
     constexpr void SetMagThetaPhi(Value_ mag, boca::Angle const &theta, boca::Angle const &phi)
     {
         SetUniform(abs(mag));
-        x_ *= sin(theta) * cos(phi);
-        y_ *= sin(theta) * sin(phi);
-        z_ *= cos(theta);
+        x_ *= boost::units::sin(theta) * boost::units::cos(phi);
+        y_ *= boost::units::sin(theta) * boost::units::sin(phi);
+        z_ *= boost::units::cos(theta);
     }
 
     constexpr void SetPerpEtaPhi(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi)
     {
         SetUniform(abs(perp));
-        x_ *= cos(phi);
-        y_ *= sin(phi);
-        z_ *= units::sinh(eta);
+        x_ *= static_cast<double>(boost::units::cos(phi));
+        y_ *= static_cast<double>(boost::units::sin(phi));
+        z_ *= static_cast<double>(units::sinh(eta));
     }
 
     constexpr void SetPerpEtaPhi(Value_ const &perp, Vector2<boca::Angle> const& eta_phi_vector)
     {
         SetUniform(abs(perp));
-        x_ *= cos(eta_phi_vector.Y());
-        y_ *= sin(eta_phi_vector.Y());
+        x_ *= boost::units::cos(eta_phi_vector.Y());
+        y_ *= boost::units::sin(eta_phi_vector.Y());
         z_ *= units::sinh(eta_phi_vector.X());
     }
 

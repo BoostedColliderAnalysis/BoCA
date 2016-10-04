@@ -314,7 +314,7 @@ public:
     /**
     * @brief Rotation
     */
-    constexpr Matrix2 &Rotate(Angle const &phi)
+    Matrix2 &Rotate(Angle const &phi)
     {
         auto const cos = boost::units::cos(phi);
         auto const sin = boost::units::sin(phi);

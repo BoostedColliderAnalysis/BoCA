@@ -647,7 +647,7 @@ public:
     /**
     * @brief Sub matrix \f$(A_{p, q})_{p\neq i, q\neq j}\f$
     */
-    constexpr auto SubMatrix(Dim3 delete_1, Dim3 delete_2) const
+    auto SubMatrix(Dim3 delete_1, Dim3 delete_2) const
     {
         auto dim2_1 = EnumIterator<Dim2> {Dim2::x};
         auto dim2_2 = EnumIterator<Dim2> {Dim2::x};
@@ -685,7 +685,7 @@ public:
     /**
     * @brief Rotate by phi in (dim_1,  dim_2) plain
     */
-    constexpr Matrix3 &Rotate(Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
+    Matrix3 &Rotate(Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
     {
         if (phi == 0_rad)  return *this;
         auto const cos = boost::units::cos(phi);
@@ -716,7 +716,7 @@ public:
     /**
     * @brief Rotation by phi around axis
     */
-    constexpr Matrix3 &Rotate(Angle const &phi, Vector3<Value_> const &axis)
+    Matrix3 &Rotate(Angle const &phi, Vector3<Value_> const &axis)
     {
         if (phi == 0_rad)  return *this;
         auto const sin = boost::units::sin(phi);
@@ -1294,7 +1294,7 @@ private:
     /**
     * @brief Take two input vectors and turn them into an orthogonal basis.
     */
-    constexpr Matrix3<double> MakeBasis(Vector3<Value_> const &plane, Vector3<Value_> const &axis) const
+    Matrix3<double> MakeBasis(Vector3<Value_> const &plane, Vector3<Value_> const &axis) const
     {
         auto const mag_z = axis.Mag();
         if (mag_z == Value_(0)) {
