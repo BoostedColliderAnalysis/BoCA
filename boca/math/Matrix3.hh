@@ -584,7 +584,7 @@ public:
     /**
     * @brief Theta
     */
-    Angle Theta(Dim2 dim = Dim2::x) const
+    Angle Theta(Dim2 = Dim2::x) const
     {
         return Theta(Dim3::z);
     }

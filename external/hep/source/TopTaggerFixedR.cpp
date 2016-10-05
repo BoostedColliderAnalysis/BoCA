@@ -8,6 +8,7 @@
 #include "hep/TopTaggerFixedR.hh"
 
 #include "boca/Settings.hh"
+#include "boca/fastjet/ClusterSequence.hh"
 
 namespace hep
 {
@@ -349,9 +350,9 @@ void TopTaggerFixedR::run()
 
                 // Recluster to 3 subjets and apply mass plane cuts
                 fastjet::JetDefinition reclustering(_jet_algorithm_recluster, 3.14);
-                auto cs_top_sub = new fastjet::ClusterSequence(topcandidate.pieces(), reclustering, &boca::Settings::Recombiner());
-                auto top_subs = fastjet::sorted_by_pt(cs_top_sub->exclusive_jets(3));
-                cs_top_sub->delete_self_when_unused();
+                auto cs_top_sub = boca::ClusterSequence(topcandidate.pieces(), reclustering);
+                auto top_subs = fastjet::sorted_by_pt(boca::PseudoJetVector(cs_top_sub.ExclusiveJets(3)));
+//                 cs_top_sub->delete_self_when_unused();
 
                 // Require the third subjet to be above the pT threshold
                 if (top_subs[2].perp() < _minpt_subjet)

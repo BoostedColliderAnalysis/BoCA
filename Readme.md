@@ -13,7 +13,7 @@ The BoCA code makes heavy use of modern C++ features.
 The limiting factor for the minimal supportet compiler version is given by the use of return type deduction.
 Therefore the compiler version must be
 * GCC version ≥ 4.9
-<!-- * Clang version ≥ 3.3 -->
+* Clang version ≥ 3.3
 
 ## Installation
 
@@ -35,7 +35,7 @@ cmake -G Ninja ..
 ninja
 ~~~~
 
-* for mac (still install ccache)
+* for mac you can also use (still install ccache)
 
 ~~~~
 mkdir build
