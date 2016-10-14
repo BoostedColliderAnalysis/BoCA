@@ -95,45 +95,69 @@ public:
         return enum_ == enum_iterator.enum_;
     }
 
+    /**
+     * @brief increment by integer
+     */
     EnumIterator &operator+=(size_type size)
     {
         Add(size);
         return *this;
     }
 
+    /**
+     * @brief decrement by integer
+     */
     EnumIterator &operator-=(size_type size)
     {
         Substract(size);
         return *this;
     }
 
+    /**
+     * @brief increment
+     */
     EnumIterator &operator++()
     {
         Add(1);
         return *this;
     }
 
+    /**
+     * @brief decrement
+     */
     EnumIterator &operator--()
     {
         Substract(1);
         return *this;
     }
 
+    /**
+     * @brief substruction
+     */
     constexpr difference_type operator-(EnumIterator const& enum_iterator)
     {
         return static_cast<Type_>(enum_) - static_cast<Type_>(enum_iterator.enum_);
     }
 
+    /**
+     * @brief reference
+     */
     constexpr reference operator*() const
     {
         return enum_;
     }
 
+    /**
+     * @brief reference
+     */
     constexpr reference operator[](size_type size) const
     {
         return Add(size);
     }
 
+    /**
+     * @brief dereference
+     */
     constexpr const Enum_ *operator->() const
     {
         return &enum_;

@@ -28,7 +28,8 @@ std::string Command::str() const
     auto string = Macro(command_);
     if (!optional_.empty()) {
         string += "[";
-        for (auto optional : boost::adaptors::index(optional_)) string += (optional.index() ? ", " : "") +  optional.value();
+        //FIXME Does this 0 belong here?
+        for (auto optional : boost::adaptors::index(optional_, 0)) string += (optional.index() ? ", " : "") +  optional.value();
         string += "]";
     }
     if (!options_.empty()) for (const auto & option : options_) string += "{" + option + "}";
