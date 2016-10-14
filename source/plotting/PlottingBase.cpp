@@ -37,7 +37,7 @@ namespace boca
 namespace
 {
 
-auto Ratio(int min = 0)
+auto Ratio(double min = 0)
 {
     return LatexName(Significance::experimental) + (min > 0 ? "\\geq \\unit[" + std::to_string(min / cU) + "]{\\%}" : "");
 }
