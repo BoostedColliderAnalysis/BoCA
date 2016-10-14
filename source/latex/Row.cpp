@@ -36,7 +36,7 @@ void Row::Initialize()
 std::string Row::str() const
 {
     INFO0;
-    auto row = std::stringstream {};
+    std::stringstream row;
     row << row_.str() << " \\\\";
     return row.str();
 }

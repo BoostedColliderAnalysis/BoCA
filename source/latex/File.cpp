@@ -55,7 +55,7 @@ void File::AddTitle(boca::Mass const& mass)
 {
     INFO0;
     if (mass == massless) return;
-    auto mass_string = std::stringstream{};
+    std::stringstream mass_string;
     mass_string << boost::units::engineering_prefix << "Mass = " << mass;
     latex_file_ << '\n' << Command("section*", mass_string.str());
 

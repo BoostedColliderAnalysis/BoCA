@@ -86,16 +86,4 @@ void Error(const std::string& variable)
     std::cout << '\n';
 }
 
-// std::stringstream Left(int width){
-//   std::stringstream stream;
-//   stream  << boost::units::engineering_prefix << std::left << std::setw(width) << std::setfill(' ');
-//   return stream;
-// }
-//
-// std::stringstream Right(int width){
-//   std::stringstream stream;
-//   stream  << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ');
-//   return stream;
-// }
-
 }
