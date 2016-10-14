@@ -691,12 +691,12 @@ public:
         return {this, LorentzDim::last};
     }
 
-    constexpr Iterator<Vector3, Value_, LorentzDim> begin()
+    Iterator<Vector3, Value_, LorentzDim> begin()
     {
         return {this, LorentzDim::x};
     }
 
-    constexpr Iterator<Vector3, Value_, LorentzDim> end()
+    Iterator<Vector3, Value_, LorentzDim> end()
     {
         return {this, LorentzDim::last};
     }

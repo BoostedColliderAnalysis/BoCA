@@ -456,7 +456,7 @@ public:
     /**
      * @brief Begin
      */
-    constexpr Iterator<boca::Vector2, Value_, Dim2> begin()
+    Iterator<boca::Vector2, Value_, Dim2> begin()
     {
         return {this, Dim2::x};
     }
@@ -464,7 +464,7 @@ public:
     /**
      * @brief End
      */
-    constexpr Iterator<boca::Vector2, Value_, Dim2> end()
+    Iterator<boca::Vector2, Value_, Dim2> end()
     {
         return {this, Dim2::last};
     }

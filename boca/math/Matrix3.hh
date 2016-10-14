@@ -1009,7 +1009,7 @@ public:
     /**
     * @brief Begin
     */
-    constexpr SubIterator<boca::Matrix3, Vector3, Value_, Dim3> begin()
+    SubIterator<boca::Matrix3, Vector3, Value_, Dim3> begin()
     {
         return {this, Dim3::x};
     }
@@ -1017,7 +1017,7 @@ public:
     /**
     * @brief End
     */
-    constexpr SubIterator<boca::Matrix3, Vector3, Value_, Dim3> end()
+    SubIterator<boca::Matrix3, Vector3, Value_, Dim3> end()
     {
         return {this, Dim3::last};
     }

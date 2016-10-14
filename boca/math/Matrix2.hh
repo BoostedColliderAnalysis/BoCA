@@ -548,7 +548,7 @@ public:
     /**
     * @brief const begin
     */
-    constexpr SubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin()
+    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin()
     {
         return {this, Dim2::x};
     }
@@ -556,7 +556,7 @@ public:
     /**
     * @brief const end
     */
-    constexpr SubIterator<boca::Matrix2, Vector2, Value_, Dim2> end()
+    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> end()
     {
         return {this, Dim2::last};
     }
