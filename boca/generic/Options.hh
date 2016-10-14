@@ -33,6 +33,8 @@ public:
 
     Options();
 
+    Options(Options const& options) = default;
+
     Options(std::string const &string, bool do_it = true);
 
     template<typename Value_, typename = detail::OnlyIfNotBool<Value_>>
