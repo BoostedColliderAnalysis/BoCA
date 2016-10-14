@@ -1,5 +1,6 @@
 #pragma once
 
+#include <boost/optional.hpp>
 #include "boca/math/LorentzVector.hh"
 #include "boca/math/Matrix2.hh"
 
