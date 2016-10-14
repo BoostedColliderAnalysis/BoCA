@@ -41,7 +41,7 @@ Trainer::Trainer(tagger::Base& tagger) :
 std::string Trainer::FactoryOptions()
 {
     INFO0;
-    auto options = Options {"Color", false};
+    Options options("Color", false);
     options.Add("DrawProgressBar", false);
     return options;
     options.Add("V");
@@ -114,7 +114,7 @@ long Trainer::Entries(std::string const& tree_name, Tag tag)
 void Trainer::PrepareTrainingAndTestTree(long event_number)
 {
     INFO(event_number);
-    auto options = Options {};
+    Options options;
 //     options.Add("SplitMode", "Block");
     options.Add("nTrain_Background", event_number);
     options.Add("nTest_Background", event_number);
@@ -151,7 +151,7 @@ std::vector<double> Trainer::BookMethod()
 std::string Trainer::MethodOptions() const
 {
     INFO0;
-    auto options = Options {};
+    Options options;
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
         options.Add("NTrees", 1000);
