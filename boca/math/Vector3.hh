@@ -134,7 +134,7 @@ public:
         SetUniform(abs(pt));
         x_ *= boost::units::cos(phi);
         y_ *= boost::units::sin(phi);
-        z_ *= eta == 0_rad ? 0 : 1 / tan(2.0 * atan(units::exp(-eta)));
+        z_ *= eta == 0_rad ? 0. : static_cast<double>(1. / tan(2.0 * atan(units::exp(-eta))));
     }
 
     /**
@@ -146,7 +146,7 @@ public:
         x_ *= boost::units::cos(phi);
         y_ *= boost::units::sin(phi);
         auto const tan_theta = tan(theta);
-        z_ *= tan_theta == 0 ? 1 / tan_theta : Value_(0);
+        z_ *= tan_theta == 0. ? 1. / tan_theta : Value_(0);
     }
 
     /**
