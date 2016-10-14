@@ -393,7 +393,7 @@ public:
     * @brief Addition
     */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    constexpr Matrix2 &operator+=(Matrix2<Value_2> const &matrix)
+    Matrix2 &operator+=(Matrix2<Value_2> const &matrix)
     {
         x_ += matrix.x_;
         y_ += matrix.y_;
@@ -404,7 +404,7 @@ public:
     * @brief Substraction
     */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    constexpr Matrix2 &operator-=(Matrix2<Value_2> const &matrix)
+    Matrix2 &operator-=(Matrix2<Value_2> const &matrix)
     {
         x_ -= matrix.x_;
         y_ -= matrix.y_;
@@ -415,7 +415,7 @@ public:
     * @brief Division by scalar
     */
     template<typename Value_2_, typename = OnlyIfNotOrSameQuantity<Value_2_>>
-    constexpr Matrix2<ValueQuotient<Value_2_>> operator/=(Value_2_ scalar)
+    Matrix2<ValueQuotient<Value_2_>> operator/=(Value_2_ scalar)
     {
         x_ /= scalar;
         y_ /= scalar;
@@ -435,7 +435,7 @@ public:
     * @brief Multiplication with a matrix
     */
     template<typename Value_2_, typename = OnlyIfNotQuantity<Value_2_>>
-    constexpr Matrix2 &operator*=(Matrix2<Value_2_> const &matrix)
+    Matrix2 &operator*=(Matrix2<Value_2_> const &matrix)
     {
         return *this = Multiply(matrix);
     }

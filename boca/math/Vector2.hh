@@ -288,7 +288,7 @@ public:
     * @brief Assignment operator including casting
     */
     template <typename Value_2/*, typename = OnlyIfQuantity<Value_2>*/>
-    constexpr Vector2 &operator=(Vector2<Value_2> const &vector)
+    Vector2 &operator=(Vector2<Value_2> const &vector)
     {
         x_ = Value_(vector.X());
         y_ = Value_(vector.Y());
@@ -299,7 +299,7 @@ public:
     * @brief Sum of two vectors
     */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    constexpr Vector2 &operator+=(Vector2<Value_2> const &vector)
+    Vector2 &operator+=(Vector2<Value_2> const &vector)
     {
         x_ += vector.x_;
         y_ += vector.y_;
@@ -310,7 +310,7 @@ public:
     * @brief Difference of two vectors
     */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    constexpr Vector2 &operator-=(Vector2<Value_2> const &vector)
+    Vector2 &operator-=(Vector2<Value_2> const &vector)
     {
         x_ -= vector.x_;
         y_ -= vector.y_;
@@ -321,7 +321,7 @@ public:
      * @brief Product with scalar
      */
     template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
-    constexpr Vector2 &operator*=(Value_2 scalar)
+    Vector2 &operator*=(Value_2 scalar)
     {
         x_ *= scalar;
         y_ *= scalar;
@@ -332,7 +332,7 @@ public:
      * @brief Division by scalar
      */
     template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
-    constexpr Vector2 &operator/=(Value_2 scalar)
+    Vector2 &operator/=(Value_2 scalar)
     {
         x_ /= scalar;
         y_ /= scalar;

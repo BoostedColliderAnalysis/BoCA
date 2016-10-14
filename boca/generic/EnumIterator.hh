@@ -36,7 +36,7 @@ public:
 
     ~EnumIterator() {}
 
-    constexpr void Set(Enum_ value) {
+    void Set(Enum_ value) {
         enum_ = value;
     }
 
@@ -45,7 +45,7 @@ public:
         return *this;
     }
 
-    constexpr EnumIterator& operator++() {
+    EnumIterator& operator++() {
         Add(1);
         return *this;
     }

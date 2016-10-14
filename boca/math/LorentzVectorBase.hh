@@ -556,7 +556,7 @@ public:
      * @brief Additions
      */
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    constexpr LorentzVectorBase &operator+=(LorentzVectorBase<Value_2> const &lorentz_vector)
+    LorentzVectorBase &operator+=(LorentzVectorBase<Value_2> const &lorentz_vector)
     {
         Spatial() += lorentz_vector.Spatial();
         scalar_ += lorentz_vector.Scalar();
@@ -568,7 +568,7 @@ public:
      */
 
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    constexpr LorentzVectorBase &operator-=(LorentzVectorBase<Value_2> const &lorentz_vector)
+    LorentzVectorBase &operator-=(LorentzVectorBase<Value_2> const &lorentz_vector)
     {
         Spatial() -= lorentz_vector.Spatial();
         scalar_ -= lorentz_vector.Scalar();
@@ -579,7 +579,7 @@ public:
      * @brief Product with scalar
      */
     template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
-    constexpr LorentzVectorBase &operator*=(Value_2 scalar)
+    LorentzVectorBase &operator*=(Value_2 scalar)
     {
         Spatial() *= scalar;
         Scalar() *= scalar;
@@ -590,7 +590,7 @@ public:
      * @brief Divison by scalar
      */
     template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
-    constexpr LorentzVectorBase &operator/=(Value_2 scalar)
+    LorentzVectorBase &operator/=(Value_2 scalar)
     {
         Spatial() /= scalar;
         Scalar() /= scalar;

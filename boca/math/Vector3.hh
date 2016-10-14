@@ -629,7 +629,7 @@ public:
     * @brief Sum of two vectors
     */
     template <typename Value_2_, typename = OnlyIfNotOrSameQuantity<Value_2_>>
-    constexpr Vector3 &operator+=(Vector3<Value_2_> const &vector)
+    Vector3 &operator+=(Vector3<Value_2_> const &vector)
     {
         x_ += vector.x_;
         y_ += vector.y_;
@@ -641,7 +641,7 @@ public:
     * @brief Difference of two vectors
     */
     template <typename Value_2_, typename = OnlyIfNotOrSameQuantity<Value_2_>>
-    constexpr Vector3 &operator-=(Vector3<Value_2_> const &vector)
+    Vector3 &operator-=(Vector3<Value_2_> const &vector)
     {
         x_ -= vector.x_;
         y_ -= vector.y_;
@@ -653,7 +653,7 @@ public:
     * @brief Scaling with real numbers
     */
     template < typename Value_2_, typename = OnlyIfNotQuantity<Value_2_> >
-    constexpr Vector3 &operator*=(Value_2_ scalar)
+    Vector3 &operator*=(Value_2_ scalar)
     {
         x_ *= scalar;
         y_ *= scalar;
@@ -671,7 +671,7 @@ public:
     * @brief division by scalar
     */
     template < typename Value_2_, typename = OnlyIfNotQuantity<Value_2_> >
-    constexpr Vector3 &operator/=(Value_2_ scalar)
+    Vector3 &operator/=(Value_2_ scalar)
     {
         x_ /= scalar;
         y_ /= scalar;
