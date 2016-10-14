@@ -16,18 +16,21 @@ class Table
 
 public:
 
-    Table(std::string const& header);
+    Table(std::string const &header);
+
+    Table(Table const &table);
 
     template <typename ... Arguments>
-    void AddRow(Arguments ... arguments) {
+    void AddRow(Arguments ... arguments)
+    {
         AddRow(Row(arguments ...));
     }
 
-    void AddRow(Row const& row);
+    void AddRow(Row const &row);
 
     void AddLine();
 
-    void AddCaption(std::string const& caption);
+    void AddCaption(std::string const &caption);
 
     std::string str() const;
 

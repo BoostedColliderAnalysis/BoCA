@@ -14,13 +14,20 @@ namespace boca
 namespace latex
 {
 
-Table::Table(const std::string& header)
+Table::Table(const std::string &header)
 {
     INFO(header);
     stream_ << table_.Begin() << Command("centering") << tabular_.Begin(header) << "    " << Command("toprule");
 }
 
-void Table::AddRow(const Row& row)
+Table::Table(latex::Table const& table) :
+    stream_(table.stream_.str()),
+    first_(table.first_),
+    table_(table.table_),
+    tabular_(table.tabular_)
+{}
+
+void Table::AddRow(const Row &row)
 {
     INFO0;
     if (first_) {
@@ -36,7 +43,7 @@ void Table::AddLine()
     stream_ << " " << Command("midrule") << "   ";
 }
 
-void Table::AddCaption(const std::string& caption)
+void Table::AddCaption(const std::string &caption)
 {
     INFO0;
     stream_ << " " << Command("bottomrule") << tabular_.End() << Caption(caption);
@@ -47,6 +54,7 @@ std::string Table::str() const
     INFO0;
     return stream_.str() + table_.End();
 }
+
 
 }
 
