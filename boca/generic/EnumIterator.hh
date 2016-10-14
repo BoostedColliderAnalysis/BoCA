@@ -15,11 +15,10 @@ namespace boca
 template<typename Enum_>
 class EnumIterator : boost::totally_ordered<EnumIterator<Enum_>>,
 //             boost::additive<EnumIterator<Enum_>>,
-            boost::additive<EnumIterator<Enum_>, std::size_t>
+            boost::additive<EnumIterator<Enum_>, std::size_t>,
+            boost::unit_steppable<EnumIterator<Enum_>>
 
 {
-
-public:
 
     using size_type = std::size_t;
 
@@ -33,22 +32,78 @@ public:
 
     using iterator_category = std::random_access_iterator_tag;
 
+    using Type_ = typename std::underlying_type<Enum_>::type;
+
+public:
+
+    /**
+    * @name Constructor
+    * @{
+    */
+
+    /**
+    * @brief Default constructor
+    */
     constexpr EnumIterator() : enum_() {}
 
-    constexpr EnumIterator(EnumIterator const &rhs) : enum_(rhs.enum_) {}
+    /**
+    * @brief Copy constructor
+    */
+//     constexpr EnumIterator(EnumIterator const &rhs) : enum_(rhs.enum_) {}
 
+    /**
+    * @brief Constructor from enum
+    */
     constexpr explicit EnumIterator(Enum_ value) : enum_(value) {}
 
-    ~EnumIterator() {}
+//     ~EnumIterator() {}
 
+    //@}
+
+    /**
+     * @name Setter
+     * @{
+     */
+
+    /**
+     * @brief Set enum
+     */
     void Set(Enum_ value)
     {
         enum_ = value;
     }
+    //@}
 
-    EnumIterator &operator=(EnumIterator const &rhs)
+    /**
+     * @name Operators
+     * @{
+     */
+
+    /**
+     * @brief Less than comparison
+     */
+    constexpr bool operator<(EnumIterator const &enum_iterator)
     {
-        enum_ = rhs.enum_;
+        return enum_ < enum_iterator.enum_;
+    }
+
+    /**
+     * @brief equality comparison
+     */
+    constexpr bool operator==(EnumIterator const &enum_iterator)
+    {
+        return enum_ == enum_iterator.enum_;
+    }
+
+    EnumIterator &operator+=(size_type size)
+    {
+        Add(size);
+        return *this;
+    }
+
+    EnumIterator &operator-=(size_type size)
+    {
+        Substract(size);
         return *this;
     }
 
@@ -58,56 +113,15 @@ public:
         return *this;
     }
 
-    constexpr EnumIterator operator++(int)
-    {
-        EnumIterator iterator(*this);
-        ++*this;
-        return iterator;
-    }
-
-    constexpr EnumIterator &operator+=(size_type size)
-    {
-        Add(size);
-        return *this;
-    }
-
-//     constexpr friend EnumIterator operator+(EnumIterator const &it, size_type size)
-//     {
-//         return it.Add(size);
-//     }
-//
-//     constexpr friend EnumIterator operator+(size_type size, EnumIterator const &it)
-//     {
-//         return it.Add(size);
-//     }
-
-    constexpr EnumIterator &operator--()
+    EnumIterator &operator--()
     {
         Substract(1);
         return *this;
     }
 
-    constexpr EnumIterator operator--(int)
+    constexpr difference_type operator-(EnumIterator const& enum_iterator)
     {
-        EnumIterator iterator(*this);
-        --*this;
-        return iterator;
-    }
-
-    constexpr EnumIterator &operator-=(size_type size)
-    {
-        Add(size);
-        return *this;
-    }
-
-//     friend EnumIterator operator-(EnumIterator const &it, size_type size)
-//     {
-//         return it.Substract(size);
-//     }
-
-    friend constexpr difference_type operator-(EnumIterator lhs, EnumIterator rhs)
-    {
-        return static_cast<Type_>(lhs.enum_) - static_cast<Type_>(rhs.enum_);
+        return static_cast<Type_>(enum_) - static_cast<Type_>(enum_iterator.enum_);
     }
 
     constexpr reference operator*() const
@@ -125,19 +139,44 @@ public:
         return &enum_;
     }
 
-    constexpr friend bool operator==(EnumIterator const &lhs, EnumIterator const &rhs)
-    {
-        return lhs.enum_ == rhs.enum_;
-    }
+//     EnumIterator &operator=(EnumIterator const &rhs)
+//     {
+//         enum_ = rhs.enum_;
+//         return *this;
+//     }
+
+//     constexpr EnumIterator operator++(int)
+//     {
+//         EnumIterator iterator(*this);
+//         ++*this;
+//         return iterator;
+//     }
+
+//     constexpr friend EnumIterator operator+(EnumIterator const &it, size_type size)
+//     {
+//         return it.Add(size);
+//     }
+//
+//     constexpr friend EnumIterator operator+(size_type size, EnumIterator const &it)
+//     {
+//         return it.Add(size);
+//     }
+
+//     constexpr EnumIterator operator--(int)
+//     {
+//         EnumIterator iterator(*this);
+//         --*this;
+//         return iterator;
+//     }
+
+//     friend EnumIterator operator-(EnumIterator const &it, size_type size)
+//     {
+//         return it.Substract(size);
+//     }
 
 //     constexpr friend bool operator!=(EnumIterator const& lhs, EnumIterator const& rhs) {
 //         return lhs.enum_ != rhs.enum_;
 //     }
-
-    constexpr friend bool operator<(EnumIterator const &lhs, EnumIterator const &rhs)
-    {
-        return lhs.enum_ < rhs.enum_;
-    }
 
 //     constexpr friend bool operator>(EnumIterator const& lhs, EnumIterator const& rhs) {
 //         return lhs.enum_ > rhs.enum_;
@@ -160,15 +199,13 @@ private:
 
     Enum_ enum_;
 
-    using Type_ = typename std::underlying_type<Enum_>::type;
-
-    constexpr Enum_ Add(size_type size)
+    Enum_ Add(size_type size)
     {
         enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) + size);
         return enum_;
     }
 
-    constexpr Enum_ Substract(size_type size)
+    Enum_ Substract(size_type size)
     {
         enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) - size);
         return enum_;
