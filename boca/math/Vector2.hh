@@ -75,7 +75,7 @@ public:
     /**
      * @brief Constructor one scalar and its direction
      */
-    constexpr Vector2(Value_ value, Dim2 dim)
+    Vector2(Value_ value, Dim2 dim)
     {
         x_ = dim == Dim2::x ? value : Value_(0);
         y_ = dim == Dim2::y ? value : Value_(0);

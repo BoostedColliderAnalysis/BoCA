@@ -85,11 +85,9 @@ public:
      * @brief Copy constructor with casting
      */
     template<typename Value_2>
-    constexpr LorentzVectorBase(LorentzVectorBase<Value_2> const &lorentz_vector)
-    {
-        Vector3<Value_>(lorentz_vector.Spatial());
-        scalar_(lorentz_vector.Scalar());
-    }
+    constexpr LorentzVectorBase(LorentzVectorBase<Value_2> const &lorentz_vector) :
+        Vector3<Value_>(lorentz_vector.Spatial()),
+        scalar_(lorentz_vector.Scalar()) {}
     //@}
 
     /**
@@ -175,7 +173,7 @@ public:
     /**
      * @brief Accessor for the spatial components
      */
-    constexpr Vector3<Value_> &Spatial()
+    Vector3<Value_> &Spatial()
     {
         return *this;
     }

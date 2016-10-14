@@ -84,7 +84,7 @@ public:
     /**
      * @brief Constructor accepting one scalar and its direction
      */
-    constexpr Vector3(Value_ value, Dim3 dim)
+    Vector3(Value_ value, Dim3 dim)
     {
         x_ = dim == Dim3::x ? value : Value_(0);
         y_ = dim == Dim3::y ? value : Value_(0);
