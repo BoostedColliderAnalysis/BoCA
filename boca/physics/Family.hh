@@ -3,7 +3,7 @@
  */
 #pragma once
 
-// #include <map>
+#include <boost/optional.hpp>
 #include "boca/physics/Member.hh"
 #include "boca/physics/Id.hh"
 
