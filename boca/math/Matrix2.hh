@@ -66,7 +66,7 @@ public:
     /**
     * @brief Diagonal Matrix
     */
-    constexpr Matrix2(Value_ scalar, Matrix matrix = Matrix::diagonal)
+    Matrix2(Value_ scalar, Matrix matrix = Matrix::diagonal)
     {
         switch (matrix) {
         case Matrix::diagonal :
@@ -83,7 +83,7 @@ public:
     /**
     * @brief Constructor accepting two vectors
     */
-    constexpr Matrix2(Vector2<Value_> const &vector_1, Vector2<Value_> const &vector_2, Matrix matrix = Matrix::row)
+    Matrix2(Vector2<Value_> const &vector_1, Vector2<Value_> const &vector_2, Matrix matrix = Matrix::row)
     {
         switch (matrix) {
         case Matrix::row:
@@ -603,7 +603,7 @@ private:
 
         constexpr Eigen_() {}
 
-        constexpr Eigen_(Matrix2<Value_> const &matrix)
+        Eigen_(Matrix2<Value_> const &matrix)
         {
             trace_ = matrix.Trace();
             auto const radicant = sqr(trace_) - 4 * matrix.Determinant();

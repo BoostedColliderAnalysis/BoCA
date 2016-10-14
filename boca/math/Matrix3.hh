@@ -49,7 +49,7 @@ public:
     /**
     * @brief Constructor accepting a scalar
     */
-    constexpr Matrix3(Value_ scalar, Matrix matrix = Matrix::diagonal)
+    Matrix3(Value_ scalar, Matrix matrix = Matrix::diagonal)
     {
         switch (matrix) {
         case Matrix::diagonal :
@@ -66,7 +66,7 @@ public:
     /**
     * @brief Constructor accepting three vectors
     */
-    constexpr Matrix3(Vector3<Value_> const &x, Vector3<Value_> const &y, Vector3<Value_> const &z, Matrix matrix = Matrix::row)
+    Matrix3(Vector3<Value_> const &x, Vector3<Value_> const &y, Vector3<Value_> const &z, Matrix matrix = Matrix::row)
     {
         switch (matrix) {
         case Matrix::row:
@@ -83,7 +83,7 @@ public:
     /**
     * @brief Constructor accepting two vectors
     */
-    constexpr Matrix3(Vector3<Value_> const &vector_1, Vector3<Value_> const &vector_2, Matrix matrix = Matrix::symmetric)
+    Matrix3(Vector3<Value_> const &vector_1, Vector3<Value_> const &vector_2, Matrix matrix = Matrix::symmetric)
     {
         switch (matrix) {
         case Matrix::symmetric:
@@ -97,7 +97,7 @@ public:
     /**
     * @brief Constructor accepting one vector
     */
-    constexpr Matrix3(Vector3<Value_> const &vector, Matrix matrix = Matrix::antisymmetric)
+    Matrix3(Vector3<Value_> const &vector, Matrix matrix = Matrix::antisymmetric)
     {
         switch (matrix) {
         case Matrix::antisymmetric:
@@ -114,7 +114,7 @@ public:
     /**
     * @brief Constructor accepting one vector and its direction
     */
-    constexpr Matrix3(Vector3<Value_> const &vector, Dim3 dim, Matrix matrix = Matrix::row)
+    Matrix3(Vector3<Value_> const &vector, Dim3 dim, Matrix matrix = Matrix::row)
     {
         switch (matrix) {
         case Matrix::row:
@@ -135,7 +135,7 @@ public:
     *
     * Constructor for a rotation based on a Quaternion if magnitude of quaternion is null, creates identity rotation if quaternion is non-unit, creates rotation corresponding to the normalized(unit) quaternion.
     */
-    constexpr Matrix3(TQuaternion const &quaternion)
+    Matrix3(TQuaternion const &quaternion)
     {
         auto const mag2 = quaternion.QMag2();
         if (mag2 <= 0) *this = Matrix3(1.);
@@ -1062,7 +1062,7 @@ private:
 
     public:
 
-        constexpr Characteristic_(Matrix3 const &matrix)
+        Characteristic_(Matrix3 const &matrix)
         {
             qudratic_ = - matrix.Trace();
             linear_ = - (matrix.ProductTrace(matrix) - sqr(qudratic_)) / 2;
@@ -1099,7 +1099,7 @@ private:
 
     public:
 
-        constexpr Depressed_(Characteristic_ const &c)
+        Depressed_(Characteristic_ const &c)
         {
             auto const quadratic = c.Qudratic() / 3;
             linear_ = c.Linear() - sqr(quadratic) * 3;
@@ -1131,7 +1131,7 @@ private:
 
         constexpr Eigen_() {}
 
-        constexpr Eigen_(Depressed_ const &d, Matrix3<Value_> const &matrix)
+        Eigen_(Depressed_ const &d, Matrix3<Value_> const &matrix)
         {
             factor_ = 2. * sqrt(- d.Linear() / 3.);
             angle_ = acos(3. * d.Constant() / d.Linear() / factor_);
