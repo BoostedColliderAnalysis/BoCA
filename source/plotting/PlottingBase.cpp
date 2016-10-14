@@ -357,7 +357,7 @@ latex::Graphic PlottingBase::PlotMIExclusion(Results const& results) const
 latex::Table PlottingBase::BestValueTable(Result const& signal, std::vector<double> const& x_values) const
 {
     INFO0;
-    auto table = latex::Table{"rllllll"};
+    latex::Table table("rllllll");
     table.AddRow("Model optimization", "Cut", "Significance", "Ratio [\\%]", "Crosssection [fb]");
     table.AddLine();
     for (const auto & significance : SignificancesMD()) table.AddRow(BestValueRow(signal, x_values, significance, "dependent ", signal.BestMDBin(significance)));
@@ -383,7 +383,7 @@ latex::Row PlottingBase::BestValueRow(Result const& signal, std::vector<double> 
 latex::Table PlottingBase::EfficienciesTable(Results const& results, int bin) const
 {
     INFO0;
-    auto table = latex::Table{"rllllll"};
+    latex::Table table("rllllll");
     table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]", latex::Formula("N_{", latex::Command("mathcal", "L"), " = ", latex::Unit("fb^{-1}", static_cast<int>(Settings::Luminosity() * fb)), "}").str());
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(EfficienciesRow(result, Position(results.Signals(), result), Tag::signal, bin));
@@ -417,7 +417,7 @@ latex::Row PlottingBase::EfficienciesRow(Result const& result, int, Tag tag, int
 latex::Table PlottingBase::EfficienciesTableMI(Results const& results, Significance significance) const
 {
     INFO0;
-    auto table = latex::Table{"rlllll"};
+    latex::Table table("rlllll");
     table.AddRow("Sample", "before", "pre-cut", "cut", "Efficiency", "$\\sigma$  [fb]\n");
     table.AddLine();
     for (auto const & signal : results.Signals()) {
@@ -445,7 +445,7 @@ latex::Row PlottingBase::EfficienciesRowMI(Result const& result, int bin) const
 latex::Table PlottingBase::CutEfficiencyTable(Results const& results) const
 {
     INFO0;
-    auto table = latex::Table{"rllllllllll"};
+    latex::Table table("rllllllllll");
     table.AddRow("", latex::MultiColumn("Pure Efficiencies [\\%]", 9));
     auto row = latex::Row{"BDT value"};
     for (auto const & eff : results.SelectedEfficiencies()) row.AddCell(RoundToDigits(eff));
@@ -468,7 +468,7 @@ latex::Row PlottingBase::CutEfficiencyRow(Result const& result, int , Tag) const
 latex::Table PlottingBase::PreCutEfficiencyTable(Results const& results) const
 {
     INFO0;
-    auto table = latex::Table{"rll"};
+    latex::Table table("rll");
     table.AddRow("Sample", "Efficiency");
     table.AddLine();
     for (auto const & result : results.Signals()) table.AddRow(PreCutEfficiencyRow(result, Tag::signal));
