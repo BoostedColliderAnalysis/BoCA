@@ -103,6 +103,15 @@ public:
 
     bool InMuonChamber() const;
 
+//     JetInfo(JetInfo const&) = default;
+//     JetInfo(JetInfo &&) = default;
+//     JetInfo &operator=(JetInfo const&) & = default;
+//     JetInfo &operator=(JetInfo &&) & = default;
+//
+// protected:
+//
+//     ~JetInfo() {}
+
 private:
 
     JetInfo(std::vector<Constituent> const &constituents, std::vector<Constituent> const &dispalced_constituents);

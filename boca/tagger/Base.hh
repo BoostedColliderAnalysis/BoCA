@@ -49,6 +49,8 @@ class Base
 
 public:
 
+    Base() {};
+
     virtual std::string Name() const = 0;
 
     virtual int SaveBdt(Event const&, PreCuts const&, TMVA::Reader const&) = 0;
@@ -115,7 +117,17 @@ public:
 
     virtual TClass& Class() const = 0;
 
+    Base(Base const&) = default;
+
+    Base(Base &&) = default;
+
+    Base &operator=(Base const&) & = default;
+
+    Base &operator=(Base &&) & = default;
+
 protected:
+
+    ~Base() {}
 
     virtual void DefineVariables() = 0;
 

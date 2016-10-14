@@ -5,13 +5,13 @@
 
 #include "boca/multivariant/Stage.hh"
 #include "boca/PreCuts.hh"
+#include "boca/FileInfo.hh"
 #include "boca/Names.hh"
 #include "boca/Tag.hh"
 
 namespace boca
 {
 class Phase;
-class FileInfo;
 class Event;
 namespace tagger{
 class Base;
@@ -63,7 +63,17 @@ public:
 
     void Run(Output output);
 
+    Base(Base const&) = default;
+
+    Base(Base &&) = default;
+
+    Base &operator=(Base const&) & = default;
+
+    Base &operator=(Base &&) & = default;
+
 protected:
+
+    ~Base() {}
 
     void Initialize();
 

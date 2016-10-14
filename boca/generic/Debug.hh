@@ -95,7 +95,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, false);
     LogVariable(variable, value);
-    if (final) std::cout << "\n";
+    if (final) std::cout << '\n';
 }
 
 template<typename Value, typename Value2>
@@ -103,7 +103,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, false);
     LogVariable(variable2, value2);
-    if (final) std::cout << "\n";
+    if (final) std::cout << '\n';
 }
 
 template<typename Value, typename Value2, typename Value3>
@@ -111,7 +111,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, false);
     LogVariable(variable3, value3);
-    if (final) std::cout << "\n";
+    if (final) std::cout << '\n';
 }
 
 template<typename Value, typename Value2, typename Value3, typename Value4>
@@ -119,7 +119,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, false);
     LogVariable(variable4, value4);
-    if (final) std::cout << "\n";
+    if (final) std::cout << '\n';
 }
 
 template<typename Value, typename Value2, typename Value3, typename Value4, typename Value5>
@@ -127,7 +127,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, variable4, value4, false);
     LogVariable(variable5, value5);
-    std::cout << "\n";
+    std::cout << '\n';
 }
 
 
@@ -141,7 +141,7 @@ void Debug(std::string const& variable, Value value, bool final = true)
 {
   Debug(false);
   LogVariable(variable, value);
-  if (final) std::cout << "\n";
+  if (final) std::cout << '\n';
 }
 
 template<typename Value, typename Value2>
@@ -149,7 +149,7 @@ void Debug(std::string const& variable, const Value value, std::string const& va
 {
   Debug(variable, value, false);
   LogVariable(variable2, value2);
-  if (final) std::cout << "\n";
+  if (final) std::cout << '\n';
 }
 
 template<typename Value, typename Value2, typename Value3>
@@ -157,7 +157,7 @@ void Debug(std::string const& variable, const Value value, std::string const& va
 {
   Debug(variable, value, variable2, value2, false);
   LogVariable(variable3, value3);
-  if (final) std::cout << "\n";
+  if (final) std::cout << '\n';
 }
 
 template<typename Value, typename Value2, typename Value3, typename Value4>
@@ -165,7 +165,7 @@ void Debug(std::string const& variable, const Value value, std::string const& va
 {
   Debug(variable, value, variable2, value2, variable3, value3, false);
   LogVariable(variable4, value4);
-  if (final) std::cout << "\n";
+  if (final) std::cout << '\n';
 }
 
 template<typename Value, typename Value2, typename Value3, typename Value4, typename Value5>
@@ -173,14 +173,14 @@ void Debug(std::string const& variable, const Value value, std::string const& va
 {
   Debug(variable, value, variable2, value2, variable3, value3, variable4, value4, false);
   LogVariable(variable5, value5);
-  std::cout << "\n";
+  std::cout << '\n';
 }
 
 template<typename Value>
 void Default(std::string const& variable, const Value value){
-  std::cout << "Defaul value for switch" << std::endl;
+  std::cout << "Defaul value for switch" << '\n';
   LogVariable(variable, value);
-  std::cout << "\n";
+  std::cout << '\n';
 }
 
 void Error(std::string const& variable);

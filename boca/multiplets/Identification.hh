@@ -30,6 +30,18 @@ public:
     /// largest bdt in front
     bool operator<(Identification const& identification) const;
 
+    Identification(Identification const&) = default;
+
+    Identification(Identification &&) = default;
+
+    Identification &operator=(Identification const&) & = default;
+
+    Identification &operator=(Identification &&) & = default;
+
+protected:
+
+    ~Identification() {}
+
 private:
 
     double bdt_;

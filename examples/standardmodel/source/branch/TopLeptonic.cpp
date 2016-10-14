@@ -3,12 +3,14 @@
  */
 #include "standardmodel/branch/TopLeptonic.hh"
 #include "boca/branch/Base.hh"
+#include "boca/Settings.hh"
 #include "boca/OBSERVABLE_MACROS.hh"
 
 namespace standardmodel
 {
 
-namespace branch {
+namespace branch
+{
 
 TopLeptonic::TopLeptonic()
 {
@@ -18,20 +20,22 @@ TopLeptonic::TopLeptonic()
 
 Observables TopLeptonic::Variables()
 {
+    auto substructure = boca::Settings::SubStructure() ?
+                        OBSERVABLE(pull_1, latex::String("#theta_{1}"))
+                        + OBSERVABLE(pull_2, latex::String("#theta_{2}"))
+                        /* + OBSERVABLE(Dipolarity, latex::String("D"))*/
+                        : boca::Observables {};
     return BottomBase::Variables() + Particle::Variables() +
-  OBSERVABLE(ht, latex::String("H_{T}") + " [GeV]") +
-  OBSERVABLE(delta_pt, latex::String("\\delta_ P_{T}") + " [GeV]") +
-  OBSERVABLE(delta_m, latex::String("\\delta_ m") + " [GeV]") +
-  OBSERVABLE(delta_rap, latex::String("\\delta_ \\eta")) +
-  OBSERVABLE(delta_phi, latex::String("\\delta_ \\phi")) +
-  OBSERVABLE(delta_r, latex::String("\\delta_ R")) +
-  OBSERVABLE(rho, latex::String("\\rho")) +
-  OBSERVABLE(bdt_1, "BDT_{1}") +
-  OBSERVABLE(bdt_2, "BDT_{2}") +
-  OBSERVABLE(pull_1, latex::String("#theta_{1}")) +
-  OBSERVABLE(pull_2, latex::String("#theta_{2}"))
-//     + OBSERVABLE(Dipolarity, latex::String("D"))
-    ;
+           OBSERVABLE(ht, latex::String("H_{T}") + " [GeV]") +
+           OBSERVABLE(delta_pt, latex::String("\\delta_ P_{T}") + " [GeV]") +
+           OBSERVABLE(delta_m, latex::String("\\delta_ m") + " [GeV]") +
+           OBSERVABLE(delta_rap, latex::String("\\delta_ \\eta")) +
+           OBSERVABLE(delta_phi, latex::String("\\delta_ \\phi")) +
+           OBSERVABLE(delta_r, latex::String("\\delta_ R")) +
+           OBSERVABLE(rho, latex::String("\\rho")) +
+           OBSERVABLE(bdt_1, "BDT_{1}") +
+           OBSERVABLE(bdt_2, "BDT_{2}") +
+           substructure;
 
 //   Particle::Variables() +
 //   OBSERVABLE(ht) +

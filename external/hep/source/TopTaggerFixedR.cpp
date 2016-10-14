@@ -264,7 +264,7 @@ void TopTaggerFixedR::run()
             && (_mode != EARLY_MASSRATIO_SORT_MODDJADE)
             && (_mode != LATE_MASSRATIO_SORT_MODDJADE)
             && (_mode != TWO_STEP_FILTER)) {
-        std::cout << "ERROR: UNKNOWN MODE" << std::endl;
+        std::cout << "ERROR: UNKNOWN MODE" << '\n';
         return;
     }
 
@@ -305,7 +305,7 @@ void TopTaggerFixedR::run()
 
     if (_top_parts.size() < 3) {
         if (_debug) {
-            std::cout << "< 3 hard substructures " << std::endl;
+            std::cout << "< 3 hard substructures " << '\n';
         }
         return; //such events are not interesting
     }
@@ -391,7 +391,7 @@ void TopTaggerFixedR::run()
                 else if (_mode == TWO_STEP_FILTER) {
                     better = true;
                 } else {
-                    std::cout << "ERROR: UNKNOWN MODE (IN DISTANCE MEASURE SELECTION)" << std::endl;
+                    std::cout << "ERROR: UNKNOWN MODE (IN DISTANCE MEASURE SELECTION)" << '\n';
                     return;
                 }
 
@@ -434,20 +434,20 @@ void TopTaggerFixedR::run()
 void TopTaggerFixedR::get_info() const
 {
     std::cout << "#--------------------------------------------------------------------------\n";
-    std::cout << "#                          TopTagger2 Result" << std::endl;
-    std::cout << "#" << std::endl;
-    std::cout << "# is top candidate: " << _is_maybe_top << std::endl;
-    std::cout << "# mass plane cuts passed: " << _is_masscut_passed << std::endl;
-    std::cout << "# top candidate mass: " << _top_candidate.m() << std::endl;
+    std::cout << "#                          TopTagger2 Result" << '\n';
+    std::cout << "#" << '\n';
+    std::cout << "# is top candidate: " << _is_maybe_top << '\n';
+    std::cout << "# mass plane cuts passed: " << _is_masscut_passed << '\n';
+    std::cout << "# top candidate mass: " << _top_candidate.m() << '\n';
     std::cout << "# top candidate (pt, eta, phi): ("
               << _top_candidate.perp() << ", "
               << _top_candidate.eta() << ", "
-              << _top_candidate.phi_std() << ")" << std::endl;
-    std::cout << "# top hadrons: " << _top_hadrons.size() << std::endl;
-    std::cout << "# hard substructures: " << _parts_size << std::endl;
-    std::cout << "# |m - mtop| : " << _delta_top << std::endl;
-    std::cout << "# djsum : " << _djsum << std::endl;
-    std::cout << "# is consistency cut passed: " << _is_ptmincut_passed << std::endl;
+              << _top_candidate.phi_std() << ")" << '\n';
+    std::cout << "# top hadrons: " << _top_hadrons.size() << '\n';
+    std::cout << "# hard substructures: " << _parts_size << '\n';
+    std::cout << "# |m - mtop| : " << _delta_top << '\n';
+    std::cout << "# djsum : " << _djsum << '\n';
+    std::cout << "# is consistency cut passed: " << _is_ptmincut_passed << '\n';
     std::cout << "#--------------------------------------------------------------------------\n";
     return;
 }
@@ -455,29 +455,29 @@ void TopTaggerFixedR::get_info() const
 void TopTaggerFixedR::get_setting() const
 {
     std::cout << "#--------------------------------------------------------------------------\n";
-    std::cout << "#                         TopTagger2 Settings" << std::endl;
-    std::cout << "#" << std::endl;
-    std::cout << "# mode: " << _mode << " (0 = EARLY_MASSRATIO_SORT_MASS) " << std::endl;
-    std::cout << "#        "         << " (1 = LATE_MASSRATIO_SORT_MASS)  " << std::endl;
-    std::cout << "#        "         << " (2 = EARLY_MASSRATIO_SORT_MODDJADE)  " << std::endl;
-    std::cout << "#        "         << " (3 = LATE_MASSRATIO_SORT_MODDJADE)  " << std::endl;
-    std::cout << "#        "         << " (4 = TWO_STEP_FILTER)  " << std::endl;
+    std::cout << "#                         TopTagger2 Settings" << '\n';
+    std::cout << "#" << '\n';
+    std::cout << "# mode: " << _mode << " (0 = EARLY_MASSRATIO_SORT_MASS) " << '\n';
+    std::cout << "#        "         << " (1 = LATE_MASSRATIO_SORT_MASS)  " << '\n';
+    std::cout << "#        "         << " (2 = EARLY_MASSRATIO_SORT_MODDJADE)  " << '\n';
+    std::cout << "#        "         << " (3 = LATE_MASSRATIO_SORT_MODDJADE)  " << '\n';
+    std::cout << "#        "         << " (4 = TWO_STEP_FILTER)  " << '\n';
     std::cout << "# top mass: " << _mtmass << "    ";
-    std::cout << "W mass: " << _mwmass << std::endl;
-    std::cout << "# top mass window: [" << _mtmin << ", " << _mtmax << "]" << std::endl;
+    std::cout << "W mass: " << _mwmass << '\n';
+    std::cout << "# top mass window: [" << _mtmin << ", " << _mtmax << "]" << '\n';
     std::cout << "# W mass ratio: [" << _rmin << ", " << _rmax << "] (["
-              << _rmin* _mtmass / _mwmass << "%, " << _rmax* _mtmass / _mwmass << "%])" << std::endl;
+              << _rmin* _mtmass / _mwmass << "%, " << _rmax* _mtmass / _mwmass << "%])" << '\n';
     std::cout << "# mass plane cuts: (m23cut, m13min, m13max) = ("
-              << _m23cut << ", " << _m13cutmin << ", " << _m13cutmax << ")" << std::endl;
+              << _m23cut << ", " << _m13cutmin << ", " << _m13cutmax << ")" << '\n';
     std::cout << "# mass_drop_threshold: " << _mass_drop_threshold << "    ";
-    std::cout << "max_subjet_mass: " << _max_subjet_mass << std::endl;
+    std::cout << "max_subjet_mass: " << _max_subjet_mass << '\n';
     std::cout << "# R_filt: " << _Rfilt << "    ";
-    std::cout << "n_filt: " << _nfilt << std::endl;
-    std::cout << "# minimal subjet pt: " << _minpt_subjet << std::endl;
-    std::cout << "# minimal reconstructed pt: " << _minpt_tag << std::endl;
-    std::cout << "# internal jet algorithms (0 = kt, 1 = C/A, 2 = anti-kt): " << std::endl;
-    std::cout << "#   filtering: " << _jet_algorithm_filter << std::endl;
-    std::cout << "#   reclustering: " << _jet_algorithm_recluster << std::endl;
+    std::cout << "n_filt: " << _nfilt << '\n';
+    std::cout << "# minimal subjet pt: " << _minpt_subjet << '\n';
+    std::cout << "# minimal reconstructed pt: " << _minpt_tag << '\n';
+    std::cout << "# internal jet algorithms (0 = kt, 1 = C/A, 2 = anti-kt): " << '\n';
+    std::cout << "#   filtering: " << _jet_algorithm_filter << '\n';
+    std::cout << "#   reclustering: " << _jet_algorithm_recluster << '\n';
     std::cout << "#--------------------------------------------------------------------------\n";
 
     return;

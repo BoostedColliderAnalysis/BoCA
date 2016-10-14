@@ -326,7 +326,7 @@ namespace
     PrintCell(Name(Relative::particle));
     PrintCell(Name(Relative::mother));
     PrintCell(Name(Relative::step_mother));
-    std::cout << "\n";
+    std::cout << '\n';
   }
 
   void PrintCells(Particle const& particle)
@@ -337,7 +337,7 @@ namespace
     PrintCell(particle.Info().Family().Member(Relative::particle).Position());
     PrintCell(particle.Info().Family().Member(Relative::mother).Position());
     PrintCell(particle.Info().Family().Member(Relative::step_mother).Position());
-    std::cout << "\n";
+    std::cout << '\n';
   }
 
 }

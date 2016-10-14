@@ -46,15 +46,15 @@ public:
     }
 
     static standardmodel::TopTagger TopTagger() {
-        return standardmodel::TopTagger::hep;
         return standardmodel::TopTagger::boca;
+        return standardmodel::TopTagger::hep;
         return standardmodel::TopTagger::hep2;
     }
 
 private:
 
     std::string Name() const override {
-      return boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-" + boca::Name(TopDecay()) + (TopDecay() == Decay::hadronic ? "-" + standardmodel::Name(TopTagger()) : "") + "";
+      return boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-" + boca::Name(TopDecay()) + (TopDecay() == Decay::hadronic ? "-" + standardmodel::Name(TopTagger()) : "") + "new-est";
     }
 
     void SetFiles(Phase const& phase) override {
@@ -84,7 +84,7 @@ private:
         auto particles = SortedByPt(event.GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
-//         std::cout << "pre cut " << particles.size() << std::endl;
+//         std::cout << "pre cut " << particles.size() << '\n';
         return particles.size() == 1 ? true : false;
     }
 

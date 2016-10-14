@@ -201,38 +201,38 @@ class TestInvisible22 :  public Invisible22 {
 //     }
 //   }
 //   int nevent = ievent;
-//   std::cout << "Read from data file: sqsq_pythia_events.lhe" << std::endl;
-//   std::cout << "Number of events  = " << nevent << std::endl << std::endl;
+//   std::cout << "Read from data file: sqsq_pythia_events.lhe" << '\n';
+//   std::cout << "Number of events  = " << nevent << '\n' << '\n';
 //   datafile.close();
 //   //test the first two events by solve22()
-//   std::cout << "Now test the 22 algorithm with known masses: 100.4, 143.7, 181.2." << std::endl;
-//   std::cout << "Only test the first two events." << std::endl;
+//   std::cout << "Now test the 22 algorithm with known masses: 100.4, 143.7, 181.2." << '\n';
+//   std::cout << "Only test the first two events." << '\n';
 //   double mn = 100.42479, mx = 143.70998, my = 181.23681;
 //   int nsols;
 //   double p1[4][4], p2[4][4];
 //
 //   //loop over events
 //   for (ievent = 0; ievent < MAXEVENT; ievent ++) {
-//     std::cout << std::endl << "event " << ievent << std::endl << std::endl;
-//     std::cout << "Visible momenta and the missing transverse momentum:" << std::endl;
-//     std::cout << "p3 = " << evt[ievent].p3[0] << "   " << evt[ievent].p3[1] << "   " << evt[ievent].p3[2] << "   " << evt[ievent].p3[3] << std::endl;
-//     std::cout << "p4 = " << evt[ievent].p4[0] << "   " << evt[ievent].p4[1] << "   " << evt[ievent].p4[2] << "   " << evt[ievent].p4[3] << std::endl;
-//     std::cout << "p5 = " << evt[ievent].p5[0] << "   " << evt[ievent].p5[1] << "   " << evt[ievent].p5[2] << "   " << evt[ievent].p5[3] << std::endl;
-//     std::cout << "p6 = " << evt[ievent].p6[0] << "   " << evt[ievent].p6[1] << "   " << evt[ievent].p6[2] << "   " << evt[ievent].p6[3] << std::endl;
-//     std::cout << "pmiss x,y = " << "   " << evt[ievent].pmiss[1] << "   " << evt[ievent].pmiss[2] << std::endl;
+//     std::cout << '\n' << "event " << ievent << '\n' << '\n';
+//     std::cout << "Visible momenta and the missing transverse momentum:" << '\n';
+//     std::cout << "p3 = " << evt[ievent].p3[0] << "   " << evt[ievent].p3[1] << "   " << evt[ievent].p3[2] << "   " << evt[ievent].p3[3] << '\n';
+//     std::cout << "p4 = " << evt[ievent].p4[0] << "   " << evt[ievent].p4[1] << "   " << evt[ievent].p4[2] << "   " << evt[ievent].p4[3] << '\n';
+//     std::cout << "p5 = " << evt[ievent].p5[0] << "   " << evt[ievent].p5[1] << "   " << evt[ievent].p5[2] << "   " << evt[ievent].p5[3] << '\n';
+//     std::cout << "p6 = " << evt[ievent].p6[0] << "   " << evt[ievent].p6[1] << "   " << evt[ievent].p6[2] << "   " << evt[ievent].p6[3] << '\n';
+//     std::cout << "pmiss x,y = " << "   " << evt[ievent].pmiss[1] << "   " << evt[ievent].pmiss[2] << '\n';
 //
 //     //         wimpmass::solve22(evt[ievent], mn, mx, my, nsols, p1, p2);
 //     boca::wimpmass::Invisible22 inv;
 //     inv.solve22(evt[ievent], mn, mx, my, nsols, p1, p2);
-//     std::cout << std::endl;
-//     std::cout << "number of solutions = " << nsols << std::endl;
+//     std::cout << '\n';
+//     std::cout << "number of solutions = " << nsols << '\n';
 //
 //     for (int isol = 0; isol < nsols; isol ++) {
-//       std::cout << std::endl << "solution " << isol << std::endl;
-//       std::cout << "p1 = " << p1[isol][0] << "  " << p1[isol][1] << "  " << p1[isol][2] << "  " << p1[isol][3] << std::endl;
-//       std::cout << "p2 = " << p2[isol][0] << "  " << p2[isol][1] << "  " << p2[isol][2] << "  " << p2[isol][3] << std::endl;
+//       std::cout << '\n' << "solution " << isol << '\n';
+//       std::cout << "p1 = " << p1[isol][0] << "  " << p1[isol][1] << "  " << p1[isol][2] << "  " << p1[isol][3] << '\n';
+//       std::cout << "p2 = " << p2[isol][0] << "  " << p2[isol][1] << "  " << p2[isol][2] << "  " << p2[isol][3] << '\n';
 //     }
-//     std::cout << std::endl;
+//     std::cout << '\n';
 //   }
 // }
 

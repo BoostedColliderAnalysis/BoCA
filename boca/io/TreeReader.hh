@@ -57,7 +57,7 @@ public:
 
     template<typename Object_>
     TTreeReaderArray<Object_>& Array(Branch branch) const {
-        if (!Has(branch)) std::cout << Name(branch) << " does not exist " << generator_arrays_.size() << std::endl;
+        if (!Has(branch)) std::cout << Name(branch) << " does not exist " << generator_arrays_.size() << '\n';
         return const_cast<TTreeReaderArray<Object_> &>(*std::dynamic_pointer_cast<TTreeReaderArray<Object_>>(generator_arrays_.at(branch)).get());
     }
 
@@ -91,7 +91,7 @@ private:
 
     template<typename Object_>
     void NewElement(std::string const& name) {
-      if (Has(name)) std::cout << name << " exists already, will be overwritten" << tagger_arrays_.size() << std::endl;
+      if (Has(name)) std::cout << name << " exists already, will be overwritten" << tagger_arrays_.size() << '\n';
       tagger_arrays_.emplace(name, std::make_shared<TTreeReaderArray<Object_>>(tree_reader_, name.c_str()));
     }
 
@@ -99,7 +99,7 @@ private:
 
     template<typename Object_>
     void NewElement(Branch branch) {
-        if (Has(branch)) std::cout << Name(branch) << " exists already will be overwritten " << generator_arrays_.size() << std::endl;
+        if (Has(branch)) std::cout << Name(branch) << " exists already will be overwritten " << generator_arrays_.size() << '\n';
         generator_arrays_.emplace(branch, std::make_shared<TTreeReaderArray<Object_>>(tree_reader_, Name(branch).c_str()));
     }
 

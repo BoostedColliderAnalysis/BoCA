@@ -12,7 +12,7 @@ namespace boca
 
 using namespace std::string_literals;
 
-std::vector< Significance > Constrained(std::vector<Significance> const& significances)
+std::vector< Significance > Constrained(std::vector<Significance> const &significances)
 {
     INFO0;
     return Transform(significances, [](Significance significance) {
@@ -20,7 +20,7 @@ std::vector< Significance > Constrained(std::vector<Significance> const& signifi
     });
 }
 
-std::vector< Significance > Exclusion(std::vector<Significance> const& significances)
+std::vector< Significance > Exclusion(std::vector<Significance> const &significances)
 {
     INFO0;
     return Transform(significances, [](Significance significance) {
@@ -28,7 +28,7 @@ std::vector< Significance > Exclusion(std::vector<Significance> const& significa
     });
 }
 
-std::vector< Significance > Discovery(std::vector<Significance> const& significances)
+std::vector< Significance > Discovery(std::vector<Significance> const &significances)
 {
     INFO0;
     return Transform(significances, [](Significance significance) {
@@ -44,7 +44,7 @@ std::vector< Significance > SignificancesSimple()
 std::vector< Significance > SignificancesMD()
 {
     INFO0;
-    return Combine(SignificancesSimple(), Exclusion( {Significance::poisson}), Discovery( {Significance::poisson}));
+    return Combine(SignificancesSimple(), Exclusion({Significance::poisson}), Discovery({Significance::poisson}));
 }
 
 std::vector< Significance > SignificancesBase()
@@ -100,7 +100,7 @@ std::string Name(Significance significance)
 latex::String LatexName(Significance significance)
 {
     INFO0;
-    auto name = latex::String{};
+    auto name = latex::String {};
     FlagSwitch(significance, [&](Significance signific) {
         switch (signific) {
         case Significance::experimental :

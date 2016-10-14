@@ -48,7 +48,7 @@ public:
 
     void Initialize() {
         initialized_ = true;
-        if (Debug()) std::cout << "Reader: " << Tagger().Name() << std::endl;
+        if (Debug()) std::cout << "Reader: " << Tagger().Name() << '\n';
         Tagger().Initialize();
         if (stage_ == Stage::trainer) return;
         std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
@@ -65,7 +65,7 @@ public:
 
     template <typename Multiplet_>
     double Bdt(Multiplet_ const& multiplet) {
-        if (Debug()) std::cout << "Reader: " << Tagger().Name() << " reading bdt" << std::endl;
+        if (Debug()) std::cout << "Reader: " << Tagger().Name() << " reading bdt" << '\n';
         return Tagger().Bdt(multiplet, TReader());
     }
 
@@ -166,7 +166,7 @@ private:
     }
 
     TMVA::IMethod& BookMva() {
-        std::cout << Tagger().MethodName() << "  " << Tagger().WeightFileName() << std::endl;
+        std::cout << Tagger().MethodName() << "  " << Tagger().WeightFileName() << '\n';
         return *TReader().BookMVA(Tagger().MethodName(), Tagger().WeightFileName());
     }
 

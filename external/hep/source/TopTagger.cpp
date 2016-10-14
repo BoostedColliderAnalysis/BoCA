@@ -171,9 +171,9 @@ void TopTagger::run_tagger()
     _top_parts.clear();
 
     if (debugg) {
-        std::cout << "mtmass in top_tagger: " << _mtmass << std::endl;
-        std::cout << "mwmass in top_tagger: " << _mwmass << std::endl;
-        std::cout << "jet input HEPTopTagger: " << std::endl;
+        std::cout << "mtmass in top_tagger: " << _mtmass << '\n';
+        std::cout << "mwmass in top_tagger: " << _mwmass << '\n';
+        std::cout << "jet input HEPTopTagger: " << '\n';
         //printjet(_jet);
     }
 
@@ -255,34 +255,34 @@ fastjet::PseudoJet TopTagger::Sum(std::vector<fastjet::PseudoJet> const& vec_pje
 
 void TopTagger::get_info() const
 {
-    std::cout << "maybe_top: " <<  _is_maybe_top << std::endl;
-    std::cout << "mascut_passed: " <<  _is_masscut_passed << std::endl;
-    std::cout << "top candidate mass:" <<  _top_candidate.m() << std::endl;
+    std::cout << "maybe_top: " <<  _is_maybe_top << '\n';
+    std::cout << "mascut_passed: " <<  _is_masscut_passed << '\n';
+    std::cout << "top candidate mass:" <<  _top_candidate.m() << '\n';
     std::cout << "top candidate (pt, eta, phi): ("
               <<  _top_candidate.perp() << ","
               <<  _top_candidate.eta() << ","
-              <<  _top_candidate.phi_std() << ")" << std::endl;
-    std::cout << "hadrons size: " <<  _top_hadrons.size() << std::endl;
-    std::cout << "topcount: " <<  _top_count << std::endl;
-    std::cout << "parts size: " <<  _parts_size << std::endl;
-    std::cout << "delta_top: " <<  _delta_top << std::endl;
+              <<  _top_candidate.phi_std() << ")" << '\n';
+    std::cout << "hadrons size: " <<  _top_hadrons.size() << '\n';
+    std::cout << "topcount: " <<  _top_count << '\n';
+    std::cout << "parts size: " <<  _parts_size << '\n';
+    std::cout << "delta_top: " <<  _delta_top << '\n';
     return;
 }
 
 void TopTagger::get_setting() const
 {
-    std::cout << "top mass: " <<  _mtmass << std::endl;
-    std::cout << "W mass: " <<  _mwmass << std::endl;
-    std::cout << "top mass range: [" << _mtmin << ", " << _mtmax << "]" << std::endl;
+    std::cout << "top mass: " <<  _mtmass << '\n';
+    std::cout << "W mass: " <<  _mwmass << '\n';
+    std::cout << "top mass range: [" << _mtmin << ", " << _mtmax << "]" << '\n';
     std::cout << "W mass ratio range: [" << _rmin << ", " << _rmax << "] (["
-              << _rmin* _mtmass / _mwmass << "%, " << _rmax* _mtmass / _mwmass << "%])" << std::endl;
+              << _rmin* _mtmass / _mwmass << "%, " << _rmax* _mtmass / _mwmass << "%])" << '\n';
     std::cout << "mass ratio cut: (m23cut, m13min, m13max)=("
-              << _m23cut << ", " << _m13cutmin << ", " << _m13cutmax << ")" << std::endl;
-    std::cout << "mass_drop_threshold: " << _mass_drop_threshold << std::endl;
-    std::cout << "max_subjet_mass: " << _max_subjet_mass << std::endl;
-    std::cout << "n_filtering: " << _nfilt << std::endl;
-    std::cout << "JetAlgorithm for filtering: " << _jet_algorithm << std::endl;
-    std::cout << "JetAlgorithm for reclustering: " << _jet_algorithm_recluster << std::endl;
+              << _m23cut << ", " << _m13cutmin << ", " << _m13cutmax << ")" << '\n';
+    std::cout << "mass_drop_threshold: " << _mass_drop_threshold << '\n';
+    std::cout << "max_subjet_mass: " << _max_subjet_mass << '\n';
+    std::cout << "n_filtering: " << _nfilt << '\n';
+    std::cout << "JetAlgorithm for filtering: " << _jet_algorithm << '\n';
+    std::cout << "JetAlgorithm for reclustering: " << _jet_algorithm_recluster << '\n';
     return;
 }
 bool TopTagger::is_maybe_top() const

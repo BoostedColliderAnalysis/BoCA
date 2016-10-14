@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "boca/multiplets/Particles.hh"
+
 #include "toppartner/analysis/TopPartner.hh"
 
 namespace toppartner{
@@ -24,7 +26,7 @@ class Effective : public TopPartner<Tagger_>
 protected:
 
     std::string Name() const override {
-        return "Naturalness-Effective-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-new-test";
+        return "Naturalness-Effective-" + boca::Name(Settings::Collider()) + "-" + boca::units::Name(this->Mass()) + "-large-2-new";
     }
 
     void SetFiles(Phase const& phase) override {
@@ -44,9 +46,11 @@ protected:
 
 private:
 
-    bool PassPreCut(boca::Event const&) const override {
-//         if (event.Jets().size() < 5) return false;
-//         if (event.Leptons().empty()) return false;
+    bool PassPreCut(boca::Event const& event) const override {
+        if (CopyIfLepton(event.GenParticles()).empty()) return false;
+        auto leptons = SortedByPt(event.Leptons());
+        if (leptons.empty()) return false;
+        if (leptons.front().Pt() < Settings::LeptonMinPt()) return false;
         return true;
     }
 

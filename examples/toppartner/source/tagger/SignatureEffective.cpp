@@ -30,9 +30,9 @@ std::vector<Quattuordecuplet554> SignatureEffective::Multiplets(boca::Event cons
 std::vector<Quattuordecuplet554> SignatureEffective::Quattuordecuplets(boca::Event const& event, std::function< Quattuordecuplet554(Quattuordecuplet554&)> const& function)
 {
     INFO0;
-    auto hadronic = top_partner_hadronic_reader_.Multiplets(event, 8);
-    auto leptonic = top_partner_leptonic_reader_.Multiplets(event, 8);
-    auto higgs_pairs = higgs_pair_reader_.Multiplets(event, 8);
+    auto hadronic = top_partner_hadronic_reader_.Multiplets(event);
+    auto leptonic = top_partner_leptonic_reader_.Multiplets(event);
+    auto higgs_pairs = higgs_pair_reader_.Multiplets(event);
     auto signatures = Triples(hadronic, leptonic, higgs_pairs, [&](Quintet const & quintet_1, Quintet const & quintet_2) {
         Decuplet55 decuplet(quintet_1, quintet_2);
         if (decuplet.Overlap()) throw Overlap();
@@ -43,12 +43,6 @@ std::vector<Quattuordecuplet554> SignatureEffective::Quattuordecuplets(boca::Eve
         if (quattuordecuplet.Overlap()) throw Overlap();
         return function(quattuordecuplet);
     });
-//     static int sig = 0;
-//     static int eve = 0;
-//     ++eve;
-//     if (!signatures.empty()) ++sig;
-//     double fraction = static_cast<double>(sig) / eve;
-//     ERROR(signatures.size(), hadronic.size(), leptonic.size(), higgs_pairs.size(), fraction);
     return signatures;
 }
 

@@ -59,7 +59,7 @@ public:
             SetUniform(scalar);
             break;
         default :
-            std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+            std::cout << "Maformed matrix constructor: " << Name(matrix) << '\n';
         }
     }
 
@@ -76,7 +76,7 @@ public:
             SetColumns(x, y, z);
             break;
         default :
-            std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+            std::cout << "Maformed matrix constructor: " << Name(matrix) << '\n';
         }
     }
 
@@ -90,7 +90,7 @@ public:
             *this = MatrixProduct(vector_1, vector_2);
             break;
         default :
-            std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+            std::cout << "Maformed matrix constructor: " << Name(matrix) << '\n';
         }
     }
 
@@ -107,7 +107,7 @@ public:
             SetDiagonal(vector);
             break;
         default :
-            std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+            std::cout << "Maformed matrix constructor: " << Name(matrix) << '\n';
         }
     }
 
@@ -124,7 +124,7 @@ public:
             SetColumn(vector, dim);
             break;
         default :
-            std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+            std::cout << "Maformed matrix constructor: " << Name(matrix) << '\n';
         }
     }
 
@@ -373,7 +373,7 @@ public:
         return x_;
     }
 
-    constexpr Vector3<Value_> &X()
+    Vector3<Value_> &X()
     {
         return x_;
     }
@@ -388,7 +388,7 @@ public:
         return y_;
     }
 
-    constexpr Vector3<Value_> &Y()
+    Vector3<Value_> &Y()
     {
         return y_;
     }
@@ -398,7 +398,7 @@ public:
     * @brief z-row
     * @{
     */
-    constexpr Vector3<Value_> &Z()
+    Vector3<Value_> &Z()
     {
         return z_;
     }
@@ -733,7 +733,7 @@ public:
         auto const epsilon = 0.001;
         auto const cross = vector_x.Cross(vector_y);
         if (std::abs(vector_z.X() - cross.X()) > epsilon || std::abs(vector_z.Y() - cross.Y()) > epsilon || std::abs(vector_z.Z() - cross.Z()) > epsilon || std::abs(vector_x.Mag2() - 1) > epsilon || std::abs(vector_y.Mag2() - 1) > epsilon || std::abs(vector_z.Mag2() - 1) > epsilon || std::abs(vector_x.Dot(vector_y)) > epsilon || std::abs(vector_y.Dot(vector_z)) > epsilon || std::abs(vector_z.Dot(vector_x)) > epsilon) {
-            std::cout << "RotateAxes bad axis vectors" << std::endl;
+            std::cout << "RotateAxes bad axis vectors" << '\n';
             return *this;
         }
         return Transform(Matrix3(vector_x.X(), vector_y.X(), vector_z.X(), vector_x.Y(), vector_y.Y(), vector_z.Y(), vector_x.Z(), vector_y.Z(), vector_z.Z()));
@@ -1230,7 +1230,7 @@ private:
     {
         auto s2 =  ValueSquare(1) - z_.Z() * z_.Z();
         if (s2 < ValueSquare(0)) {
-            std::cout << "Phi() |z_.Z()| > 1 " << std::endl;
+            std::cout << "Phi() |z_.Z()| > 1 " << '\n';
             s2 = 0;
         }
         auto const sinTheta = std::sqrt(s2);
@@ -1238,7 +1238,7 @@ private:
             auto const cscTheta = 1 / sinTheta;
             auto const cosAbsPhi =  z_.Y() * cscTheta;
             if (std::abs(cosAbsPhi) > 1) {         // NaN-proofing
-                std::cout << "Phi() finds | cos phi | > 1" << std::endl;
+                std::cout << "Phi() finds | cos phi | > 1" << '\n';
                 cosAbsPhi = 1;
             }
             auto const absPhi = acos(cosAbsPhi);
@@ -1262,7 +1262,7 @@ private:
         // psi angle
         auto s2 =  1 - sqr(z_.Z());
         if (s2 < 0) {
-            std::cout << "Psi() |z_.Z()| > 1 " << std::endl;
+            std::cout << "Psi() |z_.Z()| > 1 " << '\n';
             s2 = 0;
         }
         auto const sinTheta = std::sqrt(s2);
@@ -1270,7 +1270,7 @@ private:
             auto const cscTheta = 1 / sinTheta;
             auto const cosAbsPsi =  - y_.Z() * cscTheta;
             if (std::abs(cosAbsPsi) > 1) {         // NaN-proofing
-                std::cout << "Psi() | cos psi | > 1 " << std::endl;
+                std::cout << "Psi() | cos psi | > 1 " << '\n';
                 cosAbsPsi = 1;
             }
             auto const absPsi = boca::acos(cosAbsPsi);
@@ -1281,7 +1281,7 @@ private:
             auto absPsi = x_.X();
             // NaN-proofing
             if (std::abs(x_.X()) > 1) {
-                std::cout << "Psi() | x_.X() | > 1 " << std::endl;
+                std::cout << "Psi() | x_.X() | > 1 " << '\n';
                 absPsi = 1;
             }
             auto const absPsi2 = .5 * acos(absPsi);

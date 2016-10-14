@@ -76,7 +76,7 @@ void Mt2::GetMomentum(boca::Jet const& jet_1,  double *momentum) {
 double Mt2::GetMt2()
 {
     if (!momenta_set) {
-        std::cout << " Please set momenta first!" << std::endl;
+        std::cout << " Please set momenta first!" << '\n';
         return 0;
     }
     if (!solved) Bisect();
@@ -172,10 +172,10 @@ void Mt2::SetMass(double mn0)
 
 void Mt2::Print()
 {
-    std::cout << " pax = " << pax *scale << "; pay = " << pay *scale << "; ma = " << ma *scale << ";" << std::endl;
-    std::cout << " pbx = " << pbx *scale << "; pby = " << pby *scale << "; mb = " << mb *scale << ";" << std::endl;
-    std::cout << " pmissx = " << pmissx *scale << "; pmissy = " << pmissy *scale << ";" << std::endl;
-    std::cout << " mn = " << mn_unscale << ";" << std::endl;
+    std::cout << " pax = " << pax *scale << "; pay = " << pay *scale << "; ma = " << ma *scale << ";" << '\n';
+    std::cout << " pbx = " << pbx *scale << "; pby = " << pby *scale << "; mb = " << mb *scale << ";" << '\n';
+    std::cout << " pmissx = " << pmissx *scale << "; pmissy = " << pmissy *scale << ";" << '\n';
+    std::cout << " mn = " << mn_unscale << ";" << '\n';
 }
 
 //special case, the visible particle is massless
@@ -252,16 +252,16 @@ void Mt2::Massless()
             }
         }
         if (foundhigh == 0) {
-            std::cout << "Deltasq_high not found at event " << nevt << std::endl;
+            std::cout << "Deltasq_high not found at event " << nevt << '\n';
             mt2_b = std::sqrt(Deltasq_low + mnsq);
             return;
         }
     }
 
     if (nsols_high == nsols_low) {
-        std::cout << "error: nsols_low=nsols_high=" << nsols_high << std::endl;
-        std::cout << "Deltasq_high=" << Deltasq_high << std::endl;
-        std::cout << "Deltasq_low= " << Deltasq_low << std::endl;
+        std::cout << "error: nsols_low=nsols_high=" << nsols_high << '\n';
+        std::cout << "Deltasq_high=" << Deltasq_high << '\n';
+        std::cout << "Deltasq_low= " << Deltasq_low << '\n';
         mt2_b = std::sqrt(mnsq + Deltasq_low);
         return;
     }
@@ -407,7 +407,7 @@ void Mt2::Bisect()
 
     //number of solutions at Deltasq_low should not be larger than zero
     if (nsols(Deltasq_low) > 0) {
-        //std::cout << "nsolutions(Deltasq_low) > 0"<<std::endl;
+        //std::cout << "nsolutions(Deltasq_low) > 0"<<'\n';
         mt2_b = std::sqrt(mnsq + Deltasq0);
         return;
     }
@@ -422,7 +422,7 @@ void Mt2::Bisect()
         //foundhigh = scan_high(Deltasq_high);
         foundhigh = find_high(Deltasq_high);
         if (foundhigh == 0) {
-            std::cout << "Deltasq_high not found at event " << nevt << std::endl;
+            std::cout << "Deltasq_high not found at event " << nevt << '\n';
             mt2_b = std::sqrt(Deltasq_low + mnsq);
             return;
         }
@@ -483,7 +483,7 @@ int Mt2::scan_high(double &Deltasq_high)
     auto foundhigh = 0 ;
     auto tempmass = mn + ma;
     auto maxmass = std::sqrt(mnsq + Deltasq_high);
-    if (nevt == 32334) std::cout << "Deltasq_high = " << Deltasq_high << std::endl;
+    if (nevt == 32334) std::cout << "Deltasq_high = " << Deltasq_high << '\n';
     for (auto mass = tempmass + SCANSTEP; mass < maxmass; mass += SCANSTEP) {
         Deltasq_high = mass * mass - mnsq;
         if (nsols(Deltasq_high) > 0) {

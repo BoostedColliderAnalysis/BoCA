@@ -72,19 +72,19 @@ public:
 //     vector<fastjet::PseudoJet> input_particles;
 //
 //     if (argc != 3) {
-//         cout << "Usage: example input_file output_file" << endl;
+//         cout << "Usage: example input_file output_file" << '\n';
 //         exit(0);
 //     }
 //
 //     ifstream infile(argv[1]);
 //     if (!infile.good()) {
-//         cout << "Can't open " << argv[1] << endl;
+//         cout << "Can't open " << argv[1] << '\n';
 //         exit(0);
 //     }
 //
 //     ofstream outfile(argv[2]);
 //     if (!outfile.is_open()) {
-//         cout << "Can't open " << argv[2] << endl;
+//         cout << "Can't open " << argv[2] << '\n';
 //         exit(0);
 //     }
 //
@@ -100,12 +100,12 @@ public:
 //     fastjet::ClusterSequence clust_seq(input_particles, jet_def);
 //     vector<fastjet::PseudoJet> inclusive_jets = clust_seq.inclusive_jets();
 //
-//     cout << endl <<  "============================================" << endl;
-//     cout << "\tJets found in initial clustering" << endl;
-//     cout << "============================================" << endl << endl;
+//     cout << '\n' <<  "============================================" << '\n';
+//     cout << "\tJets found in initial clustering" << '\n';
+//     cout << "============================================" << '\n' << '\n';
 //
 //     print_jets(clust_seq, inclusive_jets);
-//     cout << "============================================" << endl;
+//     cout << "============================================" << '\n';
 //
 //
 //     // Now recluster hardest jet many times using path-integral-pruning
@@ -121,16 +121,16 @@ public:
 //
 //     for (unsigned i = 0 ; i < 100000 ; i++) {
 //         if (i % 100 == 0)
-//             cout << i << endl;
+//             cout << i << '\n';
 //         fastjet::ClusterSequence qjet_seq(constits, qjet_def);
 //         vector<fastjet::PseudoJet> inclusive_jets2 = sorted_by_pt(qjet_seq.inclusive_jets());
-//         outfile << inclusive_jets2[0].m() << endl;
+//         outfile << inclusive_jets2[0].m() << '\n';
 //         masses.push_back(inclusive_jets2[0].m());
 //     }
 //
-//     cout << endl << endl << "Pruned masses saved in file " << argv[2] << endl << endl;
-//     cout << "Mean mass: " << mean(masses) << endl;
-//     cout << "Mass variance: " << var(masses) << endl;
+//     cout << '\n' << '\n' << "Pruned masses saved in file " << argv[2] << '\n' << '\n';
+//     cout << "Mean mass: " << mean(masses) << '\n';
+//     cout << "Mass variance: " << var(masses) << '\n';
 //
 //     infile.close();
 //     outfile.close();

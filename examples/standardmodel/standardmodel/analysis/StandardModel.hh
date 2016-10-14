@@ -98,7 +98,7 @@ protected:
         case 3000 : return 3.5_TeV;
         case 3500 : return 4_TeV;
         case 4000 : return 4.5_TeV;
-        default : std::cout << "Switch default for LowerPtCut of " << LowerPtCut() << std::endl;
+        default : std::cout << "Switch default for LowerPtCut of " << LowerPtCut() << '\n';
             return at_rest;
         }
     }
@@ -122,9 +122,9 @@ protected:
 private:
 
     long TrainNumberMax() const override {
+        return 500;
         return 10000;
         return 1000;
-        return 500;
         return 100;
         return 5000;
     }
@@ -151,7 +151,7 @@ private:
         case 3000 : return 1_TeV;
         case 3500 : return 1_TeV;
         case 4000 : return 1_TeV;
-        default : std::cout << "Switch default for LowerPtCut of " << LowerPtCut() << std::endl;
+        default : std::cout << "Switch default for LowerPtCut of " << LowerPtCut() << '\n';
             return at_rest;
         }
     }
@@ -160,7 +160,7 @@ private:
         switch (Collider()) {
         case boca::Collider::future : return ProcessName(process) + "_" + boca::units::Name(MadGraphCut());
         case boca::Collider::lhc : return ProcessName(process) + "_14TeV-" + boca::units::Name(MadGraphCut());
-        default : std::cout << "Switch default for process " << ProcessName(process) << std::endl;
+        default : std::cout << "Switch default for process " << ProcessName(process) << '\n';
             return "";
         }
     }

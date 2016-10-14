@@ -190,12 +190,12 @@ public:
      * @brief Accessor for the scalar
      * @{
      */
-    constexpr  Value_ &Scalar()
+    Value_ &Scalar()
     {
         return scalar_;
     }
 
-    constexpr Value_ &T()
+    Value_ &T()
     {
         return scalar_;
     }
@@ -271,7 +271,7 @@ public:
         if (mag_2 <= 0) return 0_rad;
         auto const vdotu = Spatial().Dot(vector) / sqrt(mag_2);
         if (vdotu == Value_(0)) return 0_rad;
-//         if (Scalar() <= Value_(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
+//         if (Scalar() <= Value_(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << '\n';
 //         auto pt = sqrt(units::max(sqr(Scalar() * std::numeric_limits<double>::epsilon()), Perp2(vector) + Mag2()));
         auto const mt = sqrt(Perp2(vector) + Mag2());
         if (mt == Value_(0)) return 0_rad;
@@ -632,7 +632,7 @@ public:
         case LorentzDim::t :
             return scalar_;
         default:
-            std::cout << "bad index(%d) returning 0 " << Name(i) << std::endl;
+            std::cout << "bad index(%d) returning 0 " << Name(i) << '\n';
         }
         return Spatial()(Dim3::x);
     }
@@ -661,7 +661,7 @@ public:
         case LorentzDim::t :
             return scalar_;
         default:
-            std::cout << "bad index(%d) returning &e_ " << Name(i) << std::endl;
+            std::cout << "bad index(%d) returning &e_ " << Name(i) << '\n';
         }
         return scalar_;
     }

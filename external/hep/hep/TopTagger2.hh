@@ -179,7 +179,7 @@ private:
 //             input_clusters.push_back(p);
 //         }
 //     }
-//     std::cout << "ReadEvent: " << input_clusters.size() << " particles are read" << std::endl;
+//     std::cout << "ReadEvent: " << input_clusters.size() << " particles are read" << '\n';
 //
 //     // run the jet finding; find the hardest jet
 //     fastjet::ClusterSequence clust_seq(input_clusters, jet_def);
@@ -210,8 +210,8 @@ private:
 //
 //         // Look at output if we have a tag:
 //         if (tagger.is_tagged()) {
-//             std::cout << "Input fatjet: " << ijet << "  pT = " << jets[ijet].perp() << std::endl;
-//             std::cout << "Output: pT = " << tagger.t().perp() << " Mass = " << tagger.t().m() << " f_rec = " << tagger.f_rec() << std::endl;
+//             std::cout << "Input fatjet: " << ijet << "  pT = " << jets[ijet].perp() << '\n';
+//             std::cout << "Output: pT = " << tagger.t().perp() << " Mass = " << tagger.t().m() << " f_rec = " << tagger.f_rec() << '\n';
 //         }
 //     }
 // }

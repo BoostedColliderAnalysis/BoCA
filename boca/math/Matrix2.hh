@@ -76,7 +76,7 @@ public:
             SetUniform(scalar);
             break;
         default :
-            std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+            std::cout << "Maformed matrix constructor: " << Name(matrix) << '\n';
         }
     }
 
@@ -96,7 +96,7 @@ public:
 //             *this = MatrixProduct(vector_1, vector_2);
 //             break;
         default :
-            std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+            std::cout << "Maformed matrix constructor: " << Name(matrix) << '\n';
         }
     }
 
@@ -175,7 +175,7 @@ public:
         return x_;
     }
 
-    constexpr Vector2<Value_> &X()
+    Vector2<Value_> &X()
     {
         return x_;
     }
@@ -189,7 +189,7 @@ public:
         return y_;
     }
 
-    constexpr Vector2<Value_> &Y()
+    Vector2<Value_> &Y()
     {
         return y_;
     }

@@ -110,7 +110,17 @@ public:
     */
     Momentum ScalarHt() const;
 
+    Event(Event const&) = default;
+
+    Event(Event &&) = default;
+
+    Event &operator=(Event const&) & = default;
+
+    Event &operator=(Event &&) & = default;
+
 protected:
+
+   ~Event() {}
 
     boca::TreeReader const& TreeReader() const;
 

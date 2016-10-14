@@ -84,7 +84,7 @@ public:
         multiplet_1_.Enforce(jets.at(0));
         multiplet_2_.Enforce(jets.at(1));
         SetBdt(jets.at(0).Bdt(), jets.at(1).Bdt());
-        if (jets.size() > 2) std::cout << "to many jets to enforce a multiplet" << std::endl;
+        if (jets.size() > 2) std::cout << "to many jets to enforce a multiplet" << '\n';
     }
 
     /**
@@ -353,8 +353,8 @@ public:
         if (Pt() <= Settings::MinCellPt() || DeltaR() <= Settings::MinCellResolution()) return 0;
         auto sum = ConstituentJet().DipolaritySum(AngleLine());
         auto dipolarity = sum / Pt() / sqr(DeltaR());
-        if(dipolarity > 100) std::cerr << "dipol: " << dipolarity << " sum: " <<  sum <<  " mom: " << Pt() << " deltar: " << DeltaR() <<  "\n";
-        return dipolarity < 0.000001  ?  -6 : std::log10(dipolarity);
+        if(dipolarity > 100) std::cerr << "dipol: " << dipolarity << " sum: " <<  sum <<  " mom: " << Pt() << " deltar: " << DeltaR() <<  '\n';
+        return dipolarity < mU ?  -6 : std::log10(dipolarity);
     }
     //@}
 

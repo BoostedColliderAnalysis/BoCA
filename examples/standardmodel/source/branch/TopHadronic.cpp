@@ -12,7 +12,7 @@ namespace branch
 
 TopHadronic::TopHadronic()
 {
-  bottom_mass = InitialValue();
+    bottom_mass = InitialValue();
     w_mass = InitialValue();
 }
 

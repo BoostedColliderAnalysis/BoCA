@@ -142,7 +142,7 @@ public:
     /**
     * @brief Accessor for X
     */
-    constexpr Value_ &X()
+    Value_ &X()
     {
         return x_;
     }
@@ -150,7 +150,7 @@ public:
     /**
     * @brief Accessor for Y
     */
-    constexpr Value_ &Y()
+    Value_ &Y()
     {
         return y_;
     }

@@ -65,8 +65,8 @@ private:
 // using namespace std;
 // int main()
 // {
-// cout << " Example Event:" << endl;
-// cout << endl;
+// cout << " Example Event:" << '\n';
+// cout << '\n';
 //
 // //pa, pb = {mass, px, py}
 // //pmiss = {NULL, pxmiss, pymiss}
@@ -82,7 +82,7 @@ private:
 // mt2_event.set_mn(mn);
 // mt2_event.print();
 //
-// cout << endl << " mt2 = " << mt2_event.get_mt2() << endl;
+// cout << '\n' << " mt2 = " << mt2_event.get_mt2() << '\n';
 //
 // return 1;
 //

@@ -49,7 +49,7 @@ std::vector< Triplet > ordered_doublets(std::vector<boca::Jet> const& jets, std:
     auto triplets = std::vector<Triplet>{};
     auto sub_jet_number = static_cast<unsigned>(2);
     if (jets.size() < sub_jet_number) return triplets;
-    for (std::size_t i = 0; i < jets.size(); ++i) if (auto optional = function(jets.at(i), jets.at((i + 1) % sub_jet_number))) triplets.emplace_back(*optional);
+    for (auto const i : IntegerRange(jets.size())) if (auto optional = function(jets.at(i), jets.at((i + 1) % sub_jet_number))) triplets.emplace_back(*optional);
     return triplets;
 }
 
@@ -59,16 +59,15 @@ std::vector< Triplet > ordered_triplets(std::vector<boca::Jet> const& jets, std:
     auto triplets = std::vector<Triplet>{};
     auto sub_jet_number = static_cast<unsigned>(3);
     if (jets.size() < sub_jet_number) return triplets;
-    for (std::size_t i = 0; i < jets.size(); ++i) if (auto optional = function(jets.at(i), jets.at((i + 1) % sub_jet_number), jets.at((i + 2) % sub_jet_number))) triplets.emplace_back(*optional);
+    for (auto const i : IntegerRange(jets.size())) if (auto optional = function(jets.at(i), jets.at((i + 1) % sub_jet_number), jets.at((i + 2) % sub_jet_number))) triplets.emplace_back(*optional);
     return triplets;
 }
 
 }
 
-TopHadronic::TopHadronic(Id id)
+TopHadronic::TopHadronic(Id id) : id_(id)
 {
     INFO0;
-    id_ = id;
     if (id_ == Id::top) top_mass_window_ = 2. * MassOf(id_);
 }
 
@@ -91,13 +90,13 @@ std::vector<Particle> TopHadronic::Particles(boca::Event const& event) const
     auto quarks = CopyIfGrandMother(CopyIfQuark(particles), id_);
     DEBUG(quarks.size());
     auto tops = CopyIfGrandDaughter(particles, quarks);
-    DEBUG(tops.size());
+    INFO(tops.size());
     return tops;
 }
 
 std::vector<Triplet> TopHadronic::Triplets(boca::Event const& event, Function const& function)
 {
-    INFO0;
+    DEBUG0;
     auto jets = SortedByPt(bottom_reader_.Jets(event));
     auto leptons = event.Leptons();
 
@@ -181,7 +180,7 @@ std::vector<Triplet> TopHadronic::Triplets(boca::Doublet const& doublet, std::ve
 
 boost::optional<Triplet> TopHadronic::Tripple(boca::Doublet const& doublet, boca::Jet const& jet, std::vector<Lepton> const& leptons , Function const& function, MomentumRange const& range, bool check_overlap) const
 {
-    INFO0;
+    DEBUG0;
     auto triplet = Triplet{doublet, jet};
     DEBUG(triplet.Pt(), range.Min(), range.Max());
     if (!range.InsideRange(triplet)) return boost::none;
@@ -191,7 +190,7 @@ boost::optional<Triplet> TopHadronic::Tripple(boca::Doublet const& doublet, boca
 
 boost::optional<Triplet> TopHadronic::Tripple(Triplet& triplet, std::vector<Lepton> const& leptons, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    INFO0;
+    DEBUG0;
     if (Problematic(triplet, pre_cuts, tag)) return boost::none;
     triplet.SetClosestLepton(leptons);
     triplet.SetTag(tag);

@@ -124,7 +124,7 @@ public:
             case 1000 : return 250_GeV;
             case 2000 : return 250_GeV;
             case 3000 : return 250_GeV;
-            default : std::cout << "Switch default for Mass of " << Mass() << std::endl;
+            default : std::cout << "Switch default for Mass of " << Mass() << '\n';
                 return at_rest;
             }
         case boca::Collider::future :
@@ -138,10 +138,10 @@ public:
             case 10000 : return 2.5_TeV;
             case 15000 : return 2.5_TeV;
             case 20000 : return 2.5_TeV;
-            default : std::cout << "Switch default for Mass of " << Mass() << std::endl;
+            default : std::cout << "Switch default for Mass of " << Mass() << '\n';
                 return at_rest;
             }
-        default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
+        default : std::cout << "Switch default for Collider " << to_int(Collider()) << '\n';
             return at_rest;
         }
     };
@@ -150,7 +150,7 @@ public:
         switch (Collider()) {
         case boca::Collider::lhc : return 30_GeV;
         case boca::Collider::future : return 60_GeV;
-        default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
+        default : std::cout << "Switch default for Collider " << to_int(Collider()) << '\n';
             return at_rest;
         }
     };
@@ -159,7 +159,7 @@ public:
         switch (Collider()) {
         case boca::Collider::lhc : return 50_GeV;
         case boca::Collider::future : return 100_GeV;
-        default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
+        default : std::cout << "Switch default for Collider " << to_int(Collider()) << '\n';
             return at_rest;
         }
     };
@@ -168,7 +168,7 @@ public:
         switch (Collider()) {
         case boca::Collider::lhc : return 20_GeV;
         case boca::Collider::future : return 40_GeV;
-        default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
+        default : std::cout << "Switch default for Collider " << to_int(Collider()) << '\n';
             return at_rest;
         }
     };
@@ -185,17 +185,17 @@ public:
             case Process::tttt : return 1;
             case Process::tttwb : return 1;
             case Process::tt : return 20;
-            default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
+            default : std::cout << "Switch default for Process " << to_int(process) << '\n';
                 return 1;
             }
         case boca::Collider::future :
             switch (process) {
             case Process::ttwwbb : return 2;
             case Process::ttwbb : return 1;
-            default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
+            default : std::cout << "Switch default for Process " << to_int(process) << '\n';
                 return 1;
             }
-        default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
+        default : std::cout << "Switch default for Collider " << to_int(Collider()) << '\n';
             return 1;
         }
     }
@@ -210,7 +210,7 @@ public:
         case Process::tttt : return "";
         case Process::tttwb : return "";
         case Process::tt : return "";
-        default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
+        default : std::cout << "Switch default for Process " << to_int(process) << '\n';
             return "";
         }
     }
@@ -257,7 +257,7 @@ public:
                 }
                 DEFAULT(Name(Collider()), fb);
             }
-        default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
+        default : std::cout << "Switch default for Process " << to_int(process) << '\n';
             return 0_fb;
         }
     }
@@ -285,12 +285,12 @@ public:
     }
 
     virtual std::string FileName(Process process, Tag tag) const {
-//         std::cout << "file name: " << Name(process) + Suffix(process) + "_" + Name(Collider()) << std::endl;
+//         std::cout << "file name: " << Name(process) + Suffix(process) + "_" + Name(Collider()) << '\n';
         switch (tag) {
         case Tag::signal : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "_" + boca::units::Name(Mass());
         case Tag::background : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "-" + boca::units::Name(PreCut());
 //         case Tag::background : return Name(process) + Suffix(process) + "_" + Name(Collider());
-        default : std::cout << "Switch default for Tag " << to_int(tag) << std::endl;
+        default : std::cout << "Switch default for Tag " << to_int(tag) << '\n';
             return "";
         }
     }

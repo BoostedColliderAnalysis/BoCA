@@ -23,7 +23,7 @@ public:
 
     using Tagger::Multiplets;
 
-    std::vector<Quintet> Multiplets(boca::Event const&, boca::PreCuts const&, TMVA::Reader const&);
+    std::vector<Quintet> Multiplets(boca::Event const&, boca::PreCuts const&, TMVA::Reader const&) override;
 
     std::vector<Particle> Particles(boca::Event const& event) const;
 

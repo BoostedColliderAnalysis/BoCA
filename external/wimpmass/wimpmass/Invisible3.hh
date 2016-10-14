@@ -133,68 +133,68 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
 //   }
 //
 //   int nevent = ievent;
-//   cout << "Read from data file: sqsq_pythia_events.lhe" << endl;
-//   cout << "Number of events  = " << nevent << endl;
+//   cout << "Read from data file: sqsq_pythia_events.lhe" << '\n';
+//   cout << "Number of events  = " << nevent << '\n';
 //   datafile.close();
 //
 //   //test the first pair of events by solve33
-//   cout << endl << "Now test the 33 algorithm." << endl;
-//   cout << "Test the first pair of events." << endl;
-//   cout << endl;
+//   cout << '\n' << "Now test the 33 algorithm." << '\n';
+//   cout << "Test the first pair of events." << '\n';
+//   cout << '\n';
 //   //loop over events
 //   nevent = 2;
 //   for (int ievent1 = 0; ievent1 < nevent -1; ievent1 ++)
 //     for (int ievent2 = ievent + 1; ievent1 < nevent; ievent2 ++)
 //     {
 //
-//       cout << "Visible momenta and the missing transverse momentum:" << endl << endl;
-//       cout << "event 0" << endl;
+//       cout << "Visible momenta and the missing transverse momentum:" << '\n' << '\n';
+//       cout << "event 0" << '\n';
 //       ievent = ievent1;
 //       cout << "p3 = " << evt[ievent].p3[0] << "   " << evt[ievent].p3[1] << "   "
-//       << evt[ievent].p3[2] << "   " << evt[ievent].p3[3] << endl;
+//       << evt[ievent].p3[2] << "   " << evt[ievent].p3[3] << '\n';
 //       cout << "p4 = " << evt[ievent].p4[0] << "   " << evt[ievent].p4[1] << "   "
-//       << evt[ievent].p4[2] << "   " << evt[ievent].p4[3] << endl;
+//       << evt[ievent].p4[2] << "   " << evt[ievent].p4[3] << '\n';
 //       cout << "p5 = " << evt[ievent].p5[0] << "   " << evt[ievent].p5[1] << "   "
-//       << evt[ievent].p5[2] << "   " << evt[ievent].p5[3] << endl;
+//       << evt[ievent].p5[2] << "   " << evt[ievent].p5[3] << '\n';
 //       cout << "p6 = " << evt[ievent].p6[0] << "   " << evt[ievent].p6[1] << "   "
-//       << evt[ievent].p6[2] << "   " << evt[ievent].p6[3] << endl;
+//       << evt[ievent].p6[2] << "   " << evt[ievent].p6[3] << '\n';
 //       cout << "p7 = " << evt[ievent].p7[0] << "   " << evt[ievent].p7[1] << "   "
-//       << evt[ievent].p7[2] << "   " << evt[ievent].p7[3] << endl;
+//       << evt[ievent].p7[2] << "   " << evt[ievent].p7[3] << '\n';
 //       cout << "p8 = " << evt[ievent].p8[0] << "   " << evt[ievent].p8[1] << "   "
-//       << evt[ievent].p8[2] << "   " << evt[ievent].p8[3] << endl;
-//       cout << "pmiss x,y = " << "   " << evt[ievent].pmiss[1] << "   " << evt[ievent].pmiss[2] << endl;
-//       cout << "event 1" << endl;
+//       << evt[ievent].p8[2] << "   " << evt[ievent].p8[3] << '\n';
+//       cout << "pmiss x,y = " << "   " << evt[ievent].pmiss[1] << "   " << evt[ievent].pmiss[2] << '\n';
+//       cout << "event 1" << '\n';
 //       ievent = ievent2;
 //       cout << "q3 = " << evt[ievent].p3[0] << "   " << evt[ievent].p3[1] << "   "
-//       << evt[ievent].p3[2] << "   " << evt[ievent].p3[3] << endl;
+//       << evt[ievent].p3[2] << "   " << evt[ievent].p3[3] << '\n';
 //       cout << "q4 = " << evt[ievent].p4[0] << "   " << evt[ievent].p4[1] << "   "
-//       << evt[ievent].p4[2] << "   " << evt[ievent].p4[3] << endl;
+//       << evt[ievent].p4[2] << "   " << evt[ievent].p4[3] << '\n';
 //       cout << "q5 = " << evt[ievent].p5[0] << "   " << evt[ievent].p5[1] << "   "
-//       << evt[ievent].p5[2] << "   " << evt[ievent].p5[3] << endl;
+//       << evt[ievent].p5[2] << "   " << evt[ievent].p5[3] << '\n';
 //       cout << "q6 = " << evt[ievent].p6[0] << "   " << evt[ievent].p6[1] << "   "
-//       << evt[ievent].p6[2] << "   " << evt[ievent].p6[3] << endl;
+//       << evt[ievent].p6[2] << "   " << evt[ievent].p6[3] << '\n';
 //       cout << "q7 = " << evt[ievent].p7[0] << "   " << evt[ievent].p7[1] << "   "
-//       << evt[ievent].p7[2] << "   " << evt[ievent].p7[3] << endl;
+//       << evt[ievent].p7[2] << "   " << evt[ievent].p7[3] << '\n';
 //       cout << "q8 = " << evt[ievent].p8[0] << "   " << evt[ievent].p6[1] << "   "
-//       << evt[ievent].p8[2] << "   " << evt[ievent].p8[3] << endl;
-//       cout << "qmiss x,y = " << "   " << evt[ievent].pmiss[1] << "   " << evt[ievent].pmiss[2] << endl;
+//       << evt[ievent].p8[2] << "   " << evt[ievent].p8[3] << '\n';
+//       cout << "qmiss x,y = " << "   " << evt[ievent].pmiss[1] << "   " << evt[ievent].pmiss[2] << '\n';
 //
 //       double P1[9][4], P2[9][4], Q1[9][4], Q2[9][4];
 //       int nsols;
 //       solve33(evt[0], evt[1], nsols, P1, P2, Q1, Q2);
-//       cout << endl << "number of solutions = " << nsols << endl;
+//       cout << '\n' << "number of solutions = " << nsols << '\n';
 //       for (int isol = 0; isol < nsols; isol ++)
 //       {
-//         cout << endl <<"solution " << isol << endl;
+//         cout << '\n' <<"solution " << isol << '\n';
 //
 //         cout << "p1 = " << P1[isol][0] << "  " << P1[isol][1]<< "  "
-//         << P1[isol][2] << "  " << P1[isol][3] << endl;
+//         << P1[isol][2] << "  " << P1[isol][3] << '\n';
 //         cout << "p2 = " << P2[isol][0] << "  " << P2[isol][1]<< "  "
-//         << P2[isol][2] << "  " << P2[isol][3] << endl;
+//         << P2[isol][2] << "  " << P2[isol][3] << '\n';
 //         cout << "q1 = " << Q1[isol][0] << "  " << Q1[isol][1]<< "  "
-//         << Q1[isol][2] << "  " << Q1[isol][3] << endl;
+//         << Q1[isol][2] << "  " << Q1[isol][3] << '\n';
 //         cout << "q2 = " << Q2[isol][0] << "  " << Q2[isol][1]<< "  "
-//         << Q2[isol][2] << "  " << Q2[isol][3] << endl;
+//         << Q2[isol][2] << "  " << Q2[isol][3] << '\n';
 //         double mn, mx, my, mz;
 //
 //         double p31[4], p531[4], p7531[4];
@@ -208,7 +208,7 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
 //         mx = sqrt(dot(p31, p31));
 //         my = sqrt(dot(p531, p531));
 //         mz = sqrt(dot(p7531, p7531));
-//         cout << "mn = " << mn << "   mx = " << mx << "   my = " << my << "   mz = " << mz << endl;
+//         cout << "mn = " << mn << "   mx = " << mx << "   my = " << my << "   mz = " << mz << '\n';
 //       }
 //     }
 // }

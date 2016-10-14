@@ -170,32 +170,32 @@ public:
     template <typename Value2>
     void WidenY(Range<Value> const& bound_x, std::vector<Value2> const& xs1, std::vector<Value2> const& ys1) {
 //         y_.Widen({0.001,1});
-      //         std::cout << "bound min " << bound_x.Min() << " bound max " << bound_x.Max() << std::endl;
+      //         std::cout << "bound min " << bound_x.Min() << " bound max " << bound_x.Max() << '\n';
       auto xs = xs1;
       boost::remove_erase(xs, 0);
       auto ys = ys1;
       boost::remove_erase(ys, 0);
         auto bound = Range<int>{};
         if (boost::range::is_sorted(xs, Smaller<Value2>())) {
-//             std::cout << "smaller" << std::endl;
+//             std::cout << "smaller" << '\n';
             bound.SetMin(boost::range::lower_bound(xs, Value2(bound_x.Min())) - xs.begin());
             bound.SetMax(boost::range::upper_bound(xs, Value2(bound_x.Max())) - xs.begin());
         } else if (boost::range::is_sorted(xs, Larger<Value2>())) {
-//             std::cout << "larger" << std::endl;
+//             std::cout << "larger" << '\n';
             bound.SetMin(boost::range::lower_bound(xs, Value2(bound_x.Max()), Larger<Value2>()) - xs.begin());
             bound.SetMax(boost::range::upper_bound(xs, Value2(bound_x.Min()), Larger<Value2>()) - xs.begin());
         } else {
-//             std::cout << "not sorted" << std::endl;
+//             std::cout << "not sorted" << '\n';
             bound.SetMin(0);
             bound.SetMax(xs.size());
         }
-//         std::cout << "min_x " << bound.Min() << " max_x " << bound.Max() << std::endl;
+//         std::cout << "min_x " << bound.Min() << " max_x " << bound.Max() << '\n';
         auto bound_y = Range<Value2>{};
         auto min = std::min_element(ys.begin() + bound.Min(), ys.begin() + bound.Max());
 //         , SmallerButNonZero<Value2>());
         bound_y.SetMin(*min);
         bound_y.SetMax(*std::max_element(ys.begin() + bound.Min(), ys.begin() + bound.Max()));
-//         std::cout << "min " << bound_y.Min() << " max " << bound_y.Max() << std::endl;
+//         std::cout << "min " << bound_y.Min() << " max " << bound_y.Max() << '\n';
         y_.Widen(bound_y);
     }
 

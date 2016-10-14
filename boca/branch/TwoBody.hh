@@ -4,6 +4,7 @@
 #pragma once
 
 #include "boca/branch/Particle.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {
@@ -36,7 +37,8 @@ public:
     float dipolarity;
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
+    void Fill(Multiplet const &multiplet)
+    {
         Particle::Fill(multiplet);
         ht = multiplet.Ht() / GeV;
         delta_pt = multiplet.DeltaPt() / GeV;
@@ -47,9 +49,11 @@ public:
         rho = multiplet.Rho();
         bdt_1 = multiplet.Multiplet1().Bdt();
         bdt_2 = multiplet.Multiplet2().Bdt();
-        pull_1 = multiplet.Pull12() / rad;
-        pull_2 = multiplet.Pull21() / rad;
-        dipolarity = multiplet.Dipolarity();
+        if (Settings::SubStructure()) {
+            pull_1 = multiplet.Pull12() / rad;
+            pull_2 = multiplet.Pull21() / rad;
+            dipolarity = multiplet.Dipolarity();
+        }
     }
 
     Observables Variables();

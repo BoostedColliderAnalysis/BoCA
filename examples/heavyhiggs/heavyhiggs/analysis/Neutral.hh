@@ -62,7 +62,7 @@ private:
 //         default : ERROR(tags.size());
 //         }
 //
-//         std::cout << "sum: " << sum << " ; 0: " << zero << " ; 1: " << one << " ; 2: " << two << std::endl;
+//         std::cout << "sum: " << sum << " ; 0: " << zero << " ; 1: " << one << " ; 2: " << two << '\n';
 
 //         std::vector<Particle> tops = CopyIfParticle(particles, Id::top);
 //         if (tops.size() != 2) return false;

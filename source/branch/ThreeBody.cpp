@@ -59,6 +59,14 @@ ThreeBody::ThreeBody()
 
 Observables ThreeBody::Variables()
 {
+        auto substructure = Settings::SubStructure() ?
+           OBSERVABLE(pull_23, "#theta_{23}") +
+           OBSERVABLE(pull_13, "#theta_{13}") +
+           OBSERVABLE(pull_32, "#theta_{32}") +
+           OBSERVABLE(pull_31, "#theta_{31}") :
+//            OBSERVABLE(dipolarity_23, "D_{23}") +
+//            OBSERVABLE(dipolarity_13, "D_{13}") +
+           boca::Observables{};
     return Particle::Variables() +
            OBSERVABLE(ht, "H_{T}") +
            OBSERVABLE(bdt_1, "BDT_{1}") +
@@ -94,16 +102,14 @@ Observables ThreeBody::Variables()
            OBSERVABLE(delta_ht_12, "\\Delta H_{T}^{12}") +
            OBSERVABLE(delta_ht_23, "\\Delta H_{T}^{23}") +
            OBSERVABLE(delta_ht_13, "\\Delta H_{T}^{13}") +
-           OBSERVABLE(pull_23, "#theta_{23}") +
-           OBSERVABLE(pull_13, "#theta_{13}") +
-           OBSERVABLE(pull_32, "#theta_{32}") +
-           OBSERVABLE(pull_31, "#theta_{31}");
+           substructure;
 }
 
 Observables ThreeBody::Spectators()
 {
-    return Particle::Spectators();
-//       + OBSERVABLE(dipolarity_23, "D_{23}") + OBSERVABLE(dipolarity_13, "D_{13}") + OBSERVABLE(aplanarity, "#slashed{P}") + OBSERVABLE(sphericity, "S");
+    return Particle::Spectators()
+// + OBSERVABLE(aplanarity, "#slashed{P}") +  OBSERVABLE(sphericity, "S")
+           ;
 }
 
 }

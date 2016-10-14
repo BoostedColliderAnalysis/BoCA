@@ -4,6 +4,7 @@
 #pragma once
 
 #include "boca/branch/Particle.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {
@@ -69,7 +70,8 @@ public:
     float aplanarity;
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
+    void Fill(Multiplet const &multiplet)
+    {
         Particle::Fill(multiplet);
         ht = multiplet.Ht() / GeV;
         bdt_1 = multiplet.Multiplet1().Bdt();
@@ -105,14 +107,16 @@ public:
         delta_ht_12 = multiplet.Multiplet12().DeltaHt() / GeV;
         delta_ht_23 = multiplet.Multiplet23().DeltaHt() / GeV;
         delta_ht_13 = multiplet.Multiplet13().DeltaHt() / GeV;
-        pull_12 = multiplet.Multiplet12().Pull12() / rad;
-        pull_21 = multiplet.Multiplet12().Pull21() / rad;
-        pull_23 = multiplet.Multiplet23().Pull12() / rad;
-        pull_32 = multiplet.Multiplet23().Pull21() / rad;
-        pull_13 = multiplet.Multiplet13().Pull12() / rad;
-        pull_31 = multiplet.Multiplet13().Pull21() / rad;
-        dipolarity_23 = multiplet.Multiplet23().Dipolarity();
-        dipolarity_13 = multiplet.Multiplet13().Dipolarity();
+        if (Settings::SubStructure()) {
+            pull_12 = multiplet.Multiplet12().Pull12() / rad;
+            pull_21 = multiplet.Multiplet12().Pull21() / rad;
+            pull_23 = multiplet.Multiplet23().Pull12() / rad;
+            pull_32 = multiplet.Multiplet23().Pull21() / rad;
+            pull_13 = multiplet.Multiplet13().Pull12() / rad;
+            pull_31 = multiplet.Multiplet13().Pull21() / rad;
+            dipolarity_23 = multiplet.Multiplet23().Dipolarity();
+            dipolarity_13 = multiplet.Multiplet13().Dipolarity();
+        }
         aplanarity = multiplet.EventShapes().Aplanarity();
         sphericity = multiplet.EventShapes().Sphericity();
     }

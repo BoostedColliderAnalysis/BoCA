@@ -28,7 +28,7 @@ namespace electronvolt
 struct EnergyBaseDimension : boost::units::base_dimension<EnergyBaseDimension, 1> {};
 
 #if BOOST_UNITS_HAS_BOOST_TYPEOF
-BOOST_TYPEOF_REGISTER_TYPE(boca::energy_base_dimension)
+BOOST_TYPEOF_REGISTER_TYPE(boca::EnergyBaseDimension)
 #endif
 
 using EnergyDimension = EnergyBaseDimension::dimension_type;
@@ -38,7 +38,7 @@ struct EnergyBaseUnit : public boost::units::base_unit<EnergyBaseUnit, EnergyDim
 };
 
 #if BOOST_UNITS_HAS_BOOST_TYPEOF
-BOOST_TYPEOF_REGISTER_TYPE(boca::energy_base_unit)
+BOOST_TYPEOF_REGISTER_TYPE(boca::EnergyBaseUnit)
 #endif
 
 using System  = boost::units::make_system <EnergyBaseUnit>::type;

@@ -251,7 +251,7 @@ public:
     /**
      * @brief Accessor for X
      */
-    constexpr Value_ &X()
+    Value_ &X()
     {
         return x_;
     }
@@ -259,7 +259,7 @@ public:
     /**
      * @brief Accessor for Y
      */
-    constexpr Value_ &Y()
+    Value_ &Y()
     {
         return y_;
     }
@@ -267,7 +267,7 @@ public:
     /**
      * @brief Accessor for Z
      */
-    constexpr Value_ &Z()
+    Value_ &Z()
     {
         return z_;
     }
@@ -719,7 +719,7 @@ public:
         case Dim3::z :
             return z_;
         default :
-            std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
+            std::cout << "bad index(%d) returning 0 " << Name(dimension) << '\n';
         }
         return x_;
     }
@@ -738,7 +738,7 @@ public:
         case Dim3::z :
             return z_;
         default :
-            std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
+            std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << '\n';
         }
         return x_;
     }

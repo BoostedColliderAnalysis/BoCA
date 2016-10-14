@@ -47,7 +47,17 @@ public:
 
     virtual std::string FileBaseName() const;
 
+    Canvas(Canvas const&) = default;
+
+    Canvas(Canvas &&) = default;
+
+    Canvas &operator=(Canvas const&) & = default;
+
+    Canvas &operator=(Canvas &&) & = default;
+
 protected :
+
+    ~Canvas() {}
 
     std::string const& Title() const;
 

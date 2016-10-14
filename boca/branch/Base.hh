@@ -27,6 +27,20 @@ public:
 
     static float InitialValue();
 
+    Base() {};
+
+    Base(Base const&) = default;
+
+    Base(Base &&) = default;
+
+    Base &operator=(Base const&) & = default;
+
+    Base &operator=(Base &&) & = default;
+
+protected:
+
+    ~Base() {}
+
 private:
 
     ClassDef(Base, 1)

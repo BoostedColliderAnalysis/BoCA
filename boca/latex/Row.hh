@@ -44,9 +44,9 @@ private:
     template <typename Cell>
     void SetCell(Cell const& cell) {
         if (first_) {
-            row_ << " " << cell << "\n";
+            row_ << " " << cell << '\n';
             first_ = false;
-        } else row_ << "  & " << cell << "\n";
+        } else row_ << "  & " << cell << '\n';
     }
 
     void AddCells() {}

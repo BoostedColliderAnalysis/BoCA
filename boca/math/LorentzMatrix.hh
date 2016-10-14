@@ -46,7 +46,7 @@ public:
     LorentzMatrix(Matrix3<Value_> const &matrix, Vector3<Value_> const &vector, Value_ scalar, Matrix symmetry = Matrix::none)
     {
         if (symmetry == Matrix::none) symmetry == matrix.Symmetry();
-        if (symmetry != Matrix::symmetric || symmetry != Matrix::antisymmetric) std::cout << "matrix symmetry not well defiend" << std::endl;
+        if (symmetry != Matrix::symmetric || symmetry != Matrix::antisymmetric) std::cout << "matrix symmetry not well defiend" << '\n';
         SetMatrix(matrix);
         SetVector(vector, symmetry);
         SetScalar(scalar);
@@ -83,7 +83,7 @@ public:
             SetColumns(x, y, z, t);
             break;
         default :
-            std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+            std::cout << "Maformed matrix constructor: " << Name(matrix) << '\n';
         }
     }
 
@@ -120,7 +120,7 @@ public:
             t_.SetVector(-vector);
             break;
         default :
-            std::cout << "matrix symmetry not well defiend" << std::endl;
+            std::cout << "matrix symmetry not well defiend" << '\n';
         }
     }
 
@@ -540,7 +540,7 @@ public:
         case LorentzDim::t :
             return t_;
         }
-        std::cout << "operator()(i), subscripting: bad index " << Name(i) << std::endl;
+        std::cout << "operator()(i), subscripting: bad index " << Name(i) << '\n';
         return x_;
     }
 
@@ -560,7 +560,7 @@ public:
         case LorentzDim::t :
             return t_;
         }
-        std::cout << "operator()(i), subscripting: bad index " << Name(i) << std::endl;
+        std::cout << "operator()(i), subscripting: bad index " << Name(i) << '\n';
         return x_;
     }
 

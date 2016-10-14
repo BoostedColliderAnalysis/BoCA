@@ -57,12 +57,12 @@ int ValueLength()
 void Log(std::string const& file, int line, std::string const& NameSpace, std::string const& Class, std::string const& function, bool final)
 {
     std::cout << Column(25, file) << ColumnRight(3, line) << " " << Column(15, NameSpace) << Column(18, Class) << Column(20, function);
-    if (final) std::cout << "\n";
+    if (final) std::cout << '\n';
 }
 
 void Debug(bool final)
 {
-  if (final) std::cout << "\n";
+  if (final) std::cout << '\n';
 }
 
 void LogVariable(std::string const& variable, Particle const& jet)
@@ -82,8 +82,8 @@ void LogVariable(std::string const&, char const* value)
 }
 void Error(const std::string& variable)
 {
-    std::cout << "Error: " << variable << std::endl;
-    std::cout << "\n";
+    std::cout << "Error: " << variable << '\n';
+    std::cout << '\n';
 }
 
 // std::stringstream Left(int width){

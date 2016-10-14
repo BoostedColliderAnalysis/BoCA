@@ -255,7 +255,7 @@ void TopTagger2::run()
             UnclusterFatjets(big_fatjets, small_fatjets, *_seq, R / 10.);
 
             if (_debug) {
-                std::cout << "R = " << R << " -> n_small_fatjets = " << small_fatjets.size() << std::endl;
+                std::cout << "R = " << R << " -> n_small_fatjets = " << small_fatjets.size() << '\n';
             }
 
             _n_small_fatjets[R] = small_fatjets.size();

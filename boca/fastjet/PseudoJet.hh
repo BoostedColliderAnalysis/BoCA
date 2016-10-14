@@ -67,6 +67,10 @@ public:
     */
     PseudoJet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy const& e);
 
+    PseudoJet(PseudoJet const&) = default;
+
+    PseudoJet(PseudoJet &&) = default;
+
     //@}
 
     void Reset(PseudoJet const &pseudo_jet);
@@ -256,7 +260,16 @@ public:
     */
     bool operator==(const PseudoJet &pseudo_jet) const;
 
+    PseudoJet &operator=(PseudoJet const&) & = default;
+
+    PseudoJet &operator=(PseudoJet &&) & = default;
+
     //@}
+
+    virtual ~PseudoJet() {}
+
+protected:
+
 
 };
 

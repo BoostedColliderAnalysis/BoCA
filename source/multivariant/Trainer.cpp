@@ -42,10 +42,10 @@ std::string Trainer::FactoryOptions()
 {
     INFO0;
     auto options = Options {"Color", false};
-//     options.Add("V");
-//     options.Add("Silent", false);
     options.Add("DrawProgressBar", false);
     return options;
+    options.Add("V");
+    options.Add("Silent", false);
 }
 
 std::string Trainer::DataLoaderOptions()
@@ -98,7 +98,7 @@ double Trainer::Weight(std::string const& tree_name, Tag tag)
     auto tree_reader = TreeReader {{Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger};
     auto& array = tree_reader.Array<branch::Info>(Tagger().WeightBranchName());
     tree_reader.ReadEntry(0);
-    return array.At(0).Crosssection() / fb / tree_reader.GetEntries();
+    return tree_reader.GetEntries() > 0 && array.At(0).Crosssection() > 0_b ? array.At(0).Crosssection() / fb / tree_reader.GetEntries() : 1;
 }
 
 long Trainer::Entries(std::string const& tree_name, Tag tag)

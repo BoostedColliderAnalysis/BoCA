@@ -32,12 +32,12 @@ std::string Command::str() const
         string += "]";
     }
     if (!options_.empty()) for (const auto & option : options_) string += "{" + option + "}";
-    return string + (add_line_ ? "\n" : "");
+    return string + (add_line_ ? '\n' : '\0');
 }
 
 std::ostream& operator<<(std::ostream& stream, const Command& tex)
 {
-    stream << tex.str() << "\n";
+    stream << tex.str() << '\n';
     return stream;
 }
 

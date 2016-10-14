@@ -164,10 +164,11 @@ protected:
                 }
             case Process::TThh :
                 switch (static_cast<int>(Mass() / GeV)) {
-                case 500 : return 8.027e-06 * 2_pb;
-                case 1000 : return 4.374e-07 * 2_pb;
-                case 1500 : return 6.82e-08 * 2_pb;
-                case 2000 : return 1.698e-08 * 2_pb;
+                case 500 : return 0.00365 * 2_pb;
+                case 1000 : return 0.0001594 * 2_pb;
+                case 2000 : return 5.939e-06 * 2_pb;
+                case 4000 : return 1.44e-07 * 2_pb;
+                case 8000 : return 1.489e-09 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TTh :

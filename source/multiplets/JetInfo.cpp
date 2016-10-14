@@ -352,6 +352,7 @@ double JetInfo::EnergyRatio() const
 {
     return min_x_;
 }
+
 double JetInfo::MomentumRatio() const
 {
     return fraction_;

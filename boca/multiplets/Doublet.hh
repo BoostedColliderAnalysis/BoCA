@@ -13,7 +13,7 @@ namespace boca
 * @brief A %Doublet consisting of two Singlets
 *
 */
-class Doublet : public TwoBody<boca::Singlet, boca::Singlet>
+class Doublet : public boca::TwoBody<boca::Singlet, boca::Singlet>
 {
 
 public:

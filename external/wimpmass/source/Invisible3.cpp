@@ -454,7 +454,7 @@ int solve_3_2(double a0, double a1, double a2, double a3, double a4, double a5, 
 //         cout.setf(ios::showpos);
 //         cout.width(18);
 //         if ((wr[i] != 0.0) || (wi[i] != 0.0))
-//             cout << wr[i] << " " << wi[i] << "I" << endl;
+//             cout << wr[i] << " " << wi[i] << "I" << '\n';
 //      }*/
 //     for (int i = 0; i < n; i++)
 //         if (std::abs(wi[i]) < 2) {
@@ -482,11 +482,11 @@ int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double
 {
     /*if(debug==1)
     {
-        cout<<"in function solve_2_2"<<endl;
+        cout<<"in function solve_2_2"<<'\n';
         cout<<aa0<<"\t"<<aa1<<"\t"<<aa2<<"\t"<<aa3<<"\t"<<aa4<<"\t"<<
-    aa5<<"\t"<<aa6<<"\t"<<aa7<<"\t"<<aa8<<endl;
+    aa5<<"\t"<<aa6<<"\t"<<aa7<<"\t"<<aa8<<'\n';
         cout<<bb0<<"\t"<<bb1<<"\t"<<bb2<<"\t"<<bb3<<"\t"<<bb4<<"\t"<<
-    bb5<<"\t"<<bb6<<"\t"<<bb7<<"\t"<<endl;
+    bb5<<"\t"<<bb6<<"\t"<<bb7<<"\t"<<'\n';
     }*/
     auto a0 = aa0; auto a1 = aa1; auto a2 = aa2; auto a3 = aa3; auto a4 = aa4; auto a5 = aa5; auto a6 = aa6; auto a7 = aa7; auto a8 = aa8;
     auto b0 = bb0; auto b1 = bb1; auto b2 = bb2; auto b3 = bb3; auto b4 = bb4; auto b5 = bb5; auto b6 = bb6; auto b7 = bb7;
@@ -701,7 +701,7 @@ int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double
               3 * a3 * b3 * b6 * b7 - a6 * a8 * b3 * b6 * b7 + a3 * a8 * b6 * b6 * b7;
     auto c9 = a3 * a3 + a6 * a6 * b3 - 2 * a3 * a8 * b3 - 2 * a6 * b3 * b3 + a8 * a8 * b3 * b3 + b3 * b3 * b3 - a3 * a6 * b6 +
               3 * a3 * b3 * b6 - a6 * a8 * b3 * b6 - a8 * b3 * b3 * b6 + a3 * a8 * b6 * b6 + a6 * b3 * b6 * b6 - a3 * b6 * b6 * b6;
-    //cout<<"cs:"<<c0<<"  "<<c1<<"  "<<c2<<"  "<<c3<<"  "<<c4<<"  "<<c5<<"  "<<c6<<"  "<<c7<<"  "<<c8<<"  "<<c9<<endl;
+    //cout<<"cs:"<<c0<<"  "<<c1<<"  "<<c2<<"  "<<c3<<"  "<<c4<<"  "<<c5<<"  "<<c6<<"  "<<c7<<"  "<<c8<<"  "<<c9<<'\n';
     auto nsols = solve_3_2(c0 / c9, c1 / c9, c2 / c9, c3 / c9, c4 / c9, c5 / c9, c6 / c9, c7 / c9, c8 / c9, solutions);
 
     c0 = -(a7 * b0) + b0 * b5 + a0 * b7 - b0 * b6 * b7;
@@ -780,8 +780,8 @@ int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double
 
     for (auto i = 0; i < nsols; i++) {
         auto x = solutions[i * 3 + 0];
-        //cout<<"yn= "<<(-a0 - a1*x - a2*x*x - a3*x*x*x - a4*x*x*x*x - a5*x*x*x*x*x)<<endl;
-        //cout<<"yd= "<<(a6 + a7*x + a8*x*x + a9*x*x*x + x*x*x*x)<<endl;
+        //cout<<"yn= "<<(-a0 - a1*x - a2*x*x - a3*x*x*x - a4*x*x*x*x - a5*x*x*x*x*x)<<'\n';
+        //cout<<"yd= "<<(a6 + a7*x + a8*x*x + a9*x*x*x + x*x*x*x)<<'\n';
         auto y = (-a0 - a1 * x - a2 * x * x - a3 * x * x * x - a4 * x * x * x * x - a5 * x * x * x * x * x) /
                  (a6 + a7 * x + a8 * x * x + a9 * x * x * x + x * x * x * x);
 //apply a Newton's method
@@ -810,7 +810,7 @@ int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double
         }
         solutions[i * 3 + 0] = x;
         solutions[i * 3 + 1] = y;
-        //cout<<"y= "<<y<<endl;
+        //cout<<"y= "<<y<<'\n';
     }
 
     return nsols;
@@ -820,20 +820,20 @@ int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double
 int solve_1(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7, double a8, double b0, double b1, double b2, double b3, double b4, double b5, double b6, double b7, double c0, double c1, double c2, double c3, double c4, double c5, double c6, double* solutions)
 {
     /*cout<<a0<<"+x*"<<a1<<"+x*x*"<<a2<<"+y*"<<a3<<"+x*y*"
-            <<a4<<"+y*y*"<<a5<<"+z*"<<a6<<"+z*x*"<<a7<<"+z*y*"<<a8<<"+z*z"<<endl;
+            <<a4<<"+y*y*"<<a5<<"+z*"<<a6<<"+z*x*"<<a7<<"+z*y*"<<a8<<"+z*z"<<'\n';
     cout<<b0<<"+x*"<<b1<<"+x*x*"<<b2<<"+y*"<<b3<<"+x*y*"
-            <<b4<<"+y*y*"<<b5<<"+z*"<<b6<<"+z*x*"<<b7<<"+z*y*"<<endl;
+            <<b4<<"+y*y*"<<b5<<"+z*"<<b6<<"+z*x*"<<b7<<"+z*y*"<<'\n';
     cout<<c0<<"+x*"<<c1<<"+x*x*"<<c2<<"+y*"<<c3<<"+x*y*"
-            <<c4<<"+y*y*"<<c5<<"+z*"<<c6<<"+z*x*"<<endl;*/
+            <<c4<<"+y*y*"<<c5<<"+z*"<<c6<<"+z*x*"<<'\n';*/
     /*if(debug==1)
     {
-       cout<<"in function solve_1"<<endl;
+       cout<<"in function solve_1"<<'\n';
        cout<<a0<<"\t"<<a1<<"\t"<<a2<<"\t"<<a3<<"\t"<<a4<<"\t"<<
-    a5<<"\t"<<a6<<"\t"<<a7<<"\t"<<a8<<endl;
+    a5<<"\t"<<a6<<"\t"<<a7<<"\t"<<a8<<'\n';
        cout<<b0<<"\t"<<b1<<"\t"<<b2<<"\t"<<b3<<"\t"<<b4<<"\t"<<
-    b5<<"\t"<<b6<<"\t"<<b7<<"\t"<<endl;
+    b5<<"\t"<<b6<<"\t"<<b7<<"\t"<<'\n';
        cout<<c0<<"\t"<<c1<<"\t"<<c2<<"\t"<<c3<<"\t"<<c4<<"\t"<<
-    c5<<"\t"<<c6<<"\t"<<endl;
+    c5<<"\t"<<c6<<"\t"<<'\n';
     }*/
     auto d0 = -(a6 * b0) + b0 * b3 + a0 * b6 - b0 * b5 * b6 + b1 * c0 - b4 * b6 * c0 - b3 * b7 * c0 +
               2 * b5 * b6 * b7 * c0 - b2 * c0 * c6 + b4 * b7 * c0 * c6 - b5 * b7 * b7 * c0 * c6;
@@ -887,9 +887,9 @@ int solve_1(double a0, double a1, double a2, double a3, double a4, double a5, do
     auto e10 = -c0 + b6 * c3 - b6 * b6 * c5 + c1 * c6 - b7 * c3 * c6 - b6 * c4 * c6 + 2 * b6 * b7 * c5 * c6 -
                c2 * c6 * c6 + b7 * c4 * c6 * c6 - b7 * b7 * c5 * c6 * c6;
     /*cout<<d0<<"\t"<<d1<<"\t"<<d2<<"\t"<<d3<<"\t"<<d4<<"\t"<<
-    d5<<"\t"<<d6<<"\t"<<d7<<"\t"<<d8<<"\t"<<d9<<"\t"<<d10<<endl;
+    d5<<"\t"<<d6<<"\t"<<d7<<"\t"<<d8<<"\t"<<d9<<"\t"<<d10<<'\n';
     cout<<e0<<"\t"<<e1<<"\t"<<e2<<"\t"<<e3<<"\t"<<e4<<"\t"<<
-    e5<<"\t"<<e6<<"\t"<<e7<<"\t"<<e8<<"\t"<<e9<<"\t"<<e10<<endl;*/
+    e5<<"\t"<<e6<<"\t"<<e7<<"\t"<<e8<<"\t"<<e9<<"\t"<<e10<<'\n';*/
 
     d0 = d0 / d10; d1 = d1 / d10; d2 = d2 / d10; d3 = d3 / d10; d4 = d4 / d10; d5 = d5 / d10;
     d6 = d6 / d10; d7 = d7 / d10; d8 = d8 / d10; d9 = d9 / d10;
@@ -909,7 +909,7 @@ int solve_1(double a0, double a1, double a2, double a3, double a4, double a5, do
     auto g7 = -c3 - b6 * c5 + b5 * c6;
     auto g8 = b5 - c4 - b7 * c5;
     auto g9 = -c5;
-    //cout<<g0<<"\t"<<g1<<"\t"<<g2<<"\t"<<g3<<"\t"<<g4<<"\t"<<g5<<"\t"<<g6<<"\t"<<g7<<"\t"<<g8<<"\t"<<g9<<endl;
+    //cout<<g0<<"\t"<<g1<<"\t"<<g2<<"\t"<<g3<<"\t"<<g4<<"\t"<<g5<<"\t"<<g6<<"\t"<<g7<<"\t"<<g8<<"\t"<<g9<<'\n';
     g0 = g0 / g9; g1 = g1 / g9; g2 = g2 / g9; g3 = g3 / g9; g4 = g4 / g9; g5 = g5 / g9; g6 = g6 / g9; g7 = g7 / g9; g8 = g8 / g9;
     auto h0 = f0 - g0; auto h1 = f1 - g1; auto h2 = f2 - g2; auto h3 = f3 - g3; auto h4 = f4 - g4; auto h5 = f5 - g5; auto h6 = f6 - g6; auto h7 = f7 - g7; auto h8 = f8 - g8;
     h0 = h0 / h8; h1 = h1 / h8; h2 = h2 / h8; h3 = h3 / h8; h4 = h4 / h8; h5 = h5 / h8; h6 = h6 / h8; h7 = h7 / h8;
@@ -956,30 +956,30 @@ int solve3quad(double* coeff, double* solutions)
     double solutions1[36];
     int i;
     auto a9 = coeff[9];
-    //cout<<"a9= "<<a9<<endl;
+    //cout<<"a9= "<<a9<<'\n';
     auto a0 = coeff[0] / a9; auto a1 = coeff[1] / a9; auto a2 = coeff[2] / a9; auto a3 = coeff[3] / a9; auto a4 = coeff[4] / a9;
     auto a5 = coeff[5] / a9; auto a6 = coeff[6] / a9; auto a7 = coeff[7] / a9; auto a8 = coeff[8] / a9; a9 = 1.;
     i = 10;
     auto b9 = coeff[19];
-    //cout<<"b9= "<<b9<<endl;
+    //cout<<"b9= "<<b9<<'\n';
     auto b0 = coeff[i + 0] / b9; auto b1 = coeff[i + 1] / b9; auto b2 = coeff[i + 2] / b9; auto b3 = coeff[i + 3] / b9; auto b4 = coeff[i + 4] / b9;
     auto b5 = coeff[i + 5] / b9; auto b6 = coeff[i + 6] / b9; auto b7 = coeff[i + 7] / b9; auto b8 = coeff[i + 8] / b9; b9 = 1.;
     i = 20;
     auto c9 = coeff[29];
-    //cout<<"c9= "<<c9<<endl;
+    //cout<<"c9= "<<c9<<'\n';
     auto c0 = coeff[i + 0] / c9; auto c1 = coeff[i + 1] / c9; auto c2 = coeff[i + 2] / c9; auto c3 = coeff[i + 3] / c9; auto c4 = coeff[i + 4] / c9;
     auto c5 = coeff[i + 5] / c9; auto c6 = coeff[i + 6] / c9; auto c7 = coeff[i + 7] / c9; auto c8 = coeff[i + 8] / c9; c9 = 1.;
     /*if(debug==1)
     {
         cout<<a0<<"\t"<<a1<<"\t"<<a2<<"\t"<<a3<<"\t"<<a4<<"\t"<<
-    a5<<"\t"<<a6<<"\t"<<a7<<"\t"<<a8<<endl;
-        cout<<"a9= "<<a9<<endl;
-        cout<<"b9= "<<b9<<endl;
-        cout<<"c9= "<<c9<<endl;
+    a5<<"\t"<<a6<<"\t"<<a7<<"\t"<<a8<<'\n';
+        cout<<"a9= "<<a9<<'\n';
+        cout<<"b9= "<<b9<<'\n';
+        cout<<"c9= "<<c9<<'\n';
         cout<<b0<<"\t"<<b1<<"\t"<<b2<<"\t"<<b3<<"\t"<<b4<<"\t"<<
-    b5<<"\t"<<b6<<"\t"<<b7<<"\t"<<b8<<endl;
+    b5<<"\t"<<b6<<"\t"<<b7<<"\t"<<b8<<'\n';
         cout<<c0<<"\t"<<c1<<"\t"<<c2<<"\t"<<c3<<"\t"<<c4<<"\t"<<
-    c5<<"\t"<<c6<<"\t"<<c7<<"\t"<<c8<<endl;
+    c5<<"\t"<<c6<<"\t"<<c7<<"\t"<<c8<<'\n';
     }*/
     auto d0 = a0 - b0; auto d1 = a1 - b1; auto d2 = a2 - b2; auto d3 = a3 - b3;
     auto d4 = a4 - b4; auto d5 = a5 - b5; auto d6 = a6 - b6; auto d7 = a7 - b7; auto d8 = a8 - b8;
@@ -995,18 +995,18 @@ int solve3quad(double* coeff, double* solutions)
         auto x = solutions1[i * 3 + 0];
         auto y = solutions1[i * 3 + 1];
         auto z = solutions1[i * 3 + 2];
-        //if(debug==1) cout<<"solutions "<<i<<endl;
+        //if(debug==1) cout<<"solutions "<<i<<'\n';
         auto q1 = a0 + a1 * x + a2 * x * x + a3 * y + a4 * y * x + a5 * y * y + a6 * z + a7 * z * x + a8 * z * y + a9 * z * z;
         auto q2 = b0 + b1 * x + b2 * x * x + b3 * y + b4 * y * x + b5 * y * y + b6 * z + b7 * z * x + b8 * z * y + b9 * z * z;
         auto q3 = c0 + c1 * x + c2 * x * x + c3 * y + c4 * y * x + c5 * y * y + c6 * z + c7 * z * x + c8 * z * y + c9 * z * z;
         auto ratio = (q1 * q1 + q2 * q2 + q3 * q3) / ((z * z + x * x + y * y) * (z * z + x * x + y * y));
         /*if(debug==1)
         {
-             cout<<"step 0 "<<endl;
-             cout<<"quadratic 1: "<<q1<<endl;
-             cout<<"quadratic 2: "<<q2<<endl;
-             cout<<"quadratic 3: "<<q3<<endl;
-             cout<<"x,y,z= "<<x<<"  "<<y<<"  "<<z<<endl;
+             cout<<"step 0 "<<'\n';
+             cout<<"quadratic 1: "<<q1<<'\n';
+             cout<<"quadratic 2: "<<q2<<'\n';
+             cout<<"quadratic 3: "<<q3<<'\n';
+             cout<<"x,y,z= "<<x<<"  "<<y<<"  "<<z<<'\n';
         }*/
         for (auto ii = 0; ii < 20; ii++) {
             TMatrixD jacob(3, 3);
@@ -1039,13 +1039,13 @@ int solve3quad(double* coeff, double* solutions)
             ratio = (q1 * q1 + q2 * q2 + q3 * q3) / ((z * z + x * x + y * y) * (z * z + x * x + y * y));
             /*if(debug==1)
             {
-               cout<<"step "<<ii+1<<endl;
-               cout<<"quadratic 1: "<<q1<<endl;
-               cout<<"quadratic 2: "<<q2<<endl;
-               cout<<"quadratic 3: "<<q3<<endl;
-               cout<<"x,y,z= "<<x<<"  "<<y<<"  "<<z<<endl;
+               cout<<"step "<<ii+1<<'\n';
+               cout<<"quadratic 1: "<<q1<<'\n';
+               cout<<"quadratic 2: "<<q2<<'\n';
+               cout<<"quadratic 3: "<<q3<<'\n';
+               cout<<"x,y,z= "<<x<<"  "<<y<<"  "<<z<<'\n';
             }*/
-            //if(debug==1) cout<<"ratio= "<<ratio<<endl;
+            //if(debug==1) cout<<"ratio= "<<ratio<<'\n';
             if (ratio < 1e-24) break;
             if (ratio > 0.1) break;
         }
@@ -1057,7 +1057,7 @@ int solve3quad(double* coeff, double* solutions)
             solutions[isol * 3 + 2] = z;
 //             double temp;
             auto ok = 1;
-            //cout<<"passed x,y,z= "<<x<<"  "<<y<<"  "<<z<<endl;
+            //cout<<"passed x,y,z= "<<x<<"  "<<y<<"  "<<z<<'\n';
 //             double x0, y0, z0;
 //             x0 = solutions1[i * 3 + 0];
 //             y0 = solutions1[i * 3 + 1];
@@ -1068,7 +1068,7 @@ int solve3quad(double* coeff, double* solutions)
                 if (std::abs(x - solutions[itemp * 3 + 0]) + std::abs(y - solutions[itemp * 3 + 1]) + std::abs(z - solutions[itemp * 3 + 2]) < 0.1) {
                     ok = 0;
                 }
-            //cout<<"q1,q2,q3= "<<q1<<"  "<<q2<<"  "<<q3<<endl;
+            //cout<<"q1,q2,q3= "<<q1<<"  "<<q2<<"  "<<q3<<'\n';
             if (ok == 1) isol++;
         }
     }

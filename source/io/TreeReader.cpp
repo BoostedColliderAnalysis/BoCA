@@ -167,13 +167,13 @@ bool TreeReader::Has(std::string const& name) const
 
 void TreeReader::NewBase(std::string name, TClass& cl)
 {
-    if (Has(name)) std::cout << name << " exists already, will be overwritten" << tagger_arrays_.size() << std::endl;
+    if (Has(name)) std::cout << name << " exists already, will be overwritten" << tagger_arrays_.size() << '\n';
     tagger_arrays_.emplace(name, std::make_shared<TreeReaderArray>(tree_reader_, name, cl));
 }
 
 TreeReaderArray& TreeReader::Array(std::string const& name) const
 {
-    if (!Has(name)) std::cout << name << " does not exist " << tagger_arrays_.size() << std::endl;
+    if (!Has(name)) std::cout << name << " does not exist " << tagger_arrays_.size() << '\n';
     return const_cast<TreeReaderArray&>(*std::dynamic_pointer_cast<TreeReaderArray>(tagger_arrays_.at(name)).get());
 }
 

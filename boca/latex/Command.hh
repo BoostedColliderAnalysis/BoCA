@@ -175,7 +175,7 @@ public:
 
     template <typename... Arguments_>
     std::string Begin(Arguments_... arguments) {
-        return (new_line_ ? "\n" : "") + Command("begin", name_, true, arguments...).str();
+        return (new_line_ ? '\n' : '\0') + Command("begin", name_, true, arguments...).str();
     }
 
     std::string End() const;
