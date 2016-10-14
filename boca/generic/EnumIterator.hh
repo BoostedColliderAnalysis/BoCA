@@ -13,11 +13,7 @@ namespace boca
 * @brief Enables the use of strongly typed enumerators as iterators
 */
 template<typename Enum_>
-class EnumIterator : boost::totally_ordered<EnumIterator<Enum_>>,
-//             boost::additive<EnumIterator<Enum_>>,
-            boost::additive<EnumIterator<Enum_>, std::size_t>,
-            boost::unit_steppable<EnumIterator<Enum_>>
-
+class EnumIterator : boost::random_access_iteratable<EnumIterator<Enum_>, Enum_ *, std::ptrdiff_t, Enum_>
 {
 
     using size_type = std::size_t;
@@ -47,17 +43,9 @@ public:
     constexpr EnumIterator() : enum_() {}
 
     /**
-    * @brief Copy constructor
-    */
-//     constexpr EnumIterator(EnumIterator const &rhs) : enum_(rhs.enum_) {}
-
-    /**
     * @brief Constructor from enum
     */
     constexpr explicit EnumIterator(Enum_ value) : enum_(value) {}
-
-//     ~EnumIterator() {}
-
     //@}
 
     /**
@@ -134,7 +122,7 @@ public:
     /**
      * @brief substruction
      */
-    constexpr difference_type operator-(EnumIterator const& enum_iterator)
+    constexpr difference_type operator-(EnumIterator const& enum_iterator) const
     {
         return static_cast<Type_>(enum_) - static_cast<Type_>(enum_iterator.enum_);
     }
@@ -146,73 +134,7 @@ public:
     {
         return enum_;
     }
-
-    /**
-     * @brief reference
-     */
-    constexpr reference operator[](size_type size) const
-    {
-        return Add(size);
-    }
-
-    /**
-     * @brief dereference
-     */
-    constexpr const Enum_ *operator->() const
-    {
-        return &enum_;
-    }
-
-//     EnumIterator &operator=(EnumIterator const &rhs)
-//     {
-//         enum_ = rhs.enum_;
-//         return *this;
-//     }
-
-//     constexpr EnumIterator operator++(int)
-//     {
-//         EnumIterator iterator(*this);
-//         ++*this;
-//         return iterator;
-//     }
-
-//     constexpr friend EnumIterator operator+(EnumIterator const &it, size_type size)
-//     {
-//         return it.Add(size);
-//     }
-//
-//     constexpr friend EnumIterator operator+(size_type size, EnumIterator const &it)
-//     {
-//         return it.Add(size);
-//     }
-
-//     constexpr EnumIterator operator--(int)
-//     {
-//         EnumIterator iterator(*this);
-//         --*this;
-//         return iterator;
-//     }
-
-//     friend EnumIterator operator-(EnumIterator const &it, size_type size)
-//     {
-//         return it.Substract(size);
-//     }
-
-//     constexpr friend bool operator!=(EnumIterator const& lhs, EnumIterator const& rhs) {
-//         return lhs.enum_ != rhs.enum_;
-//     }
-
-//     constexpr friend bool operator>(EnumIterator const& lhs, EnumIterator const& rhs) {
-//         return lhs.enum_ > rhs.enum_;
-//     }
-//
-//     constexpr friend bool operator<=(EnumIterator const& lhs, EnumIterator const& rhs) {
-//         return lhs.enum_ <= rhs.enum_;
-//     }
-//
-//     constexpr friend bool operator>=(EnumIterator const& lhs, EnumIterator const& rhs) {
-//         return lhs.enum_ >= rhs.enum_;
-//     }
+    //@}
 
     constexpr friend void swap(EnumIterator const &lhs, EnumIterator const &rhs)
     {

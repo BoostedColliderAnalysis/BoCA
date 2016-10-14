@@ -125,6 +125,8 @@ public:
 
     Base &operator=(Base &&) & = default;
 
+    bool Cut(TMVA::Reader const& reader, double eff) const;
+
 protected:
 
     ~Base() {}
@@ -142,8 +144,6 @@ protected:
     boca::TreeBranch& TreeBranch() const;
 
     double Bdt(TMVA::Reader const& reader) const;
-
-    bool Cut(TMVA::Reader const& reader, double eff) const;
 
     virtual boca::Filter Filter() const;
 
