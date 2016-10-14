@@ -46,7 +46,7 @@ public:
     }
 
     constexpr EnumIterator& operator++() {
-        Add(static_cast<size_type>(1));
+        Add(1);
         return *this;
     }
 
@@ -69,8 +69,8 @@ public:
         return it.Add(size);
     }
 
-   constexpr  EnumIterator& operator--() {
-        Substract(static_cast<size_type>(1));
+   constexpr EnumIterator& operator--() {
+        Substract(1);
         return *this;
     }
 
@@ -139,12 +139,12 @@ private:
 
     using Type_ = typename std::underlying_type<Enum_>::type;
 
-    Enum_ Add(size_type size) {
+    constexpr Enum_ Add(size_type size) {
         enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) + size);
         return enum_;
     }
 
-    Enum_ Substract(size_type size) {
+    constexpr Enum_ Substract(size_type size) {
         enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) - size);
         return enum_;
     }
