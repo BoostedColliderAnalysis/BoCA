@@ -11,8 +11,8 @@ if(!iwyu_path)
 endif()
 
 include(cmake/CMakeConfig.cmake)
-find_package(Boost 1.43)
-# find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.56)
+# find_package(Boost 1.56 COMPONENTS system filesystem REQUIRED)
 add_include_path(${Boost_INCLUDE_DIRS} SYSTEM)
 # add_libraries(
 #   ${Boost_FILESYSTEM_LIBRARY}
