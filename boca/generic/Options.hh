@@ -35,13 +35,13 @@ public:
 
     Options(std::string const &string, bool do_it = true);
 
-    template<typename Value_>
+    template<typename Value_, typename = detail::OnlyIfNotBool<Value_>>
     Options(std::string const &string, Value_ value)
     {
         Add(string, value);
     }
 
-    template<typename Value_, typename = detail::OnlyIfNotBool<Value_>>
+    template<typename Value_>
     Options(std::string const &string, Value_ value, std::string const &unit)
     {
         Add(string, value, unit);
