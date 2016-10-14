@@ -19,6 +19,8 @@ public:
 
     Row(std::string const& cell);
 
+    Row(Row const& row) : row_(row.row_.str()),  first_(row.first_){}
+
     void Initialize();
 
     template <typename... Arguments>
