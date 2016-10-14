@@ -168,7 +168,7 @@ public:
     /**
     * @brief Set the diagonal to uniform value
     */
-    constexpr Matrix3 &SetDiagonal(Value_ value)
+    Matrix3 &SetDiagonal(Value_ value)
     {
         x_ = {value, Dim3::x};
         y_ = {value, Dim3::y};
@@ -179,7 +179,7 @@ public:
     /**
     * @brief Set the diagonal to given vector
     */
-    constexpr Matrix3 &SetDiagonal(Vector3<Value_> vector)
+    Matrix3 &SetDiagonal(Vector3<Value_> vector)
     {
         x_ = {vector.X(), Dim3::x};
         y_ = {vector.Y(), Dim3::y};
@@ -190,7 +190,7 @@ public:
     /**
     * @brief vector of upper triangle
     */
-    constexpr Matrix3 &SetUpperTriangle(Vector3<Value_> vector)
+    Matrix3 &SetUpperTriangle(Vector3<Value_> vector)
     {
         x_.Y() = vector.X();
         x_.Z() = vector.Y();
@@ -201,7 +201,7 @@ public:
     /**
     * @brief vector of lower triangle
     */
-    constexpr Matrix3 &SetLowerTriangle(Vector3<Value_> vector)
+    Matrix3 &SetLowerTriangle(Vector3<Value_> vector)
     {
         y_.X() = vector.X();
         z_.X() = vector.Y();
@@ -212,7 +212,7 @@ public:
     /**
     * @brief Set to the diagonal to identiy
     */
-    constexpr Matrix3 &SetToIdentity()
+    Matrix3 &SetToIdentity()
     {
         SetUpperTriangle({0});
         SetLowerTriangle({0});
@@ -222,7 +222,7 @@ public:
     /**
     * @brief Set the matrix to uniform value
     */
-    constexpr Matrix3 &SetUniform(Value_ value)
+    Matrix3 &SetUniform(Value_ value)
     {
         x_ = {value, value, value};
         y_ = {value, value, value};
@@ -233,7 +233,7 @@ public:
     /**
     * @brief Set the rows according to given vectors
     */
-    constexpr void SetRows(Vector3<Value_> const &x, Vector3<Value_> const &y, Vector3<Value_> const &z)
+    void SetRows(Vector3<Value_> const &x, Vector3<Value_> const &y, Vector3<Value_> const &z)
     {
         x_ = x;
         y_ = y;
@@ -243,7 +243,7 @@ public:
     /**
     * @brief Set a row according to vector and direction
     */
-    constexpr void SetRow(Vector3<Value_> const &vector, Dim3 dim)
+    void SetRow(Vector3<Value_> const &vector, Dim3 dim)
     {
         switch (dim) {
         case Dim3::x :
@@ -263,7 +263,7 @@ public:
     /**
     * @brief Set columns according to given vectors
     */
-    constexpr void SetColumns(Vector3<Value_> const &x, Vector3<Value_> const &y, Vector3<Value_> const &z)
+    void SetColumns(Vector3<Value_> const &x, Vector3<Value_> const &y, Vector3<Value_> const &z)
     {
         x_ = {x.X(), y.X(), z.X()};
         y_ = {x.Y(), y.Y(), z.Y()};
@@ -273,7 +273,7 @@ public:
     /**
     * @brief Set a column according to vector and its direction
     */
-    constexpr void SetColumn(Vector3<Value_> const &vector, Dim3 dim)
+    void SetColumn(Vector3<Value_> const &vector, Dim3 dim)
     {
         x_ = {vector.X(), dim};
         y_ = {vector.Y(), dim};
@@ -283,7 +283,7 @@ public:
     /**
     * @brief Fill the matrix antisymmetrically with the values of the vector
     */
-    constexpr void SetAntisymmetric(Vector3<Value_> const &vector)
+    void SetAntisymmetric(Vector3<Value_> const &vector)
     {
         x_ = {Value_(0), vector.Z(), -vector.Y()};
         y_ = { -vector.Z(), Value_(0), vector.X()};
@@ -295,7 +295,7 @@ public:
     *
     * Dim2 defines the type of Euler rotation
     */
-    constexpr Matrix3 &SetEulerAngles(Angle const &phi, Angle const &theta, Angle const &psi, Dim2 dim = Dim2::x)
+    Matrix3 &SetEulerAngles(Angle const &phi, Angle const &theta, Angle const &psi, Dim2 dim = Dim2::x)
     {
         SetToIdentity();
         Rotate(phi, Dim3::z);
@@ -317,7 +317,7 @@ public:
     * @brief Set phi
     *
     */
-    constexpr void SetPhi(Angle const &phi, Dim2 dim = Dim2::x)
+    void SetPhi(Angle const &phi, Dim2 dim = Dim2::x)
     {
         SetEulerAngles(phi, Theta(dim), Psi(dim), dim);
     }
@@ -325,7 +325,7 @@ public:
     /**
     * @brief Set theta
     */
-    constexpr void SetTheta(Angle const &theta, Dim2 dim = Dim2::x)
+    void SetTheta(Angle const &theta, Dim2 dim = Dim2::x)
     {
         SetEulerAngles(Phi(dim), theta, Psi(dim), dim);
     }
@@ -333,7 +333,7 @@ public:
     /**
     * @brief Set psi
     */
-    constexpr void SetPsi(Angle const &psi, Dim2 dim = Dim2::x)
+    void SetPsi(Angle const &psi, Dim2 dim = Dim2::x)
     {
         SetEulerAngles(Phi(), Theta(dim), psi, dim);
     }
@@ -342,7 +342,7 @@ public:
     * @brief Set axis
     *
     */
-    constexpr Matrix3 &SetAxis(Vector3<Value_> const &axis, Dim3 dim)
+    Matrix3 &SetAxis(Vector3<Value_> const &axis, Dim3 dim)
     {
         return SetAxis(axis, {axis.Mag(), Next(dim)});
     }
@@ -351,7 +351,7 @@ public:
     * @brief Set axis
     *
     */
-    constexpr Matrix3 &SetAxis(Vector3<Value_> const &axis, Vector3<Value_> const &plane, Dim3 dim)
+    Matrix3 &SetAxis(Vector3<Value_> const &axis, Vector3<Value_> const &plane, Dim3 dim)
     {
         *this = MakeBasis(plane, axis).MoveTo(dim, Dim3::x).Transpose();
         return *this;

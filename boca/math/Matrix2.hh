@@ -116,7 +116,7 @@ public:
     /**
     * @brief Set equal to the identity rotation.
     */
-    constexpr Matrix2 &SetToIdentity()
+    Matrix2 &SetToIdentity()
     {
         return SetDiagonal(1);
     }
@@ -124,7 +124,7 @@ public:
     /**
     * @brief Set diagonal
     */
-    constexpr Matrix2 &SetDiagonal(Value_ value)
+    Matrix2 &SetDiagonal(Value_ value)
     {
         x_ = {value, Value_(0)};
         y_ = {Value_(0), value};
@@ -134,7 +134,7 @@ public:
     /**
     * @brief Set uniform
     */
-    constexpr Matrix2 &SetUniform(Value_ value)
+    Matrix2 &SetUniform(Value_ value)
     {
         x_ = {value, value};
         y_ = {value, value};
@@ -144,7 +144,7 @@ public:
     /**
     * @brief Set rows
     */
-    constexpr void SetRows(Vector2<Value_> const &x, Vector2<Value_> const &y)
+    void SetRows(Vector2<Value_> const &x, Vector2<Value_> const &y)
     {
         x_ = x;
         y_ = y;
@@ -153,7 +153,7 @@ public:
     /**
     * @brief Set columns
     */
-    constexpr void SetColumns(Vector2<Value_> const &x, Vector2<Value_> const &y)
+    void SetColumns(Vector2<Value_> const &x, Vector2<Value_> const &y)
     {
         x_ = {x.X(), y.X()};
         y_ = {x.Y(), y.Y()};

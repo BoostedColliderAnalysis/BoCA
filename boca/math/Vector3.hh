@@ -119,7 +119,7 @@ public:
     /**
      * @brief Set x, y, z according to value
      */
-    constexpr void SetUniform(Value_ value)
+    void SetUniform(Value_ value)
     {
         x_ = value;
         y_ = value;
@@ -129,7 +129,7 @@ public:
     /**
      * @brief Set Pt, Eta and Phi
      */
-    constexpr void SetPtEtaPhi(Value_ pt, boca::Angle const &eta, boca::Angle const &phi)
+    void SetPtEtaPhi(Value_ pt, boca::Angle const &eta, boca::Angle const &phi)
     {
         SetUniform(abs(pt));
         x_ *= boost::units::cos(phi);
@@ -152,7 +152,7 @@ public:
     /**
      * @brief Set phi keeping the magnitue and theta constant
      */
-    constexpr void SetPhi(boca::Angle const &phi)
+    void SetPhi(boca::Angle const &phi)
     {
         auto const perp = Perp();
         x_ = perp * boost::units::cos(phi);
@@ -162,7 +162,7 @@ public:
     /**
      * @brief Set theta keeping mag and phi constant
      */
-    constexpr void SetTheta(boca::Angle const &theta)
+    void SetTheta(boca::Angle const &theta)
     {
         auto const phi = Phi();
         SetUniform(Mag());
@@ -174,7 +174,7 @@ public:
     /**
      * @brief Set the magnitude keeping theta and phi constant
      */
-    constexpr void SetMag(Value_ magnitude)
+    void SetMag(Value_ magnitude)
     {
         auto const old = Mag();
         *this *= old == Value_(0) ? 0. : magnitude / old;
@@ -183,7 +183,7 @@ public:
     /**
      * @brief Set mag, theta, phi
      */
-    constexpr void SetMagThetaPhi(Value_ mag, boca::Angle const &theta, boca::Angle const &phi)
+    void SetMagThetaPhi(Value_ mag, boca::Angle const &theta, boca::Angle const &phi)
     {
         SetUniform(abs(mag));
         x_ *= boost::units::sin(theta) * boost::units::cos(phi);
@@ -191,7 +191,7 @@ public:
         z_ *= boost::units::cos(theta);
     }
 
-    constexpr void SetPerpEtaPhi(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi)
+    void SetPerpEtaPhi(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi)
     {
         SetUniform(abs(perp));
         x_ *= static_cast<double>(boost::units::cos(phi));
@@ -199,7 +199,7 @@ public:
         z_ *= static_cast<double>(units::sinh(eta));
     }
 
-    constexpr void SetPerpEtaPhi(Value_ const &perp, Vector2<boca::Angle> const& eta_phi_vector)
+    void SetPerpEtaPhi(Value_ const &perp, Vector2<boca::Angle> const& eta_phi_vector)
     {
         SetUniform(abs(perp));
         x_ *= boost::units::cos(eta_phi_vector.Y());
@@ -210,7 +210,7 @@ public:
     /**
      * @brief Set the transverse component keeping phi and z constant.
      */
-    constexpr void SetPerp(Value_ perp)
+    void SetPerp(Value_ perp)
     {
         auto const old = Perp();
         if (old == Value_(0)) return;

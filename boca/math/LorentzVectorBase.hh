@@ -98,7 +98,7 @@ public:
     /**
      * @brief Set components
      */
-    constexpr void SetVectT(Vector3<Value_> const &spatial, Value_ t)
+    void SetVectT(Vector3<Value_> const &spatial, Value_ t)
     {
         Spatial() = spatial;
         Scalar() = t;
@@ -115,7 +115,7 @@ public:
     /**
      * @brief Set spatial magnitude
      */
-    constexpr void SetRho(Value_ rho)
+    void SetRho(Value_ rho)
     {
         Spatial().SetMag(rho);
     }
@@ -123,7 +123,7 @@ public:
     /**
      * @brief Set Nergy according to spatial component and magnitude \f$e = \sqrt{ m^2 + \rho^2}\f$
      */
-    constexpr void SetMag(Value_ magnitude)
+    void SetMag(Value_ magnitude)
     {
         Scalar() = magnitude >= Value_(0)  ?  sqrt(sqr(Spatial()) + sqr(magnitude)) : sqrt(std::max((sqr(Spatial()) - sqr(magnitude)), ValueSquare(0)));
     }
@@ -131,7 +131,7 @@ public:
     /**
      * @brief Copy spatial coordinates, and set \f$e = \sqrt{ m^2 + \rho^2}\f$
      */
-    constexpr void SetVectMag(Vector3<Value_> const &spatial, Value_ magnitude)
+    void SetVectMag(Vector3<Value_> const &spatial, Value_ magnitude)
     {
         Spatial() = spatial;
         SetMag(magnitude);
@@ -140,7 +140,7 @@ public:
     /**
      * @brief Set perp,  \f$\eta\f$, \f$\phi\f$ and magnitude
      */
-    constexpr void SetPerpEtaPhiMag(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi, Value_ const &mag)
+    void SetPerpEtaPhiMag(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi, Value_ const &mag)
     {
         SetPerpEtaPhi(perp, eta,  phi);
         SetMag(mag);
@@ -149,7 +149,7 @@ public:
     /**
      * @brief Set perp,  \f$\eta\f$, \f$\phif$ and time
      */
-    constexpr void SetPerpEtaPhiT(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi, Value_ const &t)
+    void SetPerpEtaPhiT(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi, Value_ const &t)
     {
         SetPerpEtaPhi(perp, eta, phi);
         scalar_ = t;

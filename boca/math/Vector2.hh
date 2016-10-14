@@ -100,7 +100,7 @@ public:
     /**
      * @brief Set both both entries according to the value
      */
-    constexpr void SetUniform(Value_ value)
+    void SetUniform(Value_ value)
     {
         x_ = value;
         y_ = value;
@@ -109,7 +109,7 @@ public:
     /**
     * @brief Setter for the magnitude and angle
     */
-    constexpr void SetMagPhi(Value_ magnitude, Angle const &phi)
+    void SetMagPhi(Value_ magnitude, Angle const &phi)
     {
         SetUniform(abs(magnitude));
         x_ *= cos(phi);
