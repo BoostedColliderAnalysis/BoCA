@@ -195,7 +195,7 @@ void Base::RunTrainer()
     INFO0;
     if (Exists(Tagger().WeightFileName())) return;
     PrepareFiles(Stage::trainer);
-    auto cout_file = std::ofstream{Tagger().FolderName() + ".txt"};
+    std::ofstream cout_file(Tagger().FolderName() + ".txt");
     auto cout = std::cout.rdbuf();
     std::cout.rdbuf(cout_file.rdbuf());
     Trainer trainer(Tagger());
