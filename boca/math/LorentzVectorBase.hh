@@ -478,7 +478,7 @@ public:
     /**
      * @brief Boost this Lorentz vector
      */
-    constexpr LorentzVectorBase<Value_> &Boost(Vector3<double> const &boost)
+    LorentzVectorBase<Value_> &Boost(Vector3<double> const &boost)
     {
         auto const mag_2 = boost.Mag2();
         auto const gamma = 1 / sqrt(1 - mag_2);
@@ -508,7 +508,7 @@ public:
     template <typename Value_2>
     constexpr LorentzVectorBase<ValueProduct<Value_2>> Scale(Value_2 const &scalar) const
     {
-        return {Spatial() * scalar, Scalar() * scalar};
+        return {Spatial() *scalar, Scalar() *scalar};
     }
 
     /**
@@ -617,9 +617,8 @@ public:
     /**
      * @brief components by index.
      */
-    constexpr Value_ const &operator()(LorentzDim i) const
+    Value_ const &operator()(LorentzDim i) const
     {
-        //dereferencing operatorconst
         switch (i) {
         case LorentzDim::x :
             return Spatial()(Dim3::x);
@@ -631,14 +630,14 @@ public:
             return scalar_;
         default:
             std::cout << "bad index(%d) returning 0 " << Name(i) << '\n';
+            return Spatial()(Dim3::x);
         }
-        return Spatial()(Dim3::x);
     }
 
     /**
      * @brief components by index.
      */
-    constexpr Value_ const &operator[](LorentzDim i) const
+    Value_ const &operator[](LorentzDim i) const
     {
         return (*this)(i);
     }
@@ -660,8 +659,8 @@ public:
             return scalar_;
         default:
             std::cout << "bad index(%d) returning &e_ " << Name(i) << '\n';
+            return scalar_;
         }
-        return scalar_;
     }
 
     /**

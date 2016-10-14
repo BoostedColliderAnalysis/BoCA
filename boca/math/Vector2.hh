@@ -384,7 +384,7 @@ public:
     /**
      * @brief Components by index
      */
-    constexpr Value_ operator()(Dim2 dimension) const
+    Value_ operator()(Dim2 dimension) const
     {
         //dereferencing operator const
         switch (dimension) {
@@ -401,7 +401,7 @@ public:
     /**
      * @brief Components by index
      */
-    constexpr Value_ operator[](Dim2 dimension) const
+    Value_ operator[](Dim2 dimension) const
     {
         return operator()(dimension);
     }
@@ -418,8 +418,8 @@ public:
             return y_;
         default :
             Debug("Bad index returning x_", Name(dimension));
-        }
         return x_;
+        }
     }
 
     /**

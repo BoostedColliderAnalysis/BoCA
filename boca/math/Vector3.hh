@@ -526,11 +526,10 @@ public:
     /**
     * @brief Unit vector parallel to this.
     */
-    constexpr Vector3<double> Unit() const
+    Vector3<double> Unit() const
     {
         auto const mag2 = Mag2();
-        if (mag2 == ValueSquare(0)) return {};
-        return *this / sqrt(mag2);
+        return mag2 == ValueSquare(0) ? Vector3<double>() : *this / sqrt(mag2);
     }
 
     /**
