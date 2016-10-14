@@ -46,7 +46,7 @@ public:
     }
 
     constexpr EnumIterator& operator++() {
-        Add(1);
+        Add(static_cast<size_type>(1));
         return *this;
     }
 
@@ -70,7 +70,7 @@ public:
     }
 
    constexpr  EnumIterator& operator--() {
-        Substract(1);
+        Substract(static_cast<size_type>(1));
         return *this;
     }
 
