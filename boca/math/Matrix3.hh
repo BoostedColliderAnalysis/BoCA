@@ -936,7 +936,7 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Vector3<Value_> &operator()(Dim3 dim)
+    Vector3<Value_> &operator()(Dim3 dim)
     {
         switch (dim) {
         case Dim3::x :
@@ -962,7 +962,7 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Value_ &operator()(Dim3 i, Dim3 j)
+    Value_ &operator()(Dim3 i, Dim3 j)
     {
         return operator()(i)(j);
     }
@@ -978,7 +978,7 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Vector3<Value_> &operator[](Dim3 i)
+    Vector3<Value_> &operator[](Dim3 i)
     {
         return operator()(i);
     }

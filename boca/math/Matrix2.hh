@@ -477,7 +477,7 @@ public:
     /**
     * @brief rows
     */
-    constexpr Vector2<Value_> &operator()(Dim2 dim)
+    Vector2<Value_> &operator()(Dim2 dim)
     {
         switch (dim) {
         case Dim2::x :
@@ -501,7 +501,7 @@ public:
     /**
     * @brief rows
     */
-    constexpr Value_ &operator()(Dim2 i, Dim2 j)
+    Value_ &operator()(Dim2 i, Dim2 j)
     {
         return operator()(i)(j);
     }
@@ -517,7 +517,7 @@ public:
     /**
     * @brief rows
     */
-    constexpr Vector2<Value_> &operator[](Dim2 i)
+    Vector2<Value_> &operator[](Dim2 i)
     {
         return operator()(i);
     }

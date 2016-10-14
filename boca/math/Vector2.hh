@@ -409,7 +409,7 @@ public:
     /**
      * @brief Components by index
      */
-    constexpr Value_ &operator()(Dim2 dimension)
+    Value_ &operator()(Dim2 dimension)
     {
         switch (dimension) {
         case Dim2::x :
@@ -425,7 +425,7 @@ public:
     /**
      * @brief Components by index
      */
-    constexpr Value_ &operator[](Dim2 dimension)
+    Value_ &operator[](Dim2 dimension)
     {
         return operator()(dimension);
     }

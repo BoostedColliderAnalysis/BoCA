@@ -727,7 +727,7 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Value_ &operator()(Dim3 dimension)
+    Value_ &operator()(Dim3 dimension)
     {
         //dereferencing operator
         switch (dimension) {
@@ -754,7 +754,7 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Value_ &operator[](Dim3 dimension)
+    Value_ &operator[](Dim3 dimension)
     {
         return operator()(dimension);
     }

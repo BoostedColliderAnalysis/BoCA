@@ -648,7 +648,7 @@ public:
     /**
      * @brief components by index.
      */
-    constexpr Value_ &operator()(LorentzDim i)
+    Value_ &operator()(LorentzDim i)
     {
         //dereferencing operator
         switch (i) {
@@ -669,7 +669,7 @@ public:
     /**
      * @brief components by index.
      */
-    constexpr Value_ &operator[](LorentzDim i)
+    Value_ &operator[](LorentzDim i)
     {
         return (*this)(i);
     }
