@@ -199,7 +199,7 @@ public:
         z_ *= static_cast<double>(units::sinh(eta));
     }
 
-    void SetPerpEtaPhi(Value_ const &perp, Vector2<boca::Angle> const& eta_phi_vector)
+    void SetPerpEtaPhi(Value_ const &perp, Vector2<boca::Angle> const &eta_phi_vector)
     {
         SetUniform(abs(perp));
         x_ *= boost::units::cos(eta_phi_vector.Y());
@@ -487,13 +487,13 @@ public:
     * @brief Rotates around the axis specified by another vector
     */
     template<typename Value_2_>
-    auto & Rotate(boca::Angle angle, Vector3<Value_2_> const &axis);
+    auto &Rotate(boca::Angle angle, Vector3<Value_2_> const &axis);
 
     /**
     * @brief Transformation with a Rotation matrix.
     */
     template<typename Value_2_>
-    auto & Transform(Matrix3<Value_2_> const& matrix);
+    auto &Transform(Matrix3<Value_2_> const &matrix);
 
     /**
     * @brief Rotates reference frame from \f$U_z\f$ to \f$U_z^\prime\f$
@@ -665,7 +665,7 @@ public:
     * @brief Multiplication with a matrix
     */
     template<typename Value_2_>
-    auto &operator*=(Matrix3<Value_2_> const& matrix);
+    auto &operator*=(Matrix3<Value_2_> const &matrix);
 
     /**
     * @brief division by scalar
@@ -708,9 +708,8 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Value_ const &operator()(Dim3 dimension) const
+    Value_ const &operator()(Dim3 dimension) const
     {
-        //dereferencing operator const
         switch (dimension) {
         case Dim3::x :
             return x_;
@@ -720,8 +719,8 @@ public:
             return z_;
         default :
             std::cout << "bad index(%d) returning 0 " << Name(dimension) << '\n';
+            return x_;
         }
-        return x_;
     }
 
     /**
@@ -729,7 +728,6 @@ public:
     */
     Value_ &operator()(Dim3 dimension)
     {
-        //dereferencing operator
         switch (dimension) {
         case Dim3::x :
             return x_;
@@ -739,14 +737,14 @@ public:
             return z_;
         default :
             std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << '\n';
+            return x_;
         }
-        return x_;
     }
 
     /**
     * @brief Components by index
     */
-    constexpr Value_ const &operator[](Dim3 dimension) const
+    Value_ const &operator[](Dim3 dimension) const
     {
         return operator()(dimension);
     }
