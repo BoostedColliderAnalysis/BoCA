@@ -529,13 +529,13 @@ public:
     Vector3<double> Unit() const
     {
         auto const mag2 = Mag2();
-        return mag2 == ValueSquare(0) ? Vector3<double>() : *this / sqrt(mag2);
+        return mag2 == ValueSquare(0) ? Vector3<double>() : static_cast<Vector3<double>>(*this / sqrt(mag2));
     }
 
     /**
     * @brief Vector orthogonal to this
     */
-    constexpr Vector3 Orthogonal() const
+    Vector3 Orthogonal() const
     {
         auto const x = x_ < Value_(0) ? -x_ : x_;
         auto const y = y_ < Value_(0) ? -y_ : y_;
