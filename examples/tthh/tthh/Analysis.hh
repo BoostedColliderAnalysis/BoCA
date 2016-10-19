@@ -20,16 +20,17 @@ class Analysis : public boca::Analysis<Tagger_>
 
 public:
 
-    void SetFiles(boca::Phase const& phase) override
+    void SetFiles(boca::Phase const &phase) override
     {
         switch (phase.Tag()) {
         case boca::Tag::signal :
-            // put your signal file here
-            this->AddSignal("hhbbaa_sig", "hh", 0_b,  0_eV, "../events/");
+            this->AddSignal("lambda0-n1", "\\lambda_{0} n_{1}");
             break;
         case boca::Tag::background :
-            // put your background file here
-            this->AddBackground("bbaa_bkg", "bbaa", 0_b,  0_eV, "../events/");
+            this->AddBackground("tt_inc-100TeV", "tt_{inc}");
+            this->AddBackground("tttt_100TeV", "tttt");
+            this->AddBackground("tttwb_100TeV", "tttW^{\\pm}b");
+            this->AddBackground("ttwbb_100TeV", "ttW^{\\pm}bb");
             break;
         }
     }
@@ -46,16 +47,13 @@ public:
 
     bool PassPreCut(boca::Event const &event) const override
     {
-        auto jets = event.Jets();
-        auto number_hard_jets = boost::range::count_if(jets, [](boca::Jet const & jet) {
+        auto number_hard_jets = boost::range::count_if(event.Jets(), [](auto const & jet) {
             return jet.Pt() > 10_GeV;
         });
-//        return number_hard_jets >= 2  ?  1 : 0;
-        auto photons = event.Photons();
-        auto number_hard_photons = boost::range::count_if(photons, [](boca::Photon const & photon) {
+        auto number_hard_photons = boost::range::count_if(event.Photons(), [](auto const & photon) {
             return photon.Pt() > 10_GeV;
         });
-        return number_hard_jets >= 2 && number_hard_photons >= 2 ?  1 : 0;
+        return number_hard_jets >= 2 && number_hard_photons >= 2 ?  true : false;
     }
 
 };

@@ -10,14 +10,14 @@ This code performs staged BDT analyses using root files as in- and output format
 * [`Boost`](http://www.boost.org/) version ≥ 1.56 ([`Optional`](http://www.boost.org/doc/libs/release/libs/optional/), [`Range`](http://www.boost.org/doc/libs/release/libs/range/), [`Units`](http://www.boost.org/doc/libs/release/libs/units/), [`Operators`](http://www.boost.org/doc/libs/release/libs/utility/operators.htm))
 
 The BoCA code makes heavy use of modern C++ features.
-The limiting factor for the minimal supportet compiler version is given by the use of return type deduction.
+The limiting factor for the minimal supportet compiler version is given by the use of generic lambda function.
 Therefore the compiler version must be
 * GCC version ≥ 4.9
-* Clang version ≥ 3.3 (which might rely on a recent GCC version)
+* Clang version ≥ 3.4 (which might rely on a recent GCC version)
 
 ## Installation
 
-* the following is tested on recent ubuntu and mac installations
+* the following is tested on recent ubuntu, scientific linux  and mac installations
 
 ~~~~
 mkdir build

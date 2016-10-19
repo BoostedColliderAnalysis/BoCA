@@ -106,7 +106,7 @@ public:
      */
     EnumIterator &operator++()
     {
-        Add(1);
+        Add();
         return *this;
     }
 
@@ -115,7 +115,7 @@ public:
      */
     EnumIterator &operator--()
     {
-        Substract(1);
+        Substract();
         return *this;
     }
 
@@ -145,16 +145,14 @@ private:
 
     Enum_ enum_;
 
-    Enum_ Add(size_type size)
+    void Add(size_type size = 1)
     {
         enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) + size);
-        return enum_;
     }
 
-    Enum_ Substract(size_type size)
+    void Substract(size_type size = 1)
     {
         enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) - size);
-        return enum_;
     }
 
 };

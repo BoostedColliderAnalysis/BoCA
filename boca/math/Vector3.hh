@@ -67,8 +67,7 @@ public:
      * @brief Default constructor
      */
     constexpr Vector3() :
-        x_(0),
-        y_(0),
+        trans_(),
         z_(0)
     {}
 
@@ -76,28 +75,34 @@ public:
      * @brief Constructor accepting three scalars
      */
     constexpr Vector3(Value_ x, Value_ y, Value_ z) :
-        x_(x),
-        y_(y),
+        trans_(x, y),
         z_(z)
     {};
 
     /**
      * @brief Constructor accepting one scalar and its direction
      */
-    Vector3(Value_ value, Dim3 dim)
+    Vector3(Value_ value, Dim3 dim) :
+        z_(dim == Dim3::z ? value : Value_(0))
     {
-        x_ = dim == Dim3::x ? value : Value_(0);
-        y_ = dim == Dim3::y ? value : Value_(0);
-        z_ = dim == Dim3::z ? value : Value_(0);
+        trans_.X() = dim == Dim3::x ? value : Value_(0);
+        trans_.Y() = dim == Dim3::y ? value : Value_(0);
     }
+
+    /**
+     * @brief Constructor accepting a two vector and a scalar
+     */
+    constexpr Vector3(Vector2<Value_> const &transversal,  Value_ z) :
+        trans_(transversal),
+        z_(z)
+    {}
 
     /**
      * @brief Constructor accepting a vector
      */
     template<typename Value_2_>
     constexpr Vector3(Vector3<Value_2_> const &vector) :
-        x_(vector.X()),
-        y_(vector.Y()),
+        trans_(vector.Transversal()),
         z_(vector.Z())
     {}
 
@@ -105,8 +110,7 @@ public:
      * @brief Constructor accepting a root::TVector3
      */
     constexpr Vector3(TVector3 const &vector) :
-        x_(vector.X()),
-        y_(vector.Y()),
+        trans_(vector.XYvector()),
         z_(vector.Z())
     {}
     //@}
@@ -121,54 +125,8 @@ public:
      */
     void SetUniform(Value_ value)
     {
-        x_ = value;
-        y_ = value;
-        z_ = value;
-    }
-
-    /**
-     * @brief Set Pt, Eta and Phi
-     */
-    void SetPtEtaPhi(Value_ pt, boca::Angle const &eta, boca::Angle const &phi)
-    {
-        SetUniform(abs(pt));
-        x_ *= boost::units::cos(phi);
-        y_ *= boost::units::sin(phi);
-        z_ *= eta == 0_rad ? 0. : static_cast<double>(1. / tan(2.0 * atan(units::exp(-eta))));
-    }
-
-    /**
-     * @brief Set Pt, Theta and Phi
-     */
-    void SetPtThetaPhi(Value_ pt, boca::Angle const &theta, boca::Angle const &phi)
-    {
-        SetUniform(pt);
-        x_ *= boost::units::cos(phi);
-        y_ *= boost::units::sin(phi);
-        auto const tan_theta = tan(theta);
-        z_ *= tan_theta == 0. ? 1. / tan_theta : Value_(0);
-    }
-
-    /**
-     * @brief Set phi keeping the magnitue and theta constant
-     */
-    void SetPhi(boca::Angle const &phi)
-    {
-        auto const perp = Perp();
-        x_ = perp * boost::units::cos(phi);
-        y_ = perp * boost::units::sin(phi);
-    }
-
-    /**
-     * @brief Set theta keeping mag and phi constant
-     */
-    void SetTheta(boca::Angle const &theta)
-    {
-        auto const phi = Phi();
-        SetUniform(Mag());
-        x_ *= boost::units::sin(theta) * boost::units::cos(phi);
-        y_ *= boost::units::sin(theta) * boost::units::sin(phi);
-        z_ *= boost::units::cos(theta);
+        Transversal().SetUniform(value);
+        Z() = value;
     }
 
     /**
@@ -181,41 +139,55 @@ public:
     }
 
     /**
-     * @brief Set mag, theta, phi
-     */
-    void SetMagThetaPhi(Value_ mag, boca::Angle const &theta, boca::Angle const &phi)
-    {
-        SetUniform(abs(mag));
-        x_ *= boost::units::sin(theta) * boost::units::cos(phi);
-        y_ *= boost::units::sin(theta) * boost::units::sin(phi);
-        z_ *= boost::units::cos(theta);
-    }
-
-    void SetPerpEtaPhi(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi)
-    {
-        SetUniform(abs(perp));
-        x_ *= static_cast<double>(boost::units::cos(phi));
-        y_ *= static_cast<double>(boost::units::sin(phi));
-        z_ *= static_cast<double>(units::sinh(eta));
-    }
-
-    void SetPerpEtaPhi(Value_ const &perp, Vector2<boca::Angle> const &eta_phi_vector)
-    {
-        SetUniform(abs(perp));
-        x_ *= boost::units::cos(eta_phi_vector.Y());
-        y_ *= boost::units::sin(eta_phi_vector.Y());
-        z_ *= units::sinh(eta_phi_vector.X());
-    }
-
-    /**
      * @brief Set the transverse component keeping phi and z constant.
      */
     void SetPerp(Value_ perp)
     {
-        auto const old = Perp();
-        if (old == Value_(0)) return;
-        x_ *= perp / old;
-        y_ *= perp / old;
+        Transversal().SetMag(perp);
+    }
+
+    /**
+     * @brief Set phi keeping the magnitue and theta constant
+     */
+    void SetPhi(boca::Angle const &phi)
+    {
+        Transversal().SetPhi(phi);
+    }
+
+    /**
+     * @brief Set mag, theta, phi
+     */
+    void SetMagThetaPhi(Value_ mag, boca::Angle const &theta, boca::Angle const &phi)
+    {
+        Transversal().SetMagPhi(mag * boost::units::sin(theta),  phi);
+        Z() = mag * boost::units::cos(theta);
+    }
+
+    /**
+     * @brief Set theta keeping mag and phi constant
+     */
+    void SetTheta(boca::Angle const &theta)
+    {
+        SetMagThetaPhi(Mag(),  theta,  Phi());
+    }
+
+    /**
+     * @brief Set Perpendicular, Theta and Phi
+     */
+    void SetPerpThetaPhi(Value_ perp, boca::Angle const &theta, boca::Angle const &phi)
+    {
+        Transversal().SetMagPhi(perp,  phi);
+        auto const tan_theta = tan(theta);
+        Z() = tan_theta == 0. ? abs(perp) / tan_theta : Value_(0);
+    }
+
+    /**
+     * @brief Set Perpendicular, Eta and Phi
+     */
+    void SetPerpEtaPhi(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi)
+    {
+        Transversal().SetMagPhi(perp,  phi);
+        Z() = abs(perp) * units::sinh(eta);
     }
     //@}
 
@@ -229,7 +201,7 @@ public:
      */
     constexpr Value_ X() const
     {
-        return x_;
+        return trans_.X();
     }
 
     /**
@@ -237,7 +209,7 @@ public:
      */
     constexpr Value_ Y() const
     {
-        return y_;
+        return trans_.Y();
     }
 
     /**
@@ -249,11 +221,19 @@ public:
     }
 
     /**
+    * @brief Transversal vector \f$(x, y)\f$
+    */
+    constexpr Vector2<Value_> Transversal() const
+    {
+        return trans_;
+    }
+
+    /**
      * @brief Accessor for X
      */
     Value_ &X()
     {
-        return x_;
+        return trans_.X();
     }
 
     /**
@@ -261,7 +241,7 @@ public:
      */
     Value_ &Y()
     {
-        return y_;
+        return trans_.Y();
     }
 
     /**
@@ -270,6 +250,14 @@ public:
     Value_ &Z()
     {
         return z_;
+    }
+
+    /**
+    * @brief Transversal vector \f$(x, y)\f$
+    */
+    Vector2<Value_> &Transversal()
+    {
+        return trans_;
     }
     //@}
 
@@ -283,7 +271,7 @@ public:
      */
     boca::Angle Phi() const
     {
-        return x_ == Value_(0) && y_ == Value_(0) ? 0_rad : atan2(y_, x_);
+        return Transversal().Phi();
     }
 
     /**
@@ -291,7 +279,8 @@ public:
      */
     boca::Angle Theta() const
     {
-        return x_ == Value_(0) && y_ == Value_(0) && z_ == Value_(0) ? 0_rad : atan2(Perp(), z_);
+        auto const perp = Perp();
+        return perp == Value_(0) && Z() == Value_(0) ? 0_rad : atan2(perp, Z());
     }
 
     /**
@@ -300,7 +289,7 @@ public:
     double CosTheta() const
     {
         auto const mag = Mag();
-        return mag == Value_(0) ? 1 : z_ / mag;
+        return mag == Value_(0) ? 1 : Z() / mag;
     }
 
     /**
@@ -397,7 +386,7 @@ public:
      */
     constexpr ValueSquare Mag2() const
     {
-        return sqr(x_) + sqr(y_) + sqr(z_);
+        return Perp2() + sqr(Z());
     }
 
     /**
@@ -413,7 +402,7 @@ public:
      */
     constexpr ValueSquare Perp2() const
     {
-        return sqr(x_) + sqr(y_);
+        return Transversal().Mag2();
     }
 
     /**
@@ -421,7 +410,7 @@ public:
      */
     constexpr Value_ Perp() const
     {
-        return sqrt(Perp2());
+        return Transversal().Mag();
     }
 
     /**
@@ -455,7 +444,7 @@ public:
     /**
     * @brief Rotate by phi in (dim_1,  dim_2) plain
     */
-    void Rotate(boca::Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
+    Vector3& Rotate(boca::Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
     {
         if (phi == 0_rad)  return *this;
         auto const cos = boost::units::cos(phi);
@@ -464,12 +453,13 @@ public:
         (*this)(dim_1) = cos * row - sin * (*this)(dim_2);
         (*this)(dim_2) = sin * row + cos * (*this)(dim_2);
         return *this;
+//         Vector2<Value_>((*this)(dim_1),(*this)(dim_2)).Rotate(phi);
     }
 
     /**
     * @brief Rotate by phi around axis dim
     */
-    constexpr void Rotate(boca::Angle const &phi, Dim3 dim)
+    Vector3& Rotate(boca::Angle const &phi, Dim3 dim)
     {
         switch (dim) {
         case Dim3::x :
@@ -511,8 +501,8 @@ public:
             temp.Z() -= - X();
             *this = temp / perp;
         } else if (unit.Z() < 0) {
-            x_ = -x_; // phi=0 teta=pi
-            z_ = -z_;
+            X() = -X(); // phi=0 teta=pi
+            Z() = -Z();
         } else {};
     }
 
@@ -537,19 +527,11 @@ public:
     */
     Vector3 Orthogonal() const
     {
-        auto const x = x_ < Value_(0) ? -x_ : x_;
-        auto const y = y_ < Value_(0) ? -y_ : y_;
-        auto const z = z_ < Value_(0) ? -z_ : z_;
-        if (x < y) return x < z ? Vector3(Value_(0), z_, -y_) : Vector3(y_, -x_, Value_(0));
-        else return y < z ? Vector3(-z_, Value_(0), x_) : Vector3(y_, -x_, Value_(0));
-    }
-
-    /**
-    * @brief Transversal vector \f$(x, y)\f$
-    */
-    constexpr Vector2<Value_> Transversal() const
-    {
-        return {x_, y_};
+        auto const x = X() < Value_(0) ? -X() : X();
+        auto const y = Y() < Value_(0) ? -Y() : Y();
+        auto const z = Z() < Value_(0) ? -Z() : Z();
+        if (x < y) return x < z ? Vector3(Value_(0), Z(), -Y()) : Vector3(Y(), -X(), Value_(0));
+        else return y < z ? Vector3(-Z(), Value_(0), X()) : Vector3(Y(), -X(), Value_(0));
     }
 
     /**
@@ -572,7 +554,7 @@ public:
     template <typename Value_2_>
     constexpr Vector3<ValueProduct<Value_2_>> Scale(Value_2_ const &scalar) const
     {
-        return {x_ * scalar, y_ * scalar, z_ * scalar};
+        return {Transversal() * scalar, Z() * scalar};
     }
 
     /**
@@ -581,7 +563,7 @@ public:
     template <typename Value_2_>
     constexpr ValueProduct<Value_2_> Dot(Vector3<Value_2_> const &vector) const
     {
-        return x_ * vector.X() + y_ * vector.Y() + z_ * vector.Z();
+        return Transversal() * vector.Transversal() + Z() * vector.Z();
     }
 
     /**
@@ -590,7 +572,7 @@ public:
     template <typename Value_2_>
     constexpr Vector3<ValueProduct<Value_2_>> Cross(Vector3<Value_2_> const &vector) const
     {
-        return {y_ * vector.Z() - vector.Y() *z_, z_ * vector.X() - vector.Z() *x_, x_ * vector.Y() - vector.X() *y_};
+        return {Y() * vector.Z() - vector.Y() *Z(), Z() * vector.X() - vector.Z() *X(), X() * vector.Y() - vector.X() *Y()};
     }
 
     /**
@@ -621,7 +603,7 @@ public:
     */
     constexpr bool operator==(Vector3 const &vector) const
     {
-        return vector.x_ == x_ && vector.y_ == y_ && vector.z_ == z_;
+        return vector.Transversal() == Transversal() && vector.Z() == Z();
     }
 
     /**
@@ -630,9 +612,8 @@ public:
     template <typename Value_2_, typename = OnlyIfNotOrSameQuantity<Value_2_>>
     Vector3 &operator+=(Vector3<Value_2_> const &vector)
     {
-        x_ += vector.x_;
-        y_ += vector.y_;
-        z_ += vector.z_;
+        Transversal() += vector.Transversal();
+        Z() += vector.Z();
         return *this;
     }
 
@@ -642,9 +623,8 @@ public:
     template <typename Value_2_, typename = OnlyIfNotOrSameQuantity<Value_2_>>
     Vector3 &operator-=(Vector3<Value_2_> const &vector)
     {
-        x_ -= vector.x_;
-        y_ -= vector.y_;
-        z_ -= vector.z_;
+        Transversal() -= vector.Transversal();
+        Z() -= vector.Z();
         return *this;
     }
 
@@ -654,9 +634,8 @@ public:
     template < typename Value_2_, typename = OnlyIfNotQuantity<Value_2_> >
     Vector3 &operator*=(Value_2_ scalar)
     {
-        x_ *= scalar;
-        y_ *= scalar;
-        z_ *= scalar;
+        Transversal() *= scalar;
+        Z() *= scalar;
         return *this;
     }
 
@@ -672,9 +651,8 @@ public:
     template < typename Value_2_, typename = OnlyIfNotQuantity<Value_2_> >
     Vector3 &operator/=(Value_2_ scalar)
     {
-        x_ /= scalar;
-        y_ /= scalar;
-        z_ /= scalar;
+        Transversal() /= scalar;
+        Z() /= scalar;
         return *this;
     }
 
@@ -701,7 +679,7 @@ public:
     */
     constexpr Vector3 operator-() const
     {
-        return { -x_, -y_, -z_};
+        return { -Transversal(), -Z()};
     }
 
     /**
@@ -711,14 +689,14 @@ public:
     {
         switch (dimension) {
         case Dim3::x :
-            return x_;
+            return X();
         case Dim3::y :
-            return y_;
+            return Y();
         case Dim3::z :
-            return z_;
+            return Z();
         default :
             std::cout << "bad index(%d) returning 0 " << Name(dimension) << '\n';
-            return x_;
+            return X();
         }
     }
 
@@ -729,14 +707,14 @@ public:
     {
         switch (dimension) {
         case Dim3::x :
-            return x_;
+            return X();
         case Dim3::y :
-            return y_;
+            return Y();
         case Dim3::z :
-            return z_;
+            return Z();
         default :
-            std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << '\n';
-            return x_;
+            std::cout << "bad index(%d) returning &X()" <<  Name(dimension) << '\n';
+            return X();
         }
     }
 
@@ -797,9 +775,7 @@ public:
 
 private:
 
-    Value_ x_;
-
-    Value_ y_;
+    Vector2<Value_> trans_;
 
     Value_ z_;
 

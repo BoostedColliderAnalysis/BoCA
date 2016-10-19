@@ -2,6 +2,8 @@
 
 #include <boost/operators.hpp>
 
+#include "TVector2.h"
+
 #include "boca/generic/Debug.hh"
 #include "boca/generic/Iterator.hh"
 
@@ -90,6 +92,14 @@ public:
         y_(vector.Y())
     {}
 
+    /**
+     * @brief Constructor accepting a root::TVector3
+     */
+    constexpr Vector2(TVector2 const &vector) :
+        x_(vector.X()),
+        y_(vector.Y())
+    {}
+
     //@}
 
     /**
@@ -112,8 +122,29 @@ public:
     void SetMagPhi(Value_ magnitude, Angle const &phi)
     {
         SetUniform(abs(magnitude));
-        x_ *= cos(phi);
-        y_ *= sin(phi);
+        x_ *= static_cast<double>(cos(phi));
+        y_ *= static_cast<double>(sin(phi));
+    }
+
+    /**
+     * @brief Set the transverse component keeping phi and z constant.
+     */
+    void SetMag(Value_ mag)
+    {
+        auto const old = Mag();
+        if (old == Value_(0)) return;
+        X() *= mag / old;
+        Y() *= mag / old;
+    }
+
+    /**
+     * @brief Set phi keeping the magnitue and theta constant
+     */
+    void SetPhi(boca::Angle const &phi)
+    {
+        auto const mag = Mag();
+        X() = mag * boost::units::cos(phi);
+        Y() = mag * boost::units::sin(phi);
     }
 
     //@}
@@ -190,7 +221,7 @@ public:
     */
     Angle Phi() const
     {
-        return atan2(y_, x_);
+        return X() == Value_(0) && Y() == Value_(0) ? 0_rad : atan2(X(), Y());
     }
 
     /**
@@ -239,9 +270,21 @@ public:
     /**
      * @brief Rotate this vector by \f$\phi\f$
      */
-    constexpr Vector2& Rotate(Angle const &phi) const
+    Vector2& Rotate(Angle const &phi)
     {
-        return {x_ * cos(phi) - y_ * sin(phi), x_ * sin(phi) + y_ * cos(phi)};
+        auto const cos = boost::units::cos(phi);
+        auto const sin = boost::units::sin(phi);
+        *this = {x_ * cos - y_ * sin, x_ * sin + y_ * cos};
+        return *this;
+    }
+
+    /**
+     * @brief Rotate this vector by \f$\phi\f$
+     */
+    Vector2 Rotate(Angle const &phi) const
+    {
+        auto vector = *this;
+        return vector.Rotate(phi);
     }
 
     //@}
