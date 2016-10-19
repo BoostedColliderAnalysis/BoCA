@@ -47,12 +47,12 @@ public:
 
     bool PassPreCut(boca::Event const &event) const override
     {
-        auto number_hard_jets = boost::range::count_if(event.Jets(), [](auto const & jet) {
-            return jet.Pt() > 10_GeV;
-        });
-        auto number_hard_photons = boost::range::count_if(event.Photons(), [](auto const & photon) {
-            return photon.Pt() > 10_GeV;
-        });
+        return true;
+        auto hard = [](auto const & object) {
+            return object.Pt() > 10_GeV;
+        };
+        auto number_hard_jets = boost::range::count_if(event.Jets(), hard);
+        auto number_hard_photons = boost::range::count_if(event.Photons(), hard);
         return number_hard_jets >= 2 && number_hard_photons >= 2 ?  true : false;
     }
 
