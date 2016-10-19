@@ -90,7 +90,8 @@ enum class Id
     up_up_1 = 2203,
     proton = 2212,
     Delta_2 = 2224,
-    CP_violating_higgs = 5000000
+    CP_violating_higgs = 5000000,
+    higgs_coupling = 9010221
 };
 
 /**

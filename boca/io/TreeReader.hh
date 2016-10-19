@@ -49,9 +49,7 @@ public:
 
     long GetEntries() const;
 
-    bool Next(){
-      return tree_reader_.Next();
-    }
+    bool Next();
 
     bool ReadEntry(long number);
 

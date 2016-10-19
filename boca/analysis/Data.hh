@@ -17,7 +17,7 @@ class Data
 {
 public:
 
-    Data(boca::analysis::Files<Tagger_>& files, long object_sum_max, int core_number, int core_sum) :
+    Data(boca::analysis::Files<Tagger_>& files, long object_sum_max, int core_sum, int core_number) :
         files_(files),
         reader_(files.Reader()),
         tagger_(files.Tagger()),
@@ -39,6 +39,7 @@ private:
     }
 
     void ReadEvent(PreCuts const& pre_cuts, std::function<bool(boca::Event const&)> const& pass_pre_cut) {
+        std::lock_guard<std::mutex> lock(mutex_);
         if (!ReadEntry()) return;
         switch (Settings::Source()) {
         case Source::snowmass :
@@ -135,6 +136,8 @@ private:
     long event_number_;
 
     int core_sum_;
+
+    std::mutex mutex_;
 
 };
 

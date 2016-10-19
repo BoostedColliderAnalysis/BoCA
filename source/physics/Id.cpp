@@ -89,6 +89,7 @@ std::string Name(Id id)
     case Id::proton : return "p";
     case Id::Delta_2 : return "Delta2";
     case Id::CP_violating_higgs : return "h";
+    case Id::higgs_coupling : return "h";
         DEFAULT(to_int(id), std::to_string(to_int(id)));
     }
 }
@@ -122,8 +123,9 @@ Mass MassOf(Id id)
     case Id::Bpm : return 5.279_GeV;
     case Id::B0 : return 5.279_GeV;
     case Id::ypsilon : return 9.46030_GeV;
-    case Id::top_partner: return 1_TeV; //< FIXME remove again
+    case Id::top_partner: return 1_TeV;   ///< FIXME remove again
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
+    case Id::higgs_coupling : return MassOf(Id::higgs);
         DEFAULT(Name(id), massless);
     }
 }

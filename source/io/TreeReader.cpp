@@ -49,6 +49,12 @@ std::string Name(Branch branch)
     }
 }
 
+bool TreeReader::Next()
+{
+    return tree_reader_.Next();
+}
+
+
 TreeReader::TreeReader(std::vector<std::string> const& paths, std::string const& tree_name, Source source)
 {
     INFO(tree_name, paths.front());
