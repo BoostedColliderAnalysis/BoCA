@@ -54,10 +54,10 @@ std::vector<Particle> HiggsSemiLeptonic::Particles(boca::Event const &event) con
     INFO0;
     auto higgs = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs,  Id::higgs_coupling});
     higgs = RemoveIfDaughter(higgs, higgs);
-    ERROR(higgs.size());
+    INFO(higgs.size());
     auto bottom = CopyIfParticle(event.GenParticles(), Id::bottom);
     higgs = RemoveIfDaughter(higgs, bottom);
-    ERROR(higgs.size());
+    INFO(higgs.size());
     return higgs;
 }
 

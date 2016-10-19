@@ -10,7 +10,7 @@
 #include "standardmodel/tagger/WLeptonic.hh"
 #include "standardmodel/tagger/WHadronic.hh"
 
-#include "tthh/branch/Higgs.hh"
+#include "tthh/branch/HiggsSemiLeptonic.hh"
 
 namespace tthh
 {
@@ -24,7 +24,7 @@ namespace tagger
  * @brief BDT tagger for higgs bosons decaying to jet pairs
  *
  */
-class HiggsSemiLeptonic : public Tagger<Quartet22, branch::Higgs>
+class HiggsSemiLeptonic : public Tagger<Quartet22, branch::HiggsSemiLeptonic>
 {
 
 public:

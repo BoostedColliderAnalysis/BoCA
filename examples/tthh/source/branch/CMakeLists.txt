@@ -1,12 +1,14 @@
 set(source
 Global.cpp
 Higgs.cpp
+HiggsSemiLeptonic.cpp
 Signature.cpp
 )
 
 set(header
 Global.hh
 Higgs.hh
+HiggsSemiLeptonic.hh
 Signature.hh
 )
 
