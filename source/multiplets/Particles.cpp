@@ -248,12 +248,27 @@ std::vector<Particle> CopyIf5Quark(std::vector<Particle> const &particles)
     return CopyIfRelativeIs(particles, Relative::particle, Resolve(MultiId::five_quark));
 }
 
+namespace
+{
+
+bool HasRelation(Particle const &particle, Particle const &member,  Relative relative)
+{
+    return particle.Info().Family().Member(Relative::particle).Position() == member.Info().Family().Member(relative).Position() ? true : false;
+}
+
+bool HasRelation(Particle const &particle, std::vector<Particle> const &members,  Relative relative)
+{
+    for (auto const &member : members) if (HasRelation(particle,  member,  relative)) return true;
+    return false;
+}
+
+}
+
 std::vector<Particle> CopyIfDaughter(std::vector<Particle> const &particles, std::vector<Particle> const &daughters)
 {
     auto mothers = std::vector<Particle> {};
-    boost::range::copy(particles | boost::adaptors::filtered([&daughters](Particle const & particle) {
-        for (auto const &daughter : daughters) if (particle.Info().Family().Member(Relative::particle).Position() == daughter.Info().Family().Member(Relative::mother).Position()) return true;
-        return false;
+    boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & particle) {
+        return HasRelation(particle,  daughters,  Relative::mother);
     }), std::back_inserter(mothers));
     return mothers;
 }
@@ -262,8 +277,7 @@ std::vector<Particle> RemoveIfDaughter(std::vector<Particle> const &particles, s
 {
     auto mothers = particles;
     return boost::range::remove_erase_if(mothers, [&daughters](Particle const & particle) {
-        for (auto const &daughter : daughters) if (particle.Info().Family().Member(Relative::particle).Position() == daughter.Info().Family().Member(Relative::mother).Position()) return true;
-        return false;
+        return HasRelation(particle,  daughters,  Relative::mother);
     });
 }
 
@@ -271,8 +285,7 @@ std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const &particles
 {
     auto grand_mothers = std::vector<Particle> {};
     boost::range::copy(particles | boost::adaptors::filtered([&grand_daughters](Particle const & particle) {
-        for (auto const &daughter : grand_daughters) if (particle.Info().Family().Member(Relative::particle).Position() == daughter.Info().Family().Member(Relative::grand_mother).Position()) return true;
-        return false;
+        return HasRelation(particle,  grand_daughters,  Relative::grand_mother);
     }), std::back_inserter(grand_mothers));
     return grand_mothers;
 }
@@ -312,14 +325,14 @@ std::vector< Particle > CopyIfDrellYan(const std::vector< Particle > &particles)
 namespace
 {
 
-  template<typename Data>
-  void PrintCell(Data data)
-  {
+template<typename Data>
+void PrintCell(Data data)
+{
     std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
-  }
+}
 
-  void PrintHeader()
-  {
+void PrintHeader()
+{
     PrintCell(Name(Relative::particle));
     PrintCell(Name(Relative::mother));
     PrintCell(Name(Relative::step_mother));
@@ -327,10 +340,10 @@ namespace
     PrintCell(Name(Relative::mother));
     PrintCell(Name(Relative::step_mother));
     std::cout << '\n';
-  }
+}
 
-  void PrintCells(Particle const& particle)
-  {
+void PrintCells(Particle const &particle)
+{
     PrintCell(particle.Info().Family().Member(Relative::particle).Name());
     PrintCell(particle.Info().Family().Member(Relative::mother).Name());
     PrintCell(particle.Info().Family().Member(Relative::step_mother).Name());
@@ -338,16 +351,17 @@ namespace
     PrintCell(particle.Info().Family().Member(Relative::mother).Position());
     PrintCell(particle.Info().Family().Member(Relative::step_mother).Position());
     std::cout << '\n';
-  }
+}
 
 }
 
-void PrintParticles(std::vector<Particle> const& particles)
+void PrintParticles(std::vector<Particle> const &particles)
 {
-  INFO0;
-  PrintHeader();
-  for (auto const & particle : particles) PrintCells(particle);
+    INFO0;
+    PrintHeader();
+    for (auto const &particle : particles) PrintCells(particle);
 }
 
 }
+
 
