@@ -47,7 +47,7 @@ std::vector<Sextet42> HiggsToHiggs::Quartets(boca::Event const &event, std::func
 std::vector<Particle> HiggsToHiggs::Particles(boca::Event const &event) const
 {
     INFO0;
-    auto higgs = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs});
+    auto higgs = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs, Id::higgs_coupling});
     higgs = CopyIfDaughter(higgs, higgs);
     ERROR(higgs.size());
     return higgs;

@@ -52,7 +52,7 @@ std::vector<Quartet22> HiggsSemiLeptonic::Quartets(boca::Event const &event, std
 std::vector<Particle> HiggsSemiLeptonic::Particles(boca::Event const &event) const
 {
     INFO0;
-    auto higgs = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs});
+    auto higgs = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs,  Id::higgs_coupling});
     higgs = RemoveIfDaughter(higgs, higgs);
     ERROR(higgs.size());
     auto bottom = CopyIfParticle(event.GenParticles(), Id::bottom);
