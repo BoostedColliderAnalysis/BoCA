@@ -48,9 +48,10 @@ std::vector<Particle> HiggsToHiggs::Particles(boca::Event const &event) const
 {
     INFO0;
     auto higgs = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs, Id::higgs_coupling});
-    ERROR(higgs.size());
+    INFO(higgs.size());
+    if(higgs.size() == 2 ) return {higgs.at(0) + higgs.at(1)};
     higgs = CopyIfDaughter(higgs, higgs);
-    ERROR(higgs.size());
+    INFO(higgs.size());
     return higgs;
 }
 

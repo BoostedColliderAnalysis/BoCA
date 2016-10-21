@@ -253,13 +253,20 @@ namespace
 
 bool HasRelation(Particle const &particle, Particle const &member,  Relative relative)
 {
-    return particle.Info().Family().Member(Relative::particle).Position() == member.Info().Family().Member(relative).Position() ? true : false;
+    return particle.Info().Family().Member(Relative::particle).Position() == member.Info().Family().Member(relative).Position();
 }
+
+// bool HasRelation(Particle const &particle, std::vector<Particle> const &members,  Relative relative)
+// {
+//     for (auto const &member : members) if (HasRelation(particle,  member,  relative)) return true;
+//     return false;
+// }
 
 bool HasRelation(Particle const &particle, std::vector<Particle> const &members,  Relative relative)
 {
-    for (auto const &member : members) if (HasRelation(particle,  member,  relative)) return true;
-    return false;
+    return boost::range::find_if(members, [&](auto const& member) {
+        return HasRelation(particle,  member,  relative);
+    }) != members.end();
 }
 
 }

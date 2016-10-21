@@ -39,7 +39,7 @@ private:
 
     std::string Name() const override
     {
-        return  boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-revised";
+        return  boca::Name(this->Collider()) + "-" + boca::units::Name(this->LowerPtCut()) + "-delete-2";
 //       return  Name(production_channel()) + "_" + boca::Name(this->Collider()) + "_" + boca::units::Name(this->LowerPtCut()) + "-large-new";
     }
 

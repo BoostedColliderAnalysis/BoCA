@@ -53,11 +53,11 @@ private:
      */
     void FileLoop(boca::analysis::Files<Tagger_> files)
     {
-        auto single  = true;
+        auto single = true;
         if (single) return Thread({files, TrainNumberMax(), 1, 1});
         auto threads = std::vector<std::thread> {};
         // int cores = std::thread::hardware_concurrency();
-        auto cores = 1;
+        auto cores = 2;
         for (auto core : IntegerRange(cores)) threads.emplace_back([&] {
             Thread({files, TrainNumberMax(), cores, core + 1});
         });
