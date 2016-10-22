@@ -685,7 +685,7 @@ public:
     /**
     * @brief Components by index
     */
-    Value_ const &operator()(Dim3 dimension) const
+    Value_ operator()(Dim3 dimension) const
     {
         switch (dimension) {
         case Dim3::x :
@@ -721,7 +721,7 @@ public:
     /**
     * @brief Components by index
     */
-    Value_ const &operator[](Dim3 dimension) const
+    Value_ operator[](Dim3 dimension) const
     {
         return operator()(dimension);
     }

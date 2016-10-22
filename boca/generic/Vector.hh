@@ -321,14 +321,14 @@ auto Pairs(std::vector<Element_1_> const &container_1, std::vector<Element_2_> c
     return results;
 }
 
-template < typename Element_1_,
-           typename Element_2_,
-           typename Function_,
-           typename Result_ = typename std::result_of<Function_&(Element_1_, Element_1_, Element_2_)>::type >
 /**
  * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
  *
  */
+template < typename Element_1_,
+           typename Element_2_,
+           typename Function_,
+           typename Result_ = typename std::result_of<Function_&(Element_1_, Element_1_, Element_2_)>::type >
 auto Triples(std::vector<Element_1_> const &container_1, std::vector<Element_2_> const &container_2, Function_ function)
 {
     auto results = std::vector<Result_> {};
@@ -343,15 +343,15 @@ auto Triples(std::vector<Element_1_> const &container_1, std::vector<Element_2_>
     return results;
 }
 
+/**
+ * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
+ *
+ */
 template < typename Element_1_,
            typename Element_2_,
            typename Element_3_,
            typename Function_,
            typename Result_ = typename std::result_of<Function_&(Element_1_, Element_2_, Element_3_)>::type >
-/**
- * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
- *
- */
 auto Triples(std::vector<Element_1_> const &container_1, std::vector<Element_2_> const &container_2, std::vector<Element_3_> const &container_3, Function_ function)
 {
     auto results = std::vector<Result_> {};
@@ -367,6 +367,10 @@ auto Triples(std::vector<Element_1_> const &container_1, std::vector<Element_2_>
     return results;
 }
 
+/**
+ * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
+ *
+ */
 template < typename Element_1_,
            typename Element_2_,
            typename Element_3_,
@@ -374,33 +378,28 @@ template < typename Element_1_,
            typename Function_2_,
            typename Result_1_ = typename std::result_of<Function_1_&(Element_1_, Element_2_)>::type,
            typename Result_2_ = typename std::result_of<Function_2_&(Result_1_, Element_3_)>::type >
-/**
- * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
- *
- */
 auto Triples(std::vector<Element_1_> const &container_1, std::vector<Element_2_> const &container_2, std::vector<Element_3_> const &container_3, Function_1_ function_1, Function_2_ function_2)
 {
     auto results = std::vector<Result_2_> {};
     for (auto const &element_1 : container_1) {
         for (auto const &element_2 : container_2) {
-            Result_1_ pair;
             try {
-                pair = function_1(element_1, element_2);
+                auto pair = function_1(element_1, element_2);
+                for (auto const &element_3 : container_3) {
+                    try {
+                        results.emplace_back(function_2(pair, element_3));
+                    } catch (std::exception const &) {
+                        continue;
+                    }
+                }
             } catch (std::exception const &) {
                 continue;
-            }
-            for (auto const &element_3 : container_3) {
-                try {
-                    results.emplace_back(function_2(pair, element_3));
-                } catch (std::exception const &) {}
             }
         }
     }
     return results;
 }
 
-/*
- * @}
- */
+// @}
 
 }
