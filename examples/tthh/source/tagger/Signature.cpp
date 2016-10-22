@@ -36,19 +36,22 @@ std::vector<Duodecuplet633> Signature::Duodecuplets(boca::Event const &event, st
         top_hadronic_reader_.Multiplets(event),
         top_leptonic_reader_.Multiplets(event),
         higgs_reader_.Multiplets(event),
-        [&](auto const & triplet_1, auto const & triplet_2) {
-        Sextet33 sextet(triplet_1, triplet_2);
+        [&](auto const & top_hadronic, auto const & top_leptonic) {
+        Sextet33 tops(top_hadronic, top_leptonic);
         INFO("sextet");
-        if (sextet.Overlap()) throw Overlap();
+        if (tops.Overlap()) throw Overlap();
         INFO("sextet non-overlapping");
-        return sextet;
-    }, [&](auto const & sextet_1, auto const & sextet_2) {
+        return tops;
+    }, [&](auto const & tops, auto const & higgs) {
         Duodecuplet633 duodecuplet;
         INFO("duodecuplet");
-        duodecuplet.SetMultiplets23(sextet_1, sextet_2);
+        duodecuplet.SetMultiplets23(tops, higgs);
         wimpmass::Mt2 mt2;
         INFO("mt2");
-        duodecuplet.SetVetoBdt(mt2.Get(duodecuplet.Sextet().Quartet().Doublet2().Singlet1(), duodecuplet.Triplet2().Doublet().Singlet1(), event.MissingEt()));
+        duodecuplet.SetVetoBdt(mt2.Get(
+            duodecuplet.Sextet().Quartet().Doublet2().Singlet1(),
+            duodecuplet.Triplet2().Doublet().Singlet1(),
+            event.MissingEt()));
         INFO("mt2", duodecuplet.VetoBdt());
         if (duodecuplet.Overlap()) throw Overlap();
         INFO("duodecuplet non-overlapping");

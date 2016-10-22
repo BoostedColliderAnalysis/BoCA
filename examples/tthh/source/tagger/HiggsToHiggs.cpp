@@ -72,6 +72,7 @@ bool HiggsToHiggs::Problematic(Sextet42 const &sextet, PreCuts const &pre_cuts) 
 {
     INFO0;
     if (pre_cuts.ApplyCuts(Id::higgs, sextet)) return true;
+    if (sextet.Overlap()) return true;
     return false;
 }
 

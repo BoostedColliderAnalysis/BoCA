@@ -388,13 +388,9 @@ auto Triples(std::vector<Element_1_> const &container_1, std::vector<Element_2_>
                 for (auto const &element_3 : container_3) {
                     try {
                         results.emplace_back(function_2(pair, element_3));
-                    } catch (std::exception const &) {
-                        continue;
-                    }
+                    } catch (std::exception const &) {}
                 }
-            } catch (std::exception const &) {
-                continue;
-            }
+            } catch (std::exception const &) {}
         }
     }
     return results;
