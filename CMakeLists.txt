@@ -25,6 +25,7 @@ if( NOT CMAKE_BUILD_TYPE )
 endif()
 
 # set c++ flags
+SET(CMAKE_C_FLAGS "-std=gnu99")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fPIC -Wall -Wextra -pedantic -Wold-style-cast -Wno-unknown-pragmas")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals -D_GLIBCXX_USE_CXX11_ABI=0")

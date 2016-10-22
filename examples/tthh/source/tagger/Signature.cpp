@@ -23,7 +23,7 @@ int Signature::Train(boca::Event const &event, PreCuts const &, Tag tag)
 std::vector<Duodecuplet633> Signature::Multiplets(boca::Event const &event, boca::PreCuts const &, TMVA::Reader const &reader)
 {
     INFO0;
-    return ReduceResult(Duodecuplets(event, [&](auto & duodecuplet) {
+    return ReduceResult(Duodecuplets(event, [&](Duodecuplet633 & duodecuplet) {
         duodecuplet.SetBdt(Bdt(duodecuplet, reader));
         return duodecuplet;
     }), 1);

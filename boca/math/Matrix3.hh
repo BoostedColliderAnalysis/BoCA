@@ -954,7 +954,7 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Value_ const &operator()(Dim3 i, Dim3 j) const
+    constexpr Value_ operator()(Dim3 i, Dim3 j) const
     {
         return operator()(i)(j);
     }
@@ -970,7 +970,7 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Vector3<Value_> const &operator[](Dim3 i) const
+    constexpr Vector3<Value_> operator[](Dim3 i) const
     {
         return operator()(i);
     }
