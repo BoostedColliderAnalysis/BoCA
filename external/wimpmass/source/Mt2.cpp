@@ -55,7 +55,7 @@ const double SCANSTEP = 0.1;
 
 Mt2::Mt2(boca::Mass const& mass)
 {
-    if (mass != boca::massless) SetMass(mass.value());
+    if (mass != boca::massless) SetMass(mass / boca::GeV);
 }
 
 double Mt2::Get(boca::Jet const& jet_1,  boca::Jet const& jet_2,  boca::MissingEt const& missing_et) {
@@ -68,9 +68,9 @@ double Mt2::Get(boca::Jet const& jet_1,  boca::Jet const& jet_2,  boca::MissingE
 }
 
 void Mt2::GetMomentum(boca::Jet const& jet_1,  double *momentum) {
-    momentum[0] = jet_1.Mass().value();
-    momentum[1] = jet_1.Px().value();
-    momentum[2] = jet_1.Py().value();
+    momentum[0] = jet_1.Mass() / boca::GeV;
+    momentum[1] = jet_1.Px() / boca::GeV;
+    momentum[2] = jet_1.Py() / boca::GeV;
 }
 
 double Mt2::GetMt2()
