@@ -134,6 +134,14 @@ public:
     boca::SubJettiness SubJettiness() const;
     //@}
 
+    void SetExtraInfo(double extra_info) {
+        extra_info_ = extra_info;
+    }
+
+    double ExtraInfo() const {
+        return extra_info_;
+    }
+
 protected:
 
     virtual Singlet GetConstituentJet() const = 0;
@@ -153,6 +161,8 @@ private:
     Mutable<boca::Singlet> constituent_jet_;
 
     Mutable<boca::Jet> jet_;
+
+    double extra_info_;
 
 };
 

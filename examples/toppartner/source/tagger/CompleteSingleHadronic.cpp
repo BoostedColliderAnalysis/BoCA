@@ -45,7 +45,7 @@ std::vector<EventMultiplet<Decuplet532>> CompleteSingleHadronic::Decuplets(boca:
             for (auto const & quintet : quintets) {
                 Decuplet532 decuplet(quintet, triplet, doublet);
                 if (decuplet.Overlap()) continue;
-                decuplet.SetVetoBdt(veto.Bdt());
+                decuplet.SetExtraInfo(veto.Bdt());
                 EventMultiplet<Decuplet532> event(decuplet, global);
                 decuplets.emplace_back(function(event));
             }

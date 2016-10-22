@@ -26,7 +26,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         boca::branch::Event::Fill(multiplet);
-        veto_bdt = multiplet.Signature().VetoBdt();
+        veto_bdt = multiplet.Signature().ExtraInfo();
     }
     boca::Observables Variables();
 

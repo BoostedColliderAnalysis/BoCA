@@ -17,14 +17,17 @@ public:
     Mt2(boca::Mass const& mass = boca::massless);
     double Get(boca::Jet const& jet_1,  boca::Jet const& jet_2,  boca::MissingEt const& missing_et);
 
+protected:
+
+    void SetMomenta ( double* pa0, double* pb0, double* pmiss0 );
+    void SetMass ( double mn );
+    double GetMt2();
+
 private:
 
     void GetMomentum(boca::Jet const& jet_1,  double *momentum);
     void Bisect();
     void Massless();
-    void SetMomenta ( double* pa0, double* pb0, double* pmiss0 );
-    void SetMass ( double mn );
-    double GetMt2();
     void Print();
 
     int nevt;

@@ -20,7 +20,7 @@ public:
     void Fill(Multiplet const& multiplet) {
         ThreeBody::Fill(multiplet);
         EventShapesBase::Fill(multiplet);
-        veto_bdt = multiplet.VetoBdt();
+        veto_bdt = multiplet.ExtraInfo();
         top_pt = multiplet.Triplet().Pt() / boca::GeV;
         higgs_pt = multiplet.Doublet().Pt() / boca::GeV;
     }

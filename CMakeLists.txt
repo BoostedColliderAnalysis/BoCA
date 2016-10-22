@@ -25,7 +25,7 @@ if( NOT CMAKE_BUILD_TYPE )
 endif()
 
 # set c++ flags
-SET(CMAKE_C_FLAGS "-std=gnu99")
+SET(CMAKE_C_FLAGS "-std=c11")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fPIC -Wall -Wextra -pedantic -Wold-style-cast -Wno-unknown-pragmas")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals -D_GLIBCXX_USE_CXX11_ABI=0")
@@ -80,6 +80,14 @@ if(DO_DOXYGEN)
 endif()
 
 add_include_path(${PROJECT_SOURCE_DIR})
+
+# Testing
+option(BUILD_TESTING "Build testing" OFF)
+if(BUILD_TESTING)
+  enable_testing()
+  find_package(GTest REQUIRED)
+  include_directories(${GTEST_INCLUDE_DIRS})
+endif()
 
 # external sources
 add_subdirectory(external)

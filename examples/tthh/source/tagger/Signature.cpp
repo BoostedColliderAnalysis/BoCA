@@ -48,11 +48,11 @@ std::vector<Duodecuplet633> Signature::Duodecuplets(boca::Event const &event, st
         duodecuplet.SetMultiplets23(tops, higgs);
         wimpmass::Mt2 mt2;
         INFO("mt2");
-        duodecuplet.SetVetoBdt(mt2.Get(
+        duodecuplet.SetExtraInfo(mt2.Get(
             duodecuplet.Sextet().Quartet().Doublet2().Singlet1(),
             duodecuplet.Triplet2().Doublet().Singlet1(),
             event.MissingEt()));
-        INFO("mt2", duodecuplet.VetoBdt());
+        INFO("mt2", duodecuplet.ExtraInfo());
         if (duodecuplet.Overlap()) throw Overlap();
         INFO("duodecuplet non-overlapping");
         return function(duodecuplet);

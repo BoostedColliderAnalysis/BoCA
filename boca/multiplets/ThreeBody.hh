@@ -77,14 +77,6 @@ public:
         return Combine(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
     }
 
-    void SetVetoBdt(double bdt) {
-        veto_bdt_ = bdt;
-    }
-
-    double VetoBdt() const {
-        return veto_bdt_;
-    }
-
     Momentum Ht() const {
         return Multiplet1().Ht() + Multiplet2().Ht() + Multiplet3().Ht();
     }
@@ -150,8 +142,6 @@ private:
     Mutable<TwoBody<Multiplet_2_, Multiplet_3_>> multiplet_23_;
 
     Mutable<TwoBody<Multiplet_1_, Multiplet_3_>> multiplet_13_;
-
-    double veto_bdt_;
 
     Multiplet_1_ multiplet_1_;
 

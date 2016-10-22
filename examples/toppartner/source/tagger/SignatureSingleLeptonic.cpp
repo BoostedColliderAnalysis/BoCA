@@ -44,7 +44,7 @@ std::vector<Decuplet532> SignatureSingleLeptonic::Decuplets(boca::Event const& e
             for (auto const & quintet : quintets) {
                 Decuplet532 decuplet(quintet, triplet, doublet);
                 if (decuplet.Overlap()) continue;
-                decuplet.SetVetoBdt(veto.Bdt());
+                decuplet.SetExtraInfo(veto.Bdt());
                 decuplets.emplace_back(function(decuplet));
             }
         }
