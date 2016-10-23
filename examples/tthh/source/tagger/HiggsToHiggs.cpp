@@ -24,7 +24,7 @@ namespace tagger
 int HiggsToHiggs::Train(boca::Event const &event, PreCuts const &pre_cuts, Tag tag)
 {
     INFO0;
-    return SaveEntries(Sextets(event, [&](auto & sextet) -> boost::optional<Sextet42> {
+    return SaveEntries(Sextets(event, [&](Sextet42 & sextet) -> boost::optional<Sextet42> {
         if (Problematic(sextet, pre_cuts, tag)) return boost::none;
         sextet.SetTag(tag);
         return sextet;
@@ -82,7 +82,7 @@ bool HiggsToHiggs::Problematic(Sextet42 const &sextet, PreCuts const &pre_cuts) 
 std::vector<Sextet42> HiggsToHiggs::Multiplets(boca::Event const &event, PreCuts const &pre_cuts, TMVA::Reader const &reader)
 {
     INFO0;
-    return Sextets(event, [&](auto & sextet) -> boost::optional<Sextet42> {
+    return Sextets(event, [&](Sextet42 & sextet) -> boost::optional<Sextet42> {
         if (Problematic(sextet, pre_cuts)) return boost::none;
         sextet.SetBdt(Bdt(sextet, reader));
         return sextet;
