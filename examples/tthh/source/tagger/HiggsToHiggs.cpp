@@ -12,7 +12,7 @@
 #include "boca/MomentumRange.hh"
 
 #include "tthh/tagger/HiggsToHiggs.hh"
-
+#define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace tthh
@@ -24,23 +24,26 @@ namespace tagger
 int HiggsToHiggs::Train(boca::Event const &event, PreCuts const &pre_cuts, Tag tag)
 {
     INFO0;
-    return SaveEntries(Quartets(event, [&](Sextet42 & sextet) -> boost::optional<Sextet42> {
+    return SaveEntries(Sextets(event, [&](auto & sextet) -> boost::optional<Sextet42> {
         if (Problematic(sextet, pre_cuts, tag)) return boost::none;
         sextet.SetTag(tag);
         return sextet;
     }), Particles(event), tag);
 }
 
-std::vector<Sextet42> HiggsToHiggs::Quartets(boca::Event const &event, std::function<boost::optional<Sextet42>(Sextet42 &)> const &function)
+std::vector<Sextet42> HiggsToHiggs::Sextets(boca::Event const &event, std::function<boost::optional<Sextet42>(Sextet42 &)> const &function)
 {
     INFO0;
     auto ww = higgs_to_ww.Multiplets(event);
+    INFO(ww.size());
     auto bb = higgs_to_bb_.Multiplets(event);
-    auto sextets = Pairs(ww, bb, [&](Quartet22 const & quartet, Doublet const & doublet) {
+    INFO(bb.size());
+    auto sextets = Pairs(ww, bb, [&](auto const & quartet, auto const & doublet) {
         auto sextet = Sextet42 {quartet, doublet};
         if (auto optional = function(sextet)) return *optional;
         throw boca::Problematic();
     });
+    INFO(sextets.size());
     return sextets;
 }
 
@@ -49,7 +52,7 @@ std::vector<Particle> HiggsToHiggs::Particles(boca::Event const &event) const
     INFO0;
     auto higgs = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs, Id::higgs_coupling});
     INFO(higgs.size());
-    if(higgs.size() == 2 ) return {higgs.at(0) + higgs.at(1)};
+    if (higgs.size() == 2) return {higgs.at(0) + higgs.at(1)};
     higgs = CopyIfDaughter(higgs, higgs);
     INFO(higgs.size());
     return higgs;
@@ -79,7 +82,7 @@ bool HiggsToHiggs::Problematic(Sextet42 const &sextet, PreCuts const &pre_cuts) 
 std::vector<Sextet42> HiggsToHiggs::Multiplets(boca::Event const &event, PreCuts const &pre_cuts, TMVA::Reader const &reader)
 {
     INFO0;
-    return Quartets(event, [&](Sextet42 & sextet) -> boost::optional<Sextet42> {
+    return Sextets(event, [&](auto & sextet) -> boost::optional<Sextet42> {
         if (Problematic(sextet, pre_cuts)) return boost::none;
         sextet.SetBdt(Bdt(sextet, reader));
         return sextet;

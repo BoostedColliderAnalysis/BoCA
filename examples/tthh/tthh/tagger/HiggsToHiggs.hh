@@ -43,7 +43,7 @@ public:
 
 private:
 
-    std::vector<Sextet42> Quartets(boca::Event const &event, std::function<boost::optional<Sextet42>(Sextet42 &)> const &function);
+    std::vector<Sextet42> Sextets(boca::Event const &event, std::function<boost::optional<Sextet42>(Sextet42 &)> const &function);
 
     bool Problematic(Sextet42 const &sextet, PreCuts const &pre_cuts, Tag tag) const;
 
