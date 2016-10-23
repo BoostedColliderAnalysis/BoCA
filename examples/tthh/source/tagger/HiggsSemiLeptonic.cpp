@@ -12,7 +12,7 @@
 #include "boca/MomentumRange.hh"
 
 #include "tthh/tagger/HiggsSemiLeptonic.hh"
-
+#define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace tthh
@@ -40,12 +40,15 @@ std::vector<Quartet22> HiggsSemiLeptonic::Quartets(boca::Event const &event, std
 {
     INFO0;
     auto leptonic = w_leptonic_reader_.Multiplets(event);
+    INFO(leptonic.size());
     auto hadronic = w_hadronic_reader_.Multiplets(event);
+    INFO(hadronic.size());
     auto quartets = Pairs(hadronic, leptonic, [&](Doublet const & doublet_1, Doublet const & doublet_2) {
         auto quartet = Quartet22 {doublet_1, doublet_2};
         if (auto optional = function(quartet)) return *optional;
         throw boca::Problematic();
     });
+    INFO(quartets.size());
     return quartets;
 }
 
@@ -53,7 +56,7 @@ std::vector<Particle> HiggsSemiLeptonic::Particles(boca::Event const &event) con
 {
     INFO0;
     auto higgs = CopyIfParticles(event.GenParticles(), {Id::higgs, Id::CP_violating_higgs,  Id::higgs_coupling});
-    higgs = RemoveIfDaughter(higgs, higgs);
+//     higgs = RemoveIfDaughter(higgs, higgs);
     INFO(higgs.size());
     auto bottom = CopyIfParticle(event.GenParticles(), Id::bottom);
     higgs = RemoveIfDaughter(higgs, bottom);

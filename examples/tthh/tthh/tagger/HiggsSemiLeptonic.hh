@@ -51,7 +51,6 @@ private:
 
     bool Problematic(Quartet22 const &quartet, PreCuts const &pre_cuts) const;
 
-
     Reader<standardmodel::tagger::WHadronic> w_hadronic_reader_;
 
     Reader<standardmodel::tagger::WLeptonic> w_leptonic_reader_;
