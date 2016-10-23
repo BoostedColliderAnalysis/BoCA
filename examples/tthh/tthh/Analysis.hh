@@ -49,8 +49,11 @@ public:
     {
         return true;
         auto hard = [](auto const & object) {
-            return object.Pt() > 10_GeV;
+            return object.Pt() > 20_GeV;
         };
+        auto number_hard_leptons = boost::range::count_if(event.Leptons(), hard);
+        return number_hard_leptons >= 2 ?  true : false;
+
         auto number_hard_jets = boost::range::count_if(event.Jets(), hard);
         auto number_hard_photons = boost::range::count_if(event.Photons(), hard);
         return number_hard_jets >= 2 && number_hard_photons >= 2 ?  true : false;

@@ -10,6 +10,7 @@ void Run(boca::Output output = boca::Output::normal)
 
 int main()
 {
+    Run<standardmodel::tagger::Global>(boca::Output::significance);
     Run<standardmodel::tagger::Bottom>();
     Run<standardmodel::tagger::WLeptonic>();
     Run<standardmodel::tagger::WHadronic>();
@@ -19,6 +20,5 @@ int main()
     Run<tthh::tagger::HiggsSemiLeptonic>(boca::Output::efficiency);
     Run<tthh::tagger::HiggsToHiggs>(boca::Output::efficiency);
     Run<tthh::tagger::Signature>(boca::Output::significance);
-    Run<standardmodel::tagger::Global>(boca::Output::significance);
     Run<tthh::tagger::Event>(boca::Output::significance);
 }
