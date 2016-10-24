@@ -444,7 +444,7 @@ public:
     /**
     * @brief Rotate by phi in (dim_1,  dim_2) plain
     */
-    Vector3& Rotate(boca::Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
+    Vector3 &Rotate(boca::Angle const &phi, Dim3 dim_1,  Dim3 dim_2)
     {
         if (phi == 0_rad)  return *this;
         auto const cos = boost::units::cos(phi);
@@ -459,7 +459,7 @@ public:
     /**
     * @brief Rotate by phi around axis dim
     */
-    Vector3& Rotate(boca::Angle const &phi, Dim3 dim)
+    Vector3 &Rotate(boca::Angle const &phi, Dim3 dim)
     {
         switch (dim) {
         case Dim3::x :
@@ -554,7 +554,7 @@ public:
     template <typename Value_2_>
     constexpr Vector3<ValueProduct<Value_2_>> Scale(Value_2_ const &scalar) const
     {
-        return {Transversal() * scalar, Z() * scalar};
+        return {Transversal() *scalar, Z() *scalar};
     }
 
     /**
@@ -572,7 +572,7 @@ public:
     template <typename Value_2_>
     constexpr Vector3<ValueProduct<Value_2_>> Cross(Vector3<Value_2_> const &vector) const
     {
-        return {Y() * vector.Z() - vector.Y() *Z(), Z() * vector.X() - vector.Z() *X(), X() * vector.Y() - vector.X() *Y()};
+        return {Y() *vector.Z() - vector.Y() *Z(), Z() *vector.X() - vector.Z() *X(), X() *vector.Y() - vector.X() *Y()};
     }
 
     /**
@@ -733,6 +733,13 @@ public:
     {
         return operator()(dimension);
     }
+
+    friend auto &operator<<(std::ostream &stream, Vector3<Value_> const &vector)
+    {
+        stream << vector.Transversal() << ',' <<  vector.Z();
+        return stream;
+    }
+
     //@}
 
     /**

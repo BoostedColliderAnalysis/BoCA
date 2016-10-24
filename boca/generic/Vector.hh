@@ -189,8 +189,8 @@ std::size_t Position(std::vector<Element_> const &vector, Element_ const &elemen
     return std::addressof(element) - vector.data();
 }
 
-template <typename Element_>
-int Position(std::array<Element_, 3> const &vector, Element_ const &element)
+template <typename Element_,  unsigned long size_>
+std::size_t Position(std::array<Element_, size_> const &vector, Element_ const &element)
 {
     return std::addressof(element) - vector.data();
 }

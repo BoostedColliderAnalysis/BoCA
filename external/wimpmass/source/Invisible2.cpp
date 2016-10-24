@@ -66,9 +66,9 @@ void Invisible22::SetMasses(boca::Mass const &heavy, boca::Mass const &light, bo
 
 void Invisible22::SetMissingMomentum(LorentzVector< Momentum > const &missing)
 {
-    missing.Pz() = 0_GeV;
-    missing.E() = 0_GeV;
     missing_ = missing;
+    missing_.Pz() = at_rest;
+    missing_.E() = at_rest;
 }
 
 void Invisible22::Set(Quartet22 const &quartet)
@@ -382,38 +382,6 @@ Energy Invisible22::Energy1(Energy const &energy_2)
                + MatrixA().X().Y() * MatrixB().X().X() * energy_2
                - MatrixA().X().X() * MatrixB().X().Y() * energy_2
            );
-}
-
-void TestInvisible22::solve22(event22 &evt, double mn, double mx, double my, int &nsols, double p1[][4], double p2[][4])
-{
-    SetFirstChain(Vector(evt.p3), Vector(evt.p5));
-    SetSecondChain(Vector(evt.p4), Vector(evt.p6));
-    SetMissingMomentum(Vector(evt.pmiss));
-    SetMasses(my * GeV, mx * GeV, mn * GeV);
-    auto sols = Solve();
-    nsols = sols.size();
-    for (auto sol : IntegerRange(sols.size())) {
-        Momentum(p1[sol], sols[sol].first);
-        Momentum(p2[sol], sols[sol].second);
-    }
-}
-
-boca::LorentzVector<boca::Momentum> TestInvisible22::Vector(double momentum[4])
-{
-    boca::LorentzVector<boca::Momentum> vector;
-    vector.E() = momentum[0] * GeV;
-    vector.Px() = momentum[1] * GeV;
-    vector.Py() = momentum[2] * GeV;
-    vector.Pz() = momentum[3] * GeV;
-    return vector;
-}
-
-void TestInvisible22::Momentum(double momentum[4], const boca::LorentzVector<boca::Momentum>& vector)
-{
-    momentum[0] = vector.E() / GeV;
-    momentum[1] = vector.Px() / GeV;
-    momentum[2] = vector.Py() / GeV;
-    momentum[3] = vector.Pz() / GeV;
 }
 
 }

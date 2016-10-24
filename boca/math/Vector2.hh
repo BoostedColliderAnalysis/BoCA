@@ -473,6 +473,12 @@ public:
         return operator()(dimension);
     }
 
+    friend auto &operator<<(std::ostream &stream, Vector2<Value_> const &vector)
+    {
+        stream << vector.X() << ',' <<  vector.Y();
+        return stream;
+    }
+
     //@}
 
     /**

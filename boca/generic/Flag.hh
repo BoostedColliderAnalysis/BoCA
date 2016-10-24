@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include<type_traits>
+#include <type_traits>
 
 namespace boca
 {
@@ -98,7 +98,6 @@ typename FlagReturn<Enum, bool>::type is(Enum enum_1, Enum enum_2)
 }
 
 template<typename Enum, typename Function>
-// typename FlagReturn<Enum, void>::type
 void FlagSwitch(Enum enum_1, Function function)
 {
     auto mask = Enum(1); // define mask of lowest enum value
@@ -110,8 +109,6 @@ void FlagSwitch(Enum enum_1, Function function)
     }
 }
 
-/*
- * @}
- */
+// @}
 
 }
