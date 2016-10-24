@@ -64,25 +64,24 @@ void TestInvisible22::Momentum(double momentum[4], const boca::LorentzVector<boc
 
 }
 
-auto ReadDataFile()
+auto ReadDataFile(std::ifstream & file)
 {
-    std::ifstream datafile("sqsq_pythia_events.lhe");
     std::array<wimpmass::TestInvisible22::event22, 3> events;
     for (auto &event : events) {
         //find the line containing <event>
         bool found = false;
         std::string line;
         while (found == false) {
-            std::getline(datafile, line);
-            if (datafile.eof()) break;
+            std::getline(file, line);
+            if (file.eof()) break;
             if (line.find("<event>") != std::string::npos) found = true;
         }
-        if (datafile.eof()) break;
+        if (file.eof()) break;
 
         //read the first line of an event
         int npar, itemp;
         double dtemp1, dtemp2, dtemp3, dtemp4;
-        datafile >> npar >> itemp >> dtemp1 >> dtemp2 >> dtemp3 >> dtemp4;
+        file >> npar >> itemp >> dtemp1 >> dtemp2 >> dtemp3 >> dtemp4;
 
         //read npar lines
         int nlep = 0;
@@ -90,7 +89,7 @@ auto ReadDataFile()
             int ic1, ic2, ic3, ic4, ic5, ic6;
             double ic7;
             std::array<double, 6> p;
-            datafile >> ic1 >> ic6 >> ic2 >> ic3 >> ic4 >> ic5 >> p[1] >> p[2] >> p[3] >> p[0] >> p[4] >> p[5] >> ic7;
+            file >> ic1 >> ic6 >> ic2 >> ic3 >> ic4 >> ic5 >> p[1] >> p[2] >> p[3] >> p[0] >> p[4] >> p[5] >> ic7;
             p[0] = sqrt(p[1] * p[1] + p[2] * p[2] + p[3] * p[3] + p[4] * p[4]);
             //read the momenta of the four leptons
             if (std::abs(ic1) == 11 || std::abs(ic1) == 13) {
@@ -116,21 +115,19 @@ auto ReadDataFile()
             if (std::abs(ic1) == 12) for (auto i : boca::IntegerRange(4)) event.pmiss[i] = p[i];
         }
     }
-    datafile.close();
+    file.close();
     return events;
 }
 
 TEST(Wimpmass, Invisible2)
 {
-    auto events = ReadDataFile();
-
     using Momentum = std::array<float, 4>;
     using Momenta = std::array<Momentum, 2>;
     using Solutions = std::array<Momenta, 2>;
     std::array<Solutions, 3> results;
 
-    Solutions solutions;
     {
+        Solutions solutions;
         {
             auto momentum1 = Momentum {{134.70704, -32.048583, 9.6606075, -83.309111}};
             auto momentum2 = Momentum {{622.30009, -110.44245, -207.11309, -567.51995}};
@@ -144,6 +141,9 @@ TEST(Wimpmass, Invisible2)
             solutions.at(1) = momenta;
         }
         results.at(0) = solutions;
+    }
+    {
+        Solutions solutions;
         {
             auto momentum1 = Momentum {{194.13307, 129.51206, 9.2983923, 103.64688}};
             auto momentum2 = Momentum {{1730.5181, -429.40022, 108.68985, 1669.8532}};
@@ -157,6 +157,9 @@ TEST(Wimpmass, Invisible2)
             solutions.at(1) = momenta;
         }
         results.at(1) = solutions;
+    }
+    {
+        Solutions solutions;
         {
             auto momentum1 = Momentum {{309.9882, 124.83235, -259.05223, -57.587915}};
             auto momentum2 = Momentum {{180.95836, 39.251808, 137.57608, -46.828469}};
@@ -172,6 +175,9 @@ TEST(Wimpmass, Invisible2)
         results.at(2) = solutions;
     }
 
+    std::ifstream file("Wimpmass.lhe");
+    ASSERT_TRUE(file.good());
+    auto events = ReadDataFile(file);
     for (auto &event :  events) {
         auto pos = boca::Position(events,  event);
         wimpmass::TestInvisible22 inv;
