@@ -319,13 +319,10 @@ Array3< GradedVector3< double >> EventShapes::Thrusts3() const
     INFO0;
     auto vectors = Vectors();
     vectors = boost::range::sort(vectors);
-    // thrust
     auto thrusts = Array3<GradedVector3<double>> {};
     thrusts.at(0).Set(Mirror(vectors.at(0).Unit(), Dim3::z), 2. * vectors.at(0).Mag() / ScalarMomentum());
-    // major
     auto major = Mirror((vectors.at(1) - (thrusts.at(0).Vector() * vectors.at(1)) * thrusts.at(0).Vector()).Unit(), Dim3::x);
     thrusts.at(1).Set(major, (abs(vectors.at(1) * major) + abs(vectors.at(2) * major)) / ScalarMomentum());
-    // minor
     thrusts.at(2).Set(thrusts.at(0).Vector().Cross(thrusts.at(1).Vector()), 0);
     return thrusts;
 }

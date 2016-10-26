@@ -17,8 +17,8 @@ HiggsSemiLeptonic::HiggsSemiLeptonic()
 boca::Observables HiggsSemiLeptonic::Variables()
 {
     auto substructure = boca::Settings::SubStructure() ?
-                        OBSERVABLE(pull_1, boca::latex::String("#theta_{1}")) +
-                        OBSERVABLE(pull_2, boca::latex::String("#theta_{2}"))
+                        OBSERVABLE(pull_1, boca::latex::String("#theta_{1}"))
+//                           + OBSERVABLE(pull_2, boca::latex::String("#theta_{2}"))
                         /*+ OBSERVABLE(dipolarity, latex::String("D"))*/
                         : boca::Observables {};
     auto var = Particle::Variables() +

@@ -48,7 +48,6 @@ public:
 
     bool PassPreCut(boca::Event const &event) const override
     {
-        return true;
         auto hard = [](auto const & object) {
             return object.Pt() > 20_GeV;
         };
