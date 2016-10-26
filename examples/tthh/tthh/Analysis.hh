@@ -55,7 +55,7 @@ public:
         static auto ievent = 0;
         ++ievent;
         static auto two_leptons = 0;
-        if (number_hard_leptons >= 2) {
+        if (number_hard_leptons >= 1) {
             ++two_leptons;
             auto fraction = static_cast<double>(two_leptons) / ievent;
             ERROR(two_leptons, ievent,  fraction);
