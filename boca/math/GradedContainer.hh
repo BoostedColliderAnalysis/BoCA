@@ -14,16 +14,16 @@ class GradedContainer : boost::totally_ordered<GradedContainer<Container_,  Valu
 {
 public:
     GradedContainer() {}
-    GradedContainer(Container_<Value_> container, Value_ scalar) :
+    GradedContainer(Container_<Value_> const& container, Value_ scalar) :
         container_(container),
         scalar_(scalar)
     {}
-    void Set(Container_<Value_> container, Value_ scalar)
+    void Set(Container_<Value_> const& container, Value_ scalar)
     {
         container_ = container;
         scalar_ = scalar;
     }
-    void Set(Container_<Value_> container)
+    void Set(Container_<Value_> const& container)
     {
         container_ = container;
     }

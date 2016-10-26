@@ -64,7 +64,7 @@ void TestInvisible22::Momentum(double momentum[4], const boca::LorentzVector<boc
 
 }
 
-auto ReadDataFile(std::ifstream & file)
+auto ReadDataFile(std::ifstream &file)
 {
     std::array<wimpmass::TestInvisible22::event22, 3> events;
     for (auto &event : events) {

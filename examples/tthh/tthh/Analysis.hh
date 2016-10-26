@@ -3,6 +3,7 @@
 #include <boost/range/algorithm/count_if.hpp>
 
 #include "boca/analysis/Analysis.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 /**
 * @brief Higgs coupling
@@ -52,6 +53,17 @@ public:
             return object.Pt() > 20_GeV;
         };
         auto number_hard_leptons = boost::range::count_if(event.Leptons(), hard);
+        static auto ievent = 0;
+        ++ievent;
+        static auto two_leptons = 0;
+        if (number_hard_leptons >= 2) {
+            ++two_leptons;
+            auto fraction = static_cast<double>(two_leptons) / ievent;
+            ERROR(two_leptons, ievent,  fraction);
+            return true;
+        };
+        return false;
+
         return number_hard_leptons >= 2 ?  true : false;
 
         auto number_hard_jets = boost::range::count_if(event.Jets(), hard);

@@ -42,14 +42,8 @@ class Vector2 : boost::totally_ordered<Vector2<Value_>>
     template<typename Value_2>
     using ValueProduct = ValueProduct<Value_, Value_2>;
 
-//     template<typename Value_2>
-//     using ValueQuotient = ValueQuotient<Value_, Value_2>;
-
     template<typename Value_2>
     using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value_, Value_2>::value >::type;
-
-//     template<typename Value_2>
-//     using OnlyIfQuantity = typename std::enable_if < IsQuantity<Value_2>::value>::type;
 
 public:
 
@@ -86,14 +80,14 @@ public:
     /**
     * @brief Constructor from a two-vector
     */
-    template<typename Value_2/*, typename = OnlyIfQuantity<Value_2>*/>
+    template<typename Value_2>
     constexpr Vector2(Vector2<Value_2> const &vector) :
         x_(vector.X()),
         y_(vector.Y())
     {}
 
     /**
-     * @brief Constructor accepting a root::TVector3
+     * @brief Constructor accepting a root::TVector2
      */
     constexpr Vector2(TVector2 const &vector) :
         x_(vector.X()),

@@ -15,7 +15,7 @@ class Mt2
 public:
 
     Mt2(boca::Mass const& mass = boca::massless);
-    double Get(boca::Jet const& jet_1,  boca::Jet const& jet_2,  boca::MissingEt const& missing_et);
+    double Get(boca::LorentzVector<boca::Momentum> const& jet_1, boca::LorentzVector<boca::Momentum> const& jet_2, boca::LorentzVector<boca::Momentum> const& missing_et);
 
 protected:
 
@@ -25,9 +25,9 @@ protected:
 
 private:
 
-    void GetMomentum(boca::Jet const& jet_1,  double *momentum);
-    void Bisect();
-    void Massless();
+    void GetMomentum(boca::LorentzVector<boca::Momentum> const& jet_1,  double *momentum);
+    double Bisect();
+    double Massless();
     void Print();
 
     int nevt;
@@ -62,32 +62,3 @@ private:
 };
 
 }
-
-// #include "boca/mt2_bisect.h"
-// #include <iostream>
-// using namespace std;
-// int main()
-// {
-// cout << " Example Event:" << '\n';
-// cout << '\n';
-//
-// //pa, pb = {mass, px, py}
-// //pmiss = {NULL, pxmiss, pymiss}
-// //mn = invisible particle mass
-// double pa[3] = { 0.106, 39.0, 12.0 };
-// double pb[3] = { 0.106, 119.0, -33.0 };
-// double pmiss[3] = { 0, -29.9, 35.9 };
-// double mn = 50.;
-//
-// mt2::Mt2 mt2_event;
-//
-// mt2_event.set_momenta(pa,pb,pmiss);
-// mt2_event.set_mn(mn);
-// mt2_event.print();
-//
-// cout << '\n' << " mt2 = " << mt2_event.get_mt2() << '\n';
-//
-// return 1;
-//
-// }
-

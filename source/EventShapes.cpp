@@ -239,11 +239,16 @@ Array3<GradedVector3<double>> EventShapes::Thrusts() const
     INFO0;
     return thrusts_.Get([this]() {
         switch (Vectors().size()) {
-        case 0 : ;
-        case 1 : return Thrusts1();
-        case 2 : return Thrusts2();
-        case 3 : return Thrusts3();
-        default : return Thrusts4();
+        case 0 :
+            ;
+        case 1 :
+            return Thrusts1();
+        case 2 :
+            return Thrusts2();
+        case 3 :
+            return Thrusts3();
+        default :
+            return Thrusts4();
         }
     });
 }
@@ -252,7 +257,7 @@ Array3<GradedVector3<double>> EventShapes::LinearTensors() const
 {
     INFO0;
     return linear_tensors_.Get([this]() {
-        return boost::accumulate(Vectors(), GradedMatrix3<Momentum>(), [](GradedMatrix3<Momentum> &sum, Vector3<Momentum> const & vector) {
+        return boost::accumulate(Vectors(), GradedMatrix3<Momentum>(), [](auto & sum, auto const & vector) {
             return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<Momentum>(MatrixProduct(vector, vector) / vector.Mag(), vector.Mag()) : sum;
         }).Normalize().EigenSystem();
     });
@@ -262,7 +267,7 @@ Array3<GradedVector3<double>> EventShapes::SphericalTensors() const
 {
     INFO0;
     return spherical_tensors_.Get([this]() {
-        return boost::accumulate(Vectors(), GradedMatrix3<MomentumSquare>(), [](GradedMatrix3<MomentumSquare> &sum, Vector3<Momentum> const & vector) {
+        return boost::accumulate(Vectors(), GradedMatrix3<MomentumSquare>(), [](auto & sum, auto const & vector) {
             return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<MomentumSquare>(MatrixProduct(vector, vector), vector.Mag2()) : sum;
         }).Normalize().EigenSystem();
     });
@@ -274,14 +279,9 @@ HemisphereMasses EventShapes::HemisphereMasses() const
     return hemishpere_masses_.Get([this]() {
         auto positive = GradedLorentzVector<Momentum> {};
         auto negative = GradedLorentzVector<Momentum> {};
-        for (auto const &lorentz_vector : LorentzVectors()) {
-            if (lorentz_vector.Spatial() * ThrustAxis() > 0_eV) positive += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
-            else negative += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
-        }
+        for (auto const &lorentz_vector : LorentzVectors())(lorentz_vector.Spatial() * ThrustAxis() > 0_eV ? positive : negative) += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
         auto hemisphere_masses = boca::HemisphereMasses {};
-        // masses
         hemisphere_masses.SetMasses(Range<EnergySquare>(negative.Vector().M2(), positive.Vector().M2()) / sqr(positive.Vector().E() + negative.Vector().E()));
-        // jet broadening
         hemisphere_masses.SetBroadenings(Range<Energy>(negative.Scalar(), positive.Scalar()) / ScalarMomentum() / 2);
         return hemisphere_masses;
     });
@@ -337,19 +337,19 @@ Array3< GradedVector3< double >> EventShapes::Thrusts4() const
     auto thrust = Thrust(Vectors());
     auto thrusts = Array3<GradedVector3<double>> {};
     thrusts.at(0).Set(Mirror(thrust.Vector().Unit(), Dim3::z), thrust.Scalar() / ScalarMomentum());
-    //major
     auto major = Major(Transform(Vectors(), [&](Vector3<Momentum> const & vector) {
         return vector - (vector * thrusts.at(0).Vector()) * thrusts.at(0).Vector();
     }));
     thrusts.at(1).Set(Mirror(major.Vector().Unit(), Dim3::x), major.Scalar() / ScalarMomentum());
-
-    // minor
-    if (thrusts.at(0).Vector() * thrusts.at(1).Vector() < 1e-10) {
-        auto minor = thrusts.at(0).Vector().Cross(thrusts.at(1).Vector());
-        thrusts.at(2).Set(minor, boost::accumulate(Vectors(), 0_eV, [&](Energy & sum, Vector3<Momentum> const & vector) {
-            return sum + abs(minor * vector);
-        }) / ScalarMomentum());
-    } else thrusts.at(2).Set(Vector3<double>(), -1);
+    if (thrusts.at(0).Vector() * thrusts.at(1).Vector() > std::numeric_limits<double>::epsilon()) {
+        ERROR("Major is not perpendicular to thrust");
+        thrusts.at(2).Set(Vector3<double>(), -1);
+        return thrusts;
+    }
+    auto minor = thrusts.at(0).Vector().Cross(thrusts.at(1).Vector());
+    thrusts.at(2).Set(minor, boost::accumulate(Vectors(), 0_eV, [&](Energy & sum, Vector3<Momentum> const & vector) {
+        return sum + abs(minor * vector);
+    }) / ScalarMomentum());
     return thrusts;
 }
 
@@ -357,17 +357,23 @@ GradedVector3<Momentum> EventShapes::Thrust(std::vector<Vector3<Momentum>> const
 {
     INFO0;
     auto thrust = GradedVector3<Momentum> {};
-    for (unsigned first = 1; first < Vectors().size(); ++first) {
-        for (unsigned second = 0; second < first; ++second) {
-            auto cross = Vectors().at(second).Cross(Vectors().at(first));
+    for (auto const &vector : vectors) {
+        auto position_1 = Position(vectors, vector);
+        for (auto const &vector_2 : vectors) {
+            auto position_2 = Position(vectors, vector_2);
+            if (position_1 >= position_2) continue;
+            auto cross = vector_2.Cross(vector);
             auto total_vector = Vector3<Momentum> {};
-            for (unsigned third = 0; third < Vectors().size(); ++third) if (third != second && third != first) total_vector += (vectors[third] * cross > 0_eV * eV * eV) ? vectors[third] : -vectors[third];
+            for (auto const &vector_3 :  vectors) {
+                auto position_3 = Position(vectors, vector_3);
+                if (position_3 != position_2 && position_3 != position_1) total_vector += (vector_3 * cross > 0_eV * eV * eV) ? vector_3 : -vector_3;
+            }
             auto candidates = std::vector<Vector3<Momentum>> {};
-            candidates.emplace_back(total_vector - Vectors().at(second) - Vectors().at(first));
-            candidates.emplace_back(total_vector - Vectors().at(second) + Vectors().at(first));
-            candidates.emplace_back(total_vector + Vectors().at(second) - Vectors().at(first));
-            candidates.emplace_back(total_vector + Vectors().at(second) + Vectors().at(first));
-            for (auto &candidate : candidates) if (candidate.Mag2() > sqr(thrust.Scalar())) thrust.Set(candidate, candidate.Mag());
+            candidates.emplace_back(total_vector - vector_2 - vector);
+            candidates.emplace_back(total_vector - vector_2 + vector);
+            candidates.emplace_back(total_vector + vector_2 - vector);
+            candidates.emplace_back(total_vector + vector_2 + vector);
+            for (auto const &candidate : candidates) if (candidate.Mag2() > sqr(thrust.Scalar())) thrust.Set(candidate, candidate.Mag());
         }
     }
     return thrust;
@@ -377,13 +383,14 @@ GradedVector3<Momentum> EventShapes::Major(std::vector<Vector3<Momentum>> const 
 {
     INFO0;
     auto major = GradedVector3<Momentum> {};
-    for (unsigned first = 0; first < Vectors().size(); ++first) {
+    for (auto const &vector : vectors) {
+        auto position = Position(vectors, vector);
         auto total_momentum = Vector3<Momentum> {};
-        for (unsigned second = 0; second < Vectors().size(); ++second) if (second != first) total_momentum += (vectors[second] * vectors[first] > 0_eV * eV) ? vectors[second] : -vectors[second];
+        for (auto const &vector_2 : vectors) if (position != Position(vectors,  vector_2)) total_momentum += (vector_2 * vector > 0_eV * eV) ? vector_2 : -vector_2;
         std::vector<Vector3<Momentum>> candidates;
-        candidates.emplace_back(total_momentum - vectors[first]);
-        candidates.emplace_back(total_momentum + vectors[first]);
-        for (auto &candidate : candidates) if (candidate.Mag2() > sqr(major.Scalar())) major.Set(candidate, candidate.Mag());
+        candidates.emplace_back(total_momentum - vector);
+        candidates.emplace_back(total_momentum + vector);
+        for (auto const &candidate : candidates) if (candidate.Mag2() > sqr(major.Scalar())) major.Set(candidate, candidate.Mag());
     }
     return major;
 }

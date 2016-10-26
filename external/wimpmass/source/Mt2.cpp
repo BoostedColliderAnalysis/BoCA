@@ -39,9 +39,12 @@
 namespace wimpmass
 {
 
+using namespace boca::units;
+
 namespace
 {
-/*The user can change the desired precision below, the larger one of the following two definitions is used. Relative precision less than 0.00001 is not guaranteed to be achievable--use with caution*/
+// The user can change the desired precision below, the larger one of the following two definitions is used.
+// Relative precision less than 0.00001 is not guaranteed to be achievable--use with caution
 
 const double RELATIVE_PRECISION = 0.00001; //defined as precision = RELATIVE_PRECISION * scale, where scale = max{Ea, Eb}
 const double ABSOLUTE_PRECISION = 0.0; //absolute precision for mt2, unused by default
@@ -53,12 +56,13 @@ const double ZERO_MASS = 0.000; //give massless particles a small mass
 const double SCANSTEP = 0.1;
 }
 
-Mt2::Mt2(boca::Mass const& mass)
+Mt2::Mt2(boca::Mass const &mass)
 {
     if (mass != boca::massless) SetMass(mass / boca::GeV);
 }
 
-double Mt2::Get(boca::Jet const& jet_1,  boca::Jet const& jet_2,  boca::MissingEt const& missing_et) {
+double Mt2::Get(boca::LorentzVector<Momentum> const &jet_1,  boca::LorentzVector<Momentum> const &jet_2,  boca::LorentzVector<Momentum> const &missing_et)
+{
     double pa0[3],  pb0[3], pmiss0[3];
     GetMomentum(jet_1, pa0);
     GetMomentum(jet_2, pb0);
@@ -67,7 +71,8 @@ double Mt2::Get(boca::Jet const& jet_1,  boca::Jet const& jet_2,  boca::MissingE
     return GetMt2();
 }
 
-void Mt2::GetMomentum(boca::Jet const& jet_1,  double *momentum) {
+void Mt2::GetMomentum(boca::LorentzVector<Momentum> const &jet_1,  double *momentum)
+{
     momentum[0] = jet_1.Mass() / boca::GeV;
     momentum[1] = jet_1.Px() / boca::GeV;
     momentum[2] = jet_1.Py() / boca::GeV;
@@ -79,8 +84,8 @@ double Mt2::GetMt2()
         std::cout << " Please set momenta first!" << '\n';
         return 0;
     }
-    if (!solved) Bisect();
-    return mt2_b * scale;
+    if (!solved) mt2_b = Bisect() * scale;
+    return mt2_b;
 }
 
 void Mt2::SetMomenta(double *pa0, double *pb0, double *pmiss0)
@@ -132,34 +137,33 @@ void Mt2::SetMomenta(double *pa0, double *pb0, double *pmiss0)
         mb = temp;
     }
     //normalize max{Ea, Eb} to 100
-    if (Ea > Eb) scale = Ea / 100.;
-    else scale = Eb / 100.;
-
+    scale = Ea > Eb  ?  Ea / 100. : Eb / 100.;
     if (std::sqrt(pmissxsq + pmissysq) / 100 > scale) scale = std::sqrt(pmissxsq + pmissysq) / 100;
     //scale = 1;
-    auto scalesq = scale * scale;
-    ma = ma / scale;
-    mb = mb / scale;
-    masq = masq / scalesq;
-    mbsq = mbsq / scalesq;
-    pax = pax / scale;
-    pay = pay / scale;
-    pbx = pbx / scale;
-    pby = pby / scale;
-    Ea = Ea / scale;
-    Eb = Eb / scale;
+    if (scale != 1) {
+        auto scalesq = scale * scale;
+        ma = ma / scale;
+        mb = mb / scale;
+        masq = masq / scalesq;
+        mbsq = mbsq / scalesq;
+        pax = pax / scale;
+        pay = pay / scale;
+        pbx = pbx / scale;
+        pby = pby / scale;
+        Ea = Ea / scale;
+        Eb = Eb / scale;
 
-    Easq = Easq / scalesq;
-    Ebsq = Ebsq / scalesq;
-    pmissx = pmissx / scale;
-    pmissy = pmissy / scale;
-    pmissxsq = pmissxsq / scalesq;
-    pmissysq = pmissysq / scalesq;
-    mn = mn_unscale / scale;
-    mnsq = mn * mn;
+        Easq = Easq / scalesq;
+        Ebsq = Ebsq / scalesq;
+        pmissx = pmissx / scale;
+        pmissy = pmissy / scale;
+        pmissxsq = pmissxsq / scalesq;
+        pmissysq = pmissysq / scalesq;
+        mn = mn_unscale / scale;
+        mnsq = mn * mn;
+    }
 
-    if (ABSOLUTE_PRECISION > 100.*RELATIVE_PRECISION) precision = ABSOLUTE_PRECISION;
-    else precision = 100.*RELATIVE_PRECISION;
+    precision = ABSOLUTE_PRECISION > 100.*RELATIVE_PRECISION ? ABSOLUTE_PRECISION : 100. * RELATIVE_PRECISION;
 }
 
 void Mt2::SetMass(double mn0)
@@ -179,12 +183,12 @@ void Mt2::Print()
 }
 
 //special case, the visible particle is massless
-void Mt2::Massless()
+double Mt2::Massless()
 {
     //rotate so that pay = 0
-    auto theta = atan(pay / pax);
-    auto s = sin(theta);
-    auto c = cos(theta);
+    auto theta = std::atan(pay / pax);
+    auto s = std::sin(theta);
+    auto c = std::cos(theta);
 
     Easq = pax * pax + pay * pay;
     Ebsq = pbx * pbx + pby * pby;
@@ -219,17 +223,7 @@ void Mt2::Massless()
     auto Deltasq_low = Deltasq0 + precision;
     auto nsols_low = nsols_massless(Deltasq_low);
 
-    if (nsols_low > 1) {
-        mt2_b = std::sqrt(Deltasq0 + mnsq);
-        return;
-    }
-
-    /*
-     *    if( nsols_massless(Deltasq_high) > 0 )
-     *    {
-     *    mt2_b = std::sqrt(mnsq+Deltasq0);
-     *    return;
-    }*/
+    if (nsols_low > 1) return std::sqrt(Deltasq0 + mnsq);
 
     //look for when both parablos contain origin
     auto Deltasq_high1 = 2 * Eb * std::sqrt(pmissx * pmissx + pmissy * pmissy + mnsq) - 2 * pbx * pmissx - 2 * pby * pmissy;
@@ -253,8 +247,7 @@ void Mt2::Massless()
         }
         if (foundhigh == 0) {
             std::cout << "Deltasq_high not found at event " << nevt << '\n';
-            mt2_b = std::sqrt(Deltasq_low + mnsq);
-            return;
+            return std::sqrt(Deltasq_low + mnsq);
         }
     }
 
@@ -262,8 +255,7 @@ void Mt2::Massless()
         std::cout << "error: nsols_low=nsols_high=" << nsols_high << '\n';
         std::cout << "Deltasq_high=" << Deltasq_high << '\n';
         std::cout << "Deltasq_low= " << Deltasq_low << '\n';
-        mt2_b = std::sqrt(mnsq + Deltasq_low);
-        return;
+        return std::sqrt(mnsq + Deltasq_low);
     }
     auto minmass = std::sqrt(Deltasq_low + mnsq);
     auto maxmass = std::sqrt(Deltasq_high + mnsq);
@@ -274,8 +266,7 @@ void Mt2::Massless()
         if (nsols_mid != nsols_low) maxmass = midmass;
         if (nsols_mid == nsols_low) minmass = midmass;
     }
-    mt2_b = minmass;
-    return;
+    return minmass;
 }
 
 int Mt2::nsols_massless(double Dsq)
@@ -326,16 +317,12 @@ int Mt2::nsols_massless(double Dsq)
     return nsol;
 }
 
-void Mt2::Bisect()
+double Mt2::Bisect()
 {
     solved = true;
-    std::cout.precision(11);
 
     //if masses are very small, use code for massless case.
-    if (masq < MIN_MASS && mbsq < MIN_MASS) {
-        Massless();
-        return;
-    }
+    if (masq < MIN_MASS && mbsq < MIN_MASS) return Massless();
 
     auto Deltasq0 = ma * (ma + 2 * mn); //The minimum mass square to have two ellipses
     // find the coefficients for the two quadratic equations when Deltasq=Deltasq0.
@@ -361,10 +348,7 @@ void Mt2::Bisect()
     // Does the larger ellipse contain the smaller one?
     auto dis = a2 * x0 * x0 + 2 * b2 * x0 * y0 + c2 * y0 * y0 + 2 * d2 * x0 + 2 * e2 * y0 + f2;
 
-    if (dis <= 0.01) {
-        mt2_b = std::sqrt(mnsq + Deltasq0);
-        return;
-    }
+    if (dis <= 0.01) return std::sqrt(mnsq + Deltasq0);
 
     /* find the coefficients for the two quadratic equations */
     /* coefficients for quadratic terms do not change */
@@ -406,11 +390,8 @@ void Mt2::Bisect()
     auto Deltasq_low = Deltasq0;
 
     //number of solutions at Deltasq_low should not be larger than zero
-    if (nsols(Deltasq_low) > 0) {
-        //std::cout << "nsolutions(Deltasq_low) > 0"<<'\n';
-        mt2_b = std::sqrt(mnsq + Deltasq0);
-        return;
-    }
+    if (nsols(Deltasq_low) > 0) return std::sqrt(mnsq + Deltasq0);
+
     auto nsols_low = nsols(Deltasq_low);
     int foundhigh;
 
@@ -423,8 +404,7 @@ void Mt2::Bisect()
         foundhigh = find_high(Deltasq_high);
         if (foundhigh == 0) {
             std::cout << "Deltasq_high not found at event " << nevt << '\n';
-            mt2_b = std::sqrt(Deltasq_low + mnsq);
-            return;
+            return std::sqrt(Deltasq_low + mnsq);
         }
     }
     while (std::sqrt(Deltasq_high + mnsq) - std::sqrt(Deltasq_low + mnsq) > precision) {
@@ -441,8 +421,7 @@ void Mt2::Bisect()
         if (nsols_mid != nsols_low) Deltasq_high = Deltasq_mid;
         if (nsols_mid == nsols_low) Deltasq_low = Deltasq_mid;
     }
-    mt2_b = std::sqrt(mnsq + Deltasq_high);
-    return;
+    return std::sqrt(mnsq + Deltasq_high);
 }
 
 int Mt2::find_high(double &Deltasq_high)
@@ -584,4 +563,4 @@ int Mt2::signchange_p(double t1, double t2, double t3, double t4, double t5)
     return nsc;
 }
 
-}//end namespace mt2_bisect
+}
