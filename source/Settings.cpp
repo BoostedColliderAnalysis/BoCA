@@ -150,12 +150,12 @@ Luminosity Settings::Luminosity()
 {
     switch (Collider()) {
     case boca::Collider::lhc :
-        return 3000. / fb;
+        return 3. / ab;
         return 300. / fb;
     case boca::Collider::future :
-        return 30000. / fb;
-        return 3000. / fb;
-        DEFAULT(Name(Collider()), 3000.  / fb);
+        return 30. / ab;
+        return 3. / ab;
+        DEFAULT(Name(Collider()), 3.  / ab);
     }
 }
 
