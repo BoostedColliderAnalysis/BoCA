@@ -139,7 +139,9 @@ Momentum Settings::LeptonMinPt()
 {
     switch (Collider()) {
     case boca::Collider::lhc : return 10_GeV;
-    case boca::Collider::future : return 20_GeV;
+    case boca::Collider::future :
+        return 10_GeV;                                      ///< should be more than 10_GeV
+        return 20_GeV;
         DEFAULT(Name(Collider()), 10_GeV);
     }
 }
@@ -214,8 +216,8 @@ boca::Source Settings::Source()
 
 bool Settings::Isolation()
 {
-    return true;
     return false;
+    return true;                                            ///< better be true
 }
 
 bool Settings::SubStructure()
