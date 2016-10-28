@@ -54,8 +54,6 @@ class Vector3 : boost::totally_ordered<Vector3<Value_>>
     template<typename Value_2_>
     using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2_>::value || std::is_same<Value_, Value_2_>::value >::type;
 
-    using Value4 = typename boost::units::multiply_typeof_helper<ValueSquare, ValueSquare>::type;
-
 public:
 
     /**
