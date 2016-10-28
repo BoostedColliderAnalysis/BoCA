@@ -5,8 +5,8 @@
 #include <boost/math/constants/constants.hpp>
 
 #include "boca/math/Math.hh"
-#include "boca/physics/Si.hh"
-#include "boca/physics/Prefixes.hh"
+#include "boca/units/Si.hh"
+#include "boca/units/Prefixes.hh"
 
 namespace boca
 {

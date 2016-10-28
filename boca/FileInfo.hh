@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "boca/physics/Units.hh"
-#include "boca/physics/Number.hh"
+#include "boca/units/Units.hh"
+#include "boca/math/Number.hh"
 #include "boca/io/Source.hh"
 #include "boca/Names.hh"
 

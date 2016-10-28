@@ -5,7 +5,7 @@
 #include "boca/plotting/Style.hh"
 #include "boca/plotting/Histogram2Dim.hh"
 #include "boca/plotting/Font.hh"
-#include "boca/Colors.hh"
+#include "boca/plotting/Colors.hh"
 #include "boca/generic/Vector.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"

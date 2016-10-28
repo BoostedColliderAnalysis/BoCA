@@ -2,10 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "boca/MomentumRange.hh"
-
-#include "boca/Settings.hh"
 #include "boca/math/Math.hh"
+
+#include "boca/physics/MomentumRange.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {
@@ -99,16 +99,6 @@ Momentum MomentumRange::PtMin(SubJet const& id)
 Momentum MomentumRange::PtMax(SubJet const& id)
 {
     return PtMax(id.Id(), Settings::MinCellResolution());
-}
-
-bool MomentumRange::BelowUpperBound(Jet const& jet) const
-{
-    return jet.Pt() < max_;
-}
-
-bool MomentumRange::AboveLowerBound(Jet const& jet) const
-{
-    return jet.Pt() > min_;
 }
 
 Momentum MomentumRange::Pt(Id id, Angle const& cone_size)

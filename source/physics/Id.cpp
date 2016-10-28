@@ -5,7 +5,7 @@
 #include <boost/range/algorithm/max_element.hpp>
 
 #include "boca/physics/Id.hh"
-#include "boca/physics/Prefixes.hh"
+#include "boca/units/Prefixes.hh"
 #include "boca/generic/Types.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

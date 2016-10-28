@@ -2,12 +2,16 @@
 
 #include <iostream>
 #include <utility>
-#include "boca/physics/Units.hh"
+#include "boca/units/Units.hh"
 #include "boca/math/Math.hh"
 
 namespace boca
 {
 
+/**
+ * @ingroup Math
+ * @brief Range between two values
+ */
 template<typename Value_>
 class Range
 {

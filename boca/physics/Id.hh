@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "boca/physics/ElectronVolt.hh"
+#include "boca/units/ElectronVolt.hh"
 
 /**
  * @ingroup Boca

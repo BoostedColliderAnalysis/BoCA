@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/branch/Base.hh"
-#include "boca/Observables.hh"
+#include "boca/multivariant/Observables.hh"
 
 namespace boca
 {

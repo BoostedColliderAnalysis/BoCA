@@ -5,7 +5,7 @@
 
 #include <boost/units/cmath.hpp>
 
-#include "boca/physics/Prefixes.hh"
+#include "boca/units/Prefixes.hh"
 
 /**
 * @brief <a href="http://www.boost.org">Boost</a> provides free peer-reviewed portable C++ source libraries.

@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/generic/Types.hh"
-#include "boca/Constituent.hh"
+#include "boca/physics/Constituent.hh"
 #include "boca/Settings.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

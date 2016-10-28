@@ -14,6 +14,10 @@
 namespace boca
 {
 
+/**
+ * @ingroup Math
+ * @brief Rectangle of two Ranges
+ */
 template<typename Value>
 class Rectangle
 {

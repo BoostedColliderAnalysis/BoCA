@@ -12,7 +12,12 @@ namespace boca
 {
 
 /**
- * @brief derives the sign of the value
+ * @ingroup Math
+ * @{
+ */
+
+/**
+ * @brief sign of value
  *
  */
 template <typename Value_>
@@ -21,6 +26,10 @@ int sgn(Value_ value)
     return (Value_(0) < value) - (value < Value_(0));
 }
 
+/**
+ * @brief sign of value
+ *
+ */
 template <typename Value_>
 int LowerBound(std::vector<Value_> const& vector, Value_ value)
 {
@@ -31,6 +40,10 @@ int LowerBound(std::vector<Value_> const& vector, Value_ value)
     return position - vector.begin();
 }
 
+/**
+ * @brief Upper bound of vector
+ *
+ */
 template <typename Value_>
 int UpperBound(std::vector<Value_> const& vector, Value_ value)
 {
@@ -41,14 +54,36 @@ int UpperBound(std::vector<Value_> const& vector, Value_ value)
     return position - vector.begin();
 }
 
+/**
+ * @brief round error two two digits
+ *
+ */
 double RoundError(double value);
 
+/**
+ * @brief Round value to digits
+ *
+ */
 double RoundToDigits(double value, int digits = 3);
 
+/**
+ * @brief Round value to precision of error
+ *
+ */
 double RoundToError(double value, double error);
 
+/**
+ * @brief Floor value to digits
+ *
+ */
 double FloorToDigits(double value, int digits = 2);
 
+/**
+ * @brief Ceiling to digits
+ *
+ */
 double CeilToDigits(double value, int digits = 2);
+
+// @}
 
 }

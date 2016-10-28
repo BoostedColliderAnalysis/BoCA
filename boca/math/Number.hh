@@ -1,5 +1,7 @@
 #pragma once
 
+#include "boca/math/Math.hh"
+
 template <typename Value_>
 class Number
 {
@@ -36,6 +38,16 @@ public:
     Value_ Error() const
     {
         return error_;
+    }
+
+    Number &Round() {
+        if(Error() > Value(0)) {
+            Error() = RoundError(Error());
+            Value() = RoundToError(Value(), Error());
+        } else {
+            Value() = RoundToDigits(Value());
+        }
+        return *this;
     }
 
 private:

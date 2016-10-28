@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/physics/Prefixes.hh"
+#include "boca/units/Prefixes.hh"
 
 #include "boca/branch/Base.hh"
 #include "boca/Names.hh"

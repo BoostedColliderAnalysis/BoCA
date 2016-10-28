@@ -3,11 +3,11 @@
  */
 #pragma once
 // include the Units header
-#include "boca/physics/Units.hh"
+#include "boca/units/Units.hh"
 // include Branch base
 #include "boca/branch/Bdt.hh"
 // include Observables
-#include "boca/Observables.hh"
+#include "boca/multivariant/Observables.hh"
 
 namespace simple
 {

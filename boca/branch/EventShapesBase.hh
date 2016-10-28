@@ -4,7 +4,7 @@
 #pragma once
 
 #include "TObject.h"
-#include "boca/Observables.hh"
+#include "boca/multivariant/Observables.hh"
 
 namespace boca
 {

@@ -3,7 +3,7 @@
 #include "boca/generic/Types.hh"
 #include "boca/math/Vector3.hh"
 #include "boca/plotting/PlottingBase.hh"
-#include "boca/Observables.hh"
+#include "boca/multivariant/Observables.hh"
 
 namespace boca{
 

@@ -8,9 +8,9 @@
 #include <boost/units/systems/si/dimensionless.hpp>
 #include <boost/units/pow.hpp>
 
-#include "boca/physics/Si.hh"
-#include "boca/physics/Barn.hh"
-#include "boca/physics/ElectronVolt.hh"
+#include "boca/units/Si.hh"
+#include "boca/units/Barn.hh"
+#include "boca/units/ElectronVolt.hh"
 
 namespace boca
 {

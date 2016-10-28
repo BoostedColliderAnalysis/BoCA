@@ -4,7 +4,7 @@
 #include "boca/Event.hh"
 #include "boca/fastjet/Particles.hh"
 #include "boca/multiplets/Doublet.hh"
-#include "boca/MomentumRange.hh"
+#include "boca/physics/MomentumRange.hh"
 #include "boca/generic/Exception.hh"
 
 #include "standardmodel/tagger/Boson.hh"

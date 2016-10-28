@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/Observable.hh"
+#include "boca/multivariant/Observable.hh"
 
 namespace boca
 {

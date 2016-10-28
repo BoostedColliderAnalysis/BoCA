@@ -9,7 +9,7 @@
 #include "standardmodel/tagger/TopHadronic.hh"
 
 #include "boca/Event.hh"
-#include "boca/MomentumRange.hh"
+#include "boca/physics/MomentumRange.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 

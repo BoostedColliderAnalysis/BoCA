@@ -6,7 +6,7 @@
 #include <boost/operators.hpp>
 
 #include "fastjet/PseudoJet.hh"
-#include "boca/physics/Prefixes.hh"
+#include "boca/units/Prefixes.hh"
 
 class TLorentzVector;
 

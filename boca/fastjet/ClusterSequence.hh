@@ -5,7 +5,7 @@
 
 #include "fastjet/ClusterSequence.hh"
 
-#include "boca/physics/ElectronVolt.hh"
+#include "boca/units/ElectronVolt.hh"
 
 /**
 * @brief <a href="http://fastjet.fr/">FastJet</a> A software package for jet finding in pp and e+e− collisions.
@@ -53,6 +53,8 @@ public :
     std::vector<Jet> InclusiveJets(Momentum const& min_pt = at_rest) const;
 
     fastjet::ClusterSequence& Get();
+
+    fastjet::ClusterSequence const& Get() const;
 
     void AddConstituents(fastjet::PseudoJet const& jet, std::vector<fastjet::PseudoJet>& subjet_vector) const;
 

@@ -4,7 +4,7 @@
 // include the Branch header
 #include "simple/Branch.hh"
 // include macros to create Observables
-#include "boca/OBSERVABLE_MACROS.hh"
+#include "boca/multivariant/OBSERVABLE_MACROS.hh"
 
 namespace simple
 {

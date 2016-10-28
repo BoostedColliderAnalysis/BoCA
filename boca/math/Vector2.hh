@@ -7,7 +7,7 @@
 #include "boca/generic/Debug.hh"
 #include "boca/generic/Iterator.hh"
 
-#include "boca/physics/Units.hh"
+#include "boca/units/Units.hh"
 
 namespace boca
 {

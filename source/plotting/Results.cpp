@@ -11,7 +11,7 @@
 
 #include "boca/generic/Types.hh"
 #include "boca/generic/Vector.hh"
-#include "boca/physics/Units.hh"
+#include "boca/units/Units.hh"
 #include "boca/plotting/Results.hh"
 #include "boca/Settings.hh"
 // #define INFORMATION

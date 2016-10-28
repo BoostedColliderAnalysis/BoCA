@@ -10,7 +10,7 @@
 #include "boca/multiplets/Doublet.hh"
 #include "boca/fastjet/Particles.hh"
 #include "boca/Event.hh"
-#include "boca/MomentumRange.hh"
+#include "boca/physics/MomentumRange.hh"
 
 #include "standardmodel/tagger/Higgs.hh"
 
