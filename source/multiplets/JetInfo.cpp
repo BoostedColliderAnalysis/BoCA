@@ -6,12 +6,13 @@
 #include <boost/range/numeric.hpp>
 #include <boost/range/algorithm_ext/erase.hpp>
 
+#include "external/delphes/delphes/Classes.hh"
+
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Types.hh"
 #include "boca/math/Math.hh"
-#include "boca/multiplets/JetInfo.hh"
+#include "boca/fastjet/JetInfo.hh"
 #include "boca/multiplets/Singlet.hh"
-#include "boca/delphes/Classes.hh"
 #include "boca/Settings.hh"
 
 // #define DEBUGGING

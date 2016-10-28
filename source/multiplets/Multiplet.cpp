@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "boca/multiplets/Sort.hh"
+#include "boca/fastjet/Sort.hh"
 #include "boca/multiplets/Multiplet.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

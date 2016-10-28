@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/multiplets/Jet.hh"
-#include "boca/multiplets/Particle.hh"
+#include "boca/fastjet/Jet.hh"
+#include "boca/fastjet/Particle.hh"
 #include "boca/generic/Debug.hh"
 
 namespace boca {

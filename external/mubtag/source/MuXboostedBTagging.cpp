@@ -6,7 +6,7 @@
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/physics/Id.hh"
 #include "boca/physics/Vector.hh"
-#include "boca/multiplets/Sort.hh"
+#include "boca/fastjet/Sort.hh"
 #include "boca/Settings.hh"
 
 #define INFORMATION

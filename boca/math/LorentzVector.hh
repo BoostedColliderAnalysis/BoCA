@@ -1,7 +1,7 @@
 #pragma once
 
-#include "boca/delphes/Forward.hh"
-#include "boca/exroot/Forward.hh"
+#include "external/delphes/delphes/Forward.hh"
+#include "external/exroot/exroot/Forward.hh"
 
 #include "boca/math/LorentzVectorBase.hh"
 

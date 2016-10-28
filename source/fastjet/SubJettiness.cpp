@@ -9,7 +9,7 @@ namespace boca
 
 SubJettiness::SubJettiness() {}
 
-SubJettiness::SubJettiness(Jet const& jet)
+SubJettiness::SubJettiness(PseudoJet const& jet)
 {
     jet_ = jet;
 }

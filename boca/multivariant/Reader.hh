@@ -6,14 +6,16 @@
 #include "TMVA/Reader.h"
 
 #include "boca/generic/Options.hh"
-#include "boca/io/TreeWriter.hh"
-#include "boca/multiplets/Sort.hh"
+// #include "boca/io/TreeWriter.hh"
+// #include "boca/fastjet/Sort.hh"
 #include "boca/multivariant/Phase.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Event.hh"
 
 namespace boca
 {
+
+class TreeWriter;
 
 /**
  * @brief read results of multivariant analysis

@@ -2,8 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/Event.hh"
-#include "boca/multiplets/Sort.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Sort.hh"
+#include "boca/fastjet/Particles.hh"
 
 #include "heavyhiggs/tagger/JetPair.hh"
 #include "heavyhiggs/tagger/HeavyHiggsSemi.hh"

@@ -1,5 +1,5 @@
 #include "boca/Event.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 
 #include "heavyhiggs/tagger/EventFusion.hh"
 

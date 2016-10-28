@@ -3,8 +3,8 @@
  */
 #include "hep/TopTagger.hh"
 #include "boca/generic/Exception.hh"
-#include "boca/multiplets/Particles.hh"
-#include "boca/multiplets/Sort.hh"
+#include "boca/fastjet/Particles.hh"
+#include "boca/fastjet/Sort.hh"
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/Settings.hh"
 #include "boca/PreCuts.hh"

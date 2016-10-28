@@ -4,7 +4,7 @@
 #pragma once
 #include "boca/physics/Id.hh"
 #include "boca/generic/Vector.hh"
-#include "boca/multiplets/Jet.hh"
+#include "boca/fastjet/Jet.hh"
 
 namespace boca
 {

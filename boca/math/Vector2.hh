@@ -7,8 +7,6 @@
 #include "boca/generic/Debug.hh"
 #include "boca/generic/Iterator.hh"
 
-#include "boca/math/GradedContainer.hh"
-
 #include "boca/physics/Units.hh"
 
 namespace boca

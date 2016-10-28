@@ -1,7 +1,7 @@
 #pragma once
 
 // include the Identification base class
-#include "boca/multiplets/Identification.hh"
+#include "boca/fastjet/Particle.hh"
 // include the Event class
 #include "boca/Event.hh"
 

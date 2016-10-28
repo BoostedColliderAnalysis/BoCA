@@ -1,4 +1,4 @@
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "boca/Event.hh"
 
 #include "higgscpv/tagger/Signature.hh"

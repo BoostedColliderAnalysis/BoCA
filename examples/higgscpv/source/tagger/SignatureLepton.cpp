@@ -1,6 +1,6 @@
 #include "boca/Event.hh"
 #include "boca/generic/Exception.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 
 #include "higgscpv/tagger/SignatureLepton.hh"
 

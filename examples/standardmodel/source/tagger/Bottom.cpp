@@ -5,7 +5,7 @@
 #include <boost/range/algorithm/unique.hpp>
 
 #include "boca/generic/Exception.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "boca/physics/Vector.hh"
 #include "boca/PreCuts.hh"
 #include "boca/Event.hh"

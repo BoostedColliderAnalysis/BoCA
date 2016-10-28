@@ -1,10 +1,11 @@
 
 #include <boost/range/numeric.hpp>
 
+#include "external/exroot/exroot/Classes.hh"
+
 #include "boca/generic/Types.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/io/TreeReader.hh"
-#include "boca/exroot/Classes.hh"
 #include "boca/exroot/Event.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

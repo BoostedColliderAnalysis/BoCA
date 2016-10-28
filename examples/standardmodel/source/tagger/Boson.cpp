@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/Event.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/MomentumRange.hh"
 #include "boca/generic/Exception.hh"

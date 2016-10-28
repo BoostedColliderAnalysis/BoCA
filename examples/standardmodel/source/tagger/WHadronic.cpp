@@ -5,7 +5,7 @@
 
 #include "boca/generic/Exception.hh"
 #include "boca/math/Math.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "standardmodel/tagger/WHadronic.hh"
 #include "boca/Event.hh"
 #include "boca/MomentumRange.hh"

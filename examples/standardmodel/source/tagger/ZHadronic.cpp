@@ -4,7 +4,7 @@
 #include "standardmodel/tagger/ZHadronic.hh"
 #include "boca/MomentumRange.hh"
 #include "boca/Event.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/generic/Types.hh"
-#include "boca/multiplets/Sort.hh"
+#include "boca/fastjet/Sort.hh"
 #include "boca/io/TreeBranch.hh"
 #include "boca/physics/Vector.hh"
 #include "boca/tagger/Base.hh"

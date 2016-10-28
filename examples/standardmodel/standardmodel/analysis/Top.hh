@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 
 #include "standardmodel/analysis/StandardModel.hh"
 #include "standardmodel/tagger/WHadronic.hh"

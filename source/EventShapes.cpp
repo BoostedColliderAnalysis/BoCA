@@ -17,7 +17,7 @@
 #include "boca/generic/Exception.hh"
 #include "boca/math/GradedMatrix3.hh"
 #include "boca/math/GradedLorentzVector.hh"
-#include "boca/multiplets/Sort.hh"
+#include "boca/fastjet/Sort.hh"
 #include "boca/EventShapes.hh"
 
 // #define INFORMATION

@@ -1,6 +1,6 @@
 #include <boost/range/algorithm/count_if.hpp>
 
-#include "boca/multiplets/Sort.hh"
+#include "boca/fastjet/Sort.hh"
 
 #include "simple/Observables.hh"
 

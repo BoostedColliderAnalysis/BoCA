@@ -3,9 +3,9 @@
  */
 #pragma once
 
-#include "boca/multiplets/Identification.hh"
-#include "boca/multiplets/Particle.hh"
-#include "boca/multiplets/Jet.hh"
+#include "boca/fastjet/Particle.hh"
+#include "boca/fastjet/Particle.hh"
+#include "boca/fastjet/Jet.hh"
 
 namespace toppartner
 {

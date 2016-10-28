@@ -2,8 +2,8 @@
 
 #include "TLorentzVector.h"
 
-#include "boca/exroot/Classes.hh"
-#include "boca/delphes/Classes.hh"
+#include "external/exroot/exroot/Classes.hh"
+#include "external/delphes/delphes/Classes.hh"
 
 #include "boca/math/LorentzVector.hh"
 #include "boca/physics/Id.hh"

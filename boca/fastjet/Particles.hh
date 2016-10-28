@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/multiplets/Particle.hh"
+#include "boca/fastjet/Particle.hh"
 #include "boca/physics/Id.hh"
 
 namespace boca

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "boca/physics/Vector.hh"
 #include "boca/Event.hh"
 #include "standardmodel/tagger/WLeptonic.hh"

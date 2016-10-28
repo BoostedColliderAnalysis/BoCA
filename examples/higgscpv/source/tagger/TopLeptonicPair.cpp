@@ -2,7 +2,7 @@
 #include "boca/WimpMass.hh"
 #include "boca/generic/Types.hh"
 #include "boca/Event.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Exception.hh"
 

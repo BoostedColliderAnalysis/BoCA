@@ -5,7 +5,7 @@
 
 #include "boca/generic/Mutable.hh"
 #include "boca/math/Line2.hh"
-#include "boca/multiplets/Jet.hh"
+#include "boca/fastjet/Jet.hh"
 
 namespace boca
 {

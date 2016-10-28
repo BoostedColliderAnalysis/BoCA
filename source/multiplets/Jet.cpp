@@ -2,11 +2,12 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
+#include "external/exroot/exroot/Classes.hh"
+
 #include "boca/generic/Vector.hh"
 #include "boca/fastjet/InfoRecombiner.hh"
-#include "boca/exroot/Classes.hh"
-#include "boca/multiplets/Jet.hh"
-#include "boca/multiplets/Particle.hh"
+#include "boca/fastjet/Jet.hh"
+#include "boca/fastjet/Particle.hh"
 
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"

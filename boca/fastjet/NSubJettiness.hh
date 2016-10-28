@@ -18,7 +18,8 @@ class AxesDefinition;
 namespace boca
 {
 
-class Jet;
+class PseudoJet;
+
 /**
 * @ingroup FastJet
 * @brief Helper class to calculate <a href="https://inspirehep.net/record/876746">N-subjettiness</a> of a jet
@@ -31,7 +32,7 @@ public:
 
     NSubJettiness();
 
-    NSubJettiness(Jet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta);
+    NSubJettiness(PseudoJet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta);
 
     double tau_1() const;
     double tau_2() const;

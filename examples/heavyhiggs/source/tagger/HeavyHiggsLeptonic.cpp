@@ -2,7 +2,7 @@
 #include "boca/multiplets/Quartet.hh"
 #include "boca/generic/Types.hh"
 #include "boca/Event.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 
 #include "heavyhiggs/tagger/HeavyHiggsLeptonic.hh"
 

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/multiplets/ParticleInfo.hh"
+#include "boca/fastjet/ParticleInfo.hh"
 
 #include "boca/generic/DEBUG_MACROS.hh"
 

@@ -1,6 +1,6 @@
 
-#include "boca/delphes/Classes.hh"
-#include "boca/exroot/Classes.hh"
+#include "external/delphes/delphes/Classes.hh"
+#include "external/exroot/exroot/Classes.hh"
 
 #include "boca/generic/Types.hh"
 #include "boca/io/TreeReader.hh"

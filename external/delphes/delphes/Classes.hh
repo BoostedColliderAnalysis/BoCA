@@ -4,7 +4,7 @@
 #pragma once
 
 #include "external/delphes/delphes/DelphesClasses.h"
-#include "boca/delphes/TypeDef.hh"
+#include "external/delphes/delphes/TypeDef.hh"
 
 
 /**

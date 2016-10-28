@@ -5,7 +5,7 @@
 
 #include "boca/generic/Exception.hh"
 #include "boca/plotting/Font.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "standardmodel/tagger/TopHadronic.hh"
 
 #include "boca/Event.hh"

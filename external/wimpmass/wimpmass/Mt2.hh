@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boca/physics/Units.hh"
-#include "boca/multiplets/Jet.hh"
+#include "boca/fastjet/Jet.hh"
 
 /**
 * \ingroup Wimpmass

@@ -5,7 +5,7 @@
 #pragma once
 
 #include "toppartner/analysis/TopPartner.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "boca/Settings.hh"
 
 #include "toppartner/tagger/EventSubDom.hh"

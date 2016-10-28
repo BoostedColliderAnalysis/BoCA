@@ -9,7 +9,7 @@
 #include <boost/range/adaptors.hpp>
 
 #include "boca/generic/Types.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca

@@ -5,14 +5,14 @@
 #include "fastjet/contrib/Nsubjettiness.hh"
 
 #include "boca/fastjet/NSubJettiness.hh"
-#include "boca/multiplets/Jet.hh"
+#include "boca/fastjet/Jet.hh"
 
 namespace boca
 {
 
 NSubJettiness::NSubJettiness() {}
 
-NSubJettiness::NSubJettiness(Jet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta)
+NSubJettiness::NSubJettiness(PseudoJet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta)
 {
     auto fast_jet = jet.FastJet();
     auto unnormalized_measure = fastjet::contrib::UnnormalizedMeasure(beta);

@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/multiplets/Singlet.hh"
-#include "boca/multiplets/Particle.hh"
+#include "boca/fastjet/Particle.hh"
 #include "boca/multiplets/ClosestLepton.hh"
 #include "boca/fastjet/SubJettiness.hh"
 #include "boca/EventShapes.hh"

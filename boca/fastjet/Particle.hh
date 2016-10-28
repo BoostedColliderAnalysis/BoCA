@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/fastjet/PseudoJet.hh"
-#include "boca/multiplets/ParticleInfo.hh"
+#include "boca/fastjet/ParticleInfo.hh"
 
 namespace boca
 {

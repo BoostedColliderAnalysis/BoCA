@@ -6,7 +6,7 @@
 #include <boost/operators.hpp>
 
 #include "fastjet/PseudoJet.hh"
-#include "boca/math/LorentzVector.hh"
+#include "boca/physics/Prefixes.hh"
 
 class TLorentzVector;
 
@@ -15,6 +15,12 @@ namespace boca
 
 template<typename Value_>
 class LorentzVector;
+
+template<typename Value_>
+class Vector3;
+
+template<typename Value_>
+class Vector2;
 
 /**
 * @ingroup FastJet

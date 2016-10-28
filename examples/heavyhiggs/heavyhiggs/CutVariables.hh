@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/multiplets/Jet.hh"
+#include "boca/fastjet/Jet.hh"
 
 namespace boca
 {

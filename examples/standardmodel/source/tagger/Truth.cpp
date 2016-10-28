@@ -6,7 +6,7 @@
 #include "boca/Event.hh"
 #include "boca/PreCuts.hh"
 #include "boca/generic/Exception.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 

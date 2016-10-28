@@ -2,7 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
-#include "boca/multiplets/Jet.hh"
+
+#include "boca/fastjet/PseudoJet.hh"
 #include "boca/fastjet/NSubJettiness.hh"
 
 namespace boca
@@ -20,7 +21,7 @@ public:
 
     SubJettiness();
 
-    SubJettiness(Jet const& jet);
+    SubJettiness(PseudoJet const& jet);
 
     NSubJettiness beta_1() const;
 
@@ -28,7 +29,7 @@ public:
 
 private:
 
-    Jet jet_;
+    PseudoJet jet_;
 
 };
 

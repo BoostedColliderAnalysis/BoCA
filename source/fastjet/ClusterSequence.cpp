@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "fastjet/ClusterSequence.hh"
 #include "boca/fastjet/ClusterSequence.hh"
+#include "boca/fastjet/Jet.hh"
 
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"

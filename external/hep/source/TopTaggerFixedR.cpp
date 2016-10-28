@@ -7,8 +7,9 @@
 #include "qjets/QJetsBaseExtras.hh"
 #include "hep/TopTaggerFixedR.hh"
 
-#include "boca/Settings.hh"
 #include "boca/fastjet/ClusterSequence.hh"
+#include "boca/fastjet/Jet.hh"
+#include "boca/Settings.hh"
 
 namespace hep
 {

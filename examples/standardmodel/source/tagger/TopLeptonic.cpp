@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/generic/Exception.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "standardmodel/tagger/TopLeptonic.hh"
 #include "boca/Event.hh"
 // #define DEBUGGING

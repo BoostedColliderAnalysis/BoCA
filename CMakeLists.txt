@@ -81,8 +81,6 @@ if(DO_DOXYGEN)
   include(cmake/UseDoxygen.cmake)
 endif()
 
-add_include_path(${PROJECT_SOURCE_DIR})
-
 # Testing
 option(BUILD_TESTING "Build testing" OFF)
 if(BUILD_TESTING)
@@ -90,6 +88,8 @@ if(BUILD_TESTING)
   find_package(GTest REQUIRED)
   include_directories(${GTEST_INCLUDE_DIRS})
 endif()
+
+add_include_path(${PROJECT_SOURCE_DIR})
 
 # external sources
 add_subdirectory(external)

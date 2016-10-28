@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/multiplets/Identification.hh"
+#include "boca/fastjet/Identification.hh"
 #include "boca/branch/Base.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

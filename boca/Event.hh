@@ -7,8 +7,8 @@
 
 #include "boca/generic/Mutable.hh"
 #include "boca/generic/Flag.hh"
-#include "boca/multiplets/Jet.hh"
-#include "boca/multiplets/Particle.hh"
+#include "boca/fastjet/Jet.hh"
+#include "boca/fastjet/Particle.hh"
 
 namespace boca
 {

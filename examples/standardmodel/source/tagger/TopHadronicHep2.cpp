@@ -4,8 +4,8 @@
 #include "hep/TopTagger2.hh"
 
 #include "boca/generic/Exception.hh"
-#include "boca/multiplets/Particles.hh"
-#include "boca/multiplets/Sort.hh"
+#include "boca/fastjet/Particles.hh"
+#include "boca/fastjet/Sort.hh"
 #include "boca/fastjet/ClusterSequence.hh"
 #include "standardmodel/tagger/TopHadronicHep2.hh"
 

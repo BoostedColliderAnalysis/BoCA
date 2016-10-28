@@ -2,7 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
-#include "boca/multiplets/Jet.hh"
+
+#include "fastjet/ClusterSequence.hh"
+
+#include "boca/physics/ElectronVolt.hh"
 
 /**
 * @brief <a href="http://fastjet.fr/">FastJet</a> A software package for jet finding in pp and e+e− collisions.
@@ -16,6 +19,8 @@ class JetDefinition;
 
 namespace boca
 {
+
+class Jet;
 
 /**
  * @ingroup FastJet

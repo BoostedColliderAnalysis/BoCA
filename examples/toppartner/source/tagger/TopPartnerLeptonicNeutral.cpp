@@ -1,6 +1,6 @@
 #include "toppartner/tagger/TopPartnerLeptonicNeutral.hh"
 #include "boca/plotting/Font.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
 #include "boca/generic/Exception.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"

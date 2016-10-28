@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Particles.hh"
+#include "boca/fastjet/Sort.hh"
 
 #include "toppartner/analysis/TopPartner.hh"
 

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "heavyhiggs/analysis/HeavyHiggs.hh"
-#include "boca/multiplets/Sort.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Sort.hh"
+#include "boca/fastjet/Particles.hh"
 
 namespace heavyhiggs {
 

@@ -22,4 +22,4 @@ class Tower;
 class HectorHit;
 class Candidate;
 
-#include "boca/delphes/TypeDef.hh"
+#include "external/delphes/delphes/TypeDef.hh"

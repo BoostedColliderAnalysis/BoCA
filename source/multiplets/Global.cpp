@@ -6,7 +6,7 @@
 
 #include "boca/multiplets/Global.hh"
 #include "boca/Event.hh"
-#include "boca/multiplets/Sort.hh"
+#include "boca/fastjet/Sort.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

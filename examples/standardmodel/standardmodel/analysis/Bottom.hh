@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "boca/multiplets/Sort.hh"
-#include "boca/multiplets/Particles.hh"
+#include "boca/fastjet/Sort.hh"
+#include "boca/fastjet/Particles.hh"
 #include "standardmodel/analysis/StandardModel.hh"
 #include "boca/Event.hh"
 
