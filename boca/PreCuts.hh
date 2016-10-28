@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/physics/Range.hh"
+#include "boca/math/Range.hh"
 
 #include "boca/PreCut.hh"
 #include "boca/generic/Vector.hh"

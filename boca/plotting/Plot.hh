@@ -6,7 +6,7 @@
 #include <functional>
 
 #include "boca/Names.hh"
-#include "boca/physics/Range.hh"
+#include "boca/math/Range.hh"
 #include "boca/math/Vector3.hh"
 
 namespace boca

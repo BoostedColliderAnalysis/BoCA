@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/physics/Rectangle.hh"
+#include "boca/math/Rectangle.hh"
 #include "boca/plotting/Result.hh"
 #include "boca/Tag.hh"
 

@@ -9,7 +9,7 @@
 #include <boost/range/algorithm_ext/erase.hpp>
 
 #include "boca/math/Vector2.hh"
-#include "boca/physics/Range.hh"
+#include "boca/math/Range.hh"
 
 namespace boca
 {

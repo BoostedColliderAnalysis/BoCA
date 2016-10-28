@@ -1,5 +1,5 @@
 #pragma once
-#include "boca/physics/Range.hh"
+#include "boca/math/Range.hh"
 
 namespace boca
 {

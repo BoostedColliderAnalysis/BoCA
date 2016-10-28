@@ -5,7 +5,7 @@
 
 #include "TProfile2D.h"
 
-#include "boca/physics/Rectangle.hh"
+#include "boca/math/Rectangle.hh"
 #include "boca/plotting/Plot.hh"
 #include "boca/plotting/Canvas.hh"
 

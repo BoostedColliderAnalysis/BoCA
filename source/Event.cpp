@@ -5,7 +5,7 @@
  *
  */
 #include "boca/generic/Types.hh"
-#include "boca/physics/Vector.hh"
+#include "boca/fastjet/Vector.hh"
 #include "boca/Settings.hh"
 #include "boca/Event.hh"
 #include "boca/generic/DEBUG_MACROS.hh"

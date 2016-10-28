@@ -43,7 +43,6 @@ endmacro()
 macro(add_include_path relative_directory)
   get_filename_component(absolute_directory ${relative_directory} ABSOLUTE)
   print_message("Include:      ${absolute_directory}")
-  message("Include:      ${absolute_directory}")
   set(include_directories
     ${include_directories}
     ${absolute_directory}

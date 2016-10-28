@@ -9,7 +9,7 @@
 #include "boca/Settings.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/math/Math.hh"
-#include "boca/physics/Range.hh"
+#include "boca/math/Range.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca

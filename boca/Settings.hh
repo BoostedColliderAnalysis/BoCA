@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/fastjet/InfoRecombiner.hh"
-#include "boca/physics/Range.hh"
+#include "boca/math/Range.hh"
 #include "boca/io/Source.hh"
 #include "boca/plotting/Font.hh"
 

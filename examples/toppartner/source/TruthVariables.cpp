@@ -1,6 +1,6 @@
 #include "boca/physics/Id.hh"
 #include "boca/physics/Units.hh"
-#include "boca/physics/Vector.hh"
+#include "boca/fastjet/Vector.hh"
 #include "boca/fastjet/Sort.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
