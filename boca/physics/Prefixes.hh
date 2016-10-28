@@ -3,7 +3,6 @@
  */
 #pragma once
 
-// #include <boost/math/constants/constants.hpp>
 #include <boost/units/scale.hpp>
 #include <boost/units/make_scaled_unit.hpp>
 #include <boost/units/systems/si/dimensionless.hpp>
@@ -114,6 +113,7 @@ BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
 * Unit of length
 */
 BOOST_UNITS_LITERAL_SET(m, boost::units::si::length, boost::units::si::metre)
+
 // BOOST_UNITS_LITERAL_SET(g, boost::units::si::mass, 0.001 * boost::units::si::kilogram)
 // BOOST_UNITS_LITERAL_SET(s, boost::units::si::time, boost::units::si::second)
 // BOOST_UNITS_LITERAL_SET(A, boost::units::si::current, boost::units::si::ampere)
@@ -121,12 +121,14 @@ BOOST_UNITS_LITERAL_SET(m, boost::units::si::length, boost::units::si::metre)
 // BOOST_UNITS_LITERAL_SET(mol, boost::units::si::amount, boost::units::si::mole)
 // BOOST_UNITS_LITERAL_SET(cd, boost::units::si::luminous_intensity, boost::units::si::candela)
 // BOOST_UNITS_LITERAL_SET(Hz, boost::units::si::frequency, boost::units::si::hertz)
+
 /**
 * @brief Radian
 *
 * Unit of angular measure
 */
 BOOST_UNITS_LITERAL_SET(rad, boost::units::si::plane_angle, boost::units::si::radian)
+
 // BOOST_UNITS_LITERAL_SET(sr, boost::units::si::solid_angle, boost::units::si::steradian)
 // BOOST_UNITS_LITERAL_SET(N, boost::units::si::force, boost::units::si::newton)
 // BOOST_UNITS_LITERAL_SET(Pa, boost::units::si::pressure, boost::units::si::pascal)
@@ -154,22 +156,25 @@ BOOST_UNITS_LITERAL_SET(rad, boost::units::si::plane_angle, boost::units::si::ra
 // BOOST_UNITS_LITERAL_SET(l, boost::units::si::volume, 0.001 * boost::units::si::cubic_meter)
 // BOOST_UNITS_LITERAL_SET(L, boost::units::si::volume, 0.001 * boost::units::si::cubic_meter)
 // BOOST_UNITS_LITERAL_SET(t, boost::units::si::mass, 1000. * boost::units::si::kilogram)
+
 /**
  * @brief ElectronVolt
  *
  * Unit of Energy
  */
 BOOST_UNITS_LITERAL_SET(eV, electronvolt::Energy, ElectronVolt)
+
 /**
  * @brief Barn
  *
  * Unit of Area
  */
 BOOST_UNITS_LITERAL_SET(b, barn::Area, Barn)
+
 /**
  * @brief Uno
  *
- * dimensionless unit eg 1%=1cU, or 1ppm=1uU
+ * dimensionless unit e.g. \f$1 % = 1 cU\f$, or \f$1 ppm = 1 uU\f$
  */
 BOOST_UNITS_LITERAL_SET(U, boost::units::si::dimensionless, boost::units::si::si_dimensionless)
 

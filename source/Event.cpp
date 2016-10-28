@@ -4,8 +4,8 @@
  * YingYing Li: Lepton Isolation
  *
  */
-#include "boca/generic/Vector.hh"
 #include "boca/generic/Types.hh"
+#include "boca/physics/Vector.hh"
 #include "boca/Settings.hh"
 #include "boca/Event.hh"
 #include "boca/generic/DEBUG_MACROS.hh"

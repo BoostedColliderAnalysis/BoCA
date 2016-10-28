@@ -1,14 +1,15 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/generic/Vector.hh"
 #include "boca/generic/Types.hh"
+#include "boca/generic/Vector.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/io/TreeReader.hh"
 #include "boca/delphes/Classes.hh"
 #include "boca/delphes/Event.hh"
 #include "boca/multiplets/Sort.hh"
+#include "boca/Settings.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 

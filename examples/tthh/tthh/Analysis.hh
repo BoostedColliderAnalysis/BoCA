@@ -1,7 +1,6 @@
 #pragma once
 
-#include <boost/range/algorithm/count_if.hpp>
-
+#include "boca/physics/Vector.hh"
 #include "boca/analysis/Analysis.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
@@ -48,10 +47,8 @@ public:
 
     bool PassPreCut(boca::Event const &event) const override
     {
-        auto hard = [](auto const & object) {
-            return object.Pt() > 20_GeV;
-        };
-        auto number_hard_leptons = boost::range::count_if(event.Leptons(), hard);
+        return true;
+        auto number_hard_leptons = CountIfHard(event.Leptons(), 20_GeV);
         static auto ievent = 0;
         ++ievent;
         static auto two_leptons = 0;
@@ -65,8 +62,8 @@ public:
 
         return number_hard_leptons >= 2 ?  true : false;
 
-        auto number_hard_jets = boost::range::count_if(event.Jets(), hard);
-        auto number_hard_photons = boost::range::count_if(event.Photons(), hard);
+        auto number_hard_jets = CountIfHard(event.Jets(), 20_GeV);
+        auto number_hard_photons = CountIfHard(event.Photons(), 20_GeV);
         return number_hard_jets >= 2 && number_hard_photons >= 2 ?  true : false;
     }
 

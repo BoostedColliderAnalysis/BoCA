@@ -3,8 +3,6 @@
  */
 #pragma once
 
-#include <vector>
-
 #include <boost/units/base_dimension.hpp>
 #include <boost/units/base_unit.hpp>
 #include <boost/units/quantity.hpp>
@@ -42,10 +40,6 @@ using Crosssection = boost::units::quantity<barn::Area>;
  *
  */
 using Luminosity = boost::units::quantity<barn::Luminosity>;
-
-Crosssection min(std::vector<Crosssection> vector, bool truncate = false);
-
-std::vector< double > FloatVector(std::vector<Crosssection> const& crosssections);
 
 }
 

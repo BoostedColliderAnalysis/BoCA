@@ -12,6 +12,7 @@
 #include "boca/multiplets/JetInfo.hh"
 #include "boca/multiplets/Singlet.hh"
 #include "boca/delphes/Classes.hh"
+#include "boca/Settings.hh"
 
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"

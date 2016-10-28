@@ -5,6 +5,7 @@
 
 #include "boca/io/TreeReader.hh"
 #include "boca/analysis/Files.hh"
+#include "boca/Settings.hh"
 
 namespace boca
 {

@@ -28,6 +28,8 @@
 
 #include "boca/tagger/Base.hh"
 
+#include "boca/Settings.hh"
+
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
@@ -40,6 +42,13 @@ namespace
 auto Ratio(double min = 0)
 {
     return LatexName(Significance::experimental) + (min > 0 ? "\\geq \\unit[" + std::to_string(min / cU) + "]{\\%}" : "");
+}
+
+std::vector< double > FloatVector(const std::vector< boca::Crosssection >& crosssections)
+{
+    return Transform(crosssections, [](Crosssection const & crosssection) -> double {
+        return crosssection / fb;
+    });
 }
 
 }

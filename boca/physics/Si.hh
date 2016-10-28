@@ -49,12 +49,12 @@ Angle Pi();
 Angle TwoPi();
 
 /**
-* @brief returns an angle in the interval \f$[-\pi,\pi]\f$)
+* @brief restrict an angle to the interval \f$[-\pi,\pi]\f$)
 */
 Angle Restrict(Angle phi);
 
 /**
-* @brief Wrap an angle around by \f$2 \pi\f$
+* @brief Wrap an angle by \f$2 \pi\f$
 */
 Angle Wrap(Angle phi);
 

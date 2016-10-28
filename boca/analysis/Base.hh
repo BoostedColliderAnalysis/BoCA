@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "boca/generic/Flag.hh"
 #include "boca/multivariant/Stage.hh"
 #include "boca/PreCuts.hh"
 #include "boca/FileInfo.hh"
