@@ -3,7 +3,7 @@
  */
 
 #include "boca/Event.hh"
-#include "boca/PreCuts.hh"
+#include "boca/physics/PreCuts.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/physics/Id.hh"
 #include "boca/fastjet/Particles.hh"

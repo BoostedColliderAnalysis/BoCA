@@ -6,7 +6,7 @@
 
 #include "boca/generic/Types.hh"
 #include "boca/generic/Vector.hh"
-#include "boca/FileInfo.hh"
+#include "boca/io/FileInfo.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 

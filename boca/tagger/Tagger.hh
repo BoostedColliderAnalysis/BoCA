@@ -8,7 +8,7 @@
 #include "boca/io/TreeBranch.hh"
 #include "boca/fastjet/Vector.hh"
 #include "boca/tagger/Base.hh"
-#include "boca/PreCuts.hh"
+#include "boca/physics/PreCuts.hh"
 #include "boca/Filter.hh"
 #include "boca/generic/Debug.hh"
 

@@ -8,17 +8,6 @@
 namespace boca
 {
 
-/**
- * @brief Constructor
- *
- *
- * choose HCollider according to LHC or 100TeV
- *
- * LHC: Collider::lhc
- * 100TeV: Collider::future
- *
- */
-
 std::string Name(JetType jet_type)
 {
     switch (jet_type) {

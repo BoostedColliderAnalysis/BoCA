@@ -7,6 +7,7 @@
 #include <boost/units/make_scaled_unit.hpp>
 #include <boost/units/systems/si/dimensionless.hpp>
 #include <boost/units/pow.hpp>
+// #include <boost/units/systems/si/prefixes.hpp>
 
 #include "boca/units/Si.hh"
 #include "boca/units/Barn.hh"
@@ -17,17 +18,6 @@ namespace boca
 
 namespace units
 {
-
-// Boost.Units - A C++ library for zero-overhead dimensional analysis and
-// unit/quantity manipulation and conversion
-//
-// Copyright (C) 2003-2008 Matthias Christian Schabel
-// Copyright (C) 2007-2008 Steven Watanabe
-//
-// Distributed under the Boost Software License, Version 1.0. (See
-// accompanying file LICENSE_1_0.txt or copy at
-// http://www.boost.org/LICENSE_1_0.txt)
-
 
 // redefine prefixes in boca namespace
 // TODO find a way to import the prefixes into boca namespace without reimplementing them or including the full si namespace
@@ -54,25 +44,6 @@ BOOST_UNITS_METRIC_PREFIX_2(15, peta);
 BOOST_UNITS_METRIC_PREFIX_2(18, exa);
 BOOST_UNITS_METRIC_PREFIX_2(21, zetta);
 BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
-
-// Copyright (c) 2013 Andrew Gascoyne-Cecil
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define BOOST_UNITS_LITERAL(suffix, quant, unit, prefix, exponent) \
     inline boost::units::quantity<quant, double> operator "" _##prefix##suffix(long double x) { \
@@ -174,7 +145,7 @@ BOOST_UNITS_LITERAL_SET(b, barn::Area, Barn)
 /**
  * @brief Uno
  *
- * dimensionless unit e.g. \f$1 % = 1 cU\f$, or \f$1 ppm = 1 uU\f$
+ * dimensionless unit e.g. \f$1 \% = 1 cU\f$, or \f$1 ppm = 1 uU\f$
  */
 BOOST_UNITS_LITERAL_SET(U, boost::units::si::dimensionless, boost::units::si::si_dimensionless)
 

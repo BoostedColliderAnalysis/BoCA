@@ -21,12 +21,10 @@ set(boca_sources
 Names.cpp
 Tag.cpp
 Names.cpp
-PreCuts.cpp
 Settings.cpp
 HemisphereMasses.cpp
 EventShapes.cpp
 Event.cpp
 WimpMass.cpp
-FileInfo.cpp
 )
 create_library(Boca boca_sources)

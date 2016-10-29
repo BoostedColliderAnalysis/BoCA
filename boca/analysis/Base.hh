@@ -5,8 +5,8 @@
 
 #include "boca/generic/Flag.hh"
 #include "boca/multivariant/Stage.hh"
-#include "boca/PreCuts.hh"
-#include "boca/FileInfo.hh"
+#include "boca/physics/PreCuts.hh"
+#include "boca/io/FileInfo.hh"
 #include "boca/Names.hh"
 #include "boca/Tag.hh"
 
