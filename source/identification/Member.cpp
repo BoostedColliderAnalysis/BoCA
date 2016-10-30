@@ -2,8 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/generic/Types.hh"
-#include "boca/physics/Member.hh"
-#include "boca/physics/Id.hh"
+#include "boca/identification/Member.hh"
+#include "boca/identification/Id.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca

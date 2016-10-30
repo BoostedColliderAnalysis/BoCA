@@ -3,9 +3,9 @@
  */
 
 #include "boca/Event.hh"
-#include "boca/physics/PreCuts.hh"
+#include "boca/identification/PreCuts.hh"
 #include "boca/generic/Exception.hh"
-#include "boca/physics/Id.hh"
+#include "boca/identification/Id.hh"
 #include "boca/fastjet/Particles.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"

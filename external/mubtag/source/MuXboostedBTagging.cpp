@@ -4,7 +4,7 @@
 
 #include "boca/generic/Types.hh"
 #include "boca/fastjet/ClusterSequence.hh"
-#include "boca/physics/Id.hh"
+#include "boca/identification/Id.hh"
 #include "boca/fastjet/Vector.hh"
 #include "boca/fastjet/Sort.hh"
 #include "boca/Settings.hh"

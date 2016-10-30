@@ -4,8 +4,8 @@
 #pragma once
 
 #include <boost/optional.hpp>
-#include "boca/physics/Member.hh"
-#include "boca/physics/Id.hh"
+#include "boca/identification/Member.hh"
+#include "boca/identification/Id.hh"
 
 namespace boca
 {

@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/Tag.hh"
+#include "boca/identification/Tag.hh"
 #include "boca/multivariant/Stage.hh"
 
 namespace boca

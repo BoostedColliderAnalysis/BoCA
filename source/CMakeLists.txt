@@ -6,7 +6,7 @@ add_subdirectory(units)
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 add_subdirectory(math)
-add_subdirectory(physics)
+add_subdirectory(identification)
 add_subdirectory(fastjet)
 add_subdirectory(multivariant)
 add_subdirectory(branch)
@@ -19,7 +19,6 @@ add_subdirectory(analysis)
 
 set(boca_sources
 Names.cpp
-Tag.cpp
 Names.cpp
 Settings.cpp
 HemisphereMasses.cpp

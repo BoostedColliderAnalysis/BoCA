@@ -7,7 +7,7 @@
 #include "boca/fastjet/Sort.hh"
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/Settings.hh"
-#include "boca/physics/PreCuts.hh"
+#include "boca/identification/PreCuts.hh"
 #include "boca/Event.hh"
 
 #include "standardmodel/tagger/TopHadronicHep.hh"

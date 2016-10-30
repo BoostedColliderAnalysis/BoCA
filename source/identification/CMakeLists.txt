@@ -8,5 +8,6 @@ Family.cpp
 Constituent.cpp
 MomentumRange.cpp
 PreCuts.cpp
+Tag.cpp
 )
 create_library(physics PhysicsSources)

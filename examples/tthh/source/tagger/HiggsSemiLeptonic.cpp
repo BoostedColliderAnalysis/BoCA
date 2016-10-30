@@ -9,7 +9,7 @@
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/fastjet/Particles.hh"
 #include "boca/Event.hh"
-#include "boca/physics/MomentumRange.hh"
+#include "boca/identification/MomentumRange.hh"
 
 #include "tthh/tagger/HiggsSemiLeptonic.hh"
 #define INFORMATION

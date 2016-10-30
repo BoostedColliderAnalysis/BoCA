@@ -5,10 +5,10 @@
 
 #include "boca/generic/Flag.hh"
 #include "boca/multivariant/Stage.hh"
-#include "boca/physics/PreCuts.hh"
+#include "boca/identification/PreCuts.hh"
 #include "boca/io/FileInfo.hh"
 #include "boca/Names.hh"
-#include "boca/Tag.hh"
+#include "boca/identification/Tag.hh"
 
 namespace boca
 {

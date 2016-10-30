@@ -8,7 +8,7 @@
 #include "TMVA/Factory.h"
 // #include "TMVA/DataLoader.h"
 
-#include "boca/Tag.hh"
+#include "boca/identification/Tag.hh"
 
 namespace boca {
 

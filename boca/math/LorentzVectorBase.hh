@@ -147,7 +147,7 @@ public:
     }
 
     /**
-     * @brief Set perp,  \f$\eta\f$, \f$\phif$ and time
+     * @brief Set perp,  \f$\eta\f$, \f$\phi\f$ and time
      */
     void SetPerpEtaPhiT(Value_ const &perp, boca::Angle const &eta, boca::Angle const &phi, Value_ const &t)
     {

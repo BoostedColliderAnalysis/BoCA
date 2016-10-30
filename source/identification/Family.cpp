@@ -3,7 +3,7 @@
  */
 #include <boost/range/algorithm/find_if.hpp>
 
-#include "boca/physics/Family.hh"
+#include "boca/identification/Family.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 #include "boca/generic/Types.hh"
 
