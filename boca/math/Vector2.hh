@@ -467,7 +467,7 @@ public:
 
     friend auto &operator<<(std::ostream &stream, Vector2<Value_> const &vector)
     {
-        stream << vector.X() << ',' <<  vector.Y();
+        stream << Stream(vector.X()) << Stream(vector.Y());
         return stream;
     }
 

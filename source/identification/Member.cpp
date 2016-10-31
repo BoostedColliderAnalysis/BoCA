@@ -73,4 +73,11 @@ bool Member::operator==(Member const& member) const
     return Position() == member.Position();
 }
 
+std::ostream& operator<<(std::ostream& stream, Member const& member)
+{
+    stream << Stream(member.position_) << Stream(member.id_);
+    return stream;
 }
+
+}
+

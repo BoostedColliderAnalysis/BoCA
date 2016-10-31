@@ -172,30 +172,13 @@ std::vector<double> EventShapes::SphericityEigenValues() const
         return event_shape.Scalar();
     });
 }
+
 std::vector<Vector3<double>> EventShapes::SphericityEigenVectors() const
 {
     INFO0;
     return Transform(SphericalTensors(), [](GradedVector3<double> const & event_shape) {
         return event_shape.Vector();
     });
-}
-
-double EventShapes::ScaledMomentum(LorentzVector<Momentum> const &lorentz_vector, Energy const &energy) const
-{
-    INFO0;
-    return energy > 0_eV && lorentz_vector.Rho() > 0_eV ? std::log(energy / lorentz_vector.Rho()) : -1;
-}
-
-Momentum EventShapes::Pt(LorentzVector<Momentum> const &lorentz_vector) const
-{
-    INFO0;
-    return lorentz_vector.Perp();
-}
-
-Angle EventShapes::Rapidity(LorentzVector<Momentum> const &lorentz_vector) const
-{
-    INFO0;
-    return lorentz_vector.T() > lorentz_vector.Z() ? lorentz_vector.Rapidity() : 1e99_rad;
 }
 
 Momentum EventShapes::PtInT(LorentzVector<Momentum> const &lorentz_vector) const

@@ -94,6 +94,12 @@ std::string Name(Id id)
     }
 }
 
+std::ostream& operator<<(std::ostream& stream, Id id)
+{
+    stream << Name(id);
+    return stream;
+}
+
 Mass MassOf(Id id)
 {
     switch (id) {
@@ -175,6 +181,12 @@ Id Heavyest(MultiId multi_id)
     return *boost::range::max_element(Resolve(multi_id), [](Id id_1, Id id_2) {
         return MassOf(id_1) < MassOf(id_2);
     });
+}
+
+std::ostream& operator<<(std::ostream& stream, MultiId id)
+{
+    stream << Name(id);
+    return stream;
 }
 
 }

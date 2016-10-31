@@ -159,27 +159,6 @@ public:
     boca::HemisphereMasses HemisphereMasses() const;
 
     /**
-    * @name Single particle variables which do not depend on event shapes axes
-    * @{
-    */
-
-    /**
-    * @brief The scaled momentum \f$\xi=-\log\left( p/E_{\rm beam}\right)\f$.
-    */
-    double ScaledMomentum(LorentzVector<Momentum> const& lorentz_vector, Energy const& energy) const;
-
-    /**
-    * @brief Transverse momentum with respect to the beam
-    */
-    Momentum Pt(LorentzVector<Momentum> const& lorentz_vector) const;
-
-    /**
-    * @brief Rapidity with respect to the beam direction
-    */
-    Angle Rapidity(LorentzVector<Momentum> const& lorentz_vector) const;
-    //@}
-
-    /**
     * @name Single particle variables related to one of the shape axis.
     * @{
     */

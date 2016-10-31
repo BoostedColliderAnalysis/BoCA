@@ -107,6 +107,12 @@ std::string Name(int id);
 std::string Name(Id id);
 
 /**
+ * @brief Stream the name of a particle with given Id
+ *
+ */
+std::ostream& operator<<(std::ostream & stream, Id id);
+
+/**
  * @brief Mass of particle with given Id
  *
  */
@@ -131,6 +137,12 @@ enum class MultiId
  *
  */
 std::string Name(MultiId multi_id);
+
+/**
+ * @brief Stream the name of a particle with given MultiId
+ *
+ */
+std::ostream& operator<<(std::ostream & stream, MultiId id);
 
 /**
  * @brief Common mass of a multi particle

@@ -5,7 +5,7 @@
 #include "boca/fastjet/Particles.hh"
 #include "standardmodel/tagger/TopLeptonic.hh"
 #include "boca/Event.hh"
-// #define DEBUGGING
+// #define NOTIFICATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace standardmodel
@@ -37,7 +37,7 @@ std::vector<Lepton> Leptons(boca::Event const& event, std::vector<boca::Jet> con
 
 TopLeptonic::TopLeptonic(Id id) :
     id_(id),
-//     use_w_(false),
+    use_w_(true),
     w_leptonic_reader_(InitializeLeptonicReader())
 {
     INFO0;
@@ -61,8 +61,22 @@ std::vector<Particle> TopLeptonic::Particles(boca::Event const& event) const
 {
     INFO0;
     auto particles = event.GenParticles();
-    auto leptons = CopyIfGrandMother(CopyIfLepton(particles), id_);
-    return CopyIfGrandDaughter(particles, leptons);
+
+//     auto TOPs = CopyIfParticle(particles,  Id::top);
+//     for (auto const& TOP : TOPs) NOTE(TOP.Info().Family());
+
+
+
+    auto leptons = CopyIfLepton(particles);
+    NOTE(leptons);
+    for (auto const& lepton :  leptons) NOTE(lepton.Info().Family());
+    auto test = CopyIfGrandMother(leptons, id_);
+    auto test_2 = CopyIfGrandMother(leptons, Id::top_partner);
+    Insert(test, test_2);
+    NOTE(test,  id_);
+    auto tops = CopyIfGrandDaughter(particles, test);
+    NOTE(tops);
+    return tops;
 }
 
 bool TopLeptonic::Problematic(boca::Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const
@@ -105,6 +119,7 @@ std::vector<Triplet> TopLeptonic::Triplets(boca::Event const& event, std::functi
         CHECK(triplet.Mass() == triplet.Mass(), triplet.Mass());
         return function(triplet);
     });
+    NOTE(triplets.size());
     return triplets;
 }
 

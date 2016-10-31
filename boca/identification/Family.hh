@@ -4,8 +4,9 @@
 #pragma once
 
 #include <boost/optional.hpp>
-#include "boca/identification/Member.hh"
+
 #include "boca/identification/Id.hh"
+#include "boca/identification/Member.hh"
 
 namespace boca
 {
@@ -21,6 +22,12 @@ enum class Relative
 };
 
 std::string Name(Relative relative);
+
+/**
+ * @brief Stream the name of a family relative
+ *
+ */
+std::ostream& operator<<(std::ostream & stream, Relative relative);
 
 Relative Mother(Relative relative);
 
@@ -43,11 +50,16 @@ public:
 
     boost::optional<boca::Member> Member(Id id) const;
 
+    friend std::ostream& operator<<(std::ostream& stream, Family const& family);
+
 private:
 
-//     bool Has(Relative relative) const;
+struct Pair{
+    Relative relative;
+    boca::Member member;
+};
 
-    std::vector<std::pair<Relative, boca::Member>> members_;
+    std::vector<Pair> members_;
 
 };
 

@@ -12,10 +12,10 @@ namespace boca
 enum class Significance
 {
     none = 0,
-    experimental = 1 << 0, ///< experimental error \f$\\\frac{s}{b}\f$
-    sum = 1 << 1, ///< simple significance estimator \f$\\frac{s}{\\sqrt b}\f$
-    background = 1 << 2, ///< slighly more complicated estimator for significance \$f\\frac{s}{\\sqrt{s+b}}\f$
-    poisson = 1 << 3, ///< poisson estimator for significance \f$\\sqrt{-2 \\ln \\frac{L_1}{L_0}}\f$
+    experimental = 1 << 0, ///< experimental error \f$\frac{s}{b}\f$
+    background = 1 << 1, ///< simple significance estimator \f$\frac{s}{\sqrt b}\f$
+    sum = 1 << 2, ///< slighly more complicated estimator for significance \f$\frac{s}{\sqrt{s+b}}\f$
+    poisson = 1 << 3, ///< poisson estimator for significance \f$\sqrt{-2 \ln \frac{L_1}{L_0}}\f$
     discovery = 1 << 4, ///< discovery hypothesis and requirement
     exclusion = 1 << 5, ///< exclusion hypothesis and requirement
 };

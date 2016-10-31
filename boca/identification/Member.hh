@@ -42,6 +42,8 @@ public:
 
     bool operator==(Member const& member) const;
 
+    friend std::ostream& operator<<(std::ostream& stream, Member const& member);
+
 private:
 
     LorentzVector<boca::Momentum> momentum_;
@@ -53,3 +55,5 @@ private:
 };
 
 }
+
+

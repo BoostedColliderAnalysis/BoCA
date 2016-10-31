@@ -7,6 +7,8 @@
 
 namespace boca {
 
+namespace{
+
 std::string Shorten(std::string const& pretty_function, std::size_t brake)
 {
     auto begin1 = pretty_function.substr(0, brake).rfind(" ") + 1;
@@ -22,6 +24,8 @@ std::string Shorten2(std::string const& pretty_function, std::size_t brake)
 {
     auto colons = pretty_function.substr(0, brake).rfind("::");
     return (colons == std::string::npos) ? "::" : Shorten(pretty_function, colons);
+}
+
 }
 
 std::string NameSpaceName(std::string const& pretty_function)
@@ -49,14 +53,9 @@ std::string FileName(std::string const& file)
     return name.substr(0, name.find('.'));
 }
 
-int ValueLength()
-{
-    return 20;
-}
-
 void Log(std::string const& file, int line, std::string const& NameSpace, std::string const& Class, std::string const& function, bool final)
 {
-    std::cout << Column(25, file) << ColumnRight(3, line) << " " << Column(15, NameSpace) << Column(18, Class) << Column(20, function);
+    std::cout << Stream(file, 25) << Stream(line, 3, true) << " " << Stream(NameSpace, 15) << Stream(Class, 18) << Stream(function);
     if (final) std::cout << '\n';
 }
 
@@ -65,25 +64,13 @@ void Debug(bool final)
   if (final) std::cout << '\n';
 }
 
-void LogVariable(std::string const& variable, Particle const& jet)
-{
-    std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.Px()) << Column(ValueLength(), jet.Py()) << Column(ValueLength(), jet.Pz()) << Column(ValueLength(), jet.E());
-}
-
-void LogVariable(std::string const& variable, Jet const& jet)
-{
-  std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.Px()) << Column(ValueLength(), jet.Py()) << Column(ValueLength(), jet.Pz()) << Column(ValueLength(), jet.E());
-}
-
-
 void LogVariable(std::string const&, char const* value)
 {
-    std::cout << Column(ValueLength(), value);
+    std::cout << Stream(value);
 }
 void Error(const std::string& variable)
 {
-    std::cout << "Error: " << variable << '\n';
-    std::cout << '\n';
+    std::cout << "Error: " << variable << "\n\n";
 }
 
 }

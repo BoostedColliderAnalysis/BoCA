@@ -3,9 +3,10 @@
  */
 #include <boost/range/algorithm/find_if.hpp>
 
-#include "boca/identification/Family.hh"
-#include "boca/generic/DEBUG_MACROS.hh"
 #include "boca/generic/Types.hh"
+#include "boca/identification/Family.hh"
+
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {
@@ -23,6 +24,12 @@ std::string Name(Relative relative)
     }
 }
 
+std::ostream& operator<<(std::ostream& stream, Relative relative)
+{
+    stream << Name(relative);
+    return stream;
+}
+
 Relative Mother(Relative relative)
 {
     switch (relative) {
@@ -38,11 +45,10 @@ Relative StepMother(Relative relative)
     return relative == Relative::particle ? Relative::step_mother : Relative::none;
 }
 
-std::vector< boca::Relative, std::allocator< boca::Relative > > Relatives()
+std::vector<Relative> Relatives()
 {
     return {Relative::particle, Relative::mother, Relative::step_mother, Relative::grand_mother, Relative::great_grand_mother};
 }
-
 
 Family::Family()
 {}
@@ -54,29 +60,28 @@ Family::Family(boca::Member const& member, Relative relative)
 
 void Family::SetMember(boca::Member const& member, Relative relative)
 {
-//     CHECK(!Has(relative), "Family member overwritten");
-    members_.emplace_back(std::make_pair(relative, member));
+    members_.emplace_back(Pair{relative, member});
 }
 
 boca::Member Family::Member(Relative relative) const
 {
-    auto mem = boost::range::find_if(members_, [&](std::pair<Relative, boca::Member> const& pair) {
-        return pair.first == relative;
+    auto mem = boost::range::find_if(members_, [&](Pair const& pair) {
+        return pair.relative == relative;
     });
     if (mem == members_.end()) return {};
-    else return (*mem).second;
-//     return Has(relative) ? members_.at(relative) : boca::Member();
+    else return (*mem).member;
 }
 
 boost::optional<boca::Member> Family::Member(Id id) const
 {
-    for (auto const member :  members_) if (std::abs(member.second.Id()) == to_int(id)) return member.second;
+    for (auto const member :  members_) if (std::abs(member.member.Id()) == to_int(id)) return member.member;
     return boost::none;
 }
 
-// bool Family::Has(Relative relative) const
-// {
-//     return members_.find(relative) != members_.end();
-// }
+std::ostream& operator<<(std::ostream& stream, Family const& family)
+{
+    for (auto const& member : family.members_) stream << Stream(member.relative) << member.member << '\n';
+    return stream;
+}
 
 }

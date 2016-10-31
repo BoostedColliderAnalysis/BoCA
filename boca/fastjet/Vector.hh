@@ -64,6 +64,14 @@ auto CountIfHard(std::vector<Multiplet_> multiplets, Momentum const &pt_min)
     });
 }
 
+template<typename Multiplet_>
+auto CountIfBottom(std::vector<Multiplet_> const& jets)
+{
+    return boost::range::count_if(jets, [](auto const & jet) {
+        return jet.Info().BTag();
+    });
+}
+
 template <typename Multiplet_1_>
 class Close
 {

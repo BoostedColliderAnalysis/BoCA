@@ -673,7 +673,7 @@ public:
 
     friend auto &operator<<(std::ostream &stream, LorentzVectorBase<Value_> const &lorentz_vector)
     {
-        stream << lorentz_vector.Scalar() << ',' <<  lorentz_vector.Spatial();
+        stream << Stream(lorentz_vector.Scalar()) << lorentz_vector.Spatial();
         return stream;
     }
 

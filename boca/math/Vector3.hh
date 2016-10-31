@@ -734,7 +734,7 @@ public:
 
     friend auto &operator<<(std::ostream &stream, Vector3<Value_> const &vector)
     {
-        stream << vector.Transversal() << ',' <<  vector.Z();
+        stream << vector.Transversal() << Stream(vector.Z());
         return stream;
     }
 

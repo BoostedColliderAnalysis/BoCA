@@ -52,7 +52,7 @@ private:
 
     Id id_;
 
-    bool use_w_ = true;
+    bool use_w_;
 
     Reader<tagger::Bottom> bottom_reader_;
 
