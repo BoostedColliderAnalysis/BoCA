@@ -60,6 +60,15 @@ public:
         return container_ == graded_container.container_ && scalar_ == graded_container.scalar_;
     }
 
+    /**
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, GradedContainer const &graded_container)
+    {
+        stream << Stream(graded_container.scalar_) << graded_container.container_;
+        return stream;
+    }
+
 private:
     Container_<Value_> container_;
     Value_ scalar_ = Value_(0);

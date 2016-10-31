@@ -212,6 +212,15 @@ public:
         x_.Widen( {std::min(*min, *max), std::max(*min, *max)});
     }
 
+    /**
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, Rectangle const &rectangle)
+    {
+        stream << rectangle.x_ << rectangle.y_;
+        return stream;
+    }
+
 private:
 
     template <typename Value_2_>

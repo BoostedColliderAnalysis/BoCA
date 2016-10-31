@@ -151,6 +151,15 @@ public:
         if (max_ != Value_(0)) max_ = std::log10(max_);
     }
 
+    /**
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, Range const &range)
+    {
+        stream << Stream(range.min_) << Stream(range.max_);
+        return stream;
+    }
+
 private:
     void ImposeHierachy() {
         if (min_ != InitialMin() && max_ != InitialMax() && min_ > max_) std::swap(min_, max_);

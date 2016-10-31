@@ -50,6 +50,15 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, Number const &number)
+    {
+        stream << Stream(number.number_) << Stream(number.error_);
+        return stream;
+    }
+
 private:
 
     Value_ number_ = Value_(0);

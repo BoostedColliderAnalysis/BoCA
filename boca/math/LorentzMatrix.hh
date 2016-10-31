@@ -564,6 +564,15 @@ public:
         return x_;
     }
 
+    /**
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, LorentzMatrix<Value_> const &matrix)
+    {
+        for(auto const& vector : matrix) stream << vector;
+        return stream;
+    }
+
     //@}
 
 private:

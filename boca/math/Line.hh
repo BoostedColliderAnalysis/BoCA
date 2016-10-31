@@ -196,6 +196,15 @@ public:
 
     //@}
 
+    /**
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, Line const &line)
+    {
+        stream << line.point_1_ << line.point_2_;
+        return stream;
+    }
+
 private:
 
     Vector_<Value_> point_1_; // v

@@ -522,6 +522,12 @@ public:
         return operator()(i);
     }
 
+    friend auto &operator<<(std::ostream &stream, Matrix2<Value_> const &matrix)
+    {
+        for(auto const& vector : matrix) stream << vector;
+        return stream;
+    }
+
     //@}
 
     /**
