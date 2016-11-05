@@ -16,7 +16,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="QJetsPlugin_8hh.html" target="_top" xlink:title="boca/external/QJetsPlugin.hh">
+<g id="a_node2"><a xlink:href="QJetsPlugin_8hh.html" target="_top" target="_top" xlink:title="boca/external/QJetsPlugin.hh">
 <polygon fill="white" stroke="black" points="0,-56.5 0,-75.5 145,-75.5 145,-56.5 0,-56.5"/>
 <text text-anchor="middle" x="72.5" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca/external/QJetsPlugin.hh</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node4 -->
 <g id="node4" class="node"><title>Node4</title>
-<g id="a_node4"><a xlink:href="QJets_8hh.html" target="_top" xlink:title="boca/external/QJets.hh">
+<g id="a_node4"><a xlink:href="QJets_8hh.html" target="_top" target="_top" xlink:title="boca/external/QJets.hh">
 <polygon fill="white" stroke="black" points="163.5,-56.5 163.5,-75.5 281.5,-75.5 281.5,-56.5 163.5,-56.5"/>
 <text text-anchor="middle" x="222.5" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca/external/QJets.hh</text>
 </a>

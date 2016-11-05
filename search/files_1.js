@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['barn_2ecpp',['Barn.cpp',['../Barn_8cpp.html',1,'']]],
   ['barn_2ehh',['Barn.hh',['../Barn_8hh.html',1,'']]],
   ['base_2ecpp',['Base.cpp',['../analysis_2Base_8cpp.html',1,'']]],
   ['base_2ecpp',['Base.cpp',['../branch_2Base_8cpp.html',1,'']]],

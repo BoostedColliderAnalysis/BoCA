@@ -11,11 +11,9 @@ var searchData=
   ['lorentzvector_3c_20boca_3a_3amomentum_20_3e',['LorentzVector&lt; boca::Momentum &gt;',['../classboca_1_1LorentzVector.html',1,'boca']]],
   ['lorentzvector_3c_20length_20_3e',['LorentzVector&lt; Length &gt;',['../classboca_1_1LorentzVector_3_01Length_01_4.html',1,'boca']]],
   ['lorentzvector_3c_20momentum_20_3e',['LorentzVector&lt; Momentum &gt;',['../classboca_1_1LorentzVector_3_01Momentum_01_4.html',1,'boca']]],
-  ['lorentzvector_3c_20value_5f_20_3e',['LorentzVector&lt; Value_ &gt;',['../classboca_1_1LorentzVector.html',1,'boca']]],
   ['lorentzvectorbase',['LorentzVectorBase',['../classboca_1_1LorentzVectorBase.html',1,'boca']]],
   ['lorentzvectorbase_3c_20boca_3a_3amomentum_20_3e',['LorentzVectorBase&lt; boca::Momentum &gt;',['../classboca_1_1LorentzVectorBase.html',1,'boca']]],
   ['lorentzvectorbase_3c_20length_20_3e',['LorentzVectorBase&lt; Length &gt;',['../classboca_1_1LorentzVectorBase.html',1,'boca']]],
   ['lorentzvectorbase_3c_20momentum_20_3e',['LorentzVectorBase&lt; Momentum &gt;',['../classboca_1_1LorentzVectorBase.html',1,'boca']]],
-  ['lorentzvectorbase_3c_20value_20_3e',['LorentzVectorBase&lt; Value &gt;',['../classboca_1_1LorentzVectorBase.html',1,'boca']]],
   ['lowpt',['LowPt',['../classhep_1_1LowPt.html',1,'hep']]]
 ];

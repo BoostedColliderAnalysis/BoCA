@@ -108,9 +108,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a62b244a83538a07d55eba4340dcce3f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CMakeLists_8txt.html#a62b244a83538a07d55eba4340dcce3f9">cmake_minimum_required</a> (VERSION 2.8 FATAL_ERROR) project(BoCA CXX) find_program(iwyu_path <a class="el" href="group__Debug.html#ga1224dbeb12320494fbd819c86fb3172b">NAMES</a> include-what-you-use iwyu) <a class="el" href="CMakeLists_8txt.html#a670e600aaf291adbd89db6690a9efe63">if</a>(!iwyu_path) message(&quot;'Include what You Use' is not available.&quot;) endif() include(cmake/CMakeConfig.cmake) find_package(Boost 1.43) add_include_path($</td></tr>
-<tr class="separator:a62b244a83538a07d55eba4340dcce3f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb9d01a48a89dfc874b8ae2d758762c3"><td class="memItemLeft" align="right" valign="top">SYSTEM&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CMakeLists_8txt.html#abb9d01a48a89dfc874b8ae2d758762c3">if</a> (NOT CMAKE_BUILD_TYPE) <a class="el" href="source_2io_2CMakeLists_8txt.html#af7fba3b20d6cff5ecd3d27ee27642d94">set</a>(CMAKE_BUILD_TYPE Release CACHE STRING&quot;Choose the type of build</td></tr>
+<tr class="memitem:aa96bd292eb9a99327de827805fcc7eb5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CMakeLists_8txt.html#aa96bd292eb9a99327de827805fcc7eb5">cmake_minimum_required</a> (VERSION 2.8 FATAL_ERROR) project(BoCA CXX) find_program(iwyu_path <a class="el" href="group__Debug.html#ga1224dbeb12320494fbd819c86fb3172b">NAMES</a> include-what-you-use iwyu) <a class="el" href="CMakeLists_8txt.html#a670e600aaf291adbd89db6690a9efe63">if</a>(!iwyu_path) message(&quot;'Include what You Use' is not available.&quot;) endif() include(cmake/CMakeConfig.cmake) find_package(Boost 1.56) add_include_path($</td></tr>
+<tr class="separator:aa96bd292eb9a99327de827805fcc7eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb9d01a48a89dfc874b8ae2d758762c3"><td class="memItemLeft" align="right" valign="top">SYSTEM&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CMakeLists_8txt.html#abb9d01a48a89dfc874b8ae2d758762c3">if</a> (NOT CMAKE_BUILD_TYPE) <a class="el" href="source_2io_2CMakeLists_8txt.html#a4c0ee2508de760a1f530721b21a513b9">set</a>(CMAKE_BUILD_TYPE Release CACHE STRING&quot;Choose the type of build</td></tr>
 <tr class="separator:abb9d01a48a89dfc874b8ae2d758762c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a670e600aaf291adbd89db6690a9efe63"><td class="memItemLeft" align="right" valign="top">SYSTEM options version ERROR_QUIET OUTPUT_VARIABLE LD_VERSION&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CMakeLists_8txt.html#a670e600aaf291adbd89db6690a9efe63">if</a> (&quot;${LD_VERSION}&quot;MATCHES&quot;GNU gold&quot;AND&quot;${CMAKE_CXX_COMPILER_ID}&quot;STREQUAL&quot;GNU&quot;) set(CMAKE_C_FLAGS&quot;$</td></tr>
 <tr class="separator:a670e600aaf291adbd89db6690a9efe63"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,7 +123,7 @@ Variables</h2></td></tr>
 <tr class="separator:ad3bc8fb8cf7e0499598ddabc40006a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a62b244a83538a07d55eba4340dcce3f9"></a>
+<a class="anchor" id="aa96bd292eb9a99327de827805fcc7eb5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -193,7 +193,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=gold<span class="stringliteral">&quot;)</span></div><div class="line"><span class="stringliteral">    set(CMAKE_CXX_FLAGS &quot;</span>${CMAKE_CXX_FLAGS} -fuse-<a class="code" href="CMakeLists_8txt.html#ad3bc8fb8cf7e0499598ddabc40006a43">ld</a>=gold<span class="stringliteral">&quot;)</span></div><div class="line"><span class="stringliteral">  else ()</span></div><div class="line"><span class="stringliteral">    message(&quot;</span>GNU gold linker <a class="code" href="group__Flag.html#ga89fa8bf78ddd094e8f8092c9f14a5a73">is</a> not available</div><div class="ttc" id="CMakeLists_8txt_html_ad3bc8fb8cf7e0499598ddabc40006a43"><div class="ttname"><a href="CMakeLists_8txt.html#ad3bc8fb8cf7e0499598ddabc40006a43">ld</a></div><div class="ttdeci">fuse ld</div><div class="ttdef"><b>Definition:</b> CMakeLists.txt:49</div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">=gold<span class="stringliteral">&quot;)</span></div><div class="line"><span class="stringliteral">    set(CMAKE_CXX_FLAGS &quot;</span>${CMAKE_CXX_FLAGS} -fuse-<a class="code" href="CMakeLists_8txt.html#ad3bc8fb8cf7e0499598ddabc40006a43">ld</a>=gold<span class="stringliteral">&quot;)</span></div><div class="line"><span class="stringliteral">  else ()</span></div><div class="line"><span class="stringliteral">    message(&quot;</span>GNU gold linker <a class="code" href="group__Flag.html#ga89fa8bf78ddd094e8f8092c9f14a5a73">is</a> not available</div><div class="ttc" id="CMakeLists_8txt_html_ad3bc8fb8cf7e0499598ddabc40006a43"><div class="ttname"><a href="CMakeLists_8txt.html#ad3bc8fb8cf7e0499598ddabc40006a43">ld</a></div><div class="ttdeci">fuse ld</div><div class="ttdef"><b>Definition:</b> CMakeLists.txt:57</div></div>
 <div class="ttc" id="group__Flag_html_ga89fa8bf78ddd094e8f8092c9f14a5a73"><div class="ttname"><a href="group__Flag.html#ga89fa8bf78ddd094e8f8092c9f14a5a73">boca::is</a></div><div class="ttdeci">FlagReturn&lt; Enum, bool &gt;::type is(Enum enum_1, Enum enum_2)</div><div class="ttdef"><b>Definition:</b> Flag.hh:95</div></div>
 </div><!-- fragment -->
 </div>

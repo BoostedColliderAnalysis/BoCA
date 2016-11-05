@@ -1,28 +1,8 @@
-<map id="boca/MomentumRange.hh" name="boca/MomentumRange.hh">
-<area shape="rect" id="node2" href="$Id_8hh.html" title="boca/physics/Id.hh" alt="" coords="802,319,934,345"/>
-<area shape="rect" id="node10" href="$Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="620,80,776,107"/>
-<area shape="rect" id="node34" href="$Jet_8hh.html" title="boca/multiplets/Jet.hh" alt="" coords="1841,80,1992,107"/>
-<area shape="rect" id="node5" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="1338,483,1530,509"/>
-<area shape="rect" id="node18" href="$Settings_8hh.html" title="boca/Settings.hh" alt="" coords="1246,162,1366,189"/>
-<area shape="rect" id="node19" href="$InfoRecombiner_8hh.html" title="boca/fastjet/InfoRecombiner.hh" alt="" coords="933,244,1137,271"/>
-<area shape="rect" id="node21" href="$Range_8hh.html" title="boca/physics/Range.hh" alt="" coords="1309,244,1468,271"/>
-<area shape="rect" id="node30" href="$Souce_8hh.html" title="boca/io/Souce.hh" alt="" coords="1162,244,1284,271"/>
-<area shape="rect" id="node31" href="$Font_8hh.html" title="boca/plotting/Font.hh" alt="" coords="700,244,844,271"/>
-<area shape="rect" id="node24" href="$Units_8hh.html" title="boca/physics/Units.hh" alt="" coords="1639,319,1791,345"/>
-<area shape="rect" id="node27" href="$Math_8hh.html" title="boca/math/Math.hh" alt="" coords="1480,319,1614,345"/>
-<area shape="rect" id="node26" href="$Prefixes_8hh.html" title="boca/physics/Prefixes.hh" alt="" coords="1790,401,1960,427"/>
-<area shape="rect" id="node32" href="$Flag_8hh.html" title="boca/generic/Flag.hh" alt="" coords="636,319,778,345"/>
-<area shape="rect" id="node35" href="$PseudoJet_8hh.html" title="boca/fastjet/PseudoJet.hh" alt="" coords="2010,244,2185,271"/>
-<area shape="rect" id="node45" href="$JetInfo_8hh.html" title="boca/multiplets/JetInfo.hh" alt="" coords="1830,162,2002,189"/>
-<area shape="rect" id="node37" href="$LorentzVector_8hh.html" title="boca/math/LorentzVector.hh" alt="" coords="2202,319,2388,345"/>
-<area shape="rect" id="node38" href="$delphes_2Forward_8hh.html" title="boca/delphes/Forward.hh" alt="" coords="2488,401,2656,427"/>
-<area shape="rect" id="node40" href="$exroot_2Forward_8hh.html" title="boca/exroot/Forward.hh" alt="" coords="2054,401,2213,427"/>
-<area shape="rect" id="node42" href="$LorentzVectorBase_8hh.html" title="boca/math/LorentzVectorBase.hh" alt="" coords="2238,401,2454,427"/>
-<area shape="rect" id="node39" href="$delphes_2TypeDef_8hh.html" title="boca/delphes/TypeDef.hh" alt="" coords="2492,483,2663,509"/>
-<area shape="rect" id="node41" href="$exroot_2TypeDef_8hh.html" title="boca/exroot/TypeDef.hh" alt="" coords="2046,483,2208,509"/>
-<area shape="rect" id="node44" href="$Vector3_8hh.html" title="boca/math/Vector3.hh" alt="" coords="2233,483,2384,509"/>
-<area shape="rect" id="node46" href="$Constituent_8hh.html" title="boca/Constituent.hh" alt="" coords="1847,244,1986,271"/>
-<area shape="rect" id="node49" href="$Identification_8hh.html" title="boca/multiplets/Identification.hh" alt="" coords="1554,244,1761,271"/>
-<area shape="rect" id="node47" href="$Family_8hh.html" title="boca/physics/Family.hh" alt="" coords="1840,319,2000,345"/>
-<area shape="rect" id="node50" href="$Tag_8hh.html" title="boca/Tag.hh" alt="" coords="1361,319,1456,345"/>
+<map id="boca/identification/MomentumRange.hh" name="boca/identification/MomentumRange.hh">
+<area shape="rect" id="node2" href="$generic_2Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="446,102,602,129"/>
+<area shape="rect" id="node8" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1411,102,1563,129"/>
+<area shape="rect" id="node25" href="$Id_8hh.html" title="boca/identification\l/Id.hh" alt="" coords="2081,95,2207,136"/>
+<area shape="rect" id="node13" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="1581,191,1697,218"/>
+<area shape="rect" id="node19" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="1825,191,1956,218"/>
+<area shape="rect" id="node23" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1987,191,2162,218"/>
 </map>

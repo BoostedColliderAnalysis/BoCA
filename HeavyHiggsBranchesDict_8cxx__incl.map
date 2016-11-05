@@ -1,0 +1,26 @@
+<map id="build/examples/heavyhiggs/source/branch/HeavyHiggsBranchesDict.cxx" name="build/examples/heavyhiggs/source/branch/HeavyHiggsBranchesDict.cxx">
+<area shape="rect" id="node23" href="$branch_2ChargedHiggsLeptonic_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/ChargedHiggsLeptonic.hh" alt="" coords="2492,109,2711,180"/>
+<area shape="rect" id="node26" href="$branch_2ChargedHiggsSemi_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/ChargedHiggsSemi.hh" alt="" coords="2735,109,2937,180"/>
+<area shape="rect" id="node27" href="$examples_2heavyhiggs_2heavyhiggs_2branch_2Cut_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/Cut.hh" alt="" coords="3793,109,3996,180"/>
+<area shape="rect" id="node38" href="$branch_2CutNeutral_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/CutNeutral.hh" alt="" coords="4020,109,4223,180"/>
+<area shape="rect" id="node39" href="$branch_2EventCharged_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/EventCharged.hh" alt="" coords="4247,109,4449,180"/>
+<area shape="rect" id="node41" href="$branch_2EventFusion_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/EventFusion.hh" alt="" coords="4473,109,4676,180"/>
+<area shape="rect" id="node42" href="$branch_2EventNeutral_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/EventNeutral.hh" alt="" coords="4700,109,4903,180"/>
+<area shape="rect" id="node43" href="$branch_2EventNeutralFourTop_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/EventNeutralFourTop.hh" alt="" coords="4927,109,5137,180"/>
+<area shape="rect" id="node44" href="$branch_2HeavyHiggsLeptonic_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/HeavyHiggsLeptonic.hh" alt="" coords="3187,228,3395,299"/>
+<area shape="rect" id="node45" href="$branch_2HeavyHiggsSemi_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/HeavyHiggsSemi.hh" alt="" coords="2961,109,3164,180"/>
+<area shape="rect" id="node46" href="$branch_2HeavyHiggsTau_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/HeavyHiggsTau.hh" alt="" coords="3419,228,3621,299"/>
+<area shape="rect" id="node47" href="$OctetCharged_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/OctetCharged.hh" alt="" coords="3188,109,3391,180"/>
+<area shape="rect" id="node48" href="$OctetNeutral_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/OctetNeutral.hh" alt="" coords="3415,109,3617,180"/>
+<area shape="rect" id="node49" href="$branch_2JetPair_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/JetPair.hh" alt="" coords="3645,228,3848,299"/>
+<area shape="rect" id="node50" href="$branch_2TripletJetPair_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/heavyhiggs\l/source/branch/../../heavyhiggs\l/branch/TripletJetPair.hh" alt="" coords="2568,228,2771,299"/>
+<area shape="rect" id="node24" href="$Multi_8hh.html" title="boca/branch/Multi.hh" alt="" coords="3001,250,3143,277"/>
+<area shape="rect" id="node25" href="$branch_2TwoBody_8hh.html" title="boca/branch/TwoBody.hh" alt="" coords="3205,354,3376,381"/>
+<area shape="rect" id="node28" href="$boca_2branch_2Cut_8hh.html" title="boca/branch/Cut.hh" alt="" coords="3872,250,4008,277"/>
+<area shape="rect" id="node30" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="4045,250,4197,277"/>
+<area shape="rect" id="node29" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="3450,354,3603,381"/>
+<area shape="rect" id="node35" href="$units_2Si_8hh.html" title="boca/units/Si.hh" alt="" coords="4525,354,4641,381"/>
+<area shape="rect" id="node36" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="4665,354,4796,381"/>
+<area shape="rect" id="node37" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="3627,354,3802,381"/>
+<area shape="rect" id="node40" href="$boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="4613,250,4763,277"/>
+</map>

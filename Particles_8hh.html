@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
         <meta name="generator" content="Doxygen 1.8.11"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <title>BoCA: boca/multiplets/Particles.hh File Reference</title>
+        <title>BoCA: boca/fastjet/Particles.hh File Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_73d39a1d0a5c40ea18275712d785386a.html">boca</a></li><li class="navelem"><a class="el" href="dir_125edb44a3072c498bdae13337903168.html">multiplets</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_73d39a1d0a5c40ea18275712d785386a.html">boca</a></li><li class="navelem"><a class="el" href="dir_63d2c9ca5dec89cf3254120dafa1a4c0.html">fastjet</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -109,17 +109,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Particles.hh File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="multiplets_2Particle_8hh_source.html">boca/multiplets/Particle.hh</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Id_8hh_source.html">boca/physics/Id.hh</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="fastjet_2Particle_8hh_source.html">boca/fastjet/Particle.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Id_8hh_source.html">boca/identification/Id.hh</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Particles.hh:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Particles_8hh__incl.svg" width="2178" height="978"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Particles_8hh__incl.svg" width="2828" height="1051"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Particles_8hh__dep__incl.svg" width="9758" height="231"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Particles_8hh__dep__incl.svg" width="10568" height="231"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="Particles_8hh_source.html">Go to the source code of this file.</a></p>
@@ -167,6 +168,8 @@ Functions</h2></td></tr>
 <tr class="separator:ac5d4ff5475731b2278f3dc99f533e2e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedc6ab775b25a7706c767eb0d2614019"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Particle &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#aedc6ab775b25a7706c767eb0d2614019">boca::CopyIfGreatGrandMother</a> (std::vector&lt; Particle &gt; const &amp;particles, Id grand_grand_mother_id)</td></tr>
 <tr class="separator:aedc6ab775b25a7706c767eb0d2614019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d12c757cfd43587bc00604042764c56"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Particle &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a5d12c757cfd43587bc00604042764c56">boca::CopyIfAncestor</a> (std::vector&lt; Particle &gt; const &amp;particles, Id ancestor)</td></tr>
+<tr class="separator:a5d12c757cfd43587bc00604042764c56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7085b74e3dc6a7f5b04dc3003ba50a3d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Particle &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a7085b74e3dc6a7f5b04dc3003ba50a3d">boca::RemoveIfMother</a> (std::vector&lt; Particle &gt; const &amp;particles, Id mother_id)</td></tr>
 <tr class="separator:a7085b74e3dc6a7f5b04dc3003ba50a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a224b74d4088b56e4698992ea8cfd97b3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Particle &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a224b74d4088b56e4698992ea8cfd97b3">boca::RemoveIfMother</a> (std::vector&lt; Particle &gt; const &amp;particles, std::vector&lt; Id &gt; const &amp;mother_ids)</td></tr>
@@ -189,6 +192,8 @@ Functions</h2></td></tr>
 <tr class="separator:a444826392a184641e6226bb22e6a03ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a108d59330400ed06e465be8adb412f28"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Particle &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a108d59330400ed06e465be8adb412f28">boca::CopyIfGrandDaughter</a> (std::vector&lt; Particle &gt; const &amp;particles, std::vector&lt; Particle &gt; const &amp;daughters)</td></tr>
 <tr class="separator:a108d59330400ed06e465be8adb412f28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad956e47d24de82359db14c9bb943d43a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Particle &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#ad956e47d24de82359db14c9bb943d43a">boca::CopyIfPosition</a> (std::vector&lt; Particle &gt; const &amp;particles, int position)</td></tr>
+<tr class="separator:ad956e47d24de82359db14c9bb943d43a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7b66c9104f4c33906ff2f22a52a5600"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Particle &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#ae7b66c9104f4c33906ff2f22a52a5600">boca::CopyIfPosition</a> (std::vector&lt; Particle &gt; const &amp;particles, int position_1, int position_2)</td></tr>
 <tr class="separator:ae7b66c9104f4c33906ff2f22a52a5600"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24910816136977ad125a3b8450a67dc6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Particle &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a24910816136977ad125a3b8450a67dc6">boca::CopyFirst</a> (std::vector&lt; Particle &gt; particles, std::size_t number)</td></tr>
@@ -196,6 +201,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a677defd7ba75ef8d6e3e28bea1a4b4a8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Particle &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a677defd7ba75ef8d6e3e28bea1a4b4a8">boca::CopyIfDrellYan</a> (std::vector&lt; Particle &gt; const &amp;particles)</td></tr>
 <tr class="memdesc:a677defd7ba75ef8d6e3e28bea1a4b4a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the two particles which are on the DY position.  <a href="namespaceboca.html#a677defd7ba75ef8d6e3e28bea1a4b4a8">More...</a><br /></td></tr>
 <tr class="separator:a677defd7ba75ef8d6e3e28bea1a4b4a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86e28c6e6a0c70b5844edc36b1202004"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a86e28c6e6a0c70b5844edc36b1202004">boca::PrintParticles</a> (std::vector&lt; Particle &gt; const &amp;particles)</td></tr>
+<tr class="separator:a86e28c6e6a0c70b5844edc36b1202004"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div>

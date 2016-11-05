@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
         <meta name="generator" content="Doxygen 1.8.11"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <title>BoCA: boca/physics/Family.hh File Reference</title>
+        <title>BoCA: boca/identification/Family.hh File Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_73d39a1d0a5c40ea18275712d785386a.html">boca</a></li><li class="navelem"><a class="el" href="dir_6985d9dc5b509d6899ba51291c0da1a7.html">physics</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_73d39a1d0a5c40ea18275712d785386a.html">boca</a></li><li class="navelem"><a class="el" href="dir_da10a3ebc31199da5b016a61f59b7929.html">identification</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -111,17 +111,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Family.hh File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;map&gt;</code><br />
-<code>#include &quot;<a class="el" href="Member_8hh_source.html">boca/physics/Member.hh</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;boost/optional.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="Id_8hh_source.html">boca/identification/Id.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Member_8hh_source.html">boca/identification/Member.hh</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Family.hh:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Family_8hh__incl.svg" width="1742" height="754"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Family_8hh__incl.svg" width="2008" height="827"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Family_8hh__dep__incl.svg" width="5100" height="499"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Family_8hh__dep__incl.svg" width="5202" height="528"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="Family_8hh_source.html">Go to the source code of this file.</a></p>
@@ -155,10 +157,15 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a09fad4568c60b37088543ca5a1ffaa1c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a09fad4568c60b37088543ca5a1ffaa1c">boca::Name</a> (Relative relative)</td></tr>
 <tr class="separator:a09fad4568c60b37088543ca5a1ffaa1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1874090a8f46dc9e29e06bf7786c1a6c"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a1874090a8f46dc9e29e06bf7786c1a6c">boca::operator&lt;&lt;</a> (std::ostream &amp;stream, Relative relative)</td></tr>
+<tr class="memdesc:a1874090a8f46dc9e29e06bf7786c1a6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream the name of a family relative.  <a href="namespaceboca.html#a1874090a8f46dc9e29e06bf7786c1a6c">More...</a><br /></td></tr>
+<tr class="separator:a1874090a8f46dc9e29e06bf7786c1a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a402b71a847b54d2853dad82e4bf4a059"><td class="memItemLeft" align="right" valign="top">Relative&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a402b71a847b54d2853dad82e4bf4a059">boca::Mother</a> (Relative relative)</td></tr>
 <tr class="separator:a402b71a847b54d2853dad82e4bf4a059"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42c7e6972830b77927219fd0d6edb094"><td class="memItemLeft" align="right" valign="top">Relative&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a42c7e6972830b77927219fd0d6edb094">boca::StepMother</a> (Relative relative)</td></tr>
 <tr class="separator:a42c7e6972830b77927219fd0d6edb094"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a541f2b6dd947a966fc26f0b09cbaa378"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Relative &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a541f2b6dd947a966fc26f0b09cbaa378">boca::Relatives</a> ()</td></tr>
+<tr class="separator:a541f2b6dd947a966fc26f0b09cbaa378"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div>

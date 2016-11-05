@@ -1,9 +1,9 @@
 var searchData=
 [
   ['observable',['Observable',['../classboca_1_1Observable.html',1,'boca']]],
+  ['observables',['Observables',['../classboca_1_1Observables.html',1,'boca']]],
   ['observables',['Observables',['../classtthh_1_1Observables.html',1,'tthh']]],
   ['observables',['Observables',['../classsimple_1_1Observables.html',1,'simple']]],
-  ['observables',['Observables',['../classboca_1_1Observables.html',1,'boca']]],
   ['octet',['Octet',['../classhiggscpv_1_1branch_1_1Octet.html',1,'higgscpv::branch']]],
   ['octet332',['Octet332',['../classboca_1_1Octet332.html',1,'boca']]],
   ['octet44',['Octet44',['../classboca_1_1Octet44.html',1,'boca']]],

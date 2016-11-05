@@ -2,7 +2,7 @@ var searchData=
 [
   ['b0',['B0',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a4c769c2c9989abb9fa024ab9930270e5',1,'boca']]],
   ['b0s',['B0S',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a16e8501878e697f7ed69ab3319e034ed',1,'boca']]],
-  ['background',['background',['../namespaceboca.html#a2706590b1d44fa27521c45fecd7ac225ad229bbf31eaeebc7c88897732d8b932d',1,'boca::background()'],['../namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d',1,'boca::background()']]],
+  ['background',['background',['../namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d',1,'boca::background()'],['../namespaceboca.html#a2706590b1d44fa27521c45fecd7ac225ad229bbf31eaeebc7c88897732d8b932d',1,'boca::background()']]],
   ['bb',['bb',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82a21ad0bd836b90d08f4cf640b4c298e7c',1,'heavyhiggs::bb()'],['../namespacestandardmodel_1_1analysis.html#ac4425fa7851b375a994933d8991816b5a21ad0bd836b90d08f4cf640b4c298e7c',1,'standardmodel::analysis::bb()']]],
   ['boca',['boca',['../namespacestandardmodel.html#a3d895330f954e85fbe95a0a7cb6d1f07a38c6c9fb8e6b578492864276921d37e3',1,'standardmodel']]],
   ['bold',['bold',['../namespaceboca.html#a1a90b6c557b62029a7990a24db51d3a0a69dcab4a73aeec2113f69b61e6263da8',1,'boca']]],

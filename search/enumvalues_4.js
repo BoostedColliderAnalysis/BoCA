@@ -8,7 +8,7 @@ var searchData=
   ['early_5fmassratio_5fsort_5fmass',['EARLY_MASSRATIO_SORT_MASS',['../namespacehep.html#a4a0e35b3d59bb800cef170ffc21b682da3c3308bddcf7c83d5ca5d81b81e7c926',1,'hep']]],
   ['early_5fmassratio_5fsort_5fmoddjade',['EARLY_MASSRATIO_SORT_MODDJADE',['../namespacehep.html#a4a0e35b3d59bb800cef170ffc21b682da8a509edf05b974950c9279695a66b2a1',1,'hep']]],
   ['efficiency',['efficiency',['../namespaceboca.html#a3930666eadd09841abb5210714b42202a5f099425f5cf8f069747d0a5c4e50764',1,'boca']]],
-  ['electron',['electron',['../namespaceboca.html#a6e19067719655f83c22852f2fcb5857fa1b85623431169fedc9a20ecf24df3f54',1,'boca::electron()'],['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a1b85623431169fedc9a20ecf24df3f54',1,'boca::electron()']]],
+  ['electron',['electron',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a1b85623431169fedc9a20ecf24df3f54',1,'boca::electron()'],['../namespaceboca.html#a6e19067719655f83c22852f2fcb5857fa1b85623431169fedc9a20ecf24df3f54',1,'boca::electron()']]],
   ['electron_5fneutrino',['electron_neutrino',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7aab59b4b4df29c4911ef5581e856169d9',1,'boca']]],
   ['eta',['eta',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7aeba021d91b44a97dec2588bbea58a447',1,'boca']]],
   ['etac',['etac',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a69b04c31fe73ab31ab940bb824cd0ec3',1,'boca']]],

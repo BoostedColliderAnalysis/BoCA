@@ -45,8 +45,8 @@
 </g>
 <!-- Node4&#45;&gt;Node2 -->
 <g id="edge3" class="edge"><title>Node4&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M120.142,-182.633C135.723,-184.852 152.036,-187.175 166.446,-189.227"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="120.43,-179.139 110.037,-181.195 119.443,-186.069 120.43,-179.139"/>
+<path fill="none" stroke="#8b1a1a" d="M120.142,-182.633C135.723,-184.852 152.036,-187.175 166.446,-189.227"/>
+<polygon fill="#8b1a1a" stroke="#8b1a1a" points="120.43,-179.139 110.037,-181.195 119.443,-186.069 120.43,-179.139"/>
 </g>
 <!-- Node5 -->
 <g id="node5" class="node"><title>Node5</title>

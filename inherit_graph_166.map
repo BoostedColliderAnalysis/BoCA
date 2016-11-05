@@ -34,7 +34,7 @@
 <area shape="rect" id="node75" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Octet62 \&gt;, branch::EventNeutral \&gt;" alt="" coords="203,2445,438,2487"/>
 <area shape="rect" id="node77" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Octet62 \&gt;, branch::EventNeutral\lFourTop \&gt;" alt="" coords="209,2510,432,2566"/>
 <area shape="rect" id="node79" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Octet62 \&gt;, Event \&gt;" alt="" coords="224,2589,417,2631"/>
-<area shape="rect" id="node81" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Quattuordecuplet554 \&gt;,\l branch::Event \&gt;" alt="" coords="224,2654,417,2710"/>
+<area shape="rect" id="node81" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Quattuordecuplet554 \&gt;,\l boca::branch::Event \&gt;" alt="" coords="224,2654,417,2710"/>
 <area shape="rect" id="node84" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; MultipletSignature\l\&lt; Octet332 \&gt;, branch::SignatureLeptonT \&gt;" alt="" coords="187,2733,455,2775"/>
 <area shape="rect" id="node86" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; MultipletSignature\l\&lt; Octet332 \&gt;, branch::SignatureT \&gt;" alt="" coords="206,2799,435,2840"/>
 <area shape="rect" id="node88" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; MultipletSignature\l\&lt; Quartet211 \&gt;, branch::SignatureLepton \&gt;" alt="" coords="185,2864,456,2905"/>
@@ -43,7 +43,7 @@
 <area shape="rect" id="node94" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; Octet44,\l branch::OctetCharged \&gt;" alt="" coords="237,3060,404,3101"/>
 <area shape="rect" id="node96" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; Octet53,\l boca::branch::Multi \&gt;" alt="" coords="241,3125,401,3167"/>
 <area shape="rect" id="node98" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quartet22,\l boca::branch::Multi \&gt;" alt="" coords="235,3191,406,3232"/>
-<area shape="rect" id="node100" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quartet22,\l branch::Higgs \&gt;" alt="" coords="235,3256,406,3297"/>
+<area shape="rect" id="node100" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quartet22,\l branch::HiggsSemiLeptonic \&gt;" alt="" coords="221,3256,420,3297"/>
 <area shape="rect" id="node102" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quartet31,\l branch::ChargedHiggsSemi \&gt;" alt="" coords="221,3321,420,3363"/>
 <area shape="rect" id="node104" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quartet31,\l branch::TripletJetPair \&gt;" alt="" coords="235,3387,406,3428"/>
 <area shape="rect" id="node106" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; Quattuordecuplet554,\l boca::branch::ThreeBody \&gt;" alt="" coords="203,3452,438,3493"/>
@@ -106,7 +106,7 @@
 <area shape="rect" id="node76" href="$classheavyhiggs_1_1tagger_1_1EventNeutral.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="557,2511,689,2552"/>
 <area shape="rect" id="node78" href="$classheavyhiggs_1_1tagger_1_1EventNeutralFourTop.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="545,2576,700,2617"/>
 <area shape="rect" id="node80" href="$classhiggscpv_1_1tagger_1_1Global.html" title="Prepares multivariant analysis. " alt="" coords="541,2642,704,2669"/>
-<area shape="rect" id="node82" href="$classstandardmodel_1_1tagger_1_1Event.html" title="standardmodel::tagger\l::Event\&lt; SignatureEffective,\l Quattuordecuplet554, branch\l::Event \&gt;" alt="" coords="526,2693,719,2764"/>
+<area shape="rect" id="node82" href="$classstandardmodel_1_1tagger_1_1Event.html" title="standardmodel::tagger\l::Event\&lt; SignatureEffective,\l Quattuordecuplet554, boca\l::branch::Event \&gt;" alt="" coords="529,2693,716,2764"/>
 <area shape="rect" id="node83" href="$classtoppartner_1_1tagger_1_1EventEffective.html" title="Prepares multivariant analysis. " alt="" coords="825,2708,949,2749"/>
 <area shape="rect" id="node85" href="$classhiggscpv_1_1tagger_1_1SignatureLeptonT.html" title="event BDT for " alt="" coords="532,2788,713,2829"/>
 <area shape="rect" id="node87" href="$classhiggscpv_1_1tagger_1_1SignatureT.html" title="event BDT for " alt="" coords="528,2854,717,2881"/>

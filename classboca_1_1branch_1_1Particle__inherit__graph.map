@@ -1,11 +1,11 @@
 <map id="boca::branch::Particle" name="boca::branch::Particle">
 <area shape="rect" id="node6" href="$classboca_1_1branch_1_1ThreeBody.html" title="Three body tree branch. " alt="" coords="873,185,1041,211"/>
-<area shape="rect" id="node15" href="$classboca_1_1branch_1_1TwoBody.html" title="Two body tree branch. " alt="" coords="877,1019,1037,1046"/>
-<area shape="rect" id="node43" href="$classstandardmodel_1_1branch_1_1Bottom.html" title="Bottom tagger tree branch " alt="" coords="880,1071,1035,1112"/>
-<area shape="rect" id="node44" href="$classstandardmodel_1_1branch_1_1Tau.html" title="Tau tagger tree branch " alt="" coords="865,1137,1049,1163"/>
-<area shape="rect" id="node2" href="$classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="495,1049,620,1075"/>
-<area shape="rect" id="node3" href="$classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="304,1049,447,1075"/>
-<area shape="rect" id="node4" href="$classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="121,1049,256,1075"/>
+<area shape="rect" id="node15" href="$classboca_1_1branch_1_1TwoBody.html" title="Two body tree branch. " alt="" coords="877,1051,1037,1078"/>
+<area shape="rect" id="node44" href="$classstandardmodel_1_1branch_1_1Bottom.html" title="Bottom tagger tree branch " alt="" coords="880,1103,1035,1144"/>
+<area shape="rect" id="node45" href="$classstandardmodel_1_1branch_1_1Tau.html" title="Tau tagger tree branch " alt="" coords="865,1169,1049,1195"/>
+<area shape="rect" id="node2" href="$classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="495,1081,620,1107"/>
+<area shape="rect" id="node3" href="$classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="304,1081,447,1107"/>
+<area shape="rect" id="node4" href="$classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="121,1081,256,1107"/>
 <area shape="rect" id="node7" href="$classboca_1_1branch_1_1Signature.html" title="Signature tree branch " alt="" coords="1125,71,1285,98"/>
 <area shape="rect" id="node10" href="$classhiggscpv_1_1branch_1_1SignatureT.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1109,126,1301,153"/>
 <area shape="rect" id="node12" href="$classtoppartner_1_1branch_1_1SignatureEffectiveBranch.html" title="toppartner::branch\l::SignatureEffectiveBranch" alt="" coords="1115,177,1294,219"/>
@@ -27,6 +27,7 @@
 <area shape="rect" id="node40" href="$classstandardmodel_1_1branch_1_1WLeptonic.html" title="W leptonic tagger tree branch. " alt="" coords="1127,1305,1282,1347"/>
 <area shape="rect" id="node41" href="$classstandardmodel_1_1branch_1_1ZHadronic.html" title="Z hadronic tagger tree branch. " alt="" coords="1127,1371,1282,1412"/>
 <area shape="rect" id="node42" href="$classtthh_1_1branch_1_1Higgs.html" title="Higgs tagger tree branch " alt="" coords="1138,1437,1271,1463"/>
+<area shape="rect" id="node43" href="$classtthh_1_1branch_1_1HiggsSemiLeptonic.html" title="Higgs tagger tree branch " alt="" coords="1099,1487,1311,1514"/>
 <area shape="rect" id="node17" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsLeptonic.html" title="Higgs tagger root tree structure. " alt="" coords="1379,280,1541,321"/>
 <area shape="rect" id="node18" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsSemi.html" title="Charged Higgs semi tagger root tree structure. " alt="" coords="1389,345,1531,387"/>
 <area shape="rect" id="node19" href="$classheavyhiggs_1_1branch_1_1HeavyHiggsSemi.html" title="Higgs tagger root tree structure. " alt="" coords="1393,411,1527,452"/>

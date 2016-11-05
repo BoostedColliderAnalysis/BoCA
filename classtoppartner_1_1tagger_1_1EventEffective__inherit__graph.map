@@ -1,5 +1,5 @@
 <map id="toppartner::tagger::EventEffective" name="toppartner::tagger::EventEffective">
-<area shape="rect" id="node2" href="$classstandardmodel_1_1tagger_1_1Event.html" title="standardmodel::tagger\l::Event\&lt; SignatureEffective,\l Quattuordecuplet554, branch\l::Event \&gt;" alt="" coords="427,5,620,76"/>
-<area shape="rect" id="node3" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Quattuordecuplet554 \&gt;,\l branch::Event \&gt;" alt="" coords="185,13,379,69"/>
+<area shape="rect" id="node2" href="$classstandardmodel_1_1tagger_1_1Event.html" title="standardmodel::tagger\l::Event\&lt; SignatureEffective,\l Quattuordecuplet554, boca\l::branch::Event \&gt;" alt="" coords="427,5,613,76"/>
+<area shape="rect" id="node3" href="$classboca_1_1Tagger.html" title="boca::Tagger\&lt; EventMultiplet\l\&lt; Quattuordecuplet554 \&gt;,\l boca::branch::Event \&gt;" alt="" coords="185,13,379,69"/>
 <area shape="rect" id="node4" href="$classboca_1_1tagger_1_1Base.html" title="Prepares multivariant analysis. " alt="" coords="5,27,137,54"/>
 </map>

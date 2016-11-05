@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['w',['W',['../classhep_1_1TopTagger2.html#ae4171ff87a1d2023d8ac4ef5b5c15e75',1,'hep::TopTagger2::W()'],['../classhep_1_1TopTaggerFixedR.html#a6f4a87b76c851520a5ea34cdba887609',1,'hep::TopTaggerFixedR::W()'],['../classstandardmodel_1_1analysis_1_1W.html#a279067c3c6d1e64665fa8c5f1da746fb',1,'standardmodel::analysis::W::W()']]],
+  ['w',['W',['../classstandardmodel_1_1analysis_1_1W.html#a279067c3c6d1e64665fa8c5f1da746fb',1,'standardmodel::analysis::W::W()'],['../classhep_1_1TopTagger2.html#ae4171ff87a1d2023d8ac4ef5b5c15e75',1,'hep::TopTagger2::W()'],['../classhep_1_1TopTaggerFixedR.html#a6f4a87b76c851520a5ea34cdba887609',1,'hep::TopTaggerFixedR::W()']]],
   ['w1',['W1',['../classhep_1_1TopTagger2.html#aa2c1586225e79e2c8dbbcea561fa3b64',1,'hep::TopTagger2::W1()'],['../classhep_1_1TopTaggerFixedR.html#a7af7581323c2473ebf580610238cce51',1,'hep::TopTaggerFixedR::W1()']]],
   ['w2',['W2',['../classhep_1_1TopTagger2.html#ad6f6d4ed87279612af2bcbfd87c1d9dc',1,'hep::TopTagger2::W2()'],['../classhep_1_1TopTaggerFixedR.html#a9932c720c1ba862f0ddeb8b72a3305ec',1,'hep::TopTaggerFixedR::W2()']]],
   ['wdecay',['WDecay',['../classstandardmodel_1_1analysis_1_1W.html#ae399392e5211d3988be894da5cb06d72',1,'standardmodel::analysis::W']]],
@@ -22,7 +22,7 @@ var searchData=
   ['widenymax',['WidenYMax',['../classboca_1_1Rectangle.html#a6e3146079d70a82bbc12f121ea57f41f',1,'boca::Rectangle']]],
   ['widenymin',['WidenYMin',['../classboca_1_1Rectangle.html#ac717e2780c56353641f7b6df1fd16e94',1,'boca::Rectangle']]],
   ['width',['Width',['../classboca_1_1Rectangle.html#afc7166f60a04674d3152467ded3b50ae',1,'boca::Rectangle']]],
-  ['wleptonic',['WLeptonic',['../classstandardmodel_1_1branch_1_1WLeptonic.html#a6470f2cc999fe12ce5d9525c26da838d',1,'standardmodel::branch::WLeptonic::WLeptonic()'],['../classstandardmodel_1_1tagger_1_1WLeptonic.html#a82739b00d2a34339b29b7344dd1d908d',1,'standardmodel::tagger::WLeptonic::WLeptonic()']]],
+  ['wleptonic',['WLeptonic',['../classstandardmodel_1_1branch_1_1WLeptonic.html#a6470f2cc999fe12ce5d9525c26da838d',1,'standardmodel::branch::WLeptonic']]],
   ['wpt',['WPt',['../classboca_1_1TruthVariables.html#a32363458c7055fa98bcc35c9641dbc27',1,'boca::TruthVariables']]],
   ['wrap',['Wrap',['../namespaceboca_1_1units.html#a150133b5f5a8c97b9beb3f89b1a7302a',1,'boca::units']]],
   ['write',['Write',['../classboca_1_1TreeWriter.html#a51105c15b60636a54fa3d5ecc0ec30fb',1,'boca::TreeWriter']]]

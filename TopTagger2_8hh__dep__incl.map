@@ -1,10 +1,10 @@
-<map id="boca/external/TopTagger2.hh" name="boca/external/TopTagger2.hh">
-<area shape="rect" id="node2" href="$FWM_8hh.html" title="boca/external/FWM.hh" alt="" coords="27,87,181,114"/>
-<area shape="rect" id="node5" href="$LowPt_8hh.html" title="boca/external/LowPt.hh" alt="" coords="206,87,365,114"/>
-<area shape="rect" id="node6" href="$QHTT_8hh.html" title="boca/external/QHTT.hh" alt="" coords="389,87,547,114"/>
-<area shape="rect" id="node8" href="$TopHadronicHep2_8cpp.html" title="examples/standardmodel\l/source/tagger/TopHadronicHep2.cpp" alt="" coords="571,80,810,121"/>
-<area shape="rect" id="node9" href="$TopTagger2_8cpp.html" title="source/external/TopTagger2.cpp" alt="" coords="834,87,1043,114"/>
-<area shape="rect" id="node3" href="$FWM_8cc.html" title="source/external/FWM.cc" alt="" coords="5,169,171,196"/>
-<area shape="rect" id="node4" href="$LowPt_8cc.html" title="source/external/LowPt.cc" alt="" coords="195,169,365,196"/>
-<area shape="rect" id="node7" href="$QHTT_8cc.html" title="source/external/QHTT.cc" alt="" coords="390,169,559,196"/>
+<map id="external/hep/hep/TopTagger2.hh" name="external/hep/hep/TopTagger2.hh">
+<area shape="rect" id="node2" href="$TopHadronicHep2_8cpp.html" title="examples/standardmodel\l/source/tagger/TopHadronicHep2.cpp" alt="" coords="5,80,244,121"/>
+<area shape="rect" id="node3" href="$FWM_8hh.html" title="external/hep/hep/FWM.hh" alt="" coords="268,87,440,114"/>
+<area shape="rect" id="node6" href="$LowPt_8hh.html" title="external/hep/hep/LowPt.hh" alt="" coords="464,87,641,114"/>
+<area shape="rect" id="node7" href="$QHTT_8hh.html" title="external/hep/hep/QHTT.hh" alt="" coords="666,87,842,114"/>
+<area shape="rect" id="node9" href="$TopTagger2_8cpp.html" title="external/hep/source\l/TopTagger2.cpp" alt="" coords="866,80,1002,121"/>
+<area shape="rect" id="node4" href="$FWM_8cc.html" title="external/hep/source\l/FWM.cc" alt="" coords="286,169,422,211"/>
+<area shape="rect" id="node5" href="$LowPt_8cc.html" title="external/hep/source\l/LowPt.cc" alt="" coords="465,169,601,211"/>
+<area shape="rect" id="node8" href="$QHTT_8cc.html" title="external/hep/source\l/QHTT.cc" alt="" coords="686,169,822,211"/>
 </map>

@@ -1,15 +1,19 @@
 var searchData=
 [
+  ['_7ebase',['~Base',['../classboca_1_1analysis_1_1Base.html#a66c34f175fa8b3edd7d8dcb747c332a1',1,'boca::analysis::Base::~Base()'],['../classboca_1_1branch_1_1Base.html#a0f642870fe8eac4fd14188fd8cb7f40b',1,'boca::branch::Base::~Base()'],['../classboca_1_1tagger_1_1Base.html#a49fce3e94db042c6ef65fd41083d27e5',1,'boca::tagger::Base::~Base()']]],
   ['_7ebrowser',['~Browser',['../classboca_1_1Browser.html#a8f3fd1055994c4ba54e64c7a4f54a88f',1,'boca::Browser']]],
+  ['_7ecanvas',['~Canvas',['../classboca_1_1Canvas.html#a19093c6a0502eba60e3a2f5ebea82206',1,'boca::Canvas']]],
   ['_7eclustersequence',['~ClusterSequence',['../classboca_1_1ClusterSequence.html#ac336d86ce7343427e857d05738342a64',1,'boca::ClusterSequence']]],
   ['_7ecompbase',['~CompBase',['../classCompBase.html#a07a24897660d2b02987d48fb21d25e19',1,'CompBase']]],
   ['_7edelphesfactory',['~DelphesFactory',['../classDelphesFactory.html#a56fd30889a991bd18dc01aa3f2a10081',1,'DelphesFactory']]],
-  ['_7eenumiterator',['~EnumIterator',['../classboca_1_1EnumIterator.html#aa678c80b45250d4dfb414b2226321d87',1,'boca::EnumIterator']]],
+  ['_7eevent',['~Event',['../classboca_1_1Event.html#a174666493834908245283ad06b1f0f08',1,'boca::Event']]],
   ['_7efile',['~File',['../classboca_1_1latex_1_1File.html#aa8df5f750490da0bf16a7562aeb915a1',1,'boca::latex::File']]],
   ['_7efiles',['~Files',['../classboca_1_1analysis_1_1Files.html#a1aa08fb69416346dab0ab491556d79a1',1,'boca::analysis::Files']]],
   ['_7egraphs',['~Graphs',['../classboca_1_1Graphs.html#a79b697f5ef99e6935bcf80aaa1609706',1,'boca::Graphs']]],
   ['_7ehistogram2dim',['~Histogram2Dim',['../classboca_1_1Histogram2Dim.html#a68f6e67f80bff92320968133f46d8bda',1,'boca::Histogram2Dim']]],
   ['_7ehistograms',['~Histograms',['../classboca_1_1Histograms.html#a120a5d97e9184cc6e8fad26324675451',1,'boca::Histograms']]],
+  ['_7eidentification',['~Identification',['../classboca_1_1Identification.html#a569ffacdf2231659a211892ba8ed8a45',1,'boca::Identification']]],
   ['_7eprofile',['~Profile',['../classboca_1_1Profile.html#ab8ef363935f3614c2137032057f01dc7',1,'boca::Profile']]],
+  ['_7epseudojet',['~PseudoJet',['../classboca_1_1PseudoJet.html#aad3ca8a9ed42b863cc6b2f4cef653eb3',1,'boca::PseudoJet']]],
   ['_7eqjetsbaseextras',['~QJetsBaseExtras',['../classqjets_1_1QJetsBaseExtras.html#a98914910b06c8cb105b4de95dbfeb333',1,'qjets::QJetsBaseExtras']]]
 ];

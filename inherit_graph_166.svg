@@ -510,11 +510,11 @@
 </g>
 <!-- Node81 -->
 <g id="node81" class="node"><title>Node81</title>
-<g id="a_node81"><a xlink:href="classboca_1_1Tagger.html" target="_top" xlink:title="boca::Tagger\&lt; EventMultiplet\l\&lt; Quattuordecuplet554 \&gt;,\l branch::Event \&gt;">
+<g id="a_node81"><a xlink:href="classboca_1_1Tagger.html" target="_top" xlink:title="boca::Tagger\&lt; EventMultiplet\l\&lt; Quattuordecuplet554 \&gt;,\l boca::branch::Event \&gt;">
 <polygon fill="white" stroke="black" points="164,-1574 164,-1615 309,-1615 309,-1574 164,-1574"/>
 <text text-anchor="start" x="172" y="-1603" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Tagger&lt; EventMultiplet</text>
 <text text-anchor="start" x="172" y="-1592" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; Quattuordecuplet554 &gt;,</text>
-<text text-anchor="middle" x="236.5" y="-1581" font-family="Helvetica,sans-Serif" font-size="10.00"> branch::Event &gt;</text>
+<text text-anchor="middle" x="236.5" y="-1581" font-family="Helvetica,sans-Serif" font-size="10.00"> boca::branch::Event &gt;</text>
 </a>
 </g>
 </g>
@@ -637,16 +637,16 @@
 </g>
 <!-- Node100 -->
 <g id="node100" class="node"><title>Node100</title>
-<g id="a_node100"><a xlink:href="classboca_1_1Tagger.html" target="_top" xlink:title="boca::Tagger\&lt; Quartet22,\l branch::Higgs \&gt;">
-<polygon fill="white" stroke="black" points="172.5,-1133.5 172.5,-1163.5 300.5,-1163.5 300.5,-1133.5 172.5,-1133.5"/>
-<text text-anchor="start" x="180.5" y="-1151.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Tagger&lt; Quartet22,</text>
-<text text-anchor="middle" x="236.5" y="-1140.5" font-family="Helvetica,sans-Serif" font-size="10.00"> branch::Higgs &gt;</text>
+<g id="a_node100"><a xlink:href="classboca_1_1Tagger.html" target="_top" xlink:title="boca::Tagger\&lt; Quartet22,\l branch::HiggsSemiLeptonic \&gt;">
+<polygon fill="white" stroke="black" points="162,-1133.5 162,-1163.5 311,-1163.5 311,-1133.5 162,-1133.5"/>
+<text text-anchor="start" x="170" y="-1151.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Tagger&lt; Quartet22,</text>
+<text text-anchor="middle" x="236.5" y="-1140.5" font-family="Helvetica,sans-Serif" font-size="10.00"> branch::HiggsSemiLeptonic &gt;</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node100 -->
 <g id="edge99" class="edge"><title>Node1&#45;&gt;Node100</title>
-<path fill="none" stroke="midnightblue" d="M50.2286,-1790.52C49.3192,-1692.83 50.3126,-1266.37 135,-1172.5 144.733,-1161.71 158.369,-1155.35 172.462,-1151.69"/>
+<path fill="none" stroke="midnightblue" d="M50.2286,-1790.52C49.3192,-1692.83 50.3126,-1266.37 135,-1172.5 142.27,-1164.44 151.717,-1158.85 161.905,-1155.01"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="46.7314,-1790.8 50.3434,-1800.76 53.7309,-1790.72 46.7314,-1790.8"/>
 </g>
 <!-- Node102 -->
@@ -1519,18 +1519,18 @@
 </g>
 <!-- Node82 -->
 <g id="node82" class="node"><title>Node82</title>
-<g id="a_node82"><a xlink:href="classstandardmodel_1_1tagger_1_1Event.html" target="_top" xlink:title="standardmodel::tagger\l::Event\&lt; SignatureEffective,\l Quattuordecuplet554, branch\l::Event \&gt;">
-<polygon fill="white" stroke="black" points="390.5,-1533.5 390.5,-1585.5 535.5,-1585.5 535.5,-1533.5 390.5,-1533.5"/>
-<text text-anchor="start" x="398.5" y="-1573.5" font-family="Helvetica,sans-Serif" font-size="10.00">standardmodel::tagger</text>
-<text text-anchor="start" x="398.5" y="-1562.5" font-family="Helvetica,sans-Serif" font-size="10.00">::Event&lt; SignatureEffective,</text>
-<text text-anchor="start" x="398.5" y="-1551.5" font-family="Helvetica,sans-Serif" font-size="10.00"> Quattuordecuplet554, branch</text>
-<text text-anchor="middle" x="463" y="-1540.5" font-family="Helvetica,sans-Serif" font-size="10.00">::Event &gt;</text>
+<g id="a_node82"><a xlink:href="classstandardmodel_1_1tagger_1_1Event.html" target="_top" xlink:title="standardmodel::tagger\l::Event\&lt; SignatureEffective,\l Quattuordecuplet554, boca\l::branch::Event \&gt;">
+<polygon fill="white" stroke="black" points="393,-1533.5 393,-1585.5 533,-1585.5 533,-1533.5 393,-1533.5"/>
+<text text-anchor="start" x="401" y="-1573.5" font-family="Helvetica,sans-Serif" font-size="10.00">standardmodel::tagger</text>
+<text text-anchor="start" x="401" y="-1562.5" font-family="Helvetica,sans-Serif" font-size="10.00">::Event&lt; SignatureEffective,</text>
+<text text-anchor="start" x="401" y="-1551.5" font-family="Helvetica,sans-Serif" font-size="10.00"> Quattuordecuplet554, boca</text>
+<text text-anchor="middle" x="463" y="-1540.5" font-family="Helvetica,sans-Serif" font-size="10.00">::branch::Event &gt;</text>
 </a>
 </g>
 </g>
 <!-- Node81&#45;&gt;Node82 -->
 <g id="edge81" class="edge"><title>Node81&#45;&gt;Node82</title>
-<path fill="none" stroke="midnightblue" d="M319.327,-1581.74C342.56,-1578.12 367.674,-1574.21 390.26,-1570.68"/>
+<path fill="none" stroke="midnightblue" d="M319.038,-1581.79C343.275,-1578.01 369.582,-1573.91 392.944,-1570.27"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="318.492,-1578.33 309.15,-1583.33 319.57,-1585.25 318.492,-1578.33"/>
 </g>
 <!-- Node83 -->
@@ -1544,8 +1544,8 @@
 </g>
 <!-- Node82&#45;&gt;Node83 -->
 <g id="edge82" class="edge"><title>Node82&#45;&gt;Node83</title>
-<path fill="none" stroke="midnightblue" d="M545.904,-1559.5C569.357,-1559.5 594.076,-1559.5 614.486,-1559.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="545.593,-1556 535.592,-1559.5 545.592,-1563 545.593,-1556"/>
+<path fill="none" stroke="midnightblue" d="M543.361,-1559.5C567.564,-1559.5 593.343,-1559.5 614.494,-1559.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="543.102,-1556 533.102,-1559.5 543.102,-1563 543.102,-1556"/>
 </g>
 <!-- Node85 -->
 <g id="node85" class="node"><title>Node85</title>
@@ -1666,8 +1666,8 @@
 </g>
 <!-- Node100&#45;&gt;Node101 -->
 <g id="edge100" class="edge"><title>Node100&#45;&gt;Node101</title>
-<path fill="none" stroke="midnightblue" d="M310.865,-1146.87C334.332,-1146.34 360.386,-1145.76 384.16,-1145.23"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="310.553,-1143.37 300.633,-1147.09 310.709,-1150.37 310.553,-1143.37"/>
+<path fill="none" stroke="midnightblue" d="M321.076,-1146.64C341.839,-1146.18 364.005,-1145.68 384.465,-1145.23"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="320.929,-1143.14 311.01,-1146.86 321.085,-1150.14 320.929,-1143.14"/>
 </g>
 <!-- Node103 -->
 <g id="node103" class="node"><title>Node103</title>

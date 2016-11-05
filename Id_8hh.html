@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
         <meta name="generator" content="Doxygen 1.8.11"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <title>BoCA: boca/physics/Id.hh File Reference</title>
+        <title>BoCA: boca/identification/Id.hh File Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_73d39a1d0a5c40ea18275712d785386a.html">boca</a></li><li class="navelem"><a class="el" href="dir_6985d9dc5b509d6899ba51291c0da1a7.html">physics</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_73d39a1d0a5c40ea18275712d785386a.html">boca</a></li><li class="navelem"><a class="el" href="dir_da10a3ebc31199da5b016a61f59b7929.html">identification</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -112,16 +112,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="ElectronVolt_8hh_source.html">boca/physics/ElectronVolt.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ElectronVolt_8hh_source.html">boca/units/ElectronVolt.hh</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Id.hh:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Id_8hh__incl.svg" width="766" height="202"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Id_8hh__incl.svg" width="766" height="216"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Id_8hh__dep__incl.svg" width="8535" height="291"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Id_8hh__dep__incl.svg" width="7594" height="335"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="Id_8hh_source.html">Go to the source code of this file.</a></p>
@@ -220,7 +220,8 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7a91df09b569af69b5e64d1506f50fa4bb">boca::Id::proton</a> = 2212, 
 <a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7a2d885b9cfffddab764358cc836644d85">boca::Id::Delta_2</a> = 2224, 
 <br />
-&#160;&#160;<a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7ac10cbe2c2f2420e18fe098a4e7553dea">boca::Id::CP_violating_higgs</a> = 5000000
+&#160;&#160;<a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7ac10cbe2c2f2420e18fe098a4e7553dea">boca::Id::CP_violating_higgs</a> = 5000000, 
+<a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab425a710b13b2371f428e9b3d090e85f">boca::Id::higgs_coupling</a> = 9010221
 <br />
  }<tr class="memdesc:a648cb17ad6b74376b1954206638331c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">PDG particle naming conventions.  <a href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7">More...</a><br /></td></tr>
 </td></tr>
@@ -246,12 +247,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a78c344ebaccc801e04390604f79e803a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a78c344ebaccc801e04390604f79e803a">boca::Name</a> (Id id)</td></tr>
 <tr class="memdesc:a78c344ebaccc801e04390604f79e803a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of a particle with given Id.  <a href="namespaceboca.html#a78c344ebaccc801e04390604f79e803a">More...</a><br /></td></tr>
 <tr class="separator:a78c344ebaccc801e04390604f79e803a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e09ecffa69c2ad5951ce648b0151298"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a0e09ecffa69c2ad5951ce648b0151298">boca::operator&lt;&lt;</a> (std::ostream &amp;stream, Id id)</td></tr>
+<tr class="memdesc:a0e09ecffa69c2ad5951ce648b0151298"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream the name of a particle with given Id.  <a href="namespaceboca.html#a0e09ecffa69c2ad5951ce648b0151298">More...</a><br /></td></tr>
+<tr class="separator:a0e09ecffa69c2ad5951ce648b0151298"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a052a303d474be9c32eb0e94580db1fcd"><td class="memItemLeft" align="right" valign="top">Mass&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a052a303d474be9c32eb0e94580db1fcd">boca::MassOf</a> (Id id)</td></tr>
 <tr class="memdesc:a052a303d474be9c32eb0e94580db1fcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mass of particle with given Id.  <a href="namespaceboca.html#a052a303d474be9c32eb0e94580db1fcd">More...</a><br /></td></tr>
 <tr class="separator:a052a303d474be9c32eb0e94580db1fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58ce5d94e5ed17f374a68c4694ab18b0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a58ce5d94e5ed17f374a68c4694ab18b0">boca::Name</a> (MultiId multi_id)</td></tr>
 <tr class="memdesc:a58ce5d94e5ed17f374a68c4694ab18b0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classboca_1_1Names.html">Names</a> of PDG particle groups.  <a href="namespaceboca.html#a58ce5d94e5ed17f374a68c4694ab18b0">More...</a><br /></td></tr>
 <tr class="separator:a58ce5d94e5ed17f374a68c4694ab18b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54e998cbd36cf78ecfe5e4c869d9ffa7"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a54e998cbd36cf78ecfe5e4c869d9ffa7">boca::operator&lt;&lt;</a> (std::ostream &amp;stream, MultiId id)</td></tr>
+<tr class="memdesc:a54e998cbd36cf78ecfe5e4c869d9ffa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream the name of a particle with given MultiId.  <a href="namespaceboca.html#a54e998cbd36cf78ecfe5e4c869d9ffa7">More...</a><br /></td></tr>
+<tr class="separator:a54e998cbd36cf78ecfe5e4c869d9ffa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3646184469a2cb9049db22fa2b17f577"><td class="memItemLeft" align="right" valign="top">Mass&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a3646184469a2cb9049db22fa2b17f577">boca::MassOf</a> (MultiId multi_id)</td></tr>
 <tr class="memdesc:a3646184469a2cb9049db22fa2b17f577"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common mass of a multi particle.  <a href="namespaceboca.html#a3646184469a2cb9049db22fa2b17f577">More...</a><br /></td></tr>
 <tr class="separator:a3646184469a2cb9049db22fa2b17f577"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -1,0 +1,24 @@
+<map id="build/examples/toppartner/source/branch/TopPartnerBranchesDict.cxx" name="build/examples/toppartner/source/branch/TopPartnerBranchesDict.cxx">
+<area shape="rect" id="node23" href="$Complete_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/toppartner\l/source/branch/../../toppartner\l/branch/Complete.hh" alt="" coords="2543,109,2737,180"/>
+<area shape="rect" id="node32" href="$branch_2SignatureSingleHadronic_8hh.html" title="toppartner/branch/Signature\lSingleHadronic.hh" alt="" coords="2783,243,2966,284"/>
+<area shape="rect" id="node40" href="$HiggsTwoBody_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/toppartner\l/source/branch/../../toppartner\l/branch/HiggsTwoBody.hh" alt="" coords="2812,109,3007,180"/>
+<area shape="rect" id="node43" href="$examples_2toppartner_2toppartner_2branch_2Event_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/toppartner\l/source/branch/../../toppartner\l/branch/Event.hh" alt="" coords="2492,228,2687,299"/>
+<area shape="rect" id="node45" href="$branch_2SignatureEffective_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/toppartner\l/source/branch/../../toppartner\l/branch/SignatureEffective.hh" alt="" coords="3187,228,3381,299"/>
+<area shape="rect" id="node46" href="$SignatureSingle_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/toppartner\l/source/branch/../../toppartner\l/branch/SignatureSingle.hh" alt="" coords="3519,109,3713,180"/>
+<area shape="rect" id="node48" href="$branch_2TopPartner_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/toppartner\l/source/branch/../../toppartner\l/branch/TopPartner.hh" alt="" coords="3031,109,3225,180"/>
+<area shape="rect" id="node49" href="$toppartner_2toppartner_2branch_2Truth_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/toppartner\l/source/branch/../../toppartner\l/branch/Truth.hh" alt="" coords="2776,421,2971,492"/>
+<area shape="rect" id="node50" href="$VetoTopPartner_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/toppartner\l/source/branch/../../toppartner\l/branch/VetoTopPartner.hh" alt="" coords="3249,109,3444,180"/>
+<area shape="rect" id="node24" href="$GlobalBase_8hh.html" title="boca/branch/GlobalBase.hh" alt="" coords="2569,443,2751,470"/>
+<area shape="rect" id="node26" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="2797,540,2949,567"/>
+<area shape="rect" id="node31" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="3275,704,3491,731"/>
+<area shape="rect" id="node33" href="$branch_2ThreeBody_8hh.html" title="boca/branch/ThreeBody.hh" alt="" coords="3181,347,3360,373"/>
+<area shape="rect" id="node38" href="$EventShapesBase_8hh.html" title="boca/branch/EventShapesBase.hh" alt="" coords="3385,347,3607,373"/>
+<area shape="rect" id="node34" href="$branch_2Particle_8hh.html" title="boca/branch/Particle.hh" alt="" coords="3190,443,3349,470"/>
+<area shape="rect" id="node37" href="$Settings_8hh.html" title="boca/Settings.hh" alt="" coords="3045,443,3165,470"/>
+<area shape="rect" id="node35" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="3089,540,3223,567"/>
+<area shape="rect" id="node36" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="3306,622,3459,649"/>
+<area shape="rect" id="node41" href="$Multi_8hh.html" title="boca/branch/Multi.hh" alt="" coords="3013,250,3155,277"/>
+<area shape="rect" id="node42" href="$branch_2TwoBody_8hh.html" title="boca/branch/TwoBody.hh" alt="" coords="2987,347,3157,373"/>
+<area shape="rect" id="node44" href="$boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="2761,347,2911,373"/>
+<area shape="rect" id="node47" href="$boca_2branch_2Signature_8hh.html" title="boca/branch/Signature.hh" alt="" coords="3405,250,3576,277"/>
+</map>

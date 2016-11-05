@@ -10,6 +10,7 @@ var searchData=
   ['hh',['hh',['../namespacestandardmodel_1_1analysis.html#ac4425fa7851b375a994933d8991816b5a5e36941b3d856737e81516acd45edc50',1,'standardmodel::analysis']]],
   ['hh_5fbb',['hh_bb',['../namespacestandardmodel_1_1analysis.html#ac4425fa7851b375a994933d8991816b5a14c4c86a9846d92d17f355344b32e28f',1,'standardmodel::analysis']]],
   ['higgs',['higgs',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7a3fd838397804752452bac4f637bbe6d8',1,'boca']]],
+  ['higgs_5fcoupling',['higgs_coupling',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab425a710b13b2371f428e9b3d090e85f',1,'boca']]],
   ['htb',['Htb',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82a0d33a8b50f53935728d69b49788a3fa8',1,'heavyhiggs']]],
   ['htt',['Htt',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82a36a04eba4d954d256ac2f3396152ec6f',1,'heavyhiggs']]],
   ['htwb',['Htwb',['../namespaceheavyhiggs.html#a2dffdc9b9910d82b719a43a0e91baf82a19fb8c5f133ad05fcc87b09c341d822c',1,'heavyhiggs']]]

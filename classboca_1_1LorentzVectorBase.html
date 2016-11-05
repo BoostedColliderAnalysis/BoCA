@@ -106,6 +106,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-types">Protected Types</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classboca_1_1LorentzVectorBase-members.html">List of all members</a>  </div>
@@ -121,7 +122,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="dynheader">
 Inheritance diagram for boca::LorentzVectorBase&lt; Value_ &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classboca_1_1LorentzVectorBase__inherit__graph.svg" width="876" height="208"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classboca_1_1LorentzVectorBase__inherit__graph.svg" width="848" height="208"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for boca::LorentzVectorBase&lt; Value_ &gt;:</div>
@@ -131,146 +132,178 @@ Collaboration diagram for boca::LorentzVectorBase&lt; Value_ &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td colspan="2"><div class="groupHeader">Constructor</div></td></tr>
-<tr class="memitem:a6c0737d7054c9dbcdc5f5f065edef45e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a6c0737d7054c9dbcdc5f5f065edef45e">LorentzVectorBase</a> ()</td></tr>
-<tr class="memdesc:a6c0737d7054c9dbcdc5f5f065edef45e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a6c0737d7054c9dbcdc5f5f065edef45e">More...</a><br /></td></tr>
-<tr class="separator:a6c0737d7054c9dbcdc5f5f065edef45e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89cc03f104130f25a3b9ad449d0d5aac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a89cc03f104130f25a3b9ad449d0d5aac">LorentzVectorBase</a> (Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863a9dd4e461268c8034f5c8564e155c67a6">x</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863a415290769594460e2e485922904f345d">y</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863afbade9e36a3f36d3d676c1b808451dd7">z</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863ae358efa489f58062f10dd7316b65649e">t</a>)</td></tr>
-<tr class="memdesc:a89cc03f104130f25a3b9ad449d0d5aac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor giving the components x, y, z, t.  <a href="#a89cc03f104130f25a3b9ad449d0d5aac">More...</a><br /></td></tr>
-<tr class="separator:a89cc03f104130f25a3b9ad449d0d5aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42ce1604a6f00a5494def83f41320dd7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a42ce1604a6f00a5494def83f41320dd7">LorentzVectorBase</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;vector3, Value_ const &amp;<a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863ae358efa489f58062f10dd7316b65649e">t</a>)</td></tr>
-<tr class="memdesc:a42ce1604a6f00a5494def83f41320dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor giving a 3-Vector and a time component.  <a href="#a42ce1604a6f00a5494def83f41320dd7">More...</a><br /></td></tr>
-<tr class="separator:a42ce1604a6f00a5494def83f41320dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c52719b08eb27ba4cb1c5f313cbc19b"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
-<tr class="memitem:a5c52719b08eb27ba4cb1c5f313cbc19b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a5c52719b08eb27ba4cb1c5f313cbc19b">LorentzVectorBase</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;lorentz_vector)</td></tr>
-<tr class="memdesc:a5c52719b08eb27ba4cb1c5f313cbc19b"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy constructor with casting  <a href="#a5c52719b08eb27ba4cb1c5f313cbc19b">More...</a><br /></td></tr>
-<tr class="separator:a5c52719b08eb27ba4cb1c5f313cbc19b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Setter</div></td></tr>
-<tr class="memitem:a09d098e51920b5efe96265c6c3115660"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a09d098e51920b5efe96265c6c3115660">SetRho</a> (Value_ <a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7a843a28dfdc5b2d5463ba2a7b83fdec7c">rho</a>)</td></tr>
-<tr class="memdesc:a09d098e51920b5efe96265c6c3115660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set spacial magnitude.  <a href="#a09d098e51920b5efe96265c6c3115660">More...</a><br /></td></tr>
-<tr class="separator:a09d098e51920b5efe96265c6c3115660"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19e73508e0581cd3d901d144337a7491"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a19e73508e0581cd3d901d144337a7491">SetXYZT</a> (Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863a9dd4e461268c8034f5c8564e155c67a6">x</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863a415290769594460e2e485922904f345d">y</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863afbade9e36a3f36d3d676c1b808451dd7">z</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863ae358efa489f58062f10dd7316b65649e">t</a>)</td></tr>
-<tr class="memdesc:a19e73508e0581cd3d901d144337a7491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set components.  <a href="#a19e73508e0581cd3d901d144337a7491">More...</a><br /></td></tr>
-<tr class="separator:a19e73508e0581cd3d901d144337a7491"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abeedc61a812d4a51cf423501a04e478e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#abeedc61a812d4a51cf423501a04e478e">SetVectMag</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;spatial, Value_ magnitude)</td></tr>
-<tr class="memdesc:abeedc61a812d4a51cf423501a04e478e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy spatial coordinates, and set energy = sqrt(mass^2 + spatial^2)  <a href="#abeedc61a812d4a51cf423501a04e478e">More...</a><br /></td></tr>
-<tr class="separator:abeedc61a812d4a51cf423501a04e478e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3874544ab3324b91bf202d828cd41de3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a3874544ab3324b91bf202d828cd41de3">SetXYZM</a> (Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863a9dd4e461268c8034f5c8564e155c67a6">x</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863a415290769594460e2e485922904f345d">y</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863afbade9e36a3f36d3d676c1b808451dd7">z</a>, Value_ mass)</td></tr>
-<tr class="memdesc:a3874544ab3324b91bf202d828cd41de3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set x, y, z and magnitude.  <a href="#a3874544ab3324b91bf202d828cd41de3">More...</a><br /></td></tr>
-<tr class="separator:a3874544ab3324b91bf202d828cd41de3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a395a8c1c616ee9203d1ae88bc43168cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a395a8c1c616ee9203d1ae88bc43168cd">SetVectM</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;spatial, Value_ mass)</td></tr>
-<tr class="memdesc:a395a8c1c616ee9203d1ae88bc43168cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set x, y, z and magnitude.  <a href="#a395a8c1c616ee9203d1ae88bc43168cd">More...</a><br /></td></tr>
-<tr class="separator:a395a8c1c616ee9203d1ae88bc43168cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Accessors and Getter</div></td></tr>
-<tr class="memitem:a3f9a345f35f2a3823509cff6bc3fcfd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a3f9a345f35f2a3823509cff6bc3fcfd0">Vector</a> () const </td></tr>
-<tr class="memdesc:a3f9a345f35f2a3823509cff6bc3fcfd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">spatial component.  <a href="#a3f9a345f35f2a3823509cff6bc3fcfd0">More...</a><br /></td></tr>
-<tr class="separator:a3f9a345f35f2a3823509cff6bc3fcfd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a605438586389b6afa3de07ee50555be7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a605438586389b6afa3de07ee50555be7">Vector</a> ()</td></tr>
-<tr class="memdesc:a605438586389b6afa3de07ee50555be7"><td class="mdescLeft">&#160;</td><td class="mdescRight">spatial component.  <a href="#a605438586389b6afa3de07ee50555be7">More...</a><br /></td></tr>
-<tr class="separator:a605438586389b6afa3de07ee50555be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a056a5e65ddab41ec1972927a6209c22d"><td class="memItemLeft" align="right" valign="top">Value_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a056a5e65ddab41ec1972927a6209c22d">Scalar</a> ()</td></tr>
-<tr class="memdesc:a056a5e65ddab41ec1972927a6209c22d"><td class="mdescLeft">&#160;</td><td class="mdescRight">t  <a href="#a056a5e65ddab41ec1972927a6209c22d">More...</a><br /></td></tr>
-<tr class="separator:a056a5e65ddab41ec1972927a6209c22d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb1e9f631fc015da8136aa11a85b8cf2"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aeb1e9f631fc015da8136aa11a85b8cf2">Scalar</a> () const </td></tr>
-<tr class="memdesc:aeb1e9f631fc015da8136aa11a85b8cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">t  <a href="#aeb1e9f631fc015da8136aa11a85b8cf2">More...</a><br /></td></tr>
-<tr class="separator:aeb1e9f631fc015da8136aa11a85b8cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fa26d332c9fa1632e6b1e18c6e716f8"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a6fa26d332c9fa1632e6b1e18c6e716f8">T</a> () const </td></tr>
-<tr class="memdesc:a6fa26d332c9fa1632e6b1e18c6e716f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">t  <a href="#a6fa26d332c9fa1632e6b1e18c6e716f8">More...</a><br /></td></tr>
-<tr class="separator:a6fa26d332c9fa1632e6b1e18c6e716f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab284ae67cb3422babdb1fa6df3f3d0d2"><td class="memItemLeft" align="right" valign="top">Value_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ab284ae67cb3422babdb1fa6df3f3d0d2">T</a> ()</td></tr>
-<tr class="memdesc:ab284ae67cb3422babdb1fa6df3f3d0d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">t  <a href="#ab284ae67cb3422babdb1fa6df3f3d0d2">More...</a><br /></td></tr>
-<tr class="separator:ab284ae67cb3422babdb1fa6df3f3d0d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">spatial vector components in spherical coordinate system.</div></td></tr>
-<tr class="memitem:acf15f38bbea673ae5fde2336ec79683f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#acf15f38bbea673ae5fde2336ec79683f">Angle</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> const &amp;vector) const </td></tr>
-<tr class="memdesc:acf15f38bbea673ae5fde2336ec79683f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Angle wrt. another vector.  <a href="#acf15f38bbea673ae5fde2336ec79683f">More...</a><br /></td></tr>
-<tr class="separator:acf15f38bbea673ae5fde2336ec79683f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e201668b259e2784c4abd0130dc99e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a0e201668b259e2784c4abd0130dc99e2">Rapidity</a> () const </td></tr>
-<tr class="memdesc:a0e201668b259e2784c4abd0130dc99e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))  <a href="#a0e201668b259e2784c4abd0130dc99e2">More...</a><br /></td></tr>
-<tr class="separator:a0e201668b259e2784c4abd0130dc99e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d0fc374db73e7a8511fcc6502708100"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a8d0fc374db73e7a8511fcc6502708100">Rapidity</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt; const &amp;vector) const </td></tr>
 <tr class="memdesc:a8d0fc374db73e7a8511fcc6502708100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rapidity with respect to another vector.  <a href="#a8d0fc374db73e7a8511fcc6502708100">More...</a><br /></td></tr>
 <tr class="separator:a8d0fc374db73e7a8511fcc6502708100"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48355fc25f5e89ae7a92c8577793a70e"><td class="memTemplParams" colspan="2">template&lt;typename Value_2_ &gt; </td></tr>
+<tr class="memitem:a48355fc25f5e89ae7a92c8577793a70e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a48355fc25f5e89ae7a92c8577793a70e">DeltaRapTo</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2_ &gt; const &amp;vector) const </td></tr>
+<tr class="memdesc:a48355fc25f5e89ae7a92c8577793a70e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Difference in Rapidity to a vector \(\Delta y\).  <a href="#a48355fc25f5e89ae7a92c8577793a70e">More...</a><br /></td></tr>
+<tr class="separator:a48355fc25f5e89ae7a92c8577793a70e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a177a733a7d026e9144e06335ae10a6c9"><td class="memTemplParams" colspan="2">template&lt;typename Value_2_ &gt; </td></tr>
+<tr class="memitem:a177a733a7d026e9144e06335ae10a6c9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a177a733a7d026e9144e06335ae10a6c9">DeltaRTo</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2_ &gt; const &amp;vector) const </td></tr>
+<tr class="memdesc:a177a733a7d026e9144e06335ae10a6c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Difference in agular space to a vector \(\Delta R = \sqrt{ (\Delta y)^2 + (\Delta \phi)^2}\) to vector.  <a href="#a177a733a7d026e9144e06335ae10a6c9">More...</a><br /></td></tr>
+<tr class="separator:a177a733a7d026e9144e06335ae10a6c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Constructor</div></td></tr>
+<tr class="memitem:a179da4d52eb91529135daa156399ce1d"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a179da4d52eb91529135daa156399ce1d">LorentzVectorBase</a> ()</td></tr>
+<tr class="memdesc:a179da4d52eb91529135daa156399ce1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a179da4d52eb91529135daa156399ce1d">More...</a><br /></td></tr>
+<tr class="separator:a179da4d52eb91529135daa156399ce1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bf97789e417351337e0a8c9f93d17f8"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a8bf97789e417351337e0a8c9f93d17f8">LorentzVectorBase</a> (Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863a9dd4e461268c8034f5c8564e155c67a6">x</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863a415290769594460e2e485922904f345d">y</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863afbade9e36a3f36d3d676c1b808451dd7">z</a>, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863ae358efa489f58062f10dd7316b65649e">t</a>)</td></tr>
+<tr class="memdesc:a8bf97789e417351337e0a8c9f93d17f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor accepting the components x, y, z, t.  <a href="#a8bf97789e417351337e0a8c9f93d17f8">More...</a><br /></td></tr>
+<tr class="separator:a8bf97789e417351337e0a8c9f93d17f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a358f66cd80d70ffe02a08070678bea30"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a358f66cd80d70ffe02a08070678bea30">LorentzVectorBase</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;vector3, Value_ const &amp;<a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863ae358efa489f58062f10dd7316b65649e">t</a>)</td></tr>
+<tr class="memdesc:a358f66cd80d70ffe02a08070678bea30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor accepting a 3-Vector and a scalar component.  <a href="#a358f66cd80d70ffe02a08070678bea30">More...</a><br /></td></tr>
+<tr class="separator:a358f66cd80d70ffe02a08070678bea30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d0909b78771769a83ce0fa2c46f69d6"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
+<tr class="memitem:a1d0909b78771769a83ce0fa2c46f69d6"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a1d0909b78771769a83ce0fa2c46f69d6">LorentzVectorBase</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;lorentz_vector)</td></tr>
+<tr class="memdesc:a1d0909b78771769a83ce0fa2c46f69d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor with casting.  <a href="#a1d0909b78771769a83ce0fa2c46f69d6">More...</a><br /></td></tr>
+<tr class="separator:a1d0909b78771769a83ce0fa2c46f69d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Setter</div></td></tr>
+<tr class="memitem:a07d1101c15770058fa9be825324634d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a07d1101c15770058fa9be825324634d8">SetVectT</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;spatial, Value_ <a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863ae358efa489f58062f10dd7316b65649e">t</a>)</td></tr>
+<tr class="memdesc:a07d1101c15770058fa9be825324634d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set components.  <a href="#a07d1101c15770058fa9be825324634d8">More...</a><br /></td></tr>
+<tr class="separator:a07d1101c15770058fa9be825324634d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09d098e51920b5efe96265c6c3115660"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a09d098e51920b5efe96265c6c3115660">SetRho</a> (Value_ <a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7a843a28dfdc5b2d5463ba2a7b83fdec7c">rho</a>)</td></tr>
+<tr class="memdesc:a09d098e51920b5efe96265c6c3115660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set spatial magnitude.  <a href="#a09d098e51920b5efe96265c6c3115660">More...</a><br /></td></tr>
+<tr class="separator:a09d098e51920b5efe96265c6c3115660"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94d1b2d5c819b14d8679783717b07355"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a94d1b2d5c819b14d8679783717b07355">SetMag</a> (Value_ magnitude)</td></tr>
+<tr class="memdesc:a94d1b2d5c819b14d8679783717b07355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Nergy according to spatial component and magnitude \(e = \sqrt{ m^2 + \rho^2}\).  <a href="#a94d1b2d5c819b14d8679783717b07355">More...</a><br /></td></tr>
+<tr class="separator:a94d1b2d5c819b14d8679783717b07355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeedc61a812d4a51cf423501a04e478e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#abeedc61a812d4a51cf423501a04e478e">SetVectMag</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;spatial, Value_ magnitude)</td></tr>
+<tr class="memdesc:abeedc61a812d4a51cf423501a04e478e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy spatial coordinates, and set \(e = \sqrt{ m^2 + \rho^2}\).  <a href="#abeedc61a812d4a51cf423501a04e478e">More...</a><br /></td></tr>
+<tr class="separator:abeedc61a812d4a51cf423501a04e478e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a975ae941e5132a5fc17631a4164a7e7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a975ae941e5132a5fc17631a4164a7e7c">SetPerpEtaPhiMag</a> (Value_ const &amp;perp, <a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> const &amp;<a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7aeba021d91b44a97dec2588bbea58a447">eta</a>, <a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> const &amp;phi, Value_ const &amp;mag)</td></tr>
+<tr class="memdesc:a975ae941e5132a5fc17631a4164a7e7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set perp, \(\eta\), \(\phi\) and magnitude.  <a href="#a975ae941e5132a5fc17631a4164a7e7c">More...</a><br /></td></tr>
+<tr class="separator:a975ae941e5132a5fc17631a4164a7e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a718ae57067fdbdb52ab6d2fdbb2af346"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a718ae57067fdbdb52ab6d2fdbb2af346">SetPerpEtaPhiT</a> (Value_ const &amp;perp, <a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> const &amp;<a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7aeba021d91b44a97dec2588bbea58a447">eta</a>, <a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> const &amp;phi, Value_ const &amp;<a class="el" href="group__Math.html#gga980f066568ac81fde9dd96b4831ca863ae358efa489f58062f10dd7316b65649e">t</a>)</td></tr>
+<tr class="memdesc:a718ae57067fdbdb52ab6d2fdbb2af346"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set perp, \(\eta\), \(\phi\) and time.  <a href="#a718ae57067fdbdb52ab6d2fdbb2af346">More...</a><br /></td></tr>
+<tr class="separator:a718ae57067fdbdb52ab6d2fdbb2af346"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Accessors and Getter</div></td></tr>
+<tr class="memitem:adf56efe90bed629c8b6610eea892d010"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#adf56efe90bed629c8b6610eea892d010">Spatial</a> () const </td></tr>
+<tr class="memdesc:adf56efe90bed629c8b6610eea892d010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the spatial components.  <a href="#adf56efe90bed629c8b6610eea892d010">More...</a><br /></td></tr>
+<tr class="separator:adf56efe90bed629c8b6610eea892d010"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e65d99c25460825344d9c3c4f278dbc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a4e65d99c25460825344d9c3c4f278dbc">Spatial</a> ()</td></tr>
+<tr class="memdesc:a4e65d99c25460825344d9c3c4f278dbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accessor for the spatial components.  <a href="#a4e65d99c25460825344d9c3c4f278dbc">More...</a><br /></td></tr>
+<tr class="separator:a4e65d99c25460825344d9c3c4f278dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a056a5e65ddab41ec1972927a6209c22d"><td class="memItemLeft" align="right" valign="top">Value_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a056a5e65ddab41ec1972927a6209c22d">Scalar</a> ()</td></tr>
+<tr class="memdesc:a056a5e65ddab41ec1972927a6209c22d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accessor for the scalar.  <a href="#a056a5e65ddab41ec1972927a6209c22d">More...</a><br /></td></tr>
+<tr class="separator:a056a5e65ddab41ec1972927a6209c22d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab284ae67cb3422babdb1fa6df3f3d0d2"><td class="memItemLeft" align="right" valign="top">Value_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ab284ae67cb3422babdb1fa6df3f3d0d2">T</a> ()</td></tr>
+<tr class="memdesc:ab284ae67cb3422babdb1fa6df3f3d0d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the spatial components.  <a href="#ab284ae67cb3422babdb1fa6df3f3d0d2">More...</a><br /></td></tr>
+<tr class="separator:ab284ae67cb3422babdb1fa6df3f3d0d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
+<tr class="memitem:a3d600a4bfa181b451cd6be7355bacb84"><td class="memItemLeft" align="right" valign="top">constexpr Value_ const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a3d600a4bfa181b451cd6be7355bacb84">Scalar</a> () const </td></tr>
+<tr class="memdesc:a3d600a4bfa181b451cd6be7355bacb84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the scalar component.  <a href="#a3d600a4bfa181b451cd6be7355bacb84">More...</a><br /></td></tr>
+<tr class="separator:a3d600a4bfa181b451cd6be7355bacb84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf2723a4c3d0e3d7c2def0a46723bebf"><td class="memItemLeft" align="right" valign="top">constexpr Value_ const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aaf2723a4c3d0e3d7c2def0a46723bebf">T</a> () const </td></tr>
+<tr class="memdesc:aaf2723a4c3d0e3d7c2def0a46723bebf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the scalar component.  <a href="#aaf2723a4c3d0e3d7c2def0a46723bebf">More...</a><br /></td></tr>
+<tr class="separator:aaf2723a4c3d0e3d7c2def0a46723bebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Angles</div></td></tr>
+<tr class="memitem:a0e201668b259e2784c4abd0130dc99e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a0e201668b259e2784c4abd0130dc99e2">Rapidity</a> () const </td></tr>
+<tr class="memdesc:a0e201668b259e2784c4abd0130dc99e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rapidity \(y = \frac{1}{2} \ln\frac{t + z}{t - z}\).  <a href="#a0e201668b259e2784c4abd0130dc99e2">More...</a><br /></td></tr>
+<tr class="separator:a0e201668b259e2784c4abd0130dc99e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d23ff556a9e51ae9d9777f3cbd66c89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a3d23ff556a9e51ae9d9777f3cbd66c89">Rap</a> () const </td></tr>
-<tr class="memdesc:a3d23ff556a9e51ae9d9777f3cbd66c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rapidity.  <a href="#a3d23ff556a9e51ae9d9777f3cbd66c89">More...</a><br /></td></tr>
+<tr class="memdesc:a3d23ff556a9e51ae9d9777f3cbd66c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rapidity \(y = \frac{1}{2} \ln\frac{t + z}{t - z}\).  <a href="#a3d23ff556a9e51ae9d9777f3cbd66c89">More...</a><br /></td></tr>
 <tr class="separator:a3d23ff556a9e51ae9d9777f3cbd66c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Magnitudes</div></td></tr>
-<tr class="memitem:a33ca8eab9f912b1583c621f80d51b833"><td class="memItemLeft" align="right" valign="top">ValueSquare&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a33ca8eab9f912b1583c621f80d51b833">Rho2</a> () const </td></tr>
-<tr class="memdesc:a33ca8eab9f912b1583c621f80d51b833"><td class="mdescLeft">&#160;</td><td class="mdescRight">spacial radius  <a href="#a33ca8eab9f912b1583c621f80d51b833">More...</a><br /></td></tr>
-<tr class="separator:a33ca8eab9f912b1583c621f80d51b833"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b9bfbdaf8e0dc5b72d07f0f310938e6"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a3b9bfbdaf8e0dc5b72d07f0f310938e6">Rho</a> () const </td></tr>
-<tr class="memdesc:a3b9bfbdaf8e0dc5b72d07f0f310938e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">spacial radius  <a href="#a3b9bfbdaf8e0dc5b72d07f0f310938e6">More...</a><br /></td></tr>
-<tr class="separator:a3b9bfbdaf8e0dc5b72d07f0f310938e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a988ccdcfd55547e6cc7731e131a02e5d"><td class="memItemLeft" align="right" valign="top">ValueSquare&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a988ccdcfd55547e6cc7731e131a02e5d">Mag2</a> () const </td></tr>
-<tr class="memdesc:a988ccdcfd55547e6cc7731e131a02e5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invariant mass squared.  <a href="#a988ccdcfd55547e6cc7731e131a02e5d">More...</a><br /></td></tr>
-<tr class="separator:a988ccdcfd55547e6cc7731e131a02e5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7fcf45132dab7967d52272186066ac5"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ab7fcf45132dab7967d52272186066ac5">Mag</a> () const </td></tr>
-<tr class="memdesc:ab7fcf45132dab7967d52272186066ac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invariant mass. If mag2() is negative then -sqrt(-mag2()) is returned.  <a href="#ab7fcf45132dab7967d52272186066ac5">More...</a><br /></td></tr>
-<tr class="separator:ab7fcf45132dab7967d52272186066ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7744eff94404397661ac66efef38ceb6"><td class="memItemLeft" align="right" valign="top">ValueSquare&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a7744eff94404397661ac66efef38ceb6">MagT2</a> () const </td></tr>
-<tr class="memdesc:a7744eff94404397661ac66efef38ceb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">transvere magnitude square  <a href="#a7744eff94404397661ac66efef38ceb6">More...</a><br /></td></tr>
-<tr class="separator:a7744eff94404397661ac66efef38ceb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a060af68db661a84635976edd32c09cbb"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a060af68db661a84635976edd32c09cbb">MagT</a> () const </td></tr>
-<tr class="memdesc:a060af68db661a84635976edd32c09cbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">transvere magnitude  <a href="#a060af68db661a84635976edd32c09cbb">More...</a><br /></td></tr>
-<tr class="separator:a060af68db661a84635976edd32c09cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19cde43906df88894b935c91d9f33418"><td class="memItemLeft" align="right" valign="top">ValueSquare&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a19cde43906df88894b935c91d9f33418">ScalarT2</a> () const </td></tr>
-<tr class="memdesc:a19cde43906df88894b935c91d9f33418"><td class="mdescLeft">&#160;</td><td class="mdescRight">transvere scalar square  <a href="#a19cde43906df88894b935c91d9f33418">More...</a><br /></td></tr>
-<tr class="separator:a19cde43906df88894b935c91d9f33418"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a671da48c39542d3aebd6e26518f229ce"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a671da48c39542d3aebd6e26518f229ce">ScalarT</a> () const </td></tr>
-<tr class="memdesc:a671da48c39542d3aebd6e26518f229ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">transvere scalar square  <a href="#a671da48c39542d3aebd6e26518f229ce">More...</a><br /></td></tr>
-<tr class="separator:a671da48c39542d3aebd6e26518f229ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2257b14cf950bd6a28182e54d908fa3"><td class="memTemplParams" colspan="2">template&lt;typename Value , typename  = OnlyIfNotQuantity&lt;Value&gt;&gt; </td></tr>
-<tr class="memitem:ac2257b14cf950bd6a28182e54d908fa3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceboca_1_1units.html#a1b2dcd9f955475eaabd51ef879ab9d3c">EnergySquare</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ac2257b14cf950bd6a28182e54d908fa3">ScalarT2</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value &gt; const &amp;vector) const </td></tr>
-<tr class="memdesc:ac2257b14cf950bd6a28182e54d908fa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transverse scalar squared w.r.t. given axis.  <a href="#ac2257b14cf950bd6a28182e54d908fa3">More...</a><br /></td></tr>
-<tr class="separator:ac2257b14cf950bd6a28182e54d908fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3de23ab8c122aa40f294f8d771afb11b"><td class="memTemplParams" colspan="2">template&lt;typename Value , typename  = OnlyIfNotQuantity&lt;Value&gt;&gt; </td></tr>
-<tr class="memitem:a3de23ab8c122aa40f294f8d771afb11b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceboca_1_1units.html#a8bf57d1229fbd928b1a8c5dc5a71377a">boca::Energy</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a3de23ab8c122aa40f294f8d771afb11b">ScalarT</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value &gt; const &amp;vector) const </td></tr>
-<tr class="memdesc:a3de23ab8c122aa40f294f8d771afb11b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transverse scalar w.r.t. given axis.  <a href="#a3de23ab8c122aa40f294f8d771afb11b">More...</a><br /></td></tr>
-<tr class="separator:a3de23ab8c122aa40f294f8d771afb11b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6385d4a071e86d315ac7dfaa3efadd94"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a6385d4a071e86d315ac7dfaa3efadd94">Beta</a> () const </td></tr>
-<tr class="memdesc:a6385d4a071e86d315ac7dfaa3efadd94"><td class="mdescLeft">&#160;</td><td class="mdescRight">beta  <a href="#a6385d4a071e86d315ac7dfaa3efadd94">More...</a><br /></td></tr>
-<tr class="separator:a6385d4a071e86d315ac7dfaa3efadd94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b1e45d4541f378f7f235ea165db4a3e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a0b1e45d4541f378f7f235ea165db4a3e">Gamma</a> () const </td></tr>
-<tr class="memdesc:a0b1e45d4541f378f7f235ea165db4a3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">gamma  <a href="#a0b1e45d4541f378f7f235ea165db4a3e">More...</a><br /></td></tr>
-<tr class="separator:a0b1e45d4541f378f7f235ea165db4a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12820075ff63f70c0c554b63db01652c"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a12820075ff63f70c0c554b63db01652c">Plus</a> () const </td></tr>
-<tr class="memdesc:a12820075ff63f70c0c554b63db01652c"><td class="mdescLeft">&#160;</td><td class="mdescRight">t + z  <a href="#a12820075ff63f70c0c554b63db01652c">More...</a><br /></td></tr>
-<tr class="separator:a12820075ff63f70c0c554b63db01652c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af852a684d78d594736b7f9e58a946e9b"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#af852a684d78d594736b7f9e58a946e9b">Minus</a> () const </td></tr>
-<tr class="memdesc:af852a684d78d594736b7f9e58a946e9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">t - z  <a href="#af852a684d78d594736b7f9e58a946e9b">More...</a><br /></td></tr>
-<tr class="separator:af852a684d78d594736b7f9e58a946e9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa7c1d7572a9d2812bfb6940076bdf1"><td class="memItemLeft" align="right" valign="top">constexpr ValueSquare&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aafa7c1d7572a9d2812bfb6940076bdf1">Rho2</a> () const </td></tr>
+<tr class="memdesc:aafa7c1d7572a9d2812bfb6940076bdf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Square of the spatial radius \(\rho^2 = x^2 + y^2\).  <a href="#aafa7c1d7572a9d2812bfb6940076bdf1">More...</a><br /></td></tr>
+<tr class="separator:aafa7c1d7572a9d2812bfb6940076bdf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebbd8bff204eeacf18161e9cf7bc69b8"><td class="memItemLeft" align="right" valign="top">constexpr Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aebbd8bff204eeacf18161e9cf7bc69b8">Rho</a> () const </td></tr>
+<tr class="memdesc:aebbd8bff204eeacf18161e9cf7bc69b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">spatial radius \(\rho = \sqrt{x^2 + y^2 + z^2}\)  <a href="#aebbd8bff204eeacf18161e9cf7bc69b8">More...</a><br /></td></tr>
+<tr class="separator:aebbd8bff204eeacf18161e9cf7bc69b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d6466499380eb447933510b14a8cf0f"><td class="memItemLeft" align="right" valign="top">constexpr ValueSquare&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a4d6466499380eb447933510b14a8cf0f">Mag2</a> () const </td></tr>
+<tr class="memdesc:a4d6466499380eb447933510b14a8cf0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Square of the magnitude \(m^2 = t^2 - \rho^2\).  <a href="#a4d6466499380eb447933510b14a8cf0f">More...</a><br /></td></tr>
+<tr class="separator:a4d6466499380eb447933510b14a8cf0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cf5e3d083a9fe0a13a6e76bd966f554"><td class="memItemLeft" align="right" valign="top">constexpr Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a1cf5e3d083a9fe0a13a6e76bd966f554">Mag</a> () const </td></tr>
+<tr class="memdesc:a1cf5e3d083a9fe0a13a6e76bd966f554"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magnitude \(m = \sqrt{t^2 - \rho^2}\).  <a href="#a1cf5e3d083a9fe0a13a6e76bd966f554">More...</a><br /></td></tr>
+<tr class="separator:a1cf5e3d083a9fe0a13a6e76bd966f554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53eb9326f77004c7a05ce0de4e8dbc6c"><td class="memItemLeft" align="right" valign="top">constexpr ValueSquare&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a53eb9326f77004c7a05ce0de4e8dbc6c">MagT2</a> () const </td></tr>
+<tr class="memdesc:a53eb9326f77004c7a05ce0de4e8dbc6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Square of the transvere magnitude \(m_T^2 = m^2 + x^2 + y^2\).  <a href="#a53eb9326f77004c7a05ce0de4e8dbc6c">More...</a><br /></td></tr>
+<tr class="separator:a53eb9326f77004c7a05ce0de4e8dbc6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeea3fcd4e2efa972d6e1dab412e79784"><td class="memItemLeft" align="right" valign="top">constexpr Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aeea3fcd4e2efa972d6e1dab412e79784">MagT</a> () const </td></tr>
+<tr class="memdesc:aeea3fcd4e2efa972d6e1dab412e79784"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transvere magnitude \(m_T = \sqrt{m^2 + x^2 + y^2}\).  <a href="#aeea3fcd4e2efa972d6e1dab412e79784">More...</a><br /></td></tr>
+<tr class="separator:aeea3fcd4e2efa972d6e1dab412e79784"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a104f53dc15fcf06d38d413f79f7b4cd9"><td class="memItemLeft" align="right" valign="top">constexpr ValueSquare&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a104f53dc15fcf06d38d413f79f7b4cd9">ScalarT2</a> () const </td></tr>
+<tr class="memdesc:a104f53dc15fcf06d38d413f79f7b4cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">transvere scalar square \(e_T^2 = e^2 \frac{p_T^2}{\rho^2}\)  <a href="#a104f53dc15fcf06d38d413f79f7b4cd9">More...</a><br /></td></tr>
+<tr class="separator:a104f53dc15fcf06d38d413f79f7b4cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb15879f2a96b0e3b5a0cb1e54cb78b5"><td class="memItemLeft" align="right" valign="top">constexpr Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#acb15879f2a96b0e3b5a0cb1e54cb78b5">ScalarT</a> () const </td></tr>
+<tr class="memdesc:acb15879f2a96b0e3b5a0cb1e54cb78b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">transvere scalar square \(e_T = e \frac{p_T}{\rho}\)  <a href="#acb15879f2a96b0e3b5a0cb1e54cb78b5">More...</a><br /></td></tr>
+<tr class="separator:acb15879f2a96b0e3b5a0cb1e54cb78b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15a6bf705e7fbabf2c4560b87c48fddb"><td class="memTemplParams" colspan="2">template&lt;typename Value , typename  = OnlyIfNotQuantity&lt;Value&gt;&gt; </td></tr>
+<tr class="memitem:a15a6bf705e7fbabf2c4560b87c48fddb"><td class="memTemplItemLeft" align="right" valign="top">constexpr ValueSquare&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a15a6bf705e7fbabf2c4560b87c48fddb">ScalarT2</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value &gt; const &amp;vector) const </td></tr>
+<tr class="memdesc:a15a6bf705e7fbabf2c4560b87c48fddb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transverse scalar squared towards a vector.  <a href="#a15a6bf705e7fbabf2c4560b87c48fddb">More...</a><br /></td></tr>
+<tr class="separator:a15a6bf705e7fbabf2c4560b87c48fddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e48a3f094d823f3a92a60cabc1b0e13"><td class="memTemplParams" colspan="2">template&lt;typename Value , typename  = OnlyIfNotQuantity&lt;Value&gt;&gt; </td></tr>
+<tr class="memitem:a0e48a3f094d823f3a92a60cabc1b0e13"><td class="memTemplItemLeft" align="right" valign="top">constexpr Value_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a0e48a3f094d823f3a92a60cabc1b0e13">ScalarT</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value &gt; const &amp;vector) const </td></tr>
+<tr class="memdesc:a0e48a3f094d823f3a92a60cabc1b0e13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transverse scalar towards a vector.  <a href="#a0e48a3f094d823f3a92a60cabc1b0e13">More...</a><br /></td></tr>
+<tr class="separator:a0e48a3f094d823f3a92a60cabc1b0e13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad631ea20933d89a39c9f06389fd5e80"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aad631ea20933d89a39c9f06389fd5e80">Beta</a> () const </td></tr>
+<tr class="memdesc:aad631ea20933d89a39c9f06389fd5e80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relative velocity \(\beta = \frac{\rho}{t}\).  <a href="#aad631ea20933d89a39c9f06389fd5e80">More...</a><br /></td></tr>
+<tr class="separator:aad631ea20933d89a39c9f06389fd5e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30db2104feb585f4fb5f51b390ffec7a"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a30db2104feb585f4fb5f51b390ffec7a">Gamma</a> () const </td></tr>
+<tr class="memdesc:a30db2104feb585f4fb5f51b390ffec7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lorentz factor \(\gamma = \frac{1}{\sqrt{1-\beta^2}}\).  <a href="#a30db2104feb585f4fb5f51b390ffec7a">More...</a><br /></td></tr>
+<tr class="separator:a30db2104feb585f4fb5f51b390ffec7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61321a00bef37a824934a9bb13e6558c"><td class="memItemLeft" align="right" valign="top">constexpr Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a61321a00bef37a824934a9bb13e6558c">Plus</a> () const </td></tr>
+<tr class="memdesc:a61321a00bef37a824934a9bb13e6558c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Positive light cone component \(p = t + z\).  <a href="#a61321a00bef37a824934a9bb13e6558c">More...</a><br /></td></tr>
+<tr class="separator:a61321a00bef37a824934a9bb13e6558c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafca9e2bc23cabd99db59cbda696e0ba"><td class="memItemLeft" align="right" valign="top">constexpr Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aafca9e2bc23cabd99db59cbda696e0ba">Minus</a> () const </td></tr>
+<tr class="memdesc:aafca9e2bc23cabd99db59cbda696e0ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Negative light cone component \(m = t - z\).  <a href="#aafca9e2bc23cabd99db59cbda696e0ba">More...</a><br /></td></tr>
+<tr class="separator:aafca9e2bc23cabd99db59cbda696e0ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Vectors</div></td></tr>
-<tr class="memitem:a5b92143d96fea853f52a53eb0c1839cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a5b92143d96fea853f52a53eb0c1839cb">BoostVector</a> () const </td></tr>
-<tr class="memdesc:a5b92143d96fea853f52a53eb0c1839cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">spatial components divided by the time component.  <a href="#a5b92143d96fea853f52a53eb0c1839cb">More...</a><br /></td></tr>
-<tr class="separator:a5b92143d96fea853f52a53eb0c1839cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cef6f3f0915f011011b4d96ad0fd0b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a3cef6f3f0915f011011b4d96ad0fd0b3">BoostIntoRestFrame</a> () const </td></tr>
-<tr class="separator:a3cef6f3f0915f011011b4d96ad0fd0b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3157aa3ba8aaac7e01e1ce1042cecba4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a3157aa3ba8aaac7e01e1ce1042cecba4">Boosted</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt; const &amp;boost) const </td></tr>
-<tr class="memdesc:a3157aa3ba8aaac7e01e1ce1042cecba4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lorentz boost.  <a href="#a3157aa3ba8aaac7e01e1ce1042cecba4">More...</a><br /></td></tr>
-<tr class="separator:a3157aa3ba8aaac7e01e1ce1042cecba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae70904d61fb1559d09e10722b253a4f4"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ae70904d61fb1559d09e10722b253a4f4">BoostVector</a> () const </td></tr>
+<tr class="memdesc:ae70904d61fb1559d09e10722b253a4f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spatial components divided by the time component.  <a href="#ae70904d61fb1559d09e10722b253a4f4">More...</a><br /></td></tr>
+<tr class="separator:ae70904d61fb1559d09e10722b253a4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c491f67b090b9659e4bd761df556e4e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a6c491f67b090b9659e4bd761df556e4e">BoostIntoRestFrame</a> () const </td></tr>
+<tr class="separator:a6c491f67b090b9659e4bd761df556e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46ab245cc61371bd1bf4ec32655f48ed"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a46ab245cc61371bd1bf4ec32655f48ed">Boosted</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt; const &amp;boost) const </td></tr>
+<tr class="memdesc:a46ab245cc61371bd1bf4ec32655f48ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boosted Lorentz vector.  <a href="#a46ab245cc61371bd1bf4ec32655f48ed">More...</a><br /></td></tr>
+<tr class="separator:a46ab245cc61371bd1bf4ec32655f48ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Rotation</div></td></tr>
-<tr class="memitem:ac48feeb72b4a6aa7c2a5c970fd15df3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ac48feeb72b4a6aa7c2a5c970fd15df3a">Boost</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt; const &amp;boost)</td></tr>
-<tr class="memdesc:ac48feeb72b4a6aa7c2a5c970fd15df3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lorentz boost.  <a href="#ac48feeb72b4a6aa7c2a5c970fd15df3a">More...</a><br /></td></tr>
-<tr class="separator:ac48feeb72b4a6aa7c2a5c970fd15df3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8bea89a66fe49e6aaf05d6023933f74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_ &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ab8bea89a66fe49e6aaf05d6023933f74">Boost</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt; const &amp;boost)</td></tr>
+<tr class="memdesc:ab8bea89a66fe49e6aaf05d6023933f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boost this Lorentz vector.  <a href="#ab8bea89a66fe49e6aaf05d6023933f74">More...</a><br /></td></tr>
+<tr class="separator:ab8bea89a66fe49e6aaf05d6023933f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Products</div></td></tr>
-<tr class="memitem:aea2f8b56eb21533d30e3080baccba727"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
-<tr class="memitem:aea2f8b56eb21533d30e3080baccba727"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; ValueProduct&lt; Value_2 &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aea2f8b56eb21533d30e3080baccba727">Scale</a> (Value_2 const &amp;scalar) const </td></tr>
-<tr class="memdesc:aea2f8b56eb21533d30e3080baccba727"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scale.  <a href="#aea2f8b56eb21533d30e3080baccba727">More...</a><br /></td></tr>
-<tr class="separator:aea2f8b56eb21533d30e3080baccba727"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6042787df6b4fab5651df6d512f3f35"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
-<tr class="memitem:ad6042787df6b4fab5651df6d512f3f35"><td class="memTemplItemLeft" align="right" valign="top">ValueProduct&lt; Value_2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ad6042787df6b4fab5651df6d512f3f35">Dot</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;lorentz_vector) const </td></tr>
-<tr class="memdesc:ad6042787df6b4fab5651df6d512f3f35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scalar product.  <a href="#ad6042787df6b4fab5651df6d512f3f35">More...</a><br /></td></tr>
-<tr class="separator:ad6042787df6b4fab5651df6d512f3f35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72d9a8a46552062c44f274384740756d"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
-<tr class="memitem:a72d9a8a46552062c44f274384740756d"><td class="memTemplItemLeft" align="right" valign="top">ValueProduct&lt; Value_2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a72d9a8a46552062c44f274384740756d">Euclidean</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;lorentz_vector) const </td></tr>
-<tr class="memdesc:a72d9a8a46552062c44f274384740756d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Euclidean product.  <a href="#a72d9a8a46552062c44f274384740756d">More...</a><br /></td></tr>
-<tr class="separator:a72d9a8a46552062c44f274384740756d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Operators</div></td></tr>
-<tr class="memitem:afb6d3b125fae708aed25200a02d1d423"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#afb6d3b125fae708aed25200a02d1d423">operator&lt;</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> const &amp;lorentz_vector) const </td></tr>
-<tr class="memdesc:afb6d3b125fae708aed25200a02d1d423"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less than comparison.  <a href="#afb6d3b125fae708aed25200a02d1d423">More...</a><br /></td></tr>
-<tr class="separator:afb6d3b125fae708aed25200a02d1d423"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a232ceff9ea2cfbdedf89405a18a9f133"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a232ceff9ea2cfbdedf89405a18a9f133">operator==</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> const &amp;lorentz_vector) const </td></tr>
-<tr class="memdesc:a232ceff9ea2cfbdedf89405a18a9f133"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison.  <a href="#a232ceff9ea2cfbdedf89405a18a9f133">More...</a><br /></td></tr>
-<tr class="separator:a232ceff9ea2cfbdedf89405a18a9f133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dd8473711b1572a10756620230c72c0"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
+<tr class="memitem:a0dd8473711b1572a10756620230c72c0"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; ValueProduct&lt; Value_2 &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a0dd8473711b1572a10756620230c72c0">Scale</a> (Value_2 const &amp;scalar) const </td></tr>
+<tr class="memdesc:a0dd8473711b1572a10756620230c72c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scale.  <a href="#a0dd8473711b1572a10756620230c72c0">More...</a><br /></td></tr>
+<tr class="separator:a0dd8473711b1572a10756620230c72c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa27b2b255d4efbb3411001d55e50d688"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
+<tr class="memitem:aa27b2b255d4efbb3411001d55e50d688"><td class="memTemplItemLeft" align="right" valign="top">constexpr ValueProduct&lt; Value_2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aa27b2b255d4efbb3411001d55e50d688">Dot</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;lorentz_vector) const </td></tr>
+<tr class="memdesc:aa27b2b255d4efbb3411001d55e50d688"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scalar dot product with a lorentz vector.  <a href="#aa27b2b255d4efbb3411001d55e50d688">More...</a><br /></td></tr>
+<tr class="separator:aa27b2b255d4efbb3411001d55e50d688"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9da145fb56b69b3601940348f7353722"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
+<tr class="memitem:a9da145fb56b69b3601940348f7353722"><td class="memTemplItemLeft" align="right" valign="top">constexpr ValueProduct&lt; Value_2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a9da145fb56b69b3601940348f7353722">Euclidean</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;lorentz_vector) const </td></tr>
+<tr class="memdesc:a9da145fb56b69b3601940348f7353722"><td class="mdescLeft">&#160;</td><td class="mdescRight">Euclidean product with a lorentz vector.  <a href="#a9da145fb56b69b3601940348f7353722">More...</a><br /></td></tr>
+<tr class="separator:a9da145fb56b69b3601940348f7353722"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Iterators</div></td></tr>
+<tr class="memitem:ac5ea164341a936dff9929963eb264eba"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ac5ea164341a936dff9929963eb264eba">begin</a> () const </td></tr>
+<tr class="separator:ac5ea164341a936dff9929963eb264eba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba2760d56ccd19771d430e8ba7f781b7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#aba2760d56ccd19771d430e8ba7f781b7">end</a> () const </td></tr>
+<tr class="separator:aba2760d56ccd19771d430e8ba7f781b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a364a473e47ae552bf1924fdee1c37634"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Iterator.html">Iterator</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a364a473e47ae552bf1924fdee1c37634">begin</a> ()</td></tr>
+<tr class="separator:a364a473e47ae552bf1924fdee1c37634"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17dd30e6cca54da17c588d37bb9c9a3e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Iterator.html">Iterator</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a17dd30e6cca54da17c588d37bb9c9a3e">end</a> ()</td></tr>
+<tr class="separator:a17dd30e6cca54da17c588d37bb9c9a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-types"></a>
+Protected Types</h2></td></tr>
+<tr class="memitem:ab8bff9d4b0baa2479cac71f4bf1fc3e7"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
+<tr class="memitem:ab8bff9d4b0baa2479cac71f4bf1fc3e7"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ab8bff9d4b0baa2479cac71f4bf1fc3e7">OnlyIfNotQuantity</a> = typename std::enable_if&lt; !IsQuantity&lt; Value_2 &gt;::value &gt;::type</td></tr>
+<tr class="separator:ab8bff9d4b0baa2479cac71f4bf1fc3e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:af1955a39cf312c386aa7d298f072301b"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#af1955a39cf312c386aa7d298f072301b">scalar_</a></td></tr>
+<tr class="memdesc:af1955a39cf312c386aa7d298f072301b"><td class="mdescLeft">&#160;</td><td class="mdescRight">time or energy component  <a href="#af1955a39cf312c386aa7d298f072301b">More...</a><br /></td></tr>
+<tr class="separator:af1955a39cf312c386aa7d298f072301b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+Operators</h2></td></tr>
+<tr class="memitem:ae51bd8e0aa8199096f6f8e491790fdcc"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ae51bd8e0aa8199096f6f8e491790fdcc">operator&lt;</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> const &amp;lorentz_vector) const </td></tr>
+<tr class="memdesc:ae51bd8e0aa8199096f6f8e491790fdcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less than comparison.  <a href="#ae51bd8e0aa8199096f6f8e491790fdcc">More...</a><br /></td></tr>
+<tr class="separator:ae51bd8e0aa8199096f6f8e491790fdcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affe1a021ecaa2b475b28a949145b07ea"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#affe1a021ecaa2b475b28a949145b07ea">operator==</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> const &amp;lorentz_vector) const </td></tr>
+<tr class="memdesc:affe1a021ecaa2b475b28a949145b07ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison.  <a href="#affe1a021ecaa2b475b28a949145b07ea">More...</a><br /></td></tr>
+<tr class="separator:affe1a021ecaa2b475b28a949145b07ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4654c895b721d50356ae58909108cb1"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 , typename  = OnlyIfNotOrSameQuantity&lt;Value_2&gt;&gt; </td></tr>
 <tr class="memitem:ac4654c895b721d50356ae58909108cb1"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ac4654c895b721d50356ae58909108cb1">operator+=</a> (<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;lorentz_vector)</td></tr>
 <tr class="memdesc:ac4654c895b721d50356ae58909108cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Additions.  <a href="#ac4654c895b721d50356ae58909108cb1">More...</a><br /></td></tr>
@@ -287,45 +320,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a599d2fc24e3b191ba4d86b524a9eeecb"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a599d2fc24e3b191ba4d86b524a9eeecb">operator/=</a> (Value_2 scalar)</td></tr>
 <tr class="memdesc:a599d2fc24e3b191ba4d86b524a9eeecb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Divison by scalar.  <a href="#a599d2fc24e3b191ba4d86b524a9eeecb">More...</a><br /></td></tr>
 <tr class="separator:a599d2fc24e3b191ba4d86b524a9eeecb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a927a660479174a85d6ffce668539ce27"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
-<tr class="memitem:a927a660479174a85d6ffce668539ce27"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; ValueQuotient&lt; Value_2 &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a927a660479174a85d6ffce668539ce27">operator/</a> (Value_2 const &amp;scalar) const </td></tr>
-<tr class="memdesc:a927a660479174a85d6ffce668539ce27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Divison by scalar.  <a href="#a927a660479174a85d6ffce668539ce27">More...</a><br /></td></tr>
-<tr class="separator:a927a660479174a85d6ffce668539ce27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56dec8d5fbcf1787be08018ffbd199cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a56dec8d5fbcf1787be08018ffbd199cc">operator-</a> () const </td></tr>
-<tr class="memdesc:a56dec8d5fbcf1787be08018ffbd199cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unary minus.  <a href="#a56dec8d5fbcf1787be08018ffbd199cc">More...</a><br /></td></tr>
-<tr class="separator:a56dec8d5fbcf1787be08018ffbd199cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0561618603d49d7e1ecbbf8a1c68a8c9"><td class="memItemLeft" align="right" valign="top">Value_ const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a0561618603d49d7e1ecbbf8a1c68a8c9">operator()</a> (<a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> i) const </td></tr>
-<tr class="memdesc:a0561618603d49d7e1ecbbf8a1c68a8c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">components by index.  <a href="#a0561618603d49d7e1ecbbf8a1c68a8c9">More...</a><br /></td></tr>
-<tr class="separator:a0561618603d49d7e1ecbbf8a1c68a8c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e59a5ec163d2a99fcc8b77ffbfe1048"><td class="memItemLeft" align="right" valign="top">Value_ const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a4e59a5ec163d2a99fcc8b77ffbfe1048">operator[]</a> (<a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> i) const </td></tr>
-<tr class="memdesc:a4e59a5ec163d2a99fcc8b77ffbfe1048"><td class="mdescLeft">&#160;</td><td class="mdescRight">components by index.  <a href="#a4e59a5ec163d2a99fcc8b77ffbfe1048">More...</a><br /></td></tr>
-<tr class="separator:a4e59a5ec163d2a99fcc8b77ffbfe1048"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68f7e818191f319cec0a6878a9734df7"><td class="memItemLeft" align="right" valign="top">Value_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a68f7e818191f319cec0a6878a9734df7">operator()</a> (<a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> i)</td></tr>
-<tr class="memdesc:a68f7e818191f319cec0a6878a9734df7"><td class="mdescLeft">&#160;</td><td class="mdescRight">components by index.  <a href="#a68f7e818191f319cec0a6878a9734df7">More...</a><br /></td></tr>
-<tr class="separator:a68f7e818191f319cec0a6878a9734df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f38574c90c877335d8394b9b1c3eacf"><td class="memItemLeft" align="right" valign="top">Value_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a8f38574c90c877335d8394b9b1c3eacf">operator[]</a> (<a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> i)</td></tr>
-<tr class="memdesc:a8f38574c90c877335d8394b9b1c3eacf"><td class="mdescLeft">&#160;</td><td class="mdescRight">components by index.  <a href="#a8f38574c90c877335d8394b9b1c3eacf">More...</a><br /></td></tr>
-<tr class="separator:a8f38574c90c877335d8394b9b1c3eacf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Iterators</div></td></tr>
-<tr class="memitem:a5000543ace3fb893f98ab3079afa7e67"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a5000543ace3fb893f98ab3079afa7e67">begin</a> () const </td></tr>
-<tr class="separator:a5000543ace3fb893f98ab3079afa7e67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5347e06d7bcfb948c5bb73e213a5712"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#af5347e06d7bcfb948c5bb73e213a5712">end</a> () const </td></tr>
-<tr class="separator:af5347e06d7bcfb948c5bb73e213a5712"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a364a473e47ae552bf1924fdee1c37634"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Iterator.html">Iterator</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a364a473e47ae552bf1924fdee1c37634">begin</a> ()</td></tr>
-<tr class="separator:a364a473e47ae552bf1924fdee1c37634"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17dd30e6cca54da17c588d37bb9c9a3e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Iterator.html">Iterator</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a17dd30e6cca54da17c588d37bb9c9a3e">end</a> ()</td></tr>
-<tr class="separator:a17dd30e6cca54da17c588d37bb9c9a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-types"></a>
-Protected Types</h2></td></tr>
-<tr class="memitem:ab8bff9d4b0baa2479cac71f4bf1fc3e7"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
-<tr class="memitem:ab8bff9d4b0baa2479cac71f4bf1fc3e7"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#ab8bff9d4b0baa2479cac71f4bf1fc3e7">OnlyIfNotQuantity</a> = typename std::enable_if&lt; !IsQuantity&lt; Value_2 &gt;::value &gt;::type</td></tr>
-<tr class="separator:ab8bff9d4b0baa2479cac71f4bf1fc3e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:af1955a39cf312c386aa7d298f072301b"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#af1955a39cf312c386aa7d298f072301b">scalar_</a></td></tr>
-<tr class="separator:af1955a39cf312c386aa7d298f072301b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a165705bb0d6c6af2afffc529a6c77b97"><td class="memTemplParams" colspan="2">template&lt;typename Value_2 &gt; </td></tr>
+<tr class="memitem:a165705bb0d6c6af2afffc529a6c77b97"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; ValueQuotient&lt; Value_2 &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a165705bb0d6c6af2afffc529a6c77b97">operator/</a> (Value_2 const &amp;scalar) const </td></tr>
+<tr class="memdesc:a165705bb0d6c6af2afffc529a6c77b97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Divison by scalar.  <a href="#a165705bb0d6c6af2afffc529a6c77b97">More...</a><br /></td></tr>
+<tr class="separator:a165705bb0d6c6af2afffc529a6c77b97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6814b089525a2181ae59249647b6341b"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a6814b089525a2181ae59249647b6341b">operator-</a> () const </td></tr>
+<tr class="memdesc:a6814b089525a2181ae59249647b6341b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unary minus.  <a href="#a6814b089525a2181ae59249647b6341b">More...</a><br /></td></tr>
+<tr class="separator:a6814b089525a2181ae59249647b6341b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1da9a016b5ce62989f7eebf96e63845e"><td class="memItemLeft" align="right" valign="top">Value_ const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a1da9a016b5ce62989f7eebf96e63845e">operator[]</a> (<a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> lorentz_dim) const </td></tr>
+<tr class="memdesc:a1da9a016b5ce62989f7eebf96e63845e"><td class="mdescLeft">&#160;</td><td class="mdescRight">components by index.  <a href="#a1da9a016b5ce62989f7eebf96e63845e">More...</a><br /></td></tr>
+<tr class="separator:a1da9a016b5ce62989f7eebf96e63845e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36a34aeb700c30354efe2ce2c13ecfa3"><td class="memItemLeft" align="right" valign="top">Value_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a36a34aeb700c30354efe2ce2c13ecfa3">operator[]</a> (<a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a> lorentz_dim)</td></tr>
+<tr class="memdesc:a36a34aeb700c30354efe2ce2c13ecfa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">components by index.  <a href="#a36a34aeb700c30354efe2ce2c13ecfa3">More...</a><br /></td></tr>
+<tr class="separator:a36a34aeb700c30354efe2ce2c13ecfa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95756bf4c267cc9cf99e8219da7ff932"><td class="memItemLeft" align="right" valign="top">auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1LorentzVectorBase.html#a95756bf4c267cc9cf99e8219da7ff932">operator&lt;&lt;</a> (std::ostream &amp;stream, <a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_ &gt; const &amp;lorentz_vector)</td></tr>
+<tr class="memdesc:a95756bf4c267cc9cf99e8219da7ff932"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output stream operator.  <a href="#a95756bf4c267cc9cf99e8219da7ff932">More...</a><br /></td></tr>
+<tr class="separator:a95756bf4c267cc9cf99e8219da7ff932"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename Value_&gt;<br />
@@ -358,7 +368,7 @@ template&lt;typename Value_2 &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a6c0737d7054c9dbcdc5f5f065edef45e"></a>
+<a class="anchor" id="a179da4d52eb91529135daa156399ce1d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -368,7 +378,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -385,7 +395,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a89cc03f104130f25a3b9ad449d0d5aac"></a>
+<a class="anchor" id="a8bf97789e417351337e0a8c9f93d17f8"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -395,7 +405,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> </td>
           <td>(</td>
           <td class="paramtype">Value_&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -431,11 +441,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Constructor giving the components x, y, z, t. </p>
+<p>Constructor accepting the components x, y, z, t. </p>
 
 </div>
 </div>
-<a class="anchor" id="a42ce1604a6f00a5494def83f41320dd7"></a>
+<a class="anchor" id="a358f66cd80d70ffe02a08070678bea30"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -445,7 +455,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;&#160;</td>
           <td class="paramname"><em>vector3</em>, </td>
@@ -469,11 +479,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Constructor giving a 3-Vector and a time component. </p>
+<p>Constructor accepting a 3-Vector and a scalar component. </p>
 
 </div>
 </div>
-<a class="anchor" id="a5c52719b08eb27ba4cb1c5f313cbc19b"></a>
+<a class="anchor" id="a1d0909b78771769a83ce0fa2c46f69d6"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -485,7 +495,7 @@ template&lt;typename Value_2 &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lorentz_vector</em></td><td>)</td>
@@ -499,12 +509,12 @@ template&lt;typename Value_2 &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>copy constructor with casting </p>
+<p>Copy constructor with casting. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="acf15f38bbea673ae5fde2336ec79683f"></a>
+<a class="anchor" id="ac5ea164341a936dff9929963eb264eba"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -514,35 +524,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">Angle</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_ &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>vector</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Angle wrt. another vector. </p>
-
-</div>
-</div>
-<a class="anchor" id="a5000543ace3fb893f98ab3079afa7e67"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Value_&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt;<a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a>&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::begin </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt;<a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a>&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -582,7 +564,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a6385d4a071e86d315ac7dfaa3efadd94"></a>
+<a class="anchor" id="aad631ea20933d89a39c9f06389fd5e80"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -592,7 +574,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Beta </td>
+          <td class="memname">constexpr double <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Beta </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -605,11 +587,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>beta </p>
+<p>Relative velocity \(\beta = \frac{\rho}{t}\). </p>
 
 </div>
 </div>
-<a class="anchor" id="ac48feeb72b4a6aa7c2a5c970fd15df3a"></a>
+<a class="anchor" id="ab8bea89a66fe49e6aaf05d6023933f74"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -619,7 +601,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Boost </td>
+          <td class="memname"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt;Value_&gt;&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Boost </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt; const &amp;&#160;</td>
           <td class="paramname"><em>boost</em></td><td>)</td>
@@ -633,11 +615,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Lorentz boost. </p>
+<p>Boost this Lorentz vector. </p>
 
 </div>
 </div>
-<a class="anchor" id="a3157aa3ba8aaac7e01e1ce1042cecba4"></a>
+<a class="anchor" id="a46ab245cc61371bd1bf4ec32655f48ed"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -647,7 +629,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt;Value_&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Boosted </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt;Value_&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Boosted </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; double &gt; const &amp;&#160;</td>
           <td class="paramname"><em>boost</em></td><td>)</td>
@@ -661,11 +643,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Lorentz boost. </p>
+<p>Boosted Lorentz vector. </p>
 
 </div>
 </div>
-<a class="anchor" id="a3cef6f3f0915f011011b4d96ad0fd0b3"></a>
+<a class="anchor" id="a6c491f67b090b9659e4bd761df556e4e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -675,7 +657,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;double&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::BoostIntoRestFrame </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;double&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::BoostIntoRestFrame </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -691,7 +673,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a5b92143d96fea853f52a53eb0c1839cb"></a>
+<a class="anchor" id="ae70904d61fb1559d09e10722b253a4f4"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -701,7 +683,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;double&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::BoostVector </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;double&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::BoostVector </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -714,11 +696,71 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>spatial components divided by the time component. </p>
+<p>Spatial components divided by the time component. </p>
 
 </div>
 </div>
-<a class="anchor" id="ad6042787df6b4fab5651df6d512f3f35"></a>
+<a class="anchor" id="a48355fc25f5e89ae7a92c8577793a70e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;typename Value_2_ &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::DeltaRapTo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2_ &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>vector</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Difference in Rapidity to a vector \(\Delta y\). </p>
+
+</div>
+</div>
+<a class="anchor" id="a177a733a7d026e9144e06335ae10a6c9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;typename Value_2_ &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::DeltaRTo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2_ &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>vector</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Difference in agular space to a vector \(\Delta R = \sqrt{ (\Delta y)^2 + (\Delta \phi)^2}\) to vector. </p>
+
+</div>
+</div>
+<a class="anchor" id="aa27b2b255d4efbb3411001d55e50d688"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -730,7 +772,7 @@ template&lt;typename Value_2 &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ValueProduct&lt;Value_2&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Dot </td>
+          <td class="memname">constexpr ValueProduct&lt;Value_2&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Dot </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lorentz_vector</em></td><td>)</td>
@@ -744,11 +786,11 @@ template&lt;typename Value_2 &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Scalar product. </p>
+<p>Scalar dot product with a lorentz vector. </p>
 
 </div>
 </div>
-<a class="anchor" id="af5347e06d7bcfb948c5bb73e213a5712"></a>
+<a class="anchor" id="aba2760d56ccd19771d430e8ba7f781b7"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -758,7 +800,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt;<a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a>&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::end </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt;<a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a>&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -798,7 +840,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a72d9a8a46552062c44f274384740756d"></a>
+<a class="anchor" id="a9da145fb56b69b3601940348f7353722"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -810,7 +852,7 @@ template&lt;typename Value_2 &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ValueProduct&lt;Value_2&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Euclidean </td>
+          <td class="memname">constexpr ValueProduct&lt;Value_2&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Euclidean </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_2 &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lorentz_vector</em></td><td>)</td>
@@ -824,11 +866,11 @@ template&lt;typename Value_2 &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Euclidean product. </p>
+<p>Euclidean product with a lorentz vector. </p>
 
 </div>
 </div>
-<a class="anchor" id="a0b1e45d4541f378f7f235ea165db4a3e"></a>
+<a class="anchor" id="a30db2104feb585f4fb5f51b390ffec7a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -838,7 +880,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Gamma </td>
+          <td class="memname">constexpr double <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Gamma </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -851,11 +893,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>gamma </p>
+<p>Lorentz factor \(\gamma = \frac{1}{\sqrt{1-\beta^2}}\). </p>
 
 </div>
 </div>
-<a class="anchor" id="ab7fcf45132dab7967d52272186066ac5"></a>
+<a class="anchor" id="a1cf5e3d083a9fe0a13a6e76bd966f554"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -865,7 +907,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Mag </td>
+          <td class="memname">constexpr Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Mag </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -878,11 +920,12 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Invariant mass. If mag2() is negative then -sqrt(-mag2()) is returned. </p>
+<p>Magnitude \(m = \sqrt{t^2 - \rho^2}\). </p>
+<p>If the square of the magnitude is negative \(-\sqrt{-m^2}\) is returned </p>
 
 </div>
 </div>
-<a class="anchor" id="a988ccdcfd55547e6cc7731e131a02e5d"></a>
+<a class="anchor" id="a4d6466499380eb447933510b14a8cf0f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -892,7 +935,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ValueSquare <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Mag2 </td>
+          <td class="memname">constexpr ValueSquare <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Mag2 </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -905,11 +948,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Invariant mass squared. </p>
+<p>Square of the magnitude \(m^2 = t^2 - \rho^2\). </p>
 
 </div>
 </div>
-<a class="anchor" id="a060af68db661a84635976edd32c09cbb"></a>
+<a class="anchor" id="aeea3fcd4e2efa972d6e1dab412e79784"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -919,7 +962,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::MagT </td>
+          <td class="memname">constexpr Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::MagT </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -932,11 +975,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>transvere magnitude </p>
+<p>Transvere magnitude \(m_T = \sqrt{m^2 + x^2 + y^2}\). </p>
 
 </div>
 </div>
-<a class="anchor" id="a7744eff94404397661ac66efef38ceb6"></a>
+<a class="anchor" id="a53eb9326f77004c7a05ce0de4e8dbc6c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -946,7 +989,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ValueSquare <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::MagT2 </td>
+          <td class="memname">constexpr ValueSquare <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::MagT2 </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -959,11 +1002,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>transvere magnitude square </p>
+<p>Square of the transvere magnitude \(m_T^2 = m^2 + x^2 + y^2\). </p>
 
 </div>
 </div>
-<a class="anchor" id="af852a684d78d594736b7f9e58a946e9b"></a>
+<a class="anchor" id="aafca9e2bc23cabd99db59cbda696e0ba"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -973,7 +1016,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Minus </td>
+          <td class="memname">constexpr Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Minus </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -986,64 +1029,8 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>t - z </p>
-<p>The values returned are T{+,-}Z. It is known that some authors find it easier to define these components as(T{+,-}Z)/sqrt(2). Thus check what definition is used in the physics you're working in and adapt your code accordingly </p>
-
-</div>
-</div>
-<a class="anchor" id="a0561618603d49d7e1ecbbf8a1c68a8c9"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Value_&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Value_ const&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a>&#160;</td>
-          <td class="paramname"><em>i</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>components by index. </p>
-
-</div>
-</div>
-<a class="anchor" id="a68f7e818191f319cec0a6878a9734df7"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Value_&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Value_&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a>&#160;</td>
-          <td class="paramname"><em>i</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>components by index. </p>
+<p>Negative light cone component \(m = t - z\). </p>
+<p>Beware of alternative definition \(m = \frac{t - z}{\sqrt 2}\) </p>
 
 </div>
 </div>
@@ -1107,7 +1094,7 @@ template&lt;typename Value_2 , typename  = OnlyIfNotOrSameQuantity&lt;Value_2&gt
 
 </div>
 </div>
-<a class="anchor" id="a56dec8d5fbcf1787be08018ffbd199cc"></a>
+<a class="anchor" id="a6814b089525a2181ae59249647b6341b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1117,7 +1104,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator- </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a> <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator- </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1164,7 +1151,7 @@ template&lt;typename Value_2 , typename  = OnlyIfNotOrSameQuantity&lt;Value_2&gt
 
 </div>
 </div>
-<a class="anchor" id="a927a660479174a85d6ffce668539ce27"></a>
+<a class="anchor" id="a165705bb0d6c6af2afffc529a6c77b97"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1176,7 +1163,7 @@ template&lt;typename Value_2 &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt;ValueQuotient&lt;Value_2&gt; &gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator/ </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt;ValueQuotient&lt;Value_2&gt; &gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator/ </td>
           <td>(</td>
           <td class="paramtype">Value_2 const &amp;&#160;</td>
           <td class="paramname"><em>scalar</em></td><td>)</td>
@@ -1224,7 +1211,7 @@ template&lt;typename Value_2 , typename  = OnlyIfNotQuantity&lt;Value_2&gt;&gt; 
 
 </div>
 </div>
-<a class="anchor" id="afb6d3b125fae708aed25200a02d1d423"></a>
+<a class="anchor" id="ae51bd8e0aa8199096f6f8e491790fdcc"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1234,7 +1221,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator&lt; </td>
+          <td class="memname">constexpr bool <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator&lt; </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_ &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lorentz_vector</em></td><td>)</td>
@@ -1252,7 +1239,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a232ceff9ea2cfbdedf89405a18a9f133"></a>
+<a class="anchor" id="affe1a021ecaa2b475b28a949145b07ea"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1262,7 +1249,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator== </td>
+          <td class="memname">constexpr bool <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator== </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_ &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lorentz_vector</em></td><td>)</td>
@@ -1280,7 +1267,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a4e59a5ec163d2a99fcc8b77ffbfe1048"></a>
+<a class="anchor" id="a1da9a016b5ce62989f7eebf96e63845e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1293,7 +1280,7 @@ template&lt;typename Value_&gt; </div>
           <td class="memname">Value_ const&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator[] </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a>&#160;</td>
-          <td class="paramname"><em>i</em></td><td>)</td>
+          <td class="paramname"><em>lorentz_dim</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1308,7 +1295,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a8f38574c90c877335d8394b9b1c3eacf"></a>
+<a class="anchor" id="a36a34aeb700c30354efe2ce2c13ecfa3"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1321,7 +1308,7 @@ template&lt;typename Value_&gt; </div>
           <td class="memname">Value_&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::operator[] </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__Math.html#ga980f066568ac81fde9dd96b4831ca863">LorentzDim</a>&#160;</td>
-          <td class="paramname"><em>i</em></td><td>)</td>
+          <td class="paramname"><em>lorentz_dim</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1336,7 +1323,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a12820075ff63f70c0c554b63db01652c"></a>
+<a class="anchor" id="a61321a00bef37a824934a9bb13e6558c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1346,7 +1333,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Plus </td>
+          <td class="memname">constexpr Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Plus </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1359,8 +1346,8 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>t + z </p>
-<p>Related to the positive/negative light-cone component, which some define this way and others define as(t +/- z)/sqrt(2). <a class="el" href="classboca_1_1Member.html" title="Family member with id, position, and 4-momentum. ">Member</a> functions <a class="el" href="classboca_1_1LorentzVectorBase.html#a12820075ff63f70c0c554b63db01652c" title="t + z ">Plus()</a> and <a class="el" href="classboca_1_1LorentzVectorBase.html#af852a684d78d594736b7f9e58a946e9b" title="t - z ">Minus()</a> return the positive and negative light-cone components: </p>
+<p>Positive light cone component \(p = t + z\). </p>
+<p>Beware of alternative definition \(p = \frac{t + z}{\sqrt 2}\) </p>
 
 </div>
 </div>
@@ -1387,7 +1374,7 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Rapidity. </p>
+<p>Rapidity \(y = \frac{1}{2} \ln\frac{t + z}{t - z}\). </p>
 
 </div>
 </div>
@@ -1414,7 +1401,7 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz)) </p>
+<p>Rapidity \(y = \frac{1}{2} \ln\frac{t + z}{t - z}\). </p>
 
 </div>
 </div>
@@ -1446,7 +1433,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a3b9bfbdaf8e0dc5b72d07f0f310938e6"></a>
+<a class="anchor" id="aebbd8bff204eeacf18161e9cf7bc69b8"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1456,7 +1443,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classRho.html">Rho</a> </td>
+          <td class="memname">constexpr Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::<a class="el" href="classRho.html">Rho</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1469,11 +1456,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>spacial radius </p>
+<p>spatial radius \(\rho = \sqrt{x^2 + y^2 + z^2}\) </p>
 
 </div>
 </div>
-<a class="anchor" id="a33ca8eab9f912b1583c621f80d51b833"></a>
+<a class="anchor" id="aafa7c1d7572a9d2812bfb6940076bdf1"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1483,7 +1470,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ValueSquare <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Rho2 </td>
+          <td class="memname">constexpr ValueSquare <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Rho2 </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1496,7 +1483,7 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>spacial radius </p>
+<p>Square of the spatial radius \(\rho^2 = x^2 + y^2\). </p>
 
 </div>
 </div>
@@ -1523,11 +1510,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>t </p>
+<p>Accessor for the scalar. </p>
 
 </div>
 </div>
-<a class="anchor" id="aeb1e9f631fc015da8136aa11a85b8cf2"></a>
+<a class="anchor" id="a3d600a4bfa181b451cd6be7355bacb84"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1537,7 +1524,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Scalar </td>
+          <td class="memname">constexpr Value_ const&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Scalar </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1550,11 +1537,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>t </p>
+<p>Getter for the scalar component. </p>
 
 </div>
 </div>
-<a class="anchor" id="a671da48c39542d3aebd6e26518f229ce"></a>
+<a class="anchor" id="acb15879f2a96b0e3b5a0cb1e54cb78b5"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1564,7 +1551,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::ScalarT </td>
+          <td class="memname">constexpr Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::ScalarT </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1577,11 +1564,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>transvere scalar square </p>
+<p>transvere scalar square \(e_T = e \frac{p_T}{\rho}\) </p>
 
 </div>
 </div>
-<a class="anchor" id="a3de23ab8c122aa40f294f8d771afb11b"></a>
+<a class="anchor" id="a0e48a3f094d823f3a92a60cabc1b0e13"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1593,7 +1580,7 @@ template&lt;typename Value , typename  = OnlyIfNotQuantity&lt;Value&gt;&gt; </di
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceboca_1_1units.html#a8bf57d1229fbd928b1a8c5dc5a71377a">boca::Energy</a> <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::ScalarT </td>
+          <td class="memname">constexpr Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::ScalarT </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value &gt; const &amp;&#160;</td>
           <td class="paramname"><em>vector</em></td><td>)</td>
@@ -1607,11 +1594,11 @@ template&lt;typename Value , typename  = OnlyIfNotQuantity&lt;Value&gt;&gt; </di
 </table>
 </div><div class="memdoc">
 
-<p>Transverse scalar w.r.t. given axis. </p>
+<p>Transverse scalar towards a vector. </p>
 
 </div>
 </div>
-<a class="anchor" id="a19cde43906df88894b935c91d9f33418"></a>
+<a class="anchor" id="a104f53dc15fcf06d38d413f79f7b4cd9"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1621,7 +1608,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ValueSquare <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::ScalarT2 </td>
+          <td class="memname">constexpr ValueSquare <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::ScalarT2 </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1634,11 +1621,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>transvere scalar square </p>
+<p>transvere scalar square \(e_T^2 = e^2 \frac{p_T^2}{\rho^2}\) </p>
 
 </div>
 </div>
-<a class="anchor" id="ac2257b14cf950bd6a28182e54d908fa3"></a>
+<a class="anchor" id="a15a6bf705e7fbabf2c4560b87c48fddb"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1650,7 +1637,7 @@ template&lt;typename Value , typename  = OnlyIfNotQuantity&lt;Value&gt;&gt; </di
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceboca_1_1units.html#a1b2dcd9f955475eaabd51ef879ab9d3c">EnergySquare</a> <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::ScalarT2 </td>
+          <td class="memname">constexpr ValueSquare <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::ScalarT2 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value &gt; const &amp;&#160;</td>
           <td class="paramname"><em>vector</em></td><td>)</td>
@@ -1664,11 +1651,11 @@ template&lt;typename Value , typename  = OnlyIfNotQuantity&lt;Value&gt;&gt; </di
 </table>
 </div><div class="memdoc">
 
-<p>Transverse scalar squared w.r.t. given axis. </p>
+<p>Transverse scalar squared towards a vector. </p>
 
 </div>
 </div>
-<a class="anchor" id="aea2f8b56eb21533d30e3080baccba727"></a>
+<a class="anchor" id="a0dd8473711b1572a10756620230c72c0"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1680,7 +1667,7 @@ template&lt;typename Value_2 &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt;ValueProduct&lt;Value_2&gt; &gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Scale </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt;ValueProduct&lt;Value_2&gt; &gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Scale </td>
           <td>(</td>
           <td class="paramtype">Value_2 const &amp;&#160;</td>
           <td class="paramname"><em>scalar</em></td><td>)</td>
@@ -1695,6 +1682,134 @@ template&lt;typename Value_2 &gt; </div>
 </div><div class="memdoc">
 
 <p>Scale. </p>
+
+</div>
+</div>
+<a class="anchor" id="a94d1b2d5c819b14d8679783717b07355"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::SetMag </td>
+          <td>(</td>
+          <td class="paramtype">Value_&#160;</td>
+          <td class="paramname"><em>magnitude</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set Nergy according to spatial component and magnitude \(e = \sqrt{ m^2 + \rho^2}\). </p>
+
+</div>
+</div>
+<a class="anchor" id="a975ae941e5132a5fc17631a4164a7e7c"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::SetPerpEtaPhiMag </td>
+          <td>(</td>
+          <td class="paramtype">Value_ const &amp;&#160;</td>
+          <td class="paramname"><em>perp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> const &amp;&#160;</td>
+          <td class="paramname"><em>eta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> const &amp;&#160;</td>
+          <td class="paramname"><em>phi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Value_ const &amp;&#160;</td>
+          <td class="paramname"><em>mag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set perp, \(\eta\), \(\phi\) and magnitude. </p>
+
+</div>
+</div>
+<a class="anchor" id="a718ae57067fdbdb52ab6d2fdbb2af346"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::SetPerpEtaPhiT </td>
+          <td>(</td>
+          <td class="paramtype">Value_ const &amp;&#160;</td>
+          <td class="paramname"><em>perp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> const &amp;&#160;</td>
+          <td class="paramname"><em>eta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceboca_1_1units.html#a02d3cc6a9832ad3b5cceb7cda28b56fa">boca::Angle</a> const &amp;&#160;</td>
+          <td class="paramname"><em>phi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Value_ const &amp;&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set perp, \(\eta\), \(\phi\) and time. </p>
 
 </div>
 </div>
@@ -1722,45 +1837,7 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set spacial magnitude. </p>
-
-</div>
-</div>
-<a class="anchor" id="a395a8c1c616ee9203d1ae88bc43168cd"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Value_&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::SetVectM </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>spatial</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Value_&#160;</td>
-          <td class="paramname"><em>mass</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set x, y, z and magnitude. </p>
+<p>Set spatial magnitude. </p>
 
 </div>
 </div>
@@ -1798,11 +1875,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Copy spatial coordinates, and set energy = sqrt(mass^2 + spatial^2) </p>
+<p>Copy spatial coordinates, and set \(e = \sqrt{ m^2 + \rho^2}\). </p>
 
 </div>
 </div>
-<a class="anchor" id="a3874544ab3324b91bf202d828cd41de3"></a>
+<a class="anchor" id="a07d1101c15770058fa9be825324634d8"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1812,72 +1889,10 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::SetXYZM </td>
+          <td class="memname">void <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::SetVectT </td>
           <td>(</td>
-          <td class="paramtype">Value_&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Value_&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Value_&#160;</td>
-          <td class="paramname"><em>z</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Value_&#160;</td>
-          <td class="paramname"><em>mass</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set x, y, z and magnitude. </p>
-
-</div>
-</div>
-<a class="anchor" id="a19e73508e0581cd3d901d144337a7491"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Value_&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::SetXYZT </td>
-          <td>(</td>
-          <td class="paramtype">Value_&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Value_&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Value_&#160;</td>
-          <td class="paramname"><em>z</em>, </td>
+          <td class="paramtype"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>spatial</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1902,7 +1917,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a6fa26d332c9fa1632e6b1e18c6e716f8"></a>
+<a class="anchor" id="adf56efe90bed629c8b6610eea892d010"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1912,7 +1927,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value_ <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::T </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;Value_&gt; const&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Spatial </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1925,7 +1940,34 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>t </p>
+<p>Getter for the spatial components. </p>
+
+</div>
+</div>
+<a class="anchor" id="a4e65d99c25460825344d9c3c4f278dbc"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;Value_&gt;&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Spatial </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Accessor for the spatial components. </p>
 
 </div>
 </div>
@@ -1952,11 +1994,11 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>t </p>
+<p>Getter for the spatial components. </p>
 
 </div>
 </div>
-<a class="anchor" id="a3f9a345f35f2a3823509cff6bc3fcfd0"></a>
+<a class="anchor" id="aaf2723a4c3d0e3d7c2def0a46723bebf"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1966,7 +2008,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;Value_&gt; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Vector </td>
+          <td class="memname">constexpr Value_ const&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::T </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1979,11 +2021,12 @@ template&lt;typename Value_&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>spatial component. </p>
+<p>Getter for the scalar component. </p>
 
 </div>
 </div>
-<a class="anchor" id="a605438586389b6afa3de07ee50555be7"></a>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a class="anchor" id="a95756bf4c267cc9cf99e8219da7ff932"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1993,20 +2036,31 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;Value_&gt;&amp; <a class="el" href="classboca_1_1LorentzVectorBase.html">boca::LorentzVectorBase</a>&lt; Value_ &gt;::Vector </td>
+          <td class="memname">auto&amp; operator&lt;&lt; </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classboca_1_1LorentzVectorBase.html">LorentzVectorBase</a>&lt; Value_ &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>lorentz_vector</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>spatial component. </p>
+<p>Output stream operator. </p>
 
 </div>
 </div>
@@ -2030,6 +2084,8 @@ template&lt;typename Value_&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>time or energy component </p>
 
 </div>
 </div>

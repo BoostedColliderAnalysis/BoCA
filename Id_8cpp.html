@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
         <meta name="generator" content="Doxygen 1.8.11"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <title>BoCA: source/physics/Id.cpp File Reference</title>
+        <title>BoCA: source/identification/Id.cpp File Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_0bb6fb3955098fc73677280bd611af3b.html">physics</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_a961efeffb0a11aea7fa76fcc02c96db.html">identification</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -111,14 +111,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><code>#include &lt;boost/range/algorithm/min_element.hpp&gt;</code><br />
 <code>#include &lt;boost/range/algorithm/max_element.hpp&gt;</code><br />
-<code>#include &quot;<a class="el" href="Id_8hh_source.html">boca/physics/Id.hh</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Prefixes_8hh_source.html">boca/physics/Prefixes.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Id_8hh_source.html">boca/identification/Id.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Prefixes_8hh_source.html">boca/units/Prefixes.hh</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Types_8hh_source.html">boca/generic/Types.hh</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="DEBUG__MACROS_8hh_source.html">boca/generic/DEBUG_MACROS.hh</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Id.cpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Id_8cpp__incl.svg" width="2476" height="306"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Id_8cpp__incl.svg" width="2747" height="320"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -135,6 +136,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a78c344ebaccc801e04390604f79e803a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a78c344ebaccc801e04390604f79e803a">boca::Name</a> (Id id)</td></tr>
 <tr class="memdesc:a78c344ebaccc801e04390604f79e803a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of a particle with given Id.  <a href="namespaceboca.html#a78c344ebaccc801e04390604f79e803a">More...</a><br /></td></tr>
 <tr class="separator:a78c344ebaccc801e04390604f79e803a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e09ecffa69c2ad5951ce648b0151298"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a0e09ecffa69c2ad5951ce648b0151298">boca::operator&lt;&lt;</a> (std::ostream &amp;stream, Id id)</td></tr>
+<tr class="memdesc:a0e09ecffa69c2ad5951ce648b0151298"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream the name of a particle with given Id.  <a href="namespaceboca.html#a0e09ecffa69c2ad5951ce648b0151298">More...</a><br /></td></tr>
+<tr class="separator:a0e09ecffa69c2ad5951ce648b0151298"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a052a303d474be9c32eb0e94580db1fcd"><td class="memItemLeft" align="right" valign="top">Mass&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a052a303d474be9c32eb0e94580db1fcd">boca::MassOf</a> (Id id)</td></tr>
 <tr class="memdesc:a052a303d474be9c32eb0e94580db1fcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mass of particle with given Id.  <a href="namespaceboca.html#a052a303d474be9c32eb0e94580db1fcd">More...</a><br /></td></tr>
 <tr class="separator:a052a303d474be9c32eb0e94580db1fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,6 +157,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a7dd1309f63c46bda17d6caddf6d4eb9c"><td class="memItemLeft" align="right" valign="top">Id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a7dd1309f63c46bda17d6caddf6d4eb9c">boca::Heavyest</a> (MultiId multi_id)</td></tr>
 <tr class="memdesc:a7dd1309f63c46bda17d6caddf6d4eb9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Heaviest particle of a given MultiId.  <a href="namespaceboca.html#a7dd1309f63c46bda17d6caddf6d4eb9c">More...</a><br /></td></tr>
 <tr class="separator:a7dd1309f63c46bda17d6caddf6d4eb9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54e998cbd36cf78ecfe5e4c869d9ffa7"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboca.html#a54e998cbd36cf78ecfe5e4c869d9ffa7">boca::operator&lt;&lt;</a> (std::ostream &amp;stream, MultiId id)</td></tr>
+<tr class="memdesc:a54e998cbd36cf78ecfe5e4c869d9ffa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream the name of a particle with given MultiId.  <a href="namespaceboca.html#a54e998cbd36cf78ecfe5e4c869d9ffa7">More...</a><br /></td></tr>
+<tr class="separator:a54e998cbd36cf78ecfe5e4c869d9ffa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div>

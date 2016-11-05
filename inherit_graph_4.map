@@ -1,99 +1,100 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classstandardmodel_1_1branch_1_1BottomBase.html" title="Bottom tagger base tree branch " alt="" coords="956,1438,1111,1479"/>
-<area shape="rect" id="node2" href="$classstandardmodel_1_1branch_1_1Bottom.html" title="Bottom tagger tree branch " alt="" coords="1218,1739,1373,1781"/>
-<area shape="rect" id="node3" href="$classstandardmodel_1_1branch_1_1Higgs.html" title="Higgs tagger tree branch " alt="" coords="1218,1470,1373,1511"/>
-<area shape="rect" id="node4" href="$classstandardmodel_1_1branch_1_1TopHadronic.html" title="Top hadronic tagger tree branch. " alt="" coords="1473,1529,1628,1570"/>
-<area shape="rect" id="node5" href="$classstandardmodel_1_1branch_1_1TopHadronicHep.html" title="HEPTopTagger tree branch " alt="" coords="1473,1594,1628,1635"/>
-<area shape="rect" id="node6" href="$classstandardmodel_1_1branch_1_1TopLeptonic.html" title="Top leptonic tagger tree branch. " alt="" coords="1218,1274,1373,1315"/>
-<area shape="rect" id="node7" href="$classstandardmodel_1_1branch_1_1WHadronic.html" title="W hadronic tagger tree branch. " alt="" coords="1218,1339,1373,1381"/>
-<area shape="rect" id="node8" href="$classstandardmodel_1_1branch_1_1ZHadronic.html" title="Z hadronic tagger tree branch. " alt="" coords="1218,1405,1373,1446"/>
-<area shape="rect" id="node9" href="$classtthh_1_1branch_1_1Higgs.html" title="Higgs tagger tree branch " alt="" coords="1229,1223,1362,1249"/>
-<area shape="rect" id="node10" href="$classboca_1_1branch_1_1EventShapesBase.html" title="EventShapes base tree branch " alt="" coords="927,655,1140,681"/>
-<area shape="rect" id="node11" href="$classboca_1_1branch_1_1Signature.html" title="Signature tree branch " alt="" coords="1215,545,1375,572"/>
-<area shape="rect" id="node14" href="$classtoppartner_1_1branch_1_1SignatureEffectiveBranch.html" title="toppartner::branch\l::SignatureEffectiveBranch" alt="" coords="1206,597,1385,638"/>
-<area shape="rect" id="node15" href="$classtoppartner_1_1branch_1_1SignatureSingleHadronicBranch.html" title="toppartner::branch\l::SignatureSingleHadronicBranch" alt="" coords="1188,479,1403,521"/>
-<area shape="rect" id="node17" href="$classtoppartner_1_1branch_1_1VetoTopPartnerBranch.html" title="toppartner::branch\l::VetoTopPartnerBranch" alt="" coords="1469,707,1632,749"/>
-<area shape="rect" id="node12" href="$classtoppartner_1_1branch_1_1SignatureSingle.html" title="toppartner::branch\l::SignatureSingle" alt="" coords="1487,567,1614,609"/>
-<area shape="rect" id="node13" href="$classtthh_1_1branch_1_1Signature.html" title="tthh::branch::Signature" alt="" coords="1473,516,1628,543"/>
-<area shape="rect" id="node16" href="$classtoppartner_1_1branch_1_1Complete.html" title="Class for saving event informations to root. " alt="" coords="1487,271,1614,313"/>
-<area shape="rect" id="node18" href="$classboca_1_1branch_1_1GlobalBase.html" title="Global base tree branch " alt="" coords="495,313,667,340"/>
-<area shape="rect" id="node19" href="$classboca_1_1branch_1_1Event.html" title="Event tree branch " alt="" coords="727,364,866,391"/>
-<area shape="rect" id="node26" href="$classboca_1_1branch_1_1Global.html" title="Global tree branch " alt="" coords="725,313,868,340"/>
-<area shape="rect" id="node20" href="$classheavyhiggs_1_1branch_1_1EventCharged.html" title="Higgs cpv tagger root tree structure. " alt="" coords="966,422,1101,463"/>
-<area shape="rect" id="node21" href="$classheavyhiggs_1_1branch_1_1EventFusion.html" title="Higgs cpv tagger root tree structure. " alt="" coords="966,487,1101,529"/>
-<area shape="rect" id="node22" href="$classheavyhiggs_1_1branch_1_1EventNeutral.html" title="Higgs cpv tagger root tree structure. " alt="" coords="966,174,1101,215"/>
-<area shape="rect" id="node23" href="$classheavyhiggs_1_1branch_1_1EventNeutralFourTop.html" title="heavyhiggs::branch\l::EventNeutralFourTop" alt="" coords="956,239,1111,281"/>
-<area shape="rect" id="node24" href="$classhiggscpv_1_1branch_1_1Event.html" title="Higgs cpv tagger root tree structure. " alt="" coords="952,305,1115,332"/>
-<area shape="rect" id="node25" href="$classtoppartner_1_1branch_1_1Event.html" title="Class for saving event informations to root. " alt="" coords="970,357,1097,398"/>
-<area shape="rect" id="node27" href="$classstandardmodel_1_1branch_1_1LeptonVeto.html" title="LeptonVeto base tree branch " alt="" coords="956,1630,1111,1671"/>
-<area shape="rect" id="node29" href="$classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="121,484,256,511"/>
-<area shape="rect" id="node65" href="$classEvent.html" title="Event" alt="" coords="161,611,217,637"/>
-<area shape="rect" id="node69" href="$classLHEFWeight.html" title="LHEFWeight" alt="" coords="140,712,237,739"/>
-<area shape="rect" id="node70" href="$classMissingET.html" title="MissingET" alt="" coords="147,763,231,789"/>
-<area shape="rect" id="node71" href="$classRho.html" title="Rho" alt="" coords="165,813,212,840"/>
-<area shape="rect" id="node72" href="$classScalarHT.html" title="ScalarHT" alt="" coords="150,864,227,891"/>
-<area shape="rect" id="node73" href="$classSortableObject.html" title="SortableObject" alt="" coords="135,915,243,941"/>
-<area shape="rect" id="node83" href="$classTRootEvent.html" title="TRootEvent" alt="" coords="143,965,235,992"/>
-<area shape="rect" id="node84" href="$classTRootGenEvent.html" title="TRootGenEvent" alt="" coords="131,1016,247,1043"/>
-<area shape="rect" id="node85" href="$classTRootLHEFEvent.html" title="TRootLHEFEvent" alt="" coords="125,1067,252,1093"/>
-<area shape="rect" id="node86" href="$classTRootMissingET.html" title="TRootMissingET" alt="" coords="129,1117,249,1144"/>
-<area shape="rect" id="node87" href="$classTRootWeight.html" title="TRootWeight" alt="" coords="139,1168,238,1195"/>
-<area shape="rect" id="node88" href="$classTSortableObject.html" title="TSortableObject" alt="" coords="131,1244,247,1271"/>
-<area shape="rect" id="node97" href="$classVertex.html" title="Vertex" alt="" coords="159,1295,219,1321"/>
-<area shape="rect" id="node98" href="$classWeight.html" title="Weight" alt="" coords="157,1345,220,1372"/>
-<area shape="rect" id="node30" href="$classboca_1_1branch_1_1Info.html" title="Info tree branch " alt="" coords="312,484,439,511"/>
-<area shape="rect" id="node31" href="$classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="304,433,447,460"/>
-<area shape="rect" id="node32" href="$classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="518,553,643,580"/>
-<area shape="rect" id="node61" href="$classboca_1_1branch_1_1Cut.html" title="Cut base tree branch " alt="" coords="517,64,644,91"/>
-<area shape="rect" id="node64" href="$classstandardmodel_1_1branch_1_1Truth.html" title="Truth tagger tree branch " alt="" coords="503,426,658,467"/>
-<area shape="rect" id="node33" href="$classboca_1_1branch_1_1Particle.html" title="Particle tree branch " alt="" coords="722,553,871,580"/>
-<area shape="rect" id="node58" href="$classsimple_1_1Branch.html" title="simple::Branch" alt="" coords="742,604,851,631"/>
-<area shape="rect" id="node59" href="$classtoppartner_1_1branch_1_1Truth.html" title="Top tagger root tree structure. " alt="" coords="733,655,860,697"/>
-<area shape="rect" id="node60" href="$classtthh_1_1branch_1_1Global.html" title="tthh::branch::Global" alt="" coords="729,721,865,748"/>
-<area shape="rect" id="node34" href="$classboca_1_1branch_1_1ThreeBody.html" title="Three body tree branch. " alt="" coords="949,553,1117,580"/>
-<area shape="rect" id="node37" href="$classboca_1_1branch_1_1TwoBody.html" title="Two body tree branch. " alt="" coords="953,1080,1113,1107"/>
-<area shape="rect" id="node57" href="$classstandardmodel_1_1branch_1_1Tau.html" title="Tau tagger tree branch " alt="" coords="941,604,1125,631"/>
-<area shape="rect" id="node35" href="$classhiggscpv_1_1branch_1_1SignatureT.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1199,72,1391,99"/>
-<area shape="rect" id="node36" href="$classhiggscpv_1_1branch_1_1SignatureLeptonT.html" title="higgscpv::branch::Signature\lLeptonT" alt="" coords="1459,65,1643,106"/>
-<area shape="rect" id="node38" href="$classboca_1_1branch_1_1Multi.html" title="Multi obejct tree branch " alt="" coords="1229,1172,1362,1199"/>
-<area shape="rect" id="node50" href="$classheavyhiggs_1_1branch_1_1HeavyHiggsLeptonic.html" title="Higgs tagger root tree structure. " alt="" coords="1220,779,1371,821"/>
-<area shape="rect" id="node51" href="$classheavyhiggs_1_1branch_1_1HeavyHiggsTau.html" title="Top tagger root tree structure. " alt="" coords="1228,845,1363,886"/>
-<area shape="rect" id="node52" href="$classheavyhiggs_1_1branch_1_1JetPair.html" title="Higgs tagger root tree structure. " alt="" coords="1228,910,1363,951"/>
-<area shape="rect" id="node53" href="$classheavyhiggs_1_1branch_1_1TripletJetPair.html" title="Higgs tagger root tree structure. " alt="" coords="1228,975,1363,1017"/>
-<area shape="rect" id="node54" href="$classhiggscpv_1_1branch_1_1QuartetTwoBody.html" title="Higgs tagger root tree structure. " alt="" coords="1209,1041,1381,1082"/>
-<area shape="rect" id="node55" href="$classhiggscpv_1_1branch_1_1TripletTwoBody.html" title="Higgs tagger root tree structure. " alt="" coords="1213,1106,1378,1147"/>
-<area shape="rect" id="node56" href="$classstandardmodel_1_1branch_1_1WLeptonic.html" title="W leptonic tagger tree branch. " alt="" coords="1218,714,1373,755"/>
-<area shape="rect" id="node39" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsLeptonic.html" title="Higgs tagger root tree structure. " alt="" coords="1469,954,1632,995"/>
-<area shape="rect" id="node40" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsSemi.html" title="Charged Higgs semi tagger root tree structure. " alt="" coords="1479,1019,1622,1061"/>
-<area shape="rect" id="node41" href="$classheavyhiggs_1_1branch_1_1HeavyHiggsSemi.html" title="Higgs tagger root tree structure. " alt="" coords="1483,1085,1618,1126"/>
-<area shape="rect" id="node42" href="$classheavyhiggs_1_1branch_1_1OctetCharged.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1483,1150,1618,1191"/>
-<area shape="rect" id="node43" href="$classheavyhiggs_1_1branch_1_1OctetNeutral.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1483,1215,1618,1257"/>
-<area shape="rect" id="node44" href="$classhiggscpv_1_1branch_1_1Octet.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1470,1281,1631,1308"/>
-<area shape="rect" id="node45" href="$classhiggscpv_1_1branch_1_1SignatureLepton.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1459,1333,1643,1374"/>
-<area shape="rect" id="node46" href="$classhiggscpv_1_1branch_1_1SignatureLeptonic.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1459,1398,1643,1439"/>
-<area shape="rect" id="node47" href="$classhiggscpv_1_1branch_1_1TopLeptonicTwoBody.html" title="Higgs tagger root tree structure. " alt="" coords="1451,1463,1651,1505"/>
-<area shape="rect" id="node48" href="$classtoppartner_1_1branch_1_1HiggsTwoBody.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1487,823,1614,865"/>
-<area shape="rect" id="node49" href="$classtoppartner_1_1branch_1_1TopPartnerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1483,889,1618,930"/>
-<area shape="rect" id="node62" href="$classheavyhiggs_1_1branch_1_1Cut.html" title="heavyhiggs::branch::Cut" alt="" coords="715,5,879,32"/>
-<area shape="rect" id="node63" href="$classheavyhiggs_1_1branch_1_1CutNeutral.html" title="heavyhiggs::branch\l::CutNeutral" alt="" coords="729,57,864,98"/>
-<area shape="rect" id="node66" href="$classHepMCEvent.html" title="HepMCEvent" alt="" coords="325,636,426,663"/>
-<area shape="rect" id="node67" href="$classLHCOEvent.html" title="LHCOEvent" alt="" coords="329,535,422,561"/>
-<area shape="rect" id="node68" href="$classLHEFEvent.html" title="LHEFEvent" alt="" coords="330,585,421,612"/>
-<area shape="rect" id="node74" href="$classCandidate.html" title="Candidate" alt="" coords="335,1092,416,1119"/>
-<area shape="rect" id="node75" href="$classElectron.html" title="Electron" alt="" coords="340,687,411,713"/>
-<area shape="rect" id="node76" href="$classGenParticle.html" title="GenParticle" alt="" coords="330,737,421,764"/>
-<area shape="rect" id="node77" href="$classHectorHit.html" title="HectorHit" alt="" coords="336,788,415,815"/>
-<area shape="rect" id="node78" href="$classJet.html" title="Jet" alt="" coords="355,839,395,865"/>
-<area shape="rect" id="node79" href="$classMuon.html" title="Muon" alt="" coords="348,889,403,916"/>
-<area shape="rect" id="node80" href="$classPhoton.html" title="Photon" alt="" coords="344,940,407,967"/>
-<area shape="rect" id="node81" href="$classTower.html" title="Tower" alt="" coords="346,991,405,1017"/>
-<area shape="rect" id="node82" href="$classTrack.html" title="Track" alt="" coords="348,1041,403,1068"/>
-<area shape="rect" id="node89" href="$classTRootElectron.html" title="TRootElectron" alt="" coords="322,1345,429,1372"/>
-<area shape="rect" id="node90" href="$classTRootGenJet.html" title="TRootGenJet" alt="" coords="325,1396,425,1423"/>
-<area shape="rect" id="node91" href="$classTRootGenParticle.html" title="TRootGenParticle" alt="" coords="312,1447,439,1473"/>
-<area shape="rect" id="node92" href="$classTRootJet.html" title="TRootJet" alt="" coords="337,1497,413,1524"/>
-<area shape="rect" id="node93" href="$classTRootLHEFParticle.html" title="TRootLHEFParticle" alt="" coords="307,1143,443,1169"/>
-<area shape="rect" id="node94" href="$classTRootMuon.html" title="TRootMuon" alt="" coords="330,1193,421,1220"/>
-<area shape="rect" id="node95" href="$classTRootPhoton.html" title="TRootPhoton" alt="" coords="326,1244,425,1271"/>
-<area shape="rect" id="node96" href="$classTRootTau.html" title="TRootTau" alt="" coords="335,1295,415,1321"/>
+<area shape="rect" id="node1" href="$classstandardmodel_1_1branch_1_1BottomBase.html" title="Bottom tagger base tree branch " alt="" coords="956,1410,1111,1451"/>
+<area shape="rect" id="node2" href="$classstandardmodel_1_1branch_1_1Bottom.html" title="Bottom tagger tree branch " alt="" coords="1218,1637,1373,1678"/>
+<area shape="rect" id="node3" href="$classstandardmodel_1_1branch_1_1Higgs.html" title="Higgs tagger tree branch " alt="" coords="1218,1519,1373,1561"/>
+<area shape="rect" id="node4" href="$classstandardmodel_1_1branch_1_1TopHadronic.html" title="Top hadronic tagger tree branch. " alt="" coords="1473,1461,1628,1502"/>
+<area shape="rect" id="node5" href="$classstandardmodel_1_1branch_1_1TopHadronicHep.html" title="HEPTopTagger tree branch " alt="" coords="1473,1578,1628,1619"/>
+<area shape="rect" id="node6" href="$classstandardmodel_1_1branch_1_1TopLeptonic.html" title="Top leptonic tagger tree branch. " alt="" coords="1218,1170,1373,1211"/>
+<area shape="rect" id="node7" href="$classstandardmodel_1_1branch_1_1WHadronic.html" title="W hadronic tagger tree branch. " alt="" coords="1218,1235,1373,1277"/>
+<area shape="rect" id="node8" href="$classstandardmodel_1_1branch_1_1ZHadronic.html" title="Z hadronic tagger tree branch. " alt="" coords="1218,1301,1373,1342"/>
+<area shape="rect" id="node9" href="$classtthh_1_1branch_1_1Higgs.html" title="Higgs tagger tree branch " alt="" coords="1229,1367,1362,1393"/>
+<area shape="rect" id="node10" href="$classtthh_1_1branch_1_1HiggsSemiLeptonic.html" title="Higgs tagger tree branch " alt="" coords="1189,1417,1401,1444"/>
+<area shape="rect" id="node11" href="$classboca_1_1branch_1_1EventShapesBase.html" title="EventShapes base tree branch " alt="" coords="927,177,1140,204"/>
+<area shape="rect" id="node12" href="$classboca_1_1branch_1_1Signature.html" title="Signature tree branch " alt="" coords="1215,241,1375,268"/>
+<area shape="rect" id="node15" href="$classtoppartner_1_1branch_1_1SignatureEffectiveBranch.html" title="toppartner::branch\l::SignatureEffectiveBranch" alt="" coords="1206,391,1385,433"/>
+<area shape="rect" id="node16" href="$classtoppartner_1_1branch_1_1SignatureSingleHadronicBranch.html" title="toppartner::branch\l::SignatureSingleHadronicBranch" alt="" coords="1188,174,1403,215"/>
+<area shape="rect" id="node18" href="$classtoppartner_1_1branch_1_1VetoTopPartnerBranch.html" title="toppartner::branch\l::VetoTopPartnerBranch" alt="" coords="1469,295,1632,337"/>
+<area shape="rect" id="node13" href="$classtoppartner_1_1branch_1_1SignatureSingle.html" title="toppartner::branch\l::SignatureSingle" alt="" coords="1487,178,1614,219"/>
+<area shape="rect" id="node14" href="$classtthh_1_1branch_1_1Signature.html" title="tthh::branch::Signature" alt="" coords="1473,244,1628,271"/>
+<area shape="rect" id="node17" href="$classtoppartner_1_1branch_1_1Complete.html" title="Class for saving event informations to root. " alt="" coords="1487,113,1614,154"/>
+<area shape="rect" id="node19" href="$classboca_1_1branch_1_1GlobalBase.html" title="Global base tree branch " alt="" coords="495,368,667,395"/>
+<area shape="rect" id="node20" href="$classboca_1_1branch_1_1Event.html" title="Event tree branch " alt="" coords="727,419,866,445"/>
+<area shape="rect" id="node27" href="$classboca_1_1branch_1_1Global.html" title="Global tree branch " alt="" coords="725,368,868,395"/>
+<area shape="rect" id="node21" href="$classheavyhiggs_1_1branch_1_1EventCharged.html" title="Higgs cpv tagger root tree structure. " alt="" coords="966,477,1101,518"/>
+<area shape="rect" id="node22" href="$classheavyhiggs_1_1branch_1_1EventFusion.html" title="Higgs cpv tagger root tree structure. " alt="" coords="966,542,1101,583"/>
+<area shape="rect" id="node23" href="$classheavyhiggs_1_1branch_1_1EventNeutral.html" title="Higgs cpv tagger root tree structure. " alt="" coords="966,229,1101,270"/>
+<area shape="rect" id="node24" href="$classheavyhiggs_1_1branch_1_1EventNeutralFourTop.html" title="heavyhiggs::branch\l::EventNeutralFourTop" alt="" coords="956,294,1111,335"/>
+<area shape="rect" id="node25" href="$classhiggscpv_1_1branch_1_1Event.html" title="Higgs cpv tagger root tree structure. " alt="" coords="952,360,1115,387"/>
+<area shape="rect" id="node26" href="$classtoppartner_1_1branch_1_1Event.html" title="Class for saving event informations to root. " alt="" coords="970,411,1097,453"/>
+<area shape="rect" id="node28" href="$classstandardmodel_1_1branch_1_1LeptonVeto.html" title="LeptonVeto base tree branch " alt="" coords="956,1695,1111,1737"/>
+<area shape="rect" id="node30" href="$classboca_1_1branch_1_1Base.html" title="Base tree branch " alt="" coords="121,488,256,515"/>
+<area shape="rect" id="node66" href="$classEvent.html" title="Event" alt="" coords="161,615,217,641"/>
+<area shape="rect" id="node70" href="$classLHEFWeight.html" title="LHEFWeight" alt="" coords="140,716,237,743"/>
+<area shape="rect" id="node71" href="$classMissingET.html" title="MissingET" alt="" coords="147,767,231,793"/>
+<area shape="rect" id="node72" href="$classRho.html" title="Rho" alt="" coords="165,817,212,844"/>
+<area shape="rect" id="node73" href="$classScalarHT.html" title="ScalarHT" alt="" coords="150,868,227,895"/>
+<area shape="rect" id="node74" href="$classSortableObject.html" title="SortableObject" alt="" coords="135,919,243,945"/>
+<area shape="rect" id="node84" href="$classTRootEvent.html" title="TRootEvent" alt="" coords="143,969,235,996"/>
+<area shape="rect" id="node85" href="$classTRootGenEvent.html" title="TRootGenEvent" alt="" coords="131,1020,247,1047"/>
+<area shape="rect" id="node86" href="$classTRootLHEFEvent.html" title="TRootLHEFEvent" alt="" coords="125,1071,252,1097"/>
+<area shape="rect" id="node87" href="$classTRootMissingET.html" title="TRootMissingET" alt="" coords="129,1121,249,1148"/>
+<area shape="rect" id="node88" href="$classTRootWeight.html" title="TRootWeight" alt="" coords="139,1172,238,1199"/>
+<area shape="rect" id="node89" href="$classTSortableObject.html" title="TSortableObject" alt="" coords="131,1248,247,1275"/>
+<area shape="rect" id="node98" href="$classVertex.html" title="Vertex" alt="" coords="159,1299,219,1325"/>
+<area shape="rect" id="node99" href="$classWeight.html" title="Weight" alt="" coords="157,1349,220,1376"/>
+<area shape="rect" id="node31" href="$classboca_1_1branch_1_1Info.html" title="Info tree branch " alt="" coords="312,437,439,464"/>
+<area shape="rect" id="node32" href="$classboca_1_1branch_1_1Result.html" title="Result tree branch " alt="" coords="304,488,447,515"/>
+<area shape="rect" id="node33" href="$classboca_1_1branch_1_1Bdt.html" title="Bdt base tree branch " alt="" coords="518,608,643,635"/>
+<area shape="rect" id="node62" href="$classboca_1_1branch_1_1Cut.html" title="Cut base tree branch " alt="" coords="517,64,644,91"/>
+<area shape="rect" id="node65" href="$classstandardmodel_1_1branch_1_1Truth.html" title="Truth tagger tree branch " alt="" coords="503,481,658,522"/>
+<area shape="rect" id="node34" href="$classboca_1_1branch_1_1Particle.html" title="Particle tree branch " alt="" coords="722,608,871,635"/>
+<area shape="rect" id="node59" href="$classsimple_1_1Branch.html" title="simple::Branch" alt="" coords="742,659,851,685"/>
+<area shape="rect" id="node60" href="$classtoppartner_1_1branch_1_1Truth.html" title="Top tagger root tree structure. " alt="" coords="733,710,860,751"/>
+<area shape="rect" id="node61" href="$classtthh_1_1branch_1_1Global.html" title="tthh::branch::Global" alt="" coords="729,776,865,803"/>
+<area shape="rect" id="node35" href="$classboca_1_1branch_1_1ThreeBody.html" title="Three body tree branch. " alt="" coords="949,659,1117,685"/>
+<area shape="rect" id="node38" href="$classboca_1_1branch_1_1TwoBody.html" title="Two body tree branch. " alt="" coords="953,1047,1113,1073"/>
+<area shape="rect" id="node58" href="$classstandardmodel_1_1branch_1_1Tau.html" title="Tau tagger tree branch " alt="" coords="941,608,1125,635"/>
+<area shape="rect" id="node36" href="$classhiggscpv_1_1branch_1_1SignatureT.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1199,541,1391,568"/>
+<area shape="rect" id="node37" href="$classhiggscpv_1_1branch_1_1SignatureLeptonT.html" title="higgscpv::branch::Signature\lLeptonT" alt="" coords="1459,361,1643,402"/>
+<area shape="rect" id="node39" href="$classboca_1_1branch_1_1Multi.html" title="Multi obejct tree branch " alt="" coords="1229,661,1362,688"/>
+<area shape="rect" id="node51" href="$classheavyhiggs_1_1branch_1_1HeavyHiggsLeptonic.html" title="Higgs tagger root tree structure. " alt="" coords="1220,713,1371,754"/>
+<area shape="rect" id="node52" href="$classheavyhiggs_1_1branch_1_1HeavyHiggsTau.html" title="Top tagger root tree structure. " alt="" coords="1228,778,1363,819"/>
+<area shape="rect" id="node53" href="$classheavyhiggs_1_1branch_1_1JetPair.html" title="Higgs tagger root tree structure. " alt="" coords="1228,843,1363,885"/>
+<area shape="rect" id="node54" href="$classheavyhiggs_1_1branch_1_1TripletJetPair.html" title="Higgs tagger root tree structure. " alt="" coords="1228,909,1363,950"/>
+<area shape="rect" id="node55" href="$classhiggscpv_1_1branch_1_1QuartetTwoBody.html" title="Higgs tagger root tree structure. " alt="" coords="1209,974,1381,1015"/>
+<area shape="rect" id="node56" href="$classhiggscpv_1_1branch_1_1TripletTwoBody.html" title="Higgs tagger root tree structure. " alt="" coords="1213,1039,1378,1081"/>
+<area shape="rect" id="node57" href="$classstandardmodel_1_1branch_1_1WLeptonic.html" title="W leptonic tagger tree branch. " alt="" coords="1218,1105,1373,1146"/>
+<area shape="rect" id="node40" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsLeptonic.html" title="Higgs tagger root tree structure. " alt="" coords="1469,491,1632,533"/>
+<area shape="rect" id="node41" href="$classheavyhiggs_1_1branch_1_1ChargedHiggsSemi.html" title="Charged Higgs semi tagger root tree structure. " alt="" coords="1479,557,1622,598"/>
+<area shape="rect" id="node42" href="$classheavyhiggs_1_1branch_1_1HeavyHiggsSemi.html" title="Higgs tagger root tree structure. " alt="" coords="1483,622,1618,663"/>
+<area shape="rect" id="node43" href="$classheavyhiggs_1_1branch_1_1OctetCharged.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1483,687,1618,729"/>
+<area shape="rect" id="node44" href="$classheavyhiggs_1_1branch_1_1OctetNeutral.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1483,753,1618,794"/>
+<area shape="rect" id="node45" href="$classhiggscpv_1_1branch_1_1Octet.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1470,819,1631,845"/>
+<area shape="rect" id="node46" href="$classhiggscpv_1_1branch_1_1SignatureLepton.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1459,870,1643,911"/>
+<area shape="rect" id="node47" href="$classhiggscpv_1_1branch_1_1SignatureLeptonic.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1459,935,1643,977"/>
+<area shape="rect" id="node48" href="$classhiggscpv_1_1branch_1_1TopLeptonicTwoBody.html" title="Higgs tagger root tree structure. " alt="" coords="1451,1001,1651,1042"/>
+<area shape="rect" id="node49" href="$classtoppartner_1_1branch_1_1HiggsTwoBody.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1487,1066,1614,1107"/>
+<area shape="rect" id="node50" href="$classtoppartner_1_1branch_1_1TopPartnerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1483,426,1618,467"/>
+<area shape="rect" id="node63" href="$classheavyhiggs_1_1branch_1_1Cut.html" title="heavyhiggs::branch::Cut" alt="" coords="715,5,879,32"/>
+<area shape="rect" id="node64" href="$classheavyhiggs_1_1branch_1_1CutNeutral.html" title="heavyhiggs::branch\l::CutNeutral" alt="" coords="729,57,864,98"/>
+<area shape="rect" id="node67" href="$classHepMCEvent.html" title="HepMCEvent" alt="" coords="325,640,426,667"/>
+<area shape="rect" id="node68" href="$classLHCOEvent.html" title="LHCOEvent" alt="" coords="329,539,422,565"/>
+<area shape="rect" id="node69" href="$classLHEFEvent.html" title="LHEFEvent" alt="" coords="330,589,421,616"/>
+<area shape="rect" id="node75" href="$classCandidate.html" title="Candidate" alt="" coords="335,1096,416,1123"/>
+<area shape="rect" id="node76" href="$classElectron.html" title="Electron" alt="" coords="340,691,411,717"/>
+<area shape="rect" id="node77" href="$classGenParticle.html" title="GenParticle" alt="" coords="330,741,421,768"/>
+<area shape="rect" id="node78" href="$classHectorHit.html" title="HectorHit" alt="" coords="336,792,415,819"/>
+<area shape="rect" id="node79" href="$classJet.html" title="Jet" alt="" coords="355,843,395,869"/>
+<area shape="rect" id="node80" href="$classMuon.html" title="Muon" alt="" coords="348,893,403,920"/>
+<area shape="rect" id="node81" href="$classPhoton.html" title="Photon" alt="" coords="344,944,407,971"/>
+<area shape="rect" id="node82" href="$classTower.html" title="Tower" alt="" coords="346,995,405,1021"/>
+<area shape="rect" id="node83" href="$classTrack.html" title="Track" alt="" coords="348,1045,403,1072"/>
+<area shape="rect" id="node90" href="$classTRootElectron.html" title="TRootElectron" alt="" coords="322,1349,429,1376"/>
+<area shape="rect" id="node91" href="$classTRootGenJet.html" title="TRootGenJet" alt="" coords="325,1400,425,1427"/>
+<area shape="rect" id="node92" href="$classTRootGenParticle.html" title="TRootGenParticle" alt="" coords="312,1451,439,1477"/>
+<area shape="rect" id="node93" href="$classTRootJet.html" title="TRootJet" alt="" coords="337,1501,413,1528"/>
+<area shape="rect" id="node94" href="$classTRootLHEFParticle.html" title="TRootLHEFParticle" alt="" coords="307,1147,443,1173"/>
+<area shape="rect" id="node95" href="$classTRootMuon.html" title="TRootMuon" alt="" coords="330,1197,421,1224"/>
+<area shape="rect" id="node96" href="$classTRootPhoton.html" title="TRootPhoton" alt="" coords="326,1248,425,1275"/>
+<area shape="rect" id="node97" href="$classTRootTau.html" title="TRootTau" alt="" coords="335,1299,415,1325"/>
 </map>

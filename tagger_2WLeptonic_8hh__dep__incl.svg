@@ -76,7 +76,7 @@
 </g>
 <!-- Node48 -->
 <g id="node48" class="node"><title>Node48</title>
-<g id="a_node48"><a xlink:href="HiggsSemiLeptonic_8hh.html" target="_top" xlink:title="examples/tthh/tthh\l/tagger/HiggsSemiLeptonic.hh">
+<g id="a_node48"><a xlink:href="tagger_2HiggsSemiLeptonic_8hh.html" target="_top" xlink:title="examples/tthh/tthh\l/tagger/HiggsSemiLeptonic.hh">
 <polygon fill="white" stroke="black" points="3638.5,-296 3638.5,-326 3786.5,-326 3786.5,-296 3638.5,-296"/>
 <text text-anchor="start" x="3646.5" y="-314" font-family="Helvetica,sans-Serif" font-size="10.00">examples/tthh/tthh</text>
 <text text-anchor="middle" x="3712.5" y="-303" font-family="Helvetica,sans-Serif" font-size="10.00">/tagger/HiggsSemiLeptonic.hh</text>
@@ -726,7 +726,7 @@
 </g>
 <!-- Node49 -->
 <g id="node49" class="node"><title>Node49</title>
-<g id="a_node49"><a xlink:href="HiggsSemiLeptonic_8cpp.html" target="_top" xlink:title="examples/tthh/source\l/tagger/HiggsSemiLeptonic.cpp">
+<g id="a_node49"><a xlink:href="tagger_2HiggsSemiLeptonic_8cpp.html" target="_top" xlink:title="examples/tthh/source\l/tagger/HiggsSemiLeptonic.cpp">
 <polygon fill="white" stroke="black" points="3793,-218 3793,-248 3946,-248 3946,-218 3793,-218"/>
 <text text-anchor="start" x="3801" y="-236" font-family="Helvetica,sans-Serif" font-size="10.00">examples/tthh/source</text>
 <text text-anchor="middle" x="3869.5" y="-225" font-family="Helvetica,sans-Serif" font-size="10.00">/tagger/HiggsSemiLeptonic.cpp</text>

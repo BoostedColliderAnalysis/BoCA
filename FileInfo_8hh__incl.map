@@ -1,11 +1,12 @@
-<map id="boca/FileInfo.hh" name="boca/FileInfo.hh">
-<area shape="rect" id="node2" href="$Units_8hh.html" title="boca/physics/Units.hh" alt="" coords="798,80,950,107"/>
-<area shape="rect" id="node20" href="$Number_8hh.html" title="boca/physics/Number.hh" alt="" coords="1153,80,1320,107"/>
-<area shape="rect" id="node21" href="$Souce_8hh.html" title="boca/io/Souce.hh" alt="" coords="1297,155,1419,181"/>
-<area shape="rect" id="node23" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="1425,80,1539,107"/>
-<area shape="rect" id="node4" href="$Prefixes_8hh.html" title="boca/physics/Prefixes.hh" alt="" coords="789,155,959,181"/>
-<area shape="rect" id="node9" href="$Si_8hh.html" title="boca/physics/Si.hh" alt="" coords="339,237,473,263"/>
-<area shape="rect" id="node13" href="$Barn_8hh.html" title="boca/physics/Barn.hh" alt="" coords="713,237,861,263"/>
-<area shape="rect" id="node18" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="497,237,689,263"/>
-<area shape="rect" id="node24" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="1443,155,1582,181"/>
+<map id="boca/io/FileInfo.hh" name="boca/io/FileInfo.hh">
+<area shape="rect" id="node2" href="$Units_8hh.html" title="boca/units/Units.hh" alt="" coords="1240,80,1375,107"/>
+<area shape="rect" id="node20" href="$Number_8hh.html" title="boca/math/Number.hh" alt="" coords="2093,80,2244,107"/>
+<area shape="rect" id="node25" href="$Source_8hh.html" title="boca/io/Source.hh" alt="" coords="2423,155,2549,181"/>
+<area shape="rect" id="node27" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="2270,80,2385,107"/>
+<area shape="rect" id="node4" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1231,155,1383,181"/>
+<area shape="rect" id="node9" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="440,237,556,263"/>
+<area shape="rect" id="node14" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="879,237,1010,263"/>
+<area shape="rect" id="node18" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1035,237,1209,263"/>
+<area shape="rect" id="node21" href="$Math_8hh.html" title="boca/math/Math.hh" alt="" coords="2100,155,2235,181"/>
+<area shape="rect" id="node28" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="2259,155,2398,181"/>
 </map>

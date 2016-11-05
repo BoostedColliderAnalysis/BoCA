@@ -16,7 +16,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="TopTagger2_8hh.html" target="_top" xlink:title="boca/external/TopTagger2.hh">
+<g id="a_node2"><a xlink:href="TopTagger2_8hh.html" target="_top" target="_top" xlink:title="boca/external/TopTagger2.hh">
 <polygon fill="white" stroke="black" points="13.5,-112.5 13.5,-131.5 156.5,-131.5 156.5,-112.5 13.5,-112.5"/>
 <text text-anchor="middle" x="85" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca/external/TopTagger2.hh</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="TopTaggerFixedR_8hh.html" target="_top" xlink:title="boca/external/TopTaggerFixedR.hh">
+<g id="a_node3"><a xlink:href="TopTaggerFixedR_8hh.html" target="_top" target="_top" xlink:title="boca/external/TopTaggerFixedR.hh">
 <polygon fill="white" stroke="black" points="0,-56.5 0,-75.5 170,-75.5 170,-56.5 0,-56.5"/>
 <text text-anchor="middle" x="85" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca/external/TopTaggerFixedR.hh</text>
 </a>

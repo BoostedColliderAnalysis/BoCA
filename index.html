@@ -99,29 +99,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><p>This code performs staged BDT analyses using root files as in- and output format.</p>
 <h2>Dependencies</h2>
 <ul>
-<li><a href="https://root.cern.ch/"><code>ROOT</code></a> version ≥ 6.05.02 and compiled with <a href="http://tmva.sourceforge.net/"><code>TMVA</code></a> and <a href="https://root.cern.ch/mathmore-library"><code>MathMore</code></a></li>
-<li><a href="http://fastjet.fr/"><code>fastjet</code></a></li>
-<li><a href="https://fastjet.hepforge.org/contrib/"><code>fastjet contrib</code></a> (must be compiled with <a href="https://en.wikipedia.org/wiki/Position-independent_code"><code>CXXFLAGS=-fPIC</code></a>)</li>
-<li><a href="http://www.boost.org/"><code>Boost</code></a> (<a href="http://www.boost.org/doc/libs/release/libs/optional/"><code>Optional</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/range/"><code>Range</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/units/"><code>Units</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/utility/operators.htm"><code>Operators</code></a>)</li>
+<li><a href="https://root.cern.ch/"><code>ROOT</code></a> version ≥ 6.05.02 compiled with <a href="http://tmva.sourceforge.net/"><code>TMVA</code></a> and <a href="https://root.cern.ch/mathmore-library"><code>MathMore</code></a></li>
+<li><a href="http://fastjet.fr/"><code>FastJet</code></a></li>
+<li><a href="https://fastjet.hepforge.org/contrib/"><code>FastJet Contrib</code></a> (must be compiled with <a href="https://en.wikipedia.org/wiki/Position-independent_code"><code>CXXFLAGS=-fPIC</code></a>)</li>
+<li><a href="http://www.boost.org/"><code>Boost</code></a> version ≥ 1.56 (<a href="http://www.boost.org/doc/libs/release/libs/optional/"><code>Optional</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/range/"><code>Range</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/units/"><code>Units</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/utility/operators.htm"><code>Operators</code></a>)</li>
 </ul>
-<p>The BoCA code makes heavy use of modern C++ features. The limiting factor for the minimal supportet compiler version is given by the use of return type deduction. Therefore the compiler version must be</p><ul>
+<p>The BoCA code makes heavy use of modern C++ features. The limiting factor for the minimal supportet compiler version is given by the use of generic lambda function. Therefore the compiler version must be</p><ul>
 <li>GCC version ≥ 4.9</li>
-<li>Clang version ≥ 3.3</li>
+<li>Clang version ≥ 3.4 (which might rely on a recent GCC version)</li>
 </ul>
 <h2>Installation</h2>
 <ul>
-<li>the following is tested on recent ubuntu and mac installations</li>
+<li>the following is tested on recent ubuntu, scientific linux and mac installations</li>
 </ul>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;make</div></div><!-- fragment --><ul>
 <li>for quicker compilation (install ccache and ninja-build)</li>
 </ul>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake -G Ninja ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;ninja</div></div><!-- fragment --><ul>
-<li>for mac (still install ccache)</li>
+<li>for mac you can also use (still install ccache)</li>
 </ul>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake -G Xcode ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;xcodebuild</div></div><!-- fragment --><ul>
 <li>if you have trouble installing <code>ROOT</code> ≥ 6 with <code>GCC</code> ≥ 5 you can configure it with</li>
 </ul>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja..</div></div><!-- fragment --><h2>Usage</h2>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja ..</div></div><!-- fragment --><p> unfortunately this means that all other dependencies also have to be compiled with the cxx11 abi switched off e.g. for <code>FastJet</code> you have to use </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0</div></div><!-- fragment --><p> and for <code>FastJet Contrib</code> </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;./configure CXXFLAGS=&quot;-fPIC -D_GLIBCXX_USE_CXX11_ABI=0&quot;</div></div><!-- fragment --><h2>Usage</h2>
+<blockquote class="doxtable">
+<p>Examples are listed <a href="https://boostedcollideranalysis.github.io/BoCA/examples.html">here</a>. </p>
+</blockquote>
 <p>Each analysis needs a dedicated <code>Analysis</code> class, a set of <code>Tagger</code> classess and a <code><a class="el" href="main_8cpp.html">main.cpp</a></code> file. The <code>Analysis</code> class contains the global information of the analysis, such as file names, path names, variables names etc. Every <code>Tagger</code> class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated <code>Tagger</code>. The <code><a class="el" href="main_8cpp.html">main.cpp</a></code> defines the order in which each <code>Tagger</code> is passed to the <code>Analysis</code>.</p>
 <h2>Source code documentation</h2>
 <p>The source code documentation including all classes and functions can be found <a href="http://boostedcollideranalysis.github.io/BoCA">here</a>.</p>
@@ -134,28 +137,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 <h2>License</h2>
 <p>BoCa is licenced under the <a class="el" href="md_doc_License.html">GPL 3</a>.</p>
-<h2>Git commands</h2>
-<ul>
-<li>initial download of the project <code>git clone git@github.com:BoostedColliderAnalysis/BoCA.git</code></li>
-<li>downloading updates from the server <code>git pull</code></li>
-<li>save changes of specific files <code>git commit FILES</code></li>
-<li>save changes in to all files <code>git commit -a</code></li>
-<li>upload changes to server <code>git push</code></li>
-<li>change branches <code>git checkout BRANCH</code></li>
-<li>create new branch <code>git checkout -b NEWBRANCH</code></li>
-<li>merge branches <code>git merge BRANCH</code></li>
-<li>save unfinished work on stash <code>git stash</code></li>
-<li>get stash changes back <code>git stash pop</code></li>
-</ul>
-<h2>Coding style</h2>
-<ul>
-<li>use standard library when possible</li>
-<li>avoid heap allocation <code>new</code></li>
-<li>prefer references <code>&amp;</code> over pointers <code>*</code></li>
-<li>Classes and Functions are written in CamelCase</li>
-<li>variables are written small_with_underscore</li>
-<li>member_variables_ and TemplateParamter_ end on an underscore </li>
-</ul>
+<h2>Developmnet</h2>
+<p><a class="el" href="md_doc_Development.html">For developers</a>. </p>
 </div></div><!-- contents -->
 </div>
 </div>

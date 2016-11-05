@@ -1,7 +1,7 @@
 <map id="boca/branch/Result.hh" name="boca/branch/Result.hh">
 <area shape="rect" id="node2" href="$branch_2Base_8hh.html" title="boca/branch/Base.hh" alt="" coords="5,80,151,107"/>
-<area shape="rect" id="node4" href="$boca_2Observables_8hh.html" title="boca/Observables.hh" alt="" coords="175,80,320,107"/>
-<area shape="rect" id="node5" href="$Observable_8hh.html" title="boca/Observable.hh" alt="" coords="178,155,317,181"/>
-<area shape="rect" id="node6" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="190,229,305,256"/>
-<area shape="rect" id="node7" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="178,304,317,331"/>
+<area shape="rect" id="node4" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="175,80,391,107"/>
+<area shape="rect" id="node5" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="179,155,388,181"/>
+<area shape="rect" id="node6" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="226,229,341,256"/>
+<area shape="rect" id="node7" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="214,304,353,331"/>
 </map>

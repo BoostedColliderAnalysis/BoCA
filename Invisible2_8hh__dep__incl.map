@@ -1,4 +1,5 @@
-<map id="boca/external/Invisible2.hh" name="boca/external/Invisible2.hh">
-<area shape="rect" id="node2" href="$Invisible2_8cpp.html" title="source/external/Invisible2.cpp" alt="" coords="5,80,200,107"/>
-<area shape="rect" id="node3" href="$WimpMass_8cpp.html" title="source/WimpMass.cpp" alt="" coords="225,80,381,107"/>
+<map id="external/wimpmass/wimpmass/Invisible2.hh" name="external/wimpmass/wimpmass/Invisible2.hh">
+<area shape="rect" id="node2" href="$Invisible2_8cpp.html" title="external/wimpmass/source\l/Invisible2.cpp" alt="" coords="5,95,184,136"/>
+<area shape="rect" id="node3" href="$TestInvisible2_8cpp.html" title="external/wimpmass/test\l/TestInvisible2.cpp" alt="" coords="209,95,370,136"/>
+<area shape="rect" id="node4" href="$WimpMass_8cpp.html" title="source/WimpMass.cpp" alt="" coords="394,102,550,129"/>
 </map>

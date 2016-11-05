@@ -1,6 +1,6 @@
 <map id="boca/branch/EventShapesBase.hh" name="boca/branch/EventShapesBase.hh">
-<area shape="rect" id="node3" href="$boca_2Observables_8hh.html" title="boca/Observables.hh" alt="" coords="112,80,257,107"/>
-<area shape="rect" id="node4" href="$Observable_8hh.html" title="boca/Observable.hh" alt="" coords="115,155,254,181"/>
-<area shape="rect" id="node5" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="127,229,242,256"/>
-<area shape="rect" id="node6" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="115,304,254,331"/>
+<area shape="rect" id="node3" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="109,80,325,107"/>
+<area shape="rect" id="node4" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="112,155,321,181"/>
+<area shape="rect" id="node5" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="159,229,274,256"/>
+<area shape="rect" id="node6" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="147,304,286,331"/>
 </map>

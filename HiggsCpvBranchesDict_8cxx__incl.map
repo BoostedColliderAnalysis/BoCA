@@ -1,0 +1,27 @@
+<map id="build/examples/higgscpv/source/branch/HiggsCpvBranchesDict.cxx" name="build/examples/higgscpv/source/branch/HiggsCpvBranchesDict.cxx">
+<area shape="rect" id="node23" href="$examples_2higgscpv_2higgscpv_2branch_2Event_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/higgscpv\l/source/branch/../../higgscpv\l/branch/Event.hh" alt="" coords="2537,228,2725,299"/>
+<area shape="rect" id="node34" href="$examples_2higgscpv_2higgscpv_2branch_2Octet_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/higgscpv\l/source/branch/../../higgscpv\l/branch/Octet.hh" alt="" coords="2946,109,3134,180"/>
+<area shape="rect" id="node43" href="$QuartetTwoBody_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/higgscpv\l/source/branch/../../higgscpv\l/branch/QuartetTwoBody.hh" alt="" coords="3091,228,3279,299"/>
+<area shape="rect" id="node44" href="$branch_2SignatureLepton_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/higgscpv\l/source/branch/../../higgscpv\l/branch/SignatureLepton.hh" alt="" coords="3158,109,3346,180"/>
+<area shape="rect" id="node45" href="$branch_2SignatureLeptonT_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/higgscpv\l/source/branch/../../higgscpv\l/branch/SignatureLeptonT.hh" alt="" coords="3523,109,3712,180"/>
+<area shape="rect" id="node46" href="$branch_2SignatureT_8hh.html" title="higgscpv/branch/SignatureT.hh" alt="" coords="3516,250,3719,277"/>
+<area shape="rect" id="node48" href="$SignatureLeptonic_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/higgscpv\l/source/branch/../../higgscpv\l/branch/SignatureLeptonic.hh" alt="" coords="2493,109,2683,180"/>
+<area shape="rect" id="node49" href="$TopLeptonicTwoBody_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/higgscpv\l/source/branch/../../higgscpv\l/branch/TopLeptonicTwoBody.hh" alt="" coords="2708,109,2921,180"/>
+<area shape="rect" id="node50" href="$TripletTwoBody_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/higgscpv\l/source/branch/../../higgscpv\l/branch/TripletTwoBody.hh" alt="" coords="3303,228,3491,299"/>
+<area shape="rect" id="node24" href="$boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="2672,347,2821,373"/>
+<area shape="rect" id="node25" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="3022,496,3157,523"/>
+<area shape="rect" id="node29" href="$GlobalBase_8hh.html" title="boca/branch/GlobalBase.hh" alt="" coords="2655,421,2838,448"/>
+<area shape="rect" id="node26" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="3027,578,3181,605"/>
+<area shape="rect" id="node27" href="$branch_2Base_8hh.html" title="boca/branch/Base.hh" alt="" coords="3031,660,3177,687"/>
+<area shape="rect" id="node28" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="2655,660,2871,687"/>
+<area shape="rect" id="node31" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="2831,496,2983,523"/>
+<area shape="rect" id="node35" href="$Multi_8hh.html" title="boca/branch/Multi.hh" alt="" coords="2925,250,3067,277"/>
+<area shape="rect" id="node36" href="$branch_2TwoBody_8hh.html" title="boca/branch/TwoBody.hh" alt="" coords="3100,347,3271,373"/>
+<area shape="rect" id="node37" href="$branch_2Particle_8hh.html" title="boca/branch/Particle.hh" alt="" coords="3058,421,3217,448"/>
+<area shape="rect" id="node38" href="$Settings_8hh.html" title="boca/Settings.hh" alt="" coords="3420,421,3540,448"/>
+<area shape="rect" id="node39" href="$InfoRecombiner_8hh.html" title="boca/fastjet/InfoRecombiner.hh" alt="" coords="3181,496,3385,523"/>
+<area shape="rect" id="node40" href="$Range_8hh.html" title="boca/math/Range.hh" alt="" coords="3409,496,3551,523"/>
+<area shape="rect" id="node41" href="$Source_8hh.html" title="boca/io/Source.hh" alt="" coords="3575,496,3702,523"/>
+<area shape="rect" id="node42" href="$Font_8hh.html" title="boca/plotting/Font.hh" alt="" coords="3727,496,3871,523"/>
+<area shape="rect" id="node47" href="$branch_2ThreeBody_8hh.html" title="boca/branch/ThreeBody.hh" alt="" coords="3391,347,3569,373"/>
+</map>

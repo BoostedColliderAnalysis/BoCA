@@ -1,15 +1,15 @@
 <map id="source/physics/Barn.cpp" name="source/physics/Barn.cpp">
-<area shape="rect" id="node4" href="$Barn_8hh.html" title="boca/physics/Barn.hh" alt="" coords="1426,490,1574,517"/>
-<area shape="rect" id="node10" href="$Prefixes_8hh.html" title="boca/physics/Prefixes.hh" alt="" coords="967,401,1137,427"/>
-<area shape="rect" id="node20" href="$Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="602,80,758,107"/>
-<area shape="rect" id="node15" href="$Si_8hh.html" title="boca/physics/Si.hh" alt="" coords="304,490,437,517"/>
-<area shape="rect" id="node18" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="1209,490,1401,517"/>
-<area shape="rect" id="node26" href="$Settings_8hh.html" title="boca/Settings.hh" alt="" coords="541,162,661,189"/>
-<area shape="rect" id="node27" href="$InfoRecombiner_8hh.html" title="boca/fastjet/InfoRecombiner.hh" alt="" coords="183,244,387,271"/>
-<area shape="rect" id="node29" href="$Range_8hh.html" title="boca/physics/Range.hh" alt="" coords="499,244,658,271"/>
-<area shape="rect" id="node37" href="$Souce_8hh.html" title="boca/io/Souce.hh" alt="" coords="709,244,832,271"/>
-<area shape="rect" id="node39" href="$Font_8hh.html" title="boca/plotting/Font.hh" alt="" coords="869,244,1013,271"/>
-<area shape="rect" id="node32" href="$Units_8hh.html" title="boca/physics/Units.hh" alt="" coords="629,319,781,345"/>
-<area shape="rect" id="node34" href="$Math_8hh.html" title="boca/math/Math.hh" alt="" coords="297,319,431,345"/>
-<area shape="rect" id="node40" href="$Flag_8hh.html" title="boca/generic/Flag.hh" alt="" coords="885,319,1027,345"/>
+<area shape="rect" id="node4" href="$Barn_8hh.html" title="boca/physics/Barn.hh" alt="" coords="1809,490,1957,517"/>
+<area shape="rect" id="node10" href="$Prefixes_8hh.html" title="boca/physics/Prefixes.hh" alt="" coords="1242,401,1411,427"/>
+<area shape="rect" id="node21" href="$Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="603,80,759,107"/>
+<area shape="rect" id="node15" href="$Si_8hh.html" title="boca/physics/Si.hh" alt="" coords="1073,490,1207,517"/>
+<area shape="rect" id="node19" href="$ElectronVolt_8hh.html" title="boca/physics/ElectronVolt.hh" alt="" coords="1231,490,1423,517"/>
+<area shape="rect" id="node27" href="$Settings_8hh.html" title="boca/Settings.hh" alt="" coords="883,162,1003,189"/>
+<area shape="rect" id="node28" href="$InfoRecombiner_8hh.html" title="boca/fastjet/InfoRecombiner.hh" alt="" coords="838,244,1042,271"/>
+<area shape="rect" id="node30" href="$Range_8hh.html" title="boca/physics/Range.hh" alt="" coords="1066,244,1225,271"/>
+<area shape="rect" id="node37" href="$Souce_8hh.html" title="boca/io/Souce.hh" alt="" coords="523,244,645,271"/>
+<area shape="rect" id="node39" href="$Font_8hh.html" title="boca/plotting/Font.hh" alt="" coords="669,244,813,271"/>
+<area shape="rect" id="node33" href="$Units_8hh.html" title="boca/physics/Units.hh" alt="" coords="1195,319,1347,345"/>
+<area shape="rect" id="node34" href="$Math_8hh.html" title="boca/math/Math.hh" alt="" coords="1630,319,1765,345"/>
+<area shape="rect" id="node40" href="$Flag_8hh.html" title="boca/generic/Flag.hh" alt="" coords="653,319,795,345"/>
 </map>

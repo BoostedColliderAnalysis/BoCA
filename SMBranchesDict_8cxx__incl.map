@@ -1,0 +1,25 @@
+<map id="build/examples/standardmodel/source/branch/SMBranchesDict.cxx" name="build/examples/standardmodel/source/branch/SMBranchesDict.cxx">
+<area shape="rect" id="node23" href="$BottomBase_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/BottomBase.hh" alt="" coords="3249,213,3471,284"/>
+<area shape="rect" id="node35" href="$branch_2Bottom_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/Bottom.hh" alt="" coords="4015,95,4236,165"/>
+<area shape="rect" id="node39" href="$standardmodel_2standardmodel_2branch_2Higgs_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/Higgs.hh" alt="" coords="2983,95,3204,165"/>
+<area shape="rect" id="node41" href="$LeptonVeto_8hh.html" title="standardmodel/branch\l/LeptonVeto.hh" alt="" coords="2773,228,2923,269"/>
+<area shape="rect" id="node42" href="$branch_2Tau_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/Tau.hh" alt="" coords="4077,332,4299,403"/>
+<area shape="rect" id="node43" href="$branch_2TopHadronic_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/TopHadronic.hh" alt="" coords="2737,95,2959,165"/>
+<area shape="rect" id="node45" href="$branch_2TopHadronicHep_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/TopHadronicHep.hh" alt="" coords="2492,95,2713,165"/>
+<area shape="rect" id="node46" href="$branch_2TopLeptonic_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/TopLeptonic.hh" alt="" coords="3279,95,3500,165"/>
+<area shape="rect" id="node47" href="$standardmodel_2standardmodel_2branch_2Truth_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/Truth.hh" alt="" coords="4103,451,4324,521"/>
+<area shape="rect" id="node48" href="$branch_2WHadronic_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/WHadronic.hh" alt="" coords="3524,95,3745,165"/>
+<area shape="rect" id="node49" href="$branch_2WLeptonic_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/WLeptonic.hh" alt="" coords="4047,213,4268,284"/>
+<area shape="rect" id="node50" href="$branch_2ZHadronic_8hh.html" title="/home/hajer/Projects\l/BoCA/examples/standardmodel\l/source/branch/../../standardmodel\l/branch/ZHadronic.hh" alt="" coords="3769,95,3991,165"/>
+<area shape="rect" id="node25" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="3475,569,3627,596"/>
+<area shape="rect" id="node33" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="2796,733,3012,760"/>
+<area shape="rect" id="node30" href="$units_2Si_8hh.html" title="boca/units/Si.hh" alt="" coords="3994,651,4110,678"/>
+<area shape="rect" id="node31" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="2941,651,3072,678"/>
+<area shape="rect" id="node32" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="3097,651,3271,678"/>
+<area shape="rect" id="node34" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="2799,808,3009,835"/>
+<area shape="rect" id="node36" href="$branch_2Particle_8hh.html" title="boca/branch/Particle.hh" alt="" coords="3919,473,4078,499"/>
+<area shape="rect" id="node37" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="3985,569,4119,596"/>
+<area shape="rect" id="node38" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="4134,651,4287,678"/>
+<area shape="rect" id="node40" href="$branch_2TwoBody_8hh.html" title="boca/branch/TwoBody.hh" alt="" coords="3549,354,3720,381"/>
+<area shape="rect" id="node44" href="$Multi_8hh.html" title="boca/branch/Multi.hh" alt="" coords="2947,235,3090,262"/>
+</map>

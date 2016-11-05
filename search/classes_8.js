@@ -4,6 +4,8 @@ var searchData=
   ['info',['Info',['../classboca_1_1branch_1_1Info.html',1,'boca::branch']]],
   ['inforecombiner',['InfoRecombiner',['../classboca_1_1InfoRecombiner.html',1,'boca']]],
   ['invisible22',['Invisible22',['../classwimpmass_1_1Invisible22.html',1,'wimpmass']]],
+  ['isbool',['IsBool',['../structboca_1_1detail_1_1IsBool.html',1,'boca::detail']]],
+  ['isbool_3c_20bool_20_3e',['IsBool&lt; bool &gt;',['../structboca_1_1detail_1_1IsBool_3_01bool_01_4.html',1,'boca::detail']]],
   ['ismatrix2',['IsMatrix2',['../structboca_1_1IsMatrix2.html',1,'boca']]],
   ['ismatrix2_3c_20matrix2_3c_20value_20_3e_20_3e',['IsMatrix2&lt; Matrix2&lt; Value &gt; &gt;',['../structboca_1_1IsMatrix2_3_01Matrix2_3_01Value_01_4_01_4.html',1,'boca']]],
   ['ismatrix3',['IsMatrix3',['../structboca_1_1IsMatrix3.html',1,'boca']]],
@@ -15,6 +17,6 @@ var searchData=
   ['isvector2_3c_20vector2_3c_20value_5f_20_3e_20_3e',['IsVector2&lt; Vector2&lt; Value_ &gt; &gt;',['../structboca_1_1IsVector2_3_01Vector2_3_01Value___01_4_01_4.html',1,'boca']]],
   ['isvector3',['IsVector3',['../structboca_1_1IsVector3.html',1,'boca']]],
   ['isvector3_3c_20vector3_3c_20value_5f_20_3e_20_3e',['IsVector3&lt; Vector3&lt; Value_ &gt; &gt;',['../structboca_1_1IsVector3_3_01Vector3_3_01Value___01_4_01_4.html',1,'boca']]],
-  ['iterator',['Iterator',['../classboca_1_1TreeReaderArray_1_1Iterator.html',1,'boca::TreeReaderArray']]],
-  ['iterator',['Iterator',['../classboca_1_1Iterator.html',1,'boca']]]
+  ['iterator',['Iterator',['../classboca_1_1Iterator.html',1,'boca']]],
+  ['iterator',['Iterator',['../classboca_1_1TreeReaderArray_1_1Iterator.html',1,'boca::TreeReaderArray']]]
 ];
