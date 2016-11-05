@@ -20,7 +20,7 @@ enum class LorentzDim
     last
 };
 
-std::string Name(LorentzDim dimension);
+std::string Name(LorentzDim lorentz_dim);
 
 std::vector<LorentzDim> LorentzDimensions();
 
@@ -165,7 +165,7 @@ public:
     /**
      * @brief Getter for the spatial components
      */
-    constexpr Vector3<Value_> Spatial() const
+    constexpr Vector3<Value_> const& Spatial() const
     {
         return *this;
     }
@@ -203,12 +203,12 @@ public:
      * @brief Getter for the scalar component
      * @{
      */
-    constexpr Value_ Scalar() const
+    constexpr Value_ const& Scalar() const
     {
         return scalar_;
     }
 
-    constexpr Value_ T() const
+    constexpr Value_ const& T() const
     {
         return scalar_;
     }
@@ -617,60 +617,34 @@ public:
     /**
      * @brief components by index.
      */
-    Value_ const &operator()(LorentzDim i) const
+    Value_ const &operator[](LorentzDim lorentz_dim) const
     {
-        switch (i) {
+        switch (lorentz_dim) {
         case LorentzDim::x :
-            return Spatial()(Dim3::x);
+            return Spatial()[Dim3::x];
         case LorentzDim::y :
-            return Spatial()(Dim3::y);
+            return Spatial()[Dim3::y];
         case LorentzDim::z :
-            return Spatial()(Dim3::z);
+            return Spatial()[Dim3::z];
         case LorentzDim::t :
             return scalar_;
         default:
-            std::cout << "bad index(%d) returning 0 " << Name(i) << '\n';
-            return Spatial()(Dim3::x);
+            Default("LorentzVector", Name(lorentz_dim));
+            return Spatial()[Dim3::x];
         }
     }
 
     /**
      * @brief components by index.
      */
-    Value_ const &operator[](LorentzDim i) const
+    Value_ &operator[](LorentzDim lorentz_dim)
     {
-        return (*this)(i);
+        return const_cast<Value_ &>(static_cast<LorentzVectorBase<Value_> const *>(this)[lorentz_dim]);
     }
 
     /**
-     * @brief components by index.
+     * @brief Output stream operator
      */
-    Value_ &operator()(LorentzDim i)
-    {
-        //dereferencing operator
-        switch (i) {
-        case LorentzDim::x :
-            return Spatial()(Dim3::x);
-        case LorentzDim::y :
-            return Spatial()(Dim3::y);
-        case LorentzDim::z :
-            return Spatial()(Dim3::z);
-        case LorentzDim::t :
-            return scalar_;
-        default:
-            std::cout << "bad index(%d) returning &e_ " << Name(i) << '\n';
-            return scalar_;
-        }
-    }
-
-    /**
-     * @brief components by index.
-     */
-    Value_ &operator[](LorentzDim i)
-    {
-        return (*this)(i);
-    }
-
     friend auto &operator<<(std::ostream &stream, LorentzVectorBase<Value_> const &lorentz_vector)
     {
         stream << Stream(lorentz_vector.Scalar()) << lorentz_vector.Spatial();

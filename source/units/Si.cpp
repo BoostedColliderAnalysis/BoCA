@@ -2,7 +2,6 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include <boost/math/constants/constants.hpp>
 
 #include "boca/math/Math.hh"
 #include "boca/units/Si.hh"
@@ -14,26 +13,26 @@ namespace boca
 namespace units
 {
 
-Angle Pi()
+Angle PiRad()
 {
     return boost::math::constants::pi<double>() * rad;
 }
 
-Angle TwoPi()
+Angle TwoPiRad()
 {
-    return 2. * Pi();
+    return TwoPi() * rad;
 }
 
 Angle Restrict(Angle phi)
 {
-    while (phi >= Pi()) phi -= TwoPi();
-    while (phi < -Pi()) phi += TwoPi();
+    while (phi >= PiRad()) phi -= TwoPiRad();
+    while (phi < -PiRad()) phi += TwoPiRad();
     return phi;
 }
 
 Angle Wrap(Angle phi)
 {
-    return phi - static_cast<double>(sgn(phi)) * TwoPi();
+    return phi - static_cast<double>(sgn(phi)) * TwoPiRad();
 }
 
 }

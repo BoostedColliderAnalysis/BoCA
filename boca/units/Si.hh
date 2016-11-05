@@ -6,8 +6,9 @@
 #include <boost/units/quantity.hpp>
 #include <boost/units/systems/si/plane_angle.hpp>
 #include <boost/units/systems/si/length.hpp>
-
 #include <boost/units/cmath.hpp>
+#include <boost/math/constants/constants.hpp>
+
 
 namespace boca
 {
@@ -39,17 +40,33 @@ BOOST_UNITS_STATIC_CONSTANT(radian, boost::units::si::plane_angle);
 BOOST_UNITS_STATIC_CONSTANT(radians, boost::units::si::plane_angle);
 
 /**
-* @brief \f$\pi\f$
+* @brief Constant \f$\pi\f$
 */
-Angle Pi();
+constexpr double Pi()
+{
+    return boost::math::constants::pi<double>();
+}
 
 /**
-* @brief \f$2 \pi\f$
+* @brief Constant \f$2 \pi\f$
 */
-Angle TwoPi();
+constexpr double TwoPi()
+{
+    return 2 * Pi();
+}
 
 /**
-* @brief restrict an angle to the interval \f$[-\pi,\pi]\f$)
+* @brief Constant \f$\pi\f$ in rad
+*/
+Angle PiRad();
+
+/**
+* @brief Constant \f$2 \pi\f$ in rad
+*/
+Angle TwoPiRad();
+
+/**
+* @brief restrict an angle to the interval \f$[-\pi,\pi)\f$
 */
 Angle Restrict(Angle phi);
 

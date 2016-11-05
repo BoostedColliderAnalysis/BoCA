@@ -2,7 +2,7 @@
 
 ## Git commands
 
-* initial download of the project `git clone git@github.com:BoostedColliderAnalysis/BoCA.git`
+* initial download of the project [`git clone git@github.com:BoostedColliderAnalysis/BoCA.git`](git@github.com:BoostedColliderAnalysis/BoCA.git)
 * downloading updates from the server `git pull`
 * save changes of specific files `git commit FILES`
 * save changes in to all files `git commit -a`
@@ -31,18 +31,18 @@ The most usefull tools are
 
   Which can be called via
 
-    valgrind --tool=callgrind program
+      valgrind --tool=callgrind program
 
   The output file can be analysed with [`KCachegrind`](https://kcachegrind.github.io/html/Home.html).
   In order to dump intermediate results call
 
-    callgrind_control -d
+      callgrind_control -d
 
 * The memory error detector [`Memcheck`](http://valgrind.org/docs/manual/mc-manual.html).
 
   Which can be called via
 
-    valgrind --suppressions=$ROOTSYS/etc/valgrind-root.supp program
+      valgrind --suppressions=$ROOTSYS/etc/valgrind-root.supp program
 
-  The suppression file suppresses false positive hits from `ROOT`.
+  The suppression file suppresses false positive hits from [`ROOT`](https://root.cern.ch/).
   The output can be analysed with [`Valkyrie`](http://valgrind.org/downloads/guis.html).

@@ -53,9 +53,25 @@ public:
     }
 
     /**
+    * @brief Vector of first point
+    */
+    Vector_<Value_> Point_1()
+    {
+        return point_1_;
+    }
+
+    /**
     * @brief Vector of second point
     */
     Vector_<Value_> const &Point_2() const
+    {
+        return point_2_;
+    }
+
+    /**
+    * @brief Vector of second point
+    */
+    Vector_<Value_> Point_2()
     {
         return point_2_;
     }
@@ -85,8 +101,7 @@ public:
     Value_ DistanceToLine(Vector_<Value_> const &point) const
     {
         if (Mag2() == Value_Square(0)) return Distance_1(point); // v == w case
-        return (point - Projection(point)).Mag(); // second implementation
-//         return Area(point) / Mag(); // first implementation
+        return (point - Projection(point)).Mag();
     }
 
     //@}
@@ -119,14 +134,6 @@ public:
     {
         return Vector().Mag();
     }
-
-//     /**
-//     * @brief signed area spanned by the to vectors
-//     */
-//     auto SignedArea() const
-//     {
-//         return point_1_ ^ point_2_;
-//     }
 
     //@}
 
@@ -185,14 +192,6 @@ public:
     {
         return point_1_ + Vector() * Paramter(point);
     }
-
-//     /**
-//     * @brief Area spanned by the three vectors
-//     */
-//     Value_Square Area(Vector_<Value_> const &point) const
-//     {
-//         return abs((Vector() ^ point) + SignedArea());
-//     }
 
     //@}
 
