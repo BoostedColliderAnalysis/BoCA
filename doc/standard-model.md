@@ -7,24 +7,24 @@ All particles are boosted with transverse momenta between 1000 GeV and 1500 GeV.
 
 ### Hadronic
 
-![](https://boostedcollideranalysis.github.io/BoCA/top-hadronic.svg)
+![](https://github.com/BoostedColliderAnalysis/BoCA/raw/master/doc/images/top-hadronic.svg)
 
 ### Leptonic
 
-![](https://boostedcollideranalysis.github.io/BoCA/top-leptonic.svg)
+![](https://github.com/BoostedColliderAnalysis/BoCA/raw/master/doc/images/top-leptonic.svg)
 
 ## Higgs
 
-![](https://boostedcollideranalysis.github.io/BoCA/higgs.svg)
+![](https://github.com/BoostedColliderAnalysis/BoCA/raw/master/doc/images/higgs.svg)
 
 ## Z boson
 
-![](https://boostedcollideranalysis.github.io/BoCA/Z.svg)
+![](https://github.com/BoostedColliderAnalysis/BoCA/raw/master/doc/images/Z.svg)
 
 ## W boson
 
-![](https://boostedcollideranalysis.github.io/BoCA/W.svg)
+![](https://github.com/BoostedColliderAnalysis/BoCA/raw/master/doc/images/W.svg)
 
 ## Bottom
 
-![](https://boostedcollideranalysis.github.io/BoCA/bottom.svg)
+![](https://github.com/BoostedColliderAnalysis/BoCA/raw/master/doc/images/bottom.svg)
