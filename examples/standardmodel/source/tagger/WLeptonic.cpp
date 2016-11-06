@@ -3,7 +3,7 @@
  */
 #include "boca/fastjet/Particles.hh"
 #include "boca/fastjet/Vector.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "standardmodel/tagger/WLeptonic.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"

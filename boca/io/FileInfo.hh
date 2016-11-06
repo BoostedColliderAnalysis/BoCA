@@ -6,7 +6,7 @@
 #include "boca/units/Units.hh"
 #include "boca/math/Number.hh"
 #include "boca/io/Source.hh"
-#include "boca/Names.hh"
+#include "boca/latex/Names.hh"
 
 namespace boca
 {

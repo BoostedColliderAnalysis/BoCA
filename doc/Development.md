@@ -2,7 +2,7 @@
 
 ## Git commands
 
-* initial download of the project [`git clone git@github.com:BoostedColliderAnalysis/BoCA.git`](git@github.com:BoostedColliderAnalysis/BoCA.git)
+* initial download of the project [`git clone git@github.com:BoostedColliderAnalysis/BoCA.git`](https://github.com/BoostedColliderAnalysis/BoCA.git)
 * downloading updates from the server `git pull`
 * save changes of specific files `git commit FILES`
 * save changes in to all files `git commit -a`

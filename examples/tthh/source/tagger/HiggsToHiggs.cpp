@@ -8,7 +8,7 @@
 #include "boca/generic/Exception.hh"
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/fastjet/Particles.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/identification/MomentumRange.hh"
 
 #include "tthh/tagger/HiggsToHiggs.hh"

@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/Names.hh"
+#include "boca/latex/Names.hh"
 
 namespace boca
 {

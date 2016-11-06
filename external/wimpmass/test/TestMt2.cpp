@@ -41,8 +41,7 @@ public:
 using namespace boca::units;
 
 /**
-* @test Test
-* @brief Mt2 Test
+* @test Test Mt2
 *
 */
 // TEST(Wimpmass, Mt2)

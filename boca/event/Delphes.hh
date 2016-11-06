@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/generic/Mutable.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 
 namespace boca
 {

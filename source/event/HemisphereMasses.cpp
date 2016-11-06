@@ -1,5 +1,5 @@
 
-#include "boca/HemisphereMasses.hh"
+#include "boca/event/HemisphereMasses.hh"
 
 namespace boca
 {

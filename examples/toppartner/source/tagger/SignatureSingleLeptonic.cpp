@@ -1,5 +1,5 @@
 #include "toppartner/tagger/SignatureSingleLeptonic.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/generic/Exception.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"

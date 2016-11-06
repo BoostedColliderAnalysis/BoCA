@@ -382,7 +382,7 @@ public:
     }
 
     /**
-    * @brief Equality comnparison
+    * @brief Equality comparison
     */
     constexpr bool operator==(Matrix2 const &matrix) const
     {
@@ -497,7 +497,7 @@ public:
      */
 
     /**
-    * @brief begin
+    * @brief const begin
     */
     constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin() const
     {
@@ -505,7 +505,7 @@ public:
     }
 
     /**
-    * @brief end
+    * @brief const end
     */
     constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> end() const
     {
@@ -513,7 +513,7 @@ public:
     }
 
     /**
-    * @brief const begin
+    * @brief begin
     */
     SubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin()
     {
@@ -521,7 +521,7 @@ public:
     }
 
     /**
-    * @brief const end
+    * @brief end
     */
     SubIterator<boca::Matrix2, Vector2, Value_, Dim2> end()
     {

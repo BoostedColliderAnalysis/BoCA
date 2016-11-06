@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/identification/PreCuts.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/identification/Id.hh"

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/fastjet/Sort.hh"
 #include "boca/fastjet/Particles.hh"
 

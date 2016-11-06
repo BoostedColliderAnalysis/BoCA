@@ -10,7 +10,7 @@
 // #include "boca/fastjet/Sort.hh"
 #include "boca/multivariant/Phase.hh"
 #include "boca/identification/PreCuts.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 
 namespace boca
 {

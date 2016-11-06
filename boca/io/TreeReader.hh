@@ -9,8 +9,8 @@
 
 #include "boca/io/TreeReaderArray.hh"
 #include "boca/io/Source.hh"
-#include "boca/delphes/Event.hh"
-#include "boca/exroot/Event.hh"
+#include "boca/event/Delphes.hh"
+#include "boca/event/ExRoot.hh"
 
 namespace boca
 {

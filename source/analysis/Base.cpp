@@ -9,7 +9,7 @@
 #include "boca/io/Io.hh"
 #include "boca/io/FileInfo.hh"
 #include "boca/analysis/Base.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/multivariant/Trainer.hh"
 #include "boca/tagger/Base.hh"
 // #define INFORMATION

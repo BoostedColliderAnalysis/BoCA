@@ -122,6 +122,10 @@ auto ReadDataFile(std::ifstream &file)
     return events;
 }
 
+/**
+* @test Test Invisible2
+*
+*/
 // TEST(Wimpmass, Invisible2)
 BOOST_AUTO_TEST_CASE(Invisible2)
 {

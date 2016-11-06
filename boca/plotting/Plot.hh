@@ -5,7 +5,7 @@
 
 #include <functional>
 
-#include "boca/Names.hh"
+#include "boca/latex/Names.hh"
 #include "boca/math/Range.hh"
 #include "boca/math/Vector3.hh"
 

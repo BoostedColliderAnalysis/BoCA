@@ -6,7 +6,7 @@
 #include "boca/generic/Types.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/io/TreeReader.hh"
-#include "boca/exroot/Event.hh"
+#include "boca/event/ExRoot.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca

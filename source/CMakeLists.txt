@@ -3,8 +3,7 @@
 #
 add_subdirectory(generic)
 add_subdirectory(units)
-add_subdirectory(exroot)
-add_subdirectory(delphes)
+add_subdirectory(event)
 add_subdirectory(math)
 add_subdirectory(identification)
 add_subdirectory(fastjet)
@@ -18,12 +17,7 @@ add_subdirectory(tagger)
 add_subdirectory(analysis)
 
 set(boca_sources
-Names.cpp
-Names.cpp
 Settings.cpp
-HemisphereMasses.cpp
-EventShapes.cpp
-Event.cpp
 WimpMass.cpp
 )
 create_library(Boca boca_sources)
