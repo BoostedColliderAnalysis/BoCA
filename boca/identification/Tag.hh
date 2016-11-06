@@ -21,5 +21,11 @@ enum class Tag {
 */
 std::string Name(Tag tag);
 
+/**
+ * @brief Stream the name of a particle with given Id
+ *
+ */
+std::ostream& operator<<(std::ostream & stream, Tag tag);
+
 }
 

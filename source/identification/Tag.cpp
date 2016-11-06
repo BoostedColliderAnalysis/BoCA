@@ -16,4 +16,10 @@ std::string Name(Tag tag)
     }
 }
 
+std::ostream& operator<<(std::ostream& stream, Tag tag)
+{
+  stream << Name(tag);
+  return stream;
+}
+
 }

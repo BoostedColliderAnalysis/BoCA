@@ -38,6 +38,8 @@ public:
 
     Identification &operator=(Identification &&) & = default;
 
+    friend std::ostream& operator<<(std::ostream& stream, Identification const& identification);
+
 protected:
 
     ~Identification() {}

@@ -60,4 +60,11 @@ Momentum ClosestLepton::Pt()
     return lepton_.Pt();
 }
 
+std::ostream& operator<<(std::ostream& stream, ClosestLepton const& closest_lepton)
+{
+  stream << closest_lepton.jet_ << closest_lepton.lepton_;
+  return stream;
+}
+
+
 }

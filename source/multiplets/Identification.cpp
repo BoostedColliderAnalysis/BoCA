@@ -54,4 +54,10 @@ bool Identification::operator<(Identification const& identification) const
     return Bdt() > identification.Bdt();
 }
 
+std::ostream& operator<<(std::ostream& stream, Identification const& identification)
+{
+  stream << STREAM(identification.tag_) << STREAM(identification.bdt_);
+  return stream;
+}
+
 }

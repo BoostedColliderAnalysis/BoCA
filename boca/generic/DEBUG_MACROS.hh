@@ -47,6 +47,8 @@
 
 #define VARIABLE(value) #value, value
 
+#define STREAM(value) ::boca::Stream2(VARIABLE(value))
+
 #define LOG0 ::boca::Log(NAMES)
 
 #define LOG1(value) ::boca::Log(NAMES, VARIABLE(value))
