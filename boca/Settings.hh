@@ -3,8 +3,8 @@
  */
 #pragma once
 
+#include "boca/units/Prefixes.hh"
 #include "boca/fastjet/InfoRecombiner.hh"
-#include "boca/math/Range.hh"
 #include "boca/io/Source.hh"
 #include "boca/plotting/Font.hh"
 
@@ -35,6 +35,9 @@ enum class Collider
 };
 
 std::string Name(Collider collider);
+
+template<typename Value_>
+class Range;
 
 /**
  * @brief Detector and Collider specific constants
