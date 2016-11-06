@@ -14,7 +14,7 @@
 
 #include "boca/math/Matrix3.hh"
 #include "boca/fastjet/Jet.hh"
-#include "boca/HemisphereMasses.hh"
+#include "boca/event/HemisphereMasses.hh"
 
 namespace boca
 {

@@ -13,6 +13,6 @@
 #pragma link C++ defined_in "../../../boca/branch/Event.hh";
 #pragma link C++ defined_in "../../../boca/branch/EventShapesBase.hh";
 #pragma link C++ defined_in "../../../boca/branch/Signature.hh";
-#pragma link C++ defined_in "../../../boca/Names.hh";
 #pragma link C++ defined_in "../../../boca/latex/String.hh";
+#pragma link C++ defined_in "../../../boca/latex/Names.hh";
 #endif

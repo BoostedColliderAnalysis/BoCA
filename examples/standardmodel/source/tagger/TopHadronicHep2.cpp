@@ -11,7 +11,7 @@
 
 #include "boca/Settings.hh"
 #include "boca/identification/PreCuts.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 

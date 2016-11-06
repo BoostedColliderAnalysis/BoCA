@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/Names.hh"
+#include "boca/latex/Names.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"
 

@@ -170,7 +170,7 @@ public:
     * @brief x
     * @{
     */
-    constexpr Vector2<Value_> X() const
+    constexpr Vector2<Value_> const& X() const
     {
         return x_;
     }
@@ -184,7 +184,7 @@ public:
     /**
     * @brief y
     */
-    constexpr Vector2<Value_> Y() const
+    constexpr Vector2<Value_> const& Y() const
     {
         return y_;
     }
@@ -374,7 +374,7 @@ public:
      */
 
     /**
-    * @brief Less than comparison according to determinans
+    * @brief Less than comparison according to absolute value of the determinant
     */
     constexpr bool operator<(Matrix2 const &matrix) const
     {
@@ -382,7 +382,7 @@ public:
     }
 
     /**
-    * @brief Equality comnparison
+    * @brief Equality comparison
     */
     constexpr bool operator==(Matrix2 const &matrix) const
     {
@@ -461,15 +461,13 @@ public:
     /**
     * @brief rows
     */
-    constexpr Vector2<Value_> const &operator()(Dim2 dim) const
+    constexpr Vector2<Value_> const &operator[](Dim2 dim_2) const
     {
-        switch (dim) {
-        case Dim2::x :
-            return x_;
-        case Dim2::y :
-            return y_;
+        switch (dim_2) {
+        case Dim2::x : return x_;
+        case Dim2::y : return y_;
         default :
-            Default("Matrix2", to_int(dim));
+            Default("Matrix2", Name(dim_2));
             return x_;
         }
     }
@@ -477,51 +475,14 @@ public:
     /**
     * @brief rows
     */
-    Vector2<Value_> &operator()(Dim2 dim)
+    Vector2<Value_> &operator[](Dim2 dim_2)
     {
-        switch (dim) {
-        case Dim2::x :
-            return x_;
-        case Dim2::y :
-            return y_;
-        default :
-            Default("Matrix2", to_int(dim));
-            return x_;
-        }
+        return const_cast<Vector2<Value_> &>(static_cast<Matrix2<Value_> const &>(*this)[dim_2]);
     }
 
     /**
-    * @brief rows
-    */
-    constexpr Value_ const &operator()(Dim2 i, Dim2 j) const
-    {
-        return operator()(i)(j);
-    }
-
-    /**
-    * @brief rows
-    */
-    Value_ &operator()(Dim2 i, Dim2 j)
-    {
-        return operator()(i)(j);
-    }
-
-    /**
-    * @brief rows
-    */
-    constexpr Vector2<Value_> const &operator[](Dim2 i) const
-    {
-        return operator()(i);
-    }
-
-    /**
-    * @brief rows
-    */
-    Vector2<Value_> &operator[](Dim2 i)
-    {
-        return operator()(i);
-    }
-
+     * @brief Output stream operator
+     */
     friend auto &operator<<(std::ostream &stream, Matrix2<Value_> const &matrix)
     {
         for(auto const& vector : matrix) stream << vector;
@@ -536,7 +497,7 @@ public:
      */
 
     /**
-    * @brief begin
+    * @brief const begin
     */
     constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin() const
     {
@@ -544,7 +505,7 @@ public:
     }
 
     /**
-    * @brief end
+    * @brief const end
     */
     constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> end() const
     {
@@ -552,7 +513,7 @@ public:
     }
 
     /**
-    * @brief const begin
+    * @brief begin
     */
     SubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin()
     {
@@ -560,7 +521,7 @@ public:
     }
 
     /**
-    * @brief const end
+    * @brief end
     */
     SubIterator<boca::Matrix2, Vector2, Value_, Dim2> end()
     {

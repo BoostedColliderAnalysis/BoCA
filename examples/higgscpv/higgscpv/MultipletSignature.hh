@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/EventShapes.hh"
+#include "boca/event/EventShapes.hh"
 
 namespace boca
 {

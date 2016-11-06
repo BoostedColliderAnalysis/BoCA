@@ -70,7 +70,7 @@ public:
     /**
      * @brief Less than comparison
      */
-    constexpr bool operator<(EnumIterator const &enum_iterator)
+    constexpr bool operator<(EnumIterator const &enum_iterator) const
     {
         return enum_ < enum_iterator.enum_;
     }
@@ -78,7 +78,7 @@ public:
     /**
      * @brief equality comparison
      */
-    constexpr bool operator==(EnumIterator const &enum_iterator)
+    constexpr bool operator==(EnumIterator const &enum_iterator) const
     {
         return enum_ == enum_iterator.enum_;
     }

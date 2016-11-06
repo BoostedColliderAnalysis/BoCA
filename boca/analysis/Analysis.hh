@@ -10,7 +10,7 @@
 #include "boca/plotting/Plotting.hh"
 #include "boca/analysis/Base.hh"
 #include "boca/analysis/Data.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 
 namespace boca
 {

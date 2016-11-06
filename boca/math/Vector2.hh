@@ -8,13 +8,14 @@
 #include "boca/generic/Iterator.hh"
 
 #include "boca/units/Units.hh"
+#include "boca/math/Math.hh"
 
 namespace boca
 {
 
 /**
 * @ingroup Math
-* @brief Two dimensions
+* @brief Two dimensionss
 *
 */
 enum class Dim2
@@ -24,7 +25,7 @@ enum class Dim2
     last
 };
 
-std::string Name(Dim2 dimension);
+std::string Name(Dim2 dim_2);
 
 std::vector<Dim2> Dimensions2();
 
@@ -149,7 +150,7 @@ public:
     /**
     * @brief Getter for X
     */
-    constexpr Value_ X() const
+    constexpr Value_ const& X() const
     {
         return x_;
     }
@@ -157,7 +158,7 @@ public:
     /**
     * @brief Getter for Y
     */
-    constexpr Value_ Y() const
+    constexpr Value_ const& Y() const
     {
         return y_;
     }
@@ -262,11 +263,11 @@ public:
     /**
      * @brief Rotate this vector by \f$\phi\f$
      */
-    Vector2& Rotate(Angle const &phi)
+    Vector2 &Rotate(Angle const &phi)
     {
         auto const cos = boost::units::cos(phi);
         auto const sin = boost::units::sin(phi);
-        *this = {x_ * cos - y_ * sin, x_ * sin + y_ * cos};
+        *this = {x_ *cos - y_ * sin, x_ *sin + y_ * cos};
         return *this;
     }
 
@@ -419,52 +420,30 @@ public:
     /**
      * @brief Components by index
      */
-    Value_ operator()(Dim2 dimension) const
+    Value_ const &operator[](Dim2 dim_2) const
     {
-        //dereferencing operator const
-        switch (dimension) {
+        switch (dim_2) {
         case Dim2::x :
             return x_;
         case Dim2::y :
             return y_;
         default :
-            Debug("Bad index returning x_", Name(dimension));
-            return 0;
+            Default("Matrix2", Name(dim_2));
+            return x_;
         }
     }
 
     /**
      * @brief Components by index
      */
-    Value_ operator[](Dim2 dimension) const
+    Value_ &operator[](Dim2 dim_2)
     {
-        return operator()(dimension);
+        return const_cast<Value_ &>(static_cast<Vector2<Value_> const &>(*this)[dim_2]);
     }
 
     /**
-     * @brief Components by index
+     * @brief Output stream operator
      */
-    Value_ &operator()(Dim2 dimension)
-    {
-        switch (dimension) {
-        case Dim2::x :
-            return x_;
-        case Dim2::y :
-            return y_;
-        default :
-            Debug("Bad index returning x_", Name(dimension));
-        return x_;
-        }
-    }
-
-    /**
-     * @brief Components by index
-     */
-    Value_ &operator[](Dim2 dimension)
-    {
-        return operator()(dimension);
-    }
-
     friend auto &operator<<(std::ostream &stream, Vector2<Value_> const &vector)
     {
         stream << Stream(vector.X()) << Stream(vector.Y());

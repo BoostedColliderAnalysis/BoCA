@@ -36,6 +36,7 @@ WARN_NO_PARAMDOC = NO # warn if paramter are undocumented
 
 INPUT = @DOXYFILE_SOURCE_DIRS@ # input files
 EXCLUDE = @DOXYFILE_EXCLUDE_DIR@ # exclude folders
+EXCLUDE_PATTERNS = */boca/*.md
 EXCLUDE_SYMBOLS = #fastjet TMVA TMatrixT
 RECURSIVE = YES # search recursivly for files
 EXAMPLE_PATH = "@CMAKE_CURRENT_SOURCE_DIR@/examples/" # path to examples
@@ -73,6 +74,21 @@ LATEX_OUTPUT = "@DOXYFILE_LATEX_DIR@" # path to latex documentation
 LATEX_CMD_NAME = "@LATEX_COMPILER@" # latex compiler
 MAKEINDEX_CMD_NAME = "@MAKEINDEX_COMPILER@" # makeindex command
 USE_PDFLATEX = @DOXYFILE_PDFLATEX@ # use pdflatex
+
+#Configuration options related to the preprocessor
+
+ENABLE_PREPROCESSING = YES
+MACRO_EXPANSION = YES
+#EXPAND_ONLY_PREDEF = YES
+#EXPAND_AS_DEFINED =
+SKIP_FUNCTION_MACROS = NO
+SEARCH_INCLUDES = YES
+PREDEFINED = "BOOST_AUTO_TEST_CASE(name)=void name()" \
+                         "BOOST_AUTO_TEST_SUITE(name)=namespace BoostTest { class name {public:" \
+                         "BOOST_FIXTURE_TEST_SUITE(name,data)=namespace BoostTest { class name {public:" \
+                         "BOOST_AUTO_TEST_SUITE_END()=};}" \
+                         "BOOST_CONCEPT_REQUIRES(req,type)=type " \
+                         "BOOST_CONCEPT_ASSERT(req)= "
 
 #Configuration options related to the dot tool
 

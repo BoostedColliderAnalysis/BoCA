@@ -3,7 +3,7 @@
 
 #include "boca/generic/Vector.hh"
 #include "boca/multivariant/Observables.hh"
-#include "boca/Filter.hh"
+#include "boca/multivariant/Filter.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca

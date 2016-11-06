@@ -18,7 +18,7 @@ enum class Dim3
     last
 };
 
-std::string Name(Dim3 dimension);
+std::string Name(Dim3 dim_3);
 
 Dim3 Third(Dim3 dim_1,  Dim3 dim_2);
 
@@ -80,11 +80,11 @@ public:
     /**
      * @brief Constructor accepting one scalar and its direction
      */
-    Vector3(Value_ value, Dim3 dim) :
-        z_(dim == Dim3::z ? value : Value_(0))
+    Vector3(Value_ value, Dim3 dim_3) :
+        z_(dim_3 == Dim3::z ? value : Value_(0))
     {
-        trans_.X() = dim == Dim3::x ? value : Value_(0);
-        trans_.Y() = dim == Dim3::y ? value : Value_(0);
+        trans_.X() = dim_3 == Dim3::x ? value : Value_(0);
+        trans_.Y() = dim_3 == Dim3::y ? value : Value_(0);
     }
 
     /**
@@ -197,7 +197,7 @@ public:
     /**
      * @brief Getter for X
      */
-    constexpr Value_ X() const
+    constexpr Value_ const& X() const
     {
         return trans_.X();
     }
@@ -205,7 +205,7 @@ public:
     /**
      * @brief Getter for Y
      */
-    constexpr Value_ Y() const
+    constexpr Value_ const& Y() const
     {
         return trans_.Y();
     }
@@ -213,7 +213,7 @@ public:
     /**
      * @brief Getter for Z
      */
-    constexpr Value_ Z() const
+    constexpr Value_ const& Z() const
     {
         return z_;
     }
@@ -683,17 +683,14 @@ public:
     /**
     * @brief Components by index
     */
-    Value_ operator()(Dim3 dimension) const
+    Value_ const& operator[](Dim3 dim_3) const
     {
-        switch (dimension) {
-        case Dim3::x :
-            return X();
-        case Dim3::y :
-            return Y();
-        case Dim3::z :
-            return Z();
+        switch (dim_3) {
+        case Dim3::x : return X();
+        case Dim3::y : return Y();
+        case Dim3::z : return Z();
         default :
-            std::cout << "bad index(%d) returning 0 " << Name(dimension) << '\n';
+            Default("Vector3", Name(dim_3));
             return X();
         }
     }
@@ -701,37 +698,14 @@ public:
     /**
     * @brief Components by index
     */
-    Value_ &operator()(Dim3 dimension)
+    Value_ &operator[](Dim3 dim_3)
     {
-        switch (dimension) {
-        case Dim3::x :
-            return X();
-        case Dim3::y :
-            return Y();
-        case Dim3::z :
-            return Z();
-        default :
-            std::cout << "bad index(%d) returning &X()" <<  Name(dimension) << '\n';
-            return X();
-        }
+        return const_cast<Value_ &>(static_cast<Vector3<Value_> const &>(*this)[dim_3]);
     }
 
     /**
-    * @brief Components by index
-    */
-    Value_ operator[](Dim3 dimension) const
-    {
-        return operator()(dimension);
-    }
-
-    /**
-    * @brief Components by index
-    */
-    Value_ &operator[](Dim3 dimension)
-    {
-        return operator()(dimension);
-    }
-
+     * @brief Output stream operator
+     */
     friend auto &operator<<(std::ostream &stream, Vector3<Value_> const &vector)
     {
         stream << vector.Transversal() << Stream(vector.Z());

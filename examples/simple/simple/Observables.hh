@@ -3,7 +3,7 @@
 // include the Identification base class
 #include "boca/fastjet/Particle.hh"
 // include the Event class
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 
 namespace simple
 {

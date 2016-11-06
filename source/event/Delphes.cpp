@@ -8,7 +8,7 @@
 #include "boca/generic/Exception.hh"
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/io/TreeReader.hh"
-#include "boca/delphes/Event.hh"
+#include "boca/event/Delphes.hh"
 #include "boca/fastjet/Sort.hh"
 #include "boca/Settings.hh"
 // #define DEBUGGING

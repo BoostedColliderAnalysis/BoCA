@@ -9,7 +9,7 @@
 #include "boca/fastjet/Vector.hh"
 #include "boca/tagger/Base.hh"
 #include "boca/identification/PreCuts.hh"
-#include "boca/Filter.hh"
+#include "boca/multivariant/Filter.hh"
 #include "boca/generic/Debug.hh"
 
 namespace boca

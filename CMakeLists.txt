@@ -10,7 +10,7 @@ if(!iwyu_path)
   message("'Include what You Use' is not available.")
 endif()
 
-include(cmake/CMakeConfig.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/CMakeConfig.cmake)
 find_package(Boost 1.56)
 # find_package(Boost 1.56 COMPONENTS system filesystem REQUIRED)
 add_include_path(${Boost_INCLUDE_DIRS} SYSTEM)
@@ -62,7 +62,7 @@ if (USE_LD_GOLD)
 endif ()
 
 # FastJet
-include(cmake/Findfastjet.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/Findfastjet.cmake)
 add_libraries(${fastjet_LIBRARIES})
 add_libraries(fastjettools)
 add_libraries(Nsubjettiness)
@@ -78,15 +78,20 @@ add_libraries(MathMore)
 # Doxygen
 option(DO_DOXYGEN "Create Doxygen documentation" OFF)
 if(DO_DOXYGEN)
-  include(cmake/UseDoxygen.cmake)
+  include(${CMAKE_SOURCE_DIR}/cmake/UseDoxygen.cmake)
+  file(GLOB svg_files ${CMAKE_SOURCE_DIR}/doc/images/*.svg)
+  configure_file(${svg_files} ${CMAKE_BINARY_DIR}/doc/ COPYONLY)
 endif()
 
 # Testing
 option(BUILD_TESTING "Build testing" OFF)
 if(BUILD_TESTING)
   enable_testing()
-  find_package(GTest REQUIRED)
-  include_directories(${GTEST_INCLUDE_DIRS})
+  find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+  add_libraries(${Boost_LIBRARIES})
+  add_include_path(${Boost_INCLUDE_DIRS})
+#   find_package(GTest REQUIRED)
+#   include_directories(${GTEST_INCLUDE_DIRS})
 endif()
 
 add_include_path(${PROJECT_SOURCE_DIR})
@@ -98,10 +103,8 @@ add_subdirectory(external)
 add_subdirectory(source)
 
 # application examples
-add_subdirectory(examples)
+# add_subdirectory(examples)
 
-if(BUILD_TESTING)
-  create_test(Mt2 external/wimpmass/source/TestMt2.cpp)
-  create_test(Invisible2 external/wimpmass/source/TestInvisible2.cpp)
-  configure_file(external/wimpmass/source/Wimpmass.lhe ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-endif()
+
+add_subdirectory(external/wimpmass/test)
+add_subdirectory(test)

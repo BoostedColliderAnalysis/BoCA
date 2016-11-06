@@ -3,7 +3,7 @@
  */
 #include "boca/fastjet/Sort.hh"
 #include "boca/fastjet/Particles.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 
 #include "standardmodel/tagger/Tau.hh"
 #include "boca/generic/DEBUG_MACROS.hh"

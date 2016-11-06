@@ -17,6 +17,26 @@ namespace boca
  */
 
 /**
+ * @brief square of value
+ *
+ */
+template<typename Value>
+auto sqr(Value const& value)
+{
+    return value * value;
+}
+
+/**
+ * @brief cube of value
+ *
+ */
+template<typename Value>
+auto cube(Value const& value)
+{
+  return value * value * value;
+}
+
+/**
  * @brief sign of value
  *
  */

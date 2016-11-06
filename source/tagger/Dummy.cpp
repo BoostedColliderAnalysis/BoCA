@@ -1,5 +1,5 @@
 #include "boca/tagger/Dummy.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca

@@ -11,7 +11,7 @@
 #include "boca/multivariant/Reader.hh"
 #include "boca/analysis/Base.hh"
 #include "boca/tagger/Base.hh"
-#include "boca/Filter.hh"
+#include "boca/multivariant/Filter.hh"
 #include "boca/Settings.hh"
 
 // #define INFORMATION

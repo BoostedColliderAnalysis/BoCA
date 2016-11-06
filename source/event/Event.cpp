@@ -7,7 +7,7 @@
 #include "boca/generic/Types.hh"
 #include "boca/fastjet/Vector.hh"
 #include "boca/Settings.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca

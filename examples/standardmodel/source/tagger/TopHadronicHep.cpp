@@ -8,7 +8,7 @@
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/Settings.hh"
 #include "boca/identification/PreCuts.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 
 #include "standardmodel/tagger/TopHadronicHep.hh"
 #define NOTIFICATION

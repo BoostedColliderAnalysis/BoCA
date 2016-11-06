@@ -3,7 +3,7 @@
  */
 #include "standardmodel/tagger/Truth.hh"
 
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/identification/PreCuts.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/fastjet/Particles.hh"

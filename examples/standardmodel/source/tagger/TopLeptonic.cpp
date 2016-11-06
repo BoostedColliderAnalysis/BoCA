@@ -4,7 +4,7 @@
 #include "boca/generic/Exception.hh"
 #include "boca/fastjet/Particles.hh"
 #include "standardmodel/tagger/TopLeptonic.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 // #define NOTIFICATION
 #include "boca/generic/DEBUG_MACROS.hh"
 

@@ -35,7 +35,7 @@ public:
     {
         return container_;
     }
-    Container_<Value_> Container() const
+    Container_<Value_> const& Container() const
     {
         return container_;
     }
@@ -43,7 +43,7 @@ public:
     {
         return container_ / scalar_;
     }
-    Value_ Scalar() const
+    Value_ const& Scalar() const
     {
         return scalar_;
     }
@@ -84,7 +84,7 @@ public:
     {
         return GradedContainer<Container_,  Value_>::Container();
     }
-    Container_<Value_> Vector() const
+    Container_<Value_> const& Vector() const
     {
         return GradedContainer<Container_,  Value_>::Container();
     }
@@ -112,7 +112,7 @@ public:
     {
         return GradedContainer<Container_, Value_>::Container();
     }
-    Container_<Value_> Matrix() const
+    Container_<Value_> const& Matrix() const
     {
         return GradedContainer<Container_, Value_>::Container();
     }

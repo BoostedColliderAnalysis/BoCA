@@ -18,7 +18,7 @@
 #include "boca/math/GradedMatrix3.hh"
 #include "boca/math/GradedLorentzVector.hh"
 #include "boca/fastjet/Sort.hh"
-#include "boca/EventShapes.hh"
+#include "boca/event/EventShapes.hh"
 
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"

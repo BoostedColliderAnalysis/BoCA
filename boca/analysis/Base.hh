@@ -7,7 +7,7 @@
 #include "boca/multivariant/Stage.hh"
 #include "boca/identification/PreCuts.hh"
 #include "boca/io/FileInfo.hh"
-#include "boca/Names.hh"
+#include "boca/latex/Names.hh"
 #include "boca/identification/Tag.hh"
 
 namespace boca

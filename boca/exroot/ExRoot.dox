@@ -1,6 +1,0 @@
-/**
- * @defgroup ExRoot ExRootAnalysis
- * @ingroup External
- * @brief <a href="https://cp3.irmp.ucl.ac.be/projects/ExRootAnalysis/wiki/UserManual">ExRootAnalysis</a> is a package designed to simplify ROOT tree production and analysis.
- *
- */

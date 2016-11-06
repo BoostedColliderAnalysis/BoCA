@@ -47,6 +47,7 @@ namespace boca
 /**
 * @brief Units
 *
+* Units and functions to handle dimensionfull quantities
 */
 namespace units
 {
@@ -106,8 +107,7 @@ inline Angle log(Y const& number)
 }
 
 template<class Unit, class Y>
-inline typename boost::units::root_typeof_helper <boost::units::quantity<Unit, Y>, boost::units::static_rational<3>>::type
-        cbrt(const boost::units::quantity<Unit, Y>& q)
+inline typename boost::units::root_typeof_helper <boost::units::quantity<Unit, Y>, boost::units::static_rational<3>>::type cbrt(const boost::units::quantity<Unit, Y>& q)
 {
     using boost::math::cbrt;
     using quantity_type = typename boost::units::root_typeof_helper <boost::units::quantity<Unit, Y>, boost::units::static_rational<3>>::type;
@@ -149,28 +149,12 @@ template<typename Value>
 using ValueCubed = typename boost::units::multiply_typeof_helper<ValueSquare<Value>, Value>::type;
 
 template<typename Value>
-using ValueCubed = typename boost::units::multiply_typeof_helper<ValueSquare<Value>, Value>::type;
-
-template<typename Value>
 using Value4 = typename boost::units::multiply_typeof_helper<ValueSquare<Value>, ValueSquare<Value>>::type;
 
-template<typename Value_2>
-double GetValue(Value_2 const& value)
-{
-    return GetValue(value, IsQuantity<Value_2>());
-}
-
-template<typename Value_2>
-double GetValue(Value_2 const& value, std::false_type)
-{
-    return value;
-}
-
-template<typename Value_2>
-double GetValue(Value_2 const& value, std::true_type)
-{
-    return value.value();
-}
+/**
+ * @brief Square Root
+ * @{
+ */
 
 template<typename Value>
 ValueSqrt<Value> sqrt(Value const& value)
@@ -190,6 +174,13 @@ ValueSqrt<Value> sqrt(Value const& value, std::true_type)
     return boost::units::sqrt(value);
 }
 
+//@}
+
+/**
+ * @brief Arctangent2 \f$\mathrm{Pr}\ \mathrm{arg}(x+iy) = \mathrm{Arg}(x+iy)\f$
+ * @{
+ */
+
 template<typename Value>
 Angle atan2(Value const& value_1, Value const& value_2)
 {
@@ -207,6 +198,13 @@ Angle atan2(Value const& value_1, Value const& value_2, std::true_type)
 {
     return boost::units::atan2(value_1, value_2);
 }
+
+//@}
+
+/**
+ * @brief Arccosine
+ * @{
+ */
 
 template<typename Value>
 Angle acos(Value const& value_1)
@@ -226,6 +224,13 @@ Angle acos(Value const& value_1, std::true_type)
     return boost::units::acos(value_1);
 }
 
+//@}
+
+/**
+ * @brief Absolute value
+ * @{
+ */
+
 template<typename Value>
 Value abs(Value const& value)
 {
@@ -244,35 +249,32 @@ Value abs(Value const& value, std::true_type)
     return boost::units::abs(value);
 }
 
+//@}
+
+/**
+ * @brief Maximal value
+ * @{
+ */
+
 template<typename Value>
 Value max(Value const& value_1, Value const& value_2)
 {
-  return max2(value_1, value_2, IsQuantity<Value>());
+  return max(value_1, value_2, IsQuantity<Value>());
 }
 
 template<typename Value>
-Value max2(Value const& value_1, Value const& value_2, std::false_type)
+Value max(Value const& value_1, Value const& value_2, std::false_type)
 {
   return std::max(value_1, value_2);
 }
 
 template<typename Value>
-Value max2(Value const& value_1, Value const& value_2, std::true_type)
+Value max(Value const& value_1, Value const& value_2, std::true_type)
 {
   return units::max(value_1, value_2);
 }
 
-template<typename Value>
-ValueSquare<Value> sqr(Value const& value)
-{
-    return value * value;
-}
-
-template<typename Value>
-ValueCubed<Value> cube(Value const& value)
-{
-  return value * value * value;
-}
+//@}
 
 }
 

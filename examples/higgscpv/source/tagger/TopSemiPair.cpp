@@ -1,5 +1,5 @@
 #include "boca/fastjet/Sort.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/fastjet/Particles.hh"
 
 #include "higgscpv/tagger/TopSemiPair.hh"
