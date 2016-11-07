@@ -15,64 +15,136 @@ class GradedContainer : boost::totally_ordered<GradedContainer<Container_,  Valu
 
 public:
 
+    /**
+    * @name Constructor
+    * @{
+    */
+
+    /**
+     * @brief Default Constructor
+     */
     GradedContainer() {}
 
+    /**
+     * @brief Constructor accepting a Container and a Scalar
+     */
     GradedContainer(Container_<Value_> const& container, Value_ scalar) :
         container_(container),
         scalar_(scalar)
     {}
 
+    //@}
+
+    /**
+    * @name Setter
+    * @{
+    */
+
+    /**
+     * @brief Set Container and Scalar
+     */
     void Set(Container_<Value_> const& container, Value_ scalar)
     {
         container_ = container;
         scalar_ = scalar;
     }
 
+    /**
+     * @brief Set Container
+     */
     void Set(Container_<Value_> const& container)
     {
         container_ = container;
     }
 
+    /**
+     * @brief Set Scalar
+     */
     void Set(Value_ scalar)
     {
         scalar_ = scalar;
     }
 
-    Container_<Value_> &Container()
-    {
-        return container_;
-    }
+    //@}
 
+    /**
+    * @name Accessor and Getter
+    * @{
+    */
+
+    /**
+     * @brief Getter for Container
+     */
     Container_<Value_> const& Container() const
     {
         return container_;
     }
 
-    Container_<double> Normalize() const
+    /**
+     * @brief Accessor of Container
+     */
+    Container_<Value_> &Container()
     {
-        return container_ / scalar_;
+        return container_;
     }
 
-    auto Product() const
-    {
-        return container_ * scalar_;
-    }
-
+    /**
+     * @brief Getter for Scalar
+     */
     Value_ const& Scalar() const
     {
         return scalar_;
     }
 
+    /**
+     * @brief Accessor for Scalar
+     */
     Value_ &Scalar()
     {
         return scalar_;
     }
 
+    //@}
+
+    /**
+    * @name Products and Quotients
+    * @{
+    */
+
+    /**
+     * @brief Product
+     */
+    auto Product() const
+    {
+        return container_ * scalar_;
+    }
+
+    /**
+     * @brief Quotient
+     */
+    Container_<double> Normalize() const
+    {
+        return container_ / scalar_;
+    }
+
+    //@}
+
+    /**
+    * @name Operator
+    * @{
+    */
+
+    /**
+     * @brief Less than comparison
+     */
     bool operator<(GradedContainer const &graded_container) const
     {
         return Normalize() < graded_container.Normalize();
     }
 
+    /**
+     * @brief Equallity comparison
+     */
     bool operator==(GradedContainer const &graded_container) const
     {
         return container_ == graded_container.container_ && scalar_ == graded_container.scalar_;
@@ -86,6 +158,8 @@ public:
         stream << Stream(graded_container.scalar_) << graded_container.container_;
         return stream;
     }
+
+    //@}
 
 private:
 
@@ -104,16 +178,37 @@ public:
 
     using GradedContainer<Container_,  Value_>::GradedContainer;
 
+    /**
+    * @name Accessor and Getter
+    * @{
+    */
+
+    /**
+     * @brief Accessor for Vector
+     */
     Container_<Value_> &Vector()
     {
         return GradedContainer<Container_,  Value_>::Container();
     }
 
+    /**
+     * @brief Getter for Vector
+     */
     Container_<Value_> const& Vector() const
     {
         return GradedContainer<Container_,  Value_>::Container();
     }
 
+    //@}
+
+    /**
+    * @name Operator
+    * @{
+    */
+
+    /**
+     * @brief Addiition
+     */
     GradedVector &operator+=(GradedVector const &graded_container)
     {
         GradedContainer<Container_,  Value_>::Container() += graded_container.Container();
@@ -121,12 +216,17 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Substraction
+     */
     GradedVector &operator-=(GradedVector const &graded_container)
     {
         GradedContainer<Container_,  Value_>::Container() -= graded_container.Container();
         GradedContainer<Container_,  Value_>::Scalar() -= graded_container.Scalar();
         return *this;
     }
+
+    //@}
 
 };
 
@@ -138,16 +238,38 @@ class GradedMatrix : public GradedContainer<Container_, Value_>
 public:
 
     using GradedContainer<Container_,  Value_>::GradedContainer;
+
+    /**
+    * @name Accessor and Getter
+    * @{
+    */
+
+    /**
+     * @brief Accessor for Matrix
+     */
     Container_<Value_> &Matrix()
     {
         return GradedContainer<Container_, Value_>::Container();
     }
 
+    /**
+     * @brief Getter for Matrix
+     */
     Container_<Value_> const& Matrix() const
     {
         return GradedContainer<Container_, Value_>::Container();
     }
 
+    //@}
+
+    /**
+    * @name Operator
+    * @{
+    */
+
+    /**
+     * @brief Addition
+     */
     GradedMatrix &operator+=(GradedMatrix const &graded_container)
     {
         GradedContainer<Container_,  Value_>::Container() += graded_container.Container();
@@ -155,12 +277,17 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Substraction
+     */
     GradedMatrix &operator-=(GradedMatrix const &graded_container)
     {
         GradedContainer<Container_,  Value_>::Container() -= graded_container.Container();
         GradedContainer<Container_,  Value_>::Scalar() -= graded_container.Scalar();
         return *this;
     }
+
+    //@}
 
 };
 
