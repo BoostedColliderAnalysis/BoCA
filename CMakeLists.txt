@@ -11,13 +11,17 @@ if(!iwyu_path)
 endif()
 
 include(${CMAKE_SOURCE_DIR}/cmake/CMakeConfig.cmake)
-find_package(Boost 1.56)
-# find_package(Boost 1.56 COMPONENTS system filesystem REQUIRED)
+
+# Testing
+option(BUILD_TESTING "Build testing" OFF)
+if(BUILD_TESTING)
+  enable_testing()
+  find_package(Boost 1.56 COMPONENTS unit_test_framework REQUIRED)
+  add_libraries(${Boost_LIBRARIES})
+else()
+  find_package(Boost 1.56)
+endif()
 add_include_path(${Boost_INCLUDE_DIRS} SYSTEM)
-# add_libraries(
-#   ${Boost_FILESYSTEM_LIBRARY}
-#   ${Boost_SYSTEM_LIBRARY}
-# )
 
 # set build type
 if( NOT CMAKE_BUILD_TYPE )
@@ -26,7 +30,7 @@ endif()
 
 # set c++ flags
 SET(CMAKE_C_FLAGS "-std=c11")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fPIC -Wall -Wextra -pedantic -Wold-style-cast -Wno-unknown-pragmas")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -pedantic -Wold-style-cast -Wno-unknown-pragmas")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals -D_GLIBCXX_USE_CXX11_ABI=0")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -83,18 +87,6 @@ if(DO_DOXYGEN)
   configure_file(${svg_files} ${CMAKE_BINARY_DIR}/doc/ COPYONLY)
 endif()
 
-# Testing
-option(BUILD_TESTING "Build testing" OFF)
-if(BUILD_TESTING)
-  enable_testing()
-  find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-  message("Boost Lib: ${Boost_LIBRARIES}")
-  add_libraries(${Boost_LIBRARIES})
-  add_include_path(${Boost_INCLUDE_DIRS})
-#   find_package(GTest REQUIRED)
-#   include_directories(${GTEST_INCLUDE_DIRS})
-endif()
-
 add_include_path(${PROJECT_SOURCE_DIR})
 
 # external sources
@@ -104,8 +96,8 @@ add_subdirectory(external)
 add_subdirectory(source)
 
 # application examples
-# add_subdirectory(examples)
+add_subdirectory(examples)
 
-
-# add_subdirectory(external/wimpmass/test)
+# tests
+add_subdirectory(external/wimpmass/test)
 add_subdirectory(test)

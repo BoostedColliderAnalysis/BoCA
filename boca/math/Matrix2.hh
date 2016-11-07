@@ -335,7 +335,7 @@ public:
     * @brief scale with a scalar
     */
     template<typename Value_2_>
-    constexpr Matrix2<ValueProduct<Value_2_>> Scaled(Value_2_ scalar) const
+    constexpr Matrix2<ValueProduct<Value_2_>> Scale(Value_2_ scalar) const
     {
         return {x_ * scalar, y_ * scalar};
     }
@@ -428,7 +428,7 @@ public:
     template<typename Value_2_>
     constexpr Matrix2<ValueQuotient<Value_2_>> operator/(Value_2_ scalar)
     {
-        return Scaled(1. / scalar);
+        return Scale(1. / scalar);
     }
 
     /**
@@ -577,7 +577,7 @@ private:
             trace_ = matrix.Trace();
             auto const radicant = sqr(trace_) - 4 * matrix.Determinant();
             complex_ = radicant < 0;
-            sqrt_ = sqrt(radicant) / 2;
+            sqrt_ = sqrt(radicant);
             matrix_ = &matrix;
         }
 
@@ -587,7 +587,7 @@ private:
                 Array2<Value_> values;
                 if (complex_) {
                     for (auto &value : values) value = -1;
-                    std::cerr << "Eigensystem has no real Eigenvalues!\n";
+                    Error("Eigensystem has no real Eigenvalues");
                     return values;
                 }
                 for (auto const index : IntegerRange(values.size())) values.at(index) = Value(index);
@@ -626,10 +626,9 @@ private:
         constexpr Value_ Value(int i) const
         {
             switch (i) {
-            case 0 :
-                return (Trace() - Sqrt()) / 2;
-            case 1 :
-                return (Trace() + Sqrt()) / 2;
+              case 0 : return (Trace() - Sqrt()) / 2;
+              case 1 : return (Trace() + Sqrt()) / 2;
+              default : return Value_(0);
             }
         }
 

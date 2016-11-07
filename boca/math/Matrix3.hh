@@ -368,7 +368,7 @@ public:
     * @brief x-row
     * @{
     */
-    constexpr Vector3<Value_> const& X() const
+    constexpr Vector3<Value_> const &X() const
     {
         return x_;
     }
@@ -383,7 +383,7 @@ public:
     * @brief y-row
     * @{
     */
-    constexpr Vector3<Value_> const& Y() const
+    constexpr Vector3<Value_> const &Y() const
     {
         return y_;
     }
@@ -403,7 +403,7 @@ public:
         return z_;
     }
 
-    constexpr Vector3<Value_> const& Z() const
+    constexpr Vector3<Value_> const &Z() const
     {
         return z_;
     }
@@ -671,7 +671,7 @@ public:
     constexpr Matrix3 &MoveTo(Dim3 dim_1, Dim3 dim_2)
     {
         std::swap((*this)(dim_1), (*this)(dim_2));
-        std::swap((*this)(dim_1),  (*this)(Third(dim_1, dim_2)));
+        std::swap((*this)(dim_1), (*this)(Third(dim_1, dim_2)));
         return *this;
     }
 
@@ -796,7 +796,7 @@ public:
     * @brief Scale by scalar
     */
     template<typename Value_2_>
-    constexpr Matrix3<ValueProduct<Value_2_>> Scaled(Value_2_ scalar) const
+    constexpr Matrix3<ValueProduct<Value_2_>> Scale(Value_2_ scalar) const
     {
         return {x_ * scalar, y_ * scalar, z_ * scalar};
     }
@@ -912,7 +912,7 @@ public:
     template<typename Value_2_>
     constexpr Matrix3<ValueQuotient<Value_2_>> operator/(Value_2_ scalar) const
     {
-        return Scaled(1. / scalar);
+        return Scale(1. / scalar);
     }
 
     /**
@@ -970,7 +970,7 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Vector3<Value_> operator[](Dim3 dim_3) const
+    constexpr Vector3<Value_> const& operator[](Dim3 dim_3) const
     {
         switch (dim_3) {
         case Dim3::x :
@@ -991,6 +991,15 @@ public:
     Vector3<Value_> &operator[](Dim3 dim_3)
     {
         return const_cast<Vector3<Value_> &>(static_cast<Matrix3<Value_> const &>(*this)[dim_3]);
+    }
+
+    /**
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, Matrix3<Value_> const &matrix)
+    {
+        for(auto const& vector : matrix) stream << vector;
+        return stream;
     }
 
     //@}
@@ -1420,7 +1429,8 @@ auto &Vector3<Value_1_>::operator*=(Matrix3<Value_2_> const &matrix)
 
 }
 
-namespace boost{
+namespace boost
+{
 
 template<typename Value_>
 struct range_const_iterator< boca::Matrix3<Value_> > {

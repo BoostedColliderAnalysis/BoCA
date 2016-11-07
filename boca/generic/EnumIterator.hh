@@ -14,7 +14,7 @@ namespace boca
 */
 template<typename Enum_>
 // class EnumIterator : boost::random_access_iteratable<EnumIterator<Enum_>, Enum_ *, Enum_, Enum_>
-class EnumIterator : boost::bidirectional_iteratable<EnumIterator<Enum_>, Enum_ *>
+class EnumIterator : boost::bidirectional_iteratable<EnumIterator<Enum_>, Enum_ *>,  boost::less_than_comparable<EnumIterator<Enum_>>
 {
 
     using size_type = std::size_t;
