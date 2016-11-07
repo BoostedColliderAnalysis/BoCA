@@ -457,10 +457,12 @@ public:
      * @{
      */
 
+    using Dimension = Dim2;
+
     /**
      * @brief Const begin
      */
-    constexpr Iterator<boca::Vector2, Value_, Dim2> begin() const
+    constexpr ConstIterator<boca::Vector2, Value_> begin() const
     {
         return {this, Dim2::x};
     }
@@ -468,7 +470,7 @@ public:
     /**
      * @brief Const end
      */
-    constexpr Iterator<boca::Vector2, Value_, Dim2> end() const
+    constexpr ConstIterator<boca::Vector2, Value_> end() const
     {
         return {this, Dim2::last};
     }
@@ -476,7 +478,7 @@ public:
     /**
      * @brief Begin
      */
-    Iterator<boca::Vector2, Value_, Dim2> begin()
+    Iterator<boca::Vector2, Value_> begin()
     {
         return {this, Dim2::x};
     }
@@ -484,7 +486,7 @@ public:
     /**
      * @brief End
      */
-    Iterator<boca::Vector2, Value_, Dim2> end()
+    Iterator<boca::Vector2, Value_> end()
     {
         return {this, Dim2::last};
     }
@@ -535,3 +537,16 @@ auto operator*(Value_ const &scalar, Vector2<Value_2> const &vector)
 
 }
 
+namespace boost{
+
+template<typename Value_>
+struct range_const_iterator< boca::Vector2<Value_> > {
+    typedef typename boca::ConstIterator<boca::Vector2, Value_> type;
+};
+
+template<typename Value_>
+struct range_mutable_iterator< boca::Vector2<Value_> > {
+    typedef typename boca::Iterator<boca::Vector2, Value_> type;
+};
+
+}

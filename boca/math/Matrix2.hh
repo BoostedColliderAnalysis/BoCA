@@ -496,10 +496,12 @@ public:
      * @{
      */
 
+    using Dimension = Dim2;
+
     /**
     * @brief const begin
     */
-    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin() const
+    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_> begin() const
     {
         return {this, Dim2::x};
     }
@@ -507,7 +509,7 @@ public:
     /**
     * @brief const end
     */
-    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> end() const
+    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_> end() const
     {
         return {this, Dim2::last};
     }
@@ -515,7 +517,7 @@ public:
     /**
     * @brief begin
     */
-    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin()
+    SubIterator<boca::Matrix2, Vector2, Value_> begin()
     {
         return {this, Dim2::x};
     }
@@ -523,7 +525,7 @@ public:
     /**
     * @brief end
     */
-    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> end()
+    SubIterator<boca::Matrix2, Vector2, Value_> end()
     {
         return {this, Dim2::last};
     }
@@ -703,5 +705,19 @@ constexpr Matrix2<ValueProduct<Value_1_, Value_2_>> MatrixProduct(Vector2<Value_
 {
     return {vector_1.X() *vector_2, vector_1.Y() *vector_2};
 }
+
+}
+
+namespace boost{
+
+template<typename Value_>
+struct range_const_iterator< boca::Matrix2<Value_> > {
+    typedef typename boca::ConstSubIterator<boca::Matrix2, boca::Vector2, Value_> type;
+};
+
+template<typename Value_>
+struct range_mutable_iterator< boca::Matrix2<Value_> > {
+    typedef typename boca::SubIterator<boca::Matrix2, boca::Vector2, Value_> type;
+};
 
 }

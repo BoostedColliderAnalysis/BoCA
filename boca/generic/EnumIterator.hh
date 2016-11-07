@@ -13,12 +13,13 @@ namespace boca
 * @brief Enables the use of strongly typed enumerators as iterators
 */
 template<typename Enum_>
-class EnumIterator : boost::random_access_iteratable<EnumIterator<Enum_>, Enum_ *, std::ptrdiff_t, Enum_>
+// class EnumIterator : boost::random_access_iteratable<EnumIterator<Enum_>, Enum_ *, Enum_, Enum_>
+class EnumIterator : boost::bidirectional_iteratable<EnumIterator<Enum_>, Enum_ *>
 {
 
     using size_type = std::size_t;
 
-    using difference_type = std::ptrdiff_t;
+//     using difference_type = Enum_;
 
     using value_type = Enum_;
 
@@ -26,9 +27,10 @@ class EnumIterator : boost::random_access_iteratable<EnumIterator<Enum_>, Enum_ 
 
     using pointer = Enum_ *;
 
-    using iterator_category = std::random_access_iterator_tag;
+//     using iterator_category = std::random_access_iterator_tag;
+    using iterator_category = std::bidirectional_iterator_tag;
 
-    using Type_ = typename std::underlying_type<Enum_>::type;
+    using underlying_type = typename std::underlying_type<Enum_>::type;
 
 public:
 
@@ -119,13 +121,13 @@ public:
         return *this;
     }
 
-    /**
-     * @brief substruction
-     */
-    constexpr difference_type operator-(EnumIterator const& enum_iterator) const
-    {
-        return static_cast<Type_>(enum_) - static_cast<Type_>(enum_iterator.enum_);
-    }
+//     /**
+//      * @brief substruction
+//      */
+//     constexpr difference_type operator-(EnumIterator const& enum_iterator) const
+//     {
+//         return static_cast<underlying_type>(enum_) - static_cast<underlying_type>(enum_iterator.enum_);
+//     }
 
     /**
      * @brief reference
@@ -147,12 +149,12 @@ private:
 
     void Add(size_type size = 1)
     {
-        enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) + size);
+        enum_ = static_cast<Enum_>(static_cast<underlying_type>(enum_) + size);
     }
 
     void Substract(size_type size = 1)
     {
-        enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) - size);
+        enum_ = static_cast<Enum_>(static_cast<underlying_type>(enum_) - size);
     }
 
 };

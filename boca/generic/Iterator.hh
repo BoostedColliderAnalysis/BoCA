@@ -1,7 +1,8 @@
 #pragma once
 
-#include <iostream>
-#include <boost/iterator_adaptors.hpp>
+#include <boost/range/mutable_iterator.hpp>
+#include <boost/range/const_iterator.hpp>
+#include <boost/iterator/iterator_facade.hpp>
 
 #include "boca/generic/EnumIterator.hh"
 
@@ -18,206 +19,245 @@ namespace boca
 /**
 * @brief %Iterator
 */
-template <template <typename> class Container_, typename Value_, typename Enum_>
-class Iterator
+template <template <typename> class Container_, typename Value_>
+class Iterator : public boost::iterator_facade <
+    Iterator<Container_, Value_>,
+    Container_<Value_>,
+    std::bidirectional_iterator_tag,
+    Value_ &
+    >
 {
+    using Dimension = typename Container_<Value_>::Dimension;
 public:
-    Iterator(Container_<Value_> *container, Enum_ position) :
-        position_(position),
-        container_(container)
+    Iterator() :
+        container_(0),
+        position_(0)
     {}
 
-    bool operator!= (Iterator &iterator) const
-    {
-        return position_ != iterator.position_;
-    }
+    Iterator(Container_<Value_> *container, Dimension position) :
+        container_(container),
+        position_(position)
+    {}
 
-    Value_ &operator*()
+    template<template <typename> class Container_2_>
+    Iterator(Iterator<Container_2_, Value_> const &iterator) :
+        container_(iterator.container_),
+        position_(iterator.position_)
+    {}
+
+private:
+
+    friend class boost::iterator_core_access;
+    template <template <typename> class , typename > friend class ConstIterator;
+
+    Value_ &dereference() const
     {
         return (*container_)[*position_];
     }
 
-    Iterator const &operator++ ()
+    template<template <typename> class Container_2_>
+    bool equal(Iterator<Container_2_, Value_> const &iterator) const
     {
-        ++position_;
-        return *this;
+        return this->position_ == iterator.position_ && this->container_ ==  iterator.container_;
     }
 
-private:
-    EnumIterator<Enum_> position_;
+    void increment()
+    {
+        ++position_;
+    }
+
+    void decrement()
+    {
+        --position_;
+    }
+
     Container_<Value_> *container_;
+
+    EnumIterator<Dimension> position_;
 };
 
 /**
-* @brief const iterator
-*/
-template <template <typename> class Container_, typename Value_, typename Enum_>
-class ConstIterator
+ * @brief const iterator
+ */
+template <template <typename> class Container_,
+          typename Value_>
+class ConstIterator : public boost::iterator_facade <
+    ConstIterator<Container_, Value_>,
+    Container_<Value_> const,
+    std::bidirectional_iterator_tag,
+    Value_ const&
+    >
 {
+    using Dimension = typename Container_<Value_>::Dimension;
 public:
-    ConstIterator(Container_<Value_> const *container, Enum_ position) :
-        position_(position),
-        container_(container)
+    ConstIterator() :
+        container_(0),
+        position_(0)
     {}
 
-    bool operator!= (ConstIterator const &iterator) const
-    {
-        return position_ != iterator.position_;
-    }
+    ConstIterator(Container_<Value_> const* container, Dimension position) :
+        container_(container),
+        position_(position)
+    {}
 
-    Value_ operator*() const
+    template<template <typename> class Container_2_>
+    ConstIterator(ConstIterator<Container_2_, Value_> const &iterator) :
+        container_(iterator.container_),
+        position_(iterator.position_)
+    {}
+
+private:
+
+    friend class boost::iterator_core_access;
+    template <template <typename> class , typename > friend class Iterator;
+
+    Value_ const& dereference() const
     {
         return (*container_)[*position_];
     }
 
-    ConstIterator const &operator++ ()
+    template<template <typename> class Container_2_>
+    bool equal(ConstIterator<Container_2_, Value_> const &iterator) const
     {
-        ++position_;
-        return *this;
+        return this->position_ == iterator.position_ && this->container_ ==  iterator.container_;
     }
 
-private:
-    EnumIterator<Enum_> position_;
-    Container_<Value_> const *container_;
+    void increment()
+    {
+        ++position_;
+    }
+
+    void decrement()
+    {
+        --position_;
+    }
+
+    Container_<Value_> const* container_;
+
+    EnumIterator<Dimension> position_;
 };
 
 /**
  * @brief %Iterator
  */
-template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
-class SubIterator
+template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_>
+class SubIterator : public boost::iterator_facade <
+    SubIterator<Container_, SubContainer_, Value_>,
+    Container_<Value_>,
+    std::bidirectional_iterator_tag,
+    SubContainer_<Value_> &
+    >
 {
+    using Dimension = typename Container_<Value_>::Dimension;
 public:
-    SubIterator(Container_<Value_> *container, Enum_ position) :
-        position_(position),
-        container_(container)
+    SubIterator() :
+        container_(0),
+        position_(0)
     {}
 
-    bool operator!= (SubIterator const &iterator) const
-    {
-        return position_ != iterator.position_;
-    }
+    SubIterator(Container_<Value_> *container, Dimension position) :
+        container_(container),
+        position_(position)
+    {}
 
-    SubContainer_<Value_> &operator*()
+    template<template <typename> class Container_2_>
+    SubIterator(SubIterator<Container_2_, SubContainer_, Value_> const &iterator) :
+        container_(iterator.container_),
+        position_(iterator.position_)
+    {}
+
+private:
+
+    friend class boost::iterator_core_access;
+    template <template <typename> class, template <typename> class, typename > friend class ConstSubIterator;
+
+    SubContainer_<Value_> &dereference() const
     {
         return (*container_)[*position_];
     }
 
-    SubIterator const &operator++ ()
+    template<template <typename> class Container_2_>
+    bool equal(SubIterator<Container_2_,SubContainer_, Value_> const &iterator) const
     {
-        ++position_;
-        return *this;
+        return this->position_ == iterator.position_ && this->container_ ==  iterator.container_;
     }
 
-private:
-    EnumIterator<Enum_> position_;
+    void increment()
+    {
+        ++position_;
+    }
+
+    void decrement()
+    {
+        --position_;
+    }
+
     Container_<Value_> *container_;
+
+    EnumIterator<Dimension> position_;
 };
 
 /**
  * @brief Const sub-iterator
  */
-template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
-class ConstSubIterator
+template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_>
+class ConstSubIterator : public boost::iterator_facade <
+    ConstSubIterator<Container_, SubContainer_, Value_>,
+    Container_<Value_> const,
+    std::bidirectional_iterator_tag,
+    SubContainer_<Value_> const&
+    >
 {
+    using Dimension = typename Container_<Value_>::Dimension;
 public:
-    ConstSubIterator(Container_<Value_> const *container, Enum_ position) :
-        position_(position),
-        container_(container)
+    ConstSubIterator() :
+        container_(0),
+        position_(0)
     {}
 
-    bool operator!= (ConstSubIterator const &iterator) const
-    {
-        return position_ != iterator.position_;
-    }
+    ConstSubIterator(Container_<Value_> const* container, Dimension position) :
+        container_(container),
+        position_(position)
+    {}
 
-    SubContainer_<Value_> operator*() const
+    template<template <typename> class Container_2_>
+    ConstSubIterator(ConstSubIterator<Container_2_, SubContainer_, Value_> const &iterator) :
+        container_(iterator.container_),
+        position_(iterator.position_)
+    {}
+
+private:
+
+    friend class boost::iterator_core_access;
+    template <template <typename> class, template <typename> class, typename > friend class SubIterator;
+
+    SubContainer_<Value_> const& dereference() const
     {
         return (*container_)[*position_];
     }
 
-    ConstSubIterator const &operator++ ()
+    template<template <typename> class Container_2_>
+    bool equal(ConstSubIterator<Container_2_, SubContainer_, Value_> const &iterator) const
+    {
+        return this->position_ == iterator.position_ && this->container_ ==  iterator.container_;
+    }
+
+    void increment()
     {
         ++position_;
-        return *this;
     }
 
-private:
-    EnumIterator<Enum_> position_;
-    Container_<Value_> const *container_;
-};
-
-
-template<typename Value_>
-std::string Name(Value_ value);
-
-
-template <template <typename> class Container_,
-         typename Value_,
-         typename Enum_>
-class IteratorTest : public boost::iterator_adaptor <
-IteratorTest<Container_, Value_, Enum_>,
-    Container_<Value_> *,
-    boost::use_default,
-//     EnumIterator<Enum_>,
-//     boost::use_default,
-                              boost::random_access_traversal_tag,
-    Value_,
-    boost::use_default
-    >
-{
-
-    struct enabler {};
-
-public:
-
-  IteratorTest(Container_<Value_> *container, Enum_ position) :
-  IteratorTest::iterator_adaptor_(container),
-        position_(position)
+    void decrement()
     {
-        std::cout << "construc: " << Name(position) << '\n';
-    }
-
-
-private:
-
-    Value_ dereference() const {
-        std::cout << "deref: " << (*this->base())[*position_] << '\n';
-        return (*this->base())[*position_];
-    }
-
-    friend class boost::iterator_core_access;
-
-    void increment() {
-        std::cout << "inc: " << Name(*position_) << '\n';
-        ++position_;
-    }
-
-    void decrement() {
-         std::cout << "inc: " << Name(*position_) << '\n';
         --position_;
     }
 
-    EnumIterator<Enum_> position_;
+    Container_<Value_> const* container_;
 
+    EnumIterator<Dimension> position_;
 };
 
 }
-
-// namespace boost
-// {
-//   // specialize range_mutable_iterator and range_const_iterator in
-//   // namespace boost
-//   template<template <typename> class T, class V, class D>
-//   struct range_mutable_iterator< boca::Iterator<T, V, D> > {
-//     typedef typename boca::Iterator<T, V, D>::const_iterator type;
-//   };
-//
-//   template<template <typename> class T, class V, class D>
-//   struct range_const_iterator< boca::Iterator<T, V, D> > {
-//     typedef typename boca::Iterator<T, V, D>::const_iterator type;
-//   };
-// }
 
 /*
  * @}

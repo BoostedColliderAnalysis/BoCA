@@ -719,10 +719,12 @@ public:
      * @{
      */
 
+    using Dimension = Dim3;
+
     /**
      * @brief Const begin
      */
-    constexpr ConstIterator<boca::Vector3, Value_, Dim3> begin() const
+    constexpr ConstIterator<boca::Vector3, Value_> begin() const
     {
         return {this, Dim3::x};
     }
@@ -730,7 +732,7 @@ public:
     /**
      * @brief Const end
      */
-    constexpr ConstIterator<boca::Vector3, Value_, Dim3> end() const
+    constexpr ConstIterator<boca::Vector3, Value_> end() const
     {
         return {this, Dim3::last};
     }
@@ -738,7 +740,7 @@ public:
     /**
      * @brief begin
      */
-    Iterator<boca::Vector3, Value_, Dim3> begin()
+    Iterator<boca::Vector3, Value_> begin()
     {
         return {this, Dim3::x};
     }
@@ -746,7 +748,7 @@ public:
     /**
      * @brief end
      */
-    Iterator<boca::Vector3, Value_, Dim3> end()
+    Iterator<boca::Vector3, Value_> end()
     {
         return {this, Dim3::last};
     }
@@ -797,5 +799,19 @@ constexpr auto Triple(Vector3<Value_1> const &vector_1, Vector3<Value_2_> const 
 {
     return vector_1.Triple(vector_2, vector_3);
 }
+
+}
+
+namespace boost{
+
+template<typename Value_>
+struct range_const_iterator< boca::Vector3<Value_> > {
+    typedef typename boca::ConstIterator<boca::Vector3, Value_> type;
+};
+
+template<typename Value_>
+struct range_mutable_iterator< boca::Vector3<Value_> > {
+    typedef typename boca::Iterator<boca::Vector3, Value_> type;
+};
 
 }

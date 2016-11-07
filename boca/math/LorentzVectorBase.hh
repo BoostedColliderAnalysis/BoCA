@@ -658,22 +658,24 @@ public:
      * @{
      */
 
-    constexpr ConstIterator<Vector3, Value_, LorentzDim> begin() const
+    using Dimension = LorentzDim;
+
+    constexpr ConstIterator<Vector3, Value_> begin() const
     {
         return {this, LorentzDim::x};
     }
 
-    constexpr ConstIterator<Vector3, Value_, LorentzDim> end() const
+    constexpr ConstIterator<Vector3, Value_> end() const
     {
         return {this, LorentzDim::last};
     }
 
-    Iterator<Vector3, Value_, LorentzDim> begin()
+    Iterator<Vector3, Value_> begin()
     {
         return {this, LorentzDim::x};
     }
 
-    Iterator<Vector3, Value_, LorentzDim> end()
+    Iterator<Vector3, Value_> end()
     {
         return {this, LorentzDim::last};
     }
@@ -718,5 +720,19 @@ constexpr auto operator*(Value scalar, LorentzVectorBase<Value_2> const &lorentz
 {
     return lorentz_vector.Scale(scalar);
 }
+
+}
+
+namespace boost{
+
+template<typename Value_>
+struct range_const_iterator< boca::LorentzVectorBase<Value_> > {
+    typedef typename boca::ConstIterator<boca::LorentzVectorBase, Value_> type;
+};
+
+template<typename Value_>
+struct range_mutable_iterator< boca::LorentzVectorBase<Value_> > {
+    typedef typename boca::Iterator<boca::LorentzVectorBase, Value_> type;
+};
 
 }
