@@ -25,6 +25,7 @@ public:
         switch (phase.Tag()) {
         case boca::Tag::signal :
             this->AddSignal("lambda0-n1", "\\lambda_{0} n_{1}");
+            this->AddSignal("lambda0-n1-isol", "\\lambda_{0} n_{1} (isol)");
             break;
         case boca::Tag::background :
             this->AddBackground("tt_inc-100TeV", "tt_{inc}");
@@ -42,7 +43,7 @@ public:
 
     std::string Name() const override
     {
-        return "SimpleAnalysis-Cut2";
+        return "Test-no-isol";
     }
 
     bool PassPreCut(boca::Event const &event) const override

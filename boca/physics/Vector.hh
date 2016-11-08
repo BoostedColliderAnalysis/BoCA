@@ -57,7 +57,7 @@ std::vector<Multiplet_> RemoveIfHard(std::vector<Multiplet_> multiplets, Momentu
 }
 
 template<typename Multiplet_>
-auto CountIfHard(std::vector<Multiplet_> multiplets, Momentum const &pt_min)
+int CountIfHard(std::vector<Multiplet_> multiplets, Momentum const &pt_min)
 {
     return boost::range::count_if(multiplets, [pt_min](Multiplet_ const & multiplet) {
         return multiplet.Pt() > pt_min;
