@@ -2,10 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "boca/Event.hh"
-#include "boca/PreCuts.hh"
+#include "boca/event/Event.hh"
+#include "boca/identification/PreCuts.hh"
 #include "boca/generic/Exception.hh"
-#include "boca/physics/Id.hh"
+#include "boca/identification/Id.hh"
 #include "boca/fastjet/Particles.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"

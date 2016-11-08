@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/EventShapes.hh"
+#include "boca/event/EventShapes.hh"
 #include "boca/analysis/Analysis.hh"
 #include "standardmodel/tagger/TopLeptonic.hh"
 #include "boca/generic/DEBUG_MACROS.hh"

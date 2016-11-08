@@ -10,14 +10,18 @@ if(!iwyu_path)
   message("'Include what You Use' is not available.")
 endif()
 
-include(cmake/CMakeConfig.cmake)
-find_package(Boost 1.56)
-# find_package(Boost 1.56 COMPONENTS system filesystem REQUIRED)
+include(${CMAKE_SOURCE_DIR}/cmake/CMakeConfig.cmake)
+
+# Testing
+option(BUILD_TESTING "Build testing" OFF)
+if(BUILD_TESTING)
+  enable_testing()
+  find_package(Boost 1.56 COMPONENTS unit_test_framework REQUIRED)
+  add_libraries(${Boost_LIBRARIES})
+else()
+  find_package(Boost 1.56)
+endif()
 add_include_path(${Boost_INCLUDE_DIRS} SYSTEM)
-# add_libraries(
-#   ${Boost_FILESYSTEM_LIBRARY}
-#   ${Boost_SYSTEM_LIBRARY}
-# )
 
 # set build type
 if( NOT CMAKE_BUILD_TYPE )
@@ -26,7 +30,7 @@ endif()
 
 # set c++ flags
 SET(CMAKE_C_FLAGS "-std=c11")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fPIC -Wall -Wextra -pedantic -Wold-style-cast -Wno-unknown-pragmas")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -pedantic -Wold-style-cast -Wno-unknown-pragmas")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals -D_GLIBCXX_USE_CXX11_ABI=0")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -62,7 +66,7 @@ if (USE_LD_GOLD)
 endif ()
 
 # FastJet
-include(cmake/Findfastjet.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/Findfastjet.cmake)
 add_libraries(${fastjet_LIBRARIES})
 add_libraries(fastjettools)
 add_libraries(Nsubjettiness)
@@ -78,15 +82,9 @@ add_libraries(MathMore)
 # Doxygen
 option(DO_DOXYGEN "Create Doxygen documentation" OFF)
 if(DO_DOXYGEN)
-  include(cmake/UseDoxygen.cmake)
-endif()
-
-# Testing
-option(BUILD_TESTING "Build testing" OFF)
-if(BUILD_TESTING)
-  enable_testing()
-  find_package(GTest REQUIRED)
-  include_directories(${GTEST_INCLUDE_DIRS})
+  include(${CMAKE_SOURCE_DIR}/cmake/UseDoxygen.cmake)
+  file(GLOB svg_files ${CMAKE_SOURCE_DIR}/doc/images/*.svg)
+  configure_file(${svg_files} ${CMAKE_BINARY_DIR}/doc/ COPYONLY)
 endif()
 
 add_include_path(${PROJECT_SOURCE_DIR})
@@ -100,8 +98,6 @@ add_subdirectory(source)
 # application examples
 add_subdirectory(examples)
 
-if(BUILD_TESTING)
-  create_test(Mt2 external/wimpmass/source/TestMt2.cpp)
-  create_test(Invisible2 external/wimpmass/source/TestInvisible2.cpp)
-  configure_file(external/wimpmass/source/Wimpmass.lhe ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-endif()
+# tests
+add_subdirectory(external/wimpmass/test)
+add_subdirectory(test)

@@ -1,7 +1,7 @@
-#include "boca/WimpMass.hh"
+#include "boca/multiplets/WimpMass.hh"
 #include "boca/multiplets/Quartet.hh"
 #include "boca/generic/Types.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/fastjet/Particles.hh"
 
 #include "heavyhiggs/tagger/HeavyHiggsLeptonic.hh"

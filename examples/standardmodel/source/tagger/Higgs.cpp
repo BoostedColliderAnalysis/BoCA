@@ -9,8 +9,8 @@
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/multiplets/Doublet.hh"
 #include "boca/fastjet/Particles.hh"
-#include "boca/Event.hh"
-#include "boca/MomentumRange.hh"
+#include "boca/event/Event.hh"
+#include "boca/identification/MomentumRange.hh"
 
 #include "standardmodel/tagger/Higgs.hh"
 

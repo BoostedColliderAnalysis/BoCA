@@ -2,8 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/fastjet/Particles.hh"
-#include "boca/physics/Vector.hh"
-#include "boca/Event.hh"
+#include "boca/fastjet/Vector.hh"
+#include "boca/event/Event.hh"
 #include "standardmodel/tagger/WLeptonic.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG_MACROS.hh"

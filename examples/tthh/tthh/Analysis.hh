@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boca/physics/Vector.hh"
+#include "boca/fastjet/Vector.hh"
 #include "boca/analysis/Analysis.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

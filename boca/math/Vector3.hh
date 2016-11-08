@@ -18,7 +18,7 @@ enum class Dim3
     last
 };
 
-std::string Name(Dim3 dimension);
+std::string Name(Dim3 dim_3);
 
 Dim3 Third(Dim3 dim_1,  Dim3 dim_2);
 
@@ -80,11 +80,11 @@ public:
     /**
      * @brief Constructor accepting one scalar and its direction
      */
-    Vector3(Value_ value, Dim3 dim) :
-        z_(dim == Dim3::z ? value : Value_(0))
+    Vector3(Value_ value, Dim3 dim_3) :
+        z_(dim_3 == Dim3::z ? value : Value_(0))
     {
-        trans_.X() = dim == Dim3::x ? value : Value_(0);
-        trans_.Y() = dim == Dim3::y ? value : Value_(0);
+        trans_.X() = dim_3 == Dim3::x ? value : Value_(0);
+        trans_.Y() = dim_3 == Dim3::y ? value : Value_(0);
     }
 
     /**
@@ -197,7 +197,7 @@ public:
     /**
      * @brief Getter for X
      */
-    constexpr Value_ X() const
+    constexpr Value_ const& X() const
     {
         return trans_.X();
     }
@@ -205,7 +205,7 @@ public:
     /**
      * @brief Getter for Y
      */
-    constexpr Value_ Y() const
+    constexpr Value_ const& Y() const
     {
         return trans_.Y();
     }
@@ -213,7 +213,7 @@ public:
     /**
      * @brief Getter for Z
      */
-    constexpr Value_ Z() const
+    constexpr Value_ const& Z() const
     {
         return z_;
     }
@@ -683,17 +683,14 @@ public:
     /**
     * @brief Components by index
     */
-    Value_ operator()(Dim3 dimension) const
+    Value_ const& operator[](Dim3 dim_3) const
     {
-        switch (dimension) {
-        case Dim3::x :
-            return X();
-        case Dim3::y :
-            return Y();
-        case Dim3::z :
-            return Z();
+        switch (dim_3) {
+        case Dim3::x : return X();
+        case Dim3::y : return Y();
+        case Dim3::z : return Z();
         default :
-            std::cout << "bad index(%d) returning 0 " << Name(dimension) << '\n';
+            Default("Vector3", Name(dim_3));
             return X();
         }
     }
@@ -701,40 +698,17 @@ public:
     /**
     * @brief Components by index
     */
-    Value_ &operator()(Dim3 dimension)
+    Value_ &operator[](Dim3 dim_3)
     {
-        switch (dimension) {
-        case Dim3::x :
-            return X();
-        case Dim3::y :
-            return Y();
-        case Dim3::z :
-            return Z();
-        default :
-            std::cout << "bad index(%d) returning &X()" <<  Name(dimension) << '\n';
-            return X();
-        }
+        return const_cast<Value_ &>(static_cast<Vector3<Value_> const &>(*this)[dim_3]);
     }
 
     /**
-    * @brief Components by index
-    */
-    Value_ operator[](Dim3 dimension) const
-    {
-        return operator()(dimension);
-    }
-
-    /**
-    * @brief Components by index
-    */
-    Value_ &operator[](Dim3 dimension)
-    {
-        return operator()(dimension);
-    }
-
+     * @brief Output stream operator
+     */
     friend auto &operator<<(std::ostream &stream, Vector3<Value_> const &vector)
     {
-        stream << vector.Transversal() << ',' <<  vector.Z();
+        stream << vector.Transversal() << Stream(vector.Z());
         return stream;
     }
 
@@ -745,10 +719,12 @@ public:
      * @{
      */
 
+    using Dimension = Dim3;
+
     /**
      * @brief Const begin
      */
-    constexpr ConstIterator<boca::Vector3, Value_, Dim3> begin() const
+    constexpr ConstIterator<boca::Vector3, Value_> begin() const
     {
         return {this, Dim3::x};
     }
@@ -756,7 +732,7 @@ public:
     /**
      * @brief Const end
      */
-    constexpr ConstIterator<boca::Vector3, Value_, Dim3> end() const
+    constexpr ConstIterator<boca::Vector3, Value_> end() const
     {
         return {this, Dim3::last};
     }
@@ -764,7 +740,7 @@ public:
     /**
      * @brief begin
      */
-    Iterator<boca::Vector3, Value_, Dim3> begin()
+    Iterator<boca::Vector3, Value_> begin()
     {
         return {this, Dim3::x};
     }
@@ -772,7 +748,7 @@ public:
     /**
      * @brief end
      */
-    Iterator<boca::Vector3, Value_, Dim3> end()
+    Iterator<boca::Vector3, Value_> end()
     {
         return {this, Dim3::last};
     }
@@ -823,5 +799,19 @@ constexpr auto Triple(Vector3<Value_1> const &vector_1, Vector3<Value_2_> const 
 {
     return vector_1.Triple(vector_2, vector_3);
 }
+
+}
+
+namespace boost{
+
+template<typename Value_>
+struct range_const_iterator< boca::Vector3<Value_> > {
+    typedef typename boca::ConstIterator<boca::Vector3, Value_> type;
+};
+
+template<typename Value_>
+struct range_mutable_iterator< boca::Vector3<Value_> > {
+    typedef typename boca::Iterator<boca::Vector3, Value_> type;
+};
 
 }

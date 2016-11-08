@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-#include "boca/physics/Units.hh"
+#include "boca/units/Units.hh"
 #include "boca/latex/Table.hh"
 #include "boca/latex/Graphic.hh"
 #include "boca/latex/Command.hh"

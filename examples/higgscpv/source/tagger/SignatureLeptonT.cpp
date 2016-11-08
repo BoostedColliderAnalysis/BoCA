@@ -1,4 +1,4 @@
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/fastjet/Particles.hh"

@@ -2,22 +2,12 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/generic/Types.hh"
+#include "boca/math/Range.hh"
 #include "boca/Settings.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca
 {
-
-/**
- * @brief Constructor
- *
- *
- * choose HCollider according to LHC or 100TeV
- *
- * LHC: Collider::lhc
- * 100TeV: Collider::future
- *
- */
 
 std::string Name(JetType jet_type)
 {

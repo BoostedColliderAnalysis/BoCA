@@ -368,7 +368,7 @@ public:
     * @brief x-row
     * @{
     */
-    constexpr Vector3<Value_> X() const
+    constexpr Vector3<Value_> const &X() const
     {
         return x_;
     }
@@ -383,7 +383,7 @@ public:
     * @brief y-row
     * @{
     */
-    constexpr Vector3<Value_> Y() const
+    constexpr Vector3<Value_> const &Y() const
     {
         return y_;
     }
@@ -403,7 +403,7 @@ public:
         return z_;
     }
 
-    constexpr Vector3<Value_> Z() const
+    constexpr Vector3<Value_> const &Z() const
     {
         return z_;
     }
@@ -575,7 +575,7 @@ public:
         case Dim2::x :
             return XPhi();
         case Dim2::y :
-            return XPhi() + Pi() / 2.;
+            return XPhi() + PiRad() / 2.;
         default :
             return XPhi();
         }
@@ -598,7 +598,7 @@ public:
         case Dim2::x :
             return XPsi();
         case Dim2::y :
-            return XPsi() - Pi() / 2.;
+            return XPsi() - PiRad() / 2.;
         default :
             return XPhi();
         }
@@ -656,7 +656,7 @@ public:
             if (dim3_1 == delete_1) continue;
             for (auto dim3_2 : Dimensions3()) {
                 if (dim3_2 == delete_2) continue;
-                matrix(*dim2_1, *dim2_2) = (*this)(dim3_1, dim3_2);
+                matrix[*dim2_1][*dim2_2] = (*this)[dim3_1][dim3_2];
                 ++dim2_2;
             }
             ++dim2_1;
@@ -671,7 +671,7 @@ public:
     constexpr Matrix3 &MoveTo(Dim3 dim_1, Dim3 dim_2)
     {
         std::swap((*this)(dim_1), (*this)(dim_2));
-        std::swap((*this)(dim_1),  (*this)(Third(dim_1, dim_2)));
+        std::swap((*this)(dim_1), (*this)(Third(dim_1, dim_2)));
         return *this;
     }
 
@@ -796,7 +796,7 @@ public:
     * @brief Scale by scalar
     */
     template<typename Value_2_>
-    constexpr Matrix3<ValueProduct<Value_2_>> Scaled(Value_2_ scalar) const
+    constexpr Matrix3<ValueProduct<Value_2_>> Scale(Value_2_ scalar) const
     {
         return {x_ * scalar, y_ * scalar, z_ * scalar};
     }
@@ -828,7 +828,7 @@ public:
      */
 
     /**
-    * @brief Less than comparison according to determinans
+    * @brief Less than comparison according to the absolute value of the determinant
     */
     constexpr bool operator<(Matrix3 const &matrix) const
     {
@@ -912,7 +912,7 @@ public:
     template<typename Value_2_>
     constexpr Matrix3<ValueQuotient<Value_2_>> operator/(Value_2_ scalar) const
     {
-        return Scaled(1. / scalar);
+        return Scale(1. / scalar);
     }
 
     /**
@@ -970,17 +970,36 @@ public:
     /**
     * @brief Components by index
     */
-    constexpr Vector3<Value_> operator[](Dim3 i) const
+    constexpr Vector3<Value_> const& operator[](Dim3 dim_3) const
     {
-        return operator()(i);
+        switch (dim_3) {
+        case Dim3::x :
+            return x_;
+        case Dim3::y :
+            return y_;
+        case Dim3::z :
+            return z_;
+        default :
+            Default("Matrix3", to_int(dim_3));
+            return x_;
+        }
     }
 
     /**
     * @brief Components by index
     */
-    Vector3<Value_> &operator[](Dim3 i)
+    Vector3<Value_> &operator[](Dim3 dim_3)
     {
-        return operator()(i);
+        return const_cast<Vector3<Value_> &>(static_cast<Matrix3<Value_> const &>(*this)[dim_3]);
+    }
+
+    /**
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, Matrix3<Value_> const &matrix)
+    {
+        for(auto const& vector : matrix) stream << vector;
+        return stream;
     }
 
     //@}
@@ -990,10 +1009,12 @@ public:
      * @{
      */
 
+    using Dimension = Dim3;
+
     /**
     * @brief Const begin
     */
-    constexpr ConstSubIterator<boca::Matrix3, Vector3, Value_, Dim3> begin() const
+    constexpr ConstSubIterator<boca::Matrix3, Vector3, Value_> begin() const
     {
         return {this, Dim3::x};
     }
@@ -1001,7 +1022,7 @@ public:
     /**
     * @brief Const end
     */
-    constexpr ConstSubIterator<boca::Matrix3, Vector3, Value_, Dim3> end() const
+    constexpr ConstSubIterator<boca::Matrix3, Vector3, Value_> end() const
     {
         return {this, Dim3::last};
     }
@@ -1009,7 +1030,7 @@ public:
     /**
     * @brief Begin
     */
-    SubIterator<boca::Matrix3, Vector3, Value_, Dim3> begin()
+    SubIterator<boca::Matrix3, Vector3, Value_> begin()
     {
         return {this, Dim3::x};
     }
@@ -1017,7 +1038,7 @@ public:
     /**
     * @brief End
     */
-    SubIterator<boca::Matrix3, Vector3, Value_, Dim3> end()
+    SubIterator<boca::Matrix3, Vector3, Value_> end()
     {
         return {this, Dim3::last};
     }
@@ -1185,7 +1206,7 @@ private:
 
         constexpr Value_ Value(int index) const
         {
-            return Factor() * cos((Angle() - TwoPi() * static_cast<double>(index)) / 3.) + matrix_->Trace() / 3;
+            return Factor() * cos((Angle() - TwoPiRad() * static_cast<double>(index)) / 3.) + matrix_->Trace() / 3;
         }
 
         constexpr Vector3<Value_> Vector(int index) const
@@ -1245,13 +1266,13 @@ private:
             if (z_.X() > 0) return absPhi;
             if (z_.X() < 0) return -absPhi;
             if (z_.Y() > 0) return 0_rad;
-            return Pi();
+            return PiRad();
         } else {              // sinTheta == Value(0) so |Fzz| = 1
             auto const absPhi = .5 * acos(x_.X());
             if (x_.Y() > 0) return -absPhi;
             if (x_.Y() < 0) return absPhi;
             if (x_.X() > 0) return 0_rad;
-            return z_.Z() * Pi() / 2;
+            return z_.Z() * PiRad() / 2;
         }
     }
 
@@ -1276,7 +1297,7 @@ private:
             auto const absPsi = boca::acos(cosAbsPsi);
             if (x_.Z() > 0) return absPsi;
             if (x_.Z() < 0) return -absPsi;
-            return (y_.Z() < 0) ? 0_rad : Pi();
+            return (y_.Z() < 0) ? 0_rad : PiRad();
         } else {              // sinTheta == Value(0) so |Fzz| = 1
             auto absPsi = x_.X();
             // NaN-proofing
@@ -1287,7 +1308,7 @@ private:
             auto const absPsi2 = .5 * acos(absPsi);
             if (y_.X() > 0) return absPsi2;
             if (y_.X() < 0) return -absPsi2;
-            return (x_.X() > 0) ? 0_rad : Pi() / 2.;
+            return (x_.X() > 0) ? 0_rad : PiRad() / 2.;
         }
     }
 
@@ -1405,5 +1426,20 @@ auto &Vector3<Value_1_>::operator*=(Matrix3<Value_2_> const &matrix)
 {
     return *this = matrix * (*this);
 }
+
+}
+
+namespace boost
+{
+
+template<typename Value_>
+struct range_const_iterator< boca::Matrix3<Value_> > {
+    typedef typename boca::ConstSubIterator<boca::Matrix3, boca::Vector3, Value_> type;
+};
+
+template<typename Value_>
+struct range_mutable_iterator< boca::Matrix3<Value_> > {
+    typedef typename boca::SubIterator<boca::Matrix3, boca::Vector3, Value_> type;
+};
 
 }

@@ -5,7 +5,7 @@
 
 #include "TCanvas.h"
 
-#include "boca/physics/Rectangle.hh"
+#include "boca/math/Rectangle.hh"
 #include "boca/generic/Debug.hh"
 
 namespace boca

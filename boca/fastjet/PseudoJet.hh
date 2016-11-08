@@ -6,7 +6,7 @@
 #include <boost/operators.hpp>
 
 #include "fastjet/PseudoJet.hh"
-#include "boca/physics/Prefixes.hh"
+#include "boca/units/Prefixes.hh"
 
 class TLorentzVector;
 
@@ -266,9 +266,20 @@ public:
     */
     bool operator==(const PseudoJet &pseudo_jet) const;
 
+    /**
+    * @brief Default copy constructor
+    */
     PseudoJet &operator=(PseudoJet const&) & = default;
 
+    /**
+    * @brief Default move constructor
+    */
     PseudoJet &operator=(PseudoJet &&) & = default;
+
+    /**
+    * @brief Output stream operator
+    */
+    friend std::ostream & operator<<(std::ostream & stream, PseudoJet const& jet);
 
     //@}
 

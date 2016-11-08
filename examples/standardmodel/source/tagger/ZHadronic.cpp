@@ -2,8 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "standardmodel/tagger/ZHadronic.hh"
-#include "boca/MomentumRange.hh"
-#include "boca/Event.hh"
+#include "boca/identification/MomentumRange.hh"
+#include "boca/event/Event.hh"
 #include "boca/fastjet/Particles.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/generic/DEBUG_MACROS.hh"

@@ -7,3 +7,4 @@
 ## Conributer
 
 * Ying-Ying Li
+* Jing Ren

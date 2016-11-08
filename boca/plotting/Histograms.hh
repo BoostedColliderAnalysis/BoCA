@@ -9,7 +9,7 @@
 
 #include "boca/plotting/Canvas.hh"
 #include "boca/plotting/Legend.hh"
-#include "boca/Names.hh"
+#include "boca/latex/Names.hh"
 
 namespace boca
 {

@@ -5,7 +5,7 @@
 
 #include "TLegend.h"
 
-#include "boca/physics/Rectangle.hh"
+#include "boca/math/Rectangle.hh"
 #include "boca/latex/String.hh"
 #include "boca/plotting/Orientation.hh"
 

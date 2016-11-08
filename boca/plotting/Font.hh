@@ -8,14 +8,6 @@
 namespace boca
 {
 
-enum class Font
-{
-    times,
-    helvetica,
-    courier,
-    symbol
-};
-
 enum class Style
 {
     none = 0,

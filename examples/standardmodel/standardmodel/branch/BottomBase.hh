@@ -4,8 +4,8 @@
 #pragma once
 
 #include "TObject.h"
-#include "boca/physics/Prefixes.hh"
-#include "boca/Observables.hh"
+#include "boca/units/Prefixes.hh"
+#include "boca/multivariant/Observables.hh"
 
 namespace standardmodel
 {

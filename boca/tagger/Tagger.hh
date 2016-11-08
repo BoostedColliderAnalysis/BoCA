@@ -6,10 +6,10 @@
 #include "boca/generic/Types.hh"
 #include "boca/fastjet/Sort.hh"
 #include "boca/io/TreeBranch.hh"
-#include "boca/physics/Vector.hh"
+#include "boca/fastjet/Vector.hh"
 #include "boca/tagger/Base.hh"
-#include "boca/PreCuts.hh"
-#include "boca/Filter.hh"
+#include "boca/identification/PreCuts.hh"
+#include "boca/multivariant/Filter.hh"
 #include "boca/generic/Debug.hh"
 
 namespace boca

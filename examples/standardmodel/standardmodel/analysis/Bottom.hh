@@ -6,7 +6,7 @@
 #include "boca/fastjet/Sort.hh"
 #include "boca/fastjet/Particles.hh"
 #include "standardmodel/analysis/StandardModel.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 
 namespace standardmodel
 {

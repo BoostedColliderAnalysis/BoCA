@@ -5,7 +5,7 @@
 
 #include "fastjet/PseudoJet.hh"
 
-#include "boca/physics/Family.hh"
+#include "boca/identification/Family.hh"
 
 namespace boca
 {

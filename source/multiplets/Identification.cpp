@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/fastjet/Identification.hh"
+#include "boca/identification/Identification.hh"
 #include "boca/branch/Base.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
@@ -52,6 +52,12 @@ double Identification::InitialValue()
 bool Identification::operator<(Identification const& identification) const
 {
     return Bdt() > identification.Bdt();
+}
+
+std::ostream& operator<<(std::ostream& stream, Identification const& identification)
+{
+  stream << STREAM(identification.tag_) << STREAM(identification.bdt_);
+  return stream;
 }
 
 }

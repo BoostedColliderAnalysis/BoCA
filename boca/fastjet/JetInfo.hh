@@ -6,8 +6,8 @@
 #include "fastjet/PseudoJet.hh"
 
 #include "boca/generic/Mutable.hh"
-#include "boca/fastjet/Identification.hh"
-#include "boca/Constituent.hh"
+#include "boca/identification/Identification.hh"
+#include "boca/identification/Constituent.hh"
 
 namespace boca
 {

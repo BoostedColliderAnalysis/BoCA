@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/branch/Info.hh"
-#include "boca/FileInfo.hh"
+#include "boca/io/FileInfo.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
