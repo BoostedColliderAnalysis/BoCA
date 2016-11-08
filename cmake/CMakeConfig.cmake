@@ -43,7 +43,6 @@ endmacro()
 macro(add_include_path relative_directory)
   get_filename_component(absolute_directory ${relative_directory} ABSOLUTE)
   print_message("Include:      ${absolute_directory}")
-  message("Include:      ${absolute_directory}")
   set(include_directories
     ${include_directories}
     ${absolute_directory}
@@ -149,12 +148,9 @@ macro(add_example folder)
 endmacro()
 
 macro(create_test name source)
+if(BUILD_TESTING)
   print_message("Test:         ${name} <- ${source}")
-  add_executable(${name} ${source})
-  target_link_libraries(${name} ${link_libraries} ${GTEST_LIBRARIES} pthread)
-  target_compile_features(${name} PRIVATE ${compile_features})
-  if(${CMAKE_BUILD_TYPE} MATCHES DEBUG AND iwyu_path)
-    set_property(TARGET ${name} PROPERTY CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path})
-  endif()
+  create_executable(${name} ${source})
   add_test(NAME ${name} COMMAND ${name})
+endif()
 endmacro()

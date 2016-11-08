@@ -209,6 +209,11 @@ bool PseudoJet::operator==(boca::PseudoJet const& pseudo_jet) const
     return FastJet() == pseudo_jet.FastJet();
 }
 
+std::ostream & operator<<(std::ostream & stream, PseudoJet const& jet)
+{
+    stream << Stream(jet.Px()) << Stream(jet.Py()) << Stream(jet.Pz()) << Stream(jet.E());
+    return stream;
+}
 
 bool PseudoJet::HasInfo()
 {

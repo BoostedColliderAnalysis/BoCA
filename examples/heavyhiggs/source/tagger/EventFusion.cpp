@@ -1,4 +1,4 @@
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/fastjet/Particles.hh"
 
 #include "heavyhiggs/tagger/EventFusion.hh"

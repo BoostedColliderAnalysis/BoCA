@@ -1,5 +1,5 @@
 #include "heavyhiggs/branch/OctetCharged.hh"
-#include "boca/OBSERVABLE_MACROS.hh"
+#include "boca/multivariant/OBSERVABLE_MACROS.hh"
 
 namespace heavyhiggs
 {

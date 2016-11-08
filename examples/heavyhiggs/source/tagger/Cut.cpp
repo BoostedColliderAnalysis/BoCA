@@ -4,7 +4,7 @@
 
 #include "boca/generic/Vector.hh"
 #include "boca/math/Math.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/fastjet/Particles.hh"
 
 #include "heavyhiggs/tagger/Cut.hh"

@@ -4,7 +4,7 @@
 #include "standardmodel/branch/TopLeptonic.hh"
 #include "boca/branch/Base.hh"
 #include "boca/Settings.hh"
-#include "boca/OBSERVABLE_MACROS.hh"
+#include "boca/multivariant/OBSERVABLE_MACROS.hh"
 
 namespace standardmodel
 {

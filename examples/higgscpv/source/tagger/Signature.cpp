@@ -1,5 +1,5 @@
 #include "boca/fastjet/Particles.hh"
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 
 #include "higgscpv/tagger/Signature.hh"
 

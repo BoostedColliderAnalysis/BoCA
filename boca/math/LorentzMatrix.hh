@@ -1,7 +1,7 @@
 #pragma once
 
+#include "boca/math/LorentzVectorBase.hh"
 #include "boca/math/Matrix3.hh"
-#include "boca/math/LorentzVector.hh"
 
 namespace boca
 {
@@ -73,7 +73,7 @@ public:
     /**
     * @brief Constructor accepting three Lorentz vectors
     */
-    LorentzMatrix(LorentzVector<Value_> const &x, LorentzVector<Value_> const &y, LorentzVector<Value_> const &z, LorentzVector<Value_> const &t, Matrix matrix = Matrix::row)
+    LorentzMatrix(LorentzVectorBase<Value_> const &x, LorentzVectorBase<Value_> const &y, LorentzVectorBase<Value_> const &z, LorentzVectorBase<Value_> const &t, Matrix matrix = Matrix::row)
     {
         switch (matrix) {
         case Matrix::row:
@@ -135,7 +135,7 @@ public:
     /**
     * @brief Set the rows
     */
-    void SetRows(LorentzVector<Value_> const &x, LorentzVector<Value_> const &y, LorentzVector<Value_> const &z, LorentzVector<Value_> const &t)
+    void SetRows(LorentzVectorBase<Value_> const &x, LorentzVectorBase<Value_> const &y, LorentzVectorBase<Value_> const &z, LorentzVectorBase<Value_> const &t)
     {
         x_ = x;
         y_ = y;
@@ -146,7 +146,7 @@ public:
     /**
     * @brief Set the columns
     */
-    void SetColumns(LorentzVector<Value_> const &x, LorentzVector<Value_> const &y, LorentzVector<Value_> const &z, LorentzVector<Value_> const &t)
+    void SetColumns(LorentzVectorBase<Value_> const &x, LorentzVectorBase<Value_> const &y, LorentzVectorBase<Value_> const &z, LorentzVectorBase<Value_> const &t)
     {
         x_ = {x.X(), y.X(), z.X(), t.X()};
         y_ = {x.Y(), y.Y(), z.Y(), t.Y()};
@@ -163,12 +163,12 @@ public:
     * @brief x-row
     * @{
     */
-    LorentzVector<Value_> X() const
+    LorentzVectorBase<Value_> const& X() const
     {
         return x_;
     }
 
-    LorentzVector<Value_> &X()
+    LorentzVectorBase<Value_> &X()
     {
         return x_;
     }
@@ -178,12 +178,12 @@ public:
     * @brief y-row
     * @{
     */
-    LorentzVector<Value_> Y() const
+    LorentzVectorBase<Value_> const& Y() const
     {
         return y_;
     }
 
-    LorentzVector<Value_> &Y()
+    LorentzVectorBase<Value_> &Y()
     {
         return y_;
     }
@@ -193,12 +193,12 @@ public:
     * @brief z-row
     * @{
     */
-    LorentzVector<Value_> Z() const
+    LorentzVectorBase<Value_> const& Z() const
     {
         return z_;
     }
 
-    LorentzVector<Value_> &Z()
+    LorentzVectorBase<Value_> &Z()
     {
         return z_;
     }
@@ -208,12 +208,12 @@ public:
     * @brief t-row
     * @{
     */
-    LorentzVector<Value_> T() const
+    LorentzVectorBase<Value_> T() const
     {
         return t_;
     }
 
-    LorentzVector<Value_> &T()
+    LorentzVectorBase<Value_> &T()
     {
         return t_;
     }
@@ -322,7 +322,7 @@ public:
     /**
     * @brief x column
     */
-    LorentzVector<Value_> ColumnX() const
+    LorentzVectorBase<Value_> ColumnX() const
     {
         return {x_.X(), y_.X(), z_.X(), t_.X()};
     }
@@ -330,7 +330,7 @@ public:
     /**
     * @brief y column
     */
-    LorentzVector<Value_> ColumnY() const
+    LorentzVectorBase<Value_> ColumnY() const
     {
         return {x_.Y(), y_.Y(), z_.Y(), t_.Y()};
     }
@@ -338,7 +338,7 @@ public:
     /**
     * @brief z column
     */
-    LorentzVector<Value_> ColumnZ() const
+    LorentzVectorBase<Value_> ColumnZ() const
     {
         return {x_.Z(), y_.Z(), z_.Z(), t_.Z()};
     }
@@ -346,7 +346,7 @@ public:
     /**
     * @brief t column
     */
-    LorentzVector<Value_> ColumnT() const
+    LorentzVectorBase<Value_> ColumnT() const
     {
         return {x_.T(), y_.T(), z_.T(), t_.T()};
     }
@@ -362,7 +362,7 @@ public:
     * @brief Multiply with a vector
     */
     template<typename Value_2_>
-    auto Multiply(const LorentzVector<Value_2_> &vector) const
+    auto Multiply(const LorentzVectorBase<Value_2_> &vector) const
     {
         return {x_ * vector, y_ * vector, z_ * vector, t_ * vector};
     }
@@ -470,7 +470,7 @@ public:
     * @brief Multiply with a vector
     */
     template<typename Value_2_>
-    auto operator*(const LorentzVector<Value_2_> &vector) const
+    auto operator*(const LorentzVectorBase<Value_2_> &vector) const
     {
         return Multiply(vector);
     }
@@ -493,44 +493,11 @@ public:
     }
 
     /**
-    * @brief Element by indices
-    */
-    Value_ const &operator()(LorentzDim i, LorentzDim j) const
-    {
-        return operator()(i)(j);
-    }
-
-    /**
-    * @brief Element by indices
-    */
-    Value_ &operator()(LorentzDim i, LorentzDim j)
-    {
-        return operator()(i)(j);
-    }
-
-    /**
     * @brief Row by index
     */
-    LorentzVector<Value_> const &operator[](LorentzDim i) const
+    LorentzVectorBase<Value_> const &operator[](LorentzDim lorentz_dim) const
     {
-        return operator()(i);
-    }
-
-    /**
-    * @brief Row by index
-    */
-    LorentzVector<Value_> &operator[](LorentzDim i)
-    {
-        return operator()(i);
-    }
-
-    /**
-    * @brief Row by index
-    */
-    LorentzVector<Value_> const &operator()(LorentzDim i) const
-    {
-        //derefencing operator
-        switch (i) {
+        switch (lorentz_dim) {
         case LorentzDim::x :
             return x_;
         case LorentzDim::y :
@@ -539,42 +506,39 @@ public:
             return z_;
         case LorentzDim::t :
             return t_;
-        }
-        std::cout << "operator()(i), subscripting: bad index " << Name(i) << '\n';
+        default : Default("LorentzMatrix",  Name(lorentz_dim));
         return x_;
+        }
     }
 
     /**
     * @brief Row by index
     */
-    LorentzVector<Value_> &operator()(LorentzDim i)
+    LorentzVectorBase<Value_> &operator[](LorentzDim lorentz_dim)
     {
-        //derefencing operator
-        switch (i) {
-        case LorentzDim::x :
-            return x_;
-        case LorentzDim::y :
-            return y_;
-        case LorentzDim::z :
-            return z_;
-        case LorentzDim::t :
-            return t_;
-        }
-        std::cout << "operator()(i), subscripting: bad index " << Name(i) << '\n';
-        return x_;
+        return const_cast<LorentzVectorBase<Value_> &>(static_cast<LorentzMatrix<Value_> const &>(*this)[lorentz_dim]);
+    }
+
+    /**
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, LorentzMatrix<Value_> const &matrix)
+    {
+        for(auto const& vector : matrix) stream << vector;
+        return stream;
     }
 
     //@}
 
 private:
 
-    LorentzVector<Value_> x_;
+    LorentzVectorBase<Value_> x_;
 
-    LorentzVector<Value_> y_;
+    LorentzVectorBase<Value_> y_;
 
-    LorentzVector<Value_> z_;
+    LorentzVectorBase<Value_> z_;
 
-    LorentzVector<Value_> t_;
+    LorentzVectorBase<Value_> t_;
 
     // Set elements according to a boost vector.
     //boost this Lorentz vector

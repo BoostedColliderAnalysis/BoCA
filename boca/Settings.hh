@@ -3,10 +3,9 @@
  */
 #pragma once
 
+#include "boca/units/Prefixes.hh"
 #include "boca/fastjet/InfoRecombiner.hh"
-#include "boca/physics/Range.hh"
 #include "boca/io/Source.hh"
-#include "boca/plotting/Font.hh"
 
 namespace boca
 {
@@ -34,7 +33,18 @@ enum class Collider
     future ///<  default detector for a 100TeV collider
 };
 
+enum class Font
+{
+    times,
+    helvetica,
+    courier,
+    symbol
+};
+
 std::string Name(Collider collider);
+
+template<typename Value_>
+class Range;
 
 /**
  * @brief Detector and Collider specific constants

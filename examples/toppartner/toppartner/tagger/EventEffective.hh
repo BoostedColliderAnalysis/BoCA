@@ -5,7 +5,6 @@
 
 #include "standardmodel/tagger/Event.hh"
 
-#include "toppartner/branch/Event.hh"
 #include "toppartner/tagger/SignatureEffective.hh"
 
 namespace toppartner
@@ -19,7 +18,7 @@ namespace tagger
  * @brief Prepares multivariant analysis
  *
  */
-class EventEffective : public standardmodel::tagger::Event<SignatureEffective, Quattuordecuplet554, branch::Event>
+class EventEffective : public standardmodel::tagger::Event<SignatureEffective, Quattuordecuplet554, boca::branch::Event>
 {
 
 public:

@@ -1,6 +1,8 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
+create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh boca plotting)
+
 set(plot_sources
 Significance.cpp
 Result.cpp

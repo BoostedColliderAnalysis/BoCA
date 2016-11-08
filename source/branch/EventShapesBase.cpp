@@ -3,7 +3,7 @@
  */
 #include "boca/branch/EventShapesBase.hh"
 #include "boca/branch/Base.hh"
-#include "boca/OBSERVABLE_MACROS.hh"
+#include "boca/multivariant/OBSERVABLE_MACROS.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 

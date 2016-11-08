@@ -10,8 +10,8 @@ void Run(boca::Output output = boca::Output::normal)
 
 int main()
 {
-    Run<standardmodel::tagger::Global>(boca::Output::significance);
     Run<standardmodel::tagger::Bottom>();
+    Run<standardmodel::tagger::Global>(boca::Output::significance);
     Run<standardmodel::tagger::WLeptonic>();
     Run<standardmodel::tagger::WHadronic>();
     Run<standardmodel::tagger::TopLeptonic>();

@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "tthh/branch/HiggsSemiLeptonic.hh"
-#include "boca/OBSERVABLE_MACROS.hh"
+#include "boca/multivariant/OBSERVABLE_MACROS.hh"
 #include "boca/latex/String.hh"
 
 namespace tthh

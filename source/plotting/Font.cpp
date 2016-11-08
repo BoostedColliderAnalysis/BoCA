@@ -23,10 +23,10 @@ enum class Precision
     pixel = 3
 };
 
-int Precision()
+Precision Prec()
 {
     INFO0;
-    return 2;
+    return Precision::high;
 }
 
 int FontNumber(Font font, Style style)
@@ -62,20 +62,22 @@ int FontNumber(Font font, Style style)
 double TextHeight()
 {
     INFO0;
-    switch (Precision()) {
-    case 2 : return 0.07;
-    case 3 : return 20;
-        DEFAULT(Precision(), 0.07);
+    switch (Prec()) {
+    case Precision::low :
+    case Precision::normal :
+    case Precision::high : return 0.07;
+    case Precision::pixel : return 20;
     }
 }
 
 double LabelHeight()
 {
     INFO0;
-    switch (Precision()) {
-    case 2 : return 0.05;
-    case 3 : return 15;
-        DEFAULT(Precision(), 0.04);
+    switch (Prec()) {
+    case Precision::low :
+    case Precision::normal :
+    case Precision::high : return 0.05;
+    case Precision::pixel : return 15;
     }
 }
 
@@ -104,7 +106,8 @@ int ColorCode(int number)
 int FontCode(Style style)
 {
     INFO0;
-    return 10 * FontNumber(Settings::Font(), style) + Precision();
+    return 10 * FontNumber(Settings::Font(), style) + to_int(Prec());
 }
 
 }
+

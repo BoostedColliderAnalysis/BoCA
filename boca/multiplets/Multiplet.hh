@@ -7,7 +7,7 @@
 #include "boca/fastjet/Particle.hh"
 #include "boca/multiplets/ClosestLepton.hh"
 #include "boca/fastjet/SubJettiness.hh"
-#include "boca/EventShapes.hh"
+#include "boca/event/EventShapes.hh"
 
 namespace boca
 {

@@ -6,9 +6,9 @@
 
 #include "boca/generic/Exception.hh"
 #include "boca/fastjet/Particles.hh"
-#include "boca/physics/Vector.hh"
-#include "boca/PreCuts.hh"
-#include "boca/Event.hh"
+#include "boca/fastjet/Vector.hh"
+#include "boca/identification/PreCuts.hh"
+#include "boca/event/Event.hh"
 #include "standardmodel/tagger/Bottom.hh"
 // #define DEBUGGING
 // #define INFORMATION

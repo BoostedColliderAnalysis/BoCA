@@ -1,5 +1,3 @@
-# boca
+# Analysis
 
-## analysis
-
-The include folder for analysis classes
+The include folder for analysis classes.

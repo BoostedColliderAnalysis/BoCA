@@ -3,9 +3,9 @@
  */
 #pragma once
 
-#include "boca/physics/Prefixes.hh"
+#include "boca/units/Prefixes.hh"
 #include "boca/branch/Bdt.hh"
-#include "boca/Observables.hh"
+#include "boca/multivariant/Observables.hh"
 
 /**
 * @brief tthh Analysis

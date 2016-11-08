@@ -8,7 +8,7 @@
 #include "boca/plotting/Profile.hh"
 #include "boca/plotting/Font.hh"
 
-#include "boca/Colors.hh"
+#include "boca/plotting/Colors.hh"
 #include "boca/generic/Types.hh"
 
 // #define INFORMATION

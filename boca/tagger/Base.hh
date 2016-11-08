@@ -5,7 +5,7 @@
 
 #include "TMVA/Types.h"
 
-#include "boca/Observable.hh"
+#include "boca/multivariant/Observable.hh"
 #include "boca/multivariant/Phase.hh"
 
 class TCut;

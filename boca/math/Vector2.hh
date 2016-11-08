@@ -7,14 +7,15 @@
 #include "boca/generic/Debug.hh"
 #include "boca/generic/Iterator.hh"
 
-#include "boca/physics/Units.hh"
+#include "boca/units/Units.hh"
+#include "boca/math/Math.hh"
 
 namespace boca
 {
 
 /**
 * @ingroup Math
-* @brief Two dimensions
+* @brief Two dimensionss
 *
 */
 enum class Dim2
@@ -24,7 +25,7 @@ enum class Dim2
     last
 };
 
-std::string Name(Dim2 dimension);
+std::string Name(Dim2 dim_2);
 
 std::vector<Dim2> Dimensions2();
 
@@ -149,7 +150,7 @@ public:
     /**
     * @brief Getter for X
     */
-    constexpr Value_ X() const
+    constexpr Value_ const& X() const
     {
         return x_;
     }
@@ -157,7 +158,7 @@ public:
     /**
     * @brief Getter for Y
     */
-    constexpr Value_ Y() const
+    constexpr Value_ const& Y() const
     {
         return y_;
     }
@@ -262,11 +263,11 @@ public:
     /**
      * @brief Rotate this vector by \f$\phi\f$
      */
-    Vector2& Rotate(Angle const &phi)
+    Vector2 &Rotate(Angle const &phi)
     {
         auto const cos = boost::units::cos(phi);
         auto const sin = boost::units::sin(phi);
-        *this = {x_ * cos - y_ * sin, x_ * sin + y_ * cos};
+        *this = {x_ *cos - y_ * sin, x_ *sin + y_ * cos};
         return *this;
     }
 
@@ -419,55 +420,33 @@ public:
     /**
      * @brief Components by index
      */
-    Value_ operator()(Dim2 dimension) const
+    Value_ const &operator[](Dim2 dim_2) const
     {
-        //dereferencing operator const
-        switch (dimension) {
+        switch (dim_2) {
         case Dim2::x :
             return x_;
         case Dim2::y :
             return y_;
         default :
-            Debug("Bad index returning x_", Name(dimension));
-            return 0;
+            Default("Matrix2", Name(dim_2));
+            return x_;
         }
     }
 
     /**
      * @brief Components by index
      */
-    Value_ operator[](Dim2 dimension) const
+    Value_ &operator[](Dim2 dim_2)
     {
-        return operator()(dimension);
+        return const_cast<Value_ &>(static_cast<Vector2<Value_> const &>(*this)[dim_2]);
     }
 
     /**
-     * @brief Components by index
+     * @brief Output stream operator
      */
-    Value_ &operator()(Dim2 dimension)
-    {
-        switch (dimension) {
-        case Dim2::x :
-            return x_;
-        case Dim2::y :
-            return y_;
-        default :
-            Debug("Bad index returning x_", Name(dimension));
-        return x_;
-        }
-    }
-
-    /**
-     * @brief Components by index
-     */
-    Value_ &operator[](Dim2 dimension)
-    {
-        return operator()(dimension);
-    }
-
     friend auto &operator<<(std::ostream &stream, Vector2<Value_> const &vector)
     {
-        stream << vector.X() << ',' <<  vector.Y();
+        stream << Stream(vector.X()) << Stream(vector.Y());
         return stream;
     }
 
@@ -478,10 +457,12 @@ public:
      * @{
      */
 
+    using Dimension = Dim2;
+
     /**
      * @brief Const begin
      */
-    constexpr ConstIterator<boca::Vector2, Value_, Dim2> begin() const
+    constexpr ConstIterator<boca::Vector2, Value_> begin() const
     {
         return {this, Dim2::x};
     }
@@ -489,7 +470,7 @@ public:
     /**
      * @brief Const end
      */
-    constexpr ConstIterator<boca::Vector2, Value_, Dim2> end() const
+    constexpr ConstIterator<boca::Vector2, Value_> end() const
     {
         return {this, Dim2::last};
     }
@@ -497,7 +478,7 @@ public:
     /**
      * @brief Begin
      */
-    Iterator<boca::Vector2, Value_, Dim2> begin()
+    Iterator<boca::Vector2, Value_> begin()
     {
         return {this, Dim2::x};
     }
@@ -505,7 +486,7 @@ public:
     /**
      * @brief End
      */
-    Iterator<boca::Vector2, Value_, Dim2> end()
+    Iterator<boca::Vector2, Value_> end()
     {
         return {this, Dim2::last};
     }
@@ -556,3 +537,16 @@ auto operator*(Value_ const &scalar, Vector2<Value_2> const &vector)
 
 }
 
+namespace boost{
+
+template<typename Value_>
+struct range_const_iterator< boca::Vector2<Value_> > {
+    typedef typename boca::ConstIterator<boca::Vector2, Value_> type;
+};
+
+template<typename Value_>
+struct range_mutable_iterator< boca::Vector2<Value_> > {
+    typedef typename boca::Iterator<boca::Vector2, Value_> type;
+};
+
+}

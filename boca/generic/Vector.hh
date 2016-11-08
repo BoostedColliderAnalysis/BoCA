@@ -73,9 +73,9 @@ std::size_t Position(std::vector<Element_> const &vector, Element_ const &elemen
 }
 
 template <typename Element_,  unsigned long size_>
-std::size_t Position(std::array<Element_, size_> const &vector, Element_ const &element)
+std::size_t Position(std::array<Element_, size_> const &array, Element_ const &element)
 {
-    return std::addressof(element) - vector.data();
+    return std::addressof(element) - array.data();
 }
 
 

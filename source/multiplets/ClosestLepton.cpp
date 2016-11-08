@@ -1,6 +1,6 @@
 #include "boca/multiplets/ClosestLepton.hh"
-#include "boca/physics/Vector.hh"
-#include "boca/Event.hh"
+#include "boca/fastjet/Vector.hh"
+#include "boca/event/Event.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
@@ -59,5 +59,12 @@ Momentum ClosestLepton::Pt()
     INFO0;
     return lepton_.Pt();
 }
+
+std::ostream& operator<<(std::ostream& stream, ClosestLepton const& closest_lepton)
+{
+  stream << closest_lepton.jet_ << closest_lepton.lepton_;
+  return stream;
+}
+
 
 }

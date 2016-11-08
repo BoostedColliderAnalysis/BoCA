@@ -1,4 +1,4 @@
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "standardmodel/tagger/Global.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 

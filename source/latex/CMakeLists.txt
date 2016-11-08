@@ -8,5 +8,6 @@ Table.cpp
 Row.cpp
 Graphic.cpp
 String.cpp
+Names.cpp
 )
 create_library(Latex latex_sources)

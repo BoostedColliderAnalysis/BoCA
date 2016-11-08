@@ -89,6 +89,12 @@ fastjet::ClusterSequence &ClusterSequence::Get()
     return *cluster_sequence_;
 }
 
+fastjet::ClusterSequence const& ClusterSequence::Get() const
+{
+  DEBUG0;
+  return *cluster_sequence_;
+}
+
 void ClusterSequence::AddConstituents(fastjet::PseudoJet const &jet, std::vector< fastjet::PseudoJet > &subjet_vector) const
 {
     DEBUG0;

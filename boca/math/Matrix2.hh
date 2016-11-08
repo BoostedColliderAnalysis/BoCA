@@ -170,7 +170,7 @@ public:
     * @brief x
     * @{
     */
-    constexpr Vector2<Value_> X() const
+    constexpr Vector2<Value_> const& X() const
     {
         return x_;
     }
@@ -184,7 +184,7 @@ public:
     /**
     * @brief y
     */
-    constexpr Vector2<Value_> Y() const
+    constexpr Vector2<Value_> const& Y() const
     {
         return y_;
     }
@@ -335,7 +335,7 @@ public:
     * @brief scale with a scalar
     */
     template<typename Value_2_>
-    constexpr Matrix2<ValueProduct<Value_2_>> Scaled(Value_2_ scalar) const
+    constexpr Matrix2<ValueProduct<Value_2_>> Scale(Value_2_ scalar) const
     {
         return {x_ * scalar, y_ * scalar};
     }
@@ -374,7 +374,7 @@ public:
      */
 
     /**
-    * @brief Less than comparison according to determinans
+    * @brief Less than comparison according to absolute value of the determinant
     */
     constexpr bool operator<(Matrix2 const &matrix) const
     {
@@ -382,7 +382,7 @@ public:
     }
 
     /**
-    * @brief Equality comnparison
+    * @brief Equality comparison
     */
     constexpr bool operator==(Matrix2 const &matrix) const
     {
@@ -428,7 +428,7 @@ public:
     template<typename Value_2_>
     constexpr Matrix2<ValueQuotient<Value_2_>> operator/(Value_2_ scalar)
     {
-        return Scaled(1. / scalar);
+        return Scale(1. / scalar);
     }
 
     /**
@@ -461,15 +461,13 @@ public:
     /**
     * @brief rows
     */
-    constexpr Vector2<Value_> const &operator()(Dim2 dim) const
+    constexpr Vector2<Value_> const &operator[](Dim2 dim_2) const
     {
-        switch (dim) {
-        case Dim2::x :
-            return x_;
-        case Dim2::y :
-            return y_;
+        switch (dim_2) {
+        case Dim2::x : return x_;
+        case Dim2::y : return y_;
         default :
-            Default("Matrix2", to_int(dim));
+            Default("Matrix2", Name(dim_2));
             return x_;
         }
     }
@@ -477,49 +475,18 @@ public:
     /**
     * @brief rows
     */
-    Vector2<Value_> &operator()(Dim2 dim)
+    Vector2<Value_> &operator[](Dim2 dim_2)
     {
-        switch (dim) {
-        case Dim2::x :
-            return x_;
-        case Dim2::y :
-            return y_;
-        default :
-            Default("Matrix2", to_int(dim));
-            return x_;
-        }
+        return const_cast<Vector2<Value_> &>(static_cast<Matrix2<Value_> const &>(*this)[dim_2]);
     }
 
     /**
-    * @brief rows
-    */
-    constexpr Value_ const &operator()(Dim2 i, Dim2 j) const
+     * @brief Output stream operator
+     */
+    friend auto &operator<<(std::ostream &stream, Matrix2<Value_> const &matrix)
     {
-        return operator()(i)(j);
-    }
-
-    /**
-    * @brief rows
-    */
-    Value_ &operator()(Dim2 i, Dim2 j)
-    {
-        return operator()(i)(j);
-    }
-
-    /**
-    * @brief rows
-    */
-    constexpr Vector2<Value_> const &operator[](Dim2 i) const
-    {
-        return operator()(i);
-    }
-
-    /**
-    * @brief rows
-    */
-    Vector2<Value_> &operator[](Dim2 i)
-    {
-        return operator()(i);
+        for(auto const& vector : matrix) stream << vector;
+        return stream;
     }
 
     //@}
@@ -529,26 +496,12 @@ public:
      * @{
      */
 
-    /**
-    * @brief begin
-    */
-    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin() const
-    {
-        return {this, Dim2::x};
-    }
-
-    /**
-    * @brief end
-    */
-    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_, Dim2> end() const
-    {
-        return {this, Dim2::last};
-    }
+    using Dimension = Dim2;
 
     /**
     * @brief const begin
     */
-    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> begin()
+    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_> begin() const
     {
         return {this, Dim2::x};
     }
@@ -556,7 +509,23 @@ public:
     /**
     * @brief const end
     */
-    SubIterator<boca::Matrix2, Vector2, Value_, Dim2> end()
+    constexpr ConstSubIterator<boca::Matrix2, Vector2, Value_> end() const
+    {
+        return {this, Dim2::last};
+    }
+
+    /**
+    * @brief begin
+    */
+    SubIterator<boca::Matrix2, Vector2, Value_> begin()
+    {
+        return {this, Dim2::x};
+    }
+
+    /**
+    * @brief end
+    */
+    SubIterator<boca::Matrix2, Vector2, Value_> end()
     {
         return {this, Dim2::last};
     }
@@ -608,7 +577,7 @@ private:
             trace_ = matrix.Trace();
             auto const radicant = sqr(trace_) - 4 * matrix.Determinant();
             complex_ = radicant < 0;
-            sqrt_ = sqrt(radicant) / 2;
+            sqrt_ = sqrt(radicant);
             matrix_ = &matrix;
         }
 
@@ -618,7 +587,7 @@ private:
                 Array2<Value_> values;
                 if (complex_) {
                     for (auto &value : values) value = -1;
-                    std::cerr << "Eigensystem has no real Eigenvalues!\n";
+                    Error("Eigensystem has no real Eigenvalues");
                     return values;
                 }
                 for (auto const index : IntegerRange(values.size())) values.at(index) = Value(index);
@@ -657,10 +626,9 @@ private:
         constexpr Value_ Value(int i) const
         {
             switch (i) {
-            case 0 :
-                return (Trace() - Sqrt()) / 2;
-            case 1 :
-                return (Trace() + Sqrt()) / 2;
+              case 0 : return (Trace() - Sqrt()) / 2;
+              case 1 : return (Trace() + Sqrt()) / 2;
+              default : return Value_(0);
             }
         }
 
@@ -736,5 +704,19 @@ constexpr Matrix2<ValueProduct<Value_1_, Value_2_>> MatrixProduct(Vector2<Value_
 {
     return {vector_1.X() *vector_2, vector_1.Y() *vector_2};
 }
+
+}
+
+namespace boost{
+
+template<typename Value_>
+struct range_const_iterator< boca::Matrix2<Value_> > {
+    typedef typename boca::ConstSubIterator<boca::Matrix2, boca::Vector2, Value_> type;
+};
+
+template<typename Value_>
+struct range_mutable_iterator< boca::Matrix2<Value_> > {
+    typedef typename boca::SubIterator<boca::Matrix2, boca::Vector2, Value_> type;
+};
 
 }

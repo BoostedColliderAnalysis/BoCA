@@ -8,7 +8,7 @@
 #include "boca/io/FileWriter.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/branch/Info.hh"
-#include "boca/FileInfo.hh"
+#include "boca/io/FileInfo.hh"
 #include "boca/generic/Debug.hh"
 
 namespace boca

@@ -1,5 +1,4 @@
-#include <boost/range/algorithm/count_if.hpp>
-
+#include "boca/fastjet/Vector.hh"
 #include "boca/fastjet/Sort.hh"
 
 #include "simple/Observables.hh"
@@ -11,9 +10,9 @@ namespace simple
 Observables::Observables(boca::Event const& event)
 {
     // store the jets sorted by pt
-    jets_ = SortedByPt(event.Jets());
+    jets_ = boca::SortedByPt(event.Jets());
     // store the leptons sorted by pt
-    leptons_ = SortedByPt(event.Leptons());
+    leptons_ = boca::SortedByPt(event.Leptons());
     // store the scalar ht
     scalar_ht_ = event.ScalarHt();
     // store the missing et
@@ -35,33 +34,31 @@ int Observables::JetNumber() const
 int Observables::BottomNumber() const
 {
     // return the number of jets with Delphes b-tag
-    return boost::range::count_if(jets_, [](boca::Jet const & jet) {
-        return jet.Info().BTag();
-    });
+    return boca::CountIfBottom(jets_);
 }
 
-boca::Momentum Observables::ScalarHt() const
+Momentum Observables::ScalarHt() const
 {
     // return scalar_ht
     return scalar_ht_;
 }
 
-boca::Energy Observables::MissingEt() const
+Energy Observables::MissingEt() const
 {
     //  return missing et
     return missing_et_;
 }
 
-boca::Momentum Observables::JetPt(unsigned number) const
+Momentum Observables::JetPt(unsigned number) const
 {
     //  return pt of jet at number
-    return jets_.size() > number ? jets_.at(number).Pt() : boca::at_rest;
+    return jets_.size() > number ? jets_.at(number).Pt() : at_rest;
 }
 
-boca::Momentum Observables::LeptonPt(unsigned number) const
+Momentum Observables::LeptonPt(unsigned number) const
 {
     //  return pt of lepton at number
-    return leptons_.size() > number ? leptons_.at(number).Pt() : boca::at_rest;
+    return leptons_.size() > number ? leptons_.at(number).Pt() : at_rest;
 }
 
 }

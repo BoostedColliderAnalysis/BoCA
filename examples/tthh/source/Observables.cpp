@@ -4,7 +4,7 @@
 #include <boost/range/numeric.hpp>
 #include <boost/range/algorithm/count_if.hpp>
 
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 #include "boca/fastjet/Sort.hh"
 #include "boca/generic/Vector.hh"
 #include "boca/generic/DEBUG_MACROS.hh"

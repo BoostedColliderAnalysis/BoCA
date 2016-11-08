@@ -8,8 +8,8 @@
 #include "boca/fastjet/Particles.hh"
 #include "standardmodel/tagger/TopHadronic.hh"
 
-#include "boca/Event.hh"
-#include "boca/MomentumRange.hh"
+#include "boca/event/Event.hh"
+#include "boca/identification/MomentumRange.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 

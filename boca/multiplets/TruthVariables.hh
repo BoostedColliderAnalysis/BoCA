@@ -3,10 +3,10 @@
  */
 #pragma once
 
-#include "boca/fastjet/Identification.hh"
+#include "boca/identification/Identification.hh"
 #include "boca/fastjet/Particle.hh"
-#include "boca/physics/Id.hh"
-#include "boca/physics/Units.hh"
+#include "boca/identification/Id.hh"
+#include "boca/units/Units.hh"
 
 namespace boca
 {

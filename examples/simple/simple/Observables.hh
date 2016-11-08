@@ -3,10 +3,13 @@
 // include the Identification base class
 #include "boca/fastjet/Particle.hh"
 // include the Event class
-#include "boca/Event.hh"
+#include "boca/event/Event.hh"
 
 namespace simple
 {
+
+// use members of boca::units without prefix
+using namespace boca::units;
 
 
 /**
@@ -32,16 +35,16 @@ public:
     int BottomNumber() const;
 
     // The sclar sum of the transvers momenta
-    boca::Momentum ScalarHt() const;
+    Momentum ScalarHt() const;
 
     // The transverse momentum of the n'th jet
-    boca::Momentum JetPt(unsigned number) const;
+    Momentum JetPt(unsigned number) const;
 
     // The transverse momentum of the n'th lepton
-    boca::Momentum LeptonPt(unsigned number) const;
+    Momentum LeptonPt(unsigned number) const;
 
     // The missing transvser energy
-    boca::Energy MissingEt() const;
+    Energy MissingEt() const;
 
 private:
 
@@ -52,10 +55,10 @@ private:
     std::vector<boca::Lepton> leptons_;
 
     // storage for the scalar ht
-    boca::Momentum scalar_ht_;
+    Momentum scalar_ht_;
 
     // storage for the missing et
-    boca::Energy missing_et_;
+    Energy missing_et_;
 
 };
 

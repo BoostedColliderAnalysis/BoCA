@@ -7,58 +7,49 @@ This code performs staged BDT analyses using root files as in- and output format
 * [`ROOT`](https://root.cern.ch/) version ≥ 6.05.02 compiled with [`TMVA`](http://tmva.sourceforge.net/) and [`MathMore`](https://root.cern.ch/mathmore-library)
 * [`FastJet`](http://fastjet.fr/)
 * [`FastJet Contrib`](https://fastjet.hepforge.org/contrib/) (must be compiled with [`CXXFLAGS=-fPIC`](https://en.wikipedia.org/wiki/Position-independent_code))
-* [`Boost`](http://www.boost.org/) version ≥ 1.56 ([`Optional`](http://www.boost.org/doc/libs/release/libs/optional/), [`Range`](http://www.boost.org/doc/libs/release/libs/range/), [`Units`](http://www.boost.org/doc/libs/release/libs/units/), [`Operators`](http://www.boost.org/doc/libs/release/libs/utility/operators.htm))
+* [`Boost`](http://www.boost.org/) version ≥ 1.56 ([`Optional`](http://www.boost.org/doc/libs/release/libs/optional/), [`Range`](http://www.boost.org/doc/libs/release/libs/range/), [`Units`](http://www.boost.org/doc/libs/release/libs/units/), [`Operators`](http://www.boost.org/doc/libs/release/libs/utility/operators.htm), [`Iterators`](http://www.boost.org/doc/libs/release/libs/iterator/))
 
-The BoCA code makes heavy use of modern C++ features.
-The limiting factor for the minimal supportet compiler version is given by the use of generic lambda function.
+The `BoCA` code makes heavy use of modern C++ features.
+The limiting factor for the minimal supportet compiler version is given by the use of generic lambda functions.
 Therefore the compiler version must be
-* GCC version ≥ 4.9
-* Clang version ≥ 3.4 (which might rely on a recent GCC version)
+* `GCC` version ≥ 4.9
+* `Clang` version ≥ 3.4 (which might rely on a recent GCC version)
 
 ## Installation
 
 * the following is tested on recent ubuntu, scientific linux  and mac installations
 
-~~~~
-mkdir build
-cd build
-cmake ..
-make
-~~~~
+      mkdir build
+      cd build
+      cmake ..
+      make
 
 * for quicker compilation (install ccache and ninja-build)
 
-~~~~
-mkdir build
-cd build
-cmake -G Ninja ..
-ninja
-~~~~
+      mkdir build
+      cd build
+      cmake -G Ninja ..
+      ninja
 
 * for mac you can also use (still install ccache)
 
-~~~~
-mkdir build
-cd build
-cmake -G Xcode ..
-xcodebuild
-~~~~
+      mkdir build
+      cd build
+      cmake -G Xcode ..
+      xcodebuild
 
 * if you have trouble installing `ROOT` ≥ 6 with `GCC` ≥ 5 you can configure it with
 
-~~~~
-cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja ..
-~~~~
-unfortunately this means that all other dependencies also have to be compiled with the cxx11 abi switched off
-e.g. for `FastJet` you have to use
-~~~~
-./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0
-~~~~
-and for `FastJet Contrib`
-~~~~
-./configure CXXFLAGS="-fPIC -D_GLIBCXX_USE_CXX11_ABI=0"
-~~~~
+      cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja ..
 
+  unfortunately this means that all other dependencies also have to be compiled with the cxx11 abi switched off
+  e.g. for `FastJet` you have to use
+
+      ./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0
+
+  and for `FastJet Contrib`
+
+      ./configure CXXFLAGS="-fPIC -D_GLIBCXX_USE_CXX11_ABI=0"
 
 ## Usage
 
