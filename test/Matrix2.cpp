@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE(Scalar)
 
 BOOST_AUTO_TEST_CASE(EigenSystem)
 {
-    std::vector<double> test { -0.37228132326901431,  5.3722813232690143};
+    std::array<double, 2> test {{ -0.37228132326901431,  5.3722813232690143}};
     auto eigensystem = matrix.EigenSystem();
     for (auto const &graded : eigensystem)    {
         BOOST_CHECK_EQUAL(graded.Scalar(), test[Position(eigensystem, graded)]);

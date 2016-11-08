@@ -1,21 +1,21 @@
-
 #include <fstream>
 
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Wimpmass
 #include <boost/test/included/unit_test.hpp>
 
-// #include <gtest/gtest.h>
-
 #include "boca/generic/Vector.hh"
 #include "external/wimpmass/wimpmass/Invisible2.hh"
 
-namespace wimpmass
-{
+/**
+* @test Test Invisible2
+*
+*/
+BOOST_AUTO_TEST_SUITE(Invisible2)
 
 using namespace boca::units;
 
-class TestInvisible22 :  public Invisible22
+class TestInvisible22 :  public wimpmass::Invisible22
 {
 
 public :
@@ -67,11 +67,9 @@ void TestInvisible22::Momentum(double momentum[4], const boca::LorentzVector<boc
     momentum[3] = vector.Pz() / GeV;
 }
 
-}
-
 auto ReadDataFile(std::ifstream &file)
 {
-    std::array<wimpmass::TestInvisible22::event22, 3> events;
+    std::array<TestInvisible22::event22, 3> events;
     for (auto &event : events) {
         //find the line containing <event>
         bool found = false;
@@ -108,9 +106,11 @@ auto ReadDataFile(std::ifstream &file)
                 case 2 :
                     for (auto i : boca::IntegerRange(4)) event.p6[i] = p[i];
                     break;
-                case 3 : for (auto i : boca::IntegerRange(4)) event.p4[i] = p[i];
+                case 3 :
+                    for (auto i : boca::IntegerRange(4)) event.p4[i] = p[i];
                     break;
-                default : break;
+                default :
+                    break;
                 }
                 ++nlep;
             }
@@ -122,11 +122,6 @@ auto ReadDataFile(std::ifstream &file)
     return events;
 }
 
-/**
-* @test Test Invisible2
-*
-*/
-// TEST(Wimpmass, Invisible2)
 BOOST_AUTO_TEST_CASE(Invisible2)
 {
     using Momentum = std::array<float, 4>;
@@ -184,30 +179,22 @@ BOOST_AUTO_TEST_CASE(Invisible2)
     }
 
     std::ifstream file("Wimpmass.lhe");
-//     ASSERT_TRUE(file.good());
     BOOST_CHECK(file.good());
     auto events = ReadDataFile(file);
     for (auto &event :  events) {
         auto pos = boca::Position(events,  event);
-        wimpmass::TestInvisible22 inv;
+        TestInvisible22 inv;
         int nsols;
         double p1[4][4], p2[4][4];
         inv.solve22(event, 100.42479, 143.70998, 181.23681, nsols, p1, p2);
-//         ASSERT_EQ(nsols,  2);
         BOOST_CHECK_EQUAL(nsols, 2);
         for (auto isol : boca::IntegerRange(nsols)) {
             for (auto i : boca::IntegerRange(4)) {
-//                 ASSERT_FLOAT_EQ(p1[isol][i], results[pos][isol][0][i]);
                 BOOST_CHECK_CLOSE(p1[isol][i], results[pos][isol][0][i], 10E-6);
-//                 ASSERT_FLOAT_EQ(p2[isol][i], results[pos][isol][1][i]);
                 BOOST_CHECK_CLOSE(p2[isol][i], results[pos][isol][1][i], 10E-6);
             }
         }
     }
 }
 
-// int main(int argc, char **argv)
-// {
-//     testing::InitGoogleTest(&argc, argv);
-//     return RUN_ALL_TESTS();
-// }
+BOOST_AUTO_TEST_SUITE_END()
