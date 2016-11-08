@@ -6,7 +6,6 @@
 #include "boca/units/Prefixes.hh"
 #include "boca/fastjet/InfoRecombiner.hh"
 #include "boca/io/Source.hh"
-#include "boca/plotting/Font.hh"
 
 namespace boca
 {
@@ -32,6 +31,14 @@ enum class Collider
 {
     lhc, ///< default LHC detector
     future ///<  default detector for a 100TeV collider
+};
+
+enum class Font
+{
+    times,
+    helvetica,
+    courier,
+    symbol
 };
 
 std::string Name(Collider collider);

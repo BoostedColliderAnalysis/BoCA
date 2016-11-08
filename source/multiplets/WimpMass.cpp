@@ -3,7 +3,7 @@
  */
 #include "external/wimpmass/wimpmass/Invisible2.hh"
 #include "boca/multiplets/Quartet.hh"
-#include "boca/WimpMass.hh"
+#include "boca/multiplets/WimpMass.hh"
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace boca

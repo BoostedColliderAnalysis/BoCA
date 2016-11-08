@@ -1,4 +1,4 @@
-#include "boca/WimpMass.hh"
+#include "boca/multiplets/WimpMass.hh"
 #include "boca/multiplets/Quartet.hh"
 #include "boca/generic/Types.hh"
 #include "boca/event/Event.hh"

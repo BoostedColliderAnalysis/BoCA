@@ -18,5 +18,6 @@ Sextet.cpp
 Octet.cpp
 Particles.cpp
 Global.cpp
+WimpMass.cpp
 )
 create_library(Multiplets multiplet_sources)

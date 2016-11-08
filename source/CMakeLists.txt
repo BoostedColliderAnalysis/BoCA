@@ -18,6 +18,5 @@ add_subdirectory(analysis)
 
 set(boca_sources
 Settings.cpp
-WimpMass.cpp
 )
 create_library(Boca boca_sources)
