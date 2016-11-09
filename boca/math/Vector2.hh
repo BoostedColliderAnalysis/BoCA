@@ -233,20 +233,20 @@ public:
     /**
      * @brief Unit vector in the direction of this vector
      */
-    constexpr Vector2<double> Unit() const
+    constexpr auto Unit() const
     {
         auto mag = Mag();
-        return mag > Value_(0) ? Vector2<double>{*this / mag} : Vector2<double> {};
+        return mag > Value_(0) ? Vector2<double>{*this / mag} :  Vector2<double>{};
     }
 
     /**
      * @brief Projection onto the direction of vector
      */
     template <typename Value_2>
-    constexpr Vector2 Proj(Vector2<Value_2> const &vector) const
+    constexpr auto Project(Vector2<Value_2> const &vector) const
     {
         auto const unit = vector.Unit();
-        return unit * (*this * unit);
+        return (*this * unit) * unit;
     }
 
     /**
@@ -255,7 +255,7 @@ public:
     template <typename Value_2>
     constexpr Vector2 Norm(Vector2<Value_2> const &vector) const
     {
-        return *this - Proj(vector);
+        return *this - Project(vector);
     }
 
     /**
@@ -300,7 +300,7 @@ public:
     template <typename Value_2>
     Vector2 <ValueProduct<Value_2>> Scale(Value_2 const &scalar) const
     {
-        return {X() *scalar, Y() *scalar};
+        return {x_ *scalar, y_ *scalar};
     }
 
     /**
@@ -309,7 +309,7 @@ public:
     template <typename Value_2>
     constexpr ValueProduct<Value_2> SignedArea(Vector2<Value_2> const &vector) const
     {
-        return X() * vector.Y() - Y() * vector.X();
+        return x_ * vector.Y() - y_ * vector.X();
     }
     //@}
 
