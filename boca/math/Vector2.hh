@@ -120,24 +120,21 @@ public:
     }
 
     /**
-     * @brief Set the transverse component keeping phi and z constant.
+     * @brief Set the magnitude keeping \f$\phi\f$ constant
      */
     void SetMag(Value_ mag)
     {
         auto const old = Mag();
         if (old == Value_(0)) return;
-        X() *= mag / old;
-        Y() *= mag / old;
+        (*this) *= static_cast<double>(mag / old);
     }
 
     /**
-     * @brief Set phi keeping the magnitue and theta constant
+     * @brief Set azimuth \f$\phi\f$ keeping the magnitue constant
      */
     void SetPhi(boca::Angle const &phi)
     {
-        auto const mag = Mag();
-        X() = mag * boost::units::cos(phi);
-        Y() = mag * boost::units::sin(phi);
+        SetMagPhi(Mag(), phi);
     }
 
     //@}
@@ -187,7 +184,7 @@ public:
     */
 
     /**
-    * @brief Magnitude square \f$x^2 + y^2\f$
+    * @brief Square of the magnitude \f$x^2 + y^2\f$
     */
     constexpr auto Mag2() const
     {
@@ -214,7 +211,7 @@ public:
     */
     Angle Phi() const
     {
-        return X() == Value_(0) && Y() == Value_(0) ? 0_rad : atan2(X(), Y());
+        return Angle(atan2(Y(), X()));
     }
 
     /**
@@ -238,7 +235,8 @@ public:
      */
     constexpr Vector2<double> Unit() const
     {
-        return Mag2() ? *this / Mag() : Vector2<double> {};
+        auto mag = Mag();
+        return mag > Value_(0) ? Vector2<double>{*this / mag} : Vector2<double> {};
     }
 
     /**

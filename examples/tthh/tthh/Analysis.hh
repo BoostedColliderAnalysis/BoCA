@@ -43,7 +43,7 @@ public:
 
     std::string Name() const override
     {
-        return "Test-no-isol";
+        return "larger";
     }
 
     bool PassPreCut(boca::Event const &event) const override

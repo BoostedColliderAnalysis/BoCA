@@ -196,7 +196,7 @@ Angle atan2(Value const& value_1, Value const& value_2, std::false_type)
 template<typename Value>
 Angle atan2(Value const& value_1, Value const& value_2, std::true_type)
 {
-    return boost::units::atan2(value_1, value_2);
+    return Angle(boost::units::atan2(value_1, value_2));
 }
 
 //@}
