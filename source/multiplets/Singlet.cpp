@@ -39,7 +39,7 @@ auto Minimize(Angle phi, Function_ function) {
 
 bool Singlet::Overlap(boca::Jet const &jet) const
 {
-    return PseudoJet::DeltaRTo(jet) < Settings::OverlapConeSize();
+    return (jet.Pt() > 0_eV && Pt() > 0_eV) ? PseudoJet::DeltaRTo(jet) < Settings::OverlapConeSize() : false;
 }
 
 Angle Singlet::Radius() const
