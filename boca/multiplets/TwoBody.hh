@@ -411,7 +411,7 @@ public:
     }
 
     friend std::ostream & operator<<(std::ostream & stream, TwoBody const& two_body){
-        stream << Stream(two_body.multiplet_1_) << '\n' << Stream(two_body.multiplet_2_);
+        stream << two_body.multiplet_1_ << '\n' << two_body.multiplet_2_;
         return stream;
     }
 

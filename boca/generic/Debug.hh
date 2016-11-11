@@ -40,6 +40,7 @@ std::string ApplyIoFlags(Value const& message) {
         return character == '_';
     }), string.end()); // remove trailing underscore
     auto dot = string.rfind('.');
+    return string;
     return (dot == std::string::npos) ? string : string.substr(dot,string.length()); // remove potential class
 }
 
