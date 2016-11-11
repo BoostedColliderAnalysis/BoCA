@@ -3,11 +3,12 @@
  */
 #pragma once
 
+#include <boost/math/constants/constants.hpp>
+
 #include <boost/units/quantity.hpp>
 #include <boost/units/systems/si/plane_angle.hpp>
 #include <boost/units/systems/si/length.hpp>
 #include <boost/units/cmath.hpp>
-#include <boost/math/constants/constants.hpp>
 
 
 namespace boca
@@ -52,7 +53,7 @@ constexpr double Pi()
 */
 constexpr double TwoPi()
 {
-    return 2 * Pi();
+    return boost::math::constants::two_pi<double>();
 }
 
 /**
@@ -66,7 +67,7 @@ Angle PiRad();
 Angle TwoPiRad();
 
 /**
-* @brief restrict an angle to the interval \f$[-\pi,\pi)\f$
+* @brief Restrict an angle to the interval \f$[-\pi,\pi)\f$
 */
 Angle Restrict(Angle phi);
 

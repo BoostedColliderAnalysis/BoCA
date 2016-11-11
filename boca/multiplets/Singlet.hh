@@ -125,6 +125,7 @@ public:
      * @brief Momentum ratio
      */
     double MomentumRatio() const;
+    //@}
 
     /**
      * @brief Ht

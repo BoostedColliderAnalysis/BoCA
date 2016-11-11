@@ -35,6 +35,7 @@
 #include <cmath>
 
 #include "wimpmass/Mt2.hh"
+#include "boca/generic/DEBUG_MACROS.hh"
 
 namespace wimpmass
 {
@@ -61,14 +62,17 @@ Mt2::Mt2(boca::Mass const &mass)
     if (mass != boca::massless) SetMass(mass / boca::GeV);
 }
 
-double Mt2::Get(boca::LorentzVector<Momentum> const &jet_1,  boca::LorentzVector<Momentum> const &jet_2,  boca::LorentzVector<Momentum> const &missing_et)
+boca::Mass Mt2::Get(boca::LorentzVector<Momentum> const &jet_1,  boca::LorentzVector<Momentum> const &jet_2,  boca::LorentzVector<Momentum> const &missing_et)
 {
+    CHECK(jet_1.Pt() > 0_GeV,  "Jet 1 has no momentum.");
+    CHECK(jet_2.Pt() > 0_GeV,  "Jet 1 has no momentum.");
+    CHECK(missing_et.Pt() > 0_GeV,  "No missing Et.");
     double pa0[3],  pb0[3], pmiss0[3];
     GetMomentum(jet_1, pa0);
     GetMomentum(jet_2, pb0);
     GetMomentum(missing_et, pmiss0);
     SetMomenta(pa0, pb0, pmiss0);
-    return GetMt2();
+    return GetMt2() * GeV;
 }
 
 void Mt2::GetMomentum(boca::LorentzVector<Momentum> const &jet_1,  double *momentum)

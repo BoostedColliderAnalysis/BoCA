@@ -51,7 +51,7 @@ std::vector<Duodecuplet633> Signature::Duodecuplets(boca::Event const &event, st
         duodecuplet.SetExtraInfo(mt2.Get(
             duodecuplet.Sextet().Quartet().Doublet2().Singlet1().LorentzVector(),
             duodecuplet.Triplet2().Doublet().Singlet1().LorentzVector(),
-            event.MissingEt().LorentzVector()));
+            event.MissingEt().LorentzVector()) / GeV);
         INFO("mt2", duodecuplet.ExtraInfo());
         if (duodecuplet.Overlap()) throw Overlap();
         INFO("duodecuplet non-overlapping");

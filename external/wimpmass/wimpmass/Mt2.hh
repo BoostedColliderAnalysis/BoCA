@@ -15,7 +15,7 @@ class Mt2
 public:
 
     Mt2(boca::Mass const& mass = boca::massless);
-    double Get(boca::LorentzVector<boca::Momentum> const& jet_1, boca::LorentzVector<boca::Momentum> const& jet_2, boca::LorentzVector<boca::Momentum> const& missing_et);
+    boca::Mass Get(boca::LorentzVector<boca::Momentum> const& jet_1, boca::LorentzVector<boca::Momentum> const& jet_2, boca::LorentzVector<boca::Momentum> const& missing_et);
 
 protected:
 

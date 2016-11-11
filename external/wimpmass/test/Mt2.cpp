@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(Boca)
     boca::LorentzVector<Momentum> vectormiss(pmiss.at(1) * GeV, pmiss.at(2) * GeV, at_rest, at_rest);
     vectormiss.SetMag(pmiss.at(0) * GeV);                   ///< introduces an floating point error of 0.001
     wimpmass::Mt2 mt2(mn * GeV);
-    BOOST_CHECK_CLOSE(mt2.Get(vectora, vectorb, vectormiss), result, 0.001);
+    BOOST_CHECK_CLOSE(static_cast<double>(mt2.Get(vectora, vectorb, vectormiss) / GeV), result, 0.001);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
