@@ -411,11 +411,15 @@ public:
     }
 
     friend std::ostream & operator<<(std::ostream & stream, TwoBody const& two_body){
-        stream << two_body.multiplet_1_ << '\n' << two_body.multiplet_2_;
+        stream << two_body.Name() << '\n' << two_body.multiplet_1_ << '\n' << two_body.multiplet_2_;
         return stream;
     }
 
 protected:
+
+    std::string Name() const override {
+        return "Two-Body";
+    }
 
     void SetMultiplet1(Multiplet_1_ const &multiplet_1)
     {

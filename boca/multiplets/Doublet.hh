@@ -26,6 +26,8 @@ public:
 
 private:
 
+    std::string Name() const override;
+
 };
 
 }

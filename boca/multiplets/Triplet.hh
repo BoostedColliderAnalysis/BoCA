@@ -29,6 +29,8 @@ public:
 
 private:
 
+    std::string Name() const override;
+
 };
 
 /**
@@ -50,6 +52,8 @@ public:
     boca::Singlet const &Singlet3() const;
 
 private:
+
+    std::string Name() const override;
 
 };
 

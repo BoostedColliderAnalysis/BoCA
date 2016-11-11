@@ -45,4 +45,16 @@ boca::Doublet & Sextet42::Doublet()
   return Multiplet2();
 }
 
+
+std::string Sextet33::Name() const
+{
+    return "Sextet33";
+}
+
+
+std::string Sextet42::Name() const
+{
+    return "Sextet42";
+}
+
 }

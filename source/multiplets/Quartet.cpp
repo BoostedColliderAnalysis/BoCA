@@ -50,4 +50,22 @@ Singlet const& Quartet211::Singlet2() const
   return Multiplet3();
 }
 
+
+std::string Quartet22::Name() const
+{
+    return "Quartet22";
+}
+
+
+std::string Quartet31::Name() const
+{
+    return "Quartet31";
+}
+
+
+std::string Quartet211::Name() const
+{
+    return "Quartet211";
+}
+
 }

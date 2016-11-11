@@ -16,6 +16,12 @@ Singlet const& Doublet::Singlet2() const
     return Multiplet2();
 }
 
+
+std::string Doublet::Name() const
+{
+    return "Doublet";
+}
+
 }
 
 

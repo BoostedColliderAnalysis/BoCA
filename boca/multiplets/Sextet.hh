@@ -28,6 +28,10 @@ public:
 
     Triplet & Triplet2();
 
+private:
+
+    std::string Name() const override;
+
 };
 
 /**
@@ -49,6 +53,10 @@ public:
     Quartet22 & Quartet();
 
     boca::Doublet & Doublet();
+
+private:
+
+    std::string Name() const override;
 
 };
 

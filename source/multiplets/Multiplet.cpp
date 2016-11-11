@@ -98,6 +98,24 @@ bool Multiplet::HasConstituents() const
     return ConstituentJet().HasConsitutents();
 }
 
+
+void Multiplet::SetExtraInfo(double extra_info)
+{
+    extra_info_ = extra_info;
+}
+
+
+double Multiplet::ExtraInfo() const
+{
+    return extra_info_;
+}
+
+
+std::string Multiplet::Name() const
+{
+    return "Multiplet";
+}
+
 }
 
 

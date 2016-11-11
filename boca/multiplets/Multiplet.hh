@@ -134,15 +134,13 @@ public:
     boca::SubJettiness SubJettiness() const;
     //@}
 
-    void SetExtraInfo(double extra_info) {
-        extra_info_ = extra_info;
-    }
+    void SetExtraInfo(double extra_info);
 
-    double ExtraInfo() const {
-        return extra_info_;
-    }
+    double ExtraInfo() const;
 
 protected:
+
+    virtual std::string Name() const;
 
     virtual Singlet GetConstituentJet() const = 0;
 

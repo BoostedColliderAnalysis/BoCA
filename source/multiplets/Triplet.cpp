@@ -36,4 +36,16 @@ boca::Singlet const &Triplet111::Singlet3() const
     return Multiplet3();
 }
 
+
+std::string Triplet111::Name() const
+{
+    return "Triplet111";
+}
+
+
+std::string Triplet::Name() const
+{
+    return "Triplet";
+}
+
 }

@@ -35,6 +35,10 @@ public:
 
     Doublet &Doublet2();
 
+private:
+
+    std::string Name() const override;
+
 };
 
 /**
@@ -51,6 +55,10 @@ public:
     boca::Triplet const &Triplet() const;
 
     boca::Singlet const &Singlet() const;
+
+private:
+
+    std::string Name() const override;
 
 };
 
@@ -70,6 +78,10 @@ public:
     boca::Singlet const &Singlet1() const;
 
     boca::Singlet const &Singlet2() const;
+
+private:
+
+    std::string Name() const override;
 
 };
 
