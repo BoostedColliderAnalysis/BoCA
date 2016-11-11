@@ -410,6 +410,11 @@ public:
         return Multiplet1().Charge() + Multiplet2().Charge();
     }
 
+    friend std::ostream & operator<<(std::ostream & stream, TwoBody const& two_body){
+        stream << Stream(two_body.multiplet_1_) << '\n' << Stream(two_body.multiplet_2_);
+        return stream;
+    }
+
 protected:
 
     void SetMultiplet1(Multiplet_1_ const &multiplet_1)

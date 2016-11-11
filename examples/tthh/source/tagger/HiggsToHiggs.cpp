@@ -40,6 +40,7 @@ std::vector<Sextet42> HiggsToHiggs::Sextets(boca::Event const &event, std::funct
     INFO(bb.size());
     auto sextets = Pairs(ww, bb, [&](auto const & quartet, auto const & doublet) {
         auto sextet = Sextet42 {quartet, doublet};
+        ERROR(sextet);
         if (auto optional = function(sextet)) return *optional;
         throw boca::Problematic();
     });

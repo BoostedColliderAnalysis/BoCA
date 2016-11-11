@@ -70,4 +70,13 @@ BOOST_AUTO_TEST_CASE(Unit)
     BOOST_CHECK_EQUAL(unit.Phi(), vector.Phi());
 }
 
+BOOST_AUTO_TEST_CASE(Projection)
+{
+    boca::Vector2<Length> relative(2_m, -3_m);
+    boca::Vector2<Energy> proj = vector.Project(relative);
+    BOOST_CHECK(proj.Phi() - relative.Phi() == 0_rad || proj.Phi() - relative.Phi() == PiRad());
+    BOOST_CHECK_EQUAL(proj.Mag(), vector.Mag() * static_cast<double>(abs(cos(vector.DeltaPhiTo(relative)))));
+
+}
+
 BOOST_AUTO_TEST_SUITE_END()
