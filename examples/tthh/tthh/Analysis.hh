@@ -25,7 +25,7 @@ public:
         switch (phase.Tag()) {
         case boca::Tag::signal :
             this->AddSignal("lambda0-n1", "\\lambda_{0} n_{1}");
-            this->AddSignal("lambda0-n1-isol", "\\lambda_{0} n_{1} (isol)");
+//            this->AddSignal("lambda0-n1-isol", "\\lambda_{0} n_{1} (isol)");
             break;
         case boca::Tag::background :
             this->AddBackground("tt_inc-100TeV", "tt_{inc}");
@@ -48,8 +48,9 @@ public:
 
     bool PassPreCut(boca::Event const &event) const override
     {
-        return true;
         auto number_hard_leptons = CountIfHard(event.Leptons(), 20_GeV);
+        return number_hard_leptons >= 2 ?  true : false;
+        return true;
         static auto ievent = 0;
         ++ievent;
         static auto two_leptons = 0;
@@ -61,7 +62,6 @@ public:
         };
         return false;
 
-        return number_hard_leptons >= 2 ?  true : false;
 
         auto number_hard_jets = CountIfHard(event.Jets(), 20_GeV);
         auto number_hard_photons = CountIfHard(event.Photons(), 20_GeV);

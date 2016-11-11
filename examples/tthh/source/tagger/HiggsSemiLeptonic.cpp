@@ -12,7 +12,7 @@
 #include "boca/identification/MomentumRange.hh"
 
 #include "tthh/tagger/HiggsSemiLeptonic.hh"
-#define INFORMATION
+//#define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace tthh

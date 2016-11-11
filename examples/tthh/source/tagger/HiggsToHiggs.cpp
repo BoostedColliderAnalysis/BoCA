@@ -12,7 +12,7 @@
 #include "boca/identification/MomentumRange.hh"
 
 #include "tthh/tagger/HiggsToHiggs.hh"
-#define INFORMATION
+//#define INFORMATION
 #include "boca/generic/DEBUG_MACROS.hh"
 
 namespace tthh
@@ -43,7 +43,7 @@ std::vector<Sextet42> HiggsToHiggs::Sextets(boca::Event const &event, std::funct
         if (auto optional = function(sextet)) return *optional;
         throw boca::Problematic();
     });
-    INFO(sextets.size());
+    ERROR(sextets.size());
     return sextets;
 }
 
