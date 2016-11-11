@@ -71,6 +71,8 @@ private:
 
 };
 
+String operator "" _TeX(char const*, size_t);
+
 class Formula
 {
 

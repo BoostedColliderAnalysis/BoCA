@@ -34,7 +34,6 @@ Observables TwoBody::Variables()
     auto substructure = boca::Settings::SubStructure() ?
                         OBSERVABLE(pull_1, latex::String("#theta_{1}")) +
                         OBSERVABLE(pull_2, latex::String("#theta_{2}"))
-                        /*+ OBSERVABLE(dipolarity, latex::String("D"))*/
                         : boca::Observables {};
     return Particle::Variables() +
            OBSERVABLE(ht, latex::String("H_{T}") + " [GeV]") +
@@ -51,7 +50,7 @@ Observables TwoBody::Variables()
 
 Observables TwoBody::Spectators()
 {
-    return Particle::Spectators();
+    return Particle::Spectators() + OBSERVABLE(dipolarity, latex::String("D"));
 }
 
 }
