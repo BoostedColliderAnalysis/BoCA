@@ -19,49 +19,38 @@ Therefore the compiler version must be
 
 * the following is tested on recent ubuntu, scientific linux  and mac installations
 
-    ```
-    mkdir build
-    cd build
-    cmake ..
-    make
-    ```
+        mkdir build
+        cd build
+        cmake ..
+        make
 
 * for quicker compilation (install ccache and ninja-build)
 
-    ```
-    mkdir build
-    cd build
-    cmake -G Ninja ..
-    ninja
-    ```
+        mkdir build
+        cd build
+        cmake -G Ninja ..
+        ninja
 
 * for mac you can also use (still install ccache)
 
-    ```
-    mkdir build
-    cd build
-    cmake -G Xcode ..
-    xcodebuild
-    ```
+        mkdir build
+        cd build
+        cmake -G Xcode ..
+        xcodebuild
 
 * if you have trouble installing `ROOT` ≥ 6 with `GCC` ≥ 5 you can configure it with
 
-    ```
-    cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja ..
-    ```
+        cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja ..
 
   unfortunately this means that all other dependencies also have to be compiled with the cxx11 abi switched off
   e.g. for `FastJet` you have to use
 
-    ```
-     ./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0
-    ```
+        ./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0
+    
 
   and for `FastJet Contrib`
       
-    ```
-     ./configure CXXFLAGS="-fPIC -D_GLIBCXX_USE_CXX11_ABI=0"
-    ```
+        ./configure CXXFLAGS="-fPIC -D_GLIBCXX_USE_CXX11_ABI=0"
 
 ## Usage
 
