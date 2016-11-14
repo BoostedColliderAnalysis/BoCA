@@ -15,10 +15,10 @@
 <area shape="rect" id="node42" href="$Effective_8hh.html" title="examples/toppartner\l/toppartner/analysis\l/Effective.hh" alt="" coords="4448,80,4588,136"/>
 <area shape="rect" id="node45" href="$examples_2tthh_2source_2Observables_8cpp.html" title="examples/tthh/source\l/Observables.cpp" alt="" coords="4613,87,4759,129"/>
 <area shape="rect" id="node46" href="$MuXboostedBTagging_8cpp.html" title="external/mubtag/source\l/MuXboostedBTagging.cpp" alt="" coords="4783,87,4962,129"/>
-<area shape="rect" id="node47" href="$source_2delphes_2Event_8cpp.html" title="source/delphes/Event.cpp" alt="" coords="4986,95,5159,121"/>
-<area shape="rect" id="node48" href="$EventShapes_8cpp.html" title="source/EventShapes.cpp" alt="" coords="5183,95,5351,121"/>
-<area shape="rect" id="node49" href="$source_2multiplets_2Global_8cpp.html" title="source/multiplets/Global.cpp" alt="" coords="5375,95,5562,121"/>
-<area shape="rect" id="node50" href="$Multiplet_8cpp.html" title="source/multiplets/Multiplet.cpp" alt="" coords="5587,95,5785,121"/>
+<area shape="rect" id="node47" href="$Delphes_8cpp.html" title="source/event/Delphes.cpp" alt="" coords="4987,95,5161,121"/>
+<area shape="rect" id="node48" href="$EventShapes_8cpp.html" title="source/event/EventShapes.cpp" alt="" coords="5185,95,5389,121"/>
+<area shape="rect" id="node49" href="$source_2multiplets_2Global_8cpp.html" title="source/multiplets/Global.cpp" alt="" coords="5414,95,5601,121"/>
+<area shape="rect" id="node50" href="$Multiplet_8cpp.html" title="source/multiplets/Multiplet.cpp" alt="" coords="5625,95,5824,121"/>
 <area shape="rect" id="node3" href="$Dummy_8hh.html" title="boca/tagger/Dummy.hh" alt="" coords="983,199,1141,225"/>
 <area shape="rect" id="node4" href="$boca_2tagger_2Global_8hh.html" title="boca/tagger/Global.hh" alt="" coords="1166,199,1315,225"/>
 <area shape="rect" id="node5" href="$examples_2heavyhiggs_2heavyhiggs_2tagger_2Cut_8hh.html" title="examples/heavyhiggs\l/heavyhiggs/tagger/Cut.hh" alt="" coords="1356,295,1531,337"/>

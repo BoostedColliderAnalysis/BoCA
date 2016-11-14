@@ -1,4 +1,4 @@
-<map id="boca/Filter.hh" name="boca/Filter.hh">
+<map id="boca/multivariant/Filter.hh" name="boca/multivariant/Filter.hh">
 <area shape="rect" id="node2" href="$boca_2tagger_2Tagger_8hh.html" title="boca/tagger/Tagger.hh" alt="" coords="3201,87,3353,114"/>
 <area shape="rect" id="node49" href="$source_2multivariant_2Observables_8cpp.html" title="source/multivariant\l/Observables.cpp" alt="" coords="3377,80,3509,121"/>
 <area shape="rect" id="node50" href="$tagger_2Base_8cpp.html" title="source/tagger/Base.cpp" alt="" coords="3534,87,3694,114"/>

@@ -1,3 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classboca_1_1ConstSubIterator.html" title="Const sub&#45;iterator. " alt="" coords="5,5,189,61"/>
+<area shape="rect" id="node2" href="$structboca_1_1detail_1_1IsBool_3_01bool_01_4.html" title="boca::detail::IsBool\l\&lt; bool \&gt;" alt="" coords="147,5,282,47"/>
+<area shape="rect" id="node3" href="$structboca_1_1IsMatrix2_3_01Matrix2_3_01Value_01_4_01_4.html" title="boca::IsMatrix2\&lt; Matrix2\l\&lt; Value \&gt; \&gt;" alt="" coords="131,71,298,112"/>
+<area shape="rect" id="node4" href="$structboca_1_1IsMatrix3_3_01Matrix3_3_01Value_01_4_01_4.html" title="boca::IsMatrix3\&lt; Matrix3\l\&lt; Value \&gt; \&gt;" alt="" coords="131,136,298,177"/>
+<area shape="rect" id="node5" href="$structboca_1_1IsVector2_3_01Vector2_3_01Value___01_4_01_4.html" title="boca::IsVector2\&lt; Vector2\l\&lt; Value_ \&gt; \&gt;" alt="" coords="129,201,300,243"/>
+<area shape="rect" id="node6" href="$structboca_1_1IsVector3_3_01Vector3_3_01Value___01_4_01_4.html" title="boca::IsVector3\&lt; Vector3\l\&lt; Value_ \&gt; \&gt;" alt="" coords="129,267,300,308"/>
+<area shape="rect" id="node7" href="$structboca_1_1units_1_1IsQuantity_3_01boost_1_1units_1_1quantity_3_01T_01_4_01_4.html" title="boca::units::IsQuantity\l\&lt; boost::units::quantity\l\&lt; T \&gt; \&gt;" alt="" coords="137,331,293,387"/>
 </map>

@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classboca_1_1ConstIterator.html" title="const iterator " alt="" coords="5,5,144,61"/>
+<area shape="rect" id="node2" href="$classboca_1_1ConstIterator.html" title="const iterator " alt="" coords="175,5,332,47"/>
+<area shape="rect" id="node3" href="$classboca_1_1ConstSubIterator.html" title="Const sub&#45;iterator. " alt="" coords="161,70,345,126"/>
+<area shape="rect" id="node4" href="$classboca_1_1Iterator.html" title="Iterator " alt="" coords="170,149,337,191"/>
+<area shape="rect" id="node5" href="$classboca_1_1SubIterator.html" title="Iterator " alt="" coords="165,214,341,270"/>
 </map>

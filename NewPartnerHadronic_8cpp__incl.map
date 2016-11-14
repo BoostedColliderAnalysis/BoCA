@@ -1,5 +1,5 @@
 <map id="examples/toppartner/source/tagger/NewPartnerHadronic.cpp" name="examples/toppartner/source/tagger/NewPartnerHadronic.cpp">
-<area shape="rect" id="node2" href="$boca_2Event_8hh.html" title="boca/Event.hh" alt="" coords="1317,452,1424,479"/>
+<area shape="rect" id="node2" href="$boca_2event_2Event_8hh.html" title="boca/event/Event.hh" alt="" coords="1299,452,1442,479"/>
 <area shape="rect" id="node32" href="$Particles_8hh.html" title="boca/fastjet/Particles.hh" alt="" coords="1581,452,1744,479"/>
 <area shape="rect" id="node33" href="$Exception_8hh.html" title="boca/generic/Exception.hh" alt="" coords="5,102,181,129"/>
 <area shape="rect" id="node35" href="$DEBUG__MACROS_8hh.html" title="boca/generic/DEBUG\l_MACROS.hh" alt="" coords="478,95,626,136"/>
@@ -8,17 +8,17 @@
 <area shape="rect" id="node14" href="$Flag_8hh.html" title="boca/generic/Flag.hh" alt="" coords="1129,527,1271,553"/>
 <area shape="rect" id="node16" href="$Jet_8hh.html" title="boca/fastjet/Jet.hh" alt="" coords="1419,527,1549,553"/>
 <area shape="rect" id="node30" href="$fastjet_2Particle_8hh.html" title="boca/fastjet/Particle.hh" alt="" coords="1585,527,1741,553"/>
-<area shape="rect" id="node6" href="$Debug_8hh.html" title="boca/generic/Debug.hh" alt="" coords="861,773,1017,799"/>
+<area shape="rect" id="node6" href="$Debug_8hh.html" title="boca/generic/Debug.hh" alt="" coords="866,773,1022,799"/>
 <area shape="rect" id="node17" href="$PseudoJet_8hh.html" title="boca/fastjet/PseudoJet.hh" alt="" coords="1670,683,1845,710"/>
 <area shape="rect" id="node25" href="$JetInfo_8hh.html" title="boca/fastjet/JetInfo.hh" alt="" coords="1347,601,1499,628"/>
 <area shape="rect" id="node19" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1668,862,1820,889"/>
-<area shape="rect" id="node20" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1498,944,1673,971"/>
+<area shape="rect" id="node20" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1495,944,1670,971"/>
 <area shape="rect" id="node26" href="$Identification_8hh.html" title="boca/identification\l/Identification.hh" alt="" coords="1317,676,1443,717"/>
 <area shape="rect" id="node27" href="$Constituent_8hh.html" title="boca/identification\l/Constituent.hh" alt="" coords="1467,676,1594,717"/>
 <area shape="rect" id="node28" href="$Family_8hh.html" title="boca/identification\l/Family.hh" alt="" coords="1467,765,1594,807"/>
 <area shape="rect" id="node29" href="$Id_8hh.html" title="boca/identification\l/Id.hh" alt="" coords="1467,855,1594,896"/>
 <area shape="rect" id="node31" href="$ParticleInfo_8hh.html" title="boca/fastjet/ParticleInfo.hh" alt="" coords="1573,601,1752,628"/>
-<area shape="rect" id="node37" href="$Quintet_8hh.html" title="boca/multiplets/Quintet.hh" alt="" coords="613,191,787,218"/>
+<area shape="rect" id="node37" href="$Quintet_8hh.html" title="boca/multiplets/Quintet.hh" alt="" coords="614,191,789,218"/>
 <area shape="rect" id="node41" href="$tagger_2TopHadronic_8hh.html" title="standardmodel/tagger\l/TopHadronic.hh" alt="" coords="945,184,1092,225"/>
 <area shape="rect" id="node49" href="$Resonance_8hh.html" title="toppartner/tagger/Resonance.hh" alt="" coords="1203,191,1411,218"/>
 <area shape="rect" id="node38" href="$Triplet_8hh.html" title="boca/multiplets/Triplet.hh" alt="" coords="485,281,653,307"/>

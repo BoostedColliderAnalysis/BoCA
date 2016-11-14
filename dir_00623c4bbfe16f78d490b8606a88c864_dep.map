@@ -1,9 +1,9 @@
 <map id="examples/simple/source" name="examples/simple/source">
 <area shape="rect" id="node1" href="dir_00623c4bbfe16f78d490b8606a88c864.html" title="source" alt="" coords="41,52,113,100"/>
 <area shape="rect" id="node2" href="dir_b7a969ecc17ca4c84ebd0631d057c594.html" title="simple" alt="" coords="5,148,77,196"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000066_000008.html" title="5" alt="" coords="61,127,69,141"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000064_000008.html" title="5" alt="" coords="61,127,69,141"/>
 <area shape="rect" id="node3" href="dir_73d39a1d0a5c40ea18275712d785386a.html" title="boca" alt="" coords="41,244,113,292"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000066_000000.html" title="3" alt="" coords="90,220,98,235"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000064_000000.html" title="3" alt="" coords="90,220,98,235"/>
 <area shape="rect" id="edge1-headlabel" href="dir_000008_000000.html" title="7" alt="" coords="66,217,74,231"/>
 <area shape="rect" id="clust1" href="dir_27754e32c89c2d7bb79ed3485b5a3f09.html" title="simple" alt="" coords="31,16,124,111"/>
 </map>

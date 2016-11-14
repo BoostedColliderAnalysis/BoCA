@@ -26,8 +26,8 @@
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/javascript" src="doxy-boot.js"></script>
     </head>
     <body>
@@ -124,6 +124,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga349e511491b8747959106d7f824e8170"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
 <tr class="memitem:ga349e511491b8747959106d7f824e8170"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Debug.html#ga349e511491b8747959106d7f824e8170">boca::Stream</a> (Value const &amp;message, int width=20, bool right=false)</td></tr>
 <tr class="separator:ga349e511491b8747959106d7f824e8170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2e9adb1b9ab2a9f8498d70032dc77ba3"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
+<tr class="memitem:ga2e9adb1b9ab2a9f8498d70032dc77ba3"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Debug.html#ga2e9adb1b9ab2a9f8498d70032dc77ba3">boca::Stream2</a> (std::string const &amp;variable, Value const &amp;value)</td></tr>
+<tr class="separator:ga2e9adb1b9ab2a9f8498d70032dc77ba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaad057f351e8a207efc08ea2134c7d189"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Debug.html#gaad057f351e8a207efc08ea2134c7d189">boca::Log</a> (std::string const &amp;file, int line, std::string const &amp;name_space, std::string const &amp;class_name, std::string const &amp;function, bool final=true)</td></tr>
 <tr class="separator:gaad057f351e8a207efc08ea2134c7d189"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad0293a5f6b78892bf59339d6103e1f96"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
@@ -183,6 +186,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga1224dbeb12320494fbd819c86fb3172b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga979610b3d1714e47b806afbf2b114ff8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Debug.html#ga979610b3d1714e47b806afbf2b114ff8">VARIABLE</a>(value)&#160;&#160;&#160;#value, value</td></tr>
 <tr class="separator:ga979610b3d1714e47b806afbf2b114ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga71ee5b39995c21afdfb0029a8735f6d0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Debug.html#ga71ee5b39995c21afdfb0029a8735f6d0">STREAM</a>(value)&#160;&#160;&#160;::<a class="el" href="group__Debug.html#ga2e9adb1b9ab2a9f8498d70032dc77ba3">boca::Stream2</a>(<a class="el" href="group__Debug.html#ga979610b3d1714e47b806afbf2b114ff8">VARIABLE</a>(value))</td></tr>
+<tr class="separator:ga71ee5b39995c21afdfb0029a8735f6d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa92cc370e6906ac3887db96a0a628ce8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Debug.html#gaa92cc370e6906ac3887db96a0a628ce8">LOG0</a>&#160;&#160;&#160;::<a class="el" href="group__Debug.html#gaad057f351e8a207efc08ea2134c7d189">boca::Log</a>(<a class="el" href="group__Debug.html#ga1224dbeb12320494fbd819c86fb3172b">NAMES</a>)</td></tr>
 <tr class="separator:gaa92cc370e6906ac3887db96a0a628ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0462cc601f760f0135e8ba1097f25169"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Debug.html#ga0462cc601f760f0135e8ba1097f25169">LOG1</a>(value)&#160;&#160;&#160;::<a class="el" href="group__Debug.html#gaad057f351e8a207efc08ea2134c7d189">boca::Log</a>(<a class="el" href="group__Debug.html#ga1224dbeb12320494fbd819c86fb3172b">NAMES</a>, <a class="el" href="group__Debug.html#ga979610b3d1714e47b806afbf2b114ff8">VARIABLE</a>(value))</td></tr>
@@ -891,6 +896,22 @@ Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define NOTE0&#160;&#160;&#160;<a class="el" href="group__Debug.html#gaa92cc370e6906ac3887db96a0a628ce8">LOG0</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga71ee5b39995c21afdfb0029a8735f6d0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STREAM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;::<a class="el" href="group__Debug.html#ga2e9adb1b9ab2a9f8498d70032dc77ba3">boca::Stream2</a>(<a class="el" href="group__Debug.html#ga979610b3d1714e47b806afbf2b114ff8">VARIABLE</a>(value))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1929,6 +1950,34 @@ template&lt;typename Value &gt; </div>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>right</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga2e9adb1b9ab2a9f8498d70032dc77ba3"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string boca::Stream2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;&#160;</td>
+          <td class="paramname"><em>variable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Value const &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

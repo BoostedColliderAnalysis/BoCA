@@ -11,10 +11,10 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-35 152,-35 152,4 -4,4"/>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="classboca_1_1Reader.html" target="_top" xlink:title="boca::Reader\&lt; standardmodel\l::tagger::TopLeptonic \&gt;">
+<g id="a_node1"><a xlink:href="classboca_1_1Reader.html" target="_top" xlink:title="boca::Reader\&lt; standardmodel\l::tagger::WLeptonic \&gt;">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-30.5 148,-30.5 148,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Reader&lt; standardmodel</text>
-<text text-anchor="middle" x="74" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">::tagger::TopLeptonic &gt;</text>
+<text text-anchor="middle" x="74" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">::tagger::WLeptonic &gt;</text>
 </a>
 </g>
 </g>

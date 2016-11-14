@@ -1,10 +1,10 @@
 <map id="examples/standardmodel/standardmodel/branch/BottomBase.hh" name="examples/standardmodel/standardmodel/branch/BottomBase.hh">
-<area shape="rect" id="node3" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1006,109,1158,136"/>
-<area shape="rect" id="node20" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="1438,109,1654,136"/>
-<area shape="rect" id="node8" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="947,191,1063,218"/>
-<area shape="rect" id="node14" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="443,191,574,218"/>
-<area shape="rect" id="node18" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="605,191,780,218"/>
-<area shape="rect" id="node21" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="1621,191,1831,218"/>
-<area shape="rect" id="node22" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="1669,281,1783,307"/>
-<area shape="rect" id="node23" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="1657,363,1795,389"/>
+<area shape="rect" id="node3" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1011,109,1163,136"/>
+<area shape="rect" id="node20" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="1443,109,1659,136"/>
+<area shape="rect" id="node8" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="952,191,1068,218"/>
+<area shape="rect" id="node14" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="614,191,745,218"/>
+<area shape="rect" id="node18" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="408,191,583,218"/>
+<area shape="rect" id="node21" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="1627,191,1836,218"/>
+<area shape="rect" id="node22" href="$Names_8hh.html" title="boca/latex/Names.hh" alt="" coords="1658,281,1805,307"/>
+<area shape="rect" id="node23" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="1662,363,1801,389"/>
 </map>

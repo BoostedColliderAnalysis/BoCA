@@ -1,13 +1,13 @@
 <map id="boca/multiplets/Sextet.hh" name="boca/multiplets/Sextet.hh">
 <area shape="rect" id="node2" href="$Duodecuplet_8hh.html" title="boca/multiplets/Duodecuplet.hh" alt="" coords="1399,95,1605,121"/>
 <area shape="rect" id="node11" href="$boca_2multiplets_2Octet_8hh.html" title="boca/multiplets/Octet.hh" alt="" coords="3304,95,3468,121"/>
-<area shape="rect" id="node36" href="$WimpMass_8hh.html" title="boca/WimpMass.hh" alt="" coords="4275,95,4414,121"/>
-<area shape="rect" id="node40" href="$tagger_2HeavyHiggsLeptonic_8hh.html" title="examples/heavyhiggs\l/heavyhiggs/tagger/HeavyHiggs\lLeptonic.hh" alt="" coords="4438,80,4646,136"/>
+<area shape="rect" id="node36" href="$WimpMass_8hh.html" title="boca/multiplets/WimpMass.hh" alt="" coords="4245,95,4444,121"/>
+<area shape="rect" id="node40" href="$tagger_2HeavyHiggsLeptonic_8hh.html" title="examples/heavyhiggs\l/heavyhiggs/tagger/HeavyHiggs\lLeptonic.hh" alt="" coords="4469,80,4677,136"/>
 <area shape="rect" id="node41" href="$tagger_2HeavyHiggsSemi_8hh.html" title="examples/heavyhiggs\l/heavyhiggs/tagger/HeavyHiggs\lSemi.hh" alt="" coords="470,80,678,136"/>
-<area shape="rect" id="node45" href="$TopLeptonicPair_8hh.html" title="examples/higgscpv/higgscpv\l/tagger/TopLeptonicPair.hh" alt="" coords="3929,87,4120,129"/>
-<area shape="rect" id="node46" href="$TopSemiPair_8hh.html" title="examples/higgscpv/higgscpv\l/tagger/TopSemiPair.hh" alt="" coords="4671,87,4861,129"/>
+<area shape="rect" id="node45" href="$TopLeptonicPair_8hh.html" title="examples/higgscpv/higgscpv\l/tagger/TopLeptonicPair.hh" alt="" coords="3927,87,4117,129"/>
+<area shape="rect" id="node46" href="$TopSemiPair_8hh.html" title="examples/higgscpv/higgscpv\l/tagger/TopSemiPair.hh" alt="" coords="4701,87,4892,129"/>
 <area shape="rect" id="node48" href="$HiggsToHiggs_8hh.html" title="examples/tthh/tthh\l/tagger/HiggsToHiggs.hh" alt="" coords="1739,87,1905,129"/>
-<area shape="rect" id="node50" href="$Sextet_8cpp.html" title="source/multiplets/Sextet.cpp" alt="" coords="4885,95,5073,121"/>
+<area shape="rect" id="node50" href="$Sextet_8cpp.html" title="source/multiplets/Sextet.cpp" alt="" coords="4916,95,5104,121"/>
 <area shape="rect" id="node3" href="$SignatureHiggsPartnerPair_8hh.html" title="examples/toppartner\l/toppartner/tagger/Signature\lHiggsPartnerPair.hh" alt="" coords="716,184,899,240"/>
 <area shape="rect" id="node5" href="$SignatureSubDom_8hh.html" title="examples/toppartner\l/toppartner/tagger/Signature\lSubDom.hh" alt="" coords="1319,184,1501,240"/>
 <area shape="rect" id="node8" href="$examples_2tthh_2tthh_2tagger_2Signature_8hh.html" title="examples/tthh/tthh\l/tagger/Signature.hh" alt="" coords="1526,191,1665,233"/>
@@ -40,12 +40,12 @@
 <area shape="rect" id="node31" href="$VetoTopPartnerLeptonic_8cpp.html" title="examples/toppartner\l/source/tagger/VetoTopPartner\lLeptonic.cpp" alt="" coords="3029,288,3229,344"/>
 <area shape="rect" id="node32" href="$Quattuordecuplet_8hh.html" title="examples/toppartner\l/toppartner/multiplets\l/Quattuordecuplet.hh" alt="" coords="2429,288,2573,344"/>
 <area shape="rect" id="node33" href="$CompleteSingleHadronic_8hh.html" title="examples/toppartner\l/toppartner/tagger/Complete\lSingleHadronic.hh" alt="" coords="2597,288,2781,344"/>
-<area shape="rect" id="node37" href="$tagger_2HeavyHiggsLeptonic_8cpp.html" title="examples/heavyhiggs\l/source/tagger/HeavyHiggsLeptonic.cpp" alt="" coords="4641,191,4896,233"/>
+<area shape="rect" id="node37" href="$tagger_2HeavyHiggsLeptonic_8cpp.html" title="examples/heavyhiggs\l/source/tagger/HeavyHiggsLeptonic.cpp" alt="" coords="4703,191,4957,233"/>
 <area shape="rect" id="node38" href="$TopLeptonicPair_8cpp.html" title="examples/higgscpv/source\l/tagger/TopLeptonicPair.cpp" alt="" coords="4252,191,4437,233"/>
-<area shape="rect" id="node39" href="$WimpMass_8cpp.html" title="source/WimpMass.cpp" alt="" coords="4461,199,4617,225"/>
+<area shape="rect" id="node39" href="$WimpMass_8cpp.html" title="source/multiplets/WimpMass.cpp" alt="" coords="4462,199,4678,225"/>
 <area shape="rect" id="node42" href="$tagger_2EventFusion_8hh.html" title="examples/heavyhiggs\l/heavyhiggs/tagger/EventFusion.hh" alt="" coords="205,191,431,233"/>
 <area shape="rect" id="node43" href="$tagger_2HeavyHiggsSemi_8cpp.html" title="examples/heavyhiggs\l/source/tagger/HeavyHiggsSemi.cpp" alt="" coords="456,191,692,233"/>
 <area shape="rect" id="node44" href="$tagger_2JetPair_8cpp.html" title="examples/heavyhiggs\l/source/tagger/JetPair.cpp" alt="" coords="5,191,180,233"/>
-<area shape="rect" id="node47" href="$TopSemiPair_8cpp.html" title="examples/higgscpv/source\l/tagger/TopSemiPair.cpp" alt="" coords="4920,191,5097,233"/>
+<area shape="rect" id="node47" href="$TopSemiPair_8cpp.html" title="examples/higgscpv/source\l/tagger/TopSemiPair.cpp" alt="" coords="4981,191,5159,233"/>
 <area shape="rect" id="node49" href="$HiggsToHiggs_8cpp.html" title="examples/tthh/source\l/tagger/HiggsToHiggs.cpp" alt="" coords="1735,191,1909,233"/>
 </map>

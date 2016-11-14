@@ -1,15 +1,15 @@
 <map id="examples/heavyhiggs/source/branch/CutNeutral.cpp" name="examples/heavyhiggs/source/branch/CutNeutral.cpp">
 <area shape="rect" id="node2" href="$branch_2CutNeutral_8hh.html" title="heavyhiggs/branch/CutNeutral.hh" alt="" coords="835,102,1051,129"/>
 <area shape="rect" id="node31" href="$OBSERVABLE__MACROS_8hh.html" title="boca/multivariant/OBSERVABLE\l_MACROS.hh" alt="" coords="1075,95,1290,136"/>
-<area shape="rect" id="node3" href="$boca_2branch_2Cut_8hh.html" title="boca/branch/Cut.hh" alt="" coords="640,184,776,211"/>
-<area shape="rect" id="node14" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1103,184,1255,211"/>
+<area shape="rect" id="node3" href="$boca_2branch_2Cut_8hh.html" title="boca/branch/Cut.hh" alt="" coords="641,184,777,211"/>
+<area shape="rect" id="node14" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1100,184,1252,211"/>
 <area shape="rect" id="node4" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="242,266,395,293"/>
 <area shape="rect" id="node5" href="$branch_2Base_8hh.html" title="boca/branch/Base.hh" alt="" coords="246,355,391,382"/>
 <area shape="rect" id="node7" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="5,355,221,382"/>
 <area shape="rect" id="node8" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="9,437,218,464"/>
-<area shape="rect" id="node9" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="56,512,171,539"/>
+<area shape="rect" id="node9" href="$Names_8hh.html" title="boca/latex/Names.hh" alt="" coords="40,512,187,539"/>
 <area shape="rect" id="node10" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="44,587,183,613"/>
 <area shape="rect" id="node19" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="1209,266,1325,293"/>
-<area shape="rect" id="node25" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="839,266,969,293"/>
-<area shape="rect" id="node29" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1005,266,1179,293"/>
+<area shape="rect" id="node25" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="1020,266,1151,293"/>
+<area shape="rect" id="node29" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="806,266,981,293"/>
 </map>

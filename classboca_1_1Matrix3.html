@@ -26,8 +26,8 @@
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/javascript" src="doxy-boot.js"></script>
     </head>
     <body>
@@ -336,10 +336,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4e78d4cb1005c496da6b738ca370e529"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; ValueProduct&lt; Value_2_ &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a4e78d4cb1005c496da6b738ca370e529">Multiply</a> (<a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_2_ &gt; const &amp;vector) const </td></tr>
 <tr class="memdesc:a4e78d4cb1005c496da6b738ca370e529"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiplication with a Vector.  <a href="#a4e78d4cb1005c496da6b738ca370e529">More...</a><br /></td></tr>
 <tr class="separator:a4e78d4cb1005c496da6b738ca370e529"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57fb187fe319bc9fdc9b4ef8a2732e57"><td class="memTemplParams" colspan="2">template&lt;typename Value_2_ &gt; </td></tr>
-<tr class="memitem:a57fb187fe319bc9fdc9b4ef8a2732e57"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt; ValueProduct&lt; Value_2_ &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a57fb187fe319bc9fdc9b4ef8a2732e57">Scaled</a> (Value_2_ scalar) const </td></tr>
-<tr class="memdesc:a57fb187fe319bc9fdc9b4ef8a2732e57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scale by scalar.  <a href="#a57fb187fe319bc9fdc9b4ef8a2732e57">More...</a><br /></td></tr>
-<tr class="separator:a57fb187fe319bc9fdc9b4ef8a2732e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a82732408e329e4a1377027f311352f"><td class="memTemplParams" colspan="2">template&lt;typename Value_2_ &gt; </td></tr>
+<tr class="memitem:a1a82732408e329e4a1377027f311352f"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt; ValueProduct&lt; Value_2_ &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a1a82732408e329e4a1377027f311352f">Scale</a> (Value_2_ scalar) const </td></tr>
+<tr class="memdesc:a1a82732408e329e4a1377027f311352f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scale by scalar.  <a href="#a1a82732408e329e4a1377027f311352f">More...</a><br /></td></tr>
+<tr class="separator:a1a82732408e329e4a1377027f311352f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bce7b8c2e186d277c7d5cf3f20335fb"><td class="memTemplParams" colspan="2">template&lt;typename Value_2_ , typename  = OnlyIfNotOrSameQuantity&lt;Value_2_&gt;&gt; </td></tr>
 <tr class="memitem:a0bce7b8c2e186d277c7d5cf3f20335fb"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt; ValueProduct&lt; Value_2_ &gt; &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a0bce7b8c2e186d277c7d5cf3f20335fb">Transform</a> (<a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt; Value_2_ &gt; const &amp;matrix)</td></tr>
 <tr class="memdesc:a0bce7b8c2e186d277c7d5cf3f20335fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform this matrix by another.  <a href="#a0bce7b8c2e186d277c7d5cf3f20335fb">More...</a><br /></td></tr>
@@ -348,7 +348,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7d2117cfec9847b98ed42e85045e2d4"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt; ValueProduct&lt; Value_2_ &gt; &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#ab7d2117cfec9847b98ed42e85045e2d4">Transformed</a> (<a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt; Value_2_ &gt; const &amp;matrix)</td></tr>
 <tr class="memdesc:ab7d2117cfec9847b98ed42e85045e2d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform this matrix by another.  <a href="#ab7d2117cfec9847b98ed42e85045e2d4">More...</a><br /></td></tr>
 <tr class="separator:ab7d2117cfec9847b98ed42e85045e2d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Operator</div></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Eigen system</div></td></tr>
+<tr class="memitem:a65c2c30cd6f9fc538924479428bf8a45"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespaceboca.html#a92ef473a625f54f92dfe6a567045af1c">Array3</a>&lt; Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a65c2c30cd6f9fc538924479428bf8a45">EigenValues</a> () const </td></tr>
+<tr class="memdesc:a65c2c30cd6f9fc538924479428bf8a45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eigen values.  <a href="#a65c2c30cd6f9fc538924479428bf8a45">More...</a><br /></td></tr>
+<tr class="separator:a65c2c30cd6f9fc538924479428bf8a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7110ad199cae8f36cd08cd2690df8b7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespaceboca.html#a92ef473a625f54f92dfe6a567045af1c">Array3</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#aa7110ad199cae8f36cd08cd2690df8b7">EigenVectors</a> () const </td></tr>
+<tr class="memdesc:aa7110ad199cae8f36cd08cd2690df8b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eigen vectors.  <a href="#aa7110ad199cae8f36cd08cd2690df8b7">More...</a><br /></td></tr>
+<tr class="separator:aa7110ad199cae8f36cd08cd2690df8b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85565bbf07b18db9cde1a927d438a7df"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespaceboca.html#a92ef473a625f54f92dfe6a567045af1c">Array3</a>&lt; <a class="el" href="group__Math.html#ga81e57eaa81acb9c4457bfa995a26a4b6">GradedVector3</a>&lt; Value_ &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a85565bbf07b18db9cde1a927d438a7df">EigenSystem</a> () const </td></tr>
+<tr class="memdesc:a85565bbf07b18db9cde1a927d438a7df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eigen system.  <a href="#a85565bbf07b18db9cde1a927d438a7df">More...</a><br /></td></tr>
+<tr class="separator:a85565bbf07b18db9cde1a927d438a7df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+Operator</h2></td></tr>
 <tr class="memitem:a4ea9a88fb7586e73135c5107ccc7167a"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a4ea9a88fb7586e73135c5107ccc7167a">operator&lt;</a> (<a class="el" href="classboca_1_1Matrix3.html">Matrix3</a> const &amp;matrix) const </td></tr>
 <tr class="memdesc:a4ea9a88fb7586e73135c5107ccc7167a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less than comparison according to the absolute value of the determinant.  <a href="#a4ea9a88fb7586e73135c5107ccc7167a">More...</a><br /></td></tr>
 <tr class="separator:a4ea9a88fb7586e73135c5107ccc7167a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -395,42 +407,57 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa4d59dcbfd589afb49bf4ce5ab6aa5ee"><td class="memItemLeft" align="right" valign="top">Value_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#aa4d59dcbfd589afb49bf4ce5ab6aa5ee">operator()</a> (<a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a> i, <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a> j)</td></tr>
 <tr class="memdesc:aa4d59dcbfd589afb49bf4ce5ab6aa5ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Components by index.  <a href="#aa4d59dcbfd589afb49bf4ce5ab6aa5ee">More...</a><br /></td></tr>
 <tr class="separator:aa4d59dcbfd589afb49bf4ce5ab6aa5ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87407a14cf1489917f6890df16eda51e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a87407a14cf1489917f6890df16eda51e">operator[]</a> (<a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a> dim_3) const </td></tr>
-<tr class="memdesc:a87407a14cf1489917f6890df16eda51e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Components by index.  <a href="#a87407a14cf1489917f6890df16eda51e">More...</a><br /></td></tr>
-<tr class="separator:a87407a14cf1489917f6890df16eda51e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fc8c68cfd1e1cb9cdf9d399ba6f6fc6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a3fc8c68cfd1e1cb9cdf9d399ba6f6fc6">operator[]</a> (<a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a> dim_3) const </td></tr>
+<tr class="memdesc:a3fc8c68cfd1e1cb9cdf9d399ba6f6fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Components by index.  <a href="#a3fc8c68cfd1e1cb9cdf9d399ba6f6fc6">More...</a><br /></td></tr>
+<tr class="separator:a3fc8c68cfd1e1cb9cdf9d399ba6f6fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cc3c70711dd807ea7540ff82883ebd5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a1cc3c70711dd807ea7540ff82883ebd5">operator[]</a> (<a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a> dim_3)</td></tr>
 <tr class="memdesc:a1cc3c70711dd807ea7540ff82883ebd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Components by index.  <a href="#a1cc3c70711dd807ea7540ff82883ebd5">More...</a><br /></td></tr>
 <tr class="separator:a1cc3c70711dd807ea7540ff82883ebd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Iterator</div></td></tr>
-<tr class="memitem:a46c5c01b17e45393abec2c5415f528d4"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a46c5c01b17e45393abec2c5415f528d4">begin</a> () const </td></tr>
-<tr class="memdesc:a46c5c01b17e45393abec2c5415f528d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const begin.  <a href="#a46c5c01b17e45393abec2c5415f528d4">More...</a><br /></td></tr>
-<tr class="separator:a46c5c01b17e45393abec2c5415f528d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85f19e310ed25d9c94fd846474c5fdec"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a85f19e310ed25d9c94fd846474c5fdec">end</a> () const </td></tr>
-<tr class="memdesc:a85f19e310ed25d9c94fd846474c5fdec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const end.  <a href="#a85f19e310ed25d9c94fd846474c5fdec">More...</a><br /></td></tr>
-<tr class="separator:a85f19e310ed25d9c94fd846474c5fdec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add07193be4f1bc0dcb89c5effa68001d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#add07193be4f1bc0dcb89c5effa68001d">begin</a> ()</td></tr>
-<tr class="memdesc:add07193be4f1bc0dcb89c5effa68001d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin.  <a href="#add07193be4f1bc0dcb89c5effa68001d">More...</a><br /></td></tr>
-<tr class="separator:add07193be4f1bc0dcb89c5effa68001d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad09d2ef5f89078233428018d392471ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#ad09d2ef5f89078233428018d392471ec">end</a> ()</td></tr>
-<tr class="memdesc:ad09d2ef5f89078233428018d392471ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">End.  <a href="#ad09d2ef5f89078233428018d392471ec">More...</a><br /></td></tr>
-<tr class="separator:ad09d2ef5f89078233428018d392471ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Eigen system</div></td></tr>
-<tr class="memitem:a65c2c30cd6f9fc538924479428bf8a45"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespaceboca.html#a92ef473a625f54f92dfe6a567045af1c">Array3</a>&lt; Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a65c2c30cd6f9fc538924479428bf8a45">EigenValues</a> () const </td></tr>
-<tr class="memdesc:a65c2c30cd6f9fc538924479428bf8a45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eigen values.  <a href="#a65c2c30cd6f9fc538924479428bf8a45">More...</a><br /></td></tr>
-<tr class="separator:a65c2c30cd6f9fc538924479428bf8a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7110ad199cae8f36cd08cd2690df8b7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespaceboca.html#a92ef473a625f54f92dfe6a567045af1c">Array3</a>&lt; <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt; Value_ &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#aa7110ad199cae8f36cd08cd2690df8b7">EigenVectors</a> () const </td></tr>
-<tr class="memdesc:aa7110ad199cae8f36cd08cd2690df8b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eigen vectors.  <a href="#aa7110ad199cae8f36cd08cd2690df8b7">More...</a><br /></td></tr>
-<tr class="separator:aa7110ad199cae8f36cd08cd2690df8b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85565bbf07b18db9cde1a927d438a7df"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespaceboca.html#a92ef473a625f54f92dfe6a567045af1c">Array3</a>&lt; <a class="el" href="group__Math.html#ga81e57eaa81acb9c4457bfa995a26a4b6">GradedVector3</a>&lt; Value_ &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a85565bbf07b18db9cde1a927d438a7df">EigenSystem</a> () const </td></tr>
-<tr class="memdesc:a85565bbf07b18db9cde1a927d438a7df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eigen system.  <a href="#a85565bbf07b18db9cde1a927d438a7df">More...</a><br /></td></tr>
-<tr class="separator:a85565bbf07b18db9cde1a927d438a7df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1ef8de6ce16b4fe7c32b2d86a44afdf"><td class="memItemLeft" align="right" valign="top">auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#aa1ef8de6ce16b4fe7c32b2d86a44afdf">operator&lt;&lt;</a> (std::ostream &amp;stream, <a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt; Value_ &gt; const &amp;matrix)</td></tr>
+<tr class="memdesc:aa1ef8de6ce16b4fe7c32b2d86a44afdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output stream operator.  <a href="#aa1ef8de6ce16b4fe7c32b2d86a44afdf">More...</a><br /></td></tr>
+<tr class="separator:aa1ef8de6ce16b4fe7c32b2d86a44afdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+Iterator</h2></td></tr>
+<tr class="memitem:ab697041eeae258e7f10c7abfed27bb50"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#ab697041eeae258e7f10c7abfed27bb50">Dimension</a> = <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a></td></tr>
+<tr class="memdesc:ab697041eeae258e7f10c7abfed27bb50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const begin.  <a href="#ab697041eeae258e7f10c7abfed27bb50">More...</a><br /></td></tr>
+<tr class="separator:ab697041eeae258e7f10c7abfed27bb50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4cba1be44af94b07c3d7ff437a0e97a"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#ac4cba1be44af94b07c3d7ff437a0e97a">begin</a> () const </td></tr>
+<tr class="memdesc:ac4cba1be44af94b07c3d7ff437a0e97a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const begin.  <a href="#ac4cba1be44af94b07c3d7ff437a0e97a">More...</a><br /></td></tr>
+<tr class="separator:ac4cba1be44af94b07c3d7ff437a0e97a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3019b144aa599ee4266b5768d5d3afe6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a3019b144aa599ee4266b5768d5d3afe6">end</a> () const </td></tr>
+<tr class="memdesc:a3019b144aa599ee4266b5768d5d3afe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const end.  <a href="#a3019b144aa599ee4266b5768d5d3afe6">More...</a><br /></td></tr>
+<tr class="separator:a3019b144aa599ee4266b5768d5d3afe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40ae76064790712f38d0bb9a6327fd8c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#a40ae76064790712f38d0bb9a6327fd8c">begin</a> ()</td></tr>
+<tr class="memdesc:a40ae76064790712f38d0bb9a6327fd8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin.  <a href="#a40ae76064790712f38d0bb9a6327fd8c">More...</a><br /></td></tr>
+<tr class="separator:a40ae76064790712f38d0bb9a6327fd8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9c564c0c5c13c5408eb865b101a8865"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Matrix3.html#af9c564c0c5c13c5408eb865b101a8865">end</a> ()</td></tr>
+<tr class="memdesc:af9c564c0c5c13c5408eb865b101a8865"><td class="mdescLeft">&#160;</td><td class="mdescRight">End.  <a href="#af9c564c0c5c13c5408eb865b101a8865">More...</a><br /></td></tr>
+<tr class="separator:af9c564c0c5c13c5408eb865b101a8865"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename Value_&gt;<br />
 class boca::Matrix3&lt; Value_ &gt;</h3>
 
 <p>Three dimensional matrix. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="ab697041eeae258e7f10c7abfed27bb50"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value_&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::<a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dimension</a> =  <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Const begin. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aadcf46e414f03ed2a7b95741f2086654"></a>
 <div class="memitem">
 <div class="memproto">
@@ -759,7 +786,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a46c5c01b17e45393abec2c5415f528d4"></a>
+<a class="anchor" id="ac4cba1be44af94b07c3d7ff437a0e97a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -769,7 +796,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt;<a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a>&gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::begin </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt;<a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_&gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -786,7 +813,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="add07193be4f1bc0dcb89c5effa68001d"></a>
+<a class="anchor" id="a40ae76064790712f38d0bb9a6327fd8c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -796,7 +823,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt;<a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a>&gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::begin </td>
+          <td class="memname"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt;<a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_&gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1067,7 +1094,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a85f19e310ed25d9c94fd846474c5fdec"></a>
+<a class="anchor" id="a3019b144aa599ee4266b5768d5d3afe6"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1077,7 +1104,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt;<a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a>&gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::end </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt;<a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_&gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1094,7 +1121,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ad09d2ef5f89078233428018d392471ec"></a>
+<a class="anchor" id="af9c564c0c5c13c5408eb865b101a8865"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1104,7 +1131,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt;<a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_, <a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a>&gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::end </td>
+          <td class="memname"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt;<a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>, <a class="el" href="classboca_1_1Vector3.html">Vector3</a>, Value_&gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1748,7 +1775,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a87407a14cf1489917f6890df16eda51e"></a>
+<a class="anchor" id="a3fc8c68cfd1e1cb9cdf9d399ba6f6fc6"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1758,7 +1785,7 @@ template&lt;typename Value_&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;Value_&gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::operator[] </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1Vector3.html">Vector3</a>&lt;Value_&gt; const&amp; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::operator[] </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__Math.html#gae1099b4b536335f5655882aaad5c3ece">Dim3</a>&#160;</td>
           <td class="paramname"><em>dim_3</em></td><td>)</td>
@@ -2170,7 +2197,7 @@ template&lt;typename Value_&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a57fb187fe319bc9fdc9b4ef8a2732e57"></a>
+<a class="anchor" id="a1a82732408e329e4a1377027f311352f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -2182,7 +2209,7 @@ template&lt;typename Value_2_ &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt;ValueProduct&lt;Value_2_&gt; &gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::Scaled </td>
+          <td class="memname">constexpr <a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt;ValueProduct&lt;Value_2_&gt; &gt; <a class="el" href="classboca_1_1Matrix3.html">boca::Matrix3</a>&lt; Value_ &gt;::Scale </td>
           <td>(</td>
           <td class="paramtype">Value_2_&#160;</td>
           <td class="paramname"><em>scalar</em></td><td>)</td>
@@ -3290,6 +3317,45 @@ template&lt;typename Value_&gt; </div>
 </div><div class="memdoc">
 
 <p>z-row </p>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a class="anchor" id="aa1ef8de6ce16b4fe7c32b2d86a44afdf"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto&amp; operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classboca_1_1Matrix3.html">Matrix3</a>&lt; Value_ &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>matrix</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Output stream operator. </p>
 
 </div>
 </div>

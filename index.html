@@ -26,8 +26,8 @@
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/javascript" src="doxy-boot.js"></script>
     </head>
     <body>
@@ -102,26 +102,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a href="https://root.cern.ch/"><code>ROOT</code></a> version ≥ 6.05.02 compiled with <a href="http://tmva.sourceforge.net/"><code>TMVA</code></a> and <a href="https://root.cern.ch/mathmore-library"><code>MathMore</code></a></li>
 <li><a href="http://fastjet.fr/"><code>FastJet</code></a></li>
 <li><a href="https://fastjet.hepforge.org/contrib/"><code>FastJet Contrib</code></a> (must be compiled with <a href="https://en.wikipedia.org/wiki/Position-independent_code"><code>CXXFLAGS=-fPIC</code></a>)</li>
-<li><a href="http://www.boost.org/"><code>Boost</code></a> version ≥ 1.56 (<a href="http://www.boost.org/doc/libs/release/libs/optional/"><code>Optional</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/range/"><code>Range</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/units/"><code>Units</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/utility/operators.htm"><code>Operators</code></a>)</li>
+<li><a href="http://www.boost.org/"><code>Boost</code></a> version ≥ 1.56 (<a href="http://www.boost.org/doc/libs/release/libs/optional/"><code>Optional</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/range/"><code>Range</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/units/"><code>Units</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/utility/operators.htm"><code>Operators</code></a>, <a href="http://www.boost.org/doc/libs/release/libs/iterator/"><code>Iterators</code></a>)</li>
 </ul>
-<p>The BoCA code makes heavy use of modern C++ features. The limiting factor for the minimal supportet compiler version is given by the use of generic lambda function. Therefore the compiler version must be</p><ul>
-<li>GCC version ≥ 4.9</li>
-<li>Clang version ≥ 3.4 (which might rely on a recent GCC version)</li>
+<p>The <code>BoCA</code> code makes heavy use of modern C++ features. The limiting factor for the minimal supportet compiler version is given by the use of generic lambda functions. Therefore the compiler version must be</p><ul>
+<li><code>GCC</code> version ≥ 4.9</li>
+<li><code>Clang</code> version ≥ 3.4 (which might rely on a recent GCC version)</li>
 </ul>
 <h2>Installation</h2>
 <ul>
-<li>the following is tested on recent ubuntu, scientific linux and mac installations</li>
+<li>the following is tested on recent ubuntu, scientific linux and mac installations <pre class="fragment">mkdir build
+cd build
+cmake ..
+make
+</pre></li>
+<li>for quicker compilation (install ccache and ninja-build) <pre class="fragment">mkdir build
+cd build
+cmake -G Ninja ..
+ninja
+</pre></li>
+<li>for mac you can also use (still install ccache) <pre class="fragment">mkdir build
+cd build
+cmake -G Xcode ..
+xcodebuild
+</pre></li>
+<li><p class="startli">if you have trouble installing <code>ROOT</code> ≥ 6 with <code>GCC</code> ≥ 5 you can configure it with </p><pre class="fragment">cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja ..
+</pre><p class="startli">unfortunately this means that all other dependencies also have to be compiled with the cxx11 abi switched off e.g. for <code>FastJet</code> you have to use </p><pre class="fragment">./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0
+</pre><p class="startli">and for <code>FastJet Contrib</code> </p><pre class="fragment">./configure CXXFLAGS="-fPIC -D_GLIBCXX_USE_CXX11_ABI=0"
+</pre></li>
 </ul>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;make</div></div><!-- fragment --><ul>
-<li>for quicker compilation (install ccache and ninja-build)</li>
-</ul>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake -G Ninja ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;ninja</div></div><!-- fragment --><ul>
-<li>for mac you can also use (still install ccache)</li>
-</ul>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake -G Xcode ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;xcodebuild</div></div><!-- fragment --><ul>
-<li>if you have trouble installing <code>ROOT</code> ≥ 6 with <code>GCC</code> ≥ 5 you can configure it with</li>
-</ul>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja ..</div></div><!-- fragment --><p> unfortunately this means that all other dependencies also have to be compiled with the cxx11 abi switched off e.g. for <code>FastJet</code> you have to use </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0</div></div><!-- fragment --><p> and for <code>FastJet Contrib</code> </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;./configure CXXFLAGS=&quot;-fPIC -D_GLIBCXX_USE_CXX11_ABI=0&quot;</div></div><!-- fragment --><h2>Usage</h2>
+<h2>Usage</h2>
 <blockquote class="doxtable">
 <p>Examples are listed <a href="https://boostedcollideranalysis.github.io/BoCA/examples.html">here</a>. </p>
 </blockquote>

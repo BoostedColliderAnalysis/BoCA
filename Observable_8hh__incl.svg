@@ -16,9 +16,9 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="Names_8hh.html" target="_top" xlink:title="boca/Names.hh">
-<polygon fill="white" stroke="black" points="37.5,-112.5 37.5,-131.5 123.5,-131.5 123.5,-112.5 37.5,-112.5"/>
-<text text-anchor="middle" x="80.5" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca/Names.hh</text>
+<g id="a_node2"><a xlink:href="Names_8hh.html" target="_top" xlink:title="boca/latex/Names.hh">
+<polygon fill="white" stroke="black" points="25.5,-112.5 25.5,-131.5 135.5,-131.5 135.5,-112.5 25.5,-112.5"/>
+<text text-anchor="middle" x="80.5" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca/latex/Names.hh</text>
 </a>
 </g>
 </g>

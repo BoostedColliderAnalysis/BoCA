@@ -1,13 +1,13 @@
 <map id="examples/heavyhiggs/heavyhiggs/branch/Cut.hh" name="examples/heavyhiggs/heavyhiggs/branch/Cut.hh">
-<area shape="rect" id="node2" href="$boca_2branch_2Cut_8hh.html" title="boca/branch/Cut.hh" alt="" coords="640,95,776,121"/>
-<area shape="rect" id="node13" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1103,95,1255,121"/>
+<area shape="rect" id="node2" href="$boca_2branch_2Cut_8hh.html" title="boca/branch/Cut.hh" alt="" coords="641,95,777,121"/>
+<area shape="rect" id="node13" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1100,95,1252,121"/>
 <area shape="rect" id="node3" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="242,177,395,203"/>
 <area shape="rect" id="node4" href="$branch_2Base_8hh.html" title="boca/branch/Base.hh" alt="" coords="246,266,391,293"/>
 <area shape="rect" id="node6" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="5,266,221,293"/>
 <area shape="rect" id="node7" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="9,348,218,375"/>
-<area shape="rect" id="node8" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="56,423,171,449"/>
+<area shape="rect" id="node8" href="$Names_8hh.html" title="boca/latex/Names.hh" alt="" coords="40,423,187,449"/>
 <area shape="rect" id="node9" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="44,497,183,524"/>
 <area shape="rect" id="node18" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="1209,177,1325,203"/>
-<area shape="rect" id="node24" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="839,177,969,203"/>
-<area shape="rect" id="node28" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1005,177,1179,203"/>
+<area shape="rect" id="node24" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="1020,177,1151,203"/>
+<area shape="rect" id="node28" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="806,177,981,203"/>
 </map>

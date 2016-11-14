@@ -3,7 +3,7 @@
 <area shape="rect" id="node7" href="$Exception_8hh.html" title="boca/generic/Exception.hh" alt="" coords="457,95,633,121"/>
 <area shape="rect" id="node9" href="$ClusterSequence_8hh.html" title="boca/fastjet/ClusterSequence.hh" alt="" coords="1736,266,1948,293"/>
 <area shape="rect" id="node15" href="$Particles_8hh.html" title="boca/fastjet/Particles.hh" alt="" coords="1441,348,1603,375"/>
-<area shape="rect" id="node26" href="$boca_2Event_8hh.html" title="boca/Event.hh" alt="" coords="1079,348,1186,375"/>
+<area shape="rect" id="node26" href="$boca_2event_2Event_8hh.html" title="boca/event/Event.hh" alt="" coords="1061,348,1204,375"/>
 <area shape="rect" id="node36" href="$MomentumRange_8hh.html" title="boca/identification\l/MomentumRange.hh" alt="" coords="1750,572,1897,613"/>
 <area shape="rect" id="node43" href="$HiggsToHiggs_8hh.html" title="tthh/tagger/HiggsToHiggs.hh" alt="" coords="967,95,1157,121"/>
 <area shape="rect" id="node50" href="$DEBUG__MACROS_8hh.html" title="boca/generic/DEBUG\l_MACROS.hh" alt="" coords="559,259,707,300"/>

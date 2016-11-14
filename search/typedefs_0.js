@@ -6,5 +6,6 @@ var searchData=
   ['anglesquaremomentum',['AngleSquareMomentum',['../namespaceboca.html#a97206261730a019d093d6f8b20bcdab1',1,'boca']]],
   ['area',['Area',['../namespaceboca_1_1units_1_1barn.html#a69b78d30ad1bc95fcecfa589f7db7091',1,'boca::units::barn']]],
   ['array2',['Array2',['../namespaceboca.html#abf2beb0c8442cad095aca4b8075d7fb4',1,'boca']]],
-  ['array3',['Array3',['../namespaceboca.html#a92ef473a625f54f92dfe6a567045af1c',1,'boca']]]
+  ['array3',['Array3',['../namespaceboca.html#a92ef473a625f54f92dfe6a567045af1c',1,'boca']]],
+  ['atto_5ftype',['atto_type',['../namespaceboca_1_1units.html#aeff16be57c429c72a27e6873a72434c7',1,'boca::units']]]
 ];

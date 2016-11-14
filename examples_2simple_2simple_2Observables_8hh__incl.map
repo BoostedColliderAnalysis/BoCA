@@ -1,12 +1,12 @@
 <map id="examples/simple/simple/Observables.hh" name="examples/simple/simple/Observables.hh">
-<area shape="rect" id="node2" href="$fastjet_2Particle_8hh.html" title="boca/fastjet/Particle.hh" alt="" coords="1504,169,1660,196"/>
-<area shape="rect" id="node34" href="$boca_2Event_8hh.html" title="boca/Event.hh" alt="" coords="1753,95,1859,121"/>
-<area shape="rect" id="node3" href="$PseudoJet_8hh.html" title="boca/fastjet/PseudoJet.hh" alt="" coords="1479,326,1653,353"/>
-<area shape="rect" id="node22" href="$ParticleInfo_8hh.html" title="boca/fastjet/ParticleInfo.hh" alt="" coords="1366,244,1545,271"/>
-<area shape="rect" id="node5" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="930,505,1082,531"/>
-<area shape="rect" id="node10" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="353,594,469,621"/>
-<area shape="rect" id="node16" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="1019,594,1150,621"/>
-<area shape="rect" id="node20" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1345,594,1520,621"/>
+<area shape="rect" id="node2" href="$fastjet_2Particle_8hh.html" title="boca/fastjet/Particle.hh" alt="" coords="1505,169,1661,196"/>
+<area shape="rect" id="node34" href="$boca_2event_2Event_8hh.html" title="boca/event/Event.hh" alt="" coords="1736,95,1879,121"/>
+<area shape="rect" id="node3" href="$PseudoJet_8hh.html" title="boca/fastjet/PseudoJet.hh" alt="" coords="1480,326,1655,353"/>
+<area shape="rect" id="node22" href="$ParticleInfo_8hh.html" title="boca/fastjet/ParticleInfo.hh" alt="" coords="1367,244,1546,271"/>
+<area shape="rect" id="node5" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="941,505,1093,531"/>
+<area shape="rect" id="node10" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="364,594,480,621"/>
+<area shape="rect" id="node16" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="1030,594,1161,621"/>
+<area shape="rect" id="node20" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1356,594,1531,621"/>
 <area shape="rect" id="node23" href="$Family_8hh.html" title="boca/identification\l/Family.hh" alt="" coords="1471,408,1597,449"/>
 <area shape="rect" id="node25" href="$Id_8hh.html" title="boca/identification\l/Id.hh" alt="" coords="1728,497,1855,539"/>
 <area shape="rect" id="node28" href="$Member_8hh.html" title="boca/identification\l/Member.hh" alt="" coords="1577,497,1704,539"/>
@@ -15,12 +15,12 @@
 <area shape="rect" id="node32" href="$exroot_2exroot_2Forward_8hh.html" title="external/exroot/exroot\l/Forward.hh" alt="" coords="1827,676,1975,717"/>
 <area shape="rect" id="node33" href="$LorentzVectorBase_8hh.html" title="boca/math/LorentzVectorBase.hh" alt="" coords="1999,683,2215,710"/>
 <area shape="rect" id="node31" href="$delphes_2delphes_2TypeDef_8hh.html" title="external/delphes/delphes\l/TypeDef.hh" alt="" coords="1636,765,1803,807"/>
-<area shape="rect" id="node36" href="$Mutable_8hh.html" title="boca/generic/Mutable.hh" alt="" coords="2003,326,2167,353"/>
-<area shape="rect" id="node44" href="$Flag_8hh.html" title="boca/generic/Flag.hh" alt="" coords="1963,169,2105,196"/>
-<area shape="rect" id="node46" href="$Jet_8hh.html" title="boca/fastjet/Jet.hh" alt="" coords="1685,169,1815,196"/>
+<area shape="rect" id="node36" href="$Mutable_8hh.html" title="boca/generic/Mutable.hh" alt="" coords="2004,326,2168,353"/>
+<area shape="rect" id="node44" href="$Flag_8hh.html" title="boca/generic/Flag.hh" alt="" coords="1964,169,2107,196"/>
+<area shape="rect" id="node46" href="$Jet_8hh.html" title="boca/fastjet/Jet.hh" alt="" coords="1686,169,1817,196"/>
 <area shape="rect" id="node38" href="$Debug_8hh.html" title="boca/generic/Debug.hh" alt="" coords="2093,505,2249,531"/>
-<area shape="rect" id="node47" href="$JetInfo_8hh.html" title="boca/fastjet/JetInfo.hh" alt="" coords="1689,244,1841,271"/>
-<area shape="rect" id="node48" href="$Identification_8hh.html" title="boca/identification\l/Identification.hh" alt="" coords="1852,319,1979,360"/>
-<area shape="rect" id="node50" href="$Constituent_8hh.html" title="boca/identification\l/Constituent.hh" alt="" coords="1701,319,1828,360"/>
+<area shape="rect" id="node47" href="$JetInfo_8hh.html" title="boca/fastjet/JetInfo.hh" alt="" coords="1690,244,1842,271"/>
+<area shape="rect" id="node48" href="$Identification_8hh.html" title="boca/identification\l/Identification.hh" alt="" coords="1853,319,1980,360"/>
+<area shape="rect" id="node50" href="$Constituent_8hh.html" title="boca/identification\l/Constituent.hh" alt="" coords="1703,319,1829,360"/>
 <area shape="rect" id="node49" href="$Tag_8hh.html" title="boca/identification\l/Tag.hh" alt="" coords="1829,408,1956,449"/>
 </map>

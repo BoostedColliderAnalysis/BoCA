@@ -1,17 +1,17 @@
 <map id="examples/toppartner/source/branch/Event.cpp" name="examples/toppartner/source/branch/Event.cpp">
-<area shape="rect" id="node2" href="$examples_2toppartner_2toppartner_2branch_2Event_8hh.html" title="toppartner/branch/Event.hh" alt="" coords="749,102,927,129"/>
-<area shape="rect" id="node34" href="$OBSERVABLE__MACROS_8hh.html" title="boca/multivariant/OBSERVABLE\l_MACROS.hh" alt="" coords="952,95,1167,136"/>
-<area shape="rect" id="node3" href="$boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="763,184,913,211"/>
-<area shape="rect" id="node4" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="620,259,755,285"/>
-<area shape="rect" id="node15" href="$GlobalBase_8hh.html" title="boca/branch/GlobalBase.hh" alt="" coords="899,259,1081,285"/>
-<area shape="rect" id="node5" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="369,333,523,360"/>
-<area shape="rect" id="node6" href="$branch_2Base_8hh.html" title="boca/branch/Base.hh" alt="" coords="69,415,215,442"/>
-<area shape="rect" id="node8" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="338,415,554,442"/>
+<area shape="rect" id="node2" href="$examples_2toppartner_2toppartner_2branch_2Event_8hh.html" title="toppartner/branch/Event.hh" alt="" coords="754,102,933,129"/>
+<area shape="rect" id="node34" href="$OBSERVABLE__MACROS_8hh.html" title="boca/multivariant/OBSERVABLE\l_MACROS.hh" alt="" coords="957,95,1172,136"/>
+<area shape="rect" id="node3" href="$boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="769,184,918,211"/>
+<area shape="rect" id="node4" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="637,259,772,285"/>
+<area shape="rect" id="node15" href="$GlobalBase_8hh.html" title="boca/branch/GlobalBase.hh" alt="" coords="891,259,1073,285"/>
+<area shape="rect" id="node5" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="440,333,593,360"/>
+<area shape="rect" id="node6" href="$branch_2Base_8hh.html" title="boca/branch/Base.hh" alt="" coords="61,415,207,442"/>
+<area shape="rect" id="node8" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="409,415,625,442"/>
 <area shape="rect" id="node9" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="108,505,317,531"/>
-<area shape="rect" id="node10" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="155,587,270,613"/>
+<area shape="rect" id="node10" href="$Names_8hh.html" title="boca/latex/Names.hh" alt="" coords="139,587,286,613"/>
 <area shape="rect" id="node11" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="143,661,282,688"/>
-<area shape="rect" id="node17" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1115,333,1267,360"/>
-<area shape="rect" id="node22" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="1133,415,1249,442"/>
-<area shape="rect" id="node28" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="773,415,903,442"/>
-<area shape="rect" id="node32" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="935,415,1109,442"/>
+<area shape="rect" id="node17" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1081,333,1233,360"/>
+<area shape="rect" id="node22" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="1099,415,1215,442"/>
+<area shape="rect" id="node28" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="943,415,1074,442"/>
+<area shape="rect" id="node32" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="737,415,912,442"/>
 </map>

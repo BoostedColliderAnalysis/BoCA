@@ -1,10 +1,15 @@
 var searchData=
 [
-  ['mass',['Mass',['../namespaceboca_1_1units.html#a71dafb35b8e5cd8f9e648869889ba3b6',1,'boca::units']]],
-  ['masssquare',['MassSquare',['../namespaceboca_1_1units.html#af62966fff562314f961f4b6813b9421d',1,'boca::units']]],
-  ['missinget',['MissingET',['../namespacedelphes.html#a716090e4efa4beb13436021e550d0f17',1,'delphes::MissingET()'],['../namespaceexroot.html#acdf53176e8ee8eb62785c55957381518',1,'exroot::MissingET()'],['../namespaceboca.html#a8b60d758278efba96143b0538bc21066',1,'boca::MissingEt()']]],
-  ['momentum',['Momentum',['../namespaceboca_1_1units.html#adc8b72438148a3ca042f71b7f6d00d88',1,'boca::units']]],
-  ['momentum5',['Momentum5',['../namespacewimpmass.html#aa477629055767e9ee07f7d3c8fdae7cf',1,'wimpmass']]],
-  ['momentumsquare',['MomentumSquare',['../namespaceboca_1_1units.html#af423d30ea65460026622d20fa37c0288',1,'boca::units']]],
-  ['muon',['Muon',['../namespacedelphes.html#a97d53e6ba2a779d5241e40d9e9fa259f',1,'delphes::Muon()'],['../namespaceexroot.html#a43366dc7f7924611dcc6f1e65ff16a50',1,'exroot::Muon()']]]
+  ['latex',['Latex',['../namespaceboca.html#a0f980fe49f5508b66f3e3919180ad7ca',1,'boca']]],
+  ['latexstring',['LatexString',['../namespaceboca.html#a30b5a122838e0aabd54a543fed3908da',1,'boca']]],
+  ['length',['Length',['../namespaceboca_1_1units.html#a6799f08e85326623b2c90277430b0bad',1,'boca::units']]],
+  ['lepton',['Lepton',['../namespaceboca.html#a29abdf192cf2ef1df903845b05669c2c',1,'boca']]],
+  ['lhcoevent',['LHCOEvent',['../namespacedelphes.html#a04fe0eed6b2df48cb970b1ce9a494974',1,'delphes']]],
+  ['lhefevent',['LHEFEvent',['../namespacedelphes.html#aa30b24bf2f4eaec534b6a379176e631a',1,'delphes::LHEFEvent()'],['../namespaceexroot.html#a37eb768ab892ed6a85e1a6a7d0ce929f',1,'exroot::LHEFEvent()']]],
+  ['lhefparticle',['LHEFParticle',['../namespaceexroot.html#afce8e8e4055a14f40b28dbe6ebb0c57d',1,'exroot']]],
+  ['line2',['Line2',['../group__Math.html#ga3114504247a2892e6ea8184d3870dcbd',1,'boca']]],
+  ['line3',['Line3',['../group__Math.html#gadbbcc1b601278546a7b3df1f37742aa1',1,'boca']]],
+  ['lorentzline',['LorentzLine',['../group__Math.html#ga241fd8905af3cc8e183b9678b1ecdfa4',1,'boca']]],
+  ['luminosity',['Luminosity',['../namespaceboca_1_1units_1_1barn.html#ae22f03398c18e787a7b560d78c1eff95',1,'boca::units::barn::Luminosity()'],['../namespaceboca_1_1units.html#adb5325409f9805d78d16494ba6851588',1,'boca::units::Luminosity()']]],
+  ['luminositydimension',['LuminosityDimension',['../namespaceboca_1_1units_1_1barn.html#af766e5f6c99648b50155e5f47577ead1',1,'boca::units::barn']]]
 ];

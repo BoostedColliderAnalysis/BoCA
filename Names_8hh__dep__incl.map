@@ -1,11 +1,11 @@
-<map id="boca/Names.hh" name="boca/Names.hh">
+<map id="boca/latex/Names.hh" name="boca/latex/Names.hh">
 <area shape="rect" id="node2" href="$Info_8hh.html" title="boca/branch/Info.hh" alt="" coords="2661,80,2799,107"/>
 <area shape="rect" id="node23" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="2823,80,3032,107"/>
 <area shape="rect" id="node38" href="$FileInfo_8hh.html" title="boca/io/FileInfo.hh" alt="" coords="3351,80,3480,107"/>
 <area shape="rect" id="node39" href="$analysis_2Base_8hh.html" title="boca/analysis/Base.hh" alt="" coords="3738,162,3893,189"/>
 <area shape="rect" id="node44" href="$Plot_8hh.html" title="boca/plotting/Plot.hh" alt="" coords="289,162,430,189"/>
 <area shape="rect" id="node48" href="$Histograms_8hh.html" title="boca/plotting/Histograms.hh" alt="" coords="652,80,837,107"/>
-<area shape="rect" id="node50" href="$Names_8cpp.html" title="source/Names.cpp" alt="" coords="3556,80,3688,107"/>
+<area shape="rect" id="node50" href="$Names_8cpp.html" title="source/latex/Names.cpp" alt="" coords="3556,80,3720,107"/>
 <area shape="rect" id="node3" href="$plotting_2Result_8hh.html" title="boca/plotting/Result.hh" alt="" coords="1137,162,1293,189"/>
 <area shape="rect" id="node14" href="$PlottingBase_8cpp.html" title="source/plotting/Plotting\lBase.cpp" alt="" coords="729,348,883,389"/>
 <area shape="rect" id="node17" href="$Files_8hh.html" title="boca/analysis/Files.hh" alt="" coords="3162,162,3314,189"/>

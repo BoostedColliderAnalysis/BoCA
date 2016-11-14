@@ -26,8 +26,8 @@
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/javascript" src="doxy-boot.js"></script>
     </head>
     <body>
@@ -232,6 +232,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a9dafd2c899c934775324c7f26b5b4e74"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Multiplet.html#a9dafd2c899c934775324c7f26b5b4e74">Name</a> () const </td></tr>
+<tr class="separator:a9dafd2c899c934775324c7f26b5b4e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e2b276de42827696963318c9b269589"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classboca_1_1Singlet.html">Singlet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Multiplet.html#a5e2b276de42827696963318c9b269589">GetConstituentJet</a> () const =0</td></tr>
 <tr class="separator:a5e2b276de42827696963318c9b269589"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab562757ee39903c742df9a62b90d902c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classboca_1_1Jet.html">boca::Jet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Multiplet.html#ab562757ee39903c742df9a62b90d902c">GetJet</a> () const =0</td></tr>
@@ -550,9 +552,6 @@ template&lt;typename Multiplet_ , typename  = NotJet&lt;Multiplet_&gt;&gt; </div
 <a class="anchor" id="a9d0c4bf7ee7d1c7c379766b05337e0c9"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">double boca::Multiplet::ExtraInfo </td>
@@ -561,11 +560,6 @@ template&lt;typename Multiplet_ , typename  = NotJet&lt;Multiplet_&gt;&gt; </div
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -728,6 +722,31 @@ template&lt;typename Multiplet_ , typename  = NotJet&lt;Multiplet_&gt;&gt; </div
 
 </div>
 </div>
+<a class="anchor" id="a9dafd2c899c934775324c7f26b5b4e74"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Multiplet::Name </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Multiplet_1_, Multiplet_2_ &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; boca::Triplet, boca::Doublet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; boca::Triplet, boca::Singlet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Quartet22, boca::Doublet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; boca::Singlet, boca::Singlet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Quintet, Quintet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Sextet42, Triplet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; toppartner::Septet,::boca::Triplet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Octet53, boca::Doublet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Multiplet_2_, Multiplet_3_ &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Quintet, boca::Doublet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Doublet, Doublet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Multiplet_1_, Multiplet_3_ &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; toppartner::Decuplet55, Quartet22 &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; boca::Quartet31, boca::Quartet31 &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Triplet, Triplet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; boca::Quintet, Quartet22 &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Quintet, Quartet22 &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; Multiplet_, boca::Global &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; boca::Triplet, boca::Triplet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt;::boca::Sextet33,::boca::Doublet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; boca::Doublet, boca::Singlet &gt;</a>, <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; boca::Quintet, boca::Doublet &gt;</a>, and <a class="el" href="classboca_1_1TwoBody.html#a1c083168005f471001608dd94b02be09">boca::TwoBody&lt; boca::Quintet, boca::Triplet &gt;</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a6259f62e2740028df2a8865604bd3815"></a>
 <div class="memitem">
 <div class="memproto">
@@ -796,9 +815,6 @@ template&lt;typename Multiplet_ , typename  = NotJet&lt;Multiplet_&gt;&gt; </div
 <a class="anchor" id="ae90bdebf82e4515feb7f686b131650a2"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void boca::Multiplet::SetExtraInfo </td>
@@ -808,11 +824,6 @@ template&lt;typename Multiplet_ , typename  = NotJet&lt;Multiplet_&gt;&gt; </div
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>

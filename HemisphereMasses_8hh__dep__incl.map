@@ -1,10 +1,10 @@
-<map id="boca/HemisphereMasses.hh" name="boca/HemisphereMasses.hh">
-<area shape="rect" id="node2" href="$EventShapes_8hh.html" title="boca/EventShapes.hh" alt="" coords="2887,80,3038,107"/>
-<area shape="rect" id="node50" href="$HemisphereMasses_8cpp.html" title="source/HemisphereMasses.cpp" alt="" coords="3062,80,3269,107"/>
+<map id="boca/event/HemisphereMasses.hh" name="boca/event/HemisphereMasses.hh">
+<area shape="rect" id="node2" href="$EventShapes_8hh.html" title="boca/event/EventShapes.hh" alt="" coords="2869,80,3056,107"/>
+<area shape="rect" id="node50" href="$HemisphereMasses_8cpp.html" title="source/event/HemisphereMasses.cpp" alt="" coords="3080,80,3323,107"/>
 <area shape="rect" id="node3" href="$Multiplet_8hh.html" title="boca/multiplets/Multiplet.hh" alt="" coords="2253,155,2435,181"/>
 <area shape="rect" id="node47" href="$examples_2higgscpv_2higgscpv_2Analysis_8hh.html" title="examples/higgscpv/higgscpv\l/Analysis.hh" alt="" coords="2975,229,3166,271"/>
 <area shape="rect" id="node48" href="$MultipletSignature_8hh.html" title="examples/higgscpv/higgscpv\l/MultipletSignature.hh" alt="" coords="2686,609,2877,650"/>
-<area shape="rect" id="node49" href="$EventShapes_8cpp.html" title="source/EventShapes.cpp" alt="" coords="3025,155,3193,181"/>
+<area shape="rect" id="node49" href="$EventShapes_8cpp.html" title="source/event/EventShapes.cpp" alt="" coords="3026,155,3230,181"/>
 <area shape="rect" id="node4" href="$multiplets_2TwoBody_8hh.html" title="boca/multiplets/TwoBody.hh" alt="" coords="1804,237,1991,263"/>
 <area shape="rect" id="node46" href="$Multiplet_8cpp.html" title="source/multiplets/Multiplet.cpp" alt="" coords="2245,237,2443,263"/>
 <area shape="rect" id="node5" href="$Doublet_8hh.html" title="boca/multiplets/Doublet.hh" alt="" coords="1579,319,1757,345"/>

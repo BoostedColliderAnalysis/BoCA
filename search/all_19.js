@@ -6,6 +6,8 @@ var searchData=
   ['yd',['Yd',['../classTrack.html#acd5a402e2641d76967f6213c47915d8d',1,'Track::Yd()'],['../classCandidate.html#acccddc32c4270fc276becf1c6afaa620',1,'Candidate::Yd()']]],
   ['ymax',['YMax',['../classboca_1_1Rectangle.html#a79b0a9a15684cfe3bbfb87c754be9b72',1,'boca::Rectangle']]],
   ['ymin',['YMin',['../classboca_1_1Rectangle.html#a6d982ae5c2437a1171eea0895e3feb9a',1,'boca::Rectangle']]],
+  ['yocto_5ftype',['yocto_type',['../namespaceboca_1_1units.html#a2b1ef8cf7c0d931de885deb68be1a8c8',1,'boca::units']]],
+  ['yotta_5ftype',['yotta_type',['../namespaceboca_1_1units.html#a5361c50d2816ad1aa1a7f6df79b26710',1,'boca::units']]],
   ['youter',['YOuter',['../classTrack.html#abedf5bf675f6fb09908e030efd6c340e',1,'Track']]],
   ['ypsilon',['ypsilon',['../namespaceboca.html#a648cb17ad6b74376b1954206638331c7ac4b95cace4ec837d0b14f152339eca94',1,'boca']]]
 ];

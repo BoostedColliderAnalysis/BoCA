@@ -1,8 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title="STL class. " alt="" coords="5,81,109,108"/>
-<area shape="rect" id="node2" href="$classboca_1_1Empty.html" title="Empty multiplets " alt="" coords="171,5,267,32"/>
-<area shape="rect" id="node3" href="$classboca_1_1Isolated.html" title="Isolated objects " alt="" coords="167,56,271,83"/>
-<area shape="rect" id="node4" href="$classboca_1_1Overlap.html" title="Overlap between structures " alt="" coords="168,107,271,133"/>
-<area shape="rect" id="node5" title="STL class. " alt="" coords="157,157,281,184"/>
-<area shape="rect" id="node6" href="$classboca_1_1Problematic.html" title="Generic problematic cases. " alt="" coords="329,157,456,184"/>
+<area shape="rect" id="node2" href="$classboca_1_1EnumIterator.html" title="Enables the use of strongly typed enumerators as iterators. " alt="" coords="205,5,339,47"/>
+<area shape="rect" id="node3" href="$classboca_1_1EnumIterator.html" title="boca::EnumIterator\l\&lt; Dimension \&gt;" alt="" coords="205,71,339,112"/>
 </map>

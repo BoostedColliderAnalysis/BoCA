@@ -1,15 +1,15 @@
 <map id="examples/heavyhiggs/heavyhiggs/branch/EventNeutral.hh" name="examples/heavyhiggs/heavyhiggs/branch/EventNeutral.hh">
-<area shape="rect" id="node2" href="$boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="763,95,913,121"/>
-<area shape="rect" id="node3" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="620,169,755,196"/>
-<area shape="rect" id="node14" href="$GlobalBase_8hh.html" title="boca/branch/GlobalBase.hh" alt="" coords="899,169,1081,196"/>
-<area shape="rect" id="node4" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="369,244,523,271"/>
-<area shape="rect" id="node5" href="$branch_2Base_8hh.html" title="boca/branch/Base.hh" alt="" coords="69,326,215,353"/>
-<area shape="rect" id="node7" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="338,326,554,353"/>
+<area shape="rect" id="node2" href="$boca_2branch_2Event_8hh.html" title="boca/branch/Event.hh" alt="" coords="769,95,918,121"/>
+<area shape="rect" id="node3" href="$Bdt_8hh.html" title="boca/branch/Bdt.hh" alt="" coords="637,169,772,196"/>
+<area shape="rect" id="node14" href="$GlobalBase_8hh.html" title="boca/branch/GlobalBase.hh" alt="" coords="891,169,1073,196"/>
+<area shape="rect" id="node4" href="$branch_2Result_8hh.html" title="boca/branch/Result.hh" alt="" coords="440,244,593,271"/>
+<area shape="rect" id="node5" href="$branch_2Base_8hh.html" title="boca/branch/Base.hh" alt="" coords="61,326,207,353"/>
+<area shape="rect" id="node7" href="$boca_2multivariant_2Observables_8hh.html" title="boca/multivariant/Observables.hh" alt="" coords="409,326,625,353"/>
 <area shape="rect" id="node8" href="$Observable_8hh.html" title="boca/multivariant/Observable.hh" alt="" coords="108,415,317,442"/>
-<area shape="rect" id="node9" href="$Names_8hh.html" title="boca/Names.hh" alt="" coords="155,497,270,524"/>
+<area shape="rect" id="node9" href="$Names_8hh.html" title="boca/latex/Names.hh" alt="" coords="139,497,286,524"/>
 <area shape="rect" id="node10" href="$String_8hh.html" title="boca/latex/String.hh" alt="" coords="143,572,282,599"/>
-<area shape="rect" id="node16" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1115,244,1267,271"/>
-<area shape="rect" id="node21" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="1133,326,1249,353"/>
-<area shape="rect" id="node27" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="773,326,903,353"/>
-<area shape="rect" id="node31" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="935,326,1109,353"/>
+<area shape="rect" id="node16" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="1081,244,1233,271"/>
+<area shape="rect" id="node21" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="1099,326,1215,353"/>
+<area shape="rect" id="node27" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="943,326,1074,353"/>
+<area shape="rect" id="node31" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="737,326,912,353"/>
 </map>

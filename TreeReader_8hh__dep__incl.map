@@ -1,10 +1,10 @@
 <map id="boca/io/TreeReader.hh" name="boca/io/TreeReader.hh">
 <area shape="rect" id="node2" href="$Data_8hh.html" title="boca/analysis/Data.hh" alt="" coords="1905,87,2057,114"/>
-<area shape="rect" id="node46" href="$source_2delphes_2Event_8cpp.html" title="source/delphes/Event.cpp" alt="" coords="2081,87,2254,114"/>
-<area shape="rect" id="node47" href="$source_2exroot_2Event_8cpp.html" title="source/exroot/Event.cpp" alt="" coords="2279,87,2443,114"/>
-<area shape="rect" id="node48" href="$TreeReader_8cpp.html" title="source/io/TreeReader.cpp" alt="" coords="2467,87,2639,114"/>
-<area shape="rect" id="node49" href="$Trainer_8cpp.html" title="source/multivariant\l/Trainer.cpp" alt="" coords="2663,80,2795,121"/>
-<area shape="rect" id="node50" href="$PlottingBase_8cpp.html" title="source/plotting/Plotting\lBase.cpp" alt="" coords="2819,80,2974,121"/>
+<area shape="rect" id="node46" href="$Delphes_8cpp.html" title="source/event/Delphes.cpp" alt="" coords="2081,87,2256,114"/>
+<area shape="rect" id="node47" href="$ExRoot_8cpp.html" title="source/event/ExRoot.cpp" alt="" coords="2281,87,2451,114"/>
+<area shape="rect" id="node48" href="$TreeReader_8cpp.html" title="source/io/TreeReader.cpp" alt="" coords="2476,87,2648,114"/>
+<area shape="rect" id="node49" href="$Trainer_8cpp.html" title="source/multivariant\l/Trainer.cpp" alt="" coords="2672,80,2804,121"/>
+<area shape="rect" id="node50" href="$PlottingBase_8cpp.html" title="source/plotting/Plotting\lBase.cpp" alt="" coords="2829,80,2983,121"/>
 <area shape="rect" id="node3" href="$boca_2analysis_2Analysis_8hh.html" title="boca/analysis/Analysis.hh" alt="" coords="1893,169,2068,196"/>
 <area shape="rect" id="node4" href="$boca_2analysis_2Cut_8hh.html" title="boca/analysis/Cut.hh" alt="" coords="549,259,695,285"/>
 <area shape="rect" id="node7" href="$HeavyHiggs_8hh.html" title="examples/heavyhiggs\l/heavyhiggs/analysis\l/HeavyHiggs.hh" alt="" coords="1103,244,1251,300"/>

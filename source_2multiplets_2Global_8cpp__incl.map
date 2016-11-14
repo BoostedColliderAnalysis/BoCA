@@ -1,10 +1,10 @@
 <map id="source/multiplets/Global.cpp" name="source/multiplets/Global.cpp">
-<area shape="rect" id="node4" href="$boca_2multiplets_2Global_8hh.html" title="boca/multiplets/Global.hh" alt="" coords="565,87,735,114"/>
-<area shape="rect" id="node35" href="$boca_2Event_8hh.html" title="boca/Event.hh" alt="" coords="761,177,867,203"/>
+<area shape="rect" id="node4" href="$boca_2multiplets_2Global_8hh.html" title="boca/multiplets/Global.hh" alt="" coords="548,87,717,114"/>
+<area shape="rect" id="node35" href="$boca_2event_2Event_8hh.html" title="boca/event/Event.hh" alt="" coords="743,177,885,203"/>
 <area shape="rect" id="node41" href="$Sort_8hh.html" title="boca/fastjet/Sort.hh" alt="" coords="1102,87,1238,114"/>
 <area shape="rect" id="node44" href="$generic_2Vector_8hh.html" title="boca/generic/Vector.hh" alt="" coords="1708,87,1864,114"/>
 <area shape="rect" id="node50" href="$DEBUG__MACROS_8hh.html" title="boca/generic/DEBUG\l_MACROS.hh" alt="" coords="83,259,231,300"/>
-<area shape="rect" id="node5" href="$Singlet_8hh.html" title="boca/multiplets/Singlet.hh" alt="" coords="564,177,736,203"/>
+<area shape="rect" id="node5" href="$Singlet_8hh.html" title="boca/multiplets/Singlet.hh" alt="" coords="547,177,719,203"/>
 <area shape="rect" id="node6" href="$Mutable_8hh.html" title="boca/generic/Mutable.hh" alt="" coords="448,430,612,457"/>
 <area shape="rect" id="node16" href="$Line2_8hh.html" title="boca/math/Line2.hh" alt="" coords="281,348,417,375"/>
 <area shape="rect" id="node22" href="$Jet_8hh.html" title="boca/fastjet/Jet.hh" alt="" coords="635,266,766,293"/>

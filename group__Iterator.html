@@ -26,8 +26,8 @@
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/javascript" src="doxy-boot.js"></script>
     </head>
     <body>
@@ -94,7 +94,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#friend-members">Friends</a>  </div>
   <div class="headertitle">
 <div class="title">Iterator<div class="ingroups"><a class="el" href="group__Boca.html">BoCA</a> &raquo; <a class="el" href="group__Generic.html">Generic</a></div></div>  </div>
 </div><!--header-->
@@ -114,68 +115,112 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1EnumIterator.html">boca::EnumIterator&lt; Enum_ &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the use of strongly typed enumerators as iterators.  <a href="classboca_1_1EnumIterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Iterator.html">boca::Iterator&lt; Container_, Value_, Enum_ &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1Iterator.html">boca::Iterator&lt; Container_, Value_ &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterator  <a href="classboca_1_1Iterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1ConstIterator.html">boca::ConstIterator&lt; Container_, Value_, Enum_ &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1ConstIterator.html">boca::ConstIterator&lt; Container_, Value_ &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">const iterator  <a href="classboca_1_1ConstIterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1SubIterator.html">boca::SubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1SubIterator.html">boca::SubIterator&lt; Container_, SubContainer_, Value_ &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterator  <a href="classboca_1_1SubIterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1ConstSubIterator.html">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classboca_1_1ConstSubIterator.html">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_ &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const sub-iterator.  <a href="classboca_1_1ConstSubIterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gad86ff0716bb0b8aa05062f9b1c9fa040"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gad86ff0716bb0b8aa05062f9b1c9fa040">boca::Iterator&lt; Container_, Value_, Enum_ &gt;::Iterator</a> (Container_&lt; Value_ &gt; *container, Enum_ position)</td></tr>
-<tr class="separator:gad86ff0716bb0b8aa05062f9b1c9fa040"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga10824e03b6c955d0fcbb965f9bdb4963"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga10824e03b6c955d0fcbb965f9bdb4963">boca::Iterator&lt; Container_, Value_, Enum_ &gt;::operator!=</a> (Iterator &amp;iterator) const </td></tr>
-<tr class="separator:ga10824e03b6c955d0fcbb965f9bdb4963"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2e9e81a5683728ebea59bae2f53cd155"><td class="memItemLeft" align="right" valign="top">Value_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga2e9e81a5683728ebea59bae2f53cd155">boca::Iterator&lt; Container_, Value_, Enum_ &gt;::operator*</a> ()</td></tr>
-<tr class="separator:ga2e9e81a5683728ebea59bae2f53cd155"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaeafb44f5c63039ab4e26247e9e2b0583"><td class="memItemLeft" align="right" valign="top">Iterator const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gaeafb44f5c63039ab4e26247e9e2b0583">boca::Iterator&lt; Container_, Value_, Enum_ &gt;::operator++</a> ()</td></tr>
-<tr class="separator:gaeafb44f5c63039ab4e26247e9e2b0583"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga755ff81212bf16e66746fb1b46130982"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga755ff81212bf16e66746fb1b46130982">boca::ConstIterator&lt; Container_, Value_, Enum_ &gt;::ConstIterator</a> (Container_&lt; Value_ &gt; const *container, Enum_ position)</td></tr>
-<tr class="separator:ga755ff81212bf16e66746fb1b46130982"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabff8ae29bd17c77fdfbb4fc2623ae46e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gabff8ae29bd17c77fdfbb4fc2623ae46e">boca::ConstIterator&lt; Container_, Value_, Enum_ &gt;::operator!=</a> (ConstIterator const &amp;iterator) const </td></tr>
-<tr class="separator:gabff8ae29bd17c77fdfbb4fc2623ae46e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga169dee77f6a75b115a5e53e5ada0ee0a"><td class="memItemLeft" align="right" valign="top">Value_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga169dee77f6a75b115a5e53e5ada0ee0a">boca::ConstIterator&lt; Container_, Value_, Enum_ &gt;::operator*</a> () const </td></tr>
-<tr class="separator:ga169dee77f6a75b115a5e53e5ada0ee0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga81d43c193a41f41ca55676d95e557076"><td class="memItemLeft" align="right" valign="top">ConstIterator const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga81d43c193a41f41ca55676d95e557076">boca::ConstIterator&lt; Container_, Value_, Enum_ &gt;::operator++</a> ()</td></tr>
-<tr class="separator:ga81d43c193a41f41ca55676d95e557076"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9fb003ea409f736bd320663209097fbb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga9fb003ea409f736bd320663209097fbb">boca::SubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;::SubIterator</a> (Container_&lt; Value_ &gt; *container, Enum_ position)</td></tr>
-<tr class="separator:ga9fb003ea409f736bd320663209097fbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga07cd74b73c2f66858ff2801bc6706a5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga07cd74b73c2f66858ff2801bc6706a5d">boca::SubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator!=</a> (SubIterator const &amp;iterator) const </td></tr>
-<tr class="separator:ga07cd74b73c2f66858ff2801bc6706a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga80ca3b04aceba4ff944c1ad544c736bb"><td class="memItemLeft" align="right" valign="top">SubContainer_&lt; Value_ &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga80ca3b04aceba4ff944c1ad544c736bb">boca::SubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator*</a> ()</td></tr>
-<tr class="separator:ga80ca3b04aceba4ff944c1ad544c736bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga80a244ece68b3316a55f18004d71ea8d"><td class="memItemLeft" align="right" valign="top">SubIterator const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga80a244ece68b3316a55f18004d71ea8d">boca::SubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator++</a> ()</td></tr>
-<tr class="separator:ga80a244ece68b3316a55f18004d71ea8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga10678ed870913454ff3feaf75d946c25"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga10678ed870913454ff3feaf75d946c25">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;::ConstSubIterator</a> (Container_&lt; Value_ &gt; const *container, Enum_ position)</td></tr>
-<tr class="separator:ga10678ed870913454ff3feaf75d946c25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga37a4c1e3da10e7f99831b70f299b0a53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga37a4c1e3da10e7f99831b70f299b0a53">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator!=</a> (ConstSubIterator const &amp;iterator) const </td></tr>
-<tr class="separator:ga37a4c1e3da10e7f99831b70f299b0a53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac2e57712be4e0754dadbe654a0566271"><td class="memItemLeft" align="right" valign="top">SubContainer_&lt; Value_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gac2e57712be4e0754dadbe654a0566271">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator*</a> () const </td></tr>
-<tr class="separator:gac2e57712be4e0754dadbe654a0566271"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga079363b149f761106685766a4e18f71d"><td class="memItemLeft" align="right" valign="top">ConstSubIterator const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga079363b149f761106685766a4e18f71d">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator++</a> ()</td></tr>
-<tr class="separator:ga079363b149f761106685766a4e18f71d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga99c6b7695e1c1917bb6c5e7521919176"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga99c6b7695e1c1917bb6c5e7521919176">boca::Iterator&lt; Container_, Value_ &gt;::Iterator</a> ()</td></tr>
+<tr class="separator:ga99c6b7695e1c1917bb6c5e7521919176"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0bb49eb2d252520f6c181426f86656cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga0bb49eb2d252520f6c181426f86656cd">boca::Iterator&lt; Container_, Value_ &gt;::Iterator</a> (Container_&lt; Value_ &gt; *container, Dimension position)</td></tr>
+<tr class="separator:ga0bb49eb2d252520f6c181426f86656cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga80e21524ce08da24318dbafdcee74061"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename &gt; class Container_2_&gt; </td></tr>
+<tr class="memitem:ga80e21524ce08da24318dbafdcee74061"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga80e21524ce08da24318dbafdcee74061">boca::Iterator&lt; Container_, Value_ &gt;::Iterator</a> (Iterator&lt; Container_2_, Value_ &gt; const &amp;iterator)</td></tr>
+<tr class="separator:ga80e21524ce08da24318dbafdcee74061"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8d0532bf83b2d1d23170d004e84a4f4b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga8d0532bf83b2d1d23170d004e84a4f4b">boca::ConstIterator&lt; Container_, Value_ &gt;::ConstIterator</a> ()</td></tr>
+<tr class="separator:ga8d0532bf83b2d1d23170d004e84a4f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06d7a6456a7891729fe4ff665f8fb6f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga06d7a6456a7891729fe4ff665f8fb6f7">boca::ConstIterator&lt; Container_, Value_ &gt;::ConstIterator</a> (Container_&lt; Value_ &gt; const *container, Dimension position)</td></tr>
+<tr class="separator:ga06d7a6456a7891729fe4ff665f8fb6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga40deff45dcaa42a7f48a20c971ec7c6b"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename &gt; class Container_2_&gt; </td></tr>
+<tr class="memitem:ga40deff45dcaa42a7f48a20c971ec7c6b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga40deff45dcaa42a7f48a20c971ec7c6b">boca::ConstIterator&lt; Container_, Value_ &gt;::ConstIterator</a> (ConstIterator&lt; Container_2_, Value_ &gt; const &amp;iterator)</td></tr>
+<tr class="separator:ga40deff45dcaa42a7f48a20c971ec7c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafa8d45c2e749cfd395dabab62c3192c0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gafa8d45c2e749cfd395dabab62c3192c0">boca::SubIterator&lt; Container_, SubContainer_, Value_ &gt;::SubIterator</a> ()</td></tr>
+<tr class="separator:gafa8d45c2e749cfd395dabab62c3192c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8bfd662900aa4ea2c55e792956557c6b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga8bfd662900aa4ea2c55e792956557c6b">boca::SubIterator&lt; Container_, SubContainer_, Value_ &gt;::SubIterator</a> (Container_&lt; Value_ &gt; *container, Dimension position)</td></tr>
+<tr class="separator:ga8bfd662900aa4ea2c55e792956557c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab81fc4eb3ade00ba95fee4ecb499a8ff"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename &gt; class Container_2_&gt; </td></tr>
+<tr class="memitem:gab81fc4eb3ade00ba95fee4ecb499a8ff"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gab81fc4eb3ade00ba95fee4ecb499a8ff">boca::SubIterator&lt; Container_, SubContainer_, Value_ &gt;::SubIterator</a> (SubIterator&lt; Container_2_, SubContainer_, Value_ &gt; const &amp;iterator)</td></tr>
+<tr class="separator:gab81fc4eb3ade00ba95fee4ecb499a8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga325dde53c197dfadf74e465fba44ce59"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga325dde53c197dfadf74e465fba44ce59">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_ &gt;::ConstSubIterator</a> ()</td></tr>
+<tr class="separator:ga325dde53c197dfadf74e465fba44ce59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga59367d2eb2e96bc0160711952203b807"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga59367d2eb2e96bc0160711952203b807">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_ &gt;::ConstSubIterator</a> (Container_&lt; Value_ &gt; const *container, Dimension position)</td></tr>
+<tr class="separator:ga59367d2eb2e96bc0160711952203b807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5823f4da81aff43f053efaf0c6c70c98"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename &gt; class Container_2_&gt; </td></tr>
+<tr class="memitem:ga5823f4da81aff43f053efaf0c6c70c98"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga5823f4da81aff43f053efaf0c6c70c98">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_ &gt;::ConstSubIterator</a> (ConstSubIterator&lt; Container_2_, SubContainer_, Value_ &gt; const &amp;iterator)</td></tr>
+<tr class="separator:ga5823f4da81aff43f053efaf0c6c70c98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friend-members"></a>
+Friends</h2></td></tr>
+<tr class="memitem:gac09f73e325921cc50ebcd96bed0f8096"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gac09f73e325921cc50ebcd96bed0f8096">boca::Iterator&lt; Container_, Value_ &gt;::boost::iterator_core_access</a></td></tr>
+<tr class="separator:gac09f73e325921cc50ebcd96bed0f8096"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6028f9ddc1f8fedff202798523c6c84a"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename &gt; class, typename &gt; </td></tr>
+<tr class="memitem:ga6028f9ddc1f8fedff202798523c6c84a"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga6028f9ddc1f8fedff202798523c6c84a">boca::Iterator&lt; Container_, Value_ &gt;::ConstIterator</a></td></tr>
+<tr class="separator:ga6028f9ddc1f8fedff202798523c6c84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac09f73e325921cc50ebcd96bed0f8096"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gac09f73e325921cc50ebcd96bed0f8096">boca::ConstIterator&lt; Container_, Value_ &gt;::boost::iterator_core_access</a></td></tr>
+<tr class="separator:gac09f73e325921cc50ebcd96bed0f8096"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac648045af534027b42582d90aee6a37f"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename &gt; class, typename &gt; </td></tr>
+<tr class="memitem:gac648045af534027b42582d90aee6a37f"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gac648045af534027b42582d90aee6a37f">boca::ConstIterator&lt; Container_, Value_ &gt;::Iterator</a></td></tr>
+<tr class="separator:gac648045af534027b42582d90aee6a37f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac09f73e325921cc50ebcd96bed0f8096"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gac09f73e325921cc50ebcd96bed0f8096">boca::SubIterator&lt; Container_, SubContainer_, Value_ &gt;::boost::iterator_core_access</a></td></tr>
+<tr class="separator:gac09f73e325921cc50ebcd96bed0f8096"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga28ddf791f92a97810ffb93a97f2dfd29"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename &gt; class, template&lt; typename &gt; class, typename &gt; </td></tr>
+<tr class="memitem:ga28ddf791f92a97810ffb93a97f2dfd29"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga28ddf791f92a97810ffb93a97f2dfd29">boca::SubIterator&lt; Container_, SubContainer_, Value_ &gt;::ConstSubIterator</a></td></tr>
+<tr class="separator:ga28ddf791f92a97810ffb93a97f2dfd29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac09f73e325921cc50ebcd96bed0f8096"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gac09f73e325921cc50ebcd96bed0f8096">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_ &gt;::boost::iterator_core_access</a></td></tr>
+<tr class="separator:gac09f73e325921cc50ebcd96bed0f8096"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac2f627de603d441ff4406738e07e17b8"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename &gt; class, template&lt; typename &gt; class, typename &gt; </td></tr>
+<tr class="memitem:gac2f627de603d441ff4406738e07e17b8"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gac2f627de603d441ff4406738e07e17b8">boca::ConstSubIterator&lt; Container_, SubContainer_, Value_ &gt;::SubIterator</a></td></tr>
+<tr class="separator:gac2f627de603d441ff4406738e07e17b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Enum based iterators. </p>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ga755ff81212bf16e66746fb1b46130982"></a>
+<a class="anchor" id="ga8d0532bf83b2d1d23170d004e84a4f4b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, typename Value_ , typename Enum_ &gt; </div>
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1ConstIterator.html">boca::ConstIterator</a>&lt; Container_, Value_, Enum_ &gt;::ConstIterator </td>
+          <td class="memname"><a class="el" href="classboca_1_1ConstIterator.html">boca::ConstIterator</a>&lt; Container_, Value_ &gt;::ConstIterator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga06d7a6456a7891729fe4ff665f8fb6f7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classboca_1_1ConstIterator.html">boca::ConstIterator</a>&lt; Container_, Value_ &gt;::ConstIterator </td>
           <td>(</td>
           <td class="paramtype">Container_&lt; Value_ &gt; const *&#160;</td>
           <td class="paramname"><em>container</em>, </td>
@@ -183,7 +228,7 @@ template&lt;template&lt; typename &gt; class Container_, typename Value_ , typen
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Enum_&#160;</td>
+          <td class="paramtype">Dimension&#160;</td>
           <td class="paramname"><em>position</em>&#160;</td>
         </tr>
         <tr>
@@ -201,17 +246,70 @@ template&lt;template&lt; typename &gt; class Container_, typename Value_ , typen
 
 </div>
 </div>
-<a class="anchor" id="ga10678ed870913454ff3feaf75d946c25"></a>
+<a class="anchor" id="ga40deff45dcaa42a7f48a20c971ec7c6b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_ , typename Enum_ &gt; </div>
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_2_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1ConstSubIterator.html">boca::ConstSubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt;::ConstSubIterator </td>
+          <td class="memname"><a class="el" href="classboca_1_1ConstIterator.html">boca::ConstIterator</a>&lt; Container_, Value_ &gt;::ConstIterator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt; Container_2_, Value_ &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>iterator</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga325dde53c197dfadf74e465fba44ce59"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classboca_1_1ConstSubIterator.html">boca::ConstSubIterator</a>&lt; Container_, SubContainer_, Value_ &gt;::ConstSubIterator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga59367d2eb2e96bc0160711952203b807"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classboca_1_1ConstSubIterator.html">boca::ConstSubIterator</a>&lt; Container_, SubContainer_, Value_ &gt;::ConstSubIterator </td>
           <td>(</td>
           <td class="paramtype">Container_&lt; Value_ &gt; const *&#160;</td>
           <td class="paramname"><em>container</em>, </td>
@@ -219,7 +317,7 @@ template&lt;template&lt; typename &gt; class Container_, template&lt; typename &
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Enum_&#160;</td>
+          <td class="paramtype">Dimension&#160;</td>
           <td class="paramname"><em>position</em>&#160;</td>
         </tr>
         <tr>
@@ -237,17 +335,70 @@ template&lt;template&lt; typename &gt; class Container_, template&lt; typename &
 
 </div>
 </div>
-<a class="anchor" id="gad86ff0716bb0b8aa05062f9b1c9fa040"></a>
+<a class="anchor" id="ga5823f4da81aff43f053efaf0c6c70c98"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, typename Value_ , typename Enum_ &gt; </div>
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_2_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classboca_1_1Iterator.html">boca::Iterator</a>&lt; Container_, Value_, Enum_ &gt;::Iterator </td>
+          <td class="memname"><a class="el" href="classboca_1_1ConstSubIterator.html">boca::ConstSubIterator</a>&lt; Container_, SubContainer_, Value_ &gt;::ConstSubIterator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt; Container_2_, SubContainer_, Value_ &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>iterator</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga99c6b7695e1c1917bb6c5e7521919176"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classboca_1_1Iterator.html">boca::Iterator</a>&lt; Container_, Value_ &gt;::Iterator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga0bb49eb2d252520f6c181426f86656cd"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classboca_1_1Iterator.html">boca::Iterator</a>&lt; Container_, Value_ &gt;::Iterator </td>
           <td>(</td>
           <td class="paramtype">Container_&lt; Value_ &gt; *&#160;</td>
           <td class="paramname"><em>container</em>, </td>
@@ -255,7 +406,7 @@ template&lt;template&lt; typename &gt; class Container_, typename Value_ , typen
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Enum_&#160;</td>
+          <td class="paramtype">Dimension&#160;</td>
           <td class="paramname"><em>position</em>&#160;</td>
         </tr>
         <tr>
@@ -273,21 +424,23 @@ template&lt;template&lt; typename &gt; class Container_, typename Value_ , typen
 
 </div>
 </div>
-<a class="anchor" id="ga10824e03b6c955d0fcbb965f9bdb4963"></a>
+<a class="anchor" id="ga80e21524ce08da24318dbafdcee74061"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, typename Value_ , typename Enum_ &gt; </div>
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_2_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classboca_1_1Iterator.html">boca::Iterator</a>&lt; Container_, Value_, Enum_ &gt;::operator!= </td>
+          <td class="memname"><a class="el" href="classboca_1_1Iterator.html">boca::Iterator</a>&lt; Container_, Value_ &gt;::Iterator </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classboca_1_1Iterator.html">Iterator</a>&lt; Container_, Value_, Enum_ &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classboca_1_1Iterator.html">Iterator</a>&lt; Container_2_, Value_ &gt; const &amp;&#160;</td>
           <td class="paramname"><em>iterator</em></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -299,95 +452,17 @@ template&lt;template&lt; typename &gt; class Container_, typename Value_ , typen
 
 </div>
 </div>
-<a class="anchor" id="gabff8ae29bd17c77fdfbb4fc2623ae46e"></a>
+<a class="anchor" id="gafa8d45c2e749cfd395dabab62c3192c0"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, typename Value_ , typename Enum_ &gt; </div>
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classboca_1_1ConstIterator.html">boca::ConstIterator</a>&lt; Container_, Value_, Enum_ &gt;::operator!= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classboca_1_1ConstIterator.html">ConstIterator</a>&lt; Container_, Value_, Enum_ &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>iterator</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ga07cd74b73c2f66858ff2801bc6706a5d"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classboca_1_1SubIterator.html">boca::SubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator!= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>iterator</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ga37a4c1e3da10e7f99831b70f299b0a53"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classboca_1_1ConstSubIterator.html">boca::ConstSubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator!= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classboca_1_1ConstSubIterator.html">ConstSubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>iterator</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ga2e9e81a5683728ebea59bae2f53cd155"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Value_&amp; <a class="el" href="classboca_1_1Iterator.html">boca::Iterator</a>&lt; Container_, Value_, Enum_ &gt;::operator* </td>
+          <td class="memname"><a class="el" href="classboca_1_1SubIterator.html">boca::SubIterator</a>&lt; Container_, SubContainer_, Value_ &gt;::SubIterator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -402,192 +477,17 @@ template&lt;template&lt; typename &gt; class Container_, typename Value_ , typen
 
 </div>
 </div>
-<a class="anchor" id="ga169dee77f6a75b115a5e53e5ada0ee0a"></a>
+<a class="anchor" id="ga8bfd662900aa4ea2c55e792956557c6b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, typename Value_ , typename Enum_ &gt; </div>
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value_ <a class="el" href="classboca_1_1ConstIterator.html">boca::ConstIterator</a>&lt; Container_, Value_, Enum_ &gt;::operator* </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ga80ca3b04aceba4ff944c1ad544c736bb"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">SubContainer_&lt;Value_&gt;&amp; <a class="el" href="classboca_1_1SubIterator.html">boca::SubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator* </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="gac2e57712be4e0754dadbe654a0566271"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">SubContainer_&lt;Value_&gt; <a class="el" href="classboca_1_1ConstSubIterator.html">boca::ConstSubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator* </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="gaeafb44f5c63039ab4e26247e9e2b0583"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Iterator const&amp; <a class="el" href="classboca_1_1Iterator.html">boca::Iterator</a>&lt; Container_, Value_, Enum_ &gt;::operator++ </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ga81d43c193a41f41ca55676d95e557076"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ConstIterator const&amp; <a class="el" href="classboca_1_1ConstIterator.html">boca::ConstIterator</a>&lt; Container_, Value_, Enum_ &gt;::operator++ </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ga80a244ece68b3316a55f18004d71ea8d"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">SubIterator const&amp; <a class="el" href="classboca_1_1SubIterator.html">boca::SubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator++ </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ga079363b149f761106685766a4e18f71d"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ConstSubIterator const&amp; <a class="el" href="classboca_1_1ConstSubIterator.html">boca::ConstSubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt;::operator++ </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ga9fb003ea409f736bd320663209097fbb"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_ , typename Enum_ &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classboca_1_1SubIterator.html">boca::SubIterator</a>&lt; Container_, SubContainer_, Value_, Enum_ &gt;::SubIterator </td>
+          <td class="memname"><a class="el" href="classboca_1_1SubIterator.html">boca::SubIterator</a>&lt; Container_, SubContainer_, Value_ &gt;::SubIterator </td>
           <td>(</td>
           <td class="paramtype">Container_&lt; Value_ &gt; *&#160;</td>
           <td class="paramname"><em>container</em>, </td>
@@ -595,7 +495,7 @@ template&lt;template&lt; typename &gt; class Container_, template&lt; typename &
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Enum_&#160;</td>
+          <td class="paramtype">Dimension&#160;</td>
           <td class="paramname"><em>position</em>&#160;</td>
         </tr>
         <tr>
@@ -607,6 +507,219 @@ template&lt;template&lt; typename &gt; class Container_, template&lt; typename &
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gab81fc4eb3ade00ba95fee4ecb499a8ff"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_2_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classboca_1_1SubIterator.html">boca::SubIterator</a>&lt; Container_, SubContainer_, Value_ &gt;::SubIterator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classboca_1_1SubIterator.html">SubIterator</a>&lt; Container_2_, SubContainer_, Value_ &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>iterator</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Friends</h2>
+<a class="anchor" id="gac09f73e325921cc50ebcd96bed0f8096"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class boost::iterator_core_access</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gac09f73e325921cc50ebcd96bed0f8096"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class boost::iterator_core_access</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gac09f73e325921cc50ebcd96bed0f8096"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class boost::iterator_core_access</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gac09f73e325921cc50ebcd96bed0f8096"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class boost::iterator_core_access</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga6028f9ddc1f8fedff202798523c6c84a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class, typename &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class ConstIterator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga28ddf791f92a97810ffb93a97f2dfd29"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class, template&lt; typename &gt; class, typename &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class ConstSubIterator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gac648045af534027b42582d90aee6a37f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class, typename &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class Iterator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gac2f627de603d441ff4406738e07e17b8"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class Container_, template&lt; typename &gt; class SubContainer_, typename Value_&gt; </div>
+<div class="memtemplate">
+template&lt;template&lt; typename &gt; class, template&lt; typename &gt; class, typename &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class SubIterator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

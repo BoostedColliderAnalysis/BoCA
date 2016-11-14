@@ -1,13 +1,8 @@
 <map id="boca/Settings.hh" name="boca/Settings.hh">
-<area shape="rect" id="node2" href="$InfoRecombiner_8hh.html" title="boca/fastjet/InfoRecombiner.hh" alt="" coords="548,80,752,107"/>
-<area shape="rect" id="node4" href="$Range_8hh.html" title="boca/math/Range.hh" alt="" coords="900,80,1043,107"/>
-<area shape="rect" id="node29" href="$Source_8hh.html" title="boca/io/Source.hh" alt="" coords="1067,80,1193,107"/>
-<area shape="rect" id="node31" href="$Font_8hh.html" title="boca/plotting/Font.hh" alt="" coords="1218,80,1362,107"/>
-<area shape="rect" id="node7" href="$Units_8hh.html" title="boca/units/Units.hh" alt="" coords="627,155,761,181"/>
-<area shape="rect" id="node25" href="$Math_8hh.html" title="boca/math/Math.hh" alt="" coords="792,155,927,181"/>
-<area shape="rect" id="node9" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="610,237,762,263"/>
-<area shape="rect" id="node14" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="200,326,316,353"/>
-<area shape="rect" id="node19" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="1238,326,1369,353"/>
-<area shape="rect" id="node23" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1039,326,1213,353"/>
-<area shape="rect" id="node32" href="$Flag_8hh.html" title="boca/generic/Flag.hh" alt="" coords="1219,155,1361,181"/>
+<area shape="rect" id="node2" href="$Prefixes_8hh.html" title="boca/units/Prefixes.hh" alt="" coords="859,80,1011,107"/>
+<area shape="rect" id="node19" href="$InfoRecombiner_8hh.html" title="boca/fastjet/InfoRecombiner.hh" alt="" coords="1411,80,1615,107"/>
+<area shape="rect" id="node21" href="$Source_8hh.html" title="boca/io/Source.hh" alt="" coords="1639,80,1765,107"/>
+<area shape="rect" id="node7" href="$Si_8hh.html" title="boca/units/Si.hh" alt="" coords="275,162,391,189"/>
+<area shape="rect" id="node13" href="$Barn_8hh.html" title="boca/units/Barn.hh" alt="" coords="1313,162,1443,189"/>
+<area shape="rect" id="node17" href="$ElectronVolt_8hh.html" title="boca/units/ElectronVolt.hh" alt="" coords="1113,162,1288,189"/>
 </map>
