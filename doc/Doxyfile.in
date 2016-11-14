@@ -84,11 +84,11 @@ MACRO_EXPANSION = YES
 SKIP_FUNCTION_MACROS = NO
 SEARCH_INCLUDES = YES
 PREDEFINED = "BOOST_AUTO_TEST_CASE(name)=void name()" \
-                         "BOOST_AUTO_TEST_SUITE(name)=namespace BoostTest { class name {public:" \
-                         "BOOST_FIXTURE_TEST_SUITE(name,data)=namespace BoostTest { class name {public:" \
-                         "BOOST_AUTO_TEST_SUITE_END()=};}" \
-                         "BOOST_CONCEPT_REQUIRES(req,type)=type " \
-                         "BOOST_CONCEPT_ASSERT(req)= "
+             "BOOST_AUTO_TEST_SUITE(name)=namespace BoostTest { class name {public:" \
+             "BOOST_FIXTURE_TEST_SUITE(name,data)=namespace BoostTest { class name {public:" \
+             "BOOST_AUTO_TEST_SUITE_END()=};}" \
+             "BOOST_CONCEPT_REQUIRES(req,type)=type " \
+             "BOOST_CONCEPT_ASSERT(req)= "
 
 #Configuration options related to the dot tool
 

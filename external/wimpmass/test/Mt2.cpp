@@ -5,7 +5,7 @@
 #include "external/wimpmass/wimpmass/Mt2.hh"
 
 /**
-* @test Test Mt2
+* @test Mt2
 */
 BOOST_AUTO_TEST_SUITE(Mt2)
 

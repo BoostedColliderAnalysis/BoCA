@@ -8,7 +8,7 @@
 #include "external/wimpmass/wimpmass/Invisible2.hh"
 
 /**
-* @test Test Invisible2
+* @test Invisible2
 *
 */
 BOOST_AUTO_TEST_SUITE(Invisible2)

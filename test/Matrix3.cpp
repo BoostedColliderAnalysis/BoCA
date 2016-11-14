@@ -9,7 +9,7 @@
 
 
 /**
-* @test Test Matrix3
+* @test Matrix3
 *
 */
 BOOST_AUTO_TEST_SUITE(Matrix3)
