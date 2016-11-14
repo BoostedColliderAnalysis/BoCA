@@ -6,18 +6,34 @@ namespace boca
 
 HemisphereMasses::HemisphereMasses() {}
 
-HemisphereMasses::HemisphereMasses(boca::Range<double> const& masses, boca::Range<double> const& broadenings)
+HemisphereMasses::HemisphereMasses(GradedLorentzVector<Momentum> const &negative, GradedLorentzVector<Momentum> const &positive, Momentum const &scalar_momentum)
 {
-  SetMasses(masses);
-  SetBroadenings(broadenings);
+    SetMasses(negative, positive);
+    SetBroadenings(negative, positive, scalar_momentum);
 }
 
-void HemisphereMasses::SetMasses(boca::Range<double> const& masses)
+HemisphereMasses::HemisphereMasses(boca::Range<double> const &masses, boca::Range<double> const &broadenings)
+{
+    SetMasses(masses);
+    SetBroadenings(broadenings);
+}
+
+void HemisphereMasses::SetMasses(GradedLorentzVector<Momentum> const &negative, GradedLorentzVector<Momentum> const &positive)
+{
+    SetMasses(Range<EnergySquare>(negative.Vector().M2(), positive.Vector().M2()) / sqr(positive.Vector().E() + negative.Vector().E()));
+}
+
+void HemisphereMasses::SetMasses(boca::Range<double> const &masses)
 {
     masses_ = masses;
 }
 
-void HemisphereMasses::SetBroadenings(boca::Range<double> const& broadenings)
+void HemisphereMasses::SetBroadenings(GradedLorentzVector<Momentum> const &negative, GradedLorentzVector<Momentum> const &positive, Momentum const &scalar_momentum)
+{
+    SetBroadenings(Range<Energy>(negative.Scalar(), positive.Scalar()) / scalar_momentum / 2);
+}
+
+void HemisphereMasses::SetBroadenings(boca::Range<double> const &broadenings)
 {
     broadenings_ = broadenings;
 }

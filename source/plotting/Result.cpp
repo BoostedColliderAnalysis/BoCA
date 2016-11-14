@@ -133,41 +133,41 @@ std::vector<int> const& Result::Bins() const
     });
 }
 
-Result::Result(boca::branch::Info const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva) :
+    info_branch_(info_branch),
+    bdts_(bdts)
 {
     INFO0;
-    info_branch_ = info_branch;
-    bdts_ = bdts;
     mva_ = mva;
     Inititialize();
 }
 
-Result::Result(boca::branch::Info const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva) :
+    info_branch_(info_branch)
 {
     INFO0;
-    info_branch_ = info_branch;
     passed_ = passed;
     mva_ = mva;
     Inititialize();
 }
 
-Result::Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva) :
+    trainer_size_(trainer_info_branch.second),
+    info_branch_(info_branch),
+    trainer_info_branch_(trainer_info_branch.first)
 {
     INFO0;
-    info_branch_ = info_branch;
-    trainer_info_branch_ = trainer_info_branch.first;
-    trainer_size_ = trainer_info_branch.second;
     bdts_ = bdts;
     mva_ = mva;
     Inititialize();
 }
 
-Result::Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
+Result::Result(boca::branch::Info const& info_branch, std::pair<boca::branch::Info, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva) :
+    trainer_size_(trainer_info_branch.second),
+    info_branch_(info_branch),
+    trainer_info_branch_(trainer_info_branch.first)
 {
     INFO0;
-    info_branch_ = info_branch;
-    trainer_info_branch_ = trainer_info_branch.first;
-    trainer_size_ = trainer_info_branch.second;
     passed_ = passed;
     mva_ = mva;
     Inititialize();

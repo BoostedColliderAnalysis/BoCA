@@ -177,6 +177,7 @@ protected:
                 case 1000 : return 0.02097 * 2_pb;
                 case 2000 : return 0.0003506 * 2_pb;
                 case 4000 : return 3.457e-6 * 2_pb;
+                case 8000 : return 2.801e-8 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBB : return 0.03206 * 2_pb;

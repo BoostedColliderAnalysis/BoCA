@@ -1,5 +1,6 @@
 #pragma once
 #include "boca/math/Range.hh"
+#include "boca/math/GradedLorentzVector.hh"
 
 namespace boca
 {
@@ -13,7 +14,7 @@ public:
 
     /**
      * @name Constructors
-     *@{
+     * @{
      */
 
     /**
@@ -22,9 +23,14 @@ public:
     HemisphereMasses();
 
     /**
+    * @brief Constructor accepting two graded Lorentz vectors and the scalar momentum
+    */
+    HemisphereMasses(GradedLorentzVector<Momentum> const &negative, GradedLorentzVector<Momentum> const &positive, Momentum const &scalar_momentum);
+
+    /**
     * @brief Constructor accepting ranges for the mass and jet broadenings
     */
-    HemisphereMasses(Range<double> const& masses, Range<double> const& broadenings);
+    HemisphereMasses(Range<double> const &masses, Range<double> const &broadenings);
     //@}
 
     /**
@@ -35,12 +41,22 @@ public:
     /**
     * @brief Set masses
     */
-    void SetMasses(Range<double> const& masses);
+    void SetMasses(GradedLorentzVector<Momentum> const &negative, GradedLorentzVector<Momentum> const &positive);
+
+    /**
+    * @brief Set masses
+    */
+    void SetMasses(Range<double> const &masses);
 
     /**
     * @brief Set jet broadenings
     */
-    void SetBroadenings(Range<double> const& broadenings);
+    void SetBroadenings(GradedLorentzVector<Momentum> const &negative, GradedLorentzVector<Momentum> const &positive, Momentum const &scalar_momentum);
+
+    /**
+    * @brief Set jet broadenings
+    */
+    void SetBroadenings(Range<double> const &broadenings);
     //@}
 
     /**

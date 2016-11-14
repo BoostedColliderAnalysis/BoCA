@@ -259,14 +259,11 @@ Array3<GradedVector3<double>> EventShapes::SphericalTensors() const
 HemisphereMasses EventShapes::HemisphereMasses() const
 {
     INFO0;
-    return hemishpere_masses_.Get([this]() {
+    return hemishpere_masses_.Get([this]() -> boca::HemisphereMasses {
         auto positive = GradedLorentzVector<Momentum> {};
         auto negative = GradedLorentzVector<Momentum> {};
         for (auto const &lorentz_vector : LorentzVectors())(lorentz_vector.Spatial() * ThrustAxis() > 0_eV ? positive : negative) += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
-        auto hemisphere_masses = boca::HemisphereMasses {};
-        hemisphere_masses.SetMasses(Range<EnergySquare>(negative.Vector().M2(), positive.Vector().M2()) / sqr(positive.Vector().E() + negative.Vector().E()));
-        hemisphere_masses.SetBroadenings(Range<Energy>(negative.Scalar(), positive.Scalar()) / ScalarMomentum() / 2);
-        return hemisphere_masses;
+        return {negative,  positive, ScalarMomentum()};
     });
 }
 
@@ -321,16 +318,25 @@ Array3< GradedVector3< double >> EventShapes::Thrusts4() const
         return vector - (vector * thrusts.at(0).Vector()) * thrusts.at(0).Vector();
     }));
     thrusts.at(1).Set(Mirror(major.Vector().Unit(), Dim3::x), major.Scalar() / ScalarMomentum());
-    if (thrusts.at(0).Vector() * thrusts.at(1).Vector() > std::numeric_limits<double>::epsilon()) {
-        ERROR("Major is not perpendicular to thrust");
+    auto minor = thrusts.at(0).Vector().Cross(thrusts.at(1).Vector());
+    auto dot = thrusts.at(0).Vector() * thrusts.at(1).Vector();
+    if (dot > std::numeric_limits<double>::epsilon()) {
+        ERROR("Major is not perpendicular to thrust", dot,  minor);
         thrusts.at(2).Set(Vector3<double>(), -1);
         return thrusts;
     }
-    auto minor = thrusts.at(0).Vector().Cross(thrusts.at(1).Vector());
     thrusts.at(2).Set(minor, boost::accumulate(Vectors(), 0_eV, [&](Energy & sum, Vector3<Momentum> const & vector) {
         return sum + abs(minor * vector);
     }) / ScalarMomentum());
     return thrusts;
+}
+
+namespace
+{
+std::array<int, 2> Signs()
+{
+    return {{ -1, 1}};
+}
 }
 
 GradedVector3<Momentum> EventShapes::Thrust(std::vector<Vector3<Momentum>> const &vectors) const
@@ -349,10 +355,7 @@ GradedVector3<Momentum> EventShapes::Thrust(std::vector<Vector3<Momentum>> const
                 if (position_3 != position_2 && position_3 != position_1) total_vector += (vector_3 * cross > 0_eV * eV * eV) ? vector_3 : -vector_3;
             }
             auto candidates = std::vector<Vector3<Momentum>> {};
-            candidates.emplace_back(total_vector - vector_2 - vector);
-            candidates.emplace_back(total_vector - vector_2 + vector);
-            candidates.emplace_back(total_vector + vector_2 - vector);
-            candidates.emplace_back(total_vector + vector_2 + vector);
+            for (double sign_1 : Signs()) for (double sign_2 : Signs()) candidates.emplace_back(total_vector + sign_1 * vector_2 + sign_2 * vector);
             for (auto const &candidate : candidates) if (candidate.Mag2() > sqr(thrust.Scalar())) thrust.Set(candidate, candidate.Mag());
         }
     }
@@ -367,10 +370,9 @@ GradedVector3<Momentum> EventShapes::Major(std::vector<Vector3<Momentum>> const 
         auto position = Position(vectors, vector);
         auto total_momentum = Vector3<Momentum> {};
         for (auto const &vector_2 : vectors) if (position != Position(vectors,  vector_2)) total_momentum += (vector_2 * vector > 0_eV * eV) ? vector_2 : -vector_2;
-        std::vector<Vector3<Momentum>> candidates;
-        candidates.emplace_back(total_momentum - vector);
-        candidates.emplace_back(total_momentum + vector);
-        for (auto const &candidate : candidates) if (candidate.Mag2() > sqr(major.Scalar())) major.Set(candidate, candidate.Mag());
+        for (auto const &candidate : Transform(Signs(), [&](double sign) {
+        return total_momentum + sign * vector;
+    })) if (candidate.Mag2() > sqr(major.Scalar())) major.Set(candidate, candidate.Mag());
     }
     return major;
 }
