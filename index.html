@@ -109,25 +109,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code>Clang</code> version ≥ 3.4 (which might rely on a recent GCC version)</li>
 </ul>
 <h2>Installation</h2>
-<ul>
-<li>the following is tested on recent ubuntu, scientific linux and mac installations <pre class="fragment">mkdir build
-cd build
-cmake ..
-make
+<p>The configuration process depends on <a href="https://cmake.org/"><code>CMake</code></a> ≥ 3.1. For the build process you can use</p><ul>
+<li>the following is tested on recent ubuntu, scientific linux and mac installations <pre class="fragment">  mkdir build
+  cd build
+  cmake ..
+  make -j
 </pre></li>
-<li>for quicker compilation (install ccache and ninja-build) <pre class="fragment">mkdir build
-cd build
-cmake -G Ninja ..
-ninja
+<li>for quicker compilation install ccache and ninja-build and use <pre class="fragment">  mkdir build
+  cd build
+  cmake -G Ninja ..
+  ninja
 </pre></li>
-<li>for mac you can also use (still install ccache) <pre class="fragment">mkdir build
-cd build
-cmake -G Xcode ..
-xcodebuild
+<li>for mac you can also use (still install ccache) <pre class="fragment">  mkdir build
+  cd build
+  cmake -G Xcode ..
+  xcodebuild
 </pre></li>
-<li><p class="startli">if you have trouble installing <code>ROOT</code> ≥ 6 with <code>GCC</code> ≥ 5 you can configure it with </p><pre class="fragment">cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja ..
-</pre><p class="startli">unfortunately this means that all other dependencies also have to be compiled with the cxx11 abi switched off e.g. for <code>FastJet</code> you have to use </p><pre class="fragment">./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0
-</pre><p class="startli">and for <code>FastJet Contrib</code> </p><pre class="fragment">./configure CXXFLAGS="-fPIC -D_GLIBCXX_USE_CXX11_ABI=0"
+<li><p class="startli">if you have trouble installing <code>ROOT</code> ≥ 6 with <code>GCC</code> ≥ 5 you can configure it with </p><pre class="fragment">  cmake -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 -Dmathmore=ON -Dbuiltin_gsl=ON -GNinja ..
+</pre><p class="startli">unfortunately this means that all other dependencies also have to be compiled with the cxx11 abi switched off e.g. for <code>FastJet</code> you have to use </p><pre class="fragment">  ./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0
+</pre><p class="startli">and for <code>FastJet Contrib</code> </p><pre class="fragment">  ./configure CXXFLAGS="-fPIC -D_GLIBCXX_USE_CXX11_ABI=0"
 </pre></li>
 </ul>
 <h2>Usage</h2>
