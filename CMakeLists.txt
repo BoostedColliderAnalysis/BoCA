@@ -2,18 +2,21 @@
 # Copyright (C) 2015-2016 Jan Hajer
 #
 
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 project(BoCA CXX)
 
-find_program(iwyu_path NAMES include-what-you-use iwyu)
-if(!iwyu_path)
-  message("'Include what You Use' is not available.")
-endif()
+# include-what-you-use
+# find_program(iwyu_path NAMES include-what-you-use iwyu)
+# if(!iwyu_path)
+#   message("'Include what You Use' is not available.")
+# endif()
 
+# BoCA CMake macros
 include(${CMAKE_SOURCE_DIR}/cmake/CMakeConfig.cmake)
 
 # Testing
 option(BUILD_TESTING "Build testing" OFF)
+# Boost
 if(BUILD_TESTING)
   enable_testing()
   find_package(Boost 1.56 COMPONENTS unit_test_framework REQUIRED)

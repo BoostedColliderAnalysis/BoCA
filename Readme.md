@@ -17,14 +17,16 @@ Therefore the compiler version must be
 
 ## Installation
 
-* the following is tested on recent ubuntu, scientific linux  and mac installations
+The configuration process depends on [`CMake`](https://cmake.org/) ≥ 3.1.
+For the build process you can use
+* the following is tested on recent ubuntu, scientific linux and mac installations
 
         mkdir build
         cd build
         cmake ..
-        make
+        make -j
 
-* for quicker compilation (install ccache and ninja-build)
+* for quicker compilation install ccache and ninja-build and use
 
         mkdir build
         cd build
@@ -46,10 +48,10 @@ Therefore the compiler version must be
   e.g. for `FastJet` you have to use
 
         ./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0
-    
+
 
   and for `FastJet Contrib`
-      
+
         ./configure CXXFLAGS="-fPIC -D_GLIBCXX_USE_CXX11_ABI=0"
 
 ## Usage
